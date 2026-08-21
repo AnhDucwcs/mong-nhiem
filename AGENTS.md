@@ -11,5 +11,5 @@ Before substantial implementation or design work, read `research/00-mong-nhiem.m
 - Keep tasks narrow and do not implement roadmap items unless explicitly requested.
 - Do not silently promote experimental code into `src/mong_nhiem/`.
 - Run relevant tests before finishing.
-- Update `CURRENT_STATE.md` after implementation work.
-- Update `DECISIONS.md` only for meaningful architectural changes.
+- Update `research/current-state.md` after implementation work.
+- Update `research/decisions/decisions.md` only for meaningful architectural changes.
