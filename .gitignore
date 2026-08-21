@@ -68,9 +68,6 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
-
 # PyBuilder
 .pybuilder/
 target/
@@ -225,3 +222,6 @@ artifacts/*
 
 # Local editor configuration
 .vscode/
+
+# Local Obsidian vault settings
+research/.obsidian/

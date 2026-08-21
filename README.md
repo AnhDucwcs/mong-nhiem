@@ -6,7 +6,7 @@ The repository is currently a development foundation only: it contains no resear
 
 ## Repository layout
 
-- `docs/` is the project source of truth.
+- `research/` is the canonical research knowledge base and can be opened as an Obsidian vault.
 - `src/mong_nhiem/` is the future reusable Python package.
 - `experiments/` contains research work that is separate from the library.
 - `configs/`, `tests/`, and `scripts/` are reserved for approved project work.
@@ -22,4 +22,4 @@ ruff check .
 pytest
 ```
 
-Read [docs/PROJECT.md](docs/PROJECT.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md) before making design or implementation changes.
+Read [the research index](research/00-mong-nhiem.md), [architecture concepts](research/concepts/architecture.md), and [current state](research/current-state.md) before making design or implementation changes.
