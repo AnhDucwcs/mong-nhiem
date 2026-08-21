@@ -7,4 +7,4 @@
 | 2026-08-19 | Experimental code remains separate from the reusable package. | accepted |
 | 2026-08-19 | Memory, tools, and autodream are optional extensions, not core dependencies. | accepted |
 
-Record only meaningful architectural decisions here. Research hypotheses and unvalidated findings belong in `RESEARCH.md`.
+Record only meaningful architectural decisions here. Research hypotheses and unvalidated findings belong in [`../research.md`](../research.md).

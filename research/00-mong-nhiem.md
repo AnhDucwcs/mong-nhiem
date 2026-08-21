@@ -1,14 +1,25 @@
-# Project
+# Mộng Nhiễm
 
-Mộng Nhiễm is intended to become a reusable research engine/library for exploring how small language models can reliably operate over information and context spaces substantially larger than their current effective capability.
+Mộng Nhiễm is a reusable research engine/library for exploring how small language models can reliably operate over information and context spaces substantially larger than their current effective capability.
 
-## Current initial direction
+## Research direction
 
-Investigate efficient use of large external knowledge and context spaces while keeping the model's usable context constrained. No retrieval, storage, or context-management technique has been selected.
+Current phase: efficiently exploit large external knowledge and context spaces while keeping the model's usable context constrained. No retrieval, storage, or context-management technique has been selected.
 
-## Possible later direction
+Long-term directions:
 
-Investigate substantial effective or native context expansion while reducing long-context degradation, including positional degradation, lost-in-the-middle behavior, weaker logical reasoning over long contexts, context-overload hallucination, and failure to use information introduced much earlier. These are research concerns, not solved problems or committed technical approaches.
+- **Effective Context Capacity** — improve how well a model can use a context space beyond its current effective capability.
+- **Native Context Capacity** — investigate substantial effective or native context expansion while reducing long-context degradation.
+
+Relevant concerns include positional degradation, lost-in-the-middle behavior, weaker logical reasoning over long contexts, context-overload hallucination, and failure to use information introduced much earlier. These are research concerns, not solved problems or committed technical approaches.
+
+## Navigation
+
+- [Architecture concepts](concepts/architecture.md)
+- [Current project state](current-state.md)
+- [Research notes](research.md)
+- [Decision log](decisions/decisions.md)
+- [Roadmap](roadmap.md)
 
 ## Intended reuse
 
