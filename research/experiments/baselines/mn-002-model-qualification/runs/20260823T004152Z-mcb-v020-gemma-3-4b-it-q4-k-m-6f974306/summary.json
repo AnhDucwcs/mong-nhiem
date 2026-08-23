@@ -1,0 +1,48 @@
+{
+  "run_id": "20260823T004152Z-mcb-v020-gemma-3-4b-it-q4-k-m-6f974306",
+  "run_status": "valid",
+  "qualification": {
+    "passed": false,
+    "failure_reasons": [
+      "overall 0.70 < 0.80",
+      "structured_output 0.55 < 0.90",
+      "state_tracking 0.65 < 0.70",
+      "causal_reasoning 0.45 < 0.70"
+    ]
+  },
+  "overall": {
+    "cases": 100,
+    "passed": 70,
+    "score": 0.7
+  },
+  "suites": {
+    "instruction_following": {
+      "cases": 20,
+      "passed": 18,
+      "score": 0.9
+    },
+    "structured_output": {
+      "cases": 20,
+      "passed": 11,
+      "score": 0.55
+    },
+    "context_retrieval": {
+      "cases": 20,
+      "passed": 19,
+      "score": 0.95
+    },
+    "state_tracking": {
+      "cases": 20,
+      "passed": 13,
+      "score": 0.65
+    },
+    "causal_reasoning": {
+      "cases": 20,
+      "passed": 9,
+      "score": 0.45
+    }
+  },
+  "performance": {
+    "source": "unchanged; see MCB v0.1.0 llama-bench evidence"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["id", "suite", "version", "input", "expected", "evaluation", "generation"],
+  "properties": {
+    "id": {"type": "string"},
+    "suite": {"type": "string"},
+    "version": {"const": 3},
+    "input": {"type": "object"},
+    "expected": {"type": "object", "required": ["accepted_values"]},
+    "evaluation": {"type": "object", "required": ["method"]},
+    "generation": {"type": "object"}
+  },
+  "additionalProperties": true
+}

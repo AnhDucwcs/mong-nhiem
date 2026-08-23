@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "output",
+    "evaluation",
+    "usage",
+    "timing",
+    "error"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "parsed"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "parsed": {}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passed",
+        "score"
+      ],
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "usage": {
+      "type": "object"
+    },
+    "timing": {
+      "type": "object"
+    },
+    "error": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  }
+}

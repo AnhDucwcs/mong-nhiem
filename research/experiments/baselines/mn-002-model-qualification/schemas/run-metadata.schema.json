@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "created_at",
+    "benchmark",
+    "repository",
+    "model",
+    "runtime",
+    "inference",
+    "hardware",
+    "command"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "benchmark": {
+      "type": "object"
+    },
+    "repository": {
+      "type": "object"
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "name",
+        "file",
+        "size_bytes",
+        "sha256"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "size_bytes": {
+          "type": "integer"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "inference": {
+      "type": "object"
+    },
+    "hardware": {
+      "type": "object"
+    },
+    "command": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "benchmark_version": "0.2.0",
+  "temperature": 0.0,
+  "seed": 42,
+  "context_size": 4096,
+  "threads": 12,
+  "gpu_layers": "all",
+  "batch_size": 2048,
+  "host": "127.0.0.1",
+  "chat_template": "GGUF metadata via --jinja; native enable_thinking=false for verified Qwen3 and SmolLM3 templates"
+}

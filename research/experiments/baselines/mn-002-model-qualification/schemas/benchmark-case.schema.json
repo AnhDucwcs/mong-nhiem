@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "suite",
+    "version",
+    "tags",
+    "input",
+    "expected",
+    "evaluation",
+    "generation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+(?:-[a-z]+)*-[0-9]{3}$"
+    },
+    "suite": {
+      "enum": [
+        "instruction_following",
+        "structured_output",
+        "context_retrieval",
+        "state_tracking",
+        "causal_reasoning"
+      ]
+    },
+    "version": {
+      "const": 1
+    },
+    "tags": {
+      "type": "array"
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system",
+        "context",
+        "prompt"
+      ],
+      "properties": {
+        "system": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "context": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {},
+        "schema": {
+          "type": "object"
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "exact_match",
+            "normalized_exact_match",
+            "choice_match",
+            "json_schema",
+            "contains_all",
+            "unordered_set_match",
+            "numeric_match"
+          ]
+        }
+      }
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_tokens"
+      ],
+      "properties": {
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        }
+      }
+    }
+  }
+}

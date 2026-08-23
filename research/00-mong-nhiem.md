@@ -1,26 +1,20 @@
 # Mộng Nhiễm
 
-Mộng Nhiễm is a reusable research engine/library for exploring how small language models can reliably operate over information and context spaces substantially larger than their current effective capability.
+Mộng Nhiễm researches reliable small-model use over information and context spaces beyond a model's current effective capability.
 
-## Research direction
+## Direction
 
-Current phase: efficiently exploit large external knowledge and context spaces while keeping the model's usable context constrained. No retrieval, storage, or context-management technique has been selected.
+- **Effective Context Capacity (ECC):** improve useful operation over external context beyond current effective capability.
+- **Native Context Capacity (NCC):** investigate substantial effective/native context expansion while reducing long-context degradation.
 
-Long-term directions:
+State consistency, positional degradation, context overload, and reasoning over distributed information are research concerns, not selected solutions. MN-001 is complete. MN-002 established a local model-qualification baseline; no retrieval, context, memory, or ECC architecture has been selected.
 
-- **Effective Context Capacity** — improve how well a model can use a context space beyond its current effective capability.
-- **Native Context Capacity** — investigate substantial effective or native context expansion while reducing long-context degradation.
+## Navigate
 
-Relevant concerns include positional degradation, lost-in-the-middle behavior, weaker logical reasoning over long contexts, context-overload hallucination, and failure to use information introduced much earlier. These are research concerns, not solved problems or committed technical approaches.
-
-## Navigation
-
-- [Architecture concepts](concepts/architecture.md)
-- [Current project state](current-state.md)
-- [Research notes](research.md)
-- [Decision log](decisions/decisions.md)
+- [Architecture](concepts/architecture.md)
+- [Current state](current-state.md)
+- [Research methodology](research.md)
+- [Experiments](experiments/README.md)
+- [MN-002](experiments/baselines/mn-002-model-qualification/README.md)
+- [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
-
-## Intended reuse
-
-The library may later be integrated into agentic AI, games, chatbots, and local AI applications. Those integrations, along with research algorithms, model adapters, vector databases, and embedding choices, are explicitly out of scope for MN-001.

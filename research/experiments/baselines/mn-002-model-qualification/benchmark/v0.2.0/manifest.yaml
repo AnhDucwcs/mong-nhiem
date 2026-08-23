@@ -1,0 +1,40 @@
+{
+  "id": "mcb",
+  "version": "0.2.0",
+  "supersedes": "0.1.0",
+  "change": "Clarify exact-only output contracts for state_tracking and causal_reasoning; preserve strict deterministic scoring.",
+  "minimum_overall_score": 0.8,
+  "total_cases": 100,
+  "suites": [
+    {
+      "id": "instruction_following",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.8
+    },
+    {
+      "id": "structured_output",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.9
+    },
+    {
+      "id": "context_retrieval",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.8
+    },
+    {
+      "id": "state_tracking",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.7
+    },
+    {
+      "id": "causal_reasoning",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.7
+    }
+  ]
+}

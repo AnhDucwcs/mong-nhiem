@@ -1,0 +1,48 @@
+{
+  "run_id": "20260823T004111Z-mcb-v020-smollm3-q4-k-m-554eb671",
+  "run_status": "valid",
+  "qualification": {
+    "passed": false,
+    "failure_reasons": [
+      "overall 0.50 < 0.80",
+      "context_retrieval 0.00 < 0.80",
+      "state_tracking 0.35 < 0.70",
+      "causal_reasoning 0.35 < 0.70"
+    ]
+  },
+  "overall": {
+    "cases": 100,
+    "passed": 50,
+    "score": 0.5
+  },
+  "suites": {
+    "instruction_following": {
+      "cases": 20,
+      "passed": 16,
+      "score": 0.8
+    },
+    "structured_output": {
+      "cases": 20,
+      "passed": 20,
+      "score": 1.0
+    },
+    "context_retrieval": {
+      "cases": 20,
+      "passed": 0,
+      "score": 0.0
+    },
+    "state_tracking": {
+      "cases": 20,
+      "passed": 7,
+      "score": 0.35
+    },
+    "causal_reasoning": {
+      "cases": 20,
+      "passed": 7,
+      "score": 0.35
+    }
+  },
+  "performance": {
+    "source": "unchanged; see MCB v0.1.0 llama-bench evidence"
+  }
+}
