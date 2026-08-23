@@ -55,7 +55,8 @@ def definition_fingerprint() -> str:
     for file in sorted(CASES.glob("*.jsonl")):
         digest.update(file.name.encode("utf-8"))
         digest.update(b"\0")
-        digest.update(file.read_bytes())
+        canonical = file.read_bytes().replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
+        digest.update(canonical)
     return digest.hexdigest()
 
 
