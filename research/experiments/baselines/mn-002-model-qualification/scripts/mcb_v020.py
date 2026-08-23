@@ -7,9 +7,7 @@ import copy
 import datetime as dt
 import json
 import re
-import statistics
 import subprocess
-import sys
 import time
 import urllib.error
 import urllib.request
@@ -18,7 +16,6 @@ from pathlib import Path
 from typing import Any
 
 import mcb
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BENCHMARK = ROOT / "benchmark" / "v0.2.0"

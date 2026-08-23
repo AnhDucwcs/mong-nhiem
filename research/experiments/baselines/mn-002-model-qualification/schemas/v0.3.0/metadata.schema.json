@@ -1,18 +1,1 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "type": "object",
-  "required": ["run_id", "created_at", "benchmark", "definition_fingerprint", "repository", "model", "runtime", "hardware", "inference", "command"],
-  "properties": {
-    "run_id": {"type": "string"},
-    "created_at": {"type": "string"},
-    "benchmark": {"type": "object", "required": ["id", "version"], "properties": {"version": {"const": "0.3.0"}}},
-    "definition_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "repository": {"type": "object"},
-    "model": {"type": "object"},
-    "runtime": {"type": "object"},
-    "hardware": {"type": "object"},
-    "inference": {"type": "object", "required": ["benchmark_version"], "properties": {"benchmark_version": {"const": "0.3.0"}}},
-    "command": {"type": "object"}
-  },
-  "additionalProperties": true
-}
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["run_id","created_at","benchmark","definition_fingerprint","repository","model","runtime","hardware","inference","command"],"properties":{"run_id":{"type":"string","pattern":"mcb-v0(2|3)0"},"created_at":{"type":"string","format":"date-time"},"benchmark":{"type":"object","required":["id","version"],"properties":{"id":{"const":"mcb"},"version":{"const":"0.3.0"}}},"definition_fingerprint":{"const":"2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a"},"repository":{"type":"object","required":["commit"]},"model":{"type":"object","required":["name","file","size_bytes","sha256"]},"runtime":{"type":"object","required":["version","build","commit"]},"hardware":{"type":"object","required":["os","cpu","ram_bytes","gpu","vram_bytes","driver","cuda"]},"inference":{"type":"object","required":["benchmark_version","temperature","seed","context_size","threads","gpu_layers","batch_size","host","chat_template_kwargs"],"properties":{"benchmark_version":{"const":"0.3.0"}}},"command":{"type":"object","required":["server"]}},"additionalProperties":true}

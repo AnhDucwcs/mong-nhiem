@@ -1,7 +1,13 @@
 # Current state
 
-MN-001 establishes only the repository skeleton and development foundation.
+## MN-001 — completed
 
-Implemented: source layout, concise project documentation, minimal packaging metadata, pytest and Ruff configuration, CI, and a package-import smoke test.
+MN-001 established the source layout, canonical research knowledge base, minimal packaging, pytest/Ruff checks, CI, and a package-import smoke test.
 
-Not implemented: core research algorithms, component interfaces, model adapters, retrieval, context management, extensions, configuration schema, experiments, or integrations.
+## MN-002 — Model Qualification — completed
+
+MCB v0.1.0 and v0.2.0 remain historical/superseded evidence. Re-evaluation of v0.2 failures under the frozen v0.3 accepted-answer contract converts 143 previously failing semantic-suite outputs into accepted output-equivalence cases; 56 semantic-suite failures remain failing under the corrected deterministic evaluator.
+
+MCB v0.3.0 is the frozen qualification benchmark. Its fingerprint is `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`. Six local GGUF candidates were measured. Llama-3.2-3B-Instruct-Q4_K_M and Qwen3-4B-Q4_K_M meet every capability gate. Capability qualification and runtime performance are separate evidence.
+
+This qualification is not a production-model choice and does not validate an ECC, retrieval, memory, or context-management mechanism. The next research step is a bounded ECC prototype using qualified candidates and experiment-specific success criteria.

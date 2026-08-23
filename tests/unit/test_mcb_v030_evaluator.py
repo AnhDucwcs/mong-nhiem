@@ -6,7 +6,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parents[2] / "research" / "experiments" / "baselines" / "mn-002-model-qualification" / "scripts"
 sys.path.insert(0, str(SCRIPT_DIR))
 
-import mcb_v030  # noqa: E402
+import mcb_v030
 
 
 def _case(values: list[str]) -> dict:

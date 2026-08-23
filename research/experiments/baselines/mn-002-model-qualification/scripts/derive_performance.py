@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Derive auxiliary llama-bench rates from its preserved JSON arrays."""
 from __future__ import annotations
+
 import json
 from pathlib import Path
 

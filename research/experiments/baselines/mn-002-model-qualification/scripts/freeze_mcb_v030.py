@@ -9,7 +9,6 @@ from pathlib import Path
 
 import mcb_v030
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "benchmark" / "v0.2.0" / "cases"
 TARGET = mcb_v030.CASES
@@ -23,7 +22,7 @@ def aliases(case: dict) -> list[str]:
     answer = str(case["expected"]["value"])
     values = [answer]
     if case["suite"] == "context_retrieval":
-        match = re.search(r"what is the (.+) for (.+)\?", case["input"]["prompt"], re.I)
+        match = re.search(r"what is the (.+) for (.+)\?", case["input"]["prompt"], re.IGNORECASE)
         if match:
             field, subject = match.groups()
             values += [f"the {field} for {subject} is {answer}", f"the {field} is {answer}"]

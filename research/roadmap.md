@@ -1,8 +1,17 @@
 # Roadmap
 
-1. Frame the initial research question and success criteria.
-2. Record only the architecture and evaluation decisions needed for the first bounded experiment.
-3. Run experiments and distinguish hypotheses from validated findings.
-4. Promote proven, reusable work into the library only through an explicit decision.
+## MN-001 — Development foundation
 
-This is directional rather than a committed implementation plan.
+Status: completed.
+
+## MN-002 — Model qualification
+
+Status: completed. Frozen MCB v0.3.0 established a qualified candidate set; capability and runtime baselines remain separate.
+
+## Next bounded research
+
+1. Choose one or both qualified candidates as experiment baselines.
+2. Define a bounded ECC hypothesis, baseline, and success criteria.
+3. Place prototype work under `research/experiments/prototypes/`.
+4. Compare it against the MN-002 baseline.
+5. Promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.

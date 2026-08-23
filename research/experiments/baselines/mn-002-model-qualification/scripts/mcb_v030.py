@@ -9,7 +9,6 @@ import unicodedata
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 BENCHMARK = ROOT / "benchmark" / "v0.3.0"
 CASES = BENCHMARK / "cases"
