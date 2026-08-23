@@ -1,0 +1,40 @@
+{
+  "id": "mcb",
+  "version": "0.3.0",
+  "supersedes": "0.2.0",
+  "definition_fingerprint": "2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a",
+  "evaluation_change": "Non-format suites use explicitly declared accepted answers with conservative surface normalization; strict instruction and JSON suites remain strict.",
+  "minimum_overall_score": 0.8,
+  "suites": [
+    {
+      "id": "instruction_following",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.8
+    },
+    {
+      "id": "structured_output",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.9
+    },
+    {
+      "id": "context_retrieval",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.8
+    },
+    {
+      "id": "state_tracking",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.7
+    },
+    {
+      "id": "causal_reasoning",
+      "cases": 20,
+      "critical": true,
+      "minimum_score": 0.7
+    }
+  ]
+}

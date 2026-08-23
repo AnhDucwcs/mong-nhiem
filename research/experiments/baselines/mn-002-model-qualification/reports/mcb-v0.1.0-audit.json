@@ -1,0 +1,1635 @@
+{
+  "benchmark_version": "0.1.0",
+  "items": [
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "A has the key.\nA gives the key to B.\nB gives the key to C.\n\nWho has the key now?"
+        }
+      ],
+      "expected": {
+        "value": "C"
+      },
+      "raw_response": "Let's break down the sequence of events step by step:\n\n1. **A has the key.**  \n2.",
+      "parsed_response": "Let's break down the sequence of events step by step: 1. **A has the key.** 2.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The coin is in box Red.\nMove the coin to box Blue.\n\nWhere is the coin now?"
+        }
+      ],
+      "expected": {
+        "value": "box Blue"
+      },
+      "raw_response": "If the coin was originally in **box Red** and you **moved it to box Blue**, then:\n\n**The coin",
+      "parsed_response": "If the coin was originally in **box Red** and you **moved it to box Blue**, then: **The coin",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Ira owns the lamp.\nIra gives the lamp to Nia.\nNia gives the lamp to Oren.\n\nWho owns the lamp now?"
+        }
+      ],
+      "expected": {
+        "value": "Oren"
+      },
+      "raw_response": "Now, the lamp is owned by **Oren**.\n\nHere's the reasoning:\n\n1. Ira owns the lamp",
+      "parsed_response": "Now, the lamp is owned by **Oren**. Here's the reasoning: 1. Ira owns the lamp",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The board shows status open.\nSet status to closed.\nSet status to pending.\n\nWhat is the current status?"
+        }
+      ],
+      "expected": {
+        "value": "pending"
+      },
+      "raw_response": "If the board shows **status: open**, then the **current status** is **open**.\n\nIf you're asking",
+      "parsed_response": "If the board shows **status: open**, then the **current status** is **open**. If you're asking",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Milo is at the dock.\nMilo walks to the gate.\nMilo walks to the archive.\n\nWhere is Milo now?"
+        }
+      ],
+      "expected": {
+        "value": "the archive"
+      },
+      "raw_response": "Let's track Milo's movements step by step:\n\n1. **Milo is at the dock.**  \n2.",
+      "parsed_response": "Let's track Milo's movements step by step: 1. **Milo is at the dock.** 2.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a valve opens, water flows.\nThe valve opens.\n\nWhat follows?"
+        }
+      ],
+      "expected": {
+        "value": "water flows"
+      },
+      "raw_response": "If a valve opens, water flows.  \nThe valve opens.  \n\n**What follows?**  \nThe water flows.",
+      "parsed_response": "If a valve opens, water flows. The valve opens. **What follows?** The water flows.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a fuse burns, the alarm sounds.\nIf the alarm sounds, the guard wakes.\nThe fuse burns.\n\nWho wakes?"
+        }
+      ],
+      "expected": {
+        "value": "the guard"
+      },
+      "raw_response": "Let's break down the logic step by step:\n\n1. **If a fuse burns, the alarm sounds.**  \n",
+      "parsed_response": "Let's break down the logic step by step: 1. **If a fuse burns, the alarm sounds.**",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If rain falls, the path is wet.\nIf the path is wet, boots get muddy.\nRain falls.\n\nWhat happens to the boots?"
+        }
+      ],
+      "expected": {
+        "value": "boots get muddy"
+      },
+      "raw_response": "Let's break down the logic step by step:\n\n1. **If rain falls, the path is wet.**  \n",
+      "parsed_response": "Let's break down the logic step by step: 1. **If rain falls, the path is wet.**",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If the gate is locked, entry is blocked.\nThe gate is locked.\n\nWhat is the consequence?"
+        }
+      ],
+      "expected": {
+        "value": "entry is blocked"
+      },
+      "raw_response": "If the gate is locked, entry is blocked.  \nThe gate is locked.  \n\n**Consequence:**  \nEntry is",
+      "parsed_response": "If the gate is locked, entry is blocked. The gate is locked. **Consequence:** Entry is",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-1.7B-Q4_K_M.gguf",
+      "run_id": "20260822T163835Z-qwen3-1-7b-q4-k-m-1d2db8c2",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-006",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If lamp A is on, the room is lit.\nLamp B is on.\nLamp A is off.\n\nIs the room lit? Return only yes or no."
+        }
+      ],
+      "expected": {
+        "value": "no"
+      },
+      "raw_response": "yes",
+      "parsed_response": "yes",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "A has the key.\nA gives the key to B.\nB gives the key to C.\n\nWho has the key now?"
+        }
+      ],
+      "expected": {
+        "value": "C"
+      },
+      "raw_response": "Let's break down the sequence of events step by step:\n\n1. **A has the key.**  \n   -",
+      "parsed_response": "Let's break down the sequence of events step by step: 1. **A has the key.** -",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The coin is in box Red.\nMove the coin to box Blue.\n\nWhere is the coin now?"
+        }
+      ],
+      "expected": {
+        "value": "box Blue"
+      },
+      "raw_response": "The coin is now in **box Blue**. \n\n**Step-by-Step Explanation:**\n\n1. Initially, the",
+      "parsed_response": "The coin is now in **box Blue**. **Step-by-Step Explanation:** 1. Initially, the",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Ira owns the lamp.\nIra gives the lamp to Nia.\nNia gives the lamp to Oren.\n\nWho owns the lamp now?"
+        }
+      ],
+      "expected": {
+        "value": "Oren"
+      },
+      "raw_response": "Let's break down the sequence of events step by step:\n\n1. **Ira owns the lamp.**  \n  ",
+      "parsed_response": "Let's break down the sequence of events step by step: 1. **Ira owns the lamp.**",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The board shows status open.\nSet status to closed.\nSet status to pending.\n\nWhat is the current status?"
+        }
+      ],
+      "expected": {
+        "value": "pending"
+      },
+      "raw_response": "The current status is **pending**. \n\nHere's the breakdown:\n\n- The board initially shows **open**.\n-",
+      "parsed_response": "The current status is **pending**. Here's the breakdown: - The board initially shows **open**. -",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Milo is at the dock.\nMilo walks to the gate.\nMilo walks to the archive.\n\nWhere is Milo now?"
+        }
+      ],
+      "expected": {
+        "value": "the archive"
+      },
+      "raw_response": "Let's break down the sequence of events step by step:\n\n1. **Milo is at the dock.**  \n",
+      "parsed_response": "Let's break down the sequence of events step by step: 1. **Milo is at the dock.**",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a valve opens, water flows.\nThe valve opens.\n\nWhat follows?"
+        }
+      ],
+      "expected": {
+        "value": "water flows"
+      },
+      "raw_response": "If a valve opens, water flows.  \nThe valve opens.  \n\n**What follows?**  \n\nSince the valve opens",
+      "parsed_response": "If a valve opens, water flows. The valve opens. **What follows?** Since the valve opens",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a fuse burns, the alarm sounds.\nIf the alarm sounds, the guard wakes.\nThe fuse burns.\n\nWho wakes?"
+        }
+      ],
+      "expected": {
+        "value": "the guard"
+      },
+      "raw_response": "Let's break down the logic step by step.\n\nWe are given the following statements:\n\n1. **If a fuse burns",
+      "parsed_response": "Let's break down the logic step by step. We are given the following statements: 1. **If a fuse burns",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If rain falls, the path is wet.\nIf the path is wet, boots get muddy.\nRain falls.\n\nWhat happens to the boots?"
+        }
+      ],
+      "expected": {
+        "value": "boots get muddy"
+      },
+      "raw_response": "Let's break this down step by step using **logical reasoning**.\n\nWe are given the following statements:\n\n1. **",
+      "parsed_response": "Let's break this down step by step using **logical reasoning**. We are given the following statements: 1. **",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If the gate is locked, entry is blocked.\nThe gate is locked.\n\nWhat is the consequence?"
+        }
+      ],
+      "expected": {
+        "value": "entry is blocked"
+      },
+      "raw_response": "Given the two statements:\n\n1. **If the gate is locked, entry is blocked.**  \n2. **The",
+      "parsed_response": "Given the two statements: 1. **If the gate is locked, entry is blocked.** 2. **The",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Qwen3-4B-Q4_K_M.gguf",
+      "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-006",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If lamp A is on, the room is lit.\nLamp B is on.\nLamp A is off.\n\nIs the room lit? Return only yes or no."
+        }
+      ],
+      "expected": {
+        "value": "no"
+      },
+      "raw_response": "yes",
+      "parsed_response": "yes",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "A has the key.\nA gives the key to B.\nB gives the key to C.\n\nWho has the key now?"
+        }
+      ],
+      "expected": {
+        "value": "C"
+      },
+      "raw_response": "C has the key now. \n\nHere's the breakdown:\n\n1. **A has the key.**\n",
+      "parsed_response": "C has the key now. Here's the breakdown: 1. **A has the key.**",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The coin is in box Red.\nMove the coin to box Blue.\n\nWhere is the coin now?"
+        }
+      ],
+      "expected": {
+        "value": "box Blue"
+      },
+      "raw_response": "The coin is now in **box Blue**. \n",
+      "parsed_response": "The coin is now in **box Blue**.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Ira owns the lamp.\nIra gives the lamp to Nia.\nNia gives the lamp to Oren.\n\nWho owns the lamp now?"
+        }
+      ],
+      "expected": {
+        "value": "Oren"
+      },
+      "raw_response": "Oren owns the lamp now. \n\nHere's the breakdown:\n\n1.  Ira initially owned it",
+      "parsed_response": "Oren owns the lamp now. Here's the breakdown: 1. Ira initially owned it",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The board shows status open.\nSet status to closed.\nSet status to pending.\n\nWhat is the current status?"
+        }
+      ],
+      "expected": {
+        "value": "pending"
+      },
+      "raw_response": "The current status is **pending**. \n\nYou've sequentially changed the status:\n\n1.  Open\n2",
+      "parsed_response": "The current status is **pending**. You've sequentially changed the status: 1. Open 2",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Milo is at the dock.\nMilo walks to the gate.\nMilo walks to the archive.\n\nWhere is Milo now?"
+        }
+      ],
+      "expected": {
+        "value": "the archive"
+      },
+      "raw_response": "Milo is now at the archive.",
+      "parsed_response": "Milo is now at the archive.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a valve opens, water flows.\nThe valve opens.\n\nWhat follows?"
+        }
+      ],
+      "expected": {
+        "value": "water flows"
+      },
+      "raw_response": "Water flows. \n\nThis is a classic example of deductive reasoning – a simple, straightforward consequence.",
+      "parsed_response": "Water flows. This is a classic example of deductive reasoning – a simple, straightforward consequence.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a fuse burns, the alarm sounds.\nIf the alarm sounds, the guard wakes.\nThe fuse burns.\n\nWho wakes?"
+        }
+      ],
+      "expected": {
+        "value": "the guard"
+      },
+      "raw_response": "The guard wakes.\n\nHere's the breakdown of the logic:\n\n1. **The fuse burns.** (Given",
+      "parsed_response": "The guard wakes. Here's the breakdown of the logic: 1. **The fuse burns.** (Given",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If rain falls, the path is wet.\nIf the path is wet, boots get muddy.\nRain falls.\n\nWhat happens to the boots?"
+        }
+      ],
+      "expected": {
+        "value": "boots get muddy"
+      },
+      "raw_response": "Here's the breakdown:\n\n1. **Rain falls:** We're given this as a fact.\n2",
+      "parsed_response": "Here's the breakdown: 1. **Rain falls:** We're given this as a fact. 2",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If the gate is locked, entry is blocked.\nThe gate is locked.\n\nWhat is the consequence?"
+        }
+      ],
+      "expected": {
+        "value": "entry is blocked"
+      },
+      "raw_response": "The consequence is that entry is blocked. \n\nThis is a simple deductive argument:\n\n* **Premise 1",
+      "parsed_response": "The consequence is that entry is blocked. This is a simple deductive argument: * **Premise 1",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "gemma-3-4b-it-Q4_K_M.gguf",
+      "run_id": "20260822T164142Z-gemma-3-4b-it-q4-k-m-4d27454d",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-008",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If the pump runs, the tank fills.\nIf the tank fills, the gauge rises.\nThe pump runs.\n\nWhat happens to the gauge?"
+        }
+      ],
+      "expected": {
+        "value": "the gauge rises"
+      },
+      "raw_response": "Here's the breakdown:\n\n1. **The pump runs.** (Given)\n2. **If the pump",
+      "parsed_response": "Here's the breakdown: 1. **The pump runs.** (Given) 2. **If the pump",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Several open-answer prompts omit an exact-output contract while normalized exact equality rejects explanatory answers and terminal punctuation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "run_id": "20260822T163939Z-llama-3-2-3b-instruct-q4-k-m-f844299c",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "A has the key.\nA gives the key to B.\nB gives the key to C.\n\nWho has the key now?"
+        }
+      ],
+      "expected": {
+        "value": "C"
+      },
+      "raw_response": "Let's follow the sequence:\n\n1. A has the key.\n2. A gives the key to B, so now",
+      "parsed_response": "Let's follow the sequence: 1. A has the key. 2. A gives the key to B, so now",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "run_id": "20260822T163939Z-llama-3-2-3b-instruct-q4-k-m-f844299c",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The coin is in box Red.\nMove the coin to box Blue.\n\nWhere is the coin now?"
+        }
+      ],
+      "expected": {
+        "value": "box Blue"
+      },
+      "raw_response": "The coin was initially in box Red. After moving it to box Blue, the coin is now in box Blue.",
+      "parsed_response": "The coin was initially in box Red. After moving it to box Blue, the coin is now in box Blue.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "run_id": "20260822T163939Z-llama-3-2-3b-instruct-q4-k-m-f844299c",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Ira owns the lamp.\nIra gives the lamp to Nia.\nNia gives the lamp to Oren.\n\nWho owns the lamp now?"
+        }
+      ],
+      "expected": {
+        "value": "Oren"
+      },
+      "raw_response": "To determine who owns the lamp now, let's follow the sequence of events:\n\n1. Ira owns the lamp initially",
+      "parsed_response": "To determine who owns the lamp now, let's follow the sequence of events: 1. Ira owns the lamp initially",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "run_id": "20260822T163939Z-llama-3-2-3b-instruct-q4-k-m-f844299c",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The board shows status open.\nSet status to closed.\nSet status to pending.\n\nWhat is the current status?"
+        }
+      ],
+      "expected": {
+        "value": "pending"
+      },
+      "raw_response": "The current status is \"closed\".",
+      "parsed_response": "The current status is \"closed\".",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "run_id": "20260822T163939Z-llama-3-2-3b-instruct-q4-k-m-f844299c",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Milo is at the dock.\nMilo walks to the gate.\nMilo walks to the archive.\n\nWhere is Milo now?"
+        }
+      ],
+      "expected": {
+        "value": "the archive"
+      },
+      "raw_response": "Based on the given information, we can infer that Milo starts at the dock. \n\n1. Milo is at the dock",
+      "parsed_response": "Based on the given information, we can infer that Milo starts at the dock. 1. Milo is at the dock",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "A has the key.\nA gives the key to B.\nB gives the key to C.\n\nWho has the key now?"
+        }
+      ],
+      "expected": {
+        "value": "C"
+      },
+      "raw_response": "C has the key now.",
+      "parsed_response": "C has the key now.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The coin is in box Red.\nMove the coin to box Blue.\n\nWhere is the coin now?"
+        }
+      ],
+      "expected": {
+        "value": "box Blue"
+      },
+      "raw_response": "The coin is now in box Blue.",
+      "parsed_response": "The coin is now in box Blue.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Ira owns the lamp.\nIra gives the lamp to Nia.\nNia gives the lamp to Oren.\n\nWho owns the lamp now?"
+        }
+      ],
+      "expected": {
+        "value": "Oren"
+      },
+      "raw_response": "Oren owns the lamp now. Ira initially owned the lamp, but after giving it to Nia, Nia then",
+      "parsed_response": "Oren owns the lamp now. Ira initially owned the lamp, but after giving it to Nia, Nia then",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The board shows status open.\nSet status to closed.\nSet status to pending.\n\nWhat is the current status?"
+        }
+      ],
+      "expected": {
+        "value": "pending"
+      },
+      "raw_response": "The current status is pending.",
+      "parsed_response": "The current status is pending.",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Milo is at the dock.\nMilo walks to the gate.\nMilo walks to the archive.\n\nWhere is Milo now?"
+        }
+      ],
+      "expected": {
+        "value": "the archive"
+      },
+      "raw_response": "Milo is now at the archive. The sequence of actions indicates that Milo walked from the dock to the gate and then",
+      "parsed_response": "Milo is now at the archive. The sequence of actions indicates that Milo walked from the dock to the gate and then",
+      "score": 0.0,
+      "classification": "BENCHMARK_CASE_DEFECT",
+      "suspected_cause": "Prompt does not require an exact-only answer although the evaluator requires normalized exact equality; raw answers generally contain the correct state plus explanation.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "structured_output",
+      "case_id": "structured-output-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"name\": \"Ivy\", \"active\": true}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "Ivy"
+            },
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [
+            "name",
+            "active"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "```json\n{\"name\": \"Ivy\", \"active\": true}\n```",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "VALID_MODEL_FAILURE",
+      "suspected_cause": "The raw response is fenced Markdown JSON despite the explicit no-Markdown instruction; strict JSON parsing correctly rejects it.",
+      "case_and_evaluator_valid": true
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "structured_output",
+      "case_id": "structured-output-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"count\": 3}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "const": 3
+            }
+          },
+          "required": [
+            "count"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "```json\n{\"count\": 3}\n```",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "VALID_MODEL_FAILURE",
+      "suspected_cause": "The raw response is fenced Markdown JSON despite the explicit no-Markdown instruction; strict JSON parsing correctly rejects it.",
+      "case_and_evaluator_valid": true
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "structured_output",
+      "case_id": "structured-output-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"enabled\": false, \"label\": \"north\"}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "const": false
+            },
+            "label": {
+              "type": "string",
+              "const": "north"
+            }
+          },
+          "required": [
+            "enabled",
+            "label"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "```json\n{\"enabled\": false, \"label\": \"north\"}\n```",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "VALID_MODEL_FAILURE",
+      "suspected_cause": "The raw response is fenced Markdown JSON despite the explicit no-Markdown instruction; strict JSON parsing correctly rejects it.",
+      "case_and_evaluator_valid": true
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "structured_output",
+      "case_id": "structured-output-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"code\": \"A7\", \"rank\": 2}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "const": "A7"
+            },
+            "rank": {
+              "type": "integer",
+              "const": 2
+            }
+          },
+          "required": [
+            "code",
+            "rank"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "```json\n{\"code\": \"A7\", \"rank\": 2}\n```",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "VALID_MODEL_FAILURE",
+      "suspected_cause": "The raw response is fenced Markdown JSON despite the explicit no-Markdown instruction; strict JSON parsing correctly rejects it.",
+      "case_and_evaluator_valid": true
+    },
+    {
+      "model": "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf",
+      "run_id": "20260822T164106Z-microsoft-phi-4-mini-instruct-q4-k-m-bfd89469",
+      "suite": "structured_output",
+      "case_id": "structured-output-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"ready\": true, \"retries\": 0}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ready": {
+              "type": "boolean",
+              "const": true
+            },
+            "retries": {
+              "type": "integer",
+              "const": 0
+            }
+          },
+          "required": [
+            "ready",
+            "retries"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "```json\n{\"ready\": true, \"retries\": 0}\n```",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "VALID_MODEL_FAILURE",
+      "suspected_cause": "The raw response is fenced Markdown JSON despite the explicit no-Markdown instruction; strict JSON parsing correctly rejects it.",
+      "case_and_evaluator_valid": true
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "instruction_following",
+      "case_id": "instruction-following-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only this exact text, no explanation or punctuation: amber"
+        }
+      ],
+      "expected": {
+        "value": "amber"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "instruction_following",
+      "case_id": "instruction-following-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only this exact text, no explanation or punctuation: cedar"
+        }
+      ],
+      "expected": {
+        "value": "cedar"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "instruction_following",
+      "case_id": "instruction-following-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only this exact text, no explanation or punctuation: orbit"
+        }
+      ],
+      "expected": {
+        "value": "orbit"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "instruction_following",
+      "case_id": "instruction-following-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only this exact text, no explanation or punctuation: lantern"
+        }
+      ],
+      "expected": {
+        "value": "lantern"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "instruction_following",
+      "case_id": "instruction-following-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only this exact text, no explanation or punctuation: 17"
+        }
+      ],
+      "expected": {
+        "value": "17"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "structured_output",
+      "case_id": "structured-output-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"name\": \"Ivy\", \"active\": true}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "Ivy"
+            },
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [
+            "name",
+            "active"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "structured_output",
+      "case_id": "structured-output-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"count\": 3}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "const": 3
+            }
+          },
+          "required": [
+            "count"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "structured_output",
+      "case_id": "structured-output-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"enabled\": false, \"label\": \"north\"}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "const": false
+            },
+            "label": {
+              "type": "string",
+              "const": "north"
+            }
+          },
+          "required": [
+            "enabled",
+            "label"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "structured_output",
+      "case_id": "structured-output-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"code\": \"A7\", \"rank\": 2}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "const": "A7"
+            },
+            "rank": {
+              "type": "integer",
+              "const": 2
+            }
+          },
+          "required": [
+            "code",
+            "rank"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "structured_output",
+      "case_id": "structured-output-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Return only valid JSON, no Markdown. Return exactly: {\"ready\": true, \"retries\": 0}"
+        }
+      ],
+      "expected": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ready": {
+              "type": "boolean",
+              "const": true
+            },
+            "retries": {
+              "type": "integer",
+              "const": 0
+            }
+          },
+          "required": [
+            "ready",
+            "retries"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "raw_response": "",
+      "parsed_response": null,
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "context_retrieval",
+      "case_id": "context-retrieval-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The badge color for Nela is cobalt.\nRecord 0: unrelated marker 1-0.\nRecord 1: unrelated marker 1-1.\nRecord 2: unrelated marker 1-2.\nRecord 3: unrelated marker 1-3.\nRecord 4: unrelated marker 1-4.\nRecord 5: unrelated marker 1-5.\nRecord 6: unrelated marker 1-6.\nRecord 7: unrelated marker 1-7.\nRecord 8: unrelated marker 1-8.\nThe badge color for Nelax is wrong-1.\n\nAccording to the context, what is the badge color for Nela? Return only the answer."
+        }
+      ],
+      "expected": {
+        "value": "cobalt"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "context_retrieval",
+      "case_id": "context-retrieval-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Record 0: unrelated marker 2-0.\nRecord 1: unrelated marker 2-1.\nRecord 2: unrelated marker 2-2.\nRecord 3: unrelated marker 2-3.\nThe pass type for Miro is silver.\nThe pass type for Mirox is wrong-2.\nRecord 4: unrelated marker 2-4.\nRecord 5: unrelated marker 2-5.\nRecord 6: unrelated marker 2-6.\nRecord 7: unrelated marker 2-7.\nRecord 8: unrelated marker 2-8.\n\nAccording to the context, what is the pass type for Miro? Return only the answer."
+        }
+      ],
+      "expected": {
+        "value": "silver"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "context_retrieval",
+      "case_id": "context-retrieval-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The route for Rookx is wrong-3.\nRecord 0: unrelated marker 3-0.\nRecord 1: unrelated marker 3-1.\nRecord 2: unrelated marker 3-2.\nRecord 3: unrelated marker 3-3.\nRecord 4: unrelated marker 3-4.\nRecord 5: unrelated marker 3-5.\nRecord 6: unrelated marker 3-6.\nRecord 7: unrelated marker 3-7.\nRecord 8: unrelated marker 3-8.\nThe route for Rook is west gate.\n\nAccording to the context, what is the route for Rook? Return only the answer."
+        }
+      ],
+      "expected": {
+        "value": "west gate"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "context_retrieval",
+      "case_id": "context-retrieval-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The compass direction for Sera is 118 degrees.\nRecord 0: unrelated marker 4-0.\nRecord 1: unrelated marker 4-1.\nRecord 2: unrelated marker 4-2.\nRecord 3: unrelated marker 4-3.\nRecord 4: unrelated marker 4-4.\nRecord 5: unrelated marker 4-5.\nRecord 6: unrelated marker 4-6.\nRecord 7: unrelated marker 4-7.\nRecord 8: unrelated marker 4-8.\nThe compass direction for Serax is wrong-4.\n\nAccording to the context, what is the compass direction for Sera? Return only the answer."
+        }
+      ],
+      "expected": {
+        "value": "118 degrees"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "context_retrieval",
+      "case_id": "context-retrieval-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Record 0: unrelated marker 5-0.\nRecord 1: unrelated marker 5-1.\nRecord 2: unrelated marker 5-2.\nRecord 3: unrelated marker 5-3.\nThe cache location for Nori is under marker P.\nThe cache location for Norix is wrong-5.\nRecord 4: unrelated marker 5-4.\nRecord 5: unrelated marker 5-5.\nRecord 6: unrelated marker 5-6.\nRecord 7: unrelated marker 5-7.\nRecord 8: unrelated marker 5-8.\n\nAccording to the context, what is the cache location for Nori? Return only the answer."
+        }
+      ],
+      "expected": {
+        "value": "under marker P"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "A has the key.\nA gives the key to B.\nB gives the key to C.\n\nWho has the key now?"
+        }
+      ],
+      "expected": {
+        "value": "C"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The coin is in box Red.\nMove the coin to box Blue.\n\nWhere is the coin now?"
+        }
+      ],
+      "expected": {
+        "value": "box Blue"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Ira owns the lamp.\nIra gives the lamp to Nia.\nNia gives the lamp to Oren.\n\nWho owns the lamp now?"
+        }
+      ],
+      "expected": {
+        "value": "Oren"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "The board shows status open.\nSet status to closed.\nSet status to pending.\n\nWhat is the current status?"
+        }
+      ],
+      "expected": {
+        "value": "pending"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "state_tracking",
+      "case_id": "state-tracking-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "Milo is at the dock.\nMilo walks to the gate.\nMilo walks to the archive.\n\nWhere is Milo now?"
+        }
+      ],
+      "expected": {
+        "value": "the archive"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-001",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a valve opens, water flows.\nThe valve opens.\n\nWhat follows?"
+        }
+      ],
+      "expected": {
+        "value": "water flows"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-002",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a fuse burns, the alarm sounds.\nIf the alarm sounds, the guard wakes.\nThe fuse burns.\n\nWho wakes?"
+        }
+      ],
+      "expected": {
+        "value": "the guard"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-003",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If rain falls, the path is wet.\nIf the path is wet, boots get muddy.\nRain falls.\n\nWhat happens to the boots?"
+        }
+      ],
+      "expected": {
+        "value": "boots get muddy"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-004",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If the gate is locked, entry is blocked.\nThe gate is locked.\n\nWhat is the consequence?"
+        }
+      ],
+      "expected": {
+        "value": "entry is blocked"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    },
+    {
+      "model": "SmolLM3-Q4_K_M.gguf",
+      "run_id": "20260822T164011Z-smollm3-q4-k-m-dba7d0f1",
+      "suite": "causal_reasoning",
+      "case_id": "causal-reasoning-005",
+      "rendered_messages": [
+        {
+          "role": "user",
+          "content": "If a seed gets water, it sprouts.\nThe seed gets no water.\n\nDoes the seed sprout? Return only yes or no."
+        }
+      ],
+      "expected": {
+        "value": "no"
+      },
+      "raw_response": "",
+      "parsed_response": "",
+      "score": 0.0,
+      "classification": "CHAT_TEMPLATE_OR_INTEGRATION_DEFECT",
+      "suspected_cause": "Response final content is empty while the API reports generated tokens; confirmed native thinking consumed the budget.",
+      "case_and_evaluator_valid": false
+    }
+  ]
+}

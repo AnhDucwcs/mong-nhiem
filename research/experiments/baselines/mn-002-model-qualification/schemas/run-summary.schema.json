@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "run_status",
+    "qualification",
+    "overall",
+    "suites",
+    "performance"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "run_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "error"
+      ]
+    },
+    "qualification": {
+      "type": "object"
+    },
+    "overall": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "suites": {
+      "type": "object"
+    },
+    "performance": {
+      "type": "object"
+    }
+  }
+}

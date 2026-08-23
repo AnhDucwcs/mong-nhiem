@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["run_id", "run_status", "overall", "suites", "qualification", "performance"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "run_status": {"const": "valid"},
+    "overall": {"type": "object", "required": ["score"]},
+    "suites": {"type": "object"},
+    "qualification": {"type": "object"},
+    "performance": {"type": "object"}
+  },
+  "additionalProperties": true
+}

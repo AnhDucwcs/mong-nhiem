@@ -1,0 +1,51 @@
+{
+  "run_id": "20260822T164230Z-qwen3-4b-q4-k-m-4cc36667",
+  "run_status": "valid",
+  "qualification": {
+    "passed": false,
+    "failure_reasons": [
+      "overall 0.59 < 0.80",
+      "context_retrieval 0.75 < 0.80",
+      "state_tracking 0.00 < 0.70",
+      "causal_reasoning 0.30 < 0.70"
+    ]
+  },
+  "overall": {
+    "cases": 100,
+    "passed": 59,
+    "score": 0.59
+  },
+  "suites": {
+    "instruction_following": {
+      "cases": 20,
+      "passed": 18,
+      "score": 0.9
+    },
+    "structured_output": {
+      "cases": 20,
+      "passed": 20,
+      "score": 1.0
+    },
+    "context_retrieval": {
+      "cases": 20,
+      "passed": 15,
+      "score": 0.75
+    },
+    "state_tracking": {
+      "cases": 20,
+      "passed": 0,
+      "score": 0.0
+    },
+    "causal_reasoning": {
+      "cases": 20,
+      "passed": 6,
+      "score": 0.3
+    }
+  },
+  "performance": {
+    "median_generation_tokens_per_second": null,
+    "median_total_ms": 283.101,
+    "llama_bench_generation_tokens_per_second": 54.940494,
+    "llama_bench_prompt_tokens_per_second": 1873.004103
+  }
+}

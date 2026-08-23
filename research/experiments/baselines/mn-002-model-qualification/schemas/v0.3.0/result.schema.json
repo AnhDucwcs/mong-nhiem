@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["case_id", "request", "output", "evaluation", "timing", "error"],
+  "properties": {
+    "case_id": {"type": "string"},
+    "request": {},
+    "output": {},
+    "evaluation": {"type": "object", "required": ["score"]},
+    "timing": {"type": "object"},
+    "error": {}
+  },
+  "additionalProperties": true
+}

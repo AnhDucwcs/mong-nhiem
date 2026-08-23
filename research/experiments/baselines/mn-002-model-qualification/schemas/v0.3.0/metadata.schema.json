@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["run_id", "created_at", "benchmark", "definition_fingerprint", "repository", "model", "runtime", "hardware", "inference", "command"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "benchmark": {"type": "object", "required": ["id", "version"], "properties": {"version": {"const": "0.3.0"}}},
+    "definition_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repository": {"type": "object"},
+    "model": {"type": "object"},
+    "runtime": {"type": "object"},
+    "hardware": {"type": "object"},
+    "inference": {"type": "object", "required": ["benchmark_version"], "properties": {"benchmark_version": {"const": "0.3.0"}}},
+    "command": {"type": "object"}
+  },
+  "additionalProperties": true
+}

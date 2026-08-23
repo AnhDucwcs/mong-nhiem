@@ -1,0 +1,73 @@
+experiment: mn-002-runtime-qualification
+
+date: 2026-08-22
+
+model:
+  family: qwen3
+  name: Qwen3-4B
+  parameters_billion: 4.02
+  quantization: Q4_K_M
+  gguf_size_gib: 2.32
+  file: Qwen3-4B-Q4_K_M.gguf
+
+runtime:
+  backend: CUDA
+  flash_attention: true
+  llama_cpp_commit: bb4caa754
+  llama_cpp_build: 10566
+
+prompt_processing:
+  pp512:
+    tokens_per_second: 1988.37
+    stddev: 17.39
+    repetitions: 5
+
+  pp2048:
+    tokens_per_second: 1892.90
+    stddev: 3.61
+    repetitions: 5
+
+  pp4096:
+    tokens_per_second: 1754.89
+    stddev: 9.14
+    repetitions: 5
+
+  pp8192:
+    tokens_per_second: 1159.59
+    stddev: 1.81
+    repetitions: 5
+
+  pp16384:
+    tokens_per_second: 99.56
+    stddev: 1.14
+    repetitions: 3
+
+  pp32768:
+    tokens_per_second: 39.35
+    stddev: 0.33
+    repetitions: 3
+
+generation:
+  tg64:
+    tokens_per_second: 56.16
+    stddev: 0.29
+    repetitions: 3
+
+  tg128:
+    tokens_per_second: 55.83
+    stddev: 0.15
+    repetitions: 5
+
+vram_observations:
+  context_8192_mib: 2588
+  context_16384_mib: 3890
+  total_vram_mib: 4096
+
+observations:
+  maximum_tested_context: 32768
+  practical_fast_context: 8192
+
+  runtime_breakpoint:
+    lower_bound: 8192
+    upper_bound: 16384
+    likely_cause: vram_pressure

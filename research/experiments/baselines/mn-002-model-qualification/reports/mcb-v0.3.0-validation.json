@@ -1,0 +1,13 @@
+{
+  "benchmark_version": "0.3.0",
+  "definition_fingerprint": "2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a",
+  "selected_runs": {
+    "Qwen3-1.7B-Q4_K_M.gguf": "20260823T014210Z-mcb-v020-qwen3-1-7b-q4-k-m-9546402a",
+    "Llama-3.2-3B-Instruct-Q4_K_M.gguf": "20260823T014222Z-mcb-v020-llama-3-2-3b-instruct-q4-k-m-1a706767",
+    "SmolLM3-Q4_K_M.gguf": "20260823T014239Z-mcb-v020-smollm3-q4-k-m-ac7343c2",
+    "microsoft_Phi-4-mini-instruct-Q4_K_M.gguf": "20260823T014259Z-mcb-v020-microsoft-phi-4-mini-instruct-q4-k-m-5152f242",
+    "gemma-3-4b-it-Q4_K_M.gguf": "20260823T014320Z-mcb-v020-gemma-3-4b-it-q4-k-m-bbb23cef",
+    "Qwen3-4B-Q4_K_M.gguf": "20260823T014345Z-mcb-v020-qwen3-4b-q4-k-m-63adf489"
+  },
+  "status": "valid"
+}

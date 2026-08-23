@@ -1,0 +1,46 @@
+{
+  "run_id": "20260823T014259Z-mcb-v020-microsoft-phi-4-mini-instruct-q4-k-m-5152f242",
+  "run_status": "valid",
+  "qualification": {
+    "passed": false,
+    "failure_reasons": [
+      "overall 0.72 < 0.80",
+      "structured_output 0.00 < 0.90"
+    ]
+  },
+  "overall": {
+    "cases": 100,
+    "passed": 72,
+    "score": 0.72
+  },
+  "suites": {
+    "instruction_following": {
+      "cases": 20,
+      "passed": 18,
+      "score": 0.9
+    },
+    "structured_output": {
+      "cases": 20,
+      "passed": 0,
+      "score": 0.0
+    },
+    "context_retrieval": {
+      "cases": 20,
+      "passed": 20,
+      "score": 1.0
+    },
+    "state_tracking": {
+      "cases": 20,
+      "passed": 18,
+      "score": 0.9
+    },
+    "causal_reasoning": {
+      "cases": 20,
+      "passed": 16,
+      "score": 0.8
+    }
+  },
+  "performance": {
+    "source": "unchanged; see MCB v0.1.0 llama-bench evidence"
+  }
+}
