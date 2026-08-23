@@ -24,7 +24,7 @@ def main() -> None:
             old = json.loads(line)
             if old["evaluation"]["passed"]: continue
             case = cases[old["case_id"]]
-            passed, canonical, normalized = mcb_v030.evaluate(case, old["output"]["text"])
+            passed, _canonical, normalized = mcb_v030.evaluate(case, old["output"]["text"])
             audit.append({"model": model, "run_id": directory.name, "benchmark_version": "0.2.0", "suite": case["suite"], "case_id": case["id"], "rendered_request": old["request"], "expected_canonical_answer": case["expected"].get("value", case["expected"].get("schema")), "accepted_answers": case["expected"]["accepted_values"], "raw_response": old["output"]["text"], "normalized_response": normalized, "old_score": old["evaluation"]["score"], "proposed_corrected_score": float(passed), "classification": "OUTPUT_EQUIVALENCE_DEFECT" if passed else "VALID_MODEL_FAILURE", "justification": "Matches an explicitly declared accepted answer after conservative normalization." if passed else "Does not match any explicit accepted answer; no fuzzy or substring match is used."})
     OUT.write_text(json.dumps({"source_version": "0.2.0", "target_evaluator": "0.3.0", "records": audit}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote {len(audit)} audited failed records")

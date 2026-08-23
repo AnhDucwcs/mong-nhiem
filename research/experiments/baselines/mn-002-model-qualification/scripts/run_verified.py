@@ -83,7 +83,7 @@ def main() -> None:
         try:
             mcb.run(model, args.llama_server, args.llama_bench, 18100 + index)
             bench(model, latest_run(name), args.llama_bench, config)
-        except Exception as exc:
+        except (OSError, RuntimeError, TimeoutError, ValueError, subprocess.SubprocessError) as exc:
             print(f"MODEL RUN ERROR {name}: {type(exc).__name__}: {exc}")
         finally:
             mcb.api = original

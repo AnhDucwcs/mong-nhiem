@@ -1,9 +1,25 @@
 #!/usr/bin/env python3
 """Local, experiment-specific MCB v0.1.0 generator, validator, and runner."""
 from __future__ import annotations
-import argparse, datetime as dt, hashlib, json, os, platform, re, shutil, statistics, subprocess, sys, time, urllib.error, urllib.request, uuid
+
+import argparse
+import datetime as dt
+import hashlib
+import json
+import os
+import platform
+import re
+import shutil
+import statistics
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+import uuid
 from pathlib import Path
 from typing import Any
+
 from jsonschema import Draft202012Validator
 
 ROOT=Path(__file__).resolve().parents[1]; B=ROOT/'benchmark'; C=B/'cases'; S=ROOT/'schemas'; F=ROOT/'configs'; RUNS=ROOT/'runs'; REPORTS=ROOT/'reports'
@@ -82,7 +98,10 @@ def hw():
  except (AttributeError,ValueError,OSError):ram=None
  return{'os':platform.platform()or None,'cpu':platform.processor()or None,'ram_bytes':ram,**x}
 def run(model:Path,server:Path,bench:Path,port:int):
- valid();cfg=load(F/'qualification-config.json');rid=f"{dt.datetime.now(dt.UTC):%Y%m%dT%H%M%SZ}-{re.sub('[^a-z0-9]+','-',model.stem.lower()).strip('-')}-{uuid.uuid4().hex[:8]}";r=RUNS/rid;raw=r/'raw';raw.mkdir(parents=True);version=cmd([str(server),'--version']);match=re.search(r'version:\s*([^\n]+?)\s*\(build\s+(\d+),\s*commit\s+([0-9a-f]+)\)',version,re.I);command=[str(server),'-m',str(model),'--host',cfg['host'],'--port',str(port),'-c',str(cfg['context_size']),'-t',str(cfg['threads']),'-b',str(cfg['batch_size']),'-ngl',str(cfg['gpu_layers']),'-fa','on','--temp','0','--seed','42','--jinja','--no-webui','--metrics']
+ valid();cfg=load(F/'qualification-config.json');rid=f"{dt.datetime.now(dt.UTC):%Y%m%dT%H%M%SZ}-{re.sub('[^a-z0-9]+','-',model.stem.lower()).strip('-')}-{uuid.uuid4().hex[:8]}";r=RUNS/rid;raw=r/'raw';raw.mkdir(parents=True)
+ version=cmd([str(server),'--version'])
+ match=re.search(r'version:\s*([^\n]+?)\s*\(build\s+(\d+),\s*commit\s+([0-9a-f]+)\)',version,re.IGNORECASE)
+ command=[str(server),'-m',str(model),'--host',cfg['host'],'--port',str(port),'-c',str(cfg['context_size']),'-t',str(cfg['threads']),'-b',str(cfg['batch_size']),'-ngl',str(cfg['gpu_layers']),'-fa','on','--temp','0','--seed','42','--jinja','--no-webui','--metrics']
  meta={'run_id':rid,'created_at':dt.datetime.now(dt.UTC).isoformat(),'benchmark':{'id':'mcb','version':'0.1.0'},'repository':{'commit':cmd(['git','rev-parse','HEAD']).strip()or None},'model':{'name':model.stem,'file':model.name,'size_bytes':model.stat().st_size,'sha256':digest(model)},'runtime':{'backend':'llama.cpp','version':match.group(1).strip()if match else None,'build':match.group(2)if match else None,'commit':match.group(3)if match else None,'raw_version_output':version},'inference':{'temperature':0.0,'seed':42,'context_size':4096,'threads':cfg['threads'],'gpu_layers':cfg['gpu_layers'],'batch_size':cfg['batch_size'],'chat_template':cfg['chat_template']},'hardware':hw(),'command':{'server':command,'benchmark':None}};dump(r/'metadata.json',meta);so,se=(raw/'llama-server.stdout.txt').open('w',encoding='utf8'),(raw/'llama-server.stderr.txt').open('w',encoding='utf8');p=None;records=[];problem=None
  try:
   p=subprocess.Popen(command,stdout=so,stderr=se);base=f"http://{cfg['host']}:{port}";deadline=time.monotonic()+180
@@ -96,9 +115,9 @@ def run(model:Path,server:Path,bench:Path,port:int):
   for c in allcases():
    started=time.perf_counter();content='\n\n'.join(x for x in(c['input']['context'],c['input']['prompt'])if x)
    try:z=api(base+'/v1/chat/completions',{'messages':[{'role':'user','content':content}],'temperature':0,'seed':42,'max_tokens':c['generation']['max_tokens']});text=z['choices'][0]['message']['content']or'';passed,parsed=evalcase(c,text);use=z.get('usage',{});err=None
-   except Exception as e:text,parsed,passed,use,err='',None,False,{}, {'type':'model_request_error','message':f'{type(e).__name__}: {e}'}
+   except (KeyError, OSError, TimeoutError, urllib.error.URLError, ValueError) as e:text,parsed,passed,use,err='',None,False,{}, {'type':'model_request_error','message':f'{type(e).__name__}: {e}'}
    records.append({'case_id':c['id'],'output':{'text':text,'parsed':parsed},'evaluation':{'passed':passed,'score':float(passed)},'usage':{'prompt_tokens':use.get('prompt_tokens'),'generated_tokens':use.get('completion_tokens')},'timing':{'prompt_eval_ms':None,'generation_ms':None,'total_ms':round((time.perf_counter()-started)*1000,3),'generation_tokens_per_second':None},'error':err})
- except Exception as e:problem=f'{type(e).__name__}: {e}'
+ except (OSError, RuntimeError, TimeoutError, urllib.error.URLError, ValueError) as e:problem=f'{type(e).__name__}: {e}'
  finally:
   if p and p.poll()is None:
    p.terminate()
@@ -140,7 +159,7 @@ def main():
  for i,n in enumerate(names):
   if not(x.models_dir/n).is_file():print(f'MISSING MODEL: {n}',file=sys.stderr);continue
   try:run(x.models_dir/n,x.llama_server,x.llama_bench,18080+i)
-  except Exception as e:print(f'MODEL RUN ERROR {n}: {type(e).__name__}: {e}',file=sys.stderr)
+  except (OSError, RuntimeError, TimeoutError, urllib.error.URLError, ValueError) as e:print(f'MODEL RUN ERROR {n}: {type(e).__name__}: {e}',file=sys.stderr)
  if x.report:report()
  if not any((x.write_definition,x.validate,names,x.report)):a.error('choose an action')
 if __name__=='__main__':main()

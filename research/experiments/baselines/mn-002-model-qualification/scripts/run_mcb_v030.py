@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run frozen MCB v0.3.0 without regenerating its definitions."""
+"""Run frozen MCB v0.3.0; it never regenerates benchmark definitions."""
 from __future__ import annotations
 
 import argparse
@@ -11,6 +11,9 @@ import mcb
 import mcb_v020
 import mcb_v030
 
+ROOT = Path(__file__).resolve().parents[1]
+CONFIG = ROOT / "configs" / "mcb-v0.3.0.json"
+
 
 def runtime(server: Path) -> dict:
     raw = mcb.cmd([str(server), "--version"])
@@ -18,13 +21,21 @@ def runtime(server: Path) -> dict:
     return {"version": match.group(1) if match else None, "build": match.group(2) if match else None, "commit": match.group(3) if match else None, "raw_output": raw}
 
 
-def run_one(model: Path, server: Path, port: int) -> Path:
-    mcb_v020.BENCHMARK, mcb_v020.CASES, mcb_v020.VERSION = mcb_v030.BENCHMARK, mcb_v030.CASES, mcb_v030.VERSION
+def configure_execution() -> None:
+    """Reuse v0.2 process transport only; definition/config contracts are v0.3."""
+    mcb_v020.BENCHMARK = mcb_v030.BENCHMARK
+    mcb_v020.CASES = mcb_v030.CASES
+    mcb_v020.CONFIG = CONFIG
+    mcb_v020.VERSION = mcb_v030.VERSION
     mcb_v020.validate = mcb_v030.validate_definitions
     mcb_v020.evaluate = lambda case, text: mcb_v030.evaluate(case, text)[:2]
-    old = mcb_v020.run_model(model, server, port)
-    run = old.with_name(old.name.replace("mcb-v020", "mcb-v030"))
-    old.rename(run)
+
+
+def run_one(model: Path, server: Path, port: int) -> Path:
+    configure_execution()
+    temporary = mcb_v020.run_model(model, server, port)
+    run = temporary.with_name(temporary.name.replace("mcb-v020", "mcb-v030"))
+    temporary.rename(run)
     metadata = json.loads((run / "metadata.json").read_text(encoding="utf-8"))
     summary = json.loads((run / "summary.json").read_text(encoding="utf-8"))
     metadata.update({"run_id": run.name, "definition_fingerprint": mcb_v030.definition_fingerprint(), "runtime": runtime(server), "hardware": mcb.hw()})

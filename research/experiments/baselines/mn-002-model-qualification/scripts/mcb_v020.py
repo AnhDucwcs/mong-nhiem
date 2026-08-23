@@ -118,11 +118,11 @@ def run_model(model: Path, server: Path, port: int) -> Path:
                 text = response["choices"][0]["message"].get("content") or ""
                 passed, parsed = evaluate(case, text)
                 error = None
-            except Exception as exc:
+            except (KeyError, OSError, TimeoutError, urllib.error.URLError, ValueError) as exc:
                 response, text, parsed, passed = None, "", None, False
                 error = {"type": "model_request_error", "message": f"{type(exc).__name__}: {exc}"}
             records.append({"case_id": case["id"], "request": payload, "output": {"text": text, "parsed": parsed, "response": response}, "evaluation": {"passed": passed, "score": float(passed)}, "timing": {"total_ms": round((time.perf_counter() - started) * 1000, 3)}, "error": error})
-    except Exception as exc:
+    except (KeyError, OSError, TimeoutError, urllib.error.URLError, ValueError) as exc:
         problem = f"{type(exc).__name__}: {exc}"
     finally:
         if process and process.poll() is None:
