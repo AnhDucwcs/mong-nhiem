@@ -68,18 +68,38 @@ def run(args: argparse.Namespace) -> Path:
     server_command = [str(args.llama_server), "-m", str(model), "--host", args.host, "--port", str(args.port), "-c", str(inference["configured_context_size"]), "-t", str(inference["threads"]), "-b", str(inference["batch_size"]), "-np", str(inference["parallel_slots"]), "-fa", "on" if inference["flash_attention"] else "off", "--temp", "0", "--seed", str(inference["seed"]), "--jinja", "--no-webui", "--no-cache-prompt", "--metrics", "--chat-template-kwargs", kwargs_json]
     runner_levels = [part for level in levels for part in ("--context-level", str(level))]
     runner_positions = [part for position in selected_positions for part in ("--position", position)]
-    metadata = {"run_id": run_id, "created_at": created.isoformat(), "experiment": {"id": definition["id"], "version": definition["version"]}, "definition_fingerprint": ecc003.definition_fingerprint(), "repository": {"commit": repository_commit, "dirty": repository_dirty}, "model": {"key": args.model, "name": model.stem, "file": model.name, "size_bytes": model.stat().st_size, "sha256": file_digest(model), "qualified_by": model_config["qualified_by"]}, "runtime": runtime_identity(args.llama_server), "hardware": hardware_identity(), "inference": inference, "selection": {"context_levels": levels, "evidence_positions": selected_positions, "case_ids": [case["id"] for case in selected_cases], "complete_definition_coverage": complete}, "command": {"server": server_command, "runner": ["run_ecc003.py", "--model", args.model, *runner_levels, *runner_positions]}}
+    runner_command = ["run_ecc003.py", "--model", args.model, *runner_levels, *runner_positions]
+    if args.restart_server_per_position:
+        runner_command.append("--restart-server-per-position")
+    metadata = {"run_id": run_id, "created_at": created.isoformat(), "experiment": {"id": definition["id"], "version": definition["version"]}, "definition_fingerprint": ecc003.definition_fingerprint(), "repository": {"commit": repository_commit, "dirty": repository_dirty}, "model": {"key": args.model, "name": model.stem, "file": model.name, "size_bytes": model.stat().st_size, "sha256": file_digest(model), "qualified_by": model_config["qualified_by"]}, "runtime": runtime_identity(args.llama_server), "hardware": hardware_identity(), "inference": inference, "selection": {"context_levels": levels, "evidence_positions": selected_positions, "case_ids": [case["id"] for case in selected_cases], "complete_definition_coverage": complete}, "command": {"server": server_command, "runner": runner_command}}
     ecc003.dump_json(run_dir / "metadata.json", metadata)
     stdout = (raw_dir / "llama-server.stdout.txt").open("w", encoding="utf-8")
     stderr = (raw_dir / "llama-server.stderr.txt").open("w", encoding="utf-8")
     process: subprocess.Popen[Any] | None = None
     records: list[dict[str, Any]] = []
-    try:
+    def start_server() -> ecc003.ServerClient:
+        nonlocal process
         process = subprocess.Popen(server_command, stdout=stdout, stderr=stderr)
         client = ecc003.ServerClient(f"http://{args.host}:{args.port}", model_config["chat_template_kwargs"])
         wait_for_server(process, client.base_url)
+        return client
+
+    def stop_server() -> None:
+        nonlocal process
+        if process and process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(20)
+            except subprocess.TimeoutExpired:
+                process.kill()
+        process = None
+
+    try:
+        client: ecc003.ServerClient | None = None
         for level in levels:
             for position in selected_positions:
+                if client is None or args.restart_server_per_position:
+                    client = start_server()
                 for case in selected_cases:
                     built = ecc003.build_case(client, case, level, position, definition)
                     started, error = time.perf_counter(), None
@@ -97,13 +117,11 @@ def run(args: argparse.Namespace) -> Path:
                     record = {**{key: value for key, value in ecc003.built_case_dict(built).items() if key != "content"}, "configured_context_size": inference["configured_context_size"], "output_token_budget": inference["output_tokens"], "request": request, "output": {"raw_text": raw_text, "normalized_text": normalized, "response": response}, "evaluation": {"passed": passed, "score": float(passed)}, "failure": failure, "truncated": False, "timing": {"total_ms": round((time.perf_counter() - started) * 1000, 3)}, "error": error}
                     records.append(record)
                     print(f"{case['id']} {position} @ {level}: {'PASS' if passed else 'FAIL'} ({built.actual_input_tokens} tokens)", flush=True)
+                if args.restart_server_per_position:
+                    stop_server()
+                    client = None
     finally:
-        if process and process.poll() is None:
-            process.terminate()
-            try:
-                process.wait(20)
-            except subprocess.TimeoutExpired:
-                process.kill()
+        stop_server()
         stdout.close()
         stderr.close()
         (run_dir / "results.jsonl").write_text("".join(json.dumps(item, ensure_ascii=False) + "\n" for item in records), encoding="utf-8")
@@ -125,6 +143,7 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=ecc003.RUNS)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=18503)
+    parser.add_argument("--restart-server-per-position", action="store_true", help="restart the identical no-cache server between position batches to release VRAM")
     run(parser.parse_args())
 
 
