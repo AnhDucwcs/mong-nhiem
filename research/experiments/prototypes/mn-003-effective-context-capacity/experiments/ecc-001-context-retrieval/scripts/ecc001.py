@@ -312,7 +312,7 @@ def summarize(
 
 
 def validate_run(run: Path) -> dict[str, Any]:
-    _definition, cases = load_definition()
+    definition, cases = load_definition()
     metadata = load_json(run / "metadata.json")
     summary = load_json(run / "summary.json")
     records = [json.loads(line) for line in (run / "results.jsonl").read_text(encoding="utf-8").splitlines() if line]
@@ -325,9 +325,22 @@ def validate_run(run: Path) -> dict[str, Any]:
             raise ContractError(f"{run.name}/{label}: {errors[0]}")
     if metadata["definition_fingerprint"] != definition_fingerprint():
         raise ContractError(f"{run.name}: definition fingerprint mismatch")
-    if metadata["selection"]["complete_definition_coverage"] and metadata["repository"]["dirty"]:
+    selection = metadata["selection"]
+    definition_levels = definition["independent_variable"]["levels"]
+    definition_case_ids = [case["id"] for case in cases]
+    selection_is_complete = (
+        selection["context_levels"] == definition_levels
+        and selection["case_ids"] == definition_case_ids
+    )
+    if selection["complete_definition_coverage"] != selection_is_complete:
+        raise ContractError(f"{run.name}: complete-coverage flag does not match the definition")
+    if selection_is_complete and metadata["repository"]["dirty"]:
         raise ContractError(f"{run.name}: complete run was produced from a dirty worktree")
-    expected_pairs = {(case_id, level) for case_id in metadata["selection"]["case_ids"] for level in metadata["selection"]["context_levels"]}
+    expected_pairs = {
+        (case_id, level)
+        for case_id in selection["case_ids"]
+        for level in selection["context_levels"]
+    }
     observed_pairs = [(record["case_id"], record["requested_input_tokens"]) for record in records]
     if len(observed_pairs) != len(set(observed_pairs)):
         raise ContractError(f"{run.name}: duplicate case/context result")
@@ -339,7 +352,10 @@ def validate_run(run: Path) -> dict[str, Any]:
         if errors:
             raise ContractError(f"{run.name}/{record.get('case_id', '?')}: {errors[0]}")
         raw = record["output"]["raw_text"]
-        passed, normalized = evaluate(case_lookup[record["case_id"]]["answer"], raw)
+        case = case_lookup[record["case_id"]]
+        if record["expected_answer"] != case["answer"] or record["relevant_fact"] != relevant_fact(case):
+            raise ContractError(f"{run.name}/{record['case_id']}: stored task fact or answer is incorrect")
+        passed, normalized = evaluate(case["answer"], raw)
         if record["output"]["normalized_text"] != normalized or record["evaluation"] != {"passed": passed, "score": float(passed)}:
             raise ContractError(f"{run.name}/{record['case_id']}: stored evaluation is incorrect")
         content = record["request"]["messages"][0]["content"]
@@ -347,8 +363,34 @@ def validate_run(run: Path) -> dict[str, Any]:
             raise ContractError(f"{run.name}/{record['case_id']}: request hash mismatch")
         if record["actual_input_tokens"] + record["output_token_budget"] > record["configured_context_size"]:
             raise ContractError(f"{run.name}/{record['case_id']}: context overflow marked as evidence")
+        shortfall = record["requested_input_tokens"] - record["actual_input_tokens"]
+        if shortfall < 0 or shortfall > definition["token_budget"]["maximum_target_shortfall_tokens"]:
+            raise ContractError(f"{run.name}/{record['case_id']}: token target shortfall violates the definition")
+        if record["content_tokens"] + record["prompt_overhead_tokens"] != record["actual_input_tokens"]:
+            raise ContractError(f"{run.name}/{record['case_id']}: token accounting is inconsistent")
+        measured_ratio = round(record["evidence_start_token"] / record["context_tokens"], 6)
+        if measured_ratio != record["evidence_position_ratio"]:
+            raise ContractError(f"{run.name}/{record['case_id']}: stored evidence ratio is inconsistent")
+        if abs(measured_ratio - definition["evidence_position"]["target_ratio"]) > definition["evidence_position"]["allowed_absolute_error"]:
+            raise ContractError(f"{run.name}/{record['case_id']}: evidence position violates the definition")
+        inference = metadata["inference"]
+        expected_request = {
+            "temperature": inference["temperature"],
+            "seed": inference["seed"],
+            "max_tokens": inference["output_tokens"],
+            "chat_template_kwargs": inference["chat_template_kwargs"],
+        }
+        for key, expected in expected_request.items():
+            if record["request"][key] != expected:
+                raise ContractError(f"{run.name}/{record['case_id']}: request {key} differs from run metadata")
+        if record["configured_context_size"] != inference["configured_context_size"] or record["output_token_budget"] != inference["output_tokens"]:
+            raise ContractError(f"{run.name}/{record['case_id']}: context/output settings differ from run metadata")
         if record["error"] is None:
-            usage = (record["output"]["response"] or {}).get("usage", {})
+            response = record["output"]["response"] or {}
+            response_raw = response.get("choices", [{}])[0].get("message", {}).get("content") or ""
+            if response_raw != raw:
+                raise ContractError(f"{run.name}/{record['case_id']}: raw output differs from retained response")
+            usage = response.get("usage", {})
             if usage.get("prompt_tokens") != record["actual_input_tokens"]:
                 raise ContractError(f"{run.name}/{record['case_id']}: API prompt-token count mismatch")
         if record["truncated"]:

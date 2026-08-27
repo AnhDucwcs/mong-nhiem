@@ -12,8 +12,10 @@ MCB v0.3.0 is the canonical frozen qualification benchmark. Its fingerprint is `
 
 This qualification is not a production-model choice and does not validate an ECC, retrieval, memory, RAG, summarization, compression, routing, or context-management mechanism.
 
-## MN-003 — Effective Context Capacity — active baseline implementation
+## MN-003 — Effective Context Capacity — active baseline research
 
-MN-003 is a bounded prototype under `research/experiments/prototypes/`. ECC-001 now defines deterministic single-fact Context Retrieval across a 512–16,384 requested-token ladder using direct, unmodified context, fixed midpoint evidence, exact evaluation, model-token-aware construction, explicit schemas, a canonical runner, and an offline validator. Canonical full-run evidence is pending. This measurement is distinct from an advertised context-window size.
+MN-003 is a bounded prototype under `research/experiments/prototypes/`. ECC-001 defines deterministic single-fact Context Retrieval across a 512–16,384 requested-token ladder using direct, unmodified context, fixed midpoint evidence, exact evaluation, model-token-aware construction, explicit schemas, a canonical runner, and an offline validator. Its canonical definition fingerprint is `d9c86595d84266dcc87becc4469bf5a1ed691a4cadbf30ef620d4ac8983efa29`.
 
-The experiment supports both MN-002-qualified capability baselines, Llama 3.2 3B and Qwen3-4B; neither is a production-model selection. State Tracking and Causal Reasoning remain later candidate task families. Retrieval, memory, RAG, summarization, compression, and context-routing work remain explicitly out of scope until the direct-context baseline and its limitations are measured.
+Both MN-002-qualified capability baselines were measured from clean commit `701fb1fe417bde7db6f4749479955c37a734616d`. Llama 3.2 3B and Qwen3-4B each passed all 20 cases at every tested level: baseline accuracy 1.00, relative accuracy 1.00 throughout, zero invalid results, and ECC95/ECC90/ECC80 of 16,384 under the contiguous-tested-prefix rule. This is a tested lower bound, not a located failure boundary, advertised-window validation, or production-model selection.
+
+MN-003 remains active. The next direct-context research definition should increase falsification power through one controlled dimension or a harder inherited capability before any architecture intervention. Retrieval, memory, RAG, summarization, compression, and context-routing work remain out of scope.

@@ -2,9 +2,11 @@
 
 ## Status
 
-Experiment definition and direct-context runner/validator implemented. Canonical full-run evidence must be produced from a clean commit and is pending.
+Experiment infrastructure implemented and the canonical direct-context baseline completed for both qualified models. See the [ECC-001 results](reports/ecc-001-results.md). MN-003 remains active because ECC-001 did not locate a degradation boundary within the tested ladder.
 
 ECC-001 is the first bounded MN-003 measurement. It does not implement or evaluate a context-management architecture.
+
+Canonical definition fingerprint: `d9c86595d84266dcc87becc4469bf5a1ed691a4cadbf30ef620d4ac8983efa29`.
 
 ## Hypothesis
 

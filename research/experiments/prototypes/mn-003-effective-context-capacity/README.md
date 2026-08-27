@@ -2,7 +2,7 @@
 
 ## Status
 
-Active bounded baseline implementation. [ECC-001](experiments/ecc-001-context-retrieval/README.md) defines deterministic single-fact Context Retrieval under increasing direct-context pressure, with a model-token-aware runner, schemas, offline validator, and focused tests. Canonical full-run evidence is pending.
+Active bounded baseline research. [ECC-001](experiments/ecc-001-context-retrieval/README.md) now has deterministic single-fact Context Retrieval infrastructure and canonical full-run evidence for both qualified models. Both retain 1.00 accuracy through the largest tested level, so ECC-001 establishes a lower bound but does not locate a degradation boundary. MN-003 is not complete.
 
 ## Research question
 

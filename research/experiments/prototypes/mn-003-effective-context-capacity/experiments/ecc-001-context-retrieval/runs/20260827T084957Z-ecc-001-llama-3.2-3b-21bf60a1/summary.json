@@ -1,0 +1,83 @@
+{
+  "run_id": "20260827T084957Z-ecc-001-llama-3.2-3b-21bf60a1",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 120,
+    "observed_results": 120
+  },
+  "total_results": 120,
+  "invalid_results": 0,
+  "baseline_context_level": 512,
+  "baseline_accuracy": 1.0,
+  "levels": [
+    {
+      "requested_input_tokens": 512,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 476,
+      "actual_input_tokens_max": 480
+    },
+    {
+      "requested_input_tokens": 1024,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 998,
+      "actual_input_tokens_max": 1002
+    },
+    {
+      "requested_input_tokens": 2048,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 2042,
+      "actual_input_tokens_max": 2046
+    },
+    {
+      "requested_input_tokens": 4096,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 4072,
+      "actual_input_tokens_max": 4076
+    },
+    {
+      "requested_input_tokens": 8192,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 8136,
+      "actual_input_tokens_max": 8192
+    },
+    {
+      "requested_input_tokens": 16384,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 16368,
+      "actual_input_tokens_max": 16372
+    }
+  ],
+  "ecc": {
+    "ECC95": 16384,
+    "ECC90": 16384,
+    "ECC80": 16384,
+    "status": "resolved",
+    "rule": "contiguous tested prefix; no interpolation"
+  },
+  "non_monotonic": false,
+  "capability": {
+    "interpretation": "direct-context retrieval accuracy only"
+  },
+  "runtime": {
+    "median_total_ms": 2628.12
+  }
+}

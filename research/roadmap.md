@@ -10,12 +10,12 @@ Status: completed and frozen. MCB v0.3.0 is the canonical capability-qualificati
 
 ## MN-003 — Effective Context Capacity
 
-Status: active baseline implementation. The bounded prototype belongs in `research/experiments/prototypes/mn-003-effective-context-capacity/`.
+Status: active baseline research. ECC-001 infrastructure and canonical measurement are complete; MN-003 remains open because the first experiment did not locate a degradation boundary.
 
 1. ECC-001 establishes a falsifiable direct-context degradation hypothesis, 20 deterministic Context Retrieval cases, and a controlled token-length ladder.
 2. ECC-001 supports both MN-002-qualified capability baselines and fixes midpoint evidence, generation, evaluation, model, and runtime controls.
 3. The canonical runner and offline validator retain actual per-model token counts, raw evidence, degradation curves, and threshold metrics.
-4. Produce and validate canonical complete evidence from a clean committed definition.
-5. Interpret the bounded result before extending task difficulty or other controlled dimensions.
+4. Canonical complete evidence from both qualified models has been produced and validated from clean commit `701fb1fe417bde7db6f4749479955c37a734616d`.
+5. ECC-001 found stable 1.00 accuracy through 16,384 requested tokens. Treat this as a tested lower bound and define a higher-information direct-context experiment before extending task difficulty or another controlled dimension.
 6. Measure a baseline limitation before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
 7. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.

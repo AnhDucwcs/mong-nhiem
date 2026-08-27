@@ -126,8 +126,8 @@ def test_offline_validator_rejects_corrupted_evidence(tmp_path: Path) -> None:
     record = {
         "case_id": case["id"],
         "requested_input_tokens": 512,
-        "actual_input_tokens": 80,
-        "content_tokens": 68,
+        "actual_input_tokens": 480,
+        "content_tokens": 468,
         "prompt_overhead_tokens": 12,
         "configured_context_size": 16896,
         "output_token_budget": 16,
@@ -148,7 +148,10 @@ def test_offline_validator_rejects_corrupted_evidence(tmp_path: Path) -> None:
         "output": {
             "raw_text": case["answer"],
             "normalized_text": ecc001.normalize_answer(case["answer"]),
-            "response": {"usage": {"prompt_tokens": 80}},
+            "response": {
+                "choices": [{"message": {"content": case["answer"]}}],
+                "usage": {"prompt_tokens": 480},
+            },
         },
         "evaluation": {"passed": True, "score": 1.0},
         "truncated": False,
@@ -176,13 +179,11 @@ def test_offline_validator_rejects_corrupted_evidence(tmp_path: Path) -> None:
     ecc001.dump_json(run / "summary.json", summary)
     assert ecc001.validate_run(run) == summary
 
-    metadata["repository"]["dirty"] = True
     metadata["selection"]["complete_definition_coverage"] = True
     ecc001.dump_json(run / "metadata.json", metadata)
-    with pytest.raises(ecc001.ContractError, match="dirty worktree"):
+    with pytest.raises(ecc001.ContractError, match="complete-coverage flag"):
         ecc001.validate_run(run)
 
-    metadata["repository"]["dirty"] = False
     metadata["selection"]["complete_definition_coverage"] = False
     ecc001.dump_json(run / "metadata.json", metadata)
     summary["total_results"] = 2
