@@ -22,6 +22,15 @@ class FakeRuntime:
         return self.count_text(content) + 12
 
 
+class CountingFakeRuntime(FakeRuntime):
+    def __init__(self) -> None:
+        self.prompt_calls = 0
+
+    def count_prompt(self, content: str) -> int:
+        self.prompt_calls += 1
+        return super().count_prompt(content)
+
+
 def test_middle_reuses_ecc002_generator_sequence() -> None:
     definition, cases = ecc003.load_definition()
     case, seed = cases[0], definition["case_generation"]["seed"]
@@ -40,6 +49,16 @@ def test_position_builder_is_deterministic_and_within_tolerance() -> None:
         target = ecc003.position_spec(definition, position)["target_ratio"]
         assert all(abs(item.evidence_position_ratio - target) <= 0.05 for item in built)
         assert built[1] == ecc003.build_case(runtime, cases[0], levels[1], position, definition)
+
+
+def test_position_builder_uses_bounded_full_prompt_tokenization() -> None:
+    definition, cases = ecc003.load_definition()
+    runtime = CountingFakeRuntime()
+    ecc003.build_case(runtime, cases[0], 16384, "middle", definition)
+    # The old bracket-and-binary-search builder made roughly twenty expensive
+    # full-prompt tokenization calls per 16k case. A bounded calibration keeps
+    # execution feasible while still measuring the selected prompt exactly.
+    assert runtime.prompt_calls <= 8
 
 
 def test_target_is_unmarked_and_failure_classifier_identifies_distractor() -> None:

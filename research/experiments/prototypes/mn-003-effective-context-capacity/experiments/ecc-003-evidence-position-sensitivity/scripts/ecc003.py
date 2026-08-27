@@ -203,29 +203,49 @@ def build_case(runtime: TokenRuntime, case: dict[str, str], target: int, positio
     output_tokens = definition["token_budget"]["output_tokens"]
     configured = definition["token_budget"]["configured_context_size"]
 
-    def prompt_tokens(pairs: int) -> int:
-        return runtime.count_prompt(compose(case, pairs, position, seed)[1])
+    measured: dict[int, int] = {}
 
-    if prompt_tokens(0) > target:
+    def prompt_tokens(pairs: int) -> int:
+        if pairs not in measured:
+            measured[pairs] = runtime.count_prompt(compose(case, pairs, position, seed)[1])
+        return measured[pairs]
+
+    base = prompt_tokens(0)
+    if base > target:
         raise ContractError(f"{case['id']} cannot fit shortest target {target}")
-    low, high = 0, 1
-    while prompt_tokens(high) <= target:
-        low, high = high, high * 2
-        if high > target:
+
+    # A full model-tokenization request is expensive at 16k. Calibrate a local
+    # estimate from one small probe, then only measure nearby full prompts.
+    # The selected prompt is still measured with the model runtime; this changes
+    # construction cost, not the scientific case definition.
+    probe_pairs = 8
+    probe = prompt_tokens(probe_pairs)
+    tokens_per_pair = max((probe - base) / probe_pairs, 1.0)
+    candidate = max(0, int((target - base) / tokens_per_pair))
+    actual = prompt_tokens(candidate)
+    adjustment_attempts = 0
+    while actual > target and candidate > 0:
+        adjustment_attempts += 1
+        if adjustment_attempts > 8:
+            raise ContractError(f"{case['id']} target {target}/{position}: token estimate did not converge")
+        candidate = max(0, candidate - max(1, math.ceil((actual - target) / tokens_per_pair)))
+        actual = prompt_tokens(candidate)
+    maximum_shortfall = definition["token_budget"]["maximum_target_shortfall_tokens"]
+    while target - actual > maximum_shortfall:
+        adjustment_attempts += 1
+        if adjustment_attempts > 8:
+            raise ContractError(f"{case['id']} target {target}/{position}: token estimate did not converge")
+        next_candidate = candidate + max(1, math.floor((target - actual) / tokens_per_pair))
+        next_actual = prompt_tokens(next_candidate)
+        if next_actual > target:
             break
-    while low + 1 < high:
-        middle = (low + high) // 2
-        if prompt_tokens(middle) <= target:
-            low = middle
-        else:
-            high = middle
+        candidate, actual = next_candidate, next_actual
     expected_ratio = position_spec(definition, position)["target_ratio"]
     tolerance = definition["independent_variables"]["evidence_position"]["allowed_absolute_error"]
-    maximum_shortfall = definition["token_budget"]["maximum_target_shortfall_tokens"]
     selected: tuple[int, str, str, str, list[dict[str, Any]], int, int, int, float] | None = None
-    for candidate in range(low, -1, -1):
-        context, content, prefix, metadata = compose(case, candidate, position, seed)
-        actual = runtime.count_prompt(content)
+    for current in range(candidate, -1, -1):
+        context, content, prefix, metadata = compose(case, current, position, seed)
+        actual = prompt_tokens(current)
         shortfall = target - actual
         if shortfall > maximum_shortfall:
             break
@@ -233,7 +253,7 @@ def build_case(runtime: TokenRuntime, case: dict[str, str], target: int, positio
         evidence_start = runtime.count_text(prefix)
         ratio = evidence_start / context_tokens
         if shortfall >= 0 and abs(ratio - expected_ratio) <= tolerance:
-            selected = (candidate, context, content, prefix, metadata, actual, context_tokens, evidence_start, ratio)
+            selected = (current, context, content, prefix, metadata, actual, context_tokens, evidence_start, ratio)
             break
     if selected is None:
         raise ContractError(f"{case['id']} target {target}/{position}: no valid token/position construction")
