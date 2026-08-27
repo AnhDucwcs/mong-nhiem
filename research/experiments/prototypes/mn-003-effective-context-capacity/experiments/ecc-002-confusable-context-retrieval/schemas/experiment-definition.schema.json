@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["id", "version", "task_family", "hypothesis", "null_result", "independent_variable", "controlled_variables", "case_generation", "evidence_position", "token_budget", "inference", "evaluation", "metrics", "success_criteria", "non_goals"],
+  "properties": {
+    "id": {"const": "ecc-002-confusable-context-retrieval"},
+    "version": {"const": "0.1.0"},
+    "task_family": {"const": "single_fact_confusable_context_retrieval"},
+    "hypothesis": {"type": "string", "minLength": 1}, "null_result": {"type": "string", "minLength": 1},
+    "independent_variable": {"type": "object", "required": ["name", "levels", "unit"], "properties": {"name": {"const": "requested_input_tokens"}, "levels": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "integer", "minimum": 1}}, "unit": {"const": "model_input_tokens"}}, "additionalProperties": false},
+    "controlled_variables": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "case_generation": {"type": "object", "required": ["inventory", "semantic_cases", "seed", "distractor_generator_version", "record_template", "model_specific_budgeting"]},
+    "evidence_position": {"type": "object", "required": ["policy", "target_ratio", "allowed_absolute_error", "note"]},
+    "token_budget": {"type": "object", "required": ["maximum_target_shortfall_tokens", "silent_truncation_allowed", "configured_context_size", "output_tokens"]},
+    "inference": {"type": "object", "required": ["temperature", "seed", "threads", "batch_size", "parallel_slots", "flash_attention", "prompt_cache"]},
+    "evaluation": {"type": "object", "required": ["method", "normalization", "fuzzy_matching", "llm_judge"]},
+    "metrics": {"type": "object", "required": ["baseline", "relative_accuracy", "thresholds", "reliability_rule", "interpolation", "right_censoring"]},
+    "success_criteria": {"type": "array", "minItems": 11, "items": {"type": "string"}}, "non_goals": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

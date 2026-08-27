@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
+  "required": ["case_id", "requested_input_tokens", "actual_input_tokens", "content_tokens", "prompt_overhead_tokens", "configured_context_size", "output_token_budget", "context_tokens", "evidence_start_token", "evidence_position_ratio", "distractor_pairs", "relevant_fact", "expected_answer", "context_sha256", "request", "output", "evaluation", "truncated", "timing", "error"],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^ecc002-[0-9]{3}$"}, "requested_input_tokens": {"type": "integer", "minimum": 1}, "actual_input_tokens": {"type": "integer", "minimum": 1}, "content_tokens": {"type": "integer", "minimum": 1}, "prompt_overhead_tokens": {"type": "integer", "minimum": 0}, "configured_context_size": {"type": "integer", "minimum": 1}, "output_token_budget": {"type": "integer", "minimum": 1}, "context_tokens": {"type": "integer", "minimum": 1}, "evidence_start_token": {"type": "integer", "minimum": 0}, "evidence_position_ratio": {"type": "number", "minimum": 0, "maximum": 1}, "distractor_pairs": {"type": "integer", "minimum": 0}, "relevant_fact": {"type": "string"}, "expected_answer": {"type": "string"}, "context_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "request": {"type": "object", "required": ["messages", "temperature", "seed", "max_tokens", "chat_template_kwargs"]},
+    "output": {"type": "object", "required": ["raw_text", "normalized_text", "response"], "properties": {"raw_text": {"type": "string"}, "normalized_text": {"type": "string"}}, "additionalProperties": true},
+    "evaluation": {"type": "object", "required": ["passed", "score"], "properties": {"passed": {"type": "boolean"}, "score": {"type": "number", "enum": [0, 1]}}, "additionalProperties": false},
+    "truncated": {"type": "boolean"}, "timing": {"type": "object", "required": ["total_ms"], "properties": {"total_ms": {"type": "number", "minimum": 0}}, "additionalProperties": true}, "error": {"type": ["object", "null"]}
+  }, "additionalProperties": false
+}
