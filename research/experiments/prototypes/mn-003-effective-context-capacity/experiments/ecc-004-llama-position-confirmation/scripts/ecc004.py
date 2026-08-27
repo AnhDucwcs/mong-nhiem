@@ -131,7 +131,7 @@ def classify_failure(case: dict[str, str], raw: str, pairs: int, position: str, 
             return {"kind": "tracked_distractor_code", "selected_distractor": item}
     if re.search(r"\b[A-Za-z]{2}-\d{4}\b", raw):
         return {"kind": "invented_code"}
-    if re.search(r"\b[A-Za-z]{1,3}[- ]?\d{1,4}\b", raw):
+    if re.search(r"\b(?:[A-Za-z]{1,3}[- ]?\d{1,4}|\d{1,4})\b", raw):
         return {"kind": "partial_or_malformed_code"}
     return {"kind": "other_text"}
 

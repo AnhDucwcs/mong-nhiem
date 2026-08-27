@@ -58,6 +58,7 @@ def test_diagnostics_do_not_change_exact_score() -> None:
     assert ecc004.classify_failure(case, distractors[0]["answer"], 6, "late", definition) == {"kind": "tracked_distractor_code", "selected_distractor": distractors[0]}
     assert ecc004.classify_failure(case, "ZZ-9999", 6, "late", definition) == {"kind": "invented_code"}
     assert ecc004.classify_failure(case, "ZZ-99", 6, "late", definition) == {"kind": "partial_or_malformed_code"}
+    assert ecc004.classify_failure(case, "9001", 6, "late", definition) == {"kind": "partial_or_malformed_code"}
     assert ecc004.classify_failure(case, "I cannot determine it", 6, "late", definition) == {"kind": "other_text"}
     assert ecc004.ecc002.evaluate(case["answer"], f"The access code is {case['answer']}.")[0] is False
 
