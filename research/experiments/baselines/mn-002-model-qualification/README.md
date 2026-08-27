@@ -2,7 +2,7 @@
 
 ## Status
 
-Completed. MN-002 establishes a local capability baseline before bounded ECC experiments; it is not a production-model selection or a general leaderboard.
+Completed and frozen. MN-002 establishes the canonical local capability-qualification baseline before bounded ECC experiments; it is not a production-model selection or a general leaderboard.
 
 ## Research question
 
@@ -24,7 +24,7 @@ Clarified output instructions and corrected native-thinking template integration
 
 ### v0.3.0
 
-Frozen JSONL definitions use explicit accepted values for semantic suites and strict JSON validation for structured output. Fingerprint: `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`.
+Frozen JSONL definitions use explicit accepted values for semantic suites and strict JSON validation for structured output. The canonical v0.3.0 definition fingerprint is `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`.
 
 ## Qualification
 
@@ -35,7 +35,7 @@ Thresholds are unchanged: overall `>= 0.80`; instruction `>= 0.80`; structured `
 | Llama-3.2-3B-Instruct-Q4_K_M | 0.89 | PASS |
 | Qwen3-4B-Q4_K_M | 0.93 | PASS |
 
-Qwen3-1.7B exceeds the overall threshold but fails the State gate. Gemma exceeds the overall threshold but fails the Structured gate. A candidate must meet every critical suite.
+Qwen3-1.7B exceeds the overall threshold but fails the State gate. Gemma exceeds the overall threshold but fails the Structured gate. A candidate must meet every critical suite. The passing models are qualified capability baselines for MN-003, not production-model selections.
 
 ## Runtime and evidence
 

@@ -6,12 +6,15 @@ Status: completed.
 
 ## MN-002 — Model qualification
 
-Status: completed. Frozen MCB v0.3.0 established a qualified candidate set; capability and runtime baselines remain separate.
+Status: completed and frozen. MCB v0.3.0 is the canonical capability-qualification benchmark (fingerprint `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`). Llama 3.2 3B and Qwen3-4B are qualified capability baselines; capability and runtime evidence remain separate. This is not a production-model choice.
 
-## Next bounded research
+## MN-003 — Effective Context Capacity
 
-1. Choose one or both qualified candidates as experiment baselines.
-2. Define a bounded ECC hypothesis, baseline, and success criteria.
-3. Place prototype work under `research/experiments/prototypes/`.
-4. Compare it against the MN-002 baseline.
-5. Promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.
+Status: active research preparation. The bounded prototype belongs in `research/experiments/prototypes/mn-003-effective-context-capacity/`.
+
+1. Establish a hypothesis for reliable task-performance degradation as controlled context pressure increases, distinct from advertised context-window size.
+2. Select one or both MN-002-qualified capability baselines and an unmodified-context measurement baseline.
+3. Define controlled variables, beginning with context length and potentially later relevant-information density, evidence position, and distributed evidence.
+4. Define task families, metrics, degradation-curve analysis, and success criteria before any intervention.
+5. Measure the baseline before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
+6. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.

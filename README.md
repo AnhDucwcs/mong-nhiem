@@ -2,7 +2,7 @@
 
 Mộng Nhiễm researches how small language models can work reliably with knowledge and context spaces beyond their current effective capability.
 
-MN-001 established the development foundation. MN-002 established a reproducible local model-qualification baseline; it does not validate an Effective Context Capacity (ECC) mechanism or select a production architecture. Under frozen MCB v0.3.0, Llama 3.2 3B and Qwen3-4B are qualified local baseline candidates.
+MN-001 established the development foundation. MN-002 is complete and frozen: MCB v0.3.0 is the canonical reproducible capability-qualification benchmark, with definition fingerprint `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`. Llama 3.2 3B and Qwen3-4B are qualified capability baselines, not production-model selections. MN-003 is the active bounded Effective Context Capacity (ECC) prototype: measure controlled capability degradation under increasing context pressure before evaluating any context-management architecture.
 
 ## Layout
 
@@ -21,4 +21,4 @@ ruff check .
 pytest
 ```
 
-Read the [research index](research/00-mong-nhiem.md), [current state](research/current-state.md), and [MN-002 overview](research/experiments/baselines/mn-002-model-qualification/README.md) before contributing.
+Read the [research index](research/00-mong-nhiem.md), [current state](research/current-state.md), [MN-002 overview](research/experiments/baselines/mn-002-model-qualification/README.md), and [MN-003 charter](research/experiments/prototypes/mn-003-effective-context-capacity/README.md) before contributing.
