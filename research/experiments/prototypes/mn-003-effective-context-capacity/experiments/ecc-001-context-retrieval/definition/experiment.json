@@ -1,0 +1,88 @@
+{
+  "id": "ecc-001-context-retrieval",
+  "version": "0.1.0",
+  "task_family": "single_fact_context_retrieval",
+  "hypothesis": "Increasing semantically irrelevant direct-context length may reduce normalized-exact retrieval accuracy while the relevant fact, answer complexity, question form, evidence position policy, inference settings, and evaluator remain fixed.",
+  "null_result": "Accuracy may remain stable across the tested ladder; absence of degradation is valid evidence.",
+  "independent_variable": {
+    "name": "requested_input_tokens",
+    "levels": [512, 1024, 2048, 4096, 8192, 16384],
+    "unit": "model_input_tokens"
+  },
+  "controlled_variables": [
+    "one relevant fact per case",
+    "short unique access-code answer",
+    "fixed question template",
+    "deterministic natural-language distractor procedure v1",
+    "evidence midpoint policy",
+    "temperature 0 and seed 42",
+    "16-token output budget",
+    "normalized exact-match evaluator"
+  ],
+  "case_generation": {
+    "inventory": "cases.json",
+    "semantic_cases": 20,
+    "seed": 20260827,
+    "distractor_generator_version": 1,
+    "model_specific_budgeting": "Each model receives a deterministic prefix of the same distractor sequence. The terminal distractor count may differ because model tokenizers differ; requested and actual counts are retained."
+  },
+  "evidence_position": {
+    "policy": "midpoint_of_context_by_model_tokens",
+    "target_ratio": 0.5,
+    "allowed_absolute_error": 0.05,
+    "note": "The ratio is measured within the context records, excluding fixed chat-template and question overhead. Symmetric distractor pairs keep position stable across levels."
+  },
+  "token_budget": {
+    "maximum_target_shortfall_tokens": 96,
+    "silent_truncation_allowed": false,
+    "configured_context_size": 16896,
+    "output_tokens": 16
+  },
+  "inference": {
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false
+  },
+  "evaluation": {
+    "method": "normalized_exact_match",
+    "normalization": ["Unicode NFKC", "trim", "case-fold", "collapse whitespace", "remove terminal period/exclamation/question marks"],
+    "fuzzy_matching": false,
+    "llm_judge": false
+  },
+  "metrics": {
+    "baseline": "shortest selected context level",
+    "relative_accuracy": "accuracy(level) / baseline_accuracy",
+    "thresholds": [0.95, 0.9, 0.8],
+    "reliability_rule": "ECC threshold is the last level in the contiguous tested prefix meeting the threshold; a later isolated recovery does not raise ECC.",
+    "interpolation": false
+  },
+  "success_criteria": [
+    "deterministic case generation",
+    "reproducible model-token budgeting",
+    "no silent truncation",
+    "deterministic evaluation",
+    "raw per-case evidence retained",
+    "accuracy aggregated by context level",
+    "degradation curve derivable from results",
+    "ECC95, ECC90, and ECC80 derived only with complete supporting data",
+    "same definition reusable across both qualified models",
+    "offline validation reproduces committed summaries"
+  ],
+  "non_goals": [
+    "retrieval",
+    "RAG",
+    "memory",
+    "summarization",
+    "context compression",
+    "context routing",
+    "chunk selection",
+    "semantic search",
+    "embeddings",
+    "external state",
+    "architecture comparison"
+  ]
+}

@@ -10,11 +10,12 @@ Status: completed and frozen. MCB v0.3.0 is the canonical capability-qualificati
 
 ## MN-003 — Effective Context Capacity
 
-Status: active research preparation. The bounded prototype belongs in `research/experiments/prototypes/mn-003-effective-context-capacity/`.
+Status: active baseline implementation. The bounded prototype belongs in `research/experiments/prototypes/mn-003-effective-context-capacity/`.
 
-1. Establish a hypothesis for reliable task-performance degradation as controlled context pressure increases, distinct from advertised context-window size.
-2. Select one or both MN-002-qualified capability baselines and an unmodified-context measurement baseline.
-3. Define controlled variables, beginning with context length and potentially later relevant-information density, evidence position, and distributed evidence.
-4. Define task families, metrics, degradation-curve analysis, and success criteria before any intervention.
-5. Measure the baseline before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
-6. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.
+1. ECC-001 establishes a falsifiable direct-context degradation hypothesis, 20 deterministic Context Retrieval cases, and a controlled token-length ladder.
+2. ECC-001 supports both MN-002-qualified capability baselines and fixes midpoint evidence, generation, evaluation, model, and runtime controls.
+3. The canonical runner and offline validator retain actual per-model token counts, raw evidence, degradation curves, and threshold metrics.
+4. Produce and validate canonical complete evidence from a clean committed definition.
+5. Interpret the bounded result before extending task difficulty or other controlled dimensions.
+6. Measure a baseline limitation before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
+7. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.
