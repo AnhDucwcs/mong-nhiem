@@ -10,12 +10,13 @@ Status: completed and frozen. MCB v0.3.0 is the canonical capability-qualificati
 
 ## MN-003 — Effective Context Capacity
 
-Status: active baseline research. ECC-001 infrastructure and canonical measurement are complete; MN-003 remains open because the first experiment did not locate a degradation boundary.
+Status: active baseline research. ECC-001 and ECC-002 infrastructure and canonical measurements are complete; MN-003 remains open while direct-context evidence is extended without an architecture intervention.
 
 1. ECC-001 establishes a falsifiable direct-context degradation hypothesis, 20 deterministic Context Retrieval cases, and a controlled token-length ladder.
 2. ECC-001 supports both MN-002-qualified capability baselines and fixes midpoint evidence, generation, evaluation, model, and runtime controls.
 3. The canonical runner and offline validator retain actual per-model token counts, raw evidence, degradation curves, and threshold metrics.
 4. Canonical complete evidence from both qualified models has been produced and validated from clean commit `701fb1fe417bde7db6f4749479955c37a734616d`.
-5. ECC-001 found stable 1.00 accuracy through 16,384 requested tokens. Treat this as a tested lower bound and define a higher-information direct-context experiment before extending task difficulty or another controlled dimension.
-6. Measure a baseline limitation before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
-7. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.
+5. ECC-001 found stable 1.00 accuracy through 16,384 requested tokens. ECC-002 then increased only semantic interference by placing the unmarked target among same-template confusable registry records; its frozen fingerprint is `824ba4d6df62f8ddf4a49d90a2e2d4d44211399c730c831f2bf0338ba8e5c7cf`.
+6. ECC-002 measured a monotonic Llama 3.2 3B curve from 1.00 to 0.85 (ECC95 = 4,096; ECC90 = 8,192; ECC80 >= 16,384 tested tokens) while Qwen3-4B remained 1.00 through the ladder (all three thresholds right-censored >= 16,384). This is direct-context evidence, not a production-model selection or architecture result.
+7. Continue with one bounded direct-context pressure dimension or harder inherited capability before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
+8. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.

@@ -1,0 +1,166 @@
+{
+  "run_id": "20260827T125047Z-ecc-002-llama-3.2-3b-6feee9c8",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 120,
+    "observed_results": 120
+  },
+  "total_results": 120,
+  "invalid_results": 0,
+  "baseline_context_level": 512,
+  "baseline_accuracy": 1.0,
+  "levels": [
+    {
+      "requested_input_tokens": 512,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 480,
+      "actual_input_tokens_max": 509,
+      "runtime": {
+        "count": 20,
+        "median_total_ms": 555.8915,
+        "min_total_ms": 533.523,
+        "max_total_ms": 621.717
+      }
+    },
+    {
+      "requested_input_tokens": 1024,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 992,
+      "actual_input_tokens_max": 1024,
+      "runtime": {
+        "count": 20,
+        "median_total_ms": 973.5915,
+        "min_total_ms": 932.67,
+        "max_total_ms": 1028.001
+      }
+    },
+    {
+      "requested_input_tokens": 2048,
+      "cases": 20,
+      "passed": 19,
+      "accuracy": 0.95,
+      "relative_accuracy": 0.95,
+      "actual_input_tokens_min": 2014,
+      "actual_input_tokens_max": 2048,
+      "runtime": {
+        "count": 20,
+        "median_total_ms": 1843.6095,
+        "min_total_ms": 1728.776,
+        "max_total_ms": 2032.921
+      }
+    },
+    {
+      "requested_input_tokens": 4096,
+      "cases": 20,
+      "passed": 19,
+      "accuracy": 0.95,
+      "relative_accuracy": 0.95,
+      "actual_input_tokens_min": 4064,
+      "actual_input_tokens_max": 4096,
+      "runtime": {
+        "count": 20,
+        "median_total_ms": 3751.514,
+        "min_total_ms": 3466.856,
+        "max_total_ms": 4796.173
+      }
+    },
+    {
+      "requested_input_tokens": 8192,
+      "cases": 20,
+      "passed": 18,
+      "accuracy": 0.9,
+      "relative_accuracy": 0.9,
+      "actual_input_tokens_min": 8166,
+      "actual_input_tokens_max": 8189,
+      "runtime": {
+        "count": 20,
+        "median_total_ms": 8034.407999999999,
+        "min_total_ms": 7614.202,
+        "max_total_ms": 10419.085
+      }
+    },
+    {
+      "requested_input_tokens": 16384,
+      "cases": 20,
+      "passed": 17,
+      "accuracy": 0.85,
+      "relative_accuracy": 0.85,
+      "actual_input_tokens_min": 16349,
+      "actual_input_tokens_max": 16381,
+      "runtime": {
+        "count": 20,
+        "median_total_ms": 20294.492,
+        "min_total_ms": 19718.419,
+        "max_total_ms": 29787.539
+      }
+    }
+  ],
+  "ecc": {
+    "ECC95": 4096,
+    "ECC90": 8192,
+    "ECC80": 16384,
+    "status": "right_censored",
+    "right_censored_thresholds": [
+      "ECC80"
+    ],
+    "rule": "contiguous tested prefix; no interpolation"
+  },
+  "non_monotonic": false,
+  "capability": {
+    "interpretation": "direct-context confusable retrieval accuracy only"
+  },
+  "runtime": {
+    "median_total_ms": 2749.8885,
+    "per_context_level": [
+      {
+        "requested_input_tokens": 512,
+        "count": 20,
+        "median_total_ms": 555.8915,
+        "min_total_ms": 533.523,
+        "max_total_ms": 621.717
+      },
+      {
+        "requested_input_tokens": 1024,
+        "count": 20,
+        "median_total_ms": 973.5915,
+        "min_total_ms": 932.67,
+        "max_total_ms": 1028.001
+      },
+      {
+        "requested_input_tokens": 2048,
+        "count": 20,
+        "median_total_ms": 1843.6095,
+        "min_total_ms": 1728.776,
+        "max_total_ms": 2032.921
+      },
+      {
+        "requested_input_tokens": 4096,
+        "count": 20,
+        "median_total_ms": 3751.514,
+        "min_total_ms": 3466.856,
+        "max_total_ms": 4796.173
+      },
+      {
+        "requested_input_tokens": 8192,
+        "count": 20,
+        "median_total_ms": 8034.407999999999,
+        "min_total_ms": 7614.202,
+        "max_total_ms": 10419.085
+      },
+      {
+        "requested_input_tokens": 16384,
+        "count": 20,
+        "median_total_ms": 20294.492,
+        "min_total_ms": 19718.419,
+        "max_total_ms": 29787.539
+      }
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-Definition frozen; deterministic runner, validator, unit tests, smoke evidence, and canonical model evidence are pending. ECC-002 is a bounded MN-003 direct-context experiment, not a context-management intervention.
+Definition, deterministic tooling, smoke evidence, and canonical full-run evidence are complete for both qualified models. See the [ECC-002 results](reports/ecc-002-results.md). MN-003 remains active: ECC-002 provides a measurable Llama direct-context degradation curve, while Qwen remains right-censored at the tested ceiling.
 
 ## Hypothesis and falsification value
 
@@ -38,7 +38,7 @@ Runtime remains descriptive, not a performance benchmark. Each context level ret
 
 ## Reproduction and retention
 
-After implementation, validate offline evidence with:
+Validate offline evidence with:
 
 ```powershell
 .venv\Scripts\python.exe research\experiments\prototypes\mn-003-effective-context-capacity\experiments\ecc-002-confusable-context-retrieval\scripts\validate_ecc002.py
