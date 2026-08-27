@@ -2,7 +2,9 @@
 
 ## Status
 
-Definition frozen; runner, validator, tests, smoke evidence, and canonical results are pending. ECC-003 is a bounded direct-context experiment under MN-003, not a context-management intervention.
+Complete canonical evidence is retained and offline-validated for both MN-002-qualified capability baselines. The frozen definition fingerprint is `9c7e541c2810fa0e7d063b45f94312d434d58c87e965131c90dff3e0613345f2`.
+
+ECC-003 is a bounded direct-context experiment under MN-003, not a context-management intervention. It found position-sensitive behavior for Llama 3.2 3B, especially at 16,384 tested tokens, while Qwen3-4B remained stable at the available resolution. See the [canonical results](reports/ecc-003-results.md).
 
 ## Hypothesis
 
@@ -24,3 +26,17 @@ Each result records actual model tokens, requested/actual position, before/after
 ## Non-goals
 
 ECC-003 does not implement or select retrieval, RAG, memory, summarization, compression, routing, embeddings, semantic search, external state, or an architecture. It measures behavioral direct-context sensitivity only.
+
+## Reproduction and validation
+
+Use the canonical runner with a qualified model selection, for example:
+
+```powershell
+.venv\Scripts\python.exe scripts\run_ecc003.py --model llama-3.2-3b --output-dir <run-output>
+.venv\Scripts\python.exe scripts\run_ecc003.py --model qwen3-4b --restart-server-per-position --output-dir <run-output>
+.venv\Scripts\python.exe scripts\validate_ecc003.py runs\<run-id>
+```
+
+The Qwen canonical run restarts the otherwise identical local server process between position batches to release VRAM on the RTX 3050 Laptop 4 GB host. This lifecycle control is recorded in run metadata; it does not change the frozen prompt, case generator, model, context reserve, or inference parameters. Request timing excludes server startup and remains descriptive evidence only.
+
+The offline validator replays deterministic generation and checks schemas, definition fingerprint, complete case/level/position coverage, no duplicate combinations, target/distractor and placement controls, token accounting and overflow rejection, raw/evaluated answer consistency, failure analysis, and recomputed summaries/ECC metrics. The retained canonical evidence contains raw request/response records, metadata, diagnostics, and summaries for each model.

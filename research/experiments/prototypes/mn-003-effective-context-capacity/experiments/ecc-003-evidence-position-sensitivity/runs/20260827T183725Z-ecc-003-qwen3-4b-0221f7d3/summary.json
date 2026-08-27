@@ -1,0 +1,569 @@
+{
+  "run_id": "20260827T183725Z-ecc-003-qwen3-4b-0221f7d3",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 360,
+    "observed_results": 360
+  },
+  "total_results": 360,
+  "invalid_results": 0,
+  "positions": [
+    {
+      "position": "early",
+      "baseline_context_level": 512,
+      "baseline_accuracy": 1.0,
+      "levels": [
+        {
+          "requested_input_tokens": 512,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 474,
+          "actual_input_tokens_max": 500,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 984.4525,
+            "min_total_ms": 936.158,
+            "max_total_ms": 1120.874
+          }
+        },
+        {
+          "requested_input_tokens": 1024,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 981,
+          "actual_input_tokens_max": 1023,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 1388.6605,
+            "min_total_ms": 1324.15,
+            "max_total_ms": 1622.678
+          }
+        },
+        {
+          "requested_input_tokens": 2048,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 2006,
+          "actual_input_tokens_max": 2043,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 2794.3025,
+            "min_total_ms": 2566.68,
+            "max_total_ms": 3691.181
+          }
+        },
+        {
+          "requested_input_tokens": 4096,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 4047,
+          "actual_input_tokens_max": 4094,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 5628.958500000001,
+            "min_total_ms": 5395.04,
+            "max_total_ms": 6770.963
+          }
+        },
+        {
+          "requested_input_tokens": 8192,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 8150,
+          "actual_input_tokens_max": 8187,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 11079.878499999999,
+            "min_total_ms": 10757.799,
+            "max_total_ms": 14073.489
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 16326,
+          "actual_input_tokens_max": 16384,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 28396.4125,
+            "min_total_ms": 25913.348,
+            "max_total_ms": 37002.594
+          }
+        }
+      ],
+      "ecc": {
+        "ECC95": 16384,
+        "ECC90": 16384,
+        "ECC80": 16384,
+        "status": "right_censored",
+        "right_censored_thresholds": [
+          "ECC95",
+          "ECC90",
+          "ECC80"
+        ],
+        "rule": "contiguous tested prefix; no interpolation"
+      },
+      "non_monotonic": false
+    },
+    {
+      "position": "middle",
+      "baseline_context_level": 512,
+      "baseline_accuracy": 1.0,
+      "levels": [
+        {
+          "requested_input_tokens": 512,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 475,
+          "actual_input_tokens_max": 500,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 1057.8235,
+            "min_total_ms": 874.765,
+            "max_total_ms": 1211.699
+          }
+        },
+        {
+          "requested_input_tokens": 1024,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 982,
+          "actual_input_tokens_max": 1023,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 1774.181,
+            "min_total_ms": 1640.315,
+            "max_total_ms": 1986.387
+          }
+        },
+        {
+          "requested_input_tokens": 2048,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 2001,
+          "actual_input_tokens_max": 2042,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 2760.692,
+            "min_total_ms": 2420.497,
+            "max_total_ms": 3162.436
+          }
+        },
+        {
+          "requested_input_tokens": 4096,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 4042,
+          "actual_input_tokens_max": 4093,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 5474.681500000001,
+            "min_total_ms": 4975.228,
+            "max_total_ms": 8465.762
+          }
+        },
+        {
+          "requested_input_tokens": 8192,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 8133,
+          "actual_input_tokens_max": 8191,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 11277.5715,
+            "min_total_ms": 10963.123,
+            "max_total_ms": 16048.293
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 16282,
+          "actual_input_tokens_max": 16384,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 29198.013,
+            "min_total_ms": 27223.424,
+            "max_total_ms": 35631.578
+          }
+        }
+      ],
+      "ecc": {
+        "ECC95": 16384,
+        "ECC90": 16384,
+        "ECC80": 16384,
+        "status": "right_censored",
+        "right_censored_thresholds": [
+          "ECC95",
+          "ECC90",
+          "ECC80"
+        ],
+        "rule": "contiguous tested prefix; no interpolation"
+      },
+      "non_monotonic": false
+    },
+    {
+      "position": "late",
+      "baseline_context_level": 512,
+      "baseline_accuracy": 1.0,
+      "levels": [
+        {
+          "requested_input_tokens": 512,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 476,
+          "actual_input_tokens_max": 500,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 855.1990000000001,
+            "min_total_ms": 831.321,
+            "max_total_ms": 973.437
+          }
+        },
+        {
+          "requested_input_tokens": 1024,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 983,
+          "actual_input_tokens_max": 1024,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 1705.281,
+            "min_total_ms": 1510.575,
+            "max_total_ms": 2025.22
+          }
+        },
+        {
+          "requested_input_tokens": 2048,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 2000,
+          "actual_input_tokens_max": 2043,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 2558.1,
+            "min_total_ms": 2421.158,
+            "max_total_ms": 3300.033
+          }
+        },
+        {
+          "requested_input_tokens": 4096,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 4056,
+          "actual_input_tokens_max": 4096,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 5353.575,
+            "min_total_ms": 4866.927,
+            "max_total_ms": 5814.507
+          }
+        },
+        {
+          "requested_input_tokens": 8192,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 8120,
+          "actual_input_tokens_max": 8189,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 11199.332,
+            "min_total_ms": 10786.788,
+            "max_total_ms": 20935.401
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 20,
+          "passed": 20,
+          "accuracy": 1.0,
+          "relative_accuracy": 1.0,
+          "actual_input_tokens_min": 16296,
+          "actual_input_tokens_max": 16384,
+          "runtime": {
+            "count": 20,
+            "median_total_ms": 28657.1885,
+            "min_total_ms": 26600.136,
+            "max_total_ms": 35756.737
+          }
+        }
+      ],
+      "ecc": {
+        "ECC95": 16384,
+        "ECC90": 16384,
+        "ECC80": 16384,
+        "status": "right_censored",
+        "right_censored_thresholds": [
+          "ECC95",
+          "ECC90",
+          "ECC80"
+        ],
+        "rule": "contiguous tested prefix; no interpolation"
+      },
+      "non_monotonic": false
+    }
+  ],
+  "position_metrics": [
+    {
+      "requested_input_tokens": 512,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 1.0
+      },
+      "position_gap": 0.0,
+      "middle_penalty": 0.0
+    },
+    {
+      "requested_input_tokens": 1024,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 1.0
+      },
+      "position_gap": 0.0,
+      "middle_penalty": 0.0
+    },
+    {
+      "requested_input_tokens": 2048,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 1.0
+      },
+      "position_gap": 0.0,
+      "middle_penalty": 0.0
+    },
+    {
+      "requested_input_tokens": 4096,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 1.0
+      },
+      "position_gap": 0.0,
+      "middle_penalty": 0.0
+    },
+    {
+      "requested_input_tokens": 8192,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 1.0
+      },
+      "position_gap": 0.0,
+      "middle_penalty": 0.0
+    },
+    {
+      "requested_input_tokens": 16384,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 1.0
+      },
+      "position_gap": 0.0,
+      "middle_penalty": 0.0
+    }
+  ],
+  "failure_analysis": {
+    "total_failures": 0,
+    "distractor_code_failures": 0,
+    "other_output_failures": 0,
+    "selected_distractor_sides": {
+      "before": 0,
+      "after": 0
+    },
+    "nearby_distractor_selections": 0,
+    "repeated_case_ids_across_levels": [],
+    "repeated_case_ids_across_positions": []
+  },
+  "capability": {
+    "interpretation": "direct-context confusable retrieval accuracy only"
+  },
+  "runtime": {
+    "median_total_ms": 4279.054,
+    "by_context_position": [
+      {
+        "requested_input_tokens": 512,
+        "position": "early",
+        "count": 20,
+        "median_total_ms": 984.4525,
+        "min_total_ms": 936.158,
+        "max_total_ms": 1120.874
+      },
+      {
+        "requested_input_tokens": 512,
+        "position": "middle",
+        "count": 20,
+        "median_total_ms": 1057.8235,
+        "min_total_ms": 874.765,
+        "max_total_ms": 1211.699
+      },
+      {
+        "requested_input_tokens": 512,
+        "position": "late",
+        "count": 20,
+        "median_total_ms": 855.1990000000001,
+        "min_total_ms": 831.321,
+        "max_total_ms": 973.437
+      },
+      {
+        "requested_input_tokens": 1024,
+        "position": "early",
+        "count": 20,
+        "median_total_ms": 1388.6605,
+        "min_total_ms": 1324.15,
+        "max_total_ms": 1622.678
+      },
+      {
+        "requested_input_tokens": 1024,
+        "position": "middle",
+        "count": 20,
+        "median_total_ms": 1774.181,
+        "min_total_ms": 1640.315,
+        "max_total_ms": 1986.387
+      },
+      {
+        "requested_input_tokens": 1024,
+        "position": "late",
+        "count": 20,
+        "median_total_ms": 1705.281,
+        "min_total_ms": 1510.575,
+        "max_total_ms": 2025.22
+      },
+      {
+        "requested_input_tokens": 2048,
+        "position": "early",
+        "count": 20,
+        "median_total_ms": 2794.3025,
+        "min_total_ms": 2566.68,
+        "max_total_ms": 3691.181
+      },
+      {
+        "requested_input_tokens": 2048,
+        "position": "middle",
+        "count": 20,
+        "median_total_ms": 2760.692,
+        "min_total_ms": 2420.497,
+        "max_total_ms": 3162.436
+      },
+      {
+        "requested_input_tokens": 2048,
+        "position": "late",
+        "count": 20,
+        "median_total_ms": 2558.1,
+        "min_total_ms": 2421.158,
+        "max_total_ms": 3300.033
+      },
+      {
+        "requested_input_tokens": 4096,
+        "position": "early",
+        "count": 20,
+        "median_total_ms": 5628.958500000001,
+        "min_total_ms": 5395.04,
+        "max_total_ms": 6770.963
+      },
+      {
+        "requested_input_tokens": 4096,
+        "position": "middle",
+        "count": 20,
+        "median_total_ms": 5474.681500000001,
+        "min_total_ms": 4975.228,
+        "max_total_ms": 8465.762
+      },
+      {
+        "requested_input_tokens": 4096,
+        "position": "late",
+        "count": 20,
+        "median_total_ms": 5353.575,
+        "min_total_ms": 4866.927,
+        "max_total_ms": 5814.507
+      },
+      {
+        "requested_input_tokens": 8192,
+        "position": "early",
+        "count": 20,
+        "median_total_ms": 11079.878499999999,
+        "min_total_ms": 10757.799,
+        "max_total_ms": 14073.489
+      },
+      {
+        "requested_input_tokens": 8192,
+        "position": "middle",
+        "count": 20,
+        "median_total_ms": 11277.5715,
+        "min_total_ms": 10963.123,
+        "max_total_ms": 16048.293
+      },
+      {
+        "requested_input_tokens": 8192,
+        "position": "late",
+        "count": 20,
+        "median_total_ms": 11199.332,
+        "min_total_ms": 10786.788,
+        "max_total_ms": 20935.401
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "early",
+        "count": 20,
+        "median_total_ms": 28396.4125,
+        "min_total_ms": 25913.348,
+        "max_total_ms": 37002.594
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "middle",
+        "count": 20,
+        "median_total_ms": 29198.013,
+        "min_total_ms": 27223.424,
+        "max_total_ms": 35631.578
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "late",
+        "count": 20,
+        "median_total_ms": 28657.1885,
+        "min_total_ms": 26600.136,
+        "max_total_ms": 35756.737
+      }
+    ]
+  }
+}
