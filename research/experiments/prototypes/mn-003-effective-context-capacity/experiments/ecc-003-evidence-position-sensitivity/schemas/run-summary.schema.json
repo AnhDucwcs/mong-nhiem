@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
+  "required": ["run_id", "run_status", "coverage", "total_results", "invalid_results", "positions", "position_metrics", "failure_analysis", "capability", "runtime"],
+  "properties": {"run_id": {"type": "string"}, "run_status": {"enum": ["valid", "invalid"]}, "coverage": {"type": "object", "required": ["complete", "expected_results", "observed_results"]}, "total_results": {"type": "integer", "minimum": 0}, "invalid_results": {"type": "integer", "minimum": 0}, "positions": {"type": "array", "minItems": 1}, "position_metrics": {"type": "array", "minItems": 1}, "failure_analysis": {"type": "object", "required": ["total_failures", "distractor_code_failures", "other_output_failures", "selected_distractor_sides", "nearby_distractor_selections", "repeated_case_ids_across_levels", "repeated_case_ids_across_positions"]}, "capability": {"type": "object", "required": ["interpretation"]}, "runtime": {"type": "object", "required": ["median_total_ms", "by_context_position"]}}, "additionalProperties": false
+}
