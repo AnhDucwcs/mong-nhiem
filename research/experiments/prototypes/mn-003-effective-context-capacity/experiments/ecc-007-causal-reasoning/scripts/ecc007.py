@@ -11,6 +11,8 @@ from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
+import jsonschema
+
 ROOT = Path(__file__).resolve().parents[1]
 DEFINITION, CONFIGS, RUNS = ROOT / "definition", ROOT / "configs", ROOT / "runs"
 ECC006 = ROOT.parent / "ecc-006-state-tracking" / "scripts"
@@ -242,6 +244,12 @@ def validate_run(run: Path) -> dict[str, Any]:
     definition, cases = load_definition()
     metadata, summary = load_json(run / "metadata.json"), load_json(run / "summary.json")
     records = [json.loads(line) for line in (run / "results.jsonl").read_text(encoding="utf-8").splitlines() if line]
+    jsonschema.validate(definition, load_json(ROOT / "schemas" / "experiment-definition.schema.json"))
+    jsonschema.validate(metadata, load_json(ROOT / "schemas" / "run-metadata.schema.json"))
+    jsonschema.validate(summary, load_json(ROOT / "schemas" / "run-summary.schema.json"))
+    case_schema = load_json(ROOT / "schemas" / "case-result.schema.json")
+    for row in records:
+        jsonschema.validate(row, case_schema)
     if metadata["definition_fingerprint"] != definition_fingerprint():
         raise ContractError("definition fingerprint mismatch")
     selection = metadata["selection"]

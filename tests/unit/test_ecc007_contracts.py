@@ -4,6 +4,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import jsonschema
 import pytest
 
 SCRIPTS = Path(__file__).resolve().parents[2] / "research" / "experiments" / "prototypes" / "mn-003-effective-context-capacity" / "experiments" / "ecc-007-causal-reasoning" / "scripts"
@@ -34,6 +35,19 @@ def test_distractors_are_unique_and_disconnected() -> None:
     _context, _content, _prefix, distractors = ecc007.compose(case, 20, 20260828, 10)
     assert len(distractors) == len(set(distractors))
     assert not ecc007.reachable(distractors, case["source"], case["target"])
+
+
+def test_composition_is_deterministic_with_stable_hash() -> None:
+    _definition, cases = ecc007.load_definition()
+    first = ecc007.compose(cases[0], 20, 20260828, 10)[1]
+    second = ecc007.compose(cases[0], 20, 20260828, 10)[1]
+    assert first == second
+
+
+def test_case_result_schema_rejects_missing_contract_fields() -> None:
+    schema = ecc007.load_json(ecc007.ROOT / "schemas" / "case-result.schema.json")
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate({}, schema)
 
 
 def test_summary_uses_contiguous_prefix_and_right_censoring() -> None:
