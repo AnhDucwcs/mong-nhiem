@@ -80,10 +80,11 @@ def summarize(run_id: str, records: list[dict[str, Any]], levels: list[int], pos
         metrics.append({"requested_input_tokens":level,"accuracy_by_position":accuracy,"early_minus_late":gap}); paired.append({"requested_input_tokens":level,"early_vs_late":transition})
     failures = [row for row in records if not row["error"] and not row["truncated"] and not row["evaluation"]["passed"]]
     failure = {"total_failures":len(failures),"by_context_level":{str(level):sum(row["requested_input_tokens"]==level for row in failures) for level in levels},"by_position":{position:sum(row["requested_evidence_position"]==position for row in failures) for position in positions_},"by_diagnostic_class":{kind:sum(row["failure"] and row["failure"]["kind"]==kind for row in failures) for kind in definition["failure_classes"]},"numeric_suffix_matches_expected":sum(row["output"]["raw_text"].strip() == row["expected_answer"].split("-")[1] for row in failures)}
-    endpoint = next(item for item in metrics if item["requested_input_tokens"] == 16384); transitions = next(item for item in paired if item["requested_input_tokens"] == 16384)["early_vs_late"]
-    if not complete: status = "unresolved"
-    elif endpoint["early_minus_late"] >= .10 and transitions["early_pass_late_fail"] >= 4 and transitions["early_pass_late_fail"] > transitions["early_fail_late_pass"]: status = "position_sensitivity_observed"
-    elif abs(endpoint["early_minus_late"]) <= .10 and abs(transitions["early_pass_late_fail"]-transitions["early_fail_late_pass"]) < 4: status = "stable"
+    endpoint = next((item for item in metrics if item["requested_input_tokens"] == 16384), None)
+    transitions = next((item for item in paired if item["requested_input_tokens"] == 16384), None)
+    if not complete or endpoint is None or transitions is None: status = "unresolved"
+    elif endpoint["early_minus_late"] >= .10 and transitions["early_vs_late"]["early_pass_late_fail"] >= 4 and transitions["early_vs_late"]["early_pass_late_fail"] > transitions["early_vs_late"]["early_fail_late_pass"]: status = "position_sensitivity_observed"
+    elif abs(endpoint["early_minus_late"]) <= .10 and abs(transitions["early_vs_late"]["early_pass_late_fail"]-transitions["early_vs_late"]["early_fail_late_pass"]) < 4: status = "stable"
     else: status = "possible_position_sensitivity"
     runtime = [{"requested_input_tokens":level,"position":item["position"],**next(row for row in item["levels"] if row["requested_input_tokens"]==level)["runtime"]} for level in levels for item in positions_out]
     return {"run_id":run_id,"run_status":"valid" if complete else "invalid","coverage":{"complete":complete,"expected_results":expected,"observed_results":len(records)},"total_results":len(records),"invalid_results":invalid,"positions":positions_out,"position_metrics":metrics,"paired_transitions":paired,"failure_analysis":failure,"interpretation":{"status":status,"rule":definition["interpretation"]},"runtime":{"by_context_position":runtime}}

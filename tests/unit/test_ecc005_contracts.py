@@ -42,6 +42,20 @@ def test_complete_summary_classifies_directional_endpoint() -> None:
     assert summary["paired_transitions"][1]["early_vs_late"]["early_pass_late_fail"] == 5
 
 
+def test_smoke_summary_without_16k_endpoint_is_unresolved() -> None:
+    definition, cases = ecc005.load_definition()
+    records = []
+    for position in ("early", "late"):
+        for case in cases[:2]:
+            records.append({"case_id": case["id"], "requested_input_tokens": 8192,
+                            "requested_evidence_position": position, "error": None, "truncated": False,
+                            "actual_input_tokens": 8191, "timing": {"total_ms": 1.0},
+                            "evaluation": {"passed": True}, "failure": None,
+                            "output": {"raw_text": case["answer"]}, "expected_answer": case["answer"]})
+    summary = ecc005.summarize("smoke", records, [8192], ["early", "late"], [case["id"] for case in cases[:2]], False, definition)
+    assert summary["interpretation"]["status"] == "unresolved"
+
+
 def test_rejects_historical_target_overlap(monkeypatch: pytest.MonkeyPatch) -> None:
     original = ecc005.load_json
     cases_path = ecc005.DEFINITION / "cases.json"
