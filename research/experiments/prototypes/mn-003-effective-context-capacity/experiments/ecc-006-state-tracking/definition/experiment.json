@@ -10,7 +10,7 @@
   "case_generation": {"inventory": "cases.json", "semantic_cases": 6, "seed": 20260828, "generator_version": 1, "target_answer_uniqueness": true, "no_conflicting_target_events": true, "model_specific_budgeting": true},
   "token_budget": {"configured_context_size": 16896, "output_tokens": 16, "maximum_target_shortfall_tokens": 96, "silent_truncation_allowed": false},
   "inference": {"temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
-  "evaluation": {"method": "normalized_exact_match", "fuzzy_matching": false, "llm_judge": false},
+  "evaluation": {"method": "explicit_accepted_answer_set", "accepted_forms": ["final state token", "The current state of <exact target entity> is <exact final state>"], "fuzzy_matching": false, "llm_judge": false},
   "failure_classes": ["runtime_or_infrastructure_error", "invalid_case", "malformed_response", "incorrect_state"],
   "metrics": {"accuracy_by_context_length": true, "relative_accuracy": "accuracy(level) / accuracy(512)", "ecc_thresholds": ["ECC95", "ECC90", "ECC80"], "contiguous_prefix": true, "no_interpolation": true},
   "success_criteria": ["deterministic cases", "token-aware construction", "fixed update count and placement", "no silent truncation", "exact evaluation", "raw per-case evidence", "recomputable summary", "failure separation", "clean-worktree canonical run"],

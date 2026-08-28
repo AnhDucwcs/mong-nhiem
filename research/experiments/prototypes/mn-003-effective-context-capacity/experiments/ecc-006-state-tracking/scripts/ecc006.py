@@ -64,9 +64,11 @@ def distractor(case_id: str, index: int, side: str, seed: int) -> list[str]:
     return [f"State update: {entity} changed to {states[(digest[offset] + offset) % len(states)]}." for offset in range(4)]
 
 
-def compose(case: dict[str, Any], histories: int, seed: int) -> tuple[str, str, str, list[str]]:
-    before = [line for index in range(1, histories + 1) for line in distractor(case["id"], index, "before", seed)]
-    after = [line for index in range(1, histories + 1) for line in distractor(case["id"], index, "after", seed)]
+def compose(case: dict[str, Any], histories: int, seed: int, before_histories: int | None = None) -> tuple[str, str, str, list[str]]:
+    before_histories = histories // 2 if before_histories is None else before_histories
+    after_histories = histories - before_histories
+    before = [line for index in range(1, before_histories + 1) for line in distractor(case["id"], index, "before", seed)]
+    after = [line for index in range(1, after_histories + 1) for line in distractor(case["id"], index, "after", seed)]
     target = target_events(case)
     prefix = "Context event log:\n" + ("\n".join(before) + "\n" if before else "")
     context = prefix + "\n".join(target) + ("\n" + "\n".join(after) if after else "")
@@ -78,7 +80,7 @@ def compose(case: dict[str, Any], histories: int, seed: int) -> tuple[str, str, 
 class BuiltCase:
     case_id: str; requested_input_tokens: int; actual_input_tokens: int; content_tokens: int
     prompt_overhead_tokens: int; context_tokens: int; evidence_start_token: int; evidence_position_ratio: float
-    distractor_histories: int; relevant_fact: str; expected_answer: str; context_sha256: str; content: str
+    distractor_histories: int; distractor_histories_before: int; relevant_fact: str; expected_answer: str; context_sha256: str; content: str
 
 
 def build_case(runtime: TokenRuntime, case: dict[str, Any], target: int, definition: dict[str, Any]) -> BuiltCase:
@@ -93,22 +95,36 @@ def build_case(runtime: TokenRuntime, case: dict[str, Any], target: int, definit
         middle = (low + high) // 2
         if count(middle) <= target: low = middle
         else: high = middle
-    context, content, prefix, _ = compose(case, low, seed)
-    actual, content_tokens, context_tokens = runtime.count_prompt(content), runtime.count_text(content), runtime.count_text(context)
+    candidates=[]
+    for before_histories in range(low + 1):
+        context, content, prefix, _ = compose(case, low, seed, before_histories)
+        actual_candidate=runtime.count_prompt(content)
+        if actual_candidate <= target:
+            ratio_candidate=runtime.count_text(prefix) / runtime.count_text(context)
+            candidates.append((abs(ratio_candidate - definition["controls"]["evidence_position"]["target_ratio"]), context, content, prefix, actual_candidate, before_histories))
+    if not candidates: raise ContractError("no valid midpoint placement candidate")
+    _distance, context, content, prefix, actual, _before = min(candidates, key=lambda value: value[0])
+    content_tokens, context_tokens = runtime.count_text(content), runtime.count_text(context)
     start, ratio, shortfall = runtime.count_text(prefix), runtime.count_text(prefix) / context_tokens, target - actual
     budget, controls = definition["token_budget"], definition["controls"]
     if not 0 <= shortfall <= budget["maximum_target_shortfall_tokens"]: raise ContractError("token shortfall violates definition")
     if abs(ratio - controls["evidence_position"]["target_ratio"]) > controls["evidence_position"]["allowed_absolute_error"]: raise ContractError("target sequence violates midpoint policy")
     if actual + budget["output_tokens"] > budget["configured_context_size"]: raise ContractError("context overflow")
-    return BuiltCase(case["id"], target, actual, content_tokens, actual-content_tokens, context_tokens, start, round(ratio,6), low, "\n".join(target_events(case)), case["answer"], hashlib.sha256(content.encode()).hexdigest(), content)
+    return BuiltCase(case["id"], target, actual, content_tokens, actual-content_tokens, context_tokens, start, round(ratio,6), low, _before, "\n".join(target_events(case)), case["answer"], hashlib.sha256(content.encode()).hexdigest(), content)
 
 
-def evaluate(expected: str, raw: str) -> tuple[bool, str]: return ecc001.evaluate(expected, raw)
+def evaluate(case: dict[str, Any], raw: str) -> tuple[bool, str]:
+    normalized = ecc001.normalize_answer(raw)
+    accepted = {
+        ecc001.normalize_answer(case["answer"]),
+        ecc001.normalize_answer(f"The current state of {case['entity']} is {case['answer']}"),
+    }
+    return normalized in accepted, normalized
 
 
-def failure(expected: str, raw: str, error: dict[str, Any] | None) -> str | None:
+def failure(case: dict[str, Any], raw: str, error: dict[str, Any] | None) -> str | None:
     if error: return "runtime_or_infrastructure_error"
-    passed, normalized = evaluate(expected, raw)
+    passed, normalized = evaluate(case, raw)
     if passed: return None
     return "malformed_response" if not normalized.isalpha() or " " in normalized else "incorrect_state"
 
@@ -147,8 +163,8 @@ def validate_run(run: Path) -> dict[str, Any]:
     if {(row["case_id"],row["requested_input_tokens"]) for row in records} != expected or len(records) != len(expected): raise ContractError("coverage mismatch")
     lookup={case["id"]:case for case in cases}
     for row in records:
-        case=lookup[row["case_id"]]; _ctx,content,_prefix,_distractors=compose(case,row["distractor_histories"],definition["case_generation"]["seed"])
-        passed,normalized=evaluate(case["answer"],row["output"]["raw_text"])
+        case=lookup[row["case_id"]]; _ctx,content,_prefix,_distractors=compose(case,row["distractor_histories"],definition["case_generation"]["seed"],row["distractor_histories_before"])
+        passed,normalized=evaluate(case,row["output"]["raw_text"])
         if row["request"]["messages"][0]["content"] != content or hashlib.sha256(content.encode()).hexdigest()!=row["context_sha256"] or row["expected_answer"]!=case["answer"] or row["relevant_fact"]!="\n".join(target_events(case)) or row["output"]["normalized_text"]!=normalized or row["evaluation"]!={"passed":passed,"score":float(passed)}: raise ContractError("case replay or evaluation mismatch")
         if row["truncated"] or row["actual_input_tokens"]+row["output_token_budget"]>row["configured_context_size"]: raise ContractError("invalid context result")
     recomputed=summarize(metadata["run_id"],records,selection["context_levels"],selection["case_ids"],selection["complete_definition_coverage"])

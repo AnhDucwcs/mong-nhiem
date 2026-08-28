@@ -112,7 +112,7 @@ def run(args: argparse.Namespace) -> Path:
         command_output(["git", "status", "--porcelain", "--untracked-files=all"]).strip()
     )
     created = dt.datetime.now(dt.UTC)
-    run_id = f"{created:%Y%m%dT%H%M%SZ}-ecc-001-{args.model}-{uuid.uuid4().hex[:8]}"
+    run_id = f"{created:%Y%m%dT%H%M%SZ}-ecc-006-{args.model}-{uuid.uuid4().hex[:8]}"
     run_dir = args.output_dir / run_id
     raw_dir = run_dir / "raw"
     raw_dir.mkdir(parents=True)
@@ -188,7 +188,7 @@ def run(args: argparse.Namespace) -> Path:
                         raise ecc006.ContractError(
                             f"{case['id']} target {level}: preflight={built.actual_input_tokens}, API={observed_prompt_tokens}"
                         )
-                    passed, normalized = ecc006.evaluate(case["answer"], raw_text)
+                    passed, normalized = ecc006.evaluate(case, raw_text)
                 except (KeyError, OSError, TimeoutError, urllib.error.URLError, ValueError, ecc006.ContractError) as exc:
                     request_payload = {
                         "messages": [{"role": "user", "content": built.content}],
@@ -206,6 +206,7 @@ def run(args: argparse.Namespace) -> Path:
                     "request": request_payload,
                     "output": {"raw_text": raw_text, "normalized_text": normalized, "response": response},
                     "evaluation": {"passed": passed, "score": float(passed)},
+                    "failure": ecc006.failure(case, raw_text, error),
                     "truncated": False,
                     "timing": {"total_ms": round((time.perf_counter() - started) * 1000, 3)},
                     "error": error,
