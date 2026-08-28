@@ -1,0 +1,59 @@
+{
+  "id": "ecc-003-evidence-position-sensitivity",
+  "version": "0.1.0",
+  "task_family": "single_fact_confusable_context_retrieval",
+  "hypothesis": "With direct confusable registry context held constant, normalized-exact retrieval accuracy may differ by the target record's model-token-relative position as requested context length increases. A sustained middle deficit relative to early and late conditions is behavioral evidence consistent with lost-in-the-middle, not a causal attention explanation.",
+  "null_result": "Accuracy may not depend materially on evidence position in the tested range; stable or similarly degrading positions are valid evidence.",
+  "independent_variables": {
+    "requested_input_tokens": {"levels": [512, 1024, 2048, 4096, 8192, 16384], "unit": "model_input_tokens"},
+    "evidence_position": {"levels": [{"id": "early", "target_ratio": 0.1}, {"id": "middle", "target_ratio": 0.5}, {"id": "late", "target_ratio": 0.9}], "unit": "relative_context_tokens", "allowed_absolute_error": 0.05}
+  },
+  "controlled_variables": [
+    "same ECC-002 semantic case inventory",
+    "one target record per case",
+    "same deterministic confusable registry-record generator v1",
+    "same record template for target and distractors",
+    "unique target and distractor entities/codes with no target leakage",
+    "fixed question template and answer complexity",
+    "temperature 0 and seed 42",
+    "16-token output budget",
+    "normalized exact-match evaluator"
+  ],
+  "case_generation": {
+    "inventory": "cases.json",
+    "semantic_cases": 20,
+    "seed": 20260827,
+    "distractor_generator_version": 1,
+    "record_template": "Registry entry: Project {entity} has access code {answer}.",
+    "middle_compatibility": "For a fixed pair count, middle uses the exact ECC-002 symmetric A-before/B-after record sequence. Tokenizer-specific terminal pair counts can differ across models and ECC-003 is not expected to be byte-identical to historical ECC-002 at every target.",
+    "model_specific_budgeting": "Each model receives a deterministic prefix of the same position-specific distractor sequence. Requested and actual counts are retained."
+  },
+  "token_budget": {"maximum_target_shortfall_tokens": 160, "silent_truncation_allowed": false, "configured_context_size": 16896, "output_tokens": 16, "position_spacing_note": "Natural same-template records are discrete. The 512-token early condition uses the nearest valid token-position allocation; 160 tokens preserves it without changing semantic content or permitting truncation."},
+  "inference": {"temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
+  "evaluation": {"method": "normalized_exact_match", "normalization": ["Unicode NFKC", "trim", "case-fold", "collapse whitespace", "remove terminal period/exclamation/question marks"], "fuzzy_matching": false, "llm_judge": false},
+  "metrics": {
+    "baseline": "shortest selected context level separately for each requested evidence position",
+    "relative_accuracy": "accuracy(position, level) / baseline_accuracy(position)",
+    "thresholds": [0.95, 0.9, 0.8],
+    "reliability_rule": "Each ECC threshold is the last level in that position's contiguous tested prefix meeting the threshold; a later isolated recovery does not raise ECC.",
+    "interpolation": false,
+    "right_censoring": "If a threshold holds at the largest tested level, report it as a tested lower bound rather than a measured failure boundary.",
+    "position_gap": "max_accuracy_position(level) - min_accuracy_position(level)",
+    "middle_penalty": "mean(early_accuracy(level), late_accuracy(level)) - middle_accuracy(level)"
+  },
+  "failure_analysis": {"nearby_distance_records": 2, "selected_distractor_relative_position": "relative record ordinal within the deterministic context; target/distractor model-token positions remain separately retained where measured"},
+  "success_criteria": [
+    "deterministic position-aware case construction",
+    "model-token evidence-position measurement within frozen tolerance",
+    "reproducible model-token budget construction",
+    "no silent truncation",
+    "deterministic exact evaluation",
+    "raw per-case evidence and deterministic failure classifications retained",
+    "accuracy and descriptive runtime aggregated by context level and position",
+    "position gap and middle penalty derivable from results",
+    "position-specific ECC thresholds and right-censoring derived only with complete data",
+    "same definition reusable across both qualified models",
+    "offline validation reproduces committed summaries"
+  ],
+  "non_goals": ["retrieval", "RAG", "memory", "summarization", "context compression", "context routing", "chunk selection", "semantic search", "embeddings", "external state", "architecture comparison"]
+}

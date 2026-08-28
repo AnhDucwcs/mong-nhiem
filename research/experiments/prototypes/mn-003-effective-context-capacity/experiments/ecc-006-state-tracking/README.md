@@ -1,0 +1,7 @@
+# ECC-006 — State Tracking under increasing context length
+
+ECC-006 is the completed canonical MN-003 State Tracking baseline. It measures Llama 3.2 3B on six deterministic cases across 512, 2,048, 8,192, and 16,384 requested input tokens (24 measured requests). One target entity has exactly four chronological state updates; the model must return its final state. The entire update sequence is placed by the fixed midpoint policy while same-template distractor histories scale the context. Only context length varies. Its fingerprint is `37f2dc1cc4cdfbf4a667c54f159bbd5203918f85f4d39001fa62ffcba379ac2e`.
+
+The experiment does not test retrieval, RAG, memory, compression, routing, or another architecture. It also does not sweep update count, target count, sequence distribution, position, or a semantic-pressure dimension. A future ECC-007 is not justified by an imperfect result alone: it would require completed valid ECC-006 evidence whose ambiguity cannot be resolved through retained artifacts, validation, or a tooling correction.
+
+The valid clean-worktree run has 2/6 pass at 512, 1/6 at 2,048, and 0/6 at both 8,192 and 16,384. All 21 failures are deterministic `incorrect_state` responses; there are no runtime failures, invalid cases, malformed responses, or truncation. This is a clear bounded degradation curve, so ECC-007 is not needed to establish this State Tracking baseline. See the [result report](reports/ecc-006-results.md).

@@ -1,0 +1,3 @@
+# ECC-007 pre-freeze calibration
+
+This directory is deliberately not canonical evidence. It compares deterministic two-hop and three-hop causal graphs at the short 512-token anchor to select one fixed hop count before the ECC-007 definition and fingerprint are frozen. Both candidates use balanced positive/negative reachability queries, the same relation wording, midpoint target placement, model/runtime contract, and exact YES/NO scorer. The selection rule is to choose the simplest candidate with a high enough non-floor short-context accuracy to leave observable headroom for a context-length curve; no canonical result may later change that difficulty.

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "cases": [
+    {"id": "ecc001-001", "entity": "Alder", "answer": "AX-4827"},
+    {"id": "ecc001-002", "entity": "Beryl", "answer": "BK-7314"},
+    {"id": "ecc001-003", "entity": "Cinder", "answer": "CM-2958"},
+    {"id": "ecc001-004", "entity": "Dovetail", "answer": "DP-8641"},
+    {"id": "ecc001-005", "entity": "Ember", "answer": "ER-5073"},
+    {"id": "ecc001-006", "entity": "Fallow", "answer": "FT-3186"},
+    {"id": "ecc001-007", "entity": "Garnet", "answer": "GV-9425"},
+    {"id": "ecc001-008", "entity": "Harbor", "answer": "HW-1769"},
+    {"id": "ecc001-009", "entity": "Iris", "answer": "IZ-6254"},
+    {"id": "ecc001-010", "entity": "Juniper", "answer": "JA-8037"},
+    {"id": "ecc001-011", "entity": "Kestrel", "answer": "KC-4592"},
+    {"id": "ecc001-012", "entity": "Lantern", "answer": "LF-2875"},
+    {"id": "ecc001-013", "entity": "Marble", "answer": "MG-9146"},
+    {"id": "ecc001-014", "entity": "Nimbus", "answer": "NJ-5368"},
+    {"id": "ecc001-015", "entity": "Orchid", "answer": "OL-7429"},
+    {"id": "ecc001-016", "entity": "Peregrine", "answer": "PN-3647"},
+    {"id": "ecc001-017", "entity": "Quartz", "answer": "QQ-8513"},
+    {"id": "ecc001-018", "entity": "Rowan", "answer": "RS-2964"},
+    {"id": "ecc001-019", "entity": "Solstice", "answer": "ST-6781"},
+    {"id": "ecc001-020", "entity": "Tamarind", "answer": "TY-4138"}
+  ]
+}

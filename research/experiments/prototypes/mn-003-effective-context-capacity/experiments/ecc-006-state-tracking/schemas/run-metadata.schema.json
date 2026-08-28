@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["run_id", "created_at", "experiment", "definition_fingerprint", "repository", "model", "runtime", "hardware", "inference", "selection", "command"],
+  "properties": {
+    "run_id": {"type": "string", "pattern": "ecc-001"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "experiment": {"type": "object", "required": ["id", "version"], "properties": {"id": {"const": "ecc-001-context-retrieval"}, "version": {"const": "0.1.0"}}, "additionalProperties": false},
+    "definition_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repository": {"type": "object", "required": ["commit", "dirty"], "properties": {"commit": {"type": "string", "minLength": 7}, "dirty": {"type": "boolean"}}, "additionalProperties": false},
+    "model": {"type": "object", "required": ["key", "name", "file", "size_bytes", "sha256", "qualified_by"], "properties": {"size_bytes": {"type": "integer", "minimum": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}, "additionalProperties": true},
+    "runtime": {"type": "object", "required": ["backend", "version", "build", "commit", "raw_version_output"]},
+    "hardware": {"type": "object", "required": ["os", "cpu", "ram_bytes", "gpu", "vram_bytes", "driver", "cuda"]},
+    "inference": {"type": "object", "required": ["temperature", "seed", "configured_context_size", "output_tokens", "threads", "batch_size", "parallel_slots", "flash_attention", "prompt_cache", "chat_template_kwargs"]},
+    "selection": {"type": "object", "required": ["context_levels", "case_ids", "complete_definition_coverage"], "properties": {"context_levels": {"type": "array", "minItems": 1, "items": {"type": "integer"}}, "case_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "complete_definition_coverage": {"type": "boolean"}}, "additionalProperties": false},
+    "command": {"type": "object", "required": ["server", "runner"]}
+  },
+  "additionalProperties": false
+}

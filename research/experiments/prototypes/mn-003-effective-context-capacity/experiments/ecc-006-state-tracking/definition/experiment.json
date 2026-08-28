@@ -1,0 +1,18 @@
+{
+  "id": "ecc-006-state-tracking",
+  "version": "0.1.0",
+  "task_family": "single_entity_state_tracking",
+  "hypothesis": "For Llama 3.2 3B, exact final-state accuracy may decline as direct context length increases while the target entity, four ordered updates, midpoint sequence placement, distractor-event template, and question remain fixed.",
+  "null_result": "Stable accuracy over the bounded ladder is valid evidence and does not imply reliability beyond it.",
+  "model_scope": {"models": ["llama-3.2-3b"], "rationale": "Llama is the qualified baseline with existing direct-context degradation evidence; this is not a production-model selection or model comparison."},
+  "independent_variable": {"requested_input_tokens": {"levels": [512, 2048, 8192, 16384], "unit": "model_input_tokens"}},
+  "controls": {"target_entities": 1, "target_updates": 4, "update_template": "State update: {entity} changed to {state}.", "evidence_position": {"target_ratio": 0.5, "allowed_absolute_error": 0.05}, "distractor_entities": "deterministic state histories using the identical template", "question": "What is the current state of {entity}?", "temperature": 0.0, "seed": 42, "output_tokens": 16, "prompt_cache": false},
+  "case_generation": {"inventory": "cases.json", "semantic_cases": 6, "seed": 20260828, "generator_version": 1, "target_answer_uniqueness": true, "no_conflicting_target_events": true, "model_specific_budgeting": true},
+  "token_budget": {"configured_context_size": 16896, "output_tokens": 16, "maximum_target_shortfall_tokens": 96, "silent_truncation_allowed": false},
+  "inference": {"temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
+  "evaluation": {"method": "explicit_accepted_answer_set", "accepted_forms": ["final state token", "The current state of <exact target entity> is <exact final state>"], "fuzzy_matching": false, "llm_judge": false},
+  "failure_classes": ["runtime_or_infrastructure_error", "invalid_case", "malformed_response", "incorrect_state"],
+  "metrics": {"accuracy_by_context_length": true, "relative_accuracy": "accuracy(level) / accuracy(512)", "ecc_thresholds": ["ECC95", "ECC90", "ECC80"], "contiguous_prefix": true, "no_interpolation": true},
+  "success_criteria": ["deterministic cases", "token-aware construction", "fixed update count and placement", "no silent truncation", "exact evaluation", "raw per-case evidence", "recomputable summary", "failure separation", "clean-worktree canonical run"],
+  "non_goals": ["retrieval", "RAG", "memory", "summarization", "compression", "routing", "embeddings", "external state", "architecture intervention", "update-count sweep", "position sweep", "pressure characterization"]
+}

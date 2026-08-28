@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "cases": [
+    {"id":"ecc006-001","entity":"Unit Alder 6101","updates":["RED","BLUE","AMBER","GREEN"],"answer":"GREEN"},
+    {"id":"ecc006-002","entity":"Unit Birch 6102","updates":["SILVER","VIOLET","ORANGE","BLACK"],"answer":"BLACK"},
+    {"id":"ecc006-003","entity":"Unit Cinder 6103","updates":["WHITE","TEAL","GOLD","MAROON"],"answer":"MAROON"},
+    {"id":"ecc006-004","entity":"Unit Dune 6104","updates":["NAVY","LIME","GRAY","COPPER"],"answer":"COPPER"},
+    {"id":"ecc006-005","entity":"Unit Ember 6105","updates":["PINK","OLIVE","CYAN","INDIGO"],"answer":"INDIGO"},
+    {"id":"ecc006-006","entity":"Unit Frost 6106","updates":["TAN","PURPLE","YELLOW","BROWN"],"answer":"BROWN"}
+  ]
+}

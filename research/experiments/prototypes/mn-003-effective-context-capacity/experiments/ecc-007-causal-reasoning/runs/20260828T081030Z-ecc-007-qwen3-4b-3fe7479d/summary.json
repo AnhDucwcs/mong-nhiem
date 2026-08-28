@@ -1,0 +1,98 @@
+{
+  "run_id": "20260828T081030Z-ecc-007-qwen3-4b-3fe7479d",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 32,
+    "observed_results": 32
+  },
+  "total_results": 32,
+  "invalid_results": 0,
+  "baseline_context_level": 512,
+  "baseline_accuracy": 1.0,
+  "levels": [
+    {
+      "requested_input_tokens": 512,
+      "cases": 8,
+      "passed": 8,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 509,
+      "actual_input_tokens_max": 509,
+      "runtime_total_ms": {
+        "median": 566.972,
+        "min": 539.479,
+        "max": 642.336
+      }
+    },
+    {
+      "requested_input_tokens": 2048,
+      "cases": 8,
+      "passed": 8,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 2017,
+      "actual_input_tokens_max": 2017,
+      "runtime_total_ms": {
+        "median": 2334.281,
+        "min": 2189.908,
+        "max": 2472.082
+      }
+    },
+    {
+      "requested_input_tokens": 8192,
+      "cases": 8,
+      "passed": 7,
+      "accuracy": 0.875,
+      "relative_accuracy": 0.875,
+      "actual_input_tokens_min": 8165,
+      "actual_input_tokens_max": 8165,
+      "runtime_total_ms": {
+        "median": 10002.3645,
+        "min": 9396.587,
+        "max": 11725.113
+      }
+    },
+    {
+      "requested_input_tokens": 16384,
+      "cases": 8,
+      "passed": 8,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 16365,
+      "actual_input_tokens_max": 16365,
+      "runtime_total_ms": {
+        "median": 24642.826,
+        "min": 22890.594,
+        "max": 32705.941
+      }
+    }
+  ],
+  "ecc": {
+    "metrics": {
+      "ECC95": {
+        "tested_level": 2048,
+        "status": "resolved"
+      },
+      "ECC90": {
+        "tested_level": 2048,
+        "status": "resolved"
+      },
+      "ECC80": {
+        "tested_level": 16384,
+        "status": "right_censored_lower_bound"
+      }
+    },
+    "rule": "contiguous tested prefix; no interpolation"
+  },
+  "non_monotonic": true,
+  "failure_analysis": {
+    "runtime_or_infrastructure_error": 0,
+    "invalid_case": 0,
+    "malformed_response": 0,
+    "incorrect_causal_inference": 1
+  },
+  "runtime": {
+    "median_total_ms": 5934.3345
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "llama-3.2-3b": {"file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf", "chat_template_kwargs": {"date_string": "26 Jul 2024"}, "qualified_by": "MCB v0.3.0; capability baseline; not a production-model selection"},
+  "qwen3-4b": {"file": "Qwen3-4B-Q4_K_M.gguf", "chat_template_kwargs": {"enable_thinking": false}, "qualified_by": "MCB v0.3.0; capability baseline; not a production-model selection"}
+}

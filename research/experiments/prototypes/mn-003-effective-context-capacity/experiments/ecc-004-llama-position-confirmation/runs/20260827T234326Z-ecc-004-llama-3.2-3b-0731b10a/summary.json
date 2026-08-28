@@ -1,0 +1,302 @@
+{
+  "run_id": "20260827T234326Z-ecc-004-llama-3.2-3b-0731b10a",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 240,
+    "observed_results": 240
+  },
+  "total_results": 240,
+  "invalid_results": 0,
+  "positions": [
+    {
+      "position": "early",
+      "levels": [
+        {
+          "requested_input_tokens": 8192,
+          "cases": 40,
+          "passed": 39,
+          "accuracy": 0.975,
+          "actual_input_tokens_min": 8094,
+          "actual_input_tokens_max": 8186,
+          "runtime": {
+            "count": 40,
+            "median_total_ms": 7476.3865000000005,
+            "min_total_ms": 6490.169,
+            "max_total_ms": 9298.905
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 40,
+          "passed": 40,
+          "accuracy": 1.0,
+          "actual_input_tokens_min": 16225,
+          "actual_input_tokens_max": 16382,
+          "runtime": {
+            "count": 40,
+            "median_total_ms": 19176.122499999998,
+            "min_total_ms": 17454.778,
+            "max_total_ms": 26438.275
+          }
+        }
+      ]
+    },
+    {
+      "position": "middle",
+      "levels": [
+        {
+          "requested_input_tokens": 8192,
+          "cases": 40,
+          "passed": 39,
+          "accuracy": 0.975,
+          "actual_input_tokens_min": 8063,
+          "actual_input_tokens_max": 8192,
+          "runtime": {
+            "count": 40,
+            "median_total_ms": 7631.495,
+            "min_total_ms": 7327.529,
+            "max_total_ms": 10141.323
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 40,
+          "passed": 37,
+          "accuracy": 0.925,
+          "actual_input_tokens_min": 16250,
+          "actual_input_tokens_max": 16384,
+          "runtime": {
+            "count": 40,
+            "median_total_ms": 18593.915999999997,
+            "min_total_ms": 17767.77,
+            "max_total_ms": 21298.956
+          }
+        }
+      ]
+    },
+    {
+      "position": "late",
+      "levels": [
+        {
+          "requested_input_tokens": 8192,
+          "cases": 40,
+          "passed": 34,
+          "accuracy": 0.85,
+          "actual_input_tokens_min": 8081,
+          "actual_input_tokens_max": 8190,
+          "runtime": {
+            "count": 40,
+            "median_total_ms": 7410.9715,
+            "min_total_ms": 7045.954,
+            "max_total_ms": 9306.512
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 40,
+          "passed": 33,
+          "accuracy": 0.825,
+          "actual_input_tokens_min": 16245,
+          "actual_input_tokens_max": 16380,
+          "runtime": {
+            "count": 40,
+            "median_total_ms": 18672.915999999997,
+            "min_total_ms": 17561.619,
+            "max_total_ms": 19965.137
+          }
+        }
+      ]
+    }
+  ],
+  "position_metrics": [
+    {
+      "requested_input_tokens": 8192,
+      "accuracy_by_position": {
+        "early": 0.975,
+        "middle": 0.975,
+        "late": 0.85
+      },
+      "position_gap": 0.125,
+      "pairwise_differences": {
+        "early_minus_middle": 0.0,
+        "early_minus_late": 0.125,
+        "middle_minus_late": 0.125
+      }
+    },
+    {
+      "requested_input_tokens": 16384,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "middle": 0.925,
+        "late": 0.825
+      },
+      "position_gap": 0.17500000000000004,
+      "pairwise_differences": {
+        "early_minus_middle": 0.07499999999999996,
+        "early_minus_late": 0.17500000000000004,
+        "middle_minus_late": 0.10000000000000009
+      }
+    }
+  ],
+  "paired_transitions": [
+    {
+      "requested_input_tokens": 8192,
+      "comparisons": {
+        "early_vs_middle": {
+          "early_pass_middle_fail": 0,
+          "early_fail_middle_pass": 0,
+          "paired_cases": 40
+        },
+        "early_vs_late": {
+          "early_pass_late_fail": 5,
+          "early_fail_late_pass": 0,
+          "paired_cases": 40
+        },
+        "middle_vs_late": {
+          "middle_pass_late_fail": 5,
+          "middle_fail_late_pass": 0,
+          "paired_cases": 40
+        }
+      }
+    },
+    {
+      "requested_input_tokens": 16384,
+      "comparisons": {
+        "early_vs_middle": {
+          "early_pass_middle_fail": 3,
+          "early_fail_middle_pass": 0,
+          "paired_cases": 40
+        },
+        "early_vs_late": {
+          "early_pass_late_fail": 7,
+          "early_fail_late_pass": 0,
+          "paired_cases": 40
+        },
+        "middle_vs_late": {
+          "middle_pass_late_fail": 4,
+          "middle_fail_late_pass": 0,
+          "paired_cases": 40
+        }
+      }
+    }
+  ],
+  "failure_analysis": {
+    "total_failures": 18,
+    "by_context_level": {
+      "8192": 8,
+      "16384": 10
+    },
+    "by_position": {
+      "early": 1,
+      "middle": 4,
+      "late": 13
+    },
+    "by_diagnostic_class": {
+      "tracked_distractor_code": 0,
+      "expected_code_with_extra_text": 0,
+      "invented_code": 0,
+      "partial_or_malformed_code": 18,
+      "other_text": 0
+    },
+    "tracked_distractor_sides": {
+      "before": 0,
+      "after": 0
+    },
+    "nearby_distractor_selections": 0,
+    "repeated_failing_case_ids_across_levels": [
+      "ecc004-024",
+      "ecc004-027",
+      "ecc004-034",
+      "ecc004-035"
+    ],
+    "repeated_failing_case_ids_across_positions": [
+      "ecc004-001",
+      "ecc004-027",
+      "ecc004-034",
+      "ecc004-035"
+    ]
+  },
+  "confirmation": {
+    "status": "replicated",
+    "criterion": {
+      "primary_endpoint": "16,384 requested tokens early_minus_late",
+      "consistent_with_replication_if": [
+        "16k early accuracy is greater than late accuracy",
+        "16k early-minus-late accuracy gap is at least 0.10",
+        "at least four fresh cases are early-pass/late-fail at 16k",
+        "16k early-pass/late-fail transitions outnumber early-fail/late-pass transitions"
+      ],
+      "classification_rule": "If all listed conditions hold, report replicated. If early exceeds late but not all conditions hold, report partially replicated or weakened with the unmet conditions. Otherwise report not replicated. Do not infer a causal attention mechanism or lost-in-the-middle label from this rule."
+    },
+    "checks": {
+      "early_greater_than_late": true,
+      "gap_at_least_0_10": true,
+      "at_least_four_early_pass_late_fail": true,
+      "early_pass_late_fail_outnumbers_reverse": true
+    },
+    "unmet_conditions": [],
+    "primary_endpoint": {
+      "requested_input_tokens": 16384,
+      "early_minus_late": 0.17500000000000004,
+      "early_pass_late_fail": 7,
+      "early_fail_late_pass": 0
+    }
+  },
+  "capability": {
+    "interpretation": "Llama-only direct-context confusable retrieval confirmation"
+  },
+  "runtime": {
+    "median_total_ms": 13798.0505,
+    "by_context_position": [
+      {
+        "requested_input_tokens": 8192,
+        "position": "early",
+        "count": 40,
+        "median_total_ms": 7476.3865000000005,
+        "min_total_ms": 6490.169,
+        "max_total_ms": 9298.905
+      },
+      {
+        "requested_input_tokens": 8192,
+        "position": "middle",
+        "count": 40,
+        "median_total_ms": 7631.495,
+        "min_total_ms": 7327.529,
+        "max_total_ms": 10141.323
+      },
+      {
+        "requested_input_tokens": 8192,
+        "position": "late",
+        "count": 40,
+        "median_total_ms": 7410.9715,
+        "min_total_ms": 7045.954,
+        "max_total_ms": 9306.512
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "early",
+        "count": 40,
+        "median_total_ms": 19176.122499999998,
+        "min_total_ms": 17454.778,
+        "max_total_ms": 26438.275
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "middle",
+        "count": 40,
+        "median_total_ms": 18593.915999999997,
+        "min_total_ms": 17767.77,
+        "max_total_ms": 21298.956
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "late",
+        "count": 40,
+        "median_total_ms": 18672.915999999997,
+        "min_total_ms": 17561.619,
+        "max_total_ms": 19965.137
+      }
+    ]
+  }
+}

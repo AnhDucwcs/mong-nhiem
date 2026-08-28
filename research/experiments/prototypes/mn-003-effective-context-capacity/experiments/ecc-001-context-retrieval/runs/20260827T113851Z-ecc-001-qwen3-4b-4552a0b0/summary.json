@@ -1,0 +1,83 @@
+{
+  "run_id": "20260827T113851Z-ecc-001-qwen3-4b-4552a0b0",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 120,
+    "observed_results": 120
+  },
+  "total_results": 120,
+  "invalid_results": 0,
+  "baseline_context_level": 512,
+  "baseline_accuracy": 1.0,
+  "levels": [
+    {
+      "requested_input_tokens": 512,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 452,
+      "actual_input_tokens_max": 457
+    },
+    {
+      "requested_input_tokens": 1024,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 987,
+      "actual_input_tokens_max": 997
+    },
+    {
+      "requested_input_tokens": 2048,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 1995,
+      "actual_input_tokens_max": 2010
+    },
+    {
+      "requested_input_tokens": 4096,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 4031,
+      "actual_input_tokens_max": 4095
+    },
+    {
+      "requested_input_tokens": 8192,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 8126,
+      "actual_input_tokens_max": 8189
+    },
+    {
+      "requested_input_tokens": 16384,
+      "cases": 20,
+      "passed": 20,
+      "accuracy": 1.0,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 16324,
+      "actual_input_tokens_max": 16358
+    }
+  ],
+  "ecc": {
+    "ECC95": 16384,
+    "ECC90": 16384,
+    "ECC80": 16384,
+    "status": "resolved",
+    "rule": "contiguous tested prefix; no interpolation"
+  },
+  "non_monotonic": false,
+  "capability": {
+    "interpretation": "direct-context retrieval accuracy only"
+  },
+  "runtime": {
+    "median_total_ms": 4083.911
+  }
+}

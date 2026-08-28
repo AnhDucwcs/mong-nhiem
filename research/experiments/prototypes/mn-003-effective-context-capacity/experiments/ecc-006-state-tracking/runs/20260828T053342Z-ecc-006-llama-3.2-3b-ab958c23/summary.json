@@ -1,0 +1,68 @@
+{
+  "run_id": "20260828T053342Z-ecc-006-llama-3.2-3b-ab958c23",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 24,
+    "observed_results": 24
+  },
+  "total_results": 24,
+  "invalid_results": 0,
+  "baseline_context_level": 512,
+  "baseline_accuracy": 0.3333333333333333,
+  "levels": [
+    {
+      "requested_input_tokens": 512,
+      "cases": 6,
+      "passed": 2,
+      "accuracy": 0.3333333333333333,
+      "relative_accuracy": 1.0,
+      "actual_input_tokens_min": 485,
+      "actual_input_tokens_max": 494
+    },
+    {
+      "requested_input_tokens": 2048,
+      "cases": 6,
+      "passed": 1,
+      "accuracy": 0.16666666666666666,
+      "relative_accuracy": 0.5,
+      "actual_input_tokens_min": 2007,
+      "actual_input_tokens_max": 2016
+    },
+    {
+      "requested_input_tokens": 8192,
+      "cases": 6,
+      "passed": 0,
+      "accuracy": 0.0,
+      "relative_accuracy": 0.0,
+      "actual_input_tokens_min": 8145,
+      "actual_input_tokens_max": 8187
+    },
+    {
+      "requested_input_tokens": 16384,
+      "cases": 6,
+      "passed": 0,
+      "accuracy": 0.0,
+      "relative_accuracy": 0.0,
+      "actual_input_tokens_min": 16347,
+      "actual_input_tokens_max": 16367
+    }
+  ],
+  "ecc": {
+    "ECC95": 512,
+    "ECC90": 512,
+    "ECC80": 512,
+    "status": "resolved",
+    "rule": "contiguous tested prefix; no interpolation"
+  },
+  "non_monotonic": false,
+  "failure_analysis": {
+    "runtime_or_infrastructure_error": 0,
+    "invalid_case": 0,
+    "malformed_response": 0,
+    "incorrect_state": 21
+  },
+  "runtime": {
+    "median_total_ms": 4560.9595
+  }
+}

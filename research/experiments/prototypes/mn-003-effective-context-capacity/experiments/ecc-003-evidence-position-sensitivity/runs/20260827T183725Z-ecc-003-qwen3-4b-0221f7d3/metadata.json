@@ -1,0 +1,144 @@
+{
+  "run_id": "20260827T183725Z-ecc-003-qwen3-4b-0221f7d3",
+  "created_at": "2026-08-27T18:37:25.626445+00:00",
+  "experiment": {
+    "id": "ecc-003-evidence-position-sensitivity",
+    "version": "0.1.0"
+  },
+  "definition_fingerprint": "9c7e541c2810fa0e7d063b45f94312d434d58c87e965131c90dff3e0613345f2",
+  "repository": {
+    "commit": "89b380b998b061cab8da7ffe66a6fbeb632e6b46",
+    "dirty": false
+  },
+  "model": {
+    "key": "qwen3-4b",
+    "name": "Qwen3-4B-Q4_K_M",
+    "file": "Qwen3-4B-Q4_K_M.gguf",
+    "size_bytes": 2497280256,
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "qualified_by": "MCB v0.3.0; capability baseline; not a production-model selection"
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "ram_bytes": null,
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_bytes": 4294967296,
+    "driver": "595.95",
+    "cuda": null
+  },
+  "inference": {
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false,
+    "configured_context_size": 16896,
+    "output_tokens": 16,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    }
+  },
+  "selection": {
+    "context_levels": [
+      512,
+      1024,
+      2048,
+      4096,
+      8192,
+      16384
+    ],
+    "evidence_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "case_ids": [
+      "ecc003-001",
+      "ecc003-002",
+      "ecc003-003",
+      "ecc003-004",
+      "ecc003-005",
+      "ecc003-006",
+      "ecc003-007",
+      "ecc003-008",
+      "ecc003-009",
+      "ecc003-010",
+      "ecc003-011",
+      "ecc003-012",
+      "ecc003-013",
+      "ecc003-014",
+      "ecc003-015",
+      "ecc003-016",
+      "ecc003-017",
+      "ecc003-018",
+      "ecc003-019",
+      "ecc003-020"
+    ],
+    "complete_definition_coverage": true
+  },
+  "command": {
+    "server": [
+      "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+      "-m",
+      "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002\\Qwen3-4B-Q4_K_M.gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18503",
+      "-c",
+      "16896",
+      "-t",
+      "12",
+      "-b",
+      "2048",
+      "-np",
+      "1",
+      "-fa",
+      "on",
+      "--temp",
+      "0",
+      "--seed",
+      "42",
+      "--jinja",
+      "--no-webui",
+      "--no-cache-prompt",
+      "--metrics",
+      "--chat-template-kwargs",
+      "{\"enable_thinking\":false}"
+    ],
+    "runner": [
+      "run_ecc003.py",
+      "--model",
+      "qwen3-4b",
+      "--context-level",
+      "512",
+      "--context-level",
+      "1024",
+      "--context-level",
+      "2048",
+      "--context-level",
+      "4096",
+      "--context-level",
+      "8192",
+      "--context-level",
+      "16384",
+      "--position",
+      "early",
+      "--position",
+      "middle",
+      "--position",
+      "late",
+      "--restart-server-per-position"
+    ]
+  }
+}

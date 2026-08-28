@@ -7,7 +7,7 @@ Mộng Nhiễm researches reliable small-model use over information and context 
 - **Effective Context Capacity (ECC):** improve useful operation over external context beyond current effective capability.
 - **Native Context Capacity (NCC):** investigate substantial effective/native context expansion while reducing long-context degradation.
 
-State consistency, positional degradation, context overload, and reasoning over distributed information are research concerns, not selected solutions. MN-001 is complete. MN-002 is complete and freezes MCB v0.3.0 as the capability-qualification baseline. MN-003 is the active bounded ECC prototype: it first measures controlled degradation under context pressure. No retrieval, context, memory, summarization, compression, routing, or ECC architecture has been selected.
+State consistency, positional degradation, context overload, and reasoning over distributed information are research concerns, not selected solutions. MN-001 is complete. MN-002 is complete and freezes MCB v0.3.0 as the capability-qualification baseline. MN-003 has completed its bounded direct-context measurement and synthesis phase; see its [capability synthesis](experiments/prototypes/mn-003-effective-context-capacity/reports/mn-003-synthesis.md). No retrieval, context, memory, summarization, compression, routing, or ECC architecture has been selected.
 
 ## Navigate
 
@@ -17,5 +17,6 @@ State consistency, positional degradation, context overload, and reasoning over 
 - [Experiments](experiments/README.md)
 - [MN-002](experiments/baselines/mn-002-model-qualification/README.md)
 - [MN-003](experiments/prototypes/mn-003-effective-context-capacity/README.md)
+- [MN-004](experiments/prototypes/mn-004-state-representation-intervention/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)

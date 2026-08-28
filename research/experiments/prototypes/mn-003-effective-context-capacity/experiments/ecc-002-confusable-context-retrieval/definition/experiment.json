@@ -1,0 +1,92 @@
+{
+  "id": "ecc-002-confusable-context-retrieval",
+  "version": "0.1.0",
+  "task_family": "single_fact_confusable_context_retrieval",
+  "hypothesis": "As direct-context length increases, normalized-exact retrieval accuracy may decline when the single target record is embedded naturally among deterministic distractor records with the same registry-entry semantic structure, vocabulary, and access-code format.",
+  "null_result": "Accuracy may remain stable across the tested ladder; absence of degradation remains valid evidence.",
+  "independent_variable": {
+    "name": "requested_input_tokens",
+    "levels": [512, 1024, 2048, 4096, 8192, 16384],
+    "unit": "model_input_tokens"
+  },
+  "controlled_variables": [
+    "one target record per case",
+    "one unique short access-code answer per case",
+    "fixed question template",
+    "deterministic confusable registry-record generator v1",
+    "same record template for target and distractors",
+    "evidence midpoint policy",
+    "temperature 0 and seed 42",
+    "16-token output budget",
+    "normalized exact-match evaluator"
+  ],
+  "case_generation": {
+    "inventory": "cases.json",
+    "semantic_cases": 20,
+    "seed": 20260827,
+    "distractor_generator_version": 1,
+    "record_template": "Registry entry: Project {entity} has access code {answer}.",
+    "model_specific_budgeting": "Each model receives a deterministic prefix of the same symmetric distractor sequence. The terminal record count may differ because model tokenizers differ; requested and actual counts are retained."
+  },
+  "evidence_position": {
+    "policy": "midpoint_of_context_by_model_tokens",
+    "target_ratio": 0.5,
+    "allowed_absolute_error": 0.05,
+    "note": "The target record is one ordinary registry entry. Its ratio is measured within the registry-entry context, excluding fixed chat-template and question overhead. Symmetric before/after distractor pairs keep position stable across levels."
+  },
+  "token_budget": {
+    "maximum_target_shortfall_tokens": 96,
+    "silent_truncation_allowed": false,
+    "configured_context_size": 16896,
+    "output_tokens": 16
+  },
+  "inference": {
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false
+  },
+  "evaluation": {
+    "method": "normalized_exact_match",
+    "normalization": ["Unicode NFKC", "trim", "case-fold", "collapse whitespace", "remove terminal period/exclamation/question marks"],
+    "fuzzy_matching": false,
+    "llm_judge": false
+  },
+  "metrics": {
+    "baseline": "shortest selected context level",
+    "relative_accuracy": "accuracy(level) / baseline_accuracy",
+    "thresholds": [0.95, 0.9, 0.8],
+    "reliability_rule": "ECC threshold is the last level in the contiguous tested prefix meeting the threshold; a later isolated recovery does not raise ECC.",
+    "interpolation": false,
+    "right_censoring": "If a threshold holds at the largest tested level, report it as a tested lower bound rather than a measured failure boundary."
+  },
+  "success_criteria": [
+    "deterministic case and confusable-record generation",
+    "target and distractor entity/code uniqueness validated before inference",
+    "reproducible model-token budget construction",
+    "no silent truncation",
+    "deterministic evaluation",
+    "raw per-case evidence retained",
+    "accuracy and descriptive runtime aggregated by context level",
+    "degradation curve derivable from results",
+    "ECC thresholds and right-censoring status derived only with complete supporting data",
+    "same definition reusable across both qualified models",
+    "offline validation reproduces committed summaries"
+  ],
+  "non_goals": [
+    "retrieval",
+    "RAG",
+    "memory",
+    "summarization",
+    "context compression",
+    "context routing",
+    "chunk selection",
+    "semantic search",
+    "embeddings",
+    "external state",
+    "architecture comparison"
+  ]
+}

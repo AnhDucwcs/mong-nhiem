@@ -10,11 +10,20 @@ Status: completed and frozen. MCB v0.3.0 is the canonical capability-qualificati
 
 ## MN-003 — Effective Context Capacity
 
-Status: active research preparation. The bounded prototype belongs in `research/experiments/prototypes/mn-003-effective-context-capacity/`.
+Status: completed and closed for further ECC measurement work. ECC-001 through ECC-007 establish a model-specific capability map; no architecture has been selected. See the [MN-003 synthesis](experiments/prototypes/mn-003-effective-context-capacity/reports/mn-003-synthesis.md).
 
-1. Establish a hypothesis for reliable task-performance degradation as controlled context pressure increases, distinct from advertised context-window size.
-2. Select one or both MN-002-qualified capability baselines and an unmodified-context measurement baseline.
-3. Define controlled variables, beginning with context length and potentially later relevant-information density, evidence position, and distributed evidence.
-4. Define task families, metrics, degradation-curve analysis, and success criteria before any intervention.
-5. Measure the baseline before considering retrieval, memory, RAG, summarization, compression, or context-routing architectures.
-6. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.
+1. Easy retrieval is stable for both qualified models in the tested range, but Llama has a monotonic semantic-interference retrieval decline and a replicated late-position sensitivity under the confusable exact-output task.
+2. Llama State Tracking is a bounded capability bottleneck: its fixed four-update contract has a short-context floor and declines monotonically to zero at 8k/16k without execution confounds.
+3. Qwen causal reachability has no stable context-length degradation boundary in the tested range; its single 8k false positive is an unresolved isolated observation, not an ECC boundary or an ECC-008 trigger.
+4. Timing/VRAM pressure at 16k is practical local-runtime evidence, not capability evidence.
+5. The proposed next milestone is MN-004 — State Representation Intervention Design: formulate and predeclare one explicit-state hypothesis against ECC-006's direct-context baseline. This is not started and does not preselect retrieval, RAG, memory, summarization, compression, routing, embeddings, or external state.
+
+## MN-004 — State Representation Intervention Design
+
+Status: prepared / design phase. No intervention is selected, implemented, or measured; no MN-004 experiment definition or evidence exists.
+
+1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it.
+2. Gate A: select and justify one explicit, inspectable state-representation hypothesis without assuming a storage, retrieval, memory, routing, compression, or tool architecture.
+3. Gate B: freeze baseline/intervention comparability, task semantics, model subject, workload/sample rationale, evaluator, failure taxonomy, contamination rules, aggregate success threshold, and no-harm criteria before implementation.
+4. Gate C: authorize implementation and measured inference only after Gates A/B.
+5. Gate D: consider promotion to reusable code or an architecture concept only if retained evidence supports it.

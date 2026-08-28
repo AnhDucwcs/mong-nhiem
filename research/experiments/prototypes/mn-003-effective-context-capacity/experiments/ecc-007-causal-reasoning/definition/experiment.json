@@ -1,0 +1,25 @@
+{
+  "id": "ecc-007-causal-reasoning",
+  "version": "1.0.0",
+  "hypothesis": "For Qwen3-4B, deterministic direct-context causal reachability accuracy may decline as irrelevant same-template causal edges increase while graph difficulty remains fixed.",
+  "task_family": "Causal Reasoning",
+  "independent_variable": {
+    "requested_input_tokens": {"levels": [512, 2048, 8192, 16384]}
+  },
+  "controls": {
+    "causal_hop_count": 2,
+    "positive_negative_balance": "4 positive and 4 negative cases",
+    "target_graph_count": 1,
+    "evidence_position": {"policy": "deterministic nearest feasible midpoint", "target_ratio": 0.5, "allowed_absolute_error": 0.05},
+    "distractor_generation": "unique disconnected causal edges in the identical record template",
+    "question": "Does SOURCE eventually cause TARGET? Return only YES or NO.",
+    "evaluation": "case-insensitive exact YES or NO after whitespace and terminal-punctuation normalization",
+    "direct_context": true,
+    "no_intervention": ["retrieval", "RAG", "memory", "summarization", "compression", "routing", "embeddings", "semantic search", "external state"]
+  },
+  "case_generation": {"generator_version": 1, "seed": 20260828, "semantic_cases": 8},
+  "token_budget": {"configured_context_size": 16896, "output_tokens": 16, "maximum_target_shortfall_tokens": 96},
+  "inference": {"temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
+  "selection_rationale": "Pre-freeze calibration gave Qwen3-4B 4/4 at both two and three hops. The frozen rule selects the simplest non-floor candidate with accuracy at least 0.75, therefore two hops. Llama 3.2 3B returned no exact YES/NO answers at either candidate under the fixed 16-token contract, an output-format floor rather than a causal-difficulty comparison.",
+  "success_criteria": ["deterministic graph generation", "model-token-aware construction", "no silent truncation", "exact evaluation", "raw evidence retention", "per-level aggregate results", "offline replay validation", "contiguous ECC threshold derivation when supported"]
+}

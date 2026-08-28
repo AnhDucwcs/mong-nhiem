@@ -2,35 +2,27 @@
 
 ## Status
 
-Active research preparation. This is a bounded, documentation-only prototype charter; it defines no experiment cases, runner, configuration, or architecture intervention.
+Completed bounded direct-context measurement and synthesis phase. Canonical definitions, retained raw evidence, validators, and reports for ECC-001 through ECC-007 remain immutable. MN-003 does not select or implement a retrieval, RAG, memory, summarization, compression, routing, embedding, semantic-search, external-state, or other context-management architecture.
+
+The canonical conclusion is recorded in the [MN-003 capability synthesis](reports/mn-003-synthesis.md). It closes the measurement phase with outcome **C**: no additional ECC experiment is justified before a separate intervention-design/hypothesis milestone, and no intervention is selected.
 
 ## Research question
 
-For an MCB-qualified small local model, how does reliable task performance degrade as context length and context pressure increase while the task-relevant information remains controlled?
+For an MCB-qualified small local model, how does reliable task performance change as controlled direct context increases while task-relevant information remains controlled? Effective Context Capacity is a measured task-reliability range, distinct from advertised context-window size.
 
-Effective Context Capacity is the measured range over which a model performs a controlled task reliably. It is distinct from the model's advertised context-window size.
+## Canonical evidence map
 
-## Scope
+- **ECC-001:** easy marked single-fact Retrieval is stable for both Llama 3.2 3B and Qwen3-4B through 16,384 tested tokens.
+- **ECC-002:** same-template semantic interference yields a monotonic Llama retrieval decline, while Qwen remains stable at the tested resolution.
+- **ECC-003/ECC-004:** Llama late-position sensitivity in the confusable retrieval task is a replicated bounded long-context effect; its output diagnostics do not identify distractor selection as the cause.
+- **ECC-003/ECC-005:** Qwen has no observed early/late position effect in the retained full and fresh-case control matrices.
+- **ECC-006:** Llama has a four-update State Tracking floor at short context and monotonic decline to zero at 8k/16k under the fixed task contract.
+- **ECC-007:** Qwen two-hop causal reachability has one isolated 8k false positive and a non-monotonic recovery at 16k; it does not establish a stable causal degradation boundary.
 
-- **Experiment subjects:** one or both MN-002-qualified capability baselines: Llama 3.2 3B and Qwen3-4B. Qualification comes from frozen MCB v0.3.0, fingerprint `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`; it is not a production-model selection.
-- **Initial task families:** Context Retrieval, State Tracking, and Causal Reasoning inherited from MCB capabilities, subject to a later experiment definition.
-- **Initial baseline:** direct, unmodified presentation of the controlled context and task to the model. It measures degradation; it does not select or evaluate a context-management architecture.
-- **Candidate variables:** context length first; later controlled dimensions may include relevant-information density, evidence position, and distributed evidence.
+These results are model- and task-specific. ECC-006 is Llama-only and ECC-007 is Qwen-only, so they cannot be used to rank State Tracking against Causal Reasoning across models.
 
-## Required design gate
+## Scope and next research boundary
 
-Before any architecture intervention, the experiment definition must state:
+The measured baseline uses direct, unmodified context, deterministic model-token-aware construction, exact evaluation, and retained evidence. `research/experiments/baselines/` contains comparison/reference evidence such as frozen MN-002; this `prototypes/` location contains scoped exploratory research and its evidence remains separate from `src/mong_nhiem/`.
 
-1. A falsifiable degradation hypothesis.
-2. The unmodified-context baseline and controls that preserve task-relevant information.
-3. The variables and their tested levels.
-4. The reliability metric, analysis of the degradation curve, and success criteria.
-5. Reproducible environment, inference, and evidence-retention requirements.
-
-## Non-goals
-
-MN-003 does not yet implement or select retrieval, RAG, memory, summarization, compression, context routing, or any other context-management architecture. Architecture experiments may follow only after measurable baseline degradation behavior has been established.
-
-## Location and evidence boundary
-
-This prototype belongs under `research/experiments/prototypes/`. In contrast, `research/experiments/baselines/` holds comparison/reference evidence such as completed MN-002. Experimental evidence remains separate from `src/mong_nhiem/`; promotion to reusable code requires an explicit decision.
+The strongest candidate limitation for a future architecture hypothesis is the Llama State Tracking bottleneck. [MN-004 State Representation Intervention Design](../mn-004-state-representation-intervention/README.md) is prepared to formulate—rather than implement—a specified explicit-state hypothesis against the frozen ECC-006 direct-context baseline. That is a candidate hypothesis, not an adopted architecture. MN-003 is closed for further ECC measurement work; the isolated ECC-007 8k miss has no decision-critical impact and does not justify ECC-008.

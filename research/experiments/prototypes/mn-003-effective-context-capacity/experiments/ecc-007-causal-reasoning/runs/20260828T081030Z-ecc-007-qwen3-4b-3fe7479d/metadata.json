@@ -1,0 +1,106 @@
+{
+  "run_id": "20260828T081030Z-ecc-007-qwen3-4b-3fe7479d",
+  "created_at": "2026-08-28T08:10:30.747199+00:00",
+  "experiment": {
+    "id": "ecc-007-causal-reasoning",
+    "version": "1.0.0"
+  },
+  "definition_fingerprint": "1af38f7db3d858eab5a3ba0bd94ac09cba46542bbeae62203fdb80474a358949",
+  "repository": {
+    "commit": "99e5795edf7a6d86562873b4b05e52eeb7269fc2",
+    "dirty": false
+  },
+  "model": {
+    "key": "qwen3-4b",
+    "name": "Qwen3-4B-Q4_K_M",
+    "file": "Qwen3-4B-Q4_K_M.gguf",
+    "size_bytes": 2497280256,
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "qualified_by": "MN-002 MCB v0.3.0"
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "ram_bytes": null,
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_bytes": 4294967296,
+    "driver": "595.95",
+    "cuda": null
+  },
+  "inference": {
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false,
+    "configured_context_size": 16896,
+    "output_tokens": 16,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    }
+  },
+  "selection": {
+    "context_levels": [
+      512,
+      2048,
+      8192,
+      16384
+    ],
+    "case_ids": [
+      "ecc007-001",
+      "ecc007-002",
+      "ecc007-003",
+      "ecc007-004",
+      "ecc007-005",
+      "ecc007-006",
+      "ecc007-007",
+      "ecc007-008"
+    ],
+    "complete_definition_coverage": true
+  },
+  "command": {
+    "server": [
+      "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+      "-m",
+      "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002\\Qwen3-4B-Q4_K_M.gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18508",
+      "-c",
+      "16896",
+      "-t",
+      "12",
+      "-b",
+      "2048",
+      "-np",
+      "1",
+      "-fa",
+      "on",
+      "--temp",
+      "0",
+      "--seed",
+      "42",
+      "--jinja",
+      "--no-webui",
+      "--no-cache-prompt",
+      "--metrics",
+      "--chat-template-kwargs",
+      "{\"enable_thinking\":false}"
+    ],
+    "runner": [
+      "run_ecc007.py",
+      "--model",
+      "qwen3-4b"
+    ]
+  }
+}

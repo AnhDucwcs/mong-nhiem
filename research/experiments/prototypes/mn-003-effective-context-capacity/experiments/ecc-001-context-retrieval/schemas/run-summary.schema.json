@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["run_id", "run_status", "coverage", "total_results", "invalid_results", "baseline_context_level", "baseline_accuracy", "levels", "ecc", "non_monotonic", "capability", "runtime"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "run_status": {"enum": ["valid", "invalid"]},
+    "coverage": {"type": "object", "required": ["complete", "expected_results", "observed_results"]},
+    "total_results": {"type": "integer", "minimum": 0},
+    "invalid_results": {"type": "integer", "minimum": 0},
+    "baseline_context_level": {"type": ["integer", "null"]},
+    "baseline_accuracy": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "levels": {"type": "array", "items": {"type": "object", "required": ["requested_input_tokens", "cases", "passed", "accuracy", "relative_accuracy", "actual_input_tokens_min", "actual_input_tokens_max"]}},
+    "ecc": {"type": "object", "required": ["ECC95", "ECC90", "ECC80", "status", "rule"]},
+    "non_monotonic": {"type": "boolean"},
+    "capability": {"type": "object", "required": ["interpretation"]},
+    "runtime": {"type": "object", "required": ["median_total_ms"], "description": "Runtime evidence is retained separately from capability metrics."}
+  },
+  "additionalProperties": false
+}
