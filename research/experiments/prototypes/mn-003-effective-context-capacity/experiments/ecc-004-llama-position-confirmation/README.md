@@ -2,7 +2,9 @@
 
 ## Status
 
-Definition frozen; canonical execution is pending. ECC-004 is a bounded Llama-only direct-context confirmation under MN-003. It does not implement or evaluate a context-management architecture.
+Complete canonical Llama evidence is retained and offline-validated. The frozen definition fingerprint is `055773d5239c478c66b6ef98a70d64435eb254649bbb45023f69bbd8a87b738c`.
+
+ECC-004 is a bounded Llama-only direct-context confirmation under MN-003. It replicates the predeclared 16k early-over-late position effect with 40 fresh cases. It does not implement or evaluate a context-management architecture. See the [canonical results](reports/ecc-004-results.md).
 
 ## Question and rationale
 
