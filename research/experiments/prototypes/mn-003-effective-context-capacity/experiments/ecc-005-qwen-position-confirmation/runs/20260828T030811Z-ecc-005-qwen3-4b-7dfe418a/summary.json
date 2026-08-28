@@ -1,0 +1,178 @@
+{
+  "run_id": "20260828T030811Z-ecc-005-qwen3-4b-7dfe418a",
+  "run_status": "valid",
+  "coverage": {
+    "complete": true,
+    "expected_results": 120,
+    "observed_results": 120
+  },
+  "total_results": 120,
+  "invalid_results": 0,
+  "positions": [
+    {
+      "position": "early",
+      "levels": [
+        {
+          "requested_input_tokens": 8192,
+          "cases": 30,
+          "passed": 30,
+          "accuracy": 1.0,
+          "actual_input_tokens_min": 8094,
+          "actual_input_tokens_max": 8190,
+          "runtime": {
+            "count": 30,
+            "median_total_ms": 13024.593499999999,
+            "min_total_ms": 10993.889,
+            "max_total_ms": 22375.805
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 30,
+          "passed": 30,
+          "accuracy": 1.0,
+          "actual_input_tokens_min": 16256,
+          "actual_input_tokens_max": 16384,
+          "runtime": {
+            "count": 30,
+            "median_total_ms": 28348.1,
+            "min_total_ms": 25233.076,
+            "max_total_ms": 38398.989
+          }
+        }
+      ]
+    },
+    {
+      "position": "late",
+      "levels": [
+        {
+          "requested_input_tokens": 8192,
+          "cases": 30,
+          "passed": 30,
+          "accuracy": 1.0,
+          "actual_input_tokens_min": 8092,
+          "actual_input_tokens_max": 8192,
+          "runtime": {
+            "count": 30,
+            "median_total_ms": 13054.588,
+            "min_total_ms": 12293.527,
+            "max_total_ms": 22649.327
+          }
+        },
+        {
+          "requested_input_tokens": 16384,
+          "cases": 30,
+          "passed": 30,
+          "accuracy": 1.0,
+          "actual_input_tokens_min": 16253,
+          "actual_input_tokens_max": 16384,
+          "runtime": {
+            "count": 30,
+            "median_total_ms": 30259.406000000003,
+            "min_total_ms": 26075.476,
+            "max_total_ms": 41420.494
+          }
+        }
+      ]
+    }
+  ],
+  "position_metrics": [
+    {
+      "requested_input_tokens": 8192,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "late": 1.0
+      },
+      "early_minus_late": 0.0
+    },
+    {
+      "requested_input_tokens": 16384,
+      "accuracy_by_position": {
+        "early": 1.0,
+        "late": 1.0
+      },
+      "early_minus_late": 0.0
+    }
+  ],
+  "paired_transitions": [
+    {
+      "requested_input_tokens": 8192,
+      "early_vs_late": {
+        "early_pass_late_fail": 0,
+        "early_fail_late_pass": 0,
+        "paired_cases": 30
+      }
+    },
+    {
+      "requested_input_tokens": 16384,
+      "early_vs_late": {
+        "early_pass_late_fail": 0,
+        "early_fail_late_pass": 0,
+        "paired_cases": 30
+      }
+    }
+  ],
+  "failure_analysis": {
+    "total_failures": 0,
+    "by_context_level": {
+      "8192": 0,
+      "16384": 0
+    },
+    "by_position": {
+      "early": 0,
+      "late": 0
+    },
+    "by_diagnostic_class": {
+      "tracked_distractor_code": 0,
+      "expected_code_with_extra_text": 0,
+      "invented_code": 0,
+      "partial_or_malformed_code": 0,
+      "other_text": 0
+    },
+    "numeric_suffix_matches_expected": 0
+  },
+  "interpretation": {
+    "status": "stable",
+    "rule": {
+      "stable": "absolute early-minus-late gap <= 0.10 and neither directional paired transition exceeds the other by four or more cases",
+      "possible_position_sensitivity": "early exceeds late but stable conditions do not hold",
+      "position_sensitivity_observed": "early-minus-late >= 0.10 and early-pass/late-fail >= 4 and exceeds reverse"
+    }
+  },
+  "runtime": {
+    "by_context_position": [
+      {
+        "requested_input_tokens": 8192,
+        "position": "early",
+        "count": 30,
+        "median_total_ms": 13024.593499999999,
+        "min_total_ms": 10993.889,
+        "max_total_ms": 22375.805
+      },
+      {
+        "requested_input_tokens": 8192,
+        "position": "late",
+        "count": 30,
+        "median_total_ms": 13054.588,
+        "min_total_ms": 12293.527,
+        "max_total_ms": 22649.327
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "early",
+        "count": 30,
+        "median_total_ms": 28348.1,
+        "min_total_ms": 25233.076,
+        "max_total_ms": 38398.989
+      },
+      {
+        "requested_input_tokens": 16384,
+        "position": "late",
+        "count": 30,
+        "median_total_ms": 30259.406000000003,
+        "min_total_ms": 26075.476,
+        "max_total_ms": 41420.494
+      }
+    ]
+  }
+}
