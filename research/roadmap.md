@@ -10,15 +10,10 @@ Status: completed and frozen. MCB v0.3.0 is the canonical capability-qualificati
 
 ## MN-003 — Effective Context Capacity
 
-Status: active baseline research. ECC-001 through ECC-004 infrastructure and canonical measurements are complete; MN-003 remains open while direct-context evidence is extended without an architecture intervention.
+Status: completed bounded direct-context measurement and synthesis. ECC-001 through ECC-007 establish a model-specific capability map; no architecture has been selected. See the [MN-003 synthesis](experiments/prototypes/mn-003-effective-context-capacity/reports/mn-003-synthesis.md).
 
-1. ECC-001 establishes a falsifiable direct-context degradation hypothesis, 20 deterministic Context Retrieval cases, and a controlled token-length ladder.
-2. ECC-001 supports both MN-002-qualified capability baselines and fixes midpoint evidence, generation, evaluation, model, and runtime controls.
-3. The canonical runner and offline validator retain actual per-model token counts, raw evidence, degradation curves, and threshold metrics.
-4. Canonical complete evidence from both qualified models has been produced and validated from clean commit `701fb1fe417bde7db6f4749479955c37a734616d`.
-5. ECC-001 found stable 1.00 accuracy through 16,384 requested tokens. ECC-002 then increased only semantic interference by placing the unmarked target among same-template confusable registry records; its frozen fingerprint is `824ba4d6df62f8ddf4a49d90a2e2d4d44211399c730c831f2bf0338ba8e5c7cf`.
-6. ECC-002 measured a monotonic Llama 3.2 3B curve from 1.00 to 0.85 (ECC95 = 4,096; ECC90 = 8,192; ECC80 >= 16,384 tested tokens) while Qwen3-4B remained 1.00 through the ladder (all three thresholds right-censored >= 16,384). This is direct-context evidence, not a production-model selection or architecture result.
-7. ECC-003 isolates evidence position in the ECC-002 confusable task. It finds Llama 3.2 3B position-sensitive at 16,384 tested tokens (early 1.00, middle 0.85, late 0.70) while Qwen3-4B remains 1.00 at all tested positions and levels. The Llama late curve is non-monotonic, so this is not a simple lost-in-the-middle conclusion. Its frozen fingerprint is `9c7e541c2810fa0e7d063b45f94312d434d58c87e965131c90dff3e0613345f2`.
-8. ECC-004 confirms the Llama position effect with 40 fresh cases at 8,192/16,384 tokens and fingerprint `055773d5239c478c66b6ef98a70d64435eb254649bbb45023f69bbd8a87b738c`. At 16k early/middle/late is 1.000/0.925/0.825; early−late is 0.175, with seven early-pass/late-fail and zero reverse transitions. Its frozen criterion is met. Qwen is historical ECC-003 context only and is not rerun.
-9. Continue with a harder inherited capability or a narrowly scoped intervention hypothesis using the direct-context baseline; do not infer an architecture choice from the position result alone.
-10. Keep any future architecture experiment separate, and promote only proven reusable components into `src/mong_nhiem/` through an explicit decision.
+1. Easy retrieval is stable for both qualified models in the tested range, but Llama has a monotonic semantic-interference retrieval decline and a replicated late-position sensitivity under the confusable exact-output task.
+2. Llama State Tracking is a bounded capability bottleneck: its fixed four-update contract has a short-context floor and declines monotonically to zero at 8k/16k without execution confounds.
+3. Qwen causal reachability has no stable context-length degradation boundary in the tested range; its single 8k false positive is an unresolved isolated observation, not an ECC boundary or an ECC-008 trigger.
+4. Timing/VRAM pressure at 16k is practical local-runtime evidence, not capability evidence.
+5. The proposed next milestone is MN-004 — State Representation Intervention Design: formulate and predeclare one explicit-state hypothesis against ECC-006's direct-context baseline. This is not started and does not preselect retrieval, RAG, memory, summarization, compression, routing, embeddings, or external state.
