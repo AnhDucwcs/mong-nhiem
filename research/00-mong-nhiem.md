@@ -17,5 +17,6 @@ State consistency, positional degradation, context overload, and reasoning over 
 - [Experiments](experiments/README.md)
 - [MN-002](experiments/baselines/mn-002-model-qualification/README.md)
 - [MN-003](experiments/prototypes/mn-003-effective-context-capacity/README.md)
+- [MN-004](experiments/prototypes/mn-004-state-representation-intervention/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)

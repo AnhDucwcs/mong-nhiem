@@ -14,7 +14,7 @@ This qualification is not a production-model choice and does not validate an ECC
 
 ## MN-003 — Effective Context Capacity — completed measurement synthesis
 
-MN-003 is complete as a bounded direct-context measurement and synthesis milestone under `research/experiments/prototypes/`. It freezes no new universal benchmark: each ECC definition and its retained canonical evidence remain immutable in its own experiment directory. The canonical synthesis is [MN-003 capability map](experiments/prototypes/mn-003-effective-context-capacity/reports/mn-003-synthesis.md).
+MN-003 is complete and closed for further ECC measurement work as a bounded direct-context measurement and synthesis milestone under `research/experiments/prototypes/`. It freezes no new universal benchmark: each ECC definition and its retained canonical evidence remain immutable in its own experiment directory. The canonical synthesis is [MN-003 capability map](experiments/prototypes/mn-003-effective-context-capacity/reports/mn-003-synthesis.md).
 
 The completed map separates Retrieval, Integration/State Tracking, and Inference/Causal Reasoning by subject rather than treating all ECC results as one cross-model ladder. The shared conclusions are bounded to deterministic direct context, actual model-token accounting, exact evaluation, the recorded llama.cpp/local hardware configuration, and tested ranges up to 16,384 requested tokens.
 
@@ -24,4 +24,10 @@ The completed map separates Retrieval, Integration/State Tracking, and Inference
 
 ECC-006 and ECC-007 use different model subjects, so MN-003 does not rank State Tracking against Causal Reasoning or infer that one model is generally stronger. Runtime slowdown, prompt-cache eviction, and lifecycle pressure at 16k are retained practical local-runtime evidence, not capability scores.
 
-No ECC-008 is justified solely to investigate the isolated Qwen 8k causal miss: its reproducibility would not change an architecture decision. No architecture is selected. The strongest candidate limitation for a future hypothesis is Llama State Tracking; a proposed but not-started MN-004 should first formulate a specific explicit-state-representation intervention against the frozen ECC-006 direct-context baseline, with predeclared success and no-harm criteria. It must not assume retrieval, RAG, memory, summarization, compression, routing, embeddings, or external state as the solution.
+No ECC-008 is justified solely to investigate the isolated Qwen 8k causal miss: its reproducibility would not change an architecture decision. No architecture is selected.
+
+## MN-004 — State Representation Intervention Design — prepared
+
+MN-004 is prepared as a design-only successor under `research/experiments/prototypes/`; [its charter](experiments/prototypes/mn-004-state-representation-intervention/README.md) is the canonical scope. No intervention is selected, no MN-004 experiment definition or implementation exists, and no MN-004 evidence has been produced.
+
+It inherits ECC-006 as immutable direct-context baseline evidence and must initially retain the Llama 3.2 3B subject for a causal comparison. The current work is Gate A/B only: select and justify one explicit, inspectable state-representation hypothesis, then freeze semantic equivalence, baseline/intervention conditions, controls, evaluator, failure taxonomy, sample-size rationale, aggregate success threshold, no-harm criteria, contamination rules, and retained-evidence policy. Only then can implementation be authorized. It must not assume retrieval, RAG, memory, summarization, compression, routing, embeddings, or external state as the solution.
