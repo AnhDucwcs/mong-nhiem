@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "cases": [
+    {"id": "ecc007-001", "case_index": 1, "positive": true, "source": "NODE_701_A", "target": "NODE_701_C", "edges": [["NODE_701_A", "NODE_701_B"], ["NODE_701_B", "NODE_701_C"]]},
+    {"id": "ecc007-002", "case_index": 2, "positive": false, "source": "NODE_702_A", "target": "NODE_702_Z", "edges": [["NODE_702_A", "NODE_702_B"], ["NODE_702_B", "NODE_702_C"]]},
+    {"id": "ecc007-003", "case_index": 3, "positive": true, "source": "NODE_703_A", "target": "NODE_703_C", "edges": [["NODE_703_A", "NODE_703_B"], ["NODE_703_B", "NODE_703_C"]]},
+    {"id": "ecc007-004", "case_index": 4, "positive": false, "source": "NODE_704_A", "target": "NODE_704_Z", "edges": [["NODE_704_A", "NODE_704_B"], ["NODE_704_B", "NODE_704_C"]]},
+    {"id": "ecc007-005", "case_index": 5, "positive": true, "source": "NODE_705_A", "target": "NODE_705_C", "edges": [["NODE_705_A", "NODE_705_B"], ["NODE_705_B", "NODE_705_C"]]},
+    {"id": "ecc007-006", "case_index": 6, "positive": false, "source": "NODE_706_A", "target": "NODE_706_Z", "edges": [["NODE_706_A", "NODE_706_B"], ["NODE_706_B", "NODE_706_C"]]},
+    {"id": "ecc007-007", "case_index": 7, "positive": true, "source": "NODE_707_A", "target": "NODE_707_C", "edges": [["NODE_707_A", "NODE_707_B"], ["NODE_707_B", "NODE_707_C"]]},
+    {"id": "ecc007-008", "case_index": 8, "positive": false, "source": "NODE_708_A", "target": "NODE_708_Z", "edges": [["NODE_708_A", "NODE_708_B"], ["NODE_708_B", "NODE_708_C"]]}
+  ]
+}

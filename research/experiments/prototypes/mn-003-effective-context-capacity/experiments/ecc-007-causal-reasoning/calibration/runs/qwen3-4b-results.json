@@ -1,0 +1,938 @@
+[
+  {
+    "model": "qwen3-4b",
+    "hop_count": 2,
+    "case": {
+      "id": "c01",
+      "case_index": 1,
+      "hop_count": 2,
+      "positive": true,
+      "source": "NODE_701_A",
+      "target": "NODE_701_C",
+      "edges": [
+        [
+          "NODE_701_A",
+          "NODE_701_B"
+        ],
+        [
+          "NODE_701_B",
+          "NODE_701_C"
+        ]
+      ]
+    },
+    "actual_input_tokens": 511,
+    "evidence_ratio": 0.52,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c01_before_1_A",
+        "NODE_D_c01_before_1_B"
+      ],
+      [
+        "NODE_D_c01_before_2_A",
+        "NODE_D_c01_before_2_B"
+      ],
+      [
+        "NODE_D_c01_before_3_A",
+        "NODE_D_c01_before_3_B"
+      ],
+      [
+        "NODE_D_c01_before_4_A",
+        "NODE_D_c01_before_4_B"
+      ],
+      [
+        "NODE_D_c01_before_5_A",
+        "NODE_D_c01_before_5_B"
+      ],
+      [
+        "NODE_D_c01_before_6_A",
+        "NODE_D_c01_before_6_B"
+      ],
+      [
+        "NODE_D_c01_before_7_A",
+        "NODE_D_c01_before_7_B"
+      ],
+      [
+        "NODE_D_c01_before_8_A",
+        "NODE_D_c01_before_8_B"
+      ],
+      [
+        "NODE_D_c01_before_9_A",
+        "NODE_D_c01_before_9_B"
+      ],
+      [
+        "NODE_D_c01_before_10_A",
+        "NODE_D_c01_before_10_B"
+      ],
+      [
+        "NODE_D_c01_after_1_A",
+        "NODE_D_c01_after_1_B"
+      ],
+      [
+        "NODE_D_c01_after_2_A",
+        "NODE_D_c01_after_2_B"
+      ],
+      [
+        "NODE_D_c01_after_3_A",
+        "NODE_D_c01_after_3_B"
+      ],
+      [
+        "NODE_D_c01_after_4_A",
+        "NODE_D_c01_after_4_B"
+      ],
+      [
+        "NODE_D_c01_after_5_A",
+        "NODE_D_c01_after_5_B"
+      ],
+      [
+        "NODE_D_c01_after_6_A",
+        "NODE_D_c01_after_6_B"
+      ],
+      [
+        "NODE_D_c01_after_7_A",
+        "NODE_D_c01_after_7_B"
+      ],
+      [
+        "NODE_D_c01_after_8_A",
+        "NODE_D_c01_after_8_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_701_A causes NODE_701_B.\nCausal link: NODE_701_B causes NODE_701_C.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c01_before_1_A causes NODE_D_c01_before_1_B.\nCausal link: NODE_D_c01_before_2_A causes NODE_D_c01_before_2_B.\nCausal link: NODE_D_c01_before_3_A causes NODE_D_c01_before_3_B.\nCausal link: NODE_D_c01_before_4_A causes NODE_D_c01_before_4_B.\nCausal link: NODE_D_c01_before_5_A causes NODE_D_c01_before_5_B.\nCausal link: NODE_D_c01_before_6_A causes NODE_D_c01_before_6_B.\nCausal link: NODE_D_c01_before_7_A causes NODE_D_c01_before_7_B.\nCausal link: NODE_D_c01_before_8_A causes NODE_D_c01_before_8_B.\nCausal link: NODE_D_c01_before_9_A causes NODE_D_c01_before_9_B.\nCausal link: NODE_D_c01_before_10_A causes NODE_D_c01_before_10_B.\nCausal link: NODE_701_A causes NODE_701_B.\nCausal link: NODE_701_B causes NODE_701_C.\nCausal link: NODE_D_c01_after_1_A causes NODE_D_c01_after_1_B.\nCausal link: NODE_D_c01_after_2_A causes NODE_D_c01_after_2_B.\nCausal link: NODE_D_c01_after_3_A causes NODE_D_c01_after_3_B.\nCausal link: NODE_D_c01_after_4_A causes NODE_D_c01_after_4_B.\nCausal link: NODE_D_c01_after_5_A causes NODE_D_c01_after_5_B.\nCausal link: NODE_D_c01_after_6_A causes NODE_D_c01_after_6_B.\nCausal link: NODE_D_c01_after_7_A causes NODE_D_c01_after_7_B.\nCausal link: NODE_D_c01_after_8_A causes NODE_D_c01_after_8_B.\n\nQuestion:\nDoes NODE_701_A eventually cause NODE_701_C? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "YES",
+    "normalized": "yes",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 2,
+    "case": {
+      "id": "c02",
+      "case_index": 2,
+      "hop_count": 2,
+      "positive": true,
+      "source": "NODE_702_A",
+      "target": "NODE_702_C",
+      "edges": [
+        [
+          "NODE_702_A",
+          "NODE_702_B"
+        ],
+        [
+          "NODE_702_B",
+          "NODE_702_C"
+        ]
+      ]
+    },
+    "actual_input_tokens": 511,
+    "evidence_ratio": 0.52,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c02_before_1_A",
+        "NODE_D_c02_before_1_B"
+      ],
+      [
+        "NODE_D_c02_before_2_A",
+        "NODE_D_c02_before_2_B"
+      ],
+      [
+        "NODE_D_c02_before_3_A",
+        "NODE_D_c02_before_3_B"
+      ],
+      [
+        "NODE_D_c02_before_4_A",
+        "NODE_D_c02_before_4_B"
+      ],
+      [
+        "NODE_D_c02_before_5_A",
+        "NODE_D_c02_before_5_B"
+      ],
+      [
+        "NODE_D_c02_before_6_A",
+        "NODE_D_c02_before_6_B"
+      ],
+      [
+        "NODE_D_c02_before_7_A",
+        "NODE_D_c02_before_7_B"
+      ],
+      [
+        "NODE_D_c02_before_8_A",
+        "NODE_D_c02_before_8_B"
+      ],
+      [
+        "NODE_D_c02_before_9_A",
+        "NODE_D_c02_before_9_B"
+      ],
+      [
+        "NODE_D_c02_before_10_A",
+        "NODE_D_c02_before_10_B"
+      ],
+      [
+        "NODE_D_c02_after_1_A",
+        "NODE_D_c02_after_1_B"
+      ],
+      [
+        "NODE_D_c02_after_2_A",
+        "NODE_D_c02_after_2_B"
+      ],
+      [
+        "NODE_D_c02_after_3_A",
+        "NODE_D_c02_after_3_B"
+      ],
+      [
+        "NODE_D_c02_after_4_A",
+        "NODE_D_c02_after_4_B"
+      ],
+      [
+        "NODE_D_c02_after_5_A",
+        "NODE_D_c02_after_5_B"
+      ],
+      [
+        "NODE_D_c02_after_6_A",
+        "NODE_D_c02_after_6_B"
+      ],
+      [
+        "NODE_D_c02_after_7_A",
+        "NODE_D_c02_after_7_B"
+      ],
+      [
+        "NODE_D_c02_after_8_A",
+        "NODE_D_c02_after_8_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_702_A causes NODE_702_B.\nCausal link: NODE_702_B causes NODE_702_C.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c02_before_1_A causes NODE_D_c02_before_1_B.\nCausal link: NODE_D_c02_before_2_A causes NODE_D_c02_before_2_B.\nCausal link: NODE_D_c02_before_3_A causes NODE_D_c02_before_3_B.\nCausal link: NODE_D_c02_before_4_A causes NODE_D_c02_before_4_B.\nCausal link: NODE_D_c02_before_5_A causes NODE_D_c02_before_5_B.\nCausal link: NODE_D_c02_before_6_A causes NODE_D_c02_before_6_B.\nCausal link: NODE_D_c02_before_7_A causes NODE_D_c02_before_7_B.\nCausal link: NODE_D_c02_before_8_A causes NODE_D_c02_before_8_B.\nCausal link: NODE_D_c02_before_9_A causes NODE_D_c02_before_9_B.\nCausal link: NODE_D_c02_before_10_A causes NODE_D_c02_before_10_B.\nCausal link: NODE_702_A causes NODE_702_B.\nCausal link: NODE_702_B causes NODE_702_C.\nCausal link: NODE_D_c02_after_1_A causes NODE_D_c02_after_1_B.\nCausal link: NODE_D_c02_after_2_A causes NODE_D_c02_after_2_B.\nCausal link: NODE_D_c02_after_3_A causes NODE_D_c02_after_3_B.\nCausal link: NODE_D_c02_after_4_A causes NODE_D_c02_after_4_B.\nCausal link: NODE_D_c02_after_5_A causes NODE_D_c02_after_5_B.\nCausal link: NODE_D_c02_after_6_A causes NODE_D_c02_after_6_B.\nCausal link: NODE_D_c02_after_7_A causes NODE_D_c02_after_7_B.\nCausal link: NODE_D_c02_after_8_A causes NODE_D_c02_after_8_B.\n\nQuestion:\nDoes NODE_702_A eventually cause NODE_702_C? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "YES",
+    "normalized": "yes",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 2,
+    "case": {
+      "id": "c03",
+      "case_index": 3,
+      "hop_count": 2,
+      "positive": false,
+      "source": "NODE_703_A",
+      "target": "NODE_703_Z",
+      "edges": [
+        [
+          "NODE_703_A",
+          "NODE_703_B"
+        ],
+        [
+          "NODE_703_B",
+          "NODE_703_C"
+        ]
+      ]
+    },
+    "actual_input_tokens": 511,
+    "evidence_ratio": 0.52,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c03_before_1_A",
+        "NODE_D_c03_before_1_B"
+      ],
+      [
+        "NODE_D_c03_before_2_A",
+        "NODE_D_c03_before_2_B"
+      ],
+      [
+        "NODE_D_c03_before_3_A",
+        "NODE_D_c03_before_3_B"
+      ],
+      [
+        "NODE_D_c03_before_4_A",
+        "NODE_D_c03_before_4_B"
+      ],
+      [
+        "NODE_D_c03_before_5_A",
+        "NODE_D_c03_before_5_B"
+      ],
+      [
+        "NODE_D_c03_before_6_A",
+        "NODE_D_c03_before_6_B"
+      ],
+      [
+        "NODE_D_c03_before_7_A",
+        "NODE_D_c03_before_7_B"
+      ],
+      [
+        "NODE_D_c03_before_8_A",
+        "NODE_D_c03_before_8_B"
+      ],
+      [
+        "NODE_D_c03_before_9_A",
+        "NODE_D_c03_before_9_B"
+      ],
+      [
+        "NODE_D_c03_before_10_A",
+        "NODE_D_c03_before_10_B"
+      ],
+      [
+        "NODE_D_c03_after_1_A",
+        "NODE_D_c03_after_1_B"
+      ],
+      [
+        "NODE_D_c03_after_2_A",
+        "NODE_D_c03_after_2_B"
+      ],
+      [
+        "NODE_D_c03_after_3_A",
+        "NODE_D_c03_after_3_B"
+      ],
+      [
+        "NODE_D_c03_after_4_A",
+        "NODE_D_c03_after_4_B"
+      ],
+      [
+        "NODE_D_c03_after_5_A",
+        "NODE_D_c03_after_5_B"
+      ],
+      [
+        "NODE_D_c03_after_6_A",
+        "NODE_D_c03_after_6_B"
+      ],
+      [
+        "NODE_D_c03_after_7_A",
+        "NODE_D_c03_after_7_B"
+      ],
+      [
+        "NODE_D_c03_after_8_A",
+        "NODE_D_c03_after_8_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_703_A causes NODE_703_B.\nCausal link: NODE_703_B causes NODE_703_C.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c03_before_1_A causes NODE_D_c03_before_1_B.\nCausal link: NODE_D_c03_before_2_A causes NODE_D_c03_before_2_B.\nCausal link: NODE_D_c03_before_3_A causes NODE_D_c03_before_3_B.\nCausal link: NODE_D_c03_before_4_A causes NODE_D_c03_before_4_B.\nCausal link: NODE_D_c03_before_5_A causes NODE_D_c03_before_5_B.\nCausal link: NODE_D_c03_before_6_A causes NODE_D_c03_before_6_B.\nCausal link: NODE_D_c03_before_7_A causes NODE_D_c03_before_7_B.\nCausal link: NODE_D_c03_before_8_A causes NODE_D_c03_before_8_B.\nCausal link: NODE_D_c03_before_9_A causes NODE_D_c03_before_9_B.\nCausal link: NODE_D_c03_before_10_A causes NODE_D_c03_before_10_B.\nCausal link: NODE_703_A causes NODE_703_B.\nCausal link: NODE_703_B causes NODE_703_C.\nCausal link: NODE_D_c03_after_1_A causes NODE_D_c03_after_1_B.\nCausal link: NODE_D_c03_after_2_A causes NODE_D_c03_after_2_B.\nCausal link: NODE_D_c03_after_3_A causes NODE_D_c03_after_3_B.\nCausal link: NODE_D_c03_after_4_A causes NODE_D_c03_after_4_B.\nCausal link: NODE_D_c03_after_5_A causes NODE_D_c03_after_5_B.\nCausal link: NODE_D_c03_after_6_A causes NODE_D_c03_after_6_B.\nCausal link: NODE_D_c03_after_7_A causes NODE_D_c03_after_7_B.\nCausal link: NODE_D_c03_after_8_A causes NODE_D_c03_after_8_B.\n\nQuestion:\nDoes NODE_703_A eventually cause NODE_703_Z? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "NO",
+    "normalized": "no",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 2,
+    "case": {
+      "id": "c04",
+      "case_index": 4,
+      "hop_count": 2,
+      "positive": false,
+      "source": "NODE_704_A",
+      "target": "NODE_704_Z",
+      "edges": [
+        [
+          "NODE_704_A",
+          "NODE_704_B"
+        ],
+        [
+          "NODE_704_B",
+          "NODE_704_C"
+        ]
+      ]
+    },
+    "actual_input_tokens": 511,
+    "evidence_ratio": 0.52,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c04_before_1_A",
+        "NODE_D_c04_before_1_B"
+      ],
+      [
+        "NODE_D_c04_before_2_A",
+        "NODE_D_c04_before_2_B"
+      ],
+      [
+        "NODE_D_c04_before_3_A",
+        "NODE_D_c04_before_3_B"
+      ],
+      [
+        "NODE_D_c04_before_4_A",
+        "NODE_D_c04_before_4_B"
+      ],
+      [
+        "NODE_D_c04_before_5_A",
+        "NODE_D_c04_before_5_B"
+      ],
+      [
+        "NODE_D_c04_before_6_A",
+        "NODE_D_c04_before_6_B"
+      ],
+      [
+        "NODE_D_c04_before_7_A",
+        "NODE_D_c04_before_7_B"
+      ],
+      [
+        "NODE_D_c04_before_8_A",
+        "NODE_D_c04_before_8_B"
+      ],
+      [
+        "NODE_D_c04_before_9_A",
+        "NODE_D_c04_before_9_B"
+      ],
+      [
+        "NODE_D_c04_before_10_A",
+        "NODE_D_c04_before_10_B"
+      ],
+      [
+        "NODE_D_c04_after_1_A",
+        "NODE_D_c04_after_1_B"
+      ],
+      [
+        "NODE_D_c04_after_2_A",
+        "NODE_D_c04_after_2_B"
+      ],
+      [
+        "NODE_D_c04_after_3_A",
+        "NODE_D_c04_after_3_B"
+      ],
+      [
+        "NODE_D_c04_after_4_A",
+        "NODE_D_c04_after_4_B"
+      ],
+      [
+        "NODE_D_c04_after_5_A",
+        "NODE_D_c04_after_5_B"
+      ],
+      [
+        "NODE_D_c04_after_6_A",
+        "NODE_D_c04_after_6_B"
+      ],
+      [
+        "NODE_D_c04_after_7_A",
+        "NODE_D_c04_after_7_B"
+      ],
+      [
+        "NODE_D_c04_after_8_A",
+        "NODE_D_c04_after_8_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_704_A causes NODE_704_B.\nCausal link: NODE_704_B causes NODE_704_C.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c04_before_1_A causes NODE_D_c04_before_1_B.\nCausal link: NODE_D_c04_before_2_A causes NODE_D_c04_before_2_B.\nCausal link: NODE_D_c04_before_3_A causes NODE_D_c04_before_3_B.\nCausal link: NODE_D_c04_before_4_A causes NODE_D_c04_before_4_B.\nCausal link: NODE_D_c04_before_5_A causes NODE_D_c04_before_5_B.\nCausal link: NODE_D_c04_before_6_A causes NODE_D_c04_before_6_B.\nCausal link: NODE_D_c04_before_7_A causes NODE_D_c04_before_7_B.\nCausal link: NODE_D_c04_before_8_A causes NODE_D_c04_before_8_B.\nCausal link: NODE_D_c04_before_9_A causes NODE_D_c04_before_9_B.\nCausal link: NODE_D_c04_before_10_A causes NODE_D_c04_before_10_B.\nCausal link: NODE_704_A causes NODE_704_B.\nCausal link: NODE_704_B causes NODE_704_C.\nCausal link: NODE_D_c04_after_1_A causes NODE_D_c04_after_1_B.\nCausal link: NODE_D_c04_after_2_A causes NODE_D_c04_after_2_B.\nCausal link: NODE_D_c04_after_3_A causes NODE_D_c04_after_3_B.\nCausal link: NODE_D_c04_after_4_A causes NODE_D_c04_after_4_B.\nCausal link: NODE_D_c04_after_5_A causes NODE_D_c04_after_5_B.\nCausal link: NODE_D_c04_after_6_A causes NODE_D_c04_after_6_B.\nCausal link: NODE_D_c04_after_7_A causes NODE_D_c04_after_7_B.\nCausal link: NODE_D_c04_after_8_A causes NODE_D_c04_after_8_B.\n\nQuestion:\nDoes NODE_704_A eventually cause NODE_704_Z? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "NO",
+    "normalized": "no",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 3,
+    "case": {
+      "id": "c01",
+      "case_index": 1,
+      "hop_count": 3,
+      "positive": true,
+      "source": "NODE_701_A",
+      "target": "NODE_701_D",
+      "edges": [
+        [
+          "NODE_701_A",
+          "NODE_701_B"
+        ],
+        [
+          "NODE_701_B",
+          "NODE_701_C"
+        ],
+        [
+          "NODE_701_C",
+          "NODE_701_D"
+        ]
+      ]
+    },
+    "actual_input_tokens": 505,
+    "evidence_ratio": 0.526652,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c01_before_1_A",
+        "NODE_D_c01_before_1_B"
+      ],
+      [
+        "NODE_D_c01_before_2_A",
+        "NODE_D_c01_before_2_B"
+      ],
+      [
+        "NODE_D_c01_before_3_A",
+        "NODE_D_c01_before_3_B"
+      ],
+      [
+        "NODE_D_c01_before_4_A",
+        "NODE_D_c01_before_4_B"
+      ],
+      [
+        "NODE_D_c01_before_5_A",
+        "NODE_D_c01_before_5_B"
+      ],
+      [
+        "NODE_D_c01_before_6_A",
+        "NODE_D_c01_before_6_B"
+      ],
+      [
+        "NODE_D_c01_before_7_A",
+        "NODE_D_c01_before_7_B"
+      ],
+      [
+        "NODE_D_c01_before_8_A",
+        "NODE_D_c01_before_8_B"
+      ],
+      [
+        "NODE_D_c01_before_9_A",
+        "NODE_D_c01_before_9_B"
+      ],
+      [
+        "NODE_D_c01_before_10_A",
+        "NODE_D_c01_before_10_B"
+      ],
+      [
+        "NODE_D_c01_after_1_A",
+        "NODE_D_c01_after_1_B"
+      ],
+      [
+        "NODE_D_c01_after_2_A",
+        "NODE_D_c01_after_2_B"
+      ],
+      [
+        "NODE_D_c01_after_3_A",
+        "NODE_D_c01_after_3_B"
+      ],
+      [
+        "NODE_D_c01_after_4_A",
+        "NODE_D_c01_after_4_B"
+      ],
+      [
+        "NODE_D_c01_after_5_A",
+        "NODE_D_c01_after_5_B"
+      ],
+      [
+        "NODE_D_c01_after_6_A",
+        "NODE_D_c01_after_6_B"
+      ],
+      [
+        "NODE_D_c01_after_7_A",
+        "NODE_D_c01_after_7_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_701_A causes NODE_701_B.\nCausal link: NODE_701_B causes NODE_701_C.\nCausal link: NODE_701_C causes NODE_701_D.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c01_before_1_A causes NODE_D_c01_before_1_B.\nCausal link: NODE_D_c01_before_2_A causes NODE_D_c01_before_2_B.\nCausal link: NODE_D_c01_before_3_A causes NODE_D_c01_before_3_B.\nCausal link: NODE_D_c01_before_4_A causes NODE_D_c01_before_4_B.\nCausal link: NODE_D_c01_before_5_A causes NODE_D_c01_before_5_B.\nCausal link: NODE_D_c01_before_6_A causes NODE_D_c01_before_6_B.\nCausal link: NODE_D_c01_before_7_A causes NODE_D_c01_before_7_B.\nCausal link: NODE_D_c01_before_8_A causes NODE_D_c01_before_8_B.\nCausal link: NODE_D_c01_before_9_A causes NODE_D_c01_before_9_B.\nCausal link: NODE_D_c01_before_10_A causes NODE_D_c01_before_10_B.\nCausal link: NODE_701_A causes NODE_701_B.\nCausal link: NODE_701_B causes NODE_701_C.\nCausal link: NODE_701_C causes NODE_701_D.\nCausal link: NODE_D_c01_after_1_A causes NODE_D_c01_after_1_B.\nCausal link: NODE_D_c01_after_2_A causes NODE_D_c01_after_2_B.\nCausal link: NODE_D_c01_after_3_A causes NODE_D_c01_after_3_B.\nCausal link: NODE_D_c01_after_4_A causes NODE_D_c01_after_4_B.\nCausal link: NODE_D_c01_after_5_A causes NODE_D_c01_after_5_B.\nCausal link: NODE_D_c01_after_6_A causes NODE_D_c01_after_6_B.\nCausal link: NODE_D_c01_after_7_A causes NODE_D_c01_after_7_B.\n\nQuestion:\nDoes NODE_701_A eventually cause NODE_701_D? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "YES",
+    "normalized": "yes",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 3,
+    "case": {
+      "id": "c02",
+      "case_index": 2,
+      "hop_count": 3,
+      "positive": true,
+      "source": "NODE_702_A",
+      "target": "NODE_702_D",
+      "edges": [
+        [
+          "NODE_702_A",
+          "NODE_702_B"
+        ],
+        [
+          "NODE_702_B",
+          "NODE_702_C"
+        ],
+        [
+          "NODE_702_C",
+          "NODE_702_D"
+        ]
+      ]
+    },
+    "actual_input_tokens": 505,
+    "evidence_ratio": 0.526652,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c02_before_1_A",
+        "NODE_D_c02_before_1_B"
+      ],
+      [
+        "NODE_D_c02_before_2_A",
+        "NODE_D_c02_before_2_B"
+      ],
+      [
+        "NODE_D_c02_before_3_A",
+        "NODE_D_c02_before_3_B"
+      ],
+      [
+        "NODE_D_c02_before_4_A",
+        "NODE_D_c02_before_4_B"
+      ],
+      [
+        "NODE_D_c02_before_5_A",
+        "NODE_D_c02_before_5_B"
+      ],
+      [
+        "NODE_D_c02_before_6_A",
+        "NODE_D_c02_before_6_B"
+      ],
+      [
+        "NODE_D_c02_before_7_A",
+        "NODE_D_c02_before_7_B"
+      ],
+      [
+        "NODE_D_c02_before_8_A",
+        "NODE_D_c02_before_8_B"
+      ],
+      [
+        "NODE_D_c02_before_9_A",
+        "NODE_D_c02_before_9_B"
+      ],
+      [
+        "NODE_D_c02_before_10_A",
+        "NODE_D_c02_before_10_B"
+      ],
+      [
+        "NODE_D_c02_after_1_A",
+        "NODE_D_c02_after_1_B"
+      ],
+      [
+        "NODE_D_c02_after_2_A",
+        "NODE_D_c02_after_2_B"
+      ],
+      [
+        "NODE_D_c02_after_3_A",
+        "NODE_D_c02_after_3_B"
+      ],
+      [
+        "NODE_D_c02_after_4_A",
+        "NODE_D_c02_after_4_B"
+      ],
+      [
+        "NODE_D_c02_after_5_A",
+        "NODE_D_c02_after_5_B"
+      ],
+      [
+        "NODE_D_c02_after_6_A",
+        "NODE_D_c02_after_6_B"
+      ],
+      [
+        "NODE_D_c02_after_7_A",
+        "NODE_D_c02_after_7_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_702_A causes NODE_702_B.\nCausal link: NODE_702_B causes NODE_702_C.\nCausal link: NODE_702_C causes NODE_702_D.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c02_before_1_A causes NODE_D_c02_before_1_B.\nCausal link: NODE_D_c02_before_2_A causes NODE_D_c02_before_2_B.\nCausal link: NODE_D_c02_before_3_A causes NODE_D_c02_before_3_B.\nCausal link: NODE_D_c02_before_4_A causes NODE_D_c02_before_4_B.\nCausal link: NODE_D_c02_before_5_A causes NODE_D_c02_before_5_B.\nCausal link: NODE_D_c02_before_6_A causes NODE_D_c02_before_6_B.\nCausal link: NODE_D_c02_before_7_A causes NODE_D_c02_before_7_B.\nCausal link: NODE_D_c02_before_8_A causes NODE_D_c02_before_8_B.\nCausal link: NODE_D_c02_before_9_A causes NODE_D_c02_before_9_B.\nCausal link: NODE_D_c02_before_10_A causes NODE_D_c02_before_10_B.\nCausal link: NODE_702_A causes NODE_702_B.\nCausal link: NODE_702_B causes NODE_702_C.\nCausal link: NODE_702_C causes NODE_702_D.\nCausal link: NODE_D_c02_after_1_A causes NODE_D_c02_after_1_B.\nCausal link: NODE_D_c02_after_2_A causes NODE_D_c02_after_2_B.\nCausal link: NODE_D_c02_after_3_A causes NODE_D_c02_after_3_B.\nCausal link: NODE_D_c02_after_4_A causes NODE_D_c02_after_4_B.\nCausal link: NODE_D_c02_after_5_A causes NODE_D_c02_after_5_B.\nCausal link: NODE_D_c02_after_6_A causes NODE_D_c02_after_6_B.\nCausal link: NODE_D_c02_after_7_A causes NODE_D_c02_after_7_B.\n\nQuestion:\nDoes NODE_702_A eventually cause NODE_702_D? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "YES",
+    "normalized": "yes",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 3,
+    "case": {
+      "id": "c03",
+      "case_index": 3,
+      "hop_count": 3,
+      "positive": false,
+      "source": "NODE_703_A",
+      "target": "NODE_703_Z",
+      "edges": [
+        [
+          "NODE_703_A",
+          "NODE_703_B"
+        ],
+        [
+          "NODE_703_B",
+          "NODE_703_C"
+        ],
+        [
+          "NODE_703_C",
+          "NODE_703_D"
+        ]
+      ]
+    },
+    "actual_input_tokens": 505,
+    "evidence_ratio": 0.526652,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c03_before_1_A",
+        "NODE_D_c03_before_1_B"
+      ],
+      [
+        "NODE_D_c03_before_2_A",
+        "NODE_D_c03_before_2_B"
+      ],
+      [
+        "NODE_D_c03_before_3_A",
+        "NODE_D_c03_before_3_B"
+      ],
+      [
+        "NODE_D_c03_before_4_A",
+        "NODE_D_c03_before_4_B"
+      ],
+      [
+        "NODE_D_c03_before_5_A",
+        "NODE_D_c03_before_5_B"
+      ],
+      [
+        "NODE_D_c03_before_6_A",
+        "NODE_D_c03_before_6_B"
+      ],
+      [
+        "NODE_D_c03_before_7_A",
+        "NODE_D_c03_before_7_B"
+      ],
+      [
+        "NODE_D_c03_before_8_A",
+        "NODE_D_c03_before_8_B"
+      ],
+      [
+        "NODE_D_c03_before_9_A",
+        "NODE_D_c03_before_9_B"
+      ],
+      [
+        "NODE_D_c03_before_10_A",
+        "NODE_D_c03_before_10_B"
+      ],
+      [
+        "NODE_D_c03_after_1_A",
+        "NODE_D_c03_after_1_B"
+      ],
+      [
+        "NODE_D_c03_after_2_A",
+        "NODE_D_c03_after_2_B"
+      ],
+      [
+        "NODE_D_c03_after_3_A",
+        "NODE_D_c03_after_3_B"
+      ],
+      [
+        "NODE_D_c03_after_4_A",
+        "NODE_D_c03_after_4_B"
+      ],
+      [
+        "NODE_D_c03_after_5_A",
+        "NODE_D_c03_after_5_B"
+      ],
+      [
+        "NODE_D_c03_after_6_A",
+        "NODE_D_c03_after_6_B"
+      ],
+      [
+        "NODE_D_c03_after_7_A",
+        "NODE_D_c03_after_7_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_703_A causes NODE_703_B.\nCausal link: NODE_703_B causes NODE_703_C.\nCausal link: NODE_703_C causes NODE_703_D.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c03_before_1_A causes NODE_D_c03_before_1_B.\nCausal link: NODE_D_c03_before_2_A causes NODE_D_c03_before_2_B.\nCausal link: NODE_D_c03_before_3_A causes NODE_D_c03_before_3_B.\nCausal link: NODE_D_c03_before_4_A causes NODE_D_c03_before_4_B.\nCausal link: NODE_D_c03_before_5_A causes NODE_D_c03_before_5_B.\nCausal link: NODE_D_c03_before_6_A causes NODE_D_c03_before_6_B.\nCausal link: NODE_D_c03_before_7_A causes NODE_D_c03_before_7_B.\nCausal link: NODE_D_c03_before_8_A causes NODE_D_c03_before_8_B.\nCausal link: NODE_D_c03_before_9_A causes NODE_D_c03_before_9_B.\nCausal link: NODE_D_c03_before_10_A causes NODE_D_c03_before_10_B.\nCausal link: NODE_703_A causes NODE_703_B.\nCausal link: NODE_703_B causes NODE_703_C.\nCausal link: NODE_703_C causes NODE_703_D.\nCausal link: NODE_D_c03_after_1_A causes NODE_D_c03_after_1_B.\nCausal link: NODE_D_c03_after_2_A causes NODE_D_c03_after_2_B.\nCausal link: NODE_D_c03_after_3_A causes NODE_D_c03_after_3_B.\nCausal link: NODE_D_c03_after_4_A causes NODE_D_c03_after_4_B.\nCausal link: NODE_D_c03_after_5_A causes NODE_D_c03_after_5_B.\nCausal link: NODE_D_c03_after_6_A causes NODE_D_c03_after_6_B.\nCausal link: NODE_D_c03_after_7_A causes NODE_D_c03_after_7_B.\n\nQuestion:\nDoes NODE_703_A eventually cause NODE_703_Z? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "NO",
+    "normalized": "no",
+    "passed": true
+  },
+  {
+    "model": "qwen3-4b",
+    "hop_count": 3,
+    "case": {
+      "id": "c04",
+      "case_index": 4,
+      "hop_count": 3,
+      "positive": false,
+      "source": "NODE_704_A",
+      "target": "NODE_704_Z",
+      "edges": [
+        [
+          "NODE_704_A",
+          "NODE_704_B"
+        ],
+        [
+          "NODE_704_B",
+          "NODE_704_C"
+        ],
+        [
+          "NODE_704_C",
+          "NODE_704_D"
+        ]
+      ]
+    },
+    "actual_input_tokens": 505,
+    "evidence_ratio": 0.526652,
+    "distractor_edges_before": 10,
+    "distractor_edges": [
+      [
+        "NODE_D_c04_before_1_A",
+        "NODE_D_c04_before_1_B"
+      ],
+      [
+        "NODE_D_c04_before_2_A",
+        "NODE_D_c04_before_2_B"
+      ],
+      [
+        "NODE_D_c04_before_3_A",
+        "NODE_D_c04_before_3_B"
+      ],
+      [
+        "NODE_D_c04_before_4_A",
+        "NODE_D_c04_before_4_B"
+      ],
+      [
+        "NODE_D_c04_before_5_A",
+        "NODE_D_c04_before_5_B"
+      ],
+      [
+        "NODE_D_c04_before_6_A",
+        "NODE_D_c04_before_6_B"
+      ],
+      [
+        "NODE_D_c04_before_7_A",
+        "NODE_D_c04_before_7_B"
+      ],
+      [
+        "NODE_D_c04_before_8_A",
+        "NODE_D_c04_before_8_B"
+      ],
+      [
+        "NODE_D_c04_before_9_A",
+        "NODE_D_c04_before_9_B"
+      ],
+      [
+        "NODE_D_c04_before_10_A",
+        "NODE_D_c04_before_10_B"
+      ],
+      [
+        "NODE_D_c04_after_1_A",
+        "NODE_D_c04_after_1_B"
+      ],
+      [
+        "NODE_D_c04_after_2_A",
+        "NODE_D_c04_after_2_B"
+      ],
+      [
+        "NODE_D_c04_after_3_A",
+        "NODE_D_c04_after_3_B"
+      ],
+      [
+        "NODE_D_c04_after_4_A",
+        "NODE_D_c04_after_4_B"
+      ],
+      [
+        "NODE_D_c04_after_5_A",
+        "NODE_D_c04_after_5_B"
+      ],
+      [
+        "NODE_D_c04_after_6_A",
+        "NODE_D_c04_after_6_B"
+      ],
+      [
+        "NODE_D_c04_after_7_A",
+        "NODE_D_c04_after_7_B"
+      ]
+    ],
+    "relevant_graph": "Causal link: NODE_704_A causes NODE_704_B.\nCausal link: NODE_704_B causes NODE_704_C.\nCausal link: NODE_704_C causes NODE_704_D.",
+    "request": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Causal graph statements:\nCausal link: NODE_D_c04_before_1_A causes NODE_D_c04_before_1_B.\nCausal link: NODE_D_c04_before_2_A causes NODE_D_c04_before_2_B.\nCausal link: NODE_D_c04_before_3_A causes NODE_D_c04_before_3_B.\nCausal link: NODE_D_c04_before_4_A causes NODE_D_c04_before_4_B.\nCausal link: NODE_D_c04_before_5_A causes NODE_D_c04_before_5_B.\nCausal link: NODE_D_c04_before_6_A causes NODE_D_c04_before_6_B.\nCausal link: NODE_D_c04_before_7_A causes NODE_D_c04_before_7_B.\nCausal link: NODE_D_c04_before_8_A causes NODE_D_c04_before_8_B.\nCausal link: NODE_D_c04_before_9_A causes NODE_D_c04_before_9_B.\nCausal link: NODE_D_c04_before_10_A causes NODE_D_c04_before_10_B.\nCausal link: NODE_704_A causes NODE_704_B.\nCausal link: NODE_704_B causes NODE_704_C.\nCausal link: NODE_704_C causes NODE_704_D.\nCausal link: NODE_D_c04_after_1_A causes NODE_D_c04_after_1_B.\nCausal link: NODE_D_c04_after_2_A causes NODE_D_c04_after_2_B.\nCausal link: NODE_D_c04_after_3_A causes NODE_D_c04_after_3_B.\nCausal link: NODE_D_c04_after_4_A causes NODE_D_c04_after_4_B.\nCausal link: NODE_D_c04_after_5_A causes NODE_D_c04_after_5_B.\nCausal link: NODE_D_c04_after_6_A causes NODE_D_c04_after_6_B.\nCausal link: NODE_D_c04_after_7_A causes NODE_D_c04_after_7_B.\n\nQuestion:\nDoes NODE_704_A eventually cause NODE_704_Z? Return only YES or NO."
+        }
+      ],
+      "temperature": 0.0,
+      "seed": 42,
+      "max_tokens": 16,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "raw": "NO",
+    "normalized": "no",
+    "passed": true
+  }
+]

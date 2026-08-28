@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["id","version","hypothesis","independent_variable","controls","case_generation","token_budget","inference"],"properties":{"id":{"const":"ecc-007-causal-reasoning"},"version":{"type":"string"}},"additionalProperties":true}

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["run_id","experiment","definition_fingerprint","repository","model","runtime","hardware","inference","selection","command"],"additionalProperties":true}

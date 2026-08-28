@@ -1,0 +1,7 @@
+{
+  "qwen3-4b": {
+    "file": "Qwen3-4B-Q4_K_M.gguf",
+    "qualified_by": "MN-002 MCB v0.3.0",
+    "chat_template_kwargs": {"enable_thinking": false}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "seed": 20260828,
+  "models": ["llama-3.2-3b", "qwen3-4b"],
+  "context_target": 512,
+  "candidates": [
+    {"hop_count": 2, "cases": 4, "positive": 2, "negative": 2},
+    {"hop_count": 3, "cases": 4, "positive": 2, "negative": 2}
+  ],
+  "selection_rule": "Select the simplest candidate with non-floor short-context accuracy; prefer accuracy at least 0.75 when available."
+}

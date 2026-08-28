@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["case_id","requested_input_tokens","actual_input_tokens","context_tokens","evidence_position_ratio","distractor_edges","relevant_graph","expected_answer","context_sha256","request","output","evaluation","failure","truncated","timing","error"],"additionalProperties":true}
