@@ -17,6 +17,7 @@ import mn004_v3
 import mn004_v4
 import mn004_v5
 import run_mn004 as runtime
+import run_mn004_v4 as telemetry
 
 
 def utc_now() -> str:
@@ -58,7 +59,7 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
     identity = runtime.runtime_identity(args.llama_server)
     if any(identity[key] != definition["runtime"][key] for key in ("backend", "version", "build", "commit")):
         raise mn004.ContractError("v5 runtime identity mismatch")
-    baseline = mn004_v4.gpu_snapshot(); mn004_v4.require_telemetry(baseline)
+    baseline = telemetry.gpu_snapshot(); telemetry.require_telemetry(baseline)
     created = dt.datetime.now(dt.UTC); run_id = f"v5-{created:%Y%m%dT%H%M%SZ}-{args.phase}-{uuid.uuid4().hex[:8]}"
     run_dir, raw = mn004.RUNS / run_id, mn004.RUNS / run_id / "raw"; raw.mkdir(parents=True)
     metadata: dict[str, Any] = {
@@ -75,24 +76,24 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
         summary = {"run_id": run_id, "phase": args.phase, "expected_results": len(rows), "observed_results": 0, "completed_requests": 0, "outcome": "environment_contaminated", "server_lifecycle": {"started": False}, "telemetry": {"before_phase": baseline}}
         mn004.dump_json(run_dir / "summary.json", summary); return summary
     url = f"http://127.0.0.1:{args.port}"
-    if mn004_v4.health(url)["reachable"]:
+    if telemetry.health(url)["reachable"]:
         summary = {"run_id": run_id, "phase": args.phase, "expected_results": len(rows), "observed_results": 0, "completed_requests": 0, "outcome": "protocol_invalid", "server_lifecycle": {"started": False, "reason": "port_already_serving"}}
         mn004.dump_json(run_dir / "summary.json", summary); return summary
-    command = mn004_v4.build_server_command(args.llama_server, model, {"runtime": definition["runtime"], "model": model_config}, args.port)
+    command = telemetry.build_server_command(args.llama_server, model, {"runtime": definition["runtime"], "model": model_config}, args.port)
     stdout, stderr = raw / "llama-server.stdout.txt", raw / "llama-server.stderr.txt"
     process: subprocess.Popen[Any] | None = None; stdout_handle: Any = None; stderr_handle: Any = None; records: list[dict[str, Any]] = []
     lifecycle: dict[str, Any] = {"started": False, "command": command, "pid": None, "process_started_at": None, "health_at_ready": None, "expected_termination": False}
     try:
-        process, stdout_handle, stderr_handle = mn004_v4.start_server(command, stdout, stderr)
+        process, stdout_handle, stderr_handle = telemetry.start_server(command, stdout, stderr)
         lifecycle.update({"started": True, "pid": process.pid, "process_started_at": utc_now()})
-        runtime.wait_for_server(process, url); lifecycle["health_at_ready"] = mn004_v4.health(url)
-        ready = mn004_v4.gpu_snapshot(); mn004_v4.require_telemetry(ready); metadata["telemetry"]["server_ready"] = ready; mn004.dump_json(run_dir / "metadata.json", metadata)
+        runtime.wait_for_server(process, url); lifecycle["health_at_ready"] = telemetry.health(url)
+        ready = telemetry.gpu_snapshot(); telemetry.require_telemetry(ready); metadata["telemetry"]["server_ready"] = ready; mn004.dump_json(run_dir / "metadata.json", metadata)
         client = mn004.ServerClient(url, model_config["chat_template_kwargs"])
 
         def request(ordinal: int, row: dict[str, Any]) -> dict[str, Any]:
             pair = mn004_v5.preflight_pair(row, model_key, condition, definition)
             prompt = row["natural_prompt" if condition == "natural_language" else "ledger_prompt"]
-            before = mn004_v4.gpu_snapshot(); mn004_v4.require_telemetry(before)
+            before = telemetry.gpu_snapshot(); telemetry.require_telemetry(before)
             started, timer = utc_now(), time.perf_counter(); response: dict[str, Any] | None = None; infra: dict[str, Any] | None = None; flags: list[str] = []
             try:
                 _request, response = client.complete(prompt, definition["runtime"])
@@ -115,23 +116,23 @@ def run_phase(args: argparse.Namespace) -> dict[str, Any]:
                 "protocol_flags": flags, "error": infra, "request_started_at": started, "request_ended_at": ended, "latency_ms": round((time.perf_counter() - timer) * 1000, 3), "gpu_before_request": before, "completion_status": "complete", "failure_attachment": None,
             }
             if infra:
-                record["completion_status"] = "infrastructure_failure"; record["failure_attachment"] = {"captured_at": utc_now(), "error": infra, "stderr_tail": mn004_v4.stderr_tail(stderr, definition["operational"]["stderr_tail_bytes"]), "process": mn004_v4.poll_after_failure(process, definition["operational"]["post_failure_process_poll_seconds"]), "health": mn004_v4.health(url), "gpu": mn004_v4.gpu_snapshot()}
+                record["completion_status"] = "infrastructure_failure"; record["failure_attachment"] = {"captured_at": utc_now(), "error": infra, "stderr_tail": telemetry.stderr_tail(stderr, definition["operational"]["stderr_tail_bytes"]), "process": telemetry.poll_after_failure(process, definition["operational"]["post_failure_process_poll_seconds"]), "health": telemetry.health(url), "gpu": telemetry.gpu_snapshot()}
             elif flags:
-                record["completion_status"] = "protocol_invalid"; record["failure_attachment"] = {"captured_at": utc_now(), "protocol_flags": flags, "health": mn004_v4.health(url), "gpu": mn004_v4.gpu_snapshot()}
+                record["completion_status"] = "protocol_invalid"; record["failure_attachment"] = {"captured_at": utc_now(), "protocol_flags": flags, "health": telemetry.health(url), "gpu": telemetry.gpu_snapshot()}
             else:
-                record["gpu_after_request"] = mn004_v4.gpu_snapshot(); mn004_v4.require_telemetry(record["gpu_after_request"])
+                record["gpu_after_request"] = telemetry.gpu_snapshot(); telemetry.require_telemetry(record["gpu_after_request"])
             return record
 
         records = mn004_v5.execute_fail_fast(rows, request)
     except mn004.ContractError as exc:
-        records.append({"request_ordinal": 0, "case_id": None, "requested_input_tokens": None, "completion_status": "infrastructure_failure" if "llama-server" in str(exc) else "protocol_invalid", "protocol_valid": False, "infrastructure_status": "failed", "validator_status": "invalid", "input_truncated": False, "error": {"type": "contract_error", "message": str(exc)}, "failure_attachment": {"captured_at": utc_now(), "stderr_tail": mn004_v4.stderr_tail(stderr, definition["operational"]["stderr_tail_bytes"]), "gpu": mn004_v4.gpu_snapshot()}})
+        records.append({"request_ordinal": 0, "case_id": None, "requested_input_tokens": None, "completion_status": "infrastructure_failure" if "llama-server" in str(exc) else "protocol_invalid", "protocol_valid": False, "infrastructure_status": "failed", "validator_status": "invalid", "input_truncated": False, "error": {"type": "contract_error", "message": str(exc)}, "failure_attachment": {"captured_at": utc_now(), "stderr_tail": telemetry.stderr_tail(stderr, definition["operational"]["stderr_tail_bytes"]), "gpu": telemetry.gpu_snapshot()}})
     finally:
         if process:
             if process.poll() is None:
                 lifecycle["expected_termination"] = True; process.terminate()
                 try: process.wait(timeout=15)
                 except subprocess.TimeoutExpired: process.kill(); process.wait(timeout=15)
-            lifecycle.update({"process_exit_observed_at": utc_now(), "exit_code": process.poll(), "alive_after_cleanup": process.poll() is None, "health_after_cleanup": mn004_v4.health(url)})
+            lifecycle.update({"process_exit_observed_at": utc_now(), "exit_code": process.poll(), "alive_after_cleanup": process.poll() is None, "health_after_cleanup": telemetry.health(url)})
         if stdout_handle: stdout_handle.close()
         if stderr_handle: stderr_handle.close()
         _write_records(run_dir, records)
