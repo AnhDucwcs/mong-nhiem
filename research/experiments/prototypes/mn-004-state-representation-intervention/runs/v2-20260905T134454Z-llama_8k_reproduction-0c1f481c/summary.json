@@ -1,0 +1,17 @@
+{
+  "run_id": "v2-20260905T134454Z-llama_8k_reproduction-0c1f481c",
+  "phase": "llama_8k_reproduction",
+  "status": "valid",
+  "expected_results": 6,
+  "observed_results": 6,
+  "passes_by_level": {
+    "8192": 0
+  },
+  "failure_classes": {
+    "correct": 0,
+    "incorrect_state": 6,
+    "malformed_response": 0,
+    "truncation": 0,
+    "runtime_or_infrastructure_error": 0
+  }
+}
