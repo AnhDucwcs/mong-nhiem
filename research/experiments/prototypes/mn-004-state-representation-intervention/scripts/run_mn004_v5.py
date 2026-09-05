@@ -14,7 +14,6 @@ from typing import Any
 
 import mn004
 import mn004_v3
-import mn004_v4
 import mn004_v5
 import run_mn004 as runtime
 import run_mn004_v4 as telemetry
