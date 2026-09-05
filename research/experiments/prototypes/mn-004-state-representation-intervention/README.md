@@ -2,12 +2,13 @@
 
 ## Status
 
-**Gate A and Gate B v1 are frozen. Gate C v1 was authorized and implemented, then closed at `contract_not_executable` during tokenizer-only preflight. No completion inference, efficacy result, baseline-drift result, or Qwen no-harm result exists.**
+**Gate A and Gate B v1 are frozen. Gate C v1 closed at `contract_not_executable` during tokenizer-only preflight. A narrower v2 measurement contract is frozen; v2 implementation and evidence do not yet exist.**
 
 MN-004 is the successor intervention milestone to completed MN-003. Gate C v1 materialized a deterministic definition and source inventory, schemas, renderers, exact evaluator, validators, runner, and tokenizer preflight tooling under this prototype namespace. The preflight retained a feasibility failure before any completion request; it is neither positive nor negative efficacy evidence.
 The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
 The frozen estimand, workload, contemporaneous baseline policy, thresholds, runtime controls, token handling, Qwen strategy, invalidation rules, evidence retention, and execution/reporting sequence are in [the Gate B measurement contract](gate-b-measurement-contract.md).
 
+The distinct [Gate B v2 measurement contract](gate-b-v2-measurement-contract.md) reuses only executable 2k/8k v1 inventory rows and preserves v1 as historical feasibility evidence.
 Gate A records the selected falsifiable representation hypothesis. Gate B v1 freezes the original measurement contract. Gate C v1 is historical retained evidence, not evidence that the intervention works or fails. Any continuation requires a new versioned measurement contract; it must not modify v1 authority or evidence.
 
 ## Frozen MN-003 evidence boundary
