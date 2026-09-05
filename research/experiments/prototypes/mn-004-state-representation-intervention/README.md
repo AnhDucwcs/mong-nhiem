@@ -2,7 +2,7 @@
 
 ## Status
 
-**Gate B complete / Gate C pending. The Gate A hypothesis and measurement contract are frozen; no implementation or MN-004 evidence exists.**
+**Gate C closed at the frozen token hard gate. Implementation and tokenizer preflight are retained; no completion request or treatment result exists.**
 
 MN-004 is the successor hypothesis-design milestone to completed MN-003. It exists to make the next causal comparison defensible before implementation is authorized. Its frozen design artifacts create no experiment definition, schema, generator, runner, run directory, or result; Gate C is separately required before any of those may exist.
 The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
@@ -104,7 +104,7 @@ Only after Gates A and B may an intervention implementation and measured experim
 
 Only retained evidence that supports the hypothesis may justify considering a reusable component or an architecture concept. Experimental code remains under `research/experiments/prototypes/` until then and must not enter `src/mong_nhiem/` by default.
 
-Gate A and Gate B are complete. Gate C is not authorized.
+Gate A and Gate B remain frozen. Gate C closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). No Gate D promotion is justified.
 
 ## Future layout
 

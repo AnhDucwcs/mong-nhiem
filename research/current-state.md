@@ -26,7 +26,7 @@ ECC-006 and ECC-007 use different model subjects, so MN-003 does not rank State 
 
 No ECC-008 is justified solely to investigate the isolated Qwen 8k causal miss: its reproducibility would not change an architecture decision. No architecture is selected.
 
-## MN-004 — State Representation Intervention Design — Gate B complete / Gate C pending
+## MN-004 — State Representation Intervention Design — Gate C closed at token hard gate
 
 MN-004 is a design-only successor under research/experiments/prototypes; [its charter](experiments/prototypes/mn-004-state-representation-intervention/README.md), [Gate A hypothesis note](experiments/prototypes/mn-004-state-representation-intervention/gate-a-hypothesis.md), and [Gate B measurement contract](experiments/prototypes/mn-004-state-representation-intervention/gate-b-measurement-contract.md) are canonical. Gate A freezes one globally indexed, one-to-one state-transition-ledger hypothesis and Gate B freezes its measurement contract; no MN-004 implementation or evidence exists.
 

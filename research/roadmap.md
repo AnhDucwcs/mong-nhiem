@@ -20,7 +20,7 @@ Status: completed and closed for further ECC measurement work. ECC-001 through E
 
 ## MN-004 — State Representation Intervention Design
 
-Status: Gate B complete / Gate C pending. The explicit hypothesis and its measurement contract are frozen; no MN-004 implementation or evidence exists.
+Status: Gate C closed at frozen token hard gate. Implementation and preflight are retained; no completion evidence exists.
 
 1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it. Llama is the treatment subject because it has the observed bounded failure region, not because it is an architecture target.
 2. Gate A: complete. The selected hypothesis is a globally indexed, one-to-one state-transition ledger that preserves every event and global order without calculating final state. See the [Gate A hypothesis note](experiments/prototypes/mn-004-state-representation-intervention/gate-a-hypothesis.md). This is a falsifiable hypothesis, not an assumed solution.
