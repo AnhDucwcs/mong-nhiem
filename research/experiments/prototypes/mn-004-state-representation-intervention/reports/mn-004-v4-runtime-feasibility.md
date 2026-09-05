@@ -12,28 +12,49 @@ V4 measures operational execution stability only. It does not score or interpret
 - llama.cpp: `0.2.0-dev`, build `10566`, commit `bb4caa754`
 - Frozen runtime: context `16,896`; output allowance `16`; temperature `0`; seed `42`; threads `12`; batch `2,048`; one parallel slot; flash attention enabled; prompt cache disabled.
 
+## Retained blocked preflight
+
+The first Stage A preflight, `v4-20260905T160852Z-stage_a_untreated-f0e92902`, found `Rusty's Retirement.exe` (PID `22548`) using the target GPU. It recorded `environment_contaminated` and correctly started neither llama-server nor a request. Because it had zero server starts and zero requests, it was a blocked preflight rather than the contract's single canonical Stage A attempt; it remains retained evidence.
+
 ## Stage A — untreated environment control
 
-Run: `v4-20260905T160852Z-stage_a_untreated-f0e92902`.
+Canonical run: `v4-20260905T162540Z-stage_a_untreated-bfe64031`.
 
-Before starting llama-server, required `nvidia-smi` telemetry found a non-experiment compute process on the target GPU:
+- Pre-phase compute processes: none.
+- Fresh server: started, healthy, then intentionally terminated after the phase.
+- Operational completion: `24/24` requests.
+- Infrastructure/protocol failures: none.
+- Prompt tokens: `8,136–8,192`, median `8,169.5`.
+- Request latency: `6,469.080–9,038.457 ms`, median `6,831.768 ms`.
+- GPU used VRAM at request boundaries: `2,267–2,279 MiB`; free VRAM `1,684–1,696 MiB`.
 
-- PID `22548`: `Rusty's Retirement.exe`
-- GPU: NVIDIA GeForce RTX 3050 Laptop GPU, driver `595.95`
-- VRAM at observation: `190 MiB` used of `4,096 MiB`
+Model-output content and exact-answer score were retained but did not contribute to this operational verdict.
 
-The frozen contamination rule therefore produced `environment_contaminated`. No llama-server process was started, no request was issued, and no model response or exact-answer score exists. Stage A completion is `0/24` requests because the canonical phase was not allowed to begin, not because the model failed.
+## Stage B — persistent-server ledger
 
-## Stage B and Stage C
+Canonical run: `v4-20260905T163015Z-stage_b_ledger-db7c2c11`.
 
-Stage B ledger was blocked because Stage A did not complete under an uncontaminated environment. Stage C diagnostics were consequently not authorized. There is no untreated-versus-ledger resource comparison and no v4 reproduction test of the v3 CUDA OOM.
+- Pre-phase compute processes: none.
+- Fresh server: started, healthy, then intentionally terminated after the phase.
+- Operational completion: `24/24` requests.
+- Infrastructure/protocol failures: none.
+- CUDA OOM/fatal CUDA/ggml diagnostics: none.
+- Prompt tokens: `11,098–11,189`, median `11,150.5`.
+- Request latency: `9,402.202–13,417.152 ms`, median `10,140.018 ms`.
+- GPU used VRAM at request boundaries: `2,267–2,279 MiB`; free VRAM `1,684–1,696 MiB`.
+
+The ledger median prompt was `2,981.0` tokens longer and its median request latency `3,308.250 ms` higher than untreated. The server log retained 17 allocator warnings about making room for a prompt-cache entry, but no CUDA/OOM/process-failure signature. These are operational diagnostics, not efficacy metrics.
+
+## Stage C
+
+Not authorized. Stage B completed all 24 requests, so the contract forbids C1/C2 crash-mechanism diagnostics.
 
 ## Operational conclusion
 
-**`environment_contaminated`**
+**`ledger_persistent_phase_completed`**
 
-V4 cannot distinguish per-request resource pressure from persistent-server/cumulative-state pressure. It does not weaken or strengthen the retained v3 postmortem classification; it supplies no new ledger runtime-failure evidence because no canonical model execution occurred.
+The v3 ledger CUDA OOM/process loss was not reproduced in this one uncontaminated v4 persistent-server attempt. This result does not establish ledger stability, does not identify why v3 crashed, and does not weaken or replace the retained v3 postmortem classification. V4 cannot distinguish per-request resource pressure from persistent-server/cumulative-state pressure because its predeclared diagnostic trigger did not occur.
 
 ## Efficacy boundary
 
-Ledger efficacy remains unknown. V4 has no exact final-state reliability result, no Llama treatment comparison, no Qwen execution, and no architecture-promotion evidence.
+Ledger efficacy remains unknown. V4 has no exact final-state reliability result, no treatment comparison for correctness, no Qwen execution, and no architecture-promotion evidence.
