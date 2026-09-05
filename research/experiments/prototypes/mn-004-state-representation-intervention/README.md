@@ -2,13 +2,13 @@
 
 ## Status
 
-**Gate C closed at the frozen token hard gate. Implementation and tokenizer preflight are retained; no completion request or treatment result exists.**
+**Gate A and Gate B v1 are frozen. Gate C v1 was authorized and implemented, then closed at `contract_not_executable` during tokenizer-only preflight. No completion inference, efficacy result, baseline-drift result, or Qwen no-harm result exists.**
 
-MN-004 is the successor hypothesis-design milestone to completed MN-003. It exists to make the next causal comparison defensible before implementation is authorized. Its frozen design artifacts create no experiment definition, schema, generator, runner, run directory, or result; Gate C is separately required before any of those may exist.
+MN-004 is the successor intervention milestone to completed MN-003. Gate C v1 materialized a deterministic definition and source inventory, schemas, renderers, exact evaluator, validators, runner, and tokenizer preflight tooling under this prototype namespace. The preflight retained a feasibility failure before any completion request; it is neither positive nor negative efficacy evidence.
 The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
 The frozen estimand, workload, contemporaneous baseline policy, thresholds, runtime controls, token handling, Qwen strategy, invalidation rules, evidence retention, and execution/reporting sequence are in [the Gate B measurement contract](gate-b-measurement-contract.md).
 
-Gate A records the question, evidence boundary, subjects, and a selected falsifiable representation hypothesis. Gate B freezes the measurement contract. Gate C remains unauthorized. Neither design artifact is evidence that the intervention will work.
+Gate A records the selected falsifiable representation hypothesis. Gate B v1 freezes the original measurement contract. Gate C v1 is historical retained evidence, not evidence that the intervention works or fails. Any continuation requires a new versioned measurement contract; it must not modify v1 authority or evidence.
 
 ## Frozen MN-003 evidence boundary
 
@@ -96,16 +96,16 @@ The globally indexed state-transition ledger is the sole selected treatment hypo
 
 The frozen [Gate B measurement contract](gate-b-measurement-contract.md) defines baseline/intervention comparability, workload, controls, evaluator, failure taxonomy, retained evidence, aggregate success criteria, Qwen eligibility/no-harm criteria, the Llama failure-region rule, sample policy, token interpretation, runtime controls, execution order, and contamination/invalidation rules.
 
-### Gate C — implementation authorization
+### Gate C v1 — closed feasibility execution
 
-Only after Gates A and B may an intervention implementation and measured experiment be authorized.
+Gate C v1 was authorized and implemented. Its tokenizer-only hard gate found the frozen 16k paired comparison non-executable at the configured 16,896-token context window, so it correctly blocked completion inference. See [the feasibility report](reports/mn-004-contract-feasibility.md). A future v2 contract is a new design iteration, not a reopening or rewrite of v1.
 
 ### Gate D — promotion decision
 
 Only retained evidence that supports the hypothesis may justify considering a reusable component or an architecture concept. Experimental code remains under `research/experiments/prototypes/` until then and must not enter `src/mong_nhiem/` by default.
 
-Gate A and Gate B remain frozen. Gate C closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). No Gate D promotion is justified.
+Gate A and Gate B v1 remain frozen. Gate C v1 closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). No Gate D promotion is justified.
 
-## Future layout
+## Retained layout
 
-Once a frozen intervention experiment is justified, its evidence may use `definition/`, `configs/`, `scripts/`, `schemas/`, `runs/`, and `reports/` under this milestone directory. Those directories are intentionally not created now: empty machinery would imply an experiment design that has not yet been selected.
+Gate C v1 created `definition/`, `configs/`, `scripts/`, `schemas/`, `runs/`, and `reports/`. Their v1 artifacts and tokenizer-only feasibility evidence are immutable historical records. No v2 implementation, run, or result exists yet.
