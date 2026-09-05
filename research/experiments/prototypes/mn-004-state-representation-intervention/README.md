@@ -2,13 +2,13 @@
 
 ## Status
 
-**Gate A and Gate B v1 are frozen. Gate C v1 closed at `contract_not_executable` during tokenizer-only preflight. A narrower v2 measurement contract is frozen; v2 implementation and evidence do not yet exist.**
+**Gate A and Gate B v1 are frozen. Gate C v1 closed at `contract_not_executable` during tokenizer-only preflight. V2 was implemented and closed at `invalid_comparison`: its 8k Llama reproduction was compatible, but a retained 2k untreated truncation blocked ledger and Qwen phases.**
 
 MN-004 is the successor intervention milestone to completed MN-003. Gate C v1 materialized a deterministic definition and source inventory, schemas, renderers, exact evaluator, validators, runner, and tokenizer preflight tooling under this prototype namespace. The preflight retained a feasibility failure before any completion request; it is neither positive nor negative efficacy evidence.
 The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
 The frozen estimand, workload, contemporaneous baseline policy, thresholds, runtime controls, token handling, Qwen strategy, invalidation rules, evidence retention, and execution/reporting sequence are in [the Gate B measurement contract](gate-b-measurement-contract.md).
 
-The distinct [Gate B v2 measurement contract](gate-b-v2-measurement-contract.md) reuses only executable 2k/8k v1 inventory rows and preserves v1 as historical feasibility evidence.
+The distinct [Gate B v2 measurement contract](gate-b-v2-measurement-contract.md) reuses only executable 2k/8k v1 inventory rows and preserves v1 as historical feasibility evidence. Its [retained outcome](reports/mn-004-v2-results.md) is `invalid_comparison`, not positive or negative ledger efficacy evidence.
 Gate A records the selected falsifiable representation hypothesis. Gate B v1 freezes the original measurement contract. Gate C v1 is historical retained evidence, not evidence that the intervention works or fails. Any continuation requires a new versioned measurement contract; it must not modify v1 authority or evidence.
 
 ## Frozen MN-003 evidence boundary
@@ -105,8 +105,8 @@ Gate C v1 was authorized and implemented. Its tokenizer-only hard gate found the
 
 Only retained evidence that supports the hypothesis may justify considering a reusable component or an architecture concept. Experimental code remains under `research/experiments/prototypes/` until then and must not enter `src/mong_nhiem/` by default.
 
-Gate A and Gate B v1 remain frozen. Gate C v1 closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). No Gate D promotion is justified.
+Gate A and Gate B v1 remain frozen. Gate C v1 closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). V2 closed at [`invalid_comparison`](reports/mn-004-v2-results.md) before ledger or Qwen inference. No Gate D promotion is justified.
 
 ## Retained layout
 
-Gate C v1 created `definition/`, `configs/`, `scripts/`, `schemas/`, `runs/`, and `reports/`. Their v1 artifacts and tokenizer-only feasibility evidence are immutable historical records. No v2 implementation, run, or result exists yet.
+Gate C v1 created `definition/`, `configs/`, `scripts/`, `schemas/`, `runs/`, and `reports/`. Their v1 artifacts and tokenizer-only feasibility evidence are immutable historical records. V2 adds a separately fingerprinted definition, offline validator, phase runner, contract tests, retained Llama reproduction/untreated evidence, and the v2 outcome report; it does not alter any v1 authority or evidence.

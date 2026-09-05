@@ -20,11 +20,11 @@ Status: completed and closed for further ECC measurement work. ECC-001 through E
 
 ## MN-004 — State Representation Intervention Design
 
-Status: Gate C v1 closed at frozen token hard gate; v2 measurement contract frozen / implementation pending.
+Status: Gate C v1 closed at frozen token hard gate; v2 closed at `invalid_comparison`.
 
 1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it. Llama is the treatment subject because it has the observed bounded failure region, not because it is an architecture target.
 2. Gate A: complete. The selected hypothesis is a globally indexed, one-to-one state-transition ledger that preserves every event and global order without calculating final state. See the [Gate A hypothesis note](experiments/prototypes/mn-004-state-representation-intervention/gate-a-hypothesis.md). This is a falsifiable hypothesis, not an assumed solution.
 3. Gate B: complete. The [measurement contract](experiments/prototypes/mn-004-state-representation-intervention/gate-b-measurement-contract.md) freezes the Llama primary estimand, sample/replication policy, threshold and no-harm rules, token interpretation, runtime/evaluator controls, Qwen eligibility/no-harm strategy, invalidation, evidence retention, and reporting. Qwen remains regression/control only.
-5. V2: frozen [narrowed measurement contract](experiments/prototypes/mn-004-state-representation-intervention/gate-b-v2-measurement-contract.md) tests the unchanged ledger only at executable 8k primary pressure, with a 2k Llama reference and 8k Qwen control. No implementation or measured evidence exists.
+5. V2: the frozen [narrowed measurement contract](experiments/prototypes/mn-004-state-representation-intervention/gate-b-v2-measurement-contract.md) was implemented. Its valid frozen 8k Llama reproduction was `0/6`, but a retained 2k truncation invalidated the 24-case untreated condition; ledger and Qwen phases did not run. See the [v2 outcome report](experiments/prototypes/mn-004-state-representation-intervention/reports/mn-004-v2-results.md). This is neither efficacy nor no-harm evidence.
 4. Gate C v1: authorized and implemented, but closed at tokenizer hard gate before completion inference. The retained feasibility result is neither efficacy nor no-harm evidence; any continuation requires a versioned successor measurement contract.
 5. Gate D: consider promotion to reusable code or an architecture concept only if retained evidence supports it.
