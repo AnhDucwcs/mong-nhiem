@@ -2,11 +2,12 @@
 
 ## Status
 
-**Active Gate A / design phase. No intervention has been selected, no experiment definition or implementation exists, and no MN-004 evidence has been produced.**
+**Gate A complete / Gate B pending. One explicit state-representation hypothesis is frozen; no experiment definition, implementation, or MN-004 evidence exists.**
 
 MN-004 is the successor hypothesis-design milestone to completed MN-003. It exists to make the next causal comparison defensible before implementation is authorized. It does not define an intervention experiment, fingerprint, case inventory, runner, schema, or run directory.
+The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
 
-Gate A has begun: it records the question, evidence boundary, subjects, and design constraints that a candidate must satisfy. It has not selected a representation or passed Gate B. That distinction prevents a design requirement from being mistaken for evidence that an intervention will work.
+Gate A records the question, evidence boundary, subjects, and a selected falsifiable representation hypothesis. Gate B has not frozen a measurement contract, and Gate C is not authorized. A selected hypothesis is not evidence that the intervention will work.
 
 ## Frozen MN-003 evidence boundary
 
@@ -26,9 +27,9 @@ A positive MN-004 result can establish only a measurable effect of one specified
 
 ## Falsifiable treatment contract
 
-The candidate class is an explicit, inspectable representation of the same ordered state updates. It is not an adopted solution and must not be equated with retrieval, RAG, generic memory, summarization, compression, routing, embeddings, hidden scratchpads, external stores, or tool use.
+The selected intervention is a globally indexed state-transition ledger: a deterministic, one-to-one rendering of every ordered event, including distractors, into fixed fields. It is not retrieval, RAG, generic memory, summarization, compression, routing, embeddings, a hidden scratchpad, an external store, or tool use. The Gate A note defines its exact syntax and prohibited transformations.
 
-Before implementation or a measured run, Gate A must select one representation and state its deterministic derivation, refresh semantics, exposure to the model, and causal hypothesis. It must not reveal the final answer, omit updates, turn State Tracking into direct lookup, precompute the answer, or hide model/evaluator failures.
+Gate A has frozen the representation deterministic derivation, refresh semantics, model exposure, causal hypothesis, and answer-leakage prohibitions. It does not reveal the final answer, omit updates, turn State Tracking into direct lookup, precompute the answer, or hide model/evaluator failures.
 
 The untreated condition is the frozen ECC-006 run. MN-004 may only add a contemporaneous untreated repetition under the same frozen cases and contract when its purpose and rule are predeclared; it remains MN-004 evidence and never replaces MN-003.
 
@@ -61,7 +62,7 @@ MN-004 does not ask “which architecture is best?” Its first question is:
 
 > Can a specific explicit, inspectable state-representation hypothesis be formulated that could improve exact final-state reliability relative to the frozen ECC-006 direct-context baseline without changing task semantics or hiding failure?
 
-The only justified **candidate class** from MN-003 is explicit / inspectable state representation. That is not an adopted representation and must not be equated with RAG, vector retrieval, summarization, generic memory, compression, routing, embeddings, hidden scratchpads, databases, event sourcing, external state stores, or tool use. A later design may consider a specific candidate only when its information semantics and measurement contract are justified.
+MN-003 justifies explicit, inspectable state representation as a candidate class. Gate A selects one member of that class: the globally indexed state-transition ledger specified in [the Gate A hypothesis note](gate-a-hypothesis.md). It remains a hypothesis, not an adopted architecture or an assertion of efficacy.
 
 ## Requirements before implementation or measured inference
 
@@ -86,9 +87,9 @@ An intervention must not be declared successful by leaking the final state, omit
 
 ## Decision gates
 
-### Gate A — hypothesis selection
+### Gate A — hypothesis selection — complete
 
-Choose one concrete representation hypothesis and explain why its information semantics address the inherited limitation without assuming a solution.
+The globally indexed state-transition ledger is the sole selected treatment hypothesis. Its one-to-one transformation and rejections of grouped, target-only, and computed-state alternatives are frozen in [the Gate A hypothesis note](gate-a-hypothesis.md). Gate A does not assert improvement.
 
 ### Gate B — measurement contract
 
@@ -102,7 +103,7 @@ Only after Gates A and B may an intervention implementation and measured experim
 
 Only retained evidence that supports the hypothesis may justify considering a reusable component or an architecture concept. Experimental code remains under `research/experiments/prototypes/` until then and must not enter `src/mong_nhiem/` by default.
 
-This preparation task establishes the framework for Gates A and B only. It does not pass Gate C.
+Gate A is complete. Gate B remains pending and Gate C is not authorized.
 
 ## Future layout
 
