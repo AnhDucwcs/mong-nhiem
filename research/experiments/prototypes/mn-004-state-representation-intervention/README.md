@@ -2,13 +2,14 @@
 
 ## Status
 
-**Gate A and Gate B v1 are frozen. Gate C v1 closed at `contract_not_executable` during tokenizer-only preflight. V2 was implemented and closed at `invalid_comparison`: its 8k Llama reproduction was compatible, but a retained 2k untreated truncation blocked ledger and Qwen phases.**
+**Gate A and Gate B v1 are frozen. Gate C v1 closed at `contract_not_executable`; v2 remains `invalid_comparison`; v3 corrected output-failure taxonomy but closed at `infrastructure_failure` during its Llama ledger phase.**
 
 MN-004 is the successor intervention milestone to completed MN-003. Gate C v1 materialized a deterministic definition and source inventory, schemas, renderers, exact evaluator, validators, runner, and tokenizer preflight tooling under this prototype namespace. The preflight retained a feasibility failure before any completion request; it is neither positive nor negative efficacy evidence.
 The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
 The frozen estimand, workload, contemporaneous baseline policy, thresholds, runtime controls, token handling, Qwen strategy, invalidation rules, evidence retention, and execution/reporting sequence are in [the Gate B measurement contract](gate-b-measurement-contract.md).
 
 The distinct [Gate B v2 measurement contract](gate-b-v2-measurement-contract.md) reuses only executable 2k/8k v1 inventory rows and preserves v1 as historical feasibility evidence. Its [retained outcome](reports/mn-004-v2-results.md) is `invalid_comparison`, not positive or negative ledger efficacy evidence.
+The separate [Gate B v3 measurement contract](gate-b-v3-measurement-contract.md) corrected only the distinction between protocol invalidation and valid model-output failure. V3 reproduced Llama 8k at `0/6` and completed Llama untreated conditions, but stopped during the ledger phase at `infrastructure_failure`; Qwen did not run. The retained-evidence [postmortem](reports/mn-004-v3-infrastructure-postmortem.md) diagnoses a high-confidence treatment-coupled CUDA-OOM/process failure. V3 provides no ledger efficacy, Llama no-harm, or Qwen control result, and no v4 is authorized.
 Gate A records the selected falsifiable representation hypothesis. Gate B v1 freezes the original measurement contract. Gate C v1 is historical retained evidence, not evidence that the intervention works or fails. Any continuation requires a new versioned measurement contract; it must not modify v1 authority or evidence.
 
 ## Frozen MN-003 evidence boundary
@@ -105,7 +106,7 @@ Gate C v1 was authorized and implemented. Its tokenizer-only hard gate found the
 
 Only retained evidence that supports the hypothesis may justify considering a reusable component or an architecture concept. Experimental code remains under `research/experiments/prototypes/` until then and must not enter `src/mong_nhiem/` by default.
 
-Gate A and Gate B v1 remain frozen. Gate C v1 closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). V2 closed at [`invalid_comparison`](reports/mn-004-v2-results.md) before ledger or Qwen inference. No Gate D promotion is justified.
+Gate A and Gate B v1 remain frozen. Gate C v1 closed at `contract_not_executable`; see [the feasibility report](reports/mn-004-contract-feasibility.md). V2 closed at [`invalid_comparison`](reports/mn-004-v2-results.md) before ledger or Qwen inference. V3 closed at [`infrastructure_failure`](reports/mn-004-v3-results.md) during the ledger phase; its [postmortem](reports/mn-004-v3-infrastructure-postmortem.md) is operational-feasibility diagnosis, not efficacy evidence. No Gate D promotion or v4 is authorized.
 
 ## Retained layout
 
