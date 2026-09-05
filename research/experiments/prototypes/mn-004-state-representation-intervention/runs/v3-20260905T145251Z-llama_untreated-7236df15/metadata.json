@@ -1,0 +1,54 @@
+{
+  "run_id": "v3-20260905T145251Z-llama_untreated-7236df15",
+  "created_at": "2026-09-05T14:52:51.812459+00:00",
+  "phase": "llama_untreated",
+  "v3_definition_fingerprint": "6ba424ed7fc208d18aab1be3d03f03974b449b0329b59f82cc96faf4d7ab44a2",
+  "v1_inventory_fingerprint": "7183de0be8813764087e77330c5758970d40dfc9fe8553637faccca027d17897",
+  "model": {
+    "key": "llama-3.2-3b",
+    "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff"
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_bytes": 4294967296,
+    "driver": "595.95"
+  },
+  "inference": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "configured_context_size": 16896,
+    "output_tokens": 16,
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false,
+    "chat_template_kwargs": {}
+  },
+  "selection": {
+    "cases": 48,
+    "levels": [
+      2048,
+      8192
+    ],
+    "condition": "natural_language"
+  },
+  "repository": {
+    "commit": "1d08f27234cb9a65d0606f28ebf5377d292c2fd2",
+    "dirty": false
+  }
+}
