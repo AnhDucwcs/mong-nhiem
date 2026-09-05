@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["id", "version", "evidence_schema_version", "authority", "models", "runtime", "workload", "rendering", "evaluation", "baseline_compatibility", "llama_rules", "qwen_rules", "execution_order", "invalidation_rules", "prohibited_transformations"],
+  "properties": {
+    "id": {"const": "mn-004-state-representation-intervention"},
+    "version": {"const": "1.0.0"},
+    "evidence_schema_version": {"const": "1.0.0"},
+    "authority": {"type": "object"}, "models": {"type": "object"}, "runtime": {"type": "object"},
+    "workload": {"type": "object"}, "rendering": {"type": "object"}, "evaluation": {"type": "object"},
+    "baseline_compatibility": {"type": "object"}, "llama_rules": {"type": "object"}, "qwen_rules": {"type": "object"},
+    "execution_order": {"type": "array"}, "invalidation_rules": {"type": "array"}, "prohibited_transformations": {"type": "array"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,4 @@
+{
+  "default_models_dir": "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002",
+  "default_llama_server": "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe"
+}
