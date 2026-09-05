@@ -1,0 +1,43 @@
+{
+  "id": "mn-004-state-representation-intervention-v2",
+  "version": "2.0.0",
+  "evidence_schema_version": "1.0.0",
+  "authority": {
+    "gate_a_path": "../gate-a-hypothesis.md",
+    "gate_a_sha256": "520b39e3525a9ac27bab6fddeeb50dfa6ebabeb10d50bcd92b02cc342087be64",
+    "gate_b_v1_path": "../gate-b-measurement-contract.md",
+    "gate_b_v1_sha256": "916a3a844e47edc5e9ce0e2b02f36b7bc9fd1f187e7aac68a9c8317cf977111b",
+    "gate_b_v2_path": "../gate-b-v2-measurement-contract.md",
+    "gate_b_v2_sha256": "1f9b3ba354ddce3cfbf0343ebf077d0293b72456e23915ff07f7df215a9ee076",
+    "v1_definition_path": "experiment.json",
+    "v1_definition_sha256": "91454a692000808d8556fb99864019b0e59e7f570ea010f1b0e724771655d0b9",
+    "v1_definition_fingerprint": "bf5d51e3036128e94fa26a9e406c836fb06bd5f0c22cf46204c13dbccb842bfb",
+    "v1_inventory_path": "source-inventory.json",
+    "v1_inventory_sha256": "723efbb9c4e59dfef3d3514505ebf554f5575cccfffb5e786a9273514cf1b7cd",
+    "v1_inventory_fingerprint": "7183de0be8813764087e77330c5758970d40dfc9fe8553637faccca027d17897",
+    "ecc006_definition_fingerprint": "37f2dc1cc4cdfbf4a667c54f159bbd5203918f85f4d39001fa62ffcba379ac2e",
+    "ecc006_experiment_sha256": "7d7f83a31c0e6465282e2eec2a83b9ed133bd35e7d96786842013eb156b0746f",
+    "ecc006_cases_sha256": "2eb37170ef294b6a007e68e2be0ed2d6d36686e027d0014bf6dd2373b8b05e49",
+    "v1_llama_preflight_path": "preflight-llama-3.2-3b.json",
+    "v1_llama_preflight_sha256": "4d29eedd29b77e9d3328e5bbe83f3e4bd5aaeadd70670edf10d881647075ed47",
+    "v1_qwen_preflight_path": "preflight-qwen3-4b.json",
+    "v1_qwen_preflight_sha256": "c95ec8ed4648415e4aa598ce9fe958a76fe21d7979e3b24a58c65f93a2d004d9"
+  },
+  "models": {
+    "llama-3.2-3b": {"file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf", "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff", "chat_template_kwargs": {}},
+    "qwen3-4b": {"file": "Qwen3-4B-Q4_K_M.gguf", "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5", "chat_template_kwargs": {"enable_thinking": false}}
+  },
+  "runtime": {"backend": "llama.cpp", "version": "0.2.0-dev", "build": "10566", "commit": "bb4caa754", "configured_context_size": 16896, "output_tokens": 16, "temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
+  "workload": {
+    "authorized_levels": [2048, 8192],
+    "primary_level": 8192,
+    "reference_level": 2048,
+    "authorized_case_ids": ["ecc006-001", "ecc006-002", "ecc006-003", "ecc006-004", "ecc006-005", "ecc006-006", "mn004-state-001", "mn004-state-002", "mn004-state-003", "mn004-state-004", "mn004-state-005", "mn004-state-006", "mn004-state-007", "mn004-state-008", "mn004-state-009", "mn004-state-010", "mn004-state-011", "mn004-state-012", "mn004-state-013", "mn004-state-014", "mn004-state-015", "mn004-state-016", "mn004-state-017", "mn004-state-018"],
+    "frozen_reproduction_case_ids": ["ecc006-001", "ecc006-002", "ecc006-003", "ecc006-004", "ecc006-005", "ecc006-006"]
+  },
+  "conditions": {"untreated": "natural_language", "treatment": "globally_indexed_state_transition_ledger"},
+  "llama_rules": {"reproduction_exact_passes": 0, "primary_ledger_minimum": 12, "primary_delta_minimum": 8, "reference_maximum_drop": 2},
+  "qwen_rules": {"eligibility_minimum": 20, "maximum_drop": 2},
+  "execution_order": ["offline_validation", "llama_8k_reproduction", "llama_untreated", "llama_ledger", "llama_verdict", "qwen_8k_untreated", "qwen_8k_ledger_if_eligible", "report"],
+  "invalidation_rules": ["source_mismatch", "event_inventory_mismatch", "target_marking", "answer_leakage", "duplicated_original_log", "context_overflow", "truncation", "evaluator_mismatch", "model_mismatch", "runtime_mismatch", "decoding_mismatch", "insufficient_audit_metadata"]
+}
