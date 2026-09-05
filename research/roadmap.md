@@ -20,10 +20,10 @@ Status: completed and closed for further ECC measurement work. ECC-001 through E
 
 ## MN-004 — State Representation Intervention Design
 
-Status: Gate A complete / Gate B pending. One explicit state-representation hypothesis is frozen; no MN-004 experiment definition, implementation, or evidence exists.
+Status: Gate B complete / Gate C pending. The explicit hypothesis and its measurement contract are frozen; no MN-004 implementation or evidence exists.
 
 1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it. Llama is the treatment subject because it has the observed bounded failure region, not because it is an architecture target.
 2. Gate A: complete. The selected hypothesis is a globally indexed, one-to-one state-transition ledger that preserves every event and global order without calculating final state. See the [Gate A hypothesis note](experiments/prototypes/mn-004-state-representation-intervention/gate-a-hypothesis.md). This is a falsifiable hypothesis, not an assumed solution.
-3. Gate B: freeze baseline/intervention comparability, task semantics, model subject, workload/sample rationale, evaluator, failure taxonomy, contamination rules, aggregate success threshold, and no-harm criteria before implementation. Qwen is regression/control only: it cannot be an improvement target without its own frozen failure baseline, and its semantically equivalent reliable control workload plus no-harm margin must be named before execution.
-4. Gate C: authorize implementation and measured inference only after Gates A/B.
+3. Gate B: complete. The [measurement contract](experiments/prototypes/mn-004-state-representation-intervention/gate-b-measurement-contract.md) freezes the Llama primary estimand, sample/replication policy, threshold and no-harm rules, token interpretation, runtime/evaluator controls, Qwen eligibility/no-harm strategy, invalidation, evidence retention, and reporting. Qwen remains regression/control only.
+4. Gate C: requires separate authorization before any implementation or measured inference.
 5. Gate D: consider promotion to reusable code or an architecture concept only if retained evidence supports it.

@@ -2,12 +2,13 @@
 
 ## Status
 
-**Gate A complete / Gate B pending. One explicit state-representation hypothesis is frozen; no experiment definition, implementation, or MN-004 evidence exists.**
+**Gate B complete / Gate C pending. The Gate A hypothesis and measurement contract are frozen; no implementation or MN-004 evidence exists.**
 
-MN-004 is the successor hypothesis-design milestone to completed MN-003. It exists to make the next causal comparison defensible before implementation is authorized. It does not define an intervention experiment, fingerprint, case inventory, runner, schema, or run directory.
+MN-004 is the successor hypothesis-design milestone to completed MN-003. It exists to make the next causal comparison defensible before implementation is authorized. Its frozen design artifacts create no experiment definition, schema, generator, runner, run directory, or result; Gate C is separately required before any of those may exist.
 The frozen Gate A selection, candidate rejections, deterministic rendering semantics, contamination boundaries, and falsification prediction are in [the Gate A hypothesis note](gate-a-hypothesis.md).
+The frozen estimand, workload, contemporaneous baseline policy, thresholds, runtime controls, token handling, Qwen strategy, invalidation rules, evidence retention, and execution/reporting sequence are in [the Gate B measurement contract](gate-b-measurement-contract.md).
 
-Gate A records the question, evidence boundary, subjects, and a selected falsifiable representation hypothesis. Gate B has not frozen a measurement contract, and Gate C is not authorized. A selected hypothesis is not evidence that the intervention will work.
+Gate A records the question, evidence boundary, subjects, and a selected falsifiable representation hypothesis. Gate B freezes the measurement contract. Gate C remains unauthorized. Neither design artifact is evidence that the intervention will work.
 
 ## Frozen MN-003 evidence boundary
 
@@ -91,9 +92,9 @@ An intervention must not be declared successful by leaking the final state, omit
 
 The globally indexed state-transition ledger is the sole selected treatment hypothesis. Its one-to-one transformation and rejections of grouped, target-only, and computed-state alternatives are frozen in [the Gate A hypothesis note](gate-a-hypothesis.md). Gate A does not assert improvement.
 
-### Gate B — measurement contract
+### Gate B — measurement contract — complete
 
-Freeze baseline/intervention comparability, workload, controls, evaluator, failure taxonomy, retained evidence, aggregate success criteria, and no-harm criteria, including the Llama failure-region rule, the Qwen regression workload, a sample-size/variance rationale, per-level and aggregate thresholds, and contamination checks.
+The frozen [Gate B measurement contract](gate-b-measurement-contract.md) defines baseline/intervention comparability, workload, controls, evaluator, failure taxonomy, retained evidence, aggregate success criteria, Qwen eligibility/no-harm criteria, the Llama failure-region rule, sample policy, token interpretation, runtime controls, execution order, and contamination/invalidation rules.
 
 ### Gate C — implementation authorization
 
@@ -103,7 +104,7 @@ Only after Gates A and B may an intervention implementation and measured experim
 
 Only retained evidence that supports the hypothesis may justify considering a reusable component or an architecture concept. Experimental code remains under `research/experiments/prototypes/` until then and must not enter `src/mong_nhiem/` by default.
 
-Gate A is complete. Gate B remains pending and Gate C is not authorized.
+Gate A and Gate B are complete. Gate C is not authorized.
 
 ## Future layout
 
