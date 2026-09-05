@@ -1,0 +1,18 @@
+{
+  "run_id": "v3-20260905T145904Z-llama_ledger-d5f0d615",
+  "phase": "llama_ledger",
+  "status": "infrastructure_failure",
+  "expected_results": 48,
+  "observed_results": 48,
+  "passes_by_level": {
+    "2048": 2,
+    "8192": 0
+  },
+  "failure_classes": {
+    "correct": 2,
+    "incorrect_state": 7,
+    "malformed_response": 13,
+    "output_token_limit_reached": 3,
+    "infrastructure_failure": 23
+  }
+}
