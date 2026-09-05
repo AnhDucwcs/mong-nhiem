@@ -88,7 +88,15 @@ def stage_allowed(stage: str) -> bool:
     stage_b = latest_summary("stage_b_ledger")
     c1 = latest_summary("stage_c1_failed_case")
     if stage == "stage_a_untreated":
-        return stage_a is None
+        if stage_a is None:
+            return True
+        # A contamination record made before server startup is a blocked preflight,
+        # not one of the contract's single canonical execution attempts.
+        return (
+            stage_a.get("operational_outcome") == "environment_contaminated"
+            and stage_a.get("observed_results") == 0
+            and stage_a.get("server_lifecycle", {}).get("started") is False
+        )
     if stage == "stage_b_ledger":
         return stage_a is not None and stage_a["operational_outcome"] == "stage_completed" and stage_b is None
     if stage == "stage_c1_failed_case":

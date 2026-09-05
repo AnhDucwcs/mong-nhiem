@@ -57,6 +57,12 @@ def test_untreated_failure_blocks_ledger(monkeypatch) -> None:
     assert not mn004_v4.stage_allowed("stage_b_ledger")
 
 
+def test_prestart_contamination_does_not_consume_the_single_canonical_attempt(monkeypatch) -> None:
+    blocked = {"operational_outcome": "environment_contaminated", "observed_results": 0, "server_lifecycle": {"started": False}}
+    monkeypatch.setattr(mn004_v4, "latest_summary", lambda stage: blocked if stage == "stage_a_untreated" else None)
+    assert mn004_v4.stage_allowed("stage_a_untreated")
+
+
 def test_completed_ledger_blocks_diagnostics(monkeypatch) -> None:
     def summary(stage: str) -> dict | None:
         return {"operational_outcome": "stage_completed"} if stage == "stage_a_untreated" else {"operational_outcome": "ledger_persistent_phase_completed"} if stage == "stage_b_ledger" else None
