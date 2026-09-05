@@ -20,10 +20,10 @@ Status: completed and closed for further ECC measurement work. ECC-001 through E
 
 ## MN-004 — State Representation Intervention Design
 
-Status: prepared / design phase. No intervention is selected, implemented, or measured; no MN-004 experiment definition or evidence exists.
+Status: Gate A active / design phase. No intervention is selected, implemented, or measured; no MN-004 experiment definition or evidence exists.
 
-1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it.
+1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it. Llama is the treatment subject because it has the observed bounded failure region, not because it is an architecture target.
 2. Gate A: select and justify one explicit, inspectable state-representation hypothesis without assuming a storage, retrieval, memory, routing, compression, or tool architecture.
-3. Gate B: freeze baseline/intervention comparability, task semantics, model subject, workload/sample rationale, evaluator, failure taxonomy, contamination rules, aggregate success threshold, and no-harm criteria before implementation.
+3. Gate B: freeze baseline/intervention comparability, task semantics, model subject, workload/sample rationale, evaluator, failure taxonomy, contamination rules, aggregate success threshold, and no-harm criteria before implementation. Qwen is regression/control only: it cannot be an improvement target without its own frozen failure baseline, and its semantically equivalent reliable control workload plus no-harm margin must be named before execution.
 4. Gate C: authorize implementation and measured inference only after Gates A/B.
 5. Gate D: consider promotion to reusable code or an architecture concept only if retained evidence supports it.
