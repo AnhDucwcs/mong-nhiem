@@ -1,0 +1,65 @@
+{
+  "run_id": "v5-20260905T174631Z-qwen_8k_untreated-6594ed44",
+  "phase": "qwen_8k_untreated",
+  "expected_results": 24,
+  "observed_results": 24,
+  "completed_requests": 24,
+  "outcome": "phase_completed",
+  "first_failure": null,
+  "last_successful_case_id": null,
+  "server_lifecycle": {
+    "started": true,
+    "command": [
+      "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+      "-m",
+      "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002\\Qwen3-4B-Q4_K_M.gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18654",
+      "-c",
+      "16896",
+      "-t",
+      "12",
+      "-b",
+      "2048",
+      "-np",
+      "1",
+      "-fa",
+      "on",
+      "--temp",
+      "0",
+      "--seed",
+      "42",
+      "--jinja",
+      "--no-webui",
+      "--no-cache-prompt",
+      "--metrics",
+      "--chat-template-kwargs",
+      "{\"enable_thinking\":false}"
+    ],
+    "pid": 23172,
+    "process_started_at": "2026-09-05T17:46:33.281835+00:00",
+    "health_at_ready": {
+      "observed_at": "2026-09-05T17:46:37.834379+00:00",
+      "reachable": true,
+      "status": 200
+    },
+    "expected_termination": true,
+    "process_exit_observed_at": "2026-09-05T17:51:55.077767+00:00",
+    "exit_code": 1,
+    "alive_after_cleanup": false,
+    "health_after_cleanup": {
+      "observed_at": "2026-09-05T17:51:57.090067+00:00",
+      "reachable": false,
+      "error": "URLError: <urlopen error timed out>"
+    }
+  },
+  "failure_classes": {
+    "correct": 14,
+    "incorrect_state": 10,
+    "malformed_response": 0,
+    "output_token_limit_reached": 0,
+    "infrastructure_failure": 0
+  }
+}
