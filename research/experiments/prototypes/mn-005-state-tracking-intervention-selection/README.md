@@ -2,9 +2,9 @@
 
 ## Status
 
-**Prepared / design phase. No intervention has been selected. No experiment definition, runner, schema, run directory, implementation, or MN-005 evidence exists.**
+**Gate A is frozen for Multi-pass Reconstruction. Gate B has not started. No runner, schema, run directory, implementation, or MN-005 measured evidence exists.**
 
-MN-005 is a separate successor milestone to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone.
+MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls; Gate B and later permitted work remain separate future stages.
 
 MN-004 tested one frozen representation package: a globally indexed, fixed-field state-transition ledger. Its final valid 8k Llama comparison moved from untreated `0/24` to ledger `7/24`, but failed both predeclared support thresholds (`>=12/24` and delta `>=+8/24`). The 2k reference remained within the frozen no-harm margin (`4/24` to `2/24`), while Qwen untreated was only `14/24` and therefore did not qualify for ledger control. MN-004 closed as `unsupported_no_effect_or_insufficient_effect` and did not earn Gate D promotion.
 
@@ -12,13 +12,13 @@ The observed seven 8k wrong-to-correct flips are retained as a bounded signal wo
 
 ## Research objective
 
-MN-005 must select one new falsifiable hypothesis that is better justified by the retained evidence than simply retrying or modifying the MN-004 ledger.
+MN-005 selected one new falsifiable hypothesis that is better justified by the retained evidence than simply retrying or modifying the MN-004 ledger.
 
 The selection question is:
 
-> Which next explicit state-management or state-representation mechanism can be tested as a distinct causal hypothesis for improving exact final-state reliability while keeping answer leakage, task simplification, token/resource cost, and runtime confounds inspectable?
+> Does a target-aware, model-generated reconstruction artifact contribute to exact final-state reliability beyond a matched two-call/source-rereading procedure on the frozen ECC-006 Llama failure region?
 
-MN-005 does not begin by assuming that the answer is retrieval, RAG, summarization, compression, external memory, routing, or another ledger variant.
+MN-005 does not treat this selected procedure as retrieval, RAG, summarization by host code, compression, external memory, routing, external state management, or another ledger variant.
 
 ## Inherited evidence boundary
 
@@ -32,7 +32,7 @@ MN-005 must preserve and cite, rather than rewrite:
 
 No MN-004 run may be rescored as MN-005 evidence.
 
-## Candidate directions — not selected
+## Other candidate directions — not selected
 
 These are candidate research directions only. Listing them does not authorize implementation or inference.
 
@@ -66,9 +66,9 @@ Mộng Nhiễm is intended to coexist with games and other local workloads. Clea
 
 Resource coexistence should eventually be measured under predeclared VRAM/utilization budgets. It is not, by itself, an MN-005 efficacy hypothesis and should not replace mechanism selection.
 
-## Selection criteria before Gate A can freeze
+## Gate A selection criteria and outcome
 
-A candidate may become the MN-005 Gate A hypothesis only if the design can state in advance:
+The selected candidate satisfies these Gate A prerequisites:
 
 1. the precise causal mechanism being tested;
 2. the single primary independent variable or a justified factorial decomposition;
@@ -83,9 +83,9 @@ A candidate may become the MN-005 Gate A hypothesis only if the design can state
 
 ## Proposed gates
 
-### Gate A — successor hypothesis selection — pending
+### Gate A — successor hypothesis selection — complete and frozen
 
-Compare the candidate directions against the inherited MN-003/MN-004 evidence and select exactly one falsifiable hypothesis. No implementation or model execution is allowed before this gate is frozen.
+Multi-pass Reconstruction is the sole selected hypothesis. Gate A does not authorize implementation or model execution.
 
 ### Gate B — measurement contract — not started
 
@@ -101,4 +101,4 @@ Only evidence that satisfies the new hypothesis and its frozen promotion criteri
 
 ## Immediate next step
 
-After MN-004 is squash-merged, create a new MN-005 branch from the updated `main` and perform a design-only Gate A comparison of the candidate directions above. Do not carry MN-004 implementation code into `src/mong_nhiem/` and do not start model inference during hypothesis selection.
+Next action: define and freeze Gate B measurement details for the selected hypothesis before implementation or model inference. Do not reopen MN-004 or treat the Gate A selection as architecture promotion.

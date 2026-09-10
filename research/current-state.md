@@ -38,10 +38,10 @@ The observed `0/24 -> 7/24` change is retained as a bounded signal, not as suppo
 
 MN-004 is complete for this intervention. Gate D promotion was not earned, no MN-004 code is promoted into `src/mong_nhiem/`, and no v6 continuation is justified.
 
-## MN-005 — State Tracking Intervention Selection — prepared / design phase
+## MN-005 — State Tracking Intervention Selection — Gate A frozen / design phase
 
-MN-005 is prepared as a separate successor milestone. Its [design foundation](experiments/prototypes/mn-005-state-tracking-intervention-selection/README.md) inherits MN-003 and MN-004 as immutable evidence and has not selected an intervention, definition, runner, implementation, or measured experiment.
+MN-005 is an ongoing successor research track. Its frozen [Gate A hypothesis](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-a-hypothesis.md) selects Multi-pass Reconstruction: a target-aware model-generated transcription of source target-update events in source order, passed literally between two fresh model calls. The primary future comparison is against a matched two-call active control with a content-neutral intermediate artifact; direct single-pass ECC-006 remains the system-level compatibility baseline.
 
-The immediate question is not how to rescue the MN-004 ledger, but which distinct, falsifiable mechanism is best justified next. Candidate directions currently include mechanism decomposition of the MN-004 representation package, token-efficient explicit ordering, hierarchical/checkpointed state representation, and a larger external-state/register hypothesis class. Resource coexistence with games and other local workloads is retained as a later deployment-robustness dimension rather than being confused with controlled mechanism evidence.
+The Gate A treatment changes model inference procedure, not source-event representation or externally maintained state. The host is frozen as literal transport only: it may not parse, correct, select, summarize, or compute state from the first-stage output. A correct first-stage transcription is answer-relevant but is allowed only as model-generated self-reconstruction; no host or external answer derivation is permitted.
 
-MN-005 Gate A must compare candidate mechanisms and select exactly one hypothesis before Gate B measurement design or any model execution. No architecture is selected.
+Gate B must still freeze sample policy, thresholds, exact placeholder grammar and token sizing, runtime/resource accounting, execution details, and evidence retention. No runner, implementation, inference, measured experiment, or architecture is authorized.
