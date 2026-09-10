@@ -1,0 +1,9 @@
+{
+  "definition_fingerprint": "bf5d51e3036128e94fa26a9e406c836fb06bd5f0c22cf46204c13dbccb842bfb",
+  "inventory_fingerprint": "7183de0be8813764087e77330c5758970d40dfc9fe8553637faccca027d17897",
+  "statuses": {
+    "llama-3.2-3b": "contract_not_executable",
+    "qwen3-4b": "contract_not_executable"
+  },
+  "contract_executable": false
+}

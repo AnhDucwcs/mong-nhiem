@@ -1,0 +1,18 @@
+{
+  "run_id": "v2-20260905T134708Z-llama_untreated-30e115b0",
+  "phase": "llama_untreated",
+  "status": "invalid",
+  "expected_results": 48,
+  "observed_results": 48,
+  "passes_by_level": {
+    "2048": 3,
+    "8192": 0
+  },
+  "failure_classes": {
+    "correct": 3,
+    "incorrect_state": 42,
+    "malformed_response": 2,
+    "truncation": 1,
+    "runtime_or_infrastructure_error": 0
+  }
+}

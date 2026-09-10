@@ -1,0 +1,127 @@
+{
+  "run_id": "v4-20260905T163015Z-stage_b_ledger-db7c2c11",
+  "created_at": "2026-09-05T16:30:15.422016+00:00",
+  "stage": "stage_b_ledger",
+  "v4_definition_fingerprint": "43c6d00df6dd7daf55705f94ac04f361e74f682aba4b03c30082d2394024c1e4",
+  "v1_inventory_fingerprint": "7183de0be8813764087e77330c5758970d40dfc9fe8553637faccca027d17897",
+  "model": {
+    "key": "llama-3.2-3b",
+    "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff",
+    "chat_template_kwargs": {}
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "inference": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "configured_context_size": 16896,
+    "output_tokens": 16,
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false
+  },
+  "repository": {
+    "commit": "920a266f2a02a0d874d744dcbe2cf2740097c9fe",
+    "dirty": false
+  },
+  "selection": {
+    "condition": "ledger",
+    "case_ids": [
+      "ecc006-001",
+      "ecc006-002",
+      "ecc006-003",
+      "ecc006-004",
+      "ecc006-005",
+      "ecc006-006",
+      "mn004-state-001",
+      "mn004-state-002",
+      "mn004-state-003",
+      "mn004-state-004",
+      "mn004-state-005",
+      "mn004-state-006",
+      "mn004-state-007",
+      "mn004-state-008",
+      "mn004-state-009",
+      "mn004-state-010",
+      "mn004-state-011",
+      "mn004-state-012",
+      "mn004-state-013",
+      "mn004-state-014",
+      "mn004-state-015",
+      "mn004-state-016",
+      "mn004-state-017",
+      "mn004-state-018"
+    ],
+    "requested_input_tokens": 8192
+  },
+  "telemetry": {
+    "before_phase": {
+      "captured_at": "2026-09-05T16:30:15.422016+00:00",
+      "gpu_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 0, 3962\n",
+        "stderr": ""
+      },
+      "compute_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver": "595.95",
+          "total_mib": 4096,
+          "used_mib": 0,
+          "free_mib": 3962
+        }
+      ],
+      "compute_processes": []
+    },
+    "server_ready": {
+      "captured_at": "2026-09-05T16:30:22.433361+00:00",
+      "gpu_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 2267, 1696\n",
+        "stderr": ""
+      },
+      "compute_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "460, D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe, [N/A]\n",
+        "stderr": ""
+      },
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver": "595.95",
+          "total_mib": 4096,
+          "used_mib": 2267,
+          "free_mib": 1696
+        }
+      ],
+      "compute_processes": [
+        {
+          "pid": 460,
+          "name": "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+          "used_mib": null
+        }
+      ]
+    }
+  }
+}

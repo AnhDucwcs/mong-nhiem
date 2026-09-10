@@ -1,0 +1,31 @@
+{
+  "id": "mn-004-state-representation-intervention-v5",
+  "version": "5.0.0",
+  "evidence_schema_version": "5.0.0",
+  "authority": {
+    "gate_a_sha256": "520b39e3525a9ac27bab6fddeeb50dfa6ebabeb10d50bcd92b02cc342087be64",
+    "gate_b_v1_sha256": "916a3a844e47edc5e9ce0e2b02f36b7bc9fd1f187e7aac68a9c8317cf977111b",
+    "gate_b_v2_sha256": "1f9b3ba354ddce3cfbf0343ebf077d0293b72456e23915ff07f7df215a9ee076",
+    "gate_b_v3_sha256": "6cb2008af652835387ba1b1b702ba0c756de2ae2f8f03c25eaa0d211c37f614e",
+    "gate_b_v4_sha256": "2cfbeb2461e83a8716a62d71bc7c003d864e394c26ef1a3984ea39d0997e6946",
+    "gate_b_v5_sha256": "d1d83ee21ef84af224f19f1a841a1beab4f1d2398cb9739b0ac06bfd4632a2af",
+    "v3_postmortem_sha256": "0bd16d915169d8a2a05cdba9c6012e43c9c13ecd3455d55ada9487d11739af56",
+    "v3_definition_sha256": "5907fd9c3f23802dfa10e23a3af1d8f1659632ce7cc29da924bd4141e043ada8",
+    "v4_definition_sha256": "cae4429aeda25eec48a5c1ac504a22395e55b2033eaa86f00bb04e3f70bf5c7c",
+    "v1_inventory_sha256": "723efbb9c4e59dfef3d3514505ebf554f5575cccfffb5e786a9273514cf1b7cd",
+    "v1_inventory_fingerprint": "7183de0be8813764087e77330c5758970d40dfc9fe8553637faccca027d17897",
+    "v1_llama_preflight_sha256": "4d29eedd29b77e9d3328e5bbe83f3e4bd5aaeadd70670edf10d881647075ed47",
+    "v1_qwen_preflight_sha256": "c95ec8ed4648415e4aa598ce9fe958a76fe21d7979e3b24a58c65f93a2d004d9"
+  },
+  "models": {
+    "llama-3.2-3b": {"file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf", "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff", "chat_template_kwargs": {}},
+    "qwen3-4b": {"file": "Qwen3-4B-Q4_K_M.gguf", "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5", "chat_template_kwargs": {"enable_thinking": false}}
+  },
+  "runtime": {"backend": "llama.cpp", "version": "0.2.0-dev", "build": "10566", "commit": "bb4caa754", "configured_context_size": 16896, "output_tokens": 16, "temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
+  "workload": {"authorized_levels": [2048, 8192], "primary_level": 8192, "reference_level": 2048, "case_ids": ["ecc006-001", "ecc006-002", "ecc006-003", "ecc006-004", "ecc006-005", "ecc006-006", "mn004-state-001", "mn004-state-002", "mn004-state-003", "mn004-state-004", "mn004-state-005", "mn004-state-006", "mn004-state-007", "mn004-state-008", "mn004-state-009", "mn004-state-010", "mn004-state-011", "mn004-state-012", "mn004-state-013", "mn004-state-014", "mn004-state-015", "mn004-state-016", "mn004-state-017", "mn004-state-018"], "frozen_case_ids": ["ecc006-001", "ecc006-002", "ecc006-003", "ecc006-004", "ecc006-005", "ecc006-006"], "order": "2048_then_8192_retained_case_order"},
+  "rules": {"reproduction_passes": 0, "ledger_minimum": 12, "primary_delta_minimum": 8, "llama_reference_max_drop": 2, "qwen_eligibility": 20, "qwen_max_drop": 2},
+  "validity_taxonomy": {"protocol_invalid": ["input_context_overflow", "source_event_truncation", "semantic_pair_mismatch", "prompt_or_source_hash_mismatch", "model_runtime_decoding_mismatch", "evaluator_mismatch", "prompt_token_mismatch", "audit_metadata_missing"], "infrastructure_failure": ["server_startup", "server_crash", "cuda_oom", "request_error", "timeout", "runtime_failure"], "valid_model_output_failures": ["incorrect_state", "malformed_response", "output_token_limit_reached"]},
+  "operational": {"fresh_server_per_phase": true, "fail_fast_on_infrastructure_failure": true, "fail_fast_on_protocol_invalid": true, "environment_contamination": "unexpected_compute_process_at_phase_start", "zero_request_blocked_preflight_is_noncanonical": true, "stderr_tail_bytes": 16384, "post_failure_process_poll_seconds": 5},
+  "execution_order": ["environment_preflight", "llama_8k_reproduction", "llama_untreated", "llama_ledger", "llama_verdict", "qwen_8k_untreated_if_valid_llama_pair", "qwen_8k_ledger_if_eligible", "report"],
+  "prohibited": ["historical_output_reuse", "v3_or_v4_scoring_evidence", "workload_resizing", "runtime_parameter_changes", "selective_retries", "post_failure_residue_requests", "qwen_improvement_claim", "v6"]
+}

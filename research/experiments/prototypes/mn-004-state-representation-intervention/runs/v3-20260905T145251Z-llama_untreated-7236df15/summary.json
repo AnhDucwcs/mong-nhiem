@@ -1,0 +1,18 @@
+{
+  "run_id": "v3-20260905T145251Z-llama_untreated-7236df15",
+  "phase": "llama_untreated",
+  "status": "valid",
+  "expected_results": 48,
+  "observed_results": 48,
+  "passes_by_level": {
+    "2048": 3,
+    "8192": 0
+  },
+  "failure_classes": {
+    "correct": 3,
+    "incorrect_state": 42,
+    "malformed_response": 2,
+    "output_token_limit_reached": 1,
+    "infrastructure_failure": 0
+  }
+}

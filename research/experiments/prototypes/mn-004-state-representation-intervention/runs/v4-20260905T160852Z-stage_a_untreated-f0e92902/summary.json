@@ -1,0 +1,43 @@
+{
+  "run_id": "v4-20260905T160852Z-stage_a_untreated-f0e92902",
+  "stage": "stage_a_untreated",
+  "expected_results": 24,
+  "observed_results": 0,
+  "operational_outcome": "environment_contaminated",
+  "telemetry": {
+    "before_phase": {
+      "captured_at": "2026-09-05T16:08:52.396337+00:00",
+      "gpu_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 190, 3773\n",
+        "stderr": ""
+      },
+      "compute_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "22548, D:\\Games\\Steam\\steamapps\\common\\Rusty's Retirement\\Rusty's Retirement.exe, [N/A]\n",
+        "stderr": ""
+      },
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver": "595.95",
+          "total_mib": 4096,
+          "used_mib": 190,
+          "free_mib": 3773
+        }
+      ],
+      "compute_processes": [
+        {
+          "pid": 22548,
+          "name": "D:\\Games\\Steam\\steamapps\\common\\Rusty's Retirement\\Rusty's Retirement.exe",
+          "used_mib": null
+        }
+      ]
+    }
+  },
+  "server_lifecycle": {
+    "started": false
+  }
+}

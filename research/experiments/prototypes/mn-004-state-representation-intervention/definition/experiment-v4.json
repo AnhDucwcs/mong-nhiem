@@ -1,0 +1,84 @@
+{
+  "id": "mn-004-state-representation-intervention-v4",
+  "version": "4.0.0",
+  "evidence_schema_version": "4.0.0",
+  "authority": {
+    "gate_a_sha256": "520b39e3525a9ac27bab6fddeeb50dfa6ebabeb10d50bcd92b02cc342087be64",
+    "gate_b_v3_sha256": "6cb2008af652835387ba1b1b702ba0c756de2ae2f8f03c25eaa0d211c37f614e",
+    "gate_b_v4_sha256": "2cfbeb2461e83a8716a62d71bc7c003d864e394c26ef1a3984ea39d0997e6946",
+    "v3_postmortem_sha256": "0bd16d915169d8a2a05cdba9c6012e43c9c13ecd3455d55ada9487d11739af56",
+    "v3_definition_sha256": "5907fd9c3f23802dfa10e23a3af1d8f1659632ce7cc29da924bd4141e043ada8",
+    "v1_inventory_sha256": "723efbb9c4e59dfef3d3514505ebf554f5575cccfffb5e786a9273514cf1b7cd",
+    "v1_inventory_fingerprint": "7183de0be8813764087e77330c5758970d40dfc9fe8553637faccca027d17897",
+    "v1_llama_preflight_sha256": "4d29eedd29b77e9d3328e5bbe83f3e4bd5aaeadd70670edf10d881647075ed47"
+  },
+  "model": {
+    "key": "llama-3.2-3b",
+    "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff",
+    "chat_template_kwargs": {}
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "configured_context_size": 16896,
+    "output_tokens": 16,
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false
+  },
+  "workload": {
+    "authorized_level": 8192,
+    "authorized_case_ids": [
+      "ecc006-001", "ecc006-002", "ecc006-003", "ecc006-004", "ecc006-005", "ecc006-006",
+      "mn004-state-001", "mn004-state-002", "mn004-state-003", "mn004-state-004", "mn004-state-005", "mn004-state-006",
+      "mn004-state-007", "mn004-state-008", "mn004-state-009", "mn004-state-010", "mn004-state-011", "mn004-state-012",
+      "mn004-state-013", "mn004-state-014", "mn004-state-015", "mn004-state-016", "mn004-state-017", "mn004-state-018"
+    ],
+    "inventory_order": "retained-v1-order"
+  },
+  "rendering": {
+    "untreated": "natural_language",
+    "ledger": "globally_indexed_state_transition_ledger",
+    "same_renderers_as_v3": true
+  },
+  "telemetry": {
+    "tool": "nvidia-smi",
+    "request_boundary_sampling_only": true,
+    "capture_active_compute_processes": true,
+    "capture_before_phase": true,
+    "capture_before_each_request": true,
+    "capture_after_each_successful_request": true,
+    "capture_after_first_infrastructure_failure": true,
+    "stderr_tail_bytes": 16384,
+    "post_failure_process_poll_seconds": 5
+  },
+  "server_lifecycle": {
+    "fresh_server_per_canonical_phase": true,
+    "sequential_requests": true,
+    "verify_previous_process_absent": true,
+    "fail_fast_on_infrastructure_failure": true,
+    "fail_fast_on_protocol_invalid": true
+  },
+  "contamination": {
+    "phase_start_unexpected_compute_process": "environment_contaminated",
+    "do_not_kill_unrelated_processes": true,
+    "desktop_display_use": "record_only"
+  },
+  "outcomes": [
+    "untreated_environment_failure",
+    "ledger_runtime_failure_reproduced",
+    "ledger_persistent_phase_completed",
+    "protocol_invalid",
+    "environment_contaminated",
+    "diagnostic_inconclusive"
+  ],
+  "execution_order": ["stage_a_untreated", "stage_b_ledger", "stage_c1_failed_case_if_authorized", "stage_c2_predecessor_then_failed_case_if_authorized"],
+  "prohibited": ["efficacy_scoring", "qwen", "2k", "16k", "custom_levels", "workload_resizing", "runtime_parameter_changes", "selective_retries", "post_failure_residue_requests", "v3_output_reuse"]
+}

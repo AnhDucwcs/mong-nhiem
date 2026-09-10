@@ -16,14 +16,34 @@ Status: completed and closed for further ECC measurement work. ECC-001 through E
 2. Llama State Tracking is a bounded capability bottleneck: its fixed four-update contract has a short-context floor and declines monotonically to zero at 8k/16k without execution confounds.
 3. Qwen causal reachability has no stable context-length degradation boundary in the tested range; its single 8k false positive is an unresolved isolated observation, not an ECC boundary or an ECC-008 trigger.
 4. Timing/VRAM pressure at 16k is practical local-runtime evidence, not capability evidence.
-5. The proposed next milestone is MN-004 — State Representation Intervention Design: formulate and predeclare one explicit-state hypothesis against ECC-006's direct-context baseline. This is not started and does not preselect retrieval, RAG, memory, summarization, compression, routing, embeddings, or external state.
+5. MN-003 did not select a remedy; it supplied the immutable failure evidence used by MN-004.
 
 ## MN-004 — State Representation Intervention Design
 
-Status: prepared / design phase. No intervention is selected, implemented, or measured; no MN-004 experiment definition or evidence exists.
+Status: **completed and frozen for the globally indexed state-transition ledger hypothesis. Gate D promotion was not earned.**
 
-1. Inherit the immutable ECC-006 Llama 3.2 3B four-update State Tracking baseline rather than recreating or modifying it.
-2. Gate A: select and justify one explicit, inspectable state-representation hypothesis without assuming a storage, retrieval, memory, routing, compression, or tool architecture.
-3. Gate B: freeze baseline/intervention comparability, task semantics, model subject, workload/sample rationale, evaluator, failure taxonomy, contamination rules, aggregate success threshold, and no-harm criteria before implementation.
-4. Gate C: authorize implementation and measured inference only after Gates A/B.
-5. Gate D: consider promotion to reusable code or an architecture concept only if retained evidence supports it.
+1. Gate A selected one falsifiable intervention only: a globally indexed, one-to-one state-transition ledger preserving every event and global order without calculating final state.
+2. Gate B froze the matched workload, thresholds, validity taxonomy, runtime controls, Llama primary estimand, 2k no-harm reference, and Qwen eligibility/control rules before efficacy inference.
+3. Historical execution versions remain immutable: v1 `contract_not_executable`, v2 `invalid_comparison`, v3 `infrastructure_failure`, and v4 `ledger_persistent_phase_completed` as operational-feasibility evidence only.
+4. V5 delivered the valid final efficacy comparison. Llama 8k untreated scored `0/24`; ledger scored `7/24`. The observed delta `+7/24` missed both frozen support rules: ledger `>=12/24` and delta `>=+8/24`.
+5. The canonical final verdict is [`unsupported_no_effect_or_insufficient_effect`](experiments/prototypes/mn-004-state-representation-intervention/reports/mn-004-v5-final-efficacy.md). The seven wrong-to-correct flips remain an observation, not threshold support.
+6. Llama 2k remained within the frozen no-harm margin (`4/24` untreated to `2/24` ledger).
+7. Qwen untreated was `14/24`, below eligibility `20/24`; Qwen ledger was therefore prohibited and the control is `control_not_qualified`.
+8. The ledger incurred material 8k token and latency overhead, so MN-004 does not establish a token-independent structural mechanism or a production-feasible architecture.
+9. No v6, threshold adjustment, post-hoc ledger tuning, or promotion into `src/mong_nhiem/` is justified. MN-004 is closed.
+
+## MN-005 — State Tracking Intervention Selection
+
+Status: **prepared / design phase. Gate A pending. No intervention or architecture selected.** See the [MN-005 design foundation](experiments/prototypes/mn-005-state-tracking-intervention-selection/README.md).
+
+MN-005 begins from the negative-but-informative MN-004 result rather than attempting to rescue the ledger. Before any implementation or inference it must compare candidate mechanisms and freeze exactly one new falsifiable hypothesis.
+
+Candidate directions, not yet selected:
+
+1. **Mechanism decomposition:** test whether a narrower component such as explicit global ordering or fixed-field regularity explains part of the bounded MN-004 signal, using predeclared ablations rather than cherry-picking the seven successful cases.
+2. **Token-efficient explicit ordering:** preserve inspectable ordering/state cues while reducing the ledger's approximately `+2,981` median 8k token overhead without deleting semantic workload or leaking final state.
+3. **Hierarchical/checkpointed state representation:** reduce overwrite-tracking burden with deterministic intermediate structure, subject to strict anti-oracle/answer-leakage rules.
+4. **External state/register hypothesis class:** investigate maintaining explicit state outside raw event history as a distinct architecture/interface hypothesis, not as a disguised representation-only continuation of MN-004.
+5. **Deployment resource robustness:** later measure coexistence with games/background GPU workloads under predeclared VRAM/utilization budgets. This is a product/robustness validation dimension, not the MN-005 mechanism hypothesis itself.
+
+Next action after MN-004 squash merge: create a fresh MN-005 branch from updated `main`, perform Gate A design comparison only, and select one hypothesis before Gate B measurement design. Do not run model inference during hypothesis selection.

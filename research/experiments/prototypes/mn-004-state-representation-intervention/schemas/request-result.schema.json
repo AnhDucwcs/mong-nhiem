@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["evidence_schema_version", "definition_fingerprint", "inventory_fingerprint", "case_id", "case_origin", "requested_input_tokens", "condition", "structured_source_events", "source_event_hash", "target", "expected_answer", "rendered_prompt", "prompt_hash", "actual_prompt_tokens", "content_tokens", "prompt_overhead_tokens", "event_count", "target_event_indexes", "target_event_token_positions", "target_update_count", "distractor_event_count", "model", "runtime", "inference", "output", "evaluation", "failure_class", "diagnostic", "truncated", "protocol_flags", "timing", "error", "validator_status"],
+  "properties": {
+    "evidence_schema_version": {"const": "1.0.0"}, "definition_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "inventory_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "case_id": {"type": "string"}, "case_origin": {"enum": ["frozen", "fresh"]}, "requested_input_tokens": {"type": "integer"}, "condition": {"enum": ["natural_language", "ledger"]},
+    "structured_source_events": {"type": "array", "minItems": 4}, "source_event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "target": {"type": "string"}, "expected_answer": {"type": "string"},
+    "rendered_prompt": {"type": "string"}, "prompt_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "actual_prompt_tokens": {"type": "integer", "minimum": 1}, "content_tokens": {"type": "integer", "minimum": 1}, "prompt_overhead_tokens": {"type": "integer", "minimum": 0},
+    "event_count": {"type": "integer", "minimum": 4}, "target_event_indexes": {"type": "array", "minItems": 4}, "target_event_token_positions": {"type": "array"}, "target_update_count": {"const": 4}, "distractor_event_count": {"type": "integer", "minimum": 0},
+    "model": {"type": "object"}, "runtime": {"type": "object"}, "inference": {"type": "object"}, "output": {"type": "object"}, "evaluation": {"type": "object"}, "failure_class": {"type": ["string", "null"]}, "diagnostic": {"type": ["string", "null"]},
+    "truncated": {"type": "boolean"}, "protocol_flags": {"type": "array"}, "timing": {"type": "object"}, "error": {"type": ["object", "null"]}, "validator_status": {"enum": ["valid", "invalid"]}
+  },
+  "additionalProperties": false
+}
