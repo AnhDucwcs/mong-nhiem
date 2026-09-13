@@ -2,9 +2,9 @@
 
 ## Status
 
-**Gate A and Gate B remain frozen. Gate C implementation and tokenizer preflight completed, but canonical `attempt-0001` is `experiment_invalid` because the frozen Arm B four-row placeholder was truncated at `max_tokens=64`. No valid paired efficacy evidence exists, and no replacement attempt is authorized without reopening Gate B.**
+**Gate A and Gate B v1 remain frozen historical records. `attempt-0001` remains `experiment_invalid` because the v1 Arm B four-row placeholder could not fit its frozen `max_tokens=64` cap. Gate B v2 is now frozen solely to repair that static executability contradiction: it preserves the grammar and replaces the common Stage A cap with `80` after tokenizer sizing. No valid paired efficacy evidence exists; Gate C v2 execution remains unauthorized until the required runner/persistence corrections are implemented and reviewed.**
 
-MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls; its frozen [Gate B measurement contract](gate-b-measurement-contract.md) defines the pre-execution measurement rules.
+MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls. [Gate B v1](gate-b-measurement-contract.md) remains historical; [Gate B v2](gate-b-v2-measurement-contract.md) is the current executable measurement contract.
 
 MN-004 tested one frozen representation package: a globally indexed, fixed-field state-transition ledger. Its final valid 8k Llama comparison moved from untreated `0/24` to ledger `7/24`, but failed both predeclared support thresholds (`>=12/24` and delta `>=+8/24`). The 2k reference remained within the frozen no-harm margin (`4/24` to `2/24`), while Qwen untreated was only `14/24` and therefore did not qualify for ledger control. MN-004 closed as `unsupported_no_effect_or_insufficient_effect` and did not earn Gate D promotion.
 
@@ -87,13 +87,21 @@ The selected candidate satisfies these Gate A prerequisites:
 
 Multi-pass Reconstruction is the sole selected hypothesis. Gate A does not authorize implementation or model execution.
 
-### Gate B — measurement contract — complete and frozen
+### Gate B v1 — historical measurement contract — complete and frozen
 
-The [frozen measurement contract](gate-b-measurement-contract.md) fixes the three arms, exact prompt/protocol, content-neutral active control, six-case paired sample, support rule, runtime, preflight, evidence retention, and failure policy. It does not authorize measured inference.
+The [frozen v1 measurement contract](gate-b-measurement-contract.md) fixes the original three arms, exact prompt/protocol, content-neutral active control, six-case paired sample, support rule, runtime, preflight, evidence retention, and failure policy. It remains immutable.
 
-### Gate C — implementation/preflight complete; canonical attempt invalid
+### Gate B v2 — executability repair — complete and frozen
+
+The [frozen v2 measurement contract](gate-b-v2-measurement-contract.md) preserves v1's causal question, grammar, cases, runtime, support rule, and safety boundaries. It changes only the common Stage A cap from `64` to `80`, using a predeclared tokenizer-derived strict-fit rule, and requires persist-before-validate plus Arm B grammar validation before Stage B submission. It does not authorize measured inference by itself.
+
+### Gate C v1 — implementation/preflight complete; canonical attempt invalid
 
 The implementation and tokenizer preflight conformed to the frozen contract. `attempt-0001` then became `experiment_invalid` when Arm B could not emit the frozen four-row placeholder within its frozen `max_tokens=64`; no valid efficacy comparison was produced.
+
+### Gate C v2 — implementation correction required; execution not yet authorized
+
+Before `attempt-0002`, the runner must conform to Gate B v2's new cap, static strict-fit assertions, persist-before-validate evidence retention, and Arm B pre-Stage-B grammar validation. No execution occurred while freezing v2.
 
 ### Gate D — promotion decision — not authorized
 
@@ -101,4 +109,4 @@ Only evidence that satisfies the new hypothesis and its frozen promotion criteri
 
 ## Immediate next step
 
-Next action: preserve the invalid attempt and decide separately whether Gate B should be reopened. Do not tune the frozen control, replace the attempt, reopen MN-004, or treat this as architecture promotion.
+Next action: implement and review only the Gate B v2 conformity repairs before considering `attempt-0002`. Do not alter Gate A, Gate B v1, the retained invalid attempt, MN-004, or the frozen causal/support rules.

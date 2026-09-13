@@ -34,7 +34,7 @@ Status: **completed and frozen for the globally indexed state-transition ledger 
 
 ## MN-005 — State Tracking Intervention Selection
 
-Status: **Gate A and Gate B frozen. Gate C implementation/preflight completed; `attempt-0001` is `experiment_invalid`, with no valid efficacy result or architecture selection.** See the [MN-005 Gate B measurement contract](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-measurement-contract.md).
+Status: **Gate A and Gate B v1 are frozen historical records. `attempt-0001` is permanently `experiment_invalid`; Gate B v2 is frozen to repair its tokenizer-verifiable active-control/budget contradiction. There is no valid efficacy result or architecture selection, and Gate C v2 implementation/preflight is required before `attempt-0002`.** See [Gate B v1](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-measurement-contract.md) and [Gate B v2](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-v2-measurement-contract.md).
 
 MN-005 is an ongoing research track that begins from the negative-but-informative MN-004 result rather than attempting to rescue the ledger. Gate A selected Multi-pass Reconstruction before implementation or inference; its causal comparison is defined in the Gate A hypothesis.
 
@@ -46,4 +46,4 @@ Other candidate directions remain unselected and are outside this Gate A:
 4. **External state/register hypothesis class:** investigate maintaining explicit state outside raw event history as a distinct architecture/interface hypothesis, not as a disguised representation-only continuation of MN-004.
 5. **Deployment resource robustness:** later measure coexistence with games/background GPU workloads under predeclared VRAM/utilization budgets. This is a product/robustness validation dimension, not the MN-005 mechanism hypothesis itself.
 
-Next action: preserve the invalid attempt and decide separately whether to reopen Gate B; do not tune the control, replace the attempt, reopen MN-004, or treat this as architecture promotion.
+Next action: implement only the frozen Gate B v2 conformity repair and static preflight before considering `attempt-0002`; do not alter Gate A, Gate B v1, the retained invalid attempt, MN-004, or the causal/support rules.
