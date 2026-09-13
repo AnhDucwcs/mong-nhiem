@@ -34,7 +34,7 @@ Status: **completed and frozen for the globally indexed state-transition ledger 
 
 ## MN-005 — State Tracking Intervention Selection
 
-Status: **Gate A frozen / design phase. Gate B pending. No implementation or architecture selected.** See the [MN-005 Gate A hypothesis](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-a-hypothesis.md).
+Status: **Gate A and Gate B frozen / pre-execution design phase. Gate C implementation conditionally authorized; measured execution pending preflight. No architecture selected.** See the [MN-005 Gate B measurement contract](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-measurement-contract.md).
 
 MN-005 is an ongoing research track that begins from the negative-but-informative MN-004 result rather than attempting to rescue the ledger. Gate A selected Multi-pass Reconstruction before implementation or inference; its causal comparison is defined in the Gate A hypothesis.
 
@@ -46,4 +46,4 @@ Other candidate directions remain unselected and are outside this Gate A:
 4. **External state/register hypothesis class:** investigate maintaining explicit state outside raw event history as a distinct architecture/interface hypothesis, not as a disguised representation-only continuation of MN-004.
 5. **Deployment resource robustness:** later measure coexistence with games/background GPU workloads under predeclared VRAM/utilization budgets. This is a product/robustness validation dimension, not the MN-005 mechanism hypothesis itself.
 
-Next action: define and freeze Gate B measurement details for the selected hypothesis before implementation or model inference. Do not reopen MN-004 or treat the Gate A selection as architecture promotion.
+Next action: implement the frozen Gate B contract and complete its non-efficacy preflight before any measured model inference. Do not reopen MN-004 or treat either gate as architecture promotion.

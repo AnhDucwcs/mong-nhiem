@@ -2,9 +2,9 @@
 
 ## Status
 
-**Gate A is frozen for Multi-pass Reconstruction. Gate B has not started. No runner, schema, run directory, implementation, or MN-005 measured evidence exists.**
+**Gate A and Gate B are frozen for Multi-pass Reconstruction. Gate C implementation is authorized only for the frozen contract and its required preflight; no runner, run directory, implementation, or MN-005 measured evidence exists.**
 
-MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls; Gate B and later permitted work remain separate future stages.
+MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls; its frozen [Gate B measurement contract](gate-b-measurement-contract.md) defines the pre-execution measurement rules.
 
 MN-004 tested one frozen representation package: a globally indexed, fixed-field state-transition ledger. Its final valid 8k Llama comparison moved from untreated `0/24` to ledger `7/24`, but failed both predeclared support thresholds (`>=12/24` and delta `>=+8/24`). The 2k reference remained within the frozen no-harm margin (`4/24` to `2/24`), while Qwen untreated was only `14/24` and therefore did not qualify for ledger control. MN-004 closed as `unsupported_no_effect_or_insufficient_effect` and did not earn Gate D promotion.
 
@@ -87,13 +87,13 @@ The selected candidate satisfies these Gate A prerequisites:
 
 Multi-pass Reconstruction is the sole selected hypothesis. Gate A does not authorize implementation or model execution.
 
-### Gate B — measurement contract — not started
+### Gate B — measurement contract — complete and frozen
 
-Freeze workload, controls, sample size, thresholds, token/resource interpretation, environment qualification, evidence retention, and claim boundary.
+The [frozen measurement contract](gate-b-measurement-contract.md) fixes the three arms, exact prompt/protocol, content-neutral active control, six-case paired sample, support rule, runtime, preflight, evidence retention, and failure policy. It does not authorize measured inference.
 
-### Gate C — implementation and measured evidence — not authorized
+### Gate C — implementation and measured evidence — conditionally authorized
 
-Only after Gate A and Gate B are frozen.
+Implementation may begin only for the frozen Gate B contract. Measured execution remains blocked until its preflight and entry criteria are met.
 
 ### Gate D — promotion decision — not authorized
 
@@ -101,4 +101,4 @@ Only evidence that satisfies the new hypothesis and its frozen promotion criteri
 
 ## Immediate next step
 
-Next action: define and freeze Gate B measurement details for the selected hypothesis before implementation or model inference. Do not reopen MN-004 or treat the Gate A selection as architecture promotion.
+Next action: implement the frozen Gate B contract and complete its non-efficacy preflight before any measured model inference. Do not reopen MN-004 or treat either gate as architecture promotion.
