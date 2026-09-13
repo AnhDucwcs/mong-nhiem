@@ -1,0 +1,56 @@
+{
+  "attempt_id": "attempt-0001",
+  "attempt_started_at": "2026-09-13T10:06:49.398619+00:00",
+  "definition_fingerprint": "aa4e29c8bf5fb463d07d20aae8df0d55559f962ca7d8af48bf38d6baefa3ed36",
+  "gate_b_sha256": "727904912e9510039d4695faf3d61b16892cb9294ba4c7738c8770b5719de760",
+  "ecc006_fingerprint": "37f2dc1cc4cdfbf4a667c54f159bbd5203918f85f4d39001fa62ffcba379ac2e",
+  "model": {
+    "key": "llama-3.2-3b",
+    "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff",
+    "chat_template_kwargs": {}
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "environment_before": {
+    "captured_at": "2026-09-13T10:06:49.396095+00:00",
+    "gpu_query": {
+      "available": true,
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 0, 3962, 0\n",
+      "stderr": ""
+    },
+    "compute_query": {
+      "available": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "gpus": [
+      {
+        "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+        "driver": "595.95",
+        "total_mib": 4096,
+        "used_mib": 0,
+        "free_mib": 3962,
+        "utilization_percent": 0
+      }
+    ],
+    "compute_processes": []
+  },
+  "repository_commit": "cf50ac56e03d4e923d983cb4786cc3f48522d22f",
+  "scheduled_order": [
+    "A:ecc006-001",
+    "A:ecc006-002",
+    "A:ecc006-003",
+    "A:ecc006-004",
+    "A:ecc006-005",
+    "A:ecc006-006",
+    "B,C alternating by ECC-006 case order"
+  ]
+}

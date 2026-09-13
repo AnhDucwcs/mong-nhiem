@@ -38,10 +38,10 @@ The observed `0/24 -> 7/24` change is retained as a bounded signal, not as suppo
 
 MN-004 is complete for this intervention. Gate D promotion was not earned, no MN-004 code is promoted into `src/mong_nhiem/`, and no v6 continuation is justified.
 
-## MN-005 — State Tracking Intervention Selection — Gate A and B frozen / pre-execution design phase
+## MN-005 — State Tracking Intervention Selection — Gate C attempt invalid
 
 MN-005 is an ongoing successor research track. Its frozen [Gate A hypothesis](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-a-hypothesis.md) selects Multi-pass Reconstruction: a target-aware model-generated transcription of source target-update events in source order, passed literally between two fresh model calls. The primary future comparison is against a matched two-call active control with a content-neutral intermediate artifact; direct single-pass ECC-006 remains the system-level compatibility baseline.
 
 The Gate A treatment changes model inference procedure, not source-event representation or externally maintained state. The host is frozen as literal transport only: it may not parse, correct, select, summarize, or compute state from the first-stage output. A correct first-stage transcription is answer-relevant but is allowed only as model-generated self-reconstruction; no host or external answer derivation is permitted.
 
-The frozen [Gate B measurement contract](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-measurement-contract.md) fixes the six-case paired 8k measurement, exact active-control grammar, support rule, runtime, preflight, and evidence requirements. Gate C implementation is authorized only for this contract; no measured inference, measured experiment, or architecture is authorized until its preflight/entry conditions are satisfied.
+The frozen [Gate B measurement contract](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-measurement-contract.md) fixes the six-case paired 8k measurement, exact active-control grammar, support rule, runtime, preflight, and evidence requirements. Gate C implementation and tokenizer preflight completed. The first prospective canonical attempt is retained as `experiment_invalid`: Arm B Stage A hit its frozen 64-token limit before completing the fixed four-row neutral grammar. No valid paired efficacy result exists; no replacement attempt is authorized without an explicit Gate B reopening. No architecture is authorized.

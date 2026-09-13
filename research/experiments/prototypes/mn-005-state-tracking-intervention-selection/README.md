@@ -2,7 +2,7 @@
 
 ## Status
 
-**Gate A and Gate B are frozen for Multi-pass Reconstruction. Gate C implementation is authorized only for the frozen contract and its required preflight; no runner, run directory, implementation, or MN-005 measured evidence exists.**
+**Gate A and Gate B remain frozen. Gate C implementation and tokenizer preflight completed, but canonical `attempt-0001` is `experiment_invalid` because the frozen Arm B four-row placeholder was truncated at `max_tokens=64`. No valid paired efficacy evidence exists, and no replacement attempt is authorized without reopening Gate B.**
 
 MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls; its frozen [Gate B measurement contract](gate-b-measurement-contract.md) defines the pre-execution measurement rules.
 
@@ -91,9 +91,9 @@ Multi-pass Reconstruction is the sole selected hypothesis. Gate A does not autho
 
 The [frozen measurement contract](gate-b-measurement-contract.md) fixes the three arms, exact prompt/protocol, content-neutral active control, six-case paired sample, support rule, runtime, preflight, evidence retention, and failure policy. It does not authorize measured inference.
 
-### Gate C — implementation and measured evidence — conditionally authorized
+### Gate C — implementation/preflight complete; canonical attempt invalid
 
-Implementation may begin only for the frozen Gate B contract. Measured execution remains blocked until its preflight and entry criteria are met.
+The implementation and tokenizer preflight conformed to the frozen contract. `attempt-0001` then became `experiment_invalid` when Arm B could not emit the frozen four-row placeholder within its frozen `max_tokens=64`; no valid efficacy comparison was produced.
 
 ### Gate D — promotion decision — not authorized
 
@@ -101,4 +101,4 @@ Only evidence that satisfies the new hypothesis and its frozen promotion criteri
 
 ## Immediate next step
 
-Next action: implement the frozen Gate B contract and complete its non-efficacy preflight before any measured model inference. Do not reopen MN-004 or treat either gate as architecture promotion.
+Next action: preserve the invalid attempt and decide separately whether Gate B should be reopened. Do not tune the frozen control, replace the attempt, reopen MN-004, or treat this as architecture promotion.
