@@ -56,9 +56,9 @@ The accumulated MN-005 conclusion is that frozen ECC-006 has become insufficient
 
 The canonical research transition is documented in the [MN-005 → MN-006 handoff](experiments/prototypes/mn-005-state-tracking-intervention-selection/mn-006-handoff.md).
 
-## MN-006 — Distributed State Integration workload design — planned next milestone, not started
+## MN-006 — Distributed State Integration workload design — Design Gate A drafted
 
-MN-006 should begin only after MN-005 is squash-merged and a new branch is created from updated `main`. No MN-006 implementation, runner, schema, measured evidence, model inference, or GPU experiment exists at MN-005 closure.
+MN-006 began after MN-005 was squash-merged and a separate branch was created from updated `main`. Its [Design Gate A](experiments/prototypes/mn-006-distributed-state-integration/design-gate-a.md) and [proposed case schema](experiments/prototypes/mn-006-distributed-state-integration/proposed-case-schema.md) are static design artifacts, not frozen generator/measurement contracts.
 
 The planned primary question is no longer which intervention to try next on ECC-006. It is whether a candidate-neutral experimental substrate can expose distributed state-integration failures while remaining deterministic enough to compare multiple state-management hypotheses causally.
 
@@ -69,3 +69,5 @@ MN-006 should initially change as few dimensions as possible: make related entit
 The workload design must define canonical source events, canonical final entity state, canonical derived facts, and a finite canonical final answer so future evaluation can distinguish state-tracking failure, downstream-reasoning failure, and end-to-end failure without an LLM judge.
 
 Previous candidates may be reconsidered on MN-006 only with workload-specific justification. Their MN-005 history remains intact: `unselected on ECC-006` is not reset to `untested`, and the Multi-pass `inconclusive` result remains canonical evidence.
+
+No MN-006 generator, runner, JSON Schema, generated inventory, measured evidence, model inference, GPU experiment, intervention comparison, Hierarchical treatment, External State treatment, or Multi-pass rerun exists. Implementation is blocked until the Design Gate A semantic, oracle, anti-leakage, interleaving, and finite-answer requirements are frozen and pass deterministic static validation.

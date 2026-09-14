@@ -49,7 +49,7 @@ See the [MN-005 → MN-006 research handoff](experiments/prototypes/mn-005-state
 
 ## MN-006 — Distributed State Integration workload design
 
-Status: **planned next milestone; not started until MN-005 is merged and a new branch is created from updated `main`.**
+Status: **static workload-design phase started after MN-005 merge. Design Gate A is drafted, not frozen; no generator, measured evidence, model inference, or GPU work is authorized.** See the [MN-006 charter](experiments/prototypes/mn-006-distributed-state-integration/README.md) and [Design Gate A](experiments/prototypes/mn-006-distributed-state-integration/design-gate-a.md).
 
 MN-006 changes the immediate research target from selecting another intervention on ECC-006 to designing a better experimental substrate.
 
