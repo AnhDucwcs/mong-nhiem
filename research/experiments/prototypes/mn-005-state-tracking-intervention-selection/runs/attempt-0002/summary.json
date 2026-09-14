@@ -2,12 +2,12 @@
   "attempt_id": "attempt-0002",
   "attempt_status": "experiment_invalid",
   "efficacy_classification": "not_applicable_due_to_invalid_experiment",
-  "completed_outcomes": 7,
+  "completed_outcomes": 18,
   "expected_outcomes": 18,
   "first_failure": {
     "classification": "infrastructure_failure",
-    "message": "Canonical runner terminated before it persisted summary or completed the frozen schedule. Retained evidence contains six Arm A responses and Arm B ecc006-001 two-call evidence only.",
-    "captured_at": "2026-09-14T05:45:15.2909715Z"
+    "message": "After all 18 retained outcomes were produced, the frozen runner crashed during post-run classification because its classifier expects flattened pair records but received paired dictionaries. The attempt could not produce the required canonical classification through the frozen implementation.",
+    "captured_at": "2026-09-14T05:58:48.4855894Z"
   },
-  "retention_note": "No replacement attempt was started. This invalid attempt is not efficacy evidence."
+  "retention_note": "All raw responses are retained. No efficacy interpretation is permitted; no replacement attempt was started."
 }
