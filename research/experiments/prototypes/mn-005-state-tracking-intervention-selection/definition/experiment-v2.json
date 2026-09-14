@@ -1,0 +1,17 @@
+{
+  "id": "mn-005-multi-pass-reconstruction",
+  "version": "2.0.0",
+  "authority": {
+    "gate_a_sha256": "a8ef18828682e81ffe0abed724c7f8f50daae2e128b52ee8d1d3df97c7acec95",
+    "gate_b_v1_sha256": "727904912e9510039d4695faf3d61b16892cb9294ba4c7738c8770b5719de760",
+    "gate_b_v2_sha256": "4a71dfe854faa106b3c0327cefb9ec5764ac4ee5e9a2974e9c1d2422e875b426",
+    "ecc006_definition_fingerprint": "37f2dc1cc4cdfbf4a667c54f159bbd5203918f85f4d39001fa62ffcba379ac2e"
+  },
+  "model": {"key": "llama-3.2-3b", "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf", "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff", "chat_template_kwargs": {}},
+  "runtime": {"backend": "llama.cpp", "version": "0.2.0-dev", "build": "10566", "commit": "bb4caa754", "configured_context_size": 16896, "temperature": 0.0, "seed": 42, "threads": 12, "batch_size": 2048, "parallel_slots": 1, "flash_attention": true, "prompt_cache": false},
+  "workload": {"requested_input_tokens": 8192, "case_ids": ["ecc006-001", "ecc006-002", "ecc006-003", "ecc006-004", "ecc006-005", "ecc006-006"]},
+  "budgets": {"arm_a": 16, "stage_a": 80, "stage_b": 16},
+  "active_control_artifact": "pad=KAPPA LAMBDA MU NU XI OMICRON PI RHO\npad=KAPPA LAMBDA MU NU XI OMICRON PI RHO\npad=KAPPA LAMBDA MU NU XI OMICRON PI RHO\npad=KAPPA LAMBDA MU NU XI OMICRON PI RHO",
+  "sizing": {"fixed_margin_tokens": 8, "arm_b_tokens": 71, "arm_c_tokens": {"ecc006-001": 52, "ecc006-002": 51, "ecc006-003": 50, "ecc006-004": 53, "ecc006-005": 50, "ecc006-006": 48}},
+  "support": {"arm_a_passes": 0, "arm_c_minimum": 4, "n10_minimum": 4, "n01_required": 0, "contributing_reconstruction": "exact_four_target_rows_without_prohibited_or_non_target_content"}
+}
