@@ -46,4 +46,4 @@ Other candidate directions remain unselected and are outside this Gate A:
 4. **External state/register hypothesis class:** investigate maintaining explicit state outside raw event history as a distinct architecture/interface hypothesis, not as a disguised representation-only continuation of MN-004.
 5. **Deployment resource robustness:** later measure coexistence with games/background GPU workloads under predeclared VRAM/utilization budgets. This is a product/robustness validation dimension, not the MN-005 mechanism hypothesis itself.
 
-Next action: review the bounded canonical result and decide separately whether a new research contract or replication is warranted; do not replace `attempt-0002`, alter frozen authorities, or promote architecture from this inconclusive result.
+Next action: design a workload that can distinguish hierarchy from grouping and can test state-dependent downstream reasoning without letting an external state store directly supply the answer. Do not replace `attempt-0002`, alter frozen authorities, or promote architecture from this inconclusive result.

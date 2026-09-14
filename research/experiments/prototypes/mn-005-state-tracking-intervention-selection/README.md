@@ -109,4 +109,4 @@ Only evidence that satisfies the new hypothesis and its frozen promotion criteri
 
 ## Immediate next step
 
-Next action: make any further research decision separately. Do not replace `attempt-0002`, alter Gate A/Gate B authority, promote architecture, or begin another efficacy attempt automatically.
+Multi-pass Reconstruction is canonically measured and `inconclusive`, not supported or unsupported. It is deprioritized for further ECC-006 efficacy reruns under the existing Gate B v2 formulation; a materially different multi-pass hypothesis would require a new candidate decision. The design-only [Hierarchical State Representation audit](hierarchical-gate-a.md) is `hierarchical_gate_a_unselected`: frozen ECC-006 already presents target trajectories as contiguous four-event blocks, so no hierarchy-specific independent variable can be separated from grouping, formatting, reordering, or compression. Next action: design a new workload before selecting a future hierarchy or external-state candidate. Do not replace `attempt-0002`, alter frozen authority, promote architecture, or begin another efficacy attempt automatically.
