@@ -40,7 +40,7 @@ def test_support_taxonomy() -> None:
     arm_a = [{"protocol_valid": True, "infrastructure_status": "complete", "evaluation": {"passed": False}} for _ in range(6)]
     pairs = []
     for _index in range(6):
-        pairs.append({"protocol_valid": True, "infrastructure_status": "complete", "B": {"evaluation": {"passed": False}}, "C": {"evaluation": {"passed": True}, "stage_a_diagnostic": {"full_exact_reconstruction": True, "prohibited_fields": [], "non_target_insertions": []}}})
+        pairs.append({"case_id": f"case-{_index}", "B": {"protocol_valid": True, "infrastructure_status": "complete", "evaluation": {"passed": False}}, "C": {"protocol_valid": True, "infrastructure_status": "complete", "evaluation": {"passed": True}, "stage_a_diagnostic": {"full_exact_reconstruction": True, "prohibited_fields": [], "non_target_insertions": []}}})
     assert mn005.classify(arm_a, pairs, definition)["classification"] == "supported"
     arm_a[0]["evaluation"]["passed"] = True
     assert mn005.classify(arm_a, pairs, definition)["classification"] == "inconclusive"

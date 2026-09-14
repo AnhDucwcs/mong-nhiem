@@ -208,7 +208,10 @@ def artifact_record(path: Path, artifact: bytes, slot: bytes) -> dict[str, Any]:
 def classify(arm_a: list[dict[str, Any]], pairs: list[dict[str, Any]], definition: dict[str, Any]) -> dict[str, Any]:
     if len(arm_a) != 6 or len(pairs) != 6:
         return {"classification": "experiment_invalid", "reason": "incomplete required coverage"}
-    if any(not row["protocol_valid"] or row["infrastructure_status"] != "complete" for row in [*arm_a, *pairs]):
+    pair_records = [record for pair in pairs for record in (pair.get("B"), pair.get("C"))]
+    if len(pair_records) != 12 or any(not isinstance(record, dict) for record in pair_records):
+        return {"classification": "experiment_invalid", "reason": "incomplete required pair coverage"}
+    if any(not row["protocol_valid"] or row["infrastructure_status"] != "complete" for row in [*arm_a, *pair_records]):
         return {"classification": "experiment_invalid", "reason": "protocol or infrastructure failure"}
     a_passes = sum(row["evaluation"]["passed"] for row in arm_a)
     b = [row["B"]["evaluation"]["passed"] for row in pairs]
