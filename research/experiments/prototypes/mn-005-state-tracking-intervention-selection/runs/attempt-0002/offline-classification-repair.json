@@ -1,0 +1,19 @@
+{
+  "attempt_id": "attempt-0002",
+  "classification_method": "offline deterministic classifier repair",
+  "classifier_fix_commit": "9436d917",
+  "original_post_run_error": "KeyError caused by treating paired B/C wrapper dictionaries as scored records",
+  "execution_scope": "No model request was made and no raw response, evaluator result, Stage A diagnostic, provenance record, or frozen threshold was modified.",
+  "attempt_validity": "valid",
+  "canonical_attempt": true,
+  "efficacy_classification": "inconclusive",
+  "analysis": {
+    "arm_a_passes": 0,
+    "arm_b_passes": 0,
+    "arm_c_passes": 1,
+    "n10": 1,
+    "n01": 0,
+    "D": 1,
+    "contributing_flips_clean": false
+  }
+}

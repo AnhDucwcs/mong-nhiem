@@ -1,0 +1,38 @@
+{
+  "attempt_id": "attempt-0001",
+  "attempt_status": "experiment_invalid",
+  "first_failure": {
+    "classification": "protocol_invalid",
+    "message": "protocol invalid: active-control artifact differs from frozen neutral grammar",
+    "captured_at": "2026-09-13T10:09:37.841948+00:00",
+    "environment": {
+      "captured_at": "2026-09-13T10:09:38.536269+00:00",
+      "gpu_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 0, 3962, 0\n",
+        "stderr": ""
+      },
+      "compute_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver": "595.95",
+          "total_mib": 4096,
+          "used_mib": 0,
+          "free_mib": 3962,
+          "utilization_percent": 0
+        }
+      ],
+      "compute_processes": []
+    }
+  },
+  "completed_outcomes": 6,
+  "expected_outcomes": 18,
+  "efficacy_classification": "not_applicable_due_to_invalid_experiment"
+}

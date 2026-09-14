@@ -1,0 +1,18 @@
+{
+  "record_type": "mn005_gate_b_v2_static_tokenizer_sizing",
+  "method": "llama.cpp /tokenize and /apply-template only; no /v1/chat/completions requests",
+  "runtime": {"version": "0.2.0-dev", "build": "10566", "commit": "bb4caa754", "context_size": 16896},
+  "source_authority": {"gate_a_sha256": "a8ef18828682e81ffe0abed724c7f8f50daae2e128b52ee8d1d3df97c7acec95", "gate_b_v1_sha256": "727904912e9510039d4695faf3d61b16892cb9294ba4c7738c8770b5719de760", "ecc006_definition_fingerprint": "37f2dc1cc4cdfbf4a667c54f159bbd5203918f85f4d39001fa62ffcba379ac2e"},
+  "exact_arm_b_artifact": {"utf8": "pad=KAPPA LAMBDA MU NU XI OMICRON PI RHO\npad=KAPPA LAMBDA MU NU XI OMICRON PI RHO\npad=KAPPA LAMBDA MU NU XI OMICRON PI RHO\npad=KAPPA LAMBDA MU NU XI OMICRON PI RHO", "utf8_bytes": 163, "mandatory_newline_bytes": 3, "completion_tokens": 71},
+  "previous_stage_a_max_tokens": 64,
+  "sizing_rule": {"max_required_artifact_tokens": 71, "fixed_completion_margin_tokens": 8, "standard_boundary_tokens": 16, "formula": "smallest multiple of 16 greater than or equal to max_required_artifact_tokens + 8", "selected_common_stage_a_max_tokens": 80, "arm_b_headroom_tokens": 9},
+  "cases": [
+    {"case_id": "ecc006-001", "ideal_artifact_utf8_bytes": 144, "mandatory_newline_bytes": 3, "ideal_artifact_tokens": 52, "arm_b_stage_b_prompt_tokens": 8273, "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8254},
+    {"case_id": "ecc006-002", "ideal_artifact_utf8_bytes": 150, "mandatory_newline_bytes": 3, "ideal_artifact_tokens": 51, "arm_b_stage_b_prompt_tokens": 8270, "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8250},
+    {"case_id": "ecc006-003", "ideal_artifact_utf8_bytes": 150, "mandatory_newline_bytes": 3, "ideal_artifact_tokens": 50, "arm_b_stage_b_prompt_tokens": 8265, "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8244},
+    {"case_id": "ecc006-004", "ideal_artifact_utf8_bytes": 141, "mandatory_newline_bytes": 3, "ideal_artifact_tokens": 53, "arm_b_stage_b_prompt_tokens": 8232, "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8214},
+    {"case_id": "ecc006-005", "ideal_artifact_utf8_bytes": 146, "mandatory_newline_bytes": 3, "ideal_artifact_tokens": 50, "arm_b_stage_b_prompt_tokens": 8254, "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8233},
+    {"case_id": "ecc006-006", "ideal_artifact_utf8_bytes": 147, "mandatory_newline_bytes": 3, "ideal_artifact_tokens": 48, "arm_b_stage_b_prompt_tokens": 8231, "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8208}
+  ],
+  "assertions": {"all_required_artifacts_plus_eight_tokens_fit_common_stage_a_cap": true, "all_exact_stage_b_prompts_fit_with_16_token_final_allowance": true, "no_completion_requests_made": true}
+}

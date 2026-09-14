@@ -38,10 +38,34 @@ The observed `0/24 -> 7/24` change is retained as a bounded signal, not as suppo
 
 MN-004 is complete for this intervention. Gate D promotion was not earned, no MN-004 code is promoted into `src/mong_nhiem/`, and no v6 continuation is justified.
 
-## MN-005 — State Tracking Intervention Selection — prepared / design phase
+## MN-005 — State Tracking Intervention Selection — completed and closed on ECC-006
 
-MN-005 is prepared as a separate successor milestone. Its [design foundation](experiments/prototypes/mn-005-state-tracking-intervention-selection/README.md) inherits MN-003 and MN-004 as immutable evidence and has not selected an intervention, definition, runner, implementation, or measured experiment.
+MN-005 is complete as a bounded intervention-selection and candidate-audit milestone over the frozen ECC-006 Llama State Tracking failure region. It does not establish a winning architecture, and it does not establish that all candidate classes failed.
 
-The immediate question is not how to rescue the MN-004 ledger, but which distinct, falsifiable mechanism is best justified next. Candidate directions currently include mechanism decomposition of the MN-004 representation package, token-efficient explicit ordering, hierarchical/checkpointed state representation, and a larger external-state/register hypothesis class. Resource coexistence with games and other local workloads is retained as a later deployment-robustness dimension rather than being confused with controlled mechanism evidence.
+Its frozen [Gate A hypothesis](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-a-hypothesis.md) selected Multi-pass Reconstruction: a target-aware model-generated transcription of source target-update events in source order, passed literally between two fresh model calls. The host remained literal transport only and was prohibited from parsing, correcting, selecting, summarizing, or computing state from Stage A output.
 
-MN-005 Gate A must compare candidate mechanisms and select exactly one hypothesis before Gate B measurement design or any model execution. No architecture is selected.
+The frozen [Gate B v1 measurement contract](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-measurement-contract.md) remains historical evidence. Its first prospective canonical attempt is retained as `experiment_invalid`: Arm B Stage A hit the v1 64-token cap before completing the fixed four-row neutral grammar; Arm A freshly reproduced `0/6` and Arm C never ran. Therefore no valid paired efficacy result exists from v1.
+
+[Gate B v2](experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b-v2-measurement-contract.md) is frozen solely to repair that tokenizer-verifiable executability contradiction. It preserves the grammar and causal/support contract, increases the common B/C Stage A cap to `80` by a predeclared strict-fit rule, and requires persistence-before-validation plus Arm B exact-grammar validation before Stage B. Its first fully valid Gate C v2 attempt, [`attempt-0002`](experiments/prototypes/mn-005-state-tracking-intervention-selection/reports/mn-005-gate-c-v2-attempt-0002.md), is canonical and `inconclusive`: Arm A was `0/6`, Arm B was `0/6`, Arm C was `1/6`, and `D=+1`; the sole beneficial flip lacked a clean exact reconstruction. None of the six Arm C Stage A artifacts satisfied the intended exact-reconstruction criterion. The result therefore does not show that the hypothesized reconstruction mechanism caused the improvement. No replacement `attempt-0003` is authorized under the same contract.
+
+The subsequent [Hierarchical State Representation audit](experiments/prototypes/mn-005-state-tracking-intervention-selection/hierarchical-gate-a.md) is `hierarchical_gate_a_unselected`, not an experimental failure. Frozen ECC-006 already presents each target trajectory as an ordered contiguous four-event block with no distractor inside it, so a hierarchy treatment cannot be isolated there from grouping, formatting, compression, reordering, target salience, or answer simplification.
+
+External State Management remains a strong architectural hypothesis class, but ECC-006's final-state endpoint would make host-maintained state too close to the evaluated answer. Event-to-State Normalization and Symmetric State Partitioning are likewise weakly observable under the regular syntax and contiguous target layout. These are workload-bounded judgments, not universal rankings.
+
+The accumulated MN-005 conclusion is that frozen ECC-006 has become insufficiently discriminative for several deeper state-management hypotheses. Candidate selection therefore stops on ECC-006 rather than manufacturing additional efficacy attempts whose mechanisms cannot be isolated cleanly.
+
+The canonical research transition is documented in the [MN-005 → MN-006 handoff](experiments/prototypes/mn-005-state-tracking-intervention-selection/mn-006-handoff.md).
+
+## MN-006 — Distributed State Integration workload design — planned next milestone, not started
+
+MN-006 should begin only after MN-005 is squash-merged and a new branch is created from updated `main`. No MN-006 implementation, runner, schema, measured evidence, model inference, or GPU experiment exists at MN-005 closure.
+
+The planned primary question is no longer which intervention to try next on ECC-006. It is whether a candidate-neutral experimental substrate can expose distributed state-integration failures while remaining deterministic enough to compare multiple state-management hypotheses causally.
+
+The working workload direction is distributed/interleaved multi-entity state tracking followed by minimal bounded deterministic downstream reasoning. State tracking remains the central subject; downstream reasoning is introduced only so that maintained external state is useful input rather than the final answer itself. The task must not become a general reasoning benchmark.
+
+MN-006 should initially change as few dimensions as possible: make related entity updates genuinely distributed/interleaved and add only the minimum deterministic downstream rule needed to avoid an answer-oracle interface. Other dimensions such as true hierarchy, nested scope, causal dependency, noisy language, cross-episode persistence, and long-term memory should stay simple until evidence justifies changing them.
+
+The workload design must define canonical source events, canonical final entity state, canonical derived facts, and a finite canonical final answer so future evaluation can distinguish state-tracking failure, downstream-reasoning failure, and end-to-end failure without an LLM judge.
+
+Previous candidates may be reconsidered on MN-006 only with workload-specific justification. Their MN-005 history remains intact: `unselected on ECC-006` is not reset to `untested`, and the Multi-pass `inconclusive` result remains canonical evidence.

@@ -1,0 +1,13 @@
+0.00.594.729 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.700.692 I srv          init: The UI is disabled
+0.00.700.697 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.702.740 W srv  llama_server: -----------------
+0.00.702.755 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.702.756 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.702.756 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.702.756 W srv  llama_server: -----------------
+0.00.717.458 I srv    load_model: loading model 'D:\Code\mong-nhiem\artifacts\models\mn-002\Llama-3.2-3B-Instruct-Q4_K_M.gguf'
+0.03.935.553 I cmn          init: llama threadpool init, n_threads = 12
+0.04.533.443 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 16896, kv_unified = 'false'
+0.04.561.218 I srv  llama_server: model loaded
+0.04.561.232 I srv  llama_server: listening on http://127.0.0.1:18655

@@ -1,0 +1,10 @@
+{
+  "attempt_id": "attempt-0001",
+  "audit_status": "retained_invalid_attempt",
+  "first_failure": "protocol invalid: active-control artifact differs from frozen neutral grammar",
+  "stage_a_artifact_path": "artifacts/07-ecc006-001-B-stage-a.bin",
+  "stage_a_artifact_sha256": "a299c42ef323d5bd36e1e69b4200c38d2fffbcf50776f0e4388d4ff24286f36f",
+  "stage_b_transport": "Stage B was submitted with the literal truncated artifact before post-run diagnostic classification.",
+  "retention_limitation": "The runner raised before serializing the invalidating Arm B record, so its raw Stage B response is unavailable. No response was recreated or inferred.",
+  "remediation_boundary": "Any future implementation repair may not alter this invalid attempt. A further efficacy attempt needs an explicit Gate B reopening because the frozen placeholder grammar cannot complete within max_tokens=64."
+}

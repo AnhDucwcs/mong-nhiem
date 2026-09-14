@@ -1,0 +1,247 @@
+{
+  "preflight_version": 2,
+  "completed_at": "2026-09-14T11:25:08.564139+07:00",
+  "definition_fingerprint": "80bebffb1371c3eec3b612dac36d83267f5af046066a46c4f7ee3598b5595ff9",
+  "gate_b_v2_sha256": "4a71dfe854faa106b3c0327cefb9ec5764ac4ee5e9a2974e9c1d2422e875b426",
+  "artifact_counts": {
+    "arm_b": 71,
+    "ecc006-001": 52,
+    "ecc006-002": 51,
+    "ecc006-003": 50,
+    "ecc006-004": 53,
+    "ecc006-005": 50,
+    "ecc006-006": 48
+  },
+  "cases": [
+    {
+      "case_id": "ecc006-001",
+      "source_sha256": "429f45745b56db4ba06f27f8a0c71e021a7383082e58548cb11fec67c6aebd04",
+      "source_actual_prompt_tokens": 8187,
+      "arm_a_prompt_tokens": 8187,
+      "arm_b_stage_a_prompt_tokens": 8308,
+      "arm_b_artifact_completion_tokens": 71,
+      "arm_b_stage_b_prompt_tokens": 8273,
+      "arm_c_stage_a_prompt_tokens": 8267,
+      "arm_c_ideal_artifact_completion_tokens": 52,
+      "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8254,
+      "context_size": 16896,
+      "final_completion_allowance": 16,
+      "source_untruncated": true
+    },
+    {
+      "case_id": "ecc006-002",
+      "source_sha256": "d04d15bbe3e245787bcb80b281fe0b52cfc635e6cadd92f8a0e40220700c1a20",
+      "source_actual_prompt_tokens": 8184,
+      "arm_a_prompt_tokens": 8184,
+      "arm_b_stage_a_prompt_tokens": 8305,
+      "arm_b_artifact_completion_tokens": 71,
+      "arm_b_stage_b_prompt_tokens": 8270,
+      "arm_c_stage_a_prompt_tokens": 8264,
+      "arm_c_ideal_artifact_completion_tokens": 51,
+      "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8250,
+      "context_size": 16896,
+      "final_completion_allowance": 16,
+      "source_untruncated": true
+    },
+    {
+      "case_id": "ecc006-003",
+      "source_sha256": "8439351dac678f23ebfaf36ae71f647c17965d568db7b78dc93dbffde3f377cc",
+      "source_actual_prompt_tokens": 8179,
+      "arm_a_prompt_tokens": 8179,
+      "arm_b_stage_a_prompt_tokens": 8300,
+      "arm_b_artifact_completion_tokens": 71,
+      "arm_b_stage_b_prompt_tokens": 8265,
+      "arm_c_stage_a_prompt_tokens": 8259,
+      "arm_c_ideal_artifact_completion_tokens": 50,
+      "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8244,
+      "context_size": 16896,
+      "final_completion_allowance": 16,
+      "source_untruncated": true
+    },
+    {
+      "case_id": "ecc006-004",
+      "source_sha256": "f4683c1728a0ac11886d8fa7d91464cd15d205ba2a3f61a4161eb1c9e8953a41",
+      "source_actual_prompt_tokens": 8146,
+      "arm_a_prompt_tokens": 8146,
+      "arm_b_stage_a_prompt_tokens": 8267,
+      "arm_b_artifact_completion_tokens": 71,
+      "arm_b_stage_b_prompt_tokens": 8232,
+      "arm_c_stage_a_prompt_tokens": 8226,
+      "arm_c_ideal_artifact_completion_tokens": 53,
+      "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8214,
+      "context_size": 16896,
+      "final_completion_allowance": 16,
+      "source_untruncated": true
+    },
+    {
+      "case_id": "ecc006-005",
+      "source_sha256": "8a0785d26317d5d89ad2e9b82f15186c564fa6dd2888f93c8b31ee227ba33acb",
+      "source_actual_prompt_tokens": 8168,
+      "arm_a_prompt_tokens": 8168,
+      "arm_b_stage_a_prompt_tokens": 8289,
+      "arm_b_artifact_completion_tokens": 71,
+      "arm_b_stage_b_prompt_tokens": 8254,
+      "arm_c_stage_a_prompt_tokens": 8248,
+      "arm_c_ideal_artifact_completion_tokens": 50,
+      "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8233,
+      "context_size": 16896,
+      "final_completion_allowance": 16,
+      "source_untruncated": true
+    },
+    {
+      "case_id": "ecc006-006",
+      "source_sha256": "205a44f2176da10935715c153aab21bff90445cbe8d768249da8cacb7d5c3982",
+      "source_actual_prompt_tokens": 8145,
+      "arm_a_prompt_tokens": 8145,
+      "arm_b_stage_a_prompt_tokens": 8266,
+      "arm_b_artifact_completion_tokens": 71,
+      "arm_b_stage_b_prompt_tokens": 8231,
+      "arm_c_stage_a_prompt_tokens": 8225,
+      "arm_c_ideal_artifact_completion_tokens": 48,
+      "arm_c_stage_b_prompt_tokens_with_ideal_artifact": 8208,
+      "context_size": 16896,
+      "final_completion_allowance": 16,
+      "source_untruncated": true
+    }
+  ],
+  "passed": true,
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "environment_before": {
+    "captured_at": "2026-09-14T11:24:06.134683+07:00",
+    "gpu_query": {
+      "available": true,
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 0, 3962, 0\n",
+      "stderr": ""
+    },
+    "compute_query": {
+      "available": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "gpus": [
+      {
+        "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+        "driver": "595.95",
+        "total_mib": 4096,
+        "used_mib": 0,
+        "free_mib": 3962,
+        "utilization_percent": 0
+      }
+    ],
+    "compute_processes": []
+  },
+  "server": {
+    "command": [
+      "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+      "-m",
+      "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002\\Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18655",
+      "-c",
+      "16896",
+      "-t",
+      "12",
+      "-b",
+      "2048",
+      "-np",
+      "1",
+      "-fa",
+      "on",
+      "--temp",
+      "0",
+      "--seed",
+      "42",
+      "--jinja",
+      "--no-webui",
+      "--no-cache-prompt",
+      "--metrics",
+      "--chat-template-kwargs",
+      "{}"
+    ],
+    "pid": 26872,
+    "before": {
+      "captured_at": "2026-09-14T11:24:06.224+07:00",
+      "gpu_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 0, 3962, 0\n",
+        "stderr": ""
+      },
+      "compute_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver": "595.95",
+          "total_mib": 4096,
+          "used_mib": 0,
+          "free_mib": 3962,
+          "utilization_percent": 0
+        }
+      ],
+      "compute_processes": []
+    },
+    "ready": {
+      "captured_at": "2026-09-14T11:24:13.509864+07:00",
+      "gpu_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "NVIDIA GeForce RTX 3050 Laptop GPU, 595.95, 4096, 2267, 1696, 5\n",
+        "stderr": ""
+      },
+      "compute_query": {
+        "available": true,
+        "returncode": 0,
+        "stdout": "26872, D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe, [N/A]\n",
+        "stderr": ""
+      },
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver": "595.95",
+          "total_mib": 4096,
+          "used_mib": 2267,
+          "free_mib": 1696,
+          "utilization_percent": 5
+        }
+      ],
+      "compute_processes": [
+        {
+          "pid": 26872,
+          "name": "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+          "used_mib": null
+        }
+      ]
+    }
+  },
+  "repository_commit": "3e13c003ed54fb64e8bff34181e9ab3953137a87",
+  "server_lifecycle_end": {
+    "expected_termination": true,
+    "exit_code": 1,
+    "alive_after_cleanup": false,
+    "health_after_cleanup": {
+      "observed_at": "2026-09-14T11:25:11.6478+07:00",
+      "reachable": false,
+      "error": "URLError: <urlopen error timed out>"
+    }
+  },
+  "classification": "noncanonical_preflight",
+  "status": "blocked_gpu_backed_tokenizer_route",
+  "completion_inference_occurred": false,
+  "measured_attempt_created": false,
+  "retention_note": "Retained only as a noncanonical diagnostic. This route launched llama-server for tokenizer access and is not valid Gate C v2 static-preflight evidence."
+}
