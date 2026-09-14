@@ -1,13 +1,26 @@
 {
   "attempt_id": "attempt-0002",
-  "attempt_status": "experiment_invalid",
-  "efficacy_classification": "not_applicable_due_to_invalid_experiment",
+  "attempt_status": "canonical_valid",
+  "efficacy_classification": "inconclusive",
   "completed_outcomes": 18,
   "expected_outcomes": 18,
-  "first_failure": {
-    "classification": "infrastructure_failure",
-    "message": "After all 18 retained outcomes were produced, the frozen runner crashed during post-run classification because its classifier expects flattened pair records but received paired dictionaries. The attempt could not produce the required canonical classification through the frozen implementation.",
-    "captured_at": "2026-09-14T05:58:48.4855894Z"
+  "canonicalization": {
+    "first_valid_attempt": true,
+    "message": "attempt-0002 is the first fully protocol-valid and infrastructure-complete attempt. It is canonical regardless of its efficacy outcome."
   },
-  "retention_note": "All raw responses are retained. No efficacy interpretation is permitted; no replacement attempt was started."
+  "classification_repair": {
+    "original_failure": "The runner raised KeyError after all 18 outcomes and their evaluator evidence had been persisted because the deterministic classifier treated paired B/C wrapper dictionaries as scored records.",
+    "scope": "Offline aggregation only. No request, raw model response, evaluator result, Stage A diagnostic, provenance record, or frozen threshold was modified.",
+    "repair_commit": "9436d917"
+  },
+  "analysis": {
+    "arm_a_passes": 0,
+    "arm_b_passes": 0,
+    "arm_c_passes": 1,
+    "n10": 1,
+    "n01": 0,
+    "D": 1,
+    "contributing_flips_clean": false
+  },
+  "retention_note": "All raw responses remain retained. No replacement attempt was started or authorized."
 }

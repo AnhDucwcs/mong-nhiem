@@ -2,7 +2,7 @@
 
 ## Status
 
-**Gate A and Gate B v1 remain frozen historical records. `attempt-0001` remains `experiment_invalid` because the v1 Arm B four-row placeholder could not fit its frozen `max_tokens=64` cap. Gate B v2 is now frozen solely to repair that static executability contradiction: it preserves the grammar and replaces the common Stage A cap with `80` after tokenizer sizing. No valid paired efficacy evidence exists; Gate C v2 execution remains unauthorized until the required runner/persistence corrections are implemented and reviewed.**
+**Gate A and Gate B v1 remain frozen historical records. `attempt-0001` remains `experiment_invalid` because the v1 Arm B four-row placeholder could not fit its frozen `max_tokens=64` cap. Gate B v2 is now frozen solely to repair that static executability contradiction: it preserves the grammar and replaces the common Stage A cap with `80` after tokenizer sizing. `attempt-0002` is the canonical first-valid Gate C v2 attempt; its frozen result is `inconclusive` (`1/6` Arm C versus `0/6` active control, `D=+1`). No architecture is promoted and no replacement efficacy attempt is authorized.**
 
 MN-005 is an ongoing successor research track to completed MN-004. It inherits MN-003 and MN-004 as immutable evidence rather than reopening either milestone. Its frozen [Gate A hypothesis](gate-a-hypothesis.md) selects a target-aware, model-generated reconstruction artifact externalized between two fresh model calls. [Gate B v1](gate-b-measurement-contract.md) remains historical; [Gate B v2](gate-b-v2-measurement-contract.md) is the current executable measurement contract.
 
@@ -99,9 +99,9 @@ The [frozen v2 measurement contract](gate-b-v2-measurement-contract.md) preserve
 
 The implementation and tokenizer preflight conformed to the frozen contract. `attempt-0001` then became `experiment_invalid` when Arm B could not emit the frozen four-row placeholder within its frozen `max_tokens=64`; no valid efficacy comparison was produced.
 
-### Gate C v2 — implementation correction required; execution not yet authorized
+### Gate C v2 — canonical result inconclusive
 
-Before `attempt-0002`, the runner must conform to Gate B v2's new cap, static strict-fit assertions, persist-before-validate evidence retention, and Arm B pre-Stage-B grammar validation. No execution occurred while freezing v2.
+The v2 runner and static preflight conformed to the frozen contract. `attempt-0002` is the first fully protocol-valid and infrastructure-complete attempt, so it is canonical under the first-valid-attempt rule. Its result is `inconclusive`: Arm A=`0/6`, Arm B=`0/6`, Arm C=`1/6`, `n10=1`, `n01=0`, and `D=+1`; no Arm C artifact met the exact reconstruction condition. The initial post-run classifier crash was repaired offline without modifying raw evidence; see the [canonical report](reports/mn-005-gate-c-v2-attempt-0002.md).
 
 ### Gate D — promotion decision — not authorized
 
@@ -109,4 +109,4 @@ Only evidence that satisfies the new hypothesis and its frozen promotion criteri
 
 ## Immediate next step
 
-Next action: implement and review only the Gate B v2 conformity repairs before considering `attempt-0002`. Do not alter Gate A, Gate B v1, the retained invalid attempt, MN-004, or the frozen causal/support rules.
+Next action: make any further research decision separately. Do not replace `attempt-0002`, alter Gate A/Gate B authority, promote architecture, or begin another efficacy attempt automatically.

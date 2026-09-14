@@ -1,5 +1,7 @@
 # MN-005 Gate C v2 attempt-0002 — invalid-attempt report
 
+> **Superseded as the scientific interpretation.** This report retains the original post-run classifier crash and the initially incorrect invalid-attempt interpretation. The completion audit established that all required model execution, evaluation, and provenance were already complete; the defect affected only deterministic aggregation of paired wrapper objects. The canonical result is now documented in [MN-005 Gate C v2 attempt-0002](mn-005-gate-c-v2-attempt-0002.md). Raw attempt evidence and this historical report are retained unchanged apart from this supersession notice.
+
 **Attempt:** `attempt-0002`
 **Gate C v2 status:** `gate_c_v2_experiment_invalid`
 **Efficacy status:** `not_applicable_due_to_invalid_experiment`
