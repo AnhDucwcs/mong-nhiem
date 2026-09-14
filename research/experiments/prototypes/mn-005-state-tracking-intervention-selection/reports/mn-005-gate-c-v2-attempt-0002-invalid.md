@@ -1,7 +1,7 @@
 # MN-005 Gate C v2 attempt-0002 — invalid-attempt report
 
-**Attempt:** `attempt-0002`  
-**Gate C v2 status:** `gate_c_v2_experiment_invalid`  
+**Attempt:** `attempt-0002`
+**Gate C v2 status:** `gate_c_v2_experiment_invalid`
 **Efficacy status:** `not_applicable_due_to_invalid_experiment`
 
 ## Scope and authority
