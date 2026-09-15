@@ -2,7 +2,7 @@
 
 ## Status
 
-**Design Gate B is complete and freezes the v1 semantic workload contract; its deterministic non-model [generator/oracle/validator infrastructure](implementation.md) is implemented and statically tested.** MN-006 remains a workload-design milestone, not an intervention experiment. It creates no measured evidence, model runner, treatment, model inference, or GPU workload.
+**The v1 baseline inventory and measurement contract is frozen at the [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md).** The deterministic non-model [generator/oracle/validator infrastructure](implementation.md) and canonical [baseline inventory](definition/baseline-inventory-v1/manifest.json) are implemented, materialized, and statically verified. MN-006 remains a workload-design milestone: no model response, benchmark score, treatment, model inference, or GPU workload exists.
 
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
@@ -68,7 +68,7 @@ Source events will use one regular, unambiguous assignment grammar. Every event 
 
 The primary structural property is not merely that there are more events. For every queried entity in the distributed regime, relevant updates must be separated by events for other entities. A contiguous-history Level 1 remains a sanity/control regime, not the primary comparison substrate.
 
-The v1 state vocabulary, event grammar, answer labels, rule depth/arity, contiguous-control role, Level 1/2 profile values, and deterministic scheduler are now frozen in the [semantic workload contract](workload-contract.md). Only inventory seed lists/sample size and later measurement/treatment contracts remain deferred.
+The v1 state vocabulary, event grammar, answer labels, rule depth/arity, contiguous-control role, Level 1/2 profile values, and deterministic scheduler are frozen in the [semantic workload contract](workload-contract.md). The independent, pre-model [baseline inventory and measurement contract](baseline-inventory-measurement-gate.md) now freezes 32 matched pairs per profile, sequential ordinals, physical artifact hashes, runtime procedure, scoring, and interpretation. Candidate treatment remains deferred.
 
 ## Deterministic answer and diagnostic policy
 
@@ -122,12 +122,12 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 
 ## Gates and next boundary
 
-[Design Gate A](design-gate-a.md) remains the traceable initial audit. [Design Gate B](design-gate-b.md) freezes the v1 semantic decisions. The [semantic workload contract](workload-contract.md) and [v1 case schema](case-schema.md) are now the authority for a deterministic generator/oracle/validator implementation; the earlier [proposed schema](proposed-case-schema.md) is retained as history.
+[Design Gate A](design-gate-a.md) remains the traceable initial audit. [Design Gate B](design-gate-b.md) freezes the v1 semantic decisions. The [semantic workload contract](workload-contract.md) and [v1 case schema](case-schema.md) are the authority for the deterministic generator/oracle/validator implementation; the earlier [proposed schema](proposed-case-schema.md) is retained as history. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) freezes the inventory and first-baseline procedure, while the [manifest](definition/baseline-inventory-v1/manifest.json) identifies the materialized authority artifacts.
 
 **Implementation gate:** passed for a non-model generator, oracle, paired serializer, and static validator suite only. The frozen v1 contract remains independently reviewable without model output.
 
-**Future measurement gate:** authorize model inference only after an implemented generator and deterministic validator demonstrate reproducibility, source conservation, correct oracle layers, answer uniqueness/balance, interleaving diagnostics, anti-leakage checks, a frozen inventory/measurement contract, and a separately selected candidate hypothesis.
+**Baseline measurement gate:** `baseline_measurement_contract_ready`. The future first baseline is a predeclared Llama 3.2 3B observation under the frozen runtime, inventory, execution, retention, and paired-analysis procedure. It does not select a candidate intervention.
 
 ## Explicit boundary
 
-No model or GPU inference was run for MN-006. No Llama/Qwen call, llama.cpp server, treatment renderer, external state register, hierarchy condition, multi-pass rerun, measured result, or efficacy claim exists in this directory.
+No model or GPU inference was run for MN-006. No Llama/Qwen call, llama.cpp server, treatment renderer, external state register, hierarchy condition, multi-pass rerun, measured result, or efficacy claim exists in this directory. The materialized inventory is workload authority, not measurement evidence.

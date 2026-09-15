@@ -2,7 +2,7 @@
 
 ## Status
 
-**`generator_oracle_validator_implementation_complete`** for the frozen MN-006 v1 semantic contract. This is executable non-model infrastructure, not a generated benchmark inventory, measured evidence, candidate treatment, or model-inference authorization.
+**`generator_oracle_validator_implementation_complete`** for the frozen MN-006 v1 semantic contract. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) materializes and validates the pre-model inventory. This remains executable non-model infrastructure, not measured evidence, a candidate treatment, or a model-inference authorization.
 
 ## Implemented boundary
 
@@ -24,4 +24,4 @@ The interleaved serializer intentionally repeats one seeded entity permutation f
 
 ## Next boundary
 
-The next design gate is a bounded inventory and measurement-contract decision: seed inventory/coverage, diagnostics, and model-baseline procedure must be frozen before any model observation. It is not candidate-intervention selection.
+The inventory and measurement contract is now frozen. `scripts/mn006/inventory.py` materializes its public, evaluator, and authority artifacts with exact binary write/readback SHA-256 verification. The next boundary is the first predeclared Llama baseline execution under that contract, after its environment preflight. It is not candidate-intervention selection.
