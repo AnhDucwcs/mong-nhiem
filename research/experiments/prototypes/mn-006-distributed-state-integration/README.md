@@ -2,7 +2,7 @@
 
 ## Status
 
-**Design Gate B is complete and freezes the v1 semantic workload contract; deterministic generator/oracle/validator implementation is ready, but no implementation is created here.** MN-006 remains a workload-design milestone, not an intervention experiment. It creates no measured evidence, model runner, treatment, model inference, or GPU workload.
+**Design Gate B is complete and freezes the v1 semantic workload contract; its deterministic non-model [generator/oracle/validator infrastructure](implementation.md) is implemented and statically tested.** MN-006 remains a workload-design milestone, not an intervention experiment. It creates no measured evidence, model runner, treatment, model inference, or GPU workload.
 
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 

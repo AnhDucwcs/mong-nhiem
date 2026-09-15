@@ -49,7 +49,7 @@ See the [MN-005 → MN-006 research handoff](experiments/prototypes/mn-005-state
 
 ## MN-006 — Distributed State Integration workload design
 
-Status: **v1 semantic workload design frozen at Design Gate B; deterministic non-model generator/oracle/validator implementation is ready, while inventory, treatment, model inference, and GPU work remain unauthorized.** See the [MN-006 charter](experiments/prototypes/mn-006-distributed-state-integration/README.md), [semantic contract](experiments/prototypes/mn-006-distributed-state-integration/workload-contract.md), and [Design Gate B](experiments/prototypes/mn-006-distributed-state-integration/design-gate-b.md).
+Status: **v1 semantic workload design is frozen at Design Gate B, and its deterministic non-model [generator/oracle/validator infrastructure](experiments/prototypes/mn-006-distributed-state-integration/implementation.md) is implemented and statically tested.** Inventory, treatment, model inference, and GPU work remain unauthorized. The regular round-robin scheduler remains an intentional v1 limitation, with static answer-proxy and positional audits; it does not claim arbitrary-interleaving coverage. See the [MN-006 charter](experiments/prototypes/mn-006-distributed-state-integration/README.md), [semantic contract](experiments/prototypes/mn-006-distributed-state-integration/workload-contract.md), and [Design Gate B](experiments/prototypes/mn-006-distributed-state-integration/design-gate-b.md).
 
 MN-006 changes the immediate research target from selecting another intervention on ECC-006 to designing a better experimental substrate.
 
