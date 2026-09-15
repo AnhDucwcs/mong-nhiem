@@ -56,9 +56,9 @@ The accumulated MN-005 conclusion is that frozen ECC-006 has become insufficient
 
 The canonical research transition is documented in the [MN-005 → MN-006 handoff](experiments/prototypes/mn-005-state-tracking-intervention-selection/mn-006-handoff.md).
 
-## MN-006 — Distributed State Integration workload design — Design Gate A drafted
+## MN-006 — Distributed State Integration workload design — Design Gate B complete
 
-MN-006 began after MN-005 was squash-merged and a separate branch was created from updated `main`. Its [Design Gate A](experiments/prototypes/mn-006-distributed-state-integration/design-gate-a.md) and [proposed case schema](experiments/prototypes/mn-006-distributed-state-integration/proposed-case-schema.md) are static design artifacts, not frozen generator/measurement contracts.
+MN-006 has completed [Design Gate B](experiments/prototypes/mn-006-distributed-state-integration/design-gate-b.md), which freezes the [v1 semantic workload contract](experiments/prototypes/mn-006-distributed-state-integration/workload-contract.md) and [v1 case schema](experiments/prototypes/mn-006-distributed-state-integration/case-schema.md). A deterministic non-model generator, oracle, paired serializer, and static validators are now design-ready; no implementation or measurement contract exists yet.
 
 The planned primary question is no longer which intervention to try next on ECC-006. It is whether a candidate-neutral experimental substrate can expose distributed state-integration failures while remaining deterministic enough to compare multiple state-management hypotheses causally.
 
@@ -70,4 +70,4 @@ The workload design must define canonical source events, canonical final entity 
 
 Previous candidates may be reconsidered on MN-006 only with workload-specific justification. Their MN-005 history remains intact: `unselected on ECC-006` is not reset to `untested`, and the Multi-pass `inconclusive` result remains canonical evidence.
 
-No MN-006 generator, runner, JSON Schema, generated inventory, measured evidence, model inference, GPU experiment, intervention comparison, Hierarchical treatment, External State treatment, or Multi-pass rerun exists. Implementation is blocked until the Design Gate A semantic, oracle, anti-leakage, interleaving, and finite-answer requirements are frozen and pass deterministic static validation.
+No MN-006 generator, runner, generated inventory, measured evidence, model inference, GPU experiment, intervention comparison, Hierarchical treatment, External State treatment, or Multi-pass rerun exists. Generator/oracle/validator implementation is authorized by Design Gate B; any inventory, treatment, or model inference remains blocked pending its own later frozen contract.

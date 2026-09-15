@@ -2,7 +2,7 @@
 
 ## Status and boundary
 
-**Proposed, not frozen and not implemented.** This document defines the minimum audit data a future deterministic generator should emit. It is not JSON Schema, a generated inventory, a measured artifact, or authorization to implement a runner.
+**Historical proposed artifact.** Its v1 successor, [MN-006 v1 case schema](case-schema.md), is frozen for deterministic generator/oracle/validator implementation. This document remains to preserve Design Gate A provenance; it is not JSON Schema, a generated inventory, measured evidence, or authorization for inference.
 
 ## Design goals
 

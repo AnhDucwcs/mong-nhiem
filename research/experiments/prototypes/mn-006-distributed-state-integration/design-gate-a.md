@@ -64,3 +64,7 @@ Model inference remains prohibited until a later gate verifies all of the follow
 ## Decision
 
 MN-006 remains in design status. The causal design is sufficiently specified to reject three invalid directions now: direct final-state questions, a register that contains the final decision, and a hierarchy condition confounded with filtering/compression/reordering. It is not sufficiently specified to authorize code or inference because the finite semantics, rule table, interleaving thresholds, answer labels, and validator design remain intentionally unresolved.
+
+## Gate B resolution
+
+This Gate A draft remains historical. [Design Gate B](design-gate-b.md) subsequently froze the v1 state model, direct-assignment grammar, truth table, answer policy, scheduler, profiles, oracle, schema boundary, and validators. Its decision is generator_implementation_ready for non-model implementation only.
