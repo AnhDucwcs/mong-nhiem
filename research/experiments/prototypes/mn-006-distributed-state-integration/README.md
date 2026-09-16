@@ -2,7 +2,7 @@
 
 ## Status
 
-**The v1 baseline inventory and measurement contract is frozen at the [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md).** The deterministic non-model [generator/oracle/validator infrastructure](implementation.md) and canonical [baseline inventory](definition/baseline-inventory-v1/manifest.json) are implemented, materialized, and statically verified. MN-006 remains a workload-design milestone: no model response, benchmark score, treatment, model inference, or GPU workload exists.
+**The frozen Llama `attempt-0001` baseline is [protocol-valid](reports/mn-006-attempt-0001.md), but both profiles close as `no_usable_locality_failure_signal_under_v1_baseline`.** The deterministic infrastructure and canonical inventory remain intact; all 128 model outputs were malformed under the frozen exact-label parser, so the attempt establishes a shared output-channel floor rather than a contiguous-versus-interleaved state-locality result. No intervention was selected or tested.
 
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
@@ -126,8 +126,8 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 
 **Implementation gate:** passed for a non-model generator, oracle, paired serializer, and static validator suite only. The frozen v1 contract remains independently reviewable without model output.
 
-**Baseline measurement gate:** `baseline_measurement_contract_ready`. The future first baseline is a predeclared Llama 3.2 3B observation under the frozen runtime, inventory, execution, retention, and paired-analysis procedure. It does not select a candidate intervention.
+**Baseline measurement:** [`attempt-0001`](reports/mn-006-attempt-0001.md) completed the predeclared Llama 3.2 3B observation with all 128 requests, no infrastructure failure, and no retries. Both profiles have `0/32` contiguous and `0/32` interleaved exact correctness, each with `64/64` malformed outputs. The frozen classification is `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked.
 
 ## Explicit boundary
 
-No model or GPU inference was run for MN-006. No Llama/Qwen call, llama.cpp server, treatment renderer, external state register, hierarchy condition, multi-pass rerun, measured result, or efficacy claim exists in this directory. The materialized inventory is workload authority, not measurement evidence.
+The canonical attempt retains immutable model-run evidence but no intervention evidence: one Llama server executed `attempt-0001`; no Qwen call, treatment renderer, external state register, hierarchy condition, multi-pass rerun, or candidate efficacy claim exists. The materialized inventory remains workload authority and the raw attempt records remain separate measured evidence.

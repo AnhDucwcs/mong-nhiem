@@ -2,7 +2,7 @@
 
 ## Status
 
-**`generator_oracle_validator_implementation_complete`** for the frozen MN-006 v1 semantic contract. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) materializes and validates the pre-model inventory. This remains executable non-model infrastructure, not measured evidence, a candidate treatment, or a model-inference authorization.
+**`generator_oracle_validator_implementation_complete`** for the frozen MN-006 v1 semantic contract. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) materialized the inventory, and the dedicated frozen attempt runner produced the protocol-valid [attempt-0001](reports/mn-006-attempt-0001.md). The runner remains untreated baseline infrastructure; it is not a candidate-treatment implementation.
 
 ## Implemented boundary
 
@@ -14,9 +14,9 @@ The MN-006-local `scripts/mn006/` package now provides:
 - pure `replay → derive(equal_state) → decide(VALID/INVALID)` oracle functions;
 - separate public, evaluator, and authority records;
 - UTF-8/LF canonical JSON/text serialization and SHA-256 fingerprints; and
-- semantic, oracle, schedule, matched-pair, public-boundary, answer-proxy, and positional static validators.
+- semantic, oracle, schedule, matched-pair, public-boundary, answer-proxy, and positional static validators; and
 
-The package never calls a model, GPU runtime, treatment, external service, or answer-selection host logic. Test-only batches are generated in memory by unit tests and are not an inventory or research evidence.
+The generator/oracle package never calls a model or answer-selection host logic. The separate `run_mn006_baseline.py` executes only the predeclared untreated Llama request plan, with no prompt adaptation, case replacement, retry, or treatment. Test-only batches remain separate from inventory and measured evidence.
 
 ## v1 periodicity boundary
 
@@ -24,4 +24,4 @@ The interleaved serializer intentionally repeats one seeded entity permutation f
 
 ## Next boundary
 
-The inventory and measurement contract is now frozen. `scripts/mn006/inventory.py` materializes its public, evaluator, and authority artifacts with exact binary write/readback SHA-256 verification. The next boundary is the first predeclared Llama baseline execution under that contract, after its environment preflight. It is not candidate-intervention selection.
+The frozen first baseline is complete. Its valid shared malformed-output floor does not authorize a candidate intervention or the perfect-state diagnostic. The next boundary is a separate causal-design review of that output-channel failure; this completed attempt may not be tuned, rerun, or reinterpreted to manufacture a locality result.
