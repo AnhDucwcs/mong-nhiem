@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import sys
 from pathlib import Path
 
@@ -150,13 +151,21 @@ def test_grammar_order_pairs_exist_exactly_once() -> None:
         assert {case.grammar_order for case in pair} == {"A_then_B", "B_then_A"}
 
 
-def test_dry_construction_is_d1_only_and_creates_no_evidence() -> None:
-    assert not (RUNS / execution.D1_RUN_ID).exists()
+def test_dry_construction_is_d1_only_and_preserves_retained_evidence() -> None:
+    evidence_dir = RUNS / execution.D1_RUN_ID
+    before_hashes = {
+        path.relative_to(evidence_dir).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in evidence_dir.rglob("*") if path.is_file()
+    }
     entries = runner.dry_construction()
     assert len(entries) == 16
     assert {entry["stage"] for entry in entries} == {diagnostic.DIRECT_STAGE}
     assert all(entry["record_id"].startswith("d1-") for entry in entries)
-    assert not (RUNS / execution.D1_RUN_ID).exists()
+    after_hashes = {
+        path.relative_to(evidence_dir).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in evidence_dir.rglob("*") if path.is_file()
+    }
+    assert after_hashes == before_hashes
     d2_case = next(case for case in diagnostic.build_plan() if case.stage == diagnostic.CONTIGUOUS_STAGE)
     assert "classify_d2" not in Path(runner.__file__).read_text(encoding="utf-8")
     with pytest.raises(execution.D1ExecutionError, match="D2"):
