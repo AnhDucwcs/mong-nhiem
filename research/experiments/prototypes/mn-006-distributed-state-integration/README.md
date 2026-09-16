@@ -8,6 +8,8 @@
 
 The [Label-Selection Causal Gate](label-selection-causal-gate.md) is now `label_selection_diagnostic_ready`. It records a static grammar/tokenizer audit, freezes a separate neutral `A`/`B` counterbalanced-mapping diagnostic, and authorizes no model run yet. The diagnostic is not `attempt-0003`, does not alter either baseline, and does not select an intervention.
 
+[`scripts/run_mn006_label_selection_d1.py`](scripts/run_mn006_label_selection_d1.py) is the pre-evidence executor for the separate `label-selection-d1-run-0001` diagnostic. It uses only the frozen 16-request direct-state D1 plan and inherits the qualified runtime, including the existing 16-token output limit. It has not run; D2 remains contingent and unauthorized.
+
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
 ## Research motivation and inherited evidence

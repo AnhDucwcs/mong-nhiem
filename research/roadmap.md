@@ -53,6 +53,8 @@ Status: **v1 semantic workload design, deterministic infrastructure, and canonic
 
 The static [Label-Selection Causal Gate](experiments/prototypes/mn-006-distributed-state-integration/label-selection-causal-gate.md) is `label_selection_diagnostic_ready`. It preserves the baseline history and freezes a small separate diagnostic for the all-`INVALID` response-selection collapse: direct-state `A`/`B` mapping counterfactuals with an alternative-order grammar control, followed only conditionally by a contiguous source-event stage. This is not a locality measurement, an `attempt-0003` baseline, a perfect-state control, or an intervention.
 
+The D1 diagnostic executor is prepared before model behavior. It consumes only the frozen 16-request direct-state mapping plan under the inherited qualified Llama runtime; D2 remains a separately authorized future stage and no treatment is selected.
+
 MN-006 changes the immediate research target from selecting another intervention on ECC-006 to designing a better experimental substrate.
 
 The working central question is:
