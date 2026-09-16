@@ -2,9 +2,9 @@
 
 ## Status
 
-**The frozen Llama `attempt-0001` baseline is [protocol-valid](reports/mn-006-attempt-0001.md), but both profiles close as `no_usable_locality_failure_signal_under_v1_baseline`.** The deterministic infrastructure and canonical inventory remain intact; all 128 model outputs were malformed under the frozen exact-label parser, so the attempt establishes a shared output-channel floor rather than a contiguous-versus-interleaved state-locality result. The subsequent [Response-Channel Gate](response-channel-gate.md) is `response_channel_revision_ready`: it freezes a separate future `attempt-0002` with a constant response grammar only. No intervention was selected or tested.
+**Both frozen Llama measurements are protocol-valid, but neither profile establishes `candidate_locality_failure_signal`.** [`attempt-0001`](reports/mn-006-attempt-0001.md) retains its shared malformed-output floor. The separate grammar-constrained [`attempt-0002`](reports/mn-006-attempt-0002.md) makes all 128 outputs parseable, but every response is `INVALID`, yielding matched `16/32` contiguous and `16/32` interleaved accuracy in both profiles. No intervention was selected or tested.
 
-The uninvoked future executor is [`scripts/run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py). It is a grammar-only, pre-evidence boundary for `attempt-0002`; no inference or `attempt-0002` evidence exists.
+[`scripts/run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py) was the grammar-only pre-evidence executor for `attempt-0002`. Its executor commit and the resulting evidence remain separate immutable boundaries.
 
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
@@ -128,8 +128,8 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 
 **Implementation gate:** passed for a non-model generator, oracle, paired serializer, and static validator suite only. The frozen v1 contract remains independently reviewable without model output.
 
-**Baseline measurement:** [`attempt-0001`](reports/mn-006-attempt-0001.md) completed the predeclared Llama 3.2 3B observation with all 128 requests, no infrastructure failure, and no retries. Both profiles have `0/32` contiguous and `0/32` interleaved exact correctness, each with `64/64` malformed outputs. The frozen classification is `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked. The later [Response-Channel Gate](response-channel-gate.md) authorizes only a separate grammar-constrained `attempt-0002` measurement with unchanged workload/public bytes/evaluator, not an intervention or an infrastructure retry.
+**Baseline measurements:** [`attempt-0001`](reports/mn-006-attempt-0001.md) is protocol-valid but has `0/32` contiguous and `0/32` interleaved exact correctness in both profiles because all `128/128` outputs are malformed. The separately frozen grammar-constrained [`attempt-0002`](reports/mn-006-attempt-0002.md) is also protocol-valid: all `128/128` outputs strictly parse, but all are `INVALID`, producing `16/32` contiguous and `16/32` interleaved exact correctness in both profiles. Both attempts classify both profiles as `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked.
 
 ## Explicit boundary
 
-The canonical attempt retains immutable model-run evidence but no intervention evidence: one Llama server executed `attempt-0001`; no Qwen call, treatment renderer, external state register, hierarchy condition, multi-pass rerun, or candidate efficacy claim exists. The materialized inventory remains workload authority and the raw attempt records remain separate measured evidence.
+The canonical attempts retain immutable model-run evidence but no intervention evidence: Llama executed `attempt-0001` under the unconstrained finite-output instruction and `attempt-0002` under the separate grammar-constrained response-channel contract. No Qwen call, treatment renderer, external state register, hierarchy condition, multi-pass rerun, or candidate efficacy claim exists. The materialized inventory remains workload authority and the raw attempt records remain separate measured evidence.
