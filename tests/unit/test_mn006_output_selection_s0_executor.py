@@ -156,6 +156,7 @@ def test_dry_construction_is_s0_only_network_free_and_immutable(monkeypatch: pyt
         RUNS / "attempt-0001",
         RUNS / "attempt-0002",
         RUNS / "label-selection-d1-run-0001",
+        RUNS / execution.S0_RUN_ID,
         PLAN.parent,
     )
     before = _snapshot(retained)
@@ -166,7 +167,7 @@ def test_dry_construction_is_s0_only_network_free_and_immutable(monkeypatch: pyt
     assert len(entries) == 4
     assert [entry["request_ordinal"] for entry in entries] == [1, 2, 3, 4]
     assert {entry["stage"] for entry in entries} == {minimality.S0_STAGE}
-    assert not (RUNS / execution.S0_RUN_ID).exists()
+    assert execution.validate_s0_run_directory(RUNS / execution.S0_RUN_ID)["classification"] == "direct_copy_supported"
     assert not (RUNS / minimality.S1_RUN_ID).exists()
     assert not (RUNS / "attempt-0003").exists()
     assert not (SCRIPTS / "run_mn006_output_selection_s1.py").exists()

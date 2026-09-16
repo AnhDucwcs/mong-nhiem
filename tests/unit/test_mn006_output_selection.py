@@ -22,6 +22,7 @@ from mn006 import output_selection as minimality
 from mn006.fingerprinting import canonical_json_bytes
 from mn006.label_selection import GRAMMAR_AB, GRAMMAR_BA, parse_label
 from mn006.label_selection_execution import validate_d1_run_directory
+from mn006.output_selection_execution import validate_s0_run_directory
 
 DEFINITION = (
     ROOT
@@ -135,12 +136,13 @@ def test_s1_classification_and_eligibility_enforcement() -> None:
         minimality.classify_s1(correct, s0_classification="fixed_label_preference_persisted")
 
 
-def test_prior_d1_evidence_is_intact_and_no_future_runs_exist() -> None:
+def test_prior_d1_and_s0_evidence_are_intact_and_no_unauthorized_future_runs_exist() -> None:
     d1_dir = RUNS / "label-selection-d1-run-0001"
     integrity = json.loads((d1_dir / "integrity.json").read_bytes())
     for relative, expected in integrity["artifact_sha256"].items():
         assert hashlib.sha256((d1_dir / relative).read_bytes()).hexdigest() == expected
     assert validate_d1_run_directory(d1_dir)["classification"] == "fixed_label_preference_supported"
-    assert not (RUNS / minimality.S0_RUN_ID).exists()
+    s0_dir = RUNS / minimality.S0_RUN_ID
+    assert validate_s0_run_directory(s0_dir)["classification"] == "direct_copy_supported"
     assert not (RUNS / minimality.S1_RUN_ID).exists()
     assert not (RUNS / "attempt-0003").exists()
