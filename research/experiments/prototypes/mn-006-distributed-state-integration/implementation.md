@@ -15,6 +15,7 @@ The MN-006-local `scripts/mn006/` package now provides:
 - separate public, evaluator, and authority records;
 - UTF-8/LF canonical JSON/text serialization and SHA-256 fingerprints; and
 - semantic, oracle, schedule, matched-pair, public-boundary, answer-proxy, and positional static validators; and
+- a non-measured `label_selection` diagnostic planner with canonical prompt/fingerprint construction, strict `A`/`B` parsing, mapping/grammar counterbalance validation, and predeclared outcome classifiers.
 
 The generator/oracle package never calls a model or answer-selection host logic. The separate `run_mn006_baseline.py` executes only the predeclared untreated Llama request plan, with no prompt adaptation, case replacement, retry, or treatment. Test-only batches remain separate from inventory and measured evidence.
 
@@ -25,3 +26,5 @@ The interleaved serializer intentionally repeats one seeded entity permutation f
 ## Next boundary
 
 The frozen first baseline's shared malformed-output floor did not authorize a candidate intervention or the perfect-state diagnostic. The [Response-Channel Gate](response-channel-gate.md) then prospectively froze the grammar-only `attempt-0002` executor before its model behavior was observed. [`run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py) reused the baseline lifecycle and added only the constant request-level grammar; its resulting measurement is protocol-valid but has no usable locality signal because every parsed response was `INVALID`. No tuning, prompt revision, parser relaxation, or case change occurred.
+
+The later [Label-Selection Causal Gate](label-selection-causal-gate.md) freezes a separate D1 direct-state mapping diagnostic; an executor and any model behavior remain future work, and D2 contiguous source-event reconstruction is contingent on D1 exact mapping following.

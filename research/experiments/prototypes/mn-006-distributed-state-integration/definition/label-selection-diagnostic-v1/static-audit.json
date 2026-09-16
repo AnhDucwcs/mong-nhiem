@@ -1,0 +1,84 @@
+{
+  "audit_version": "mn006-label-selection-static-audit-v1",
+  "diagnostic_plan_sha256": "cfa3aac029aa803cfbd546bf9bba3808739f343758acadca12214d53af4aa465",
+  "gguf": {
+    "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "sha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff"
+  },
+  "grammar_audit": {
+    "attempt_0002_grammar": "root ::= \"VALID\" | \"INVALID\"\n",
+    "branch_character_prefixes": {
+      "INVALID": "I",
+      "VALID": "V"
+    },
+    "branch_prefix_relation": "neither literal is a prefix of the other",
+    "implementation_observations": [
+      "The matching source checkout is llama.cpp 0.2.0-dev build 10566 commit bb4caa754.",
+      "The GBNF parser represents alternatives as separate grammar stacks; candidate rejection retains a token if at least one stack accepts it.",
+      "The server samples with grammar-first false, then resamples only after an initially selected token fails the grammar; successful legal alternatives are selected by the model/sampling chain, not by alternative order.",
+      "EOS is permitted only when at least one grammar stack is complete; both literal alternatives complete after their full literal.",
+      "At grammar start both V-leading and I-leading token pieces can be represented; no literal-prefix ambiguity exists between VALID and INVALID."
+    ],
+    "static_conclusion": "no obvious structural grammar-acceptance or termination asymmetry found",
+    "static_limit": "This source audit cannot prove equal legal-token mass or equal model logits after grammar filtering."
+  },
+  "tokenizer_audit": {
+    "method": "llama-tokenize.exe with the qualified GGUF, --no-bos, --no-parse-special, --ids, and --show-count; no generation or server was run",
+    "labels": {
+      "VALID": {
+        "at_answer_start": [10250],
+        "leading_ascii_space": [44391],
+        "newline_terminated": [10250, 198]
+      },
+      "INVALID": {
+        "at_answer_start": [47959],
+        "leading_ascii_space": [33369],
+        "newline_terminated": [47959, 198]
+      },
+      "A": {
+        "at_answer_start": [32],
+        "leading_ascii_space": [362],
+        "newline_terminated": [32, 198]
+      },
+      "B": {
+        "at_answer_start": [33],
+        "leading_ascii_space": [426],
+        "newline_terminated": [33, 198]
+      },
+      "0": {
+        "at_answer_start": [15],
+        "leading_ascii_space": [220, 15],
+        "newline_terminated": [15, 198]
+      },
+      "1": {
+        "at_answer_start": [16],
+        "leading_ascii_space": [220, 16],
+        "newline_terminated": [16, 198]
+      }
+    },
+    "findings": {
+      "VALID_INVALID": "Each is a distinct single token at answer start; their character and single-token forms share no prefix and both add the same newline token when one is supplied.",
+      "A_B": "Each is a distinct one-character, single-token label at answer start; no character or token prefix is shared, and both add token 198 for a newline.",
+      "zero_one": "Both are single tokens at answer start but retain strong binary-classification semantics; a leading ASCII space produces a two-token path for both."
+    }
+  },
+  "label_selection": {
+    "selected_labels": ["A", "B"],
+    "selected_reason": [
+      "one character and one token each at answer start",
+      "no shared prefix",
+      "same capitalization style",
+      "less semantic task loading than VALID/INVALID",
+      "mapping counterbalance makes any residual fixed surface-label preference observable"
+    ],
+    "rejected": {
+      "VALID_INVALID": "Retained as baseline history only: syntactically workable but semantically loaded by validation, rejection, checker, and compiler associations.",
+      "zero_one": "Not selected because binary-classification conventions are an avoidable semantic prior even though the static token lengths match."
+    }
+  },
+  "scope": {
+    "no_model_generation": true,
+    "no_measured_diagnostic_run": true,
+    "no_candidate_intervention": true
+  }
+}

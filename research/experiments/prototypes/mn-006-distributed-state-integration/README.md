@@ -6,6 +6,8 @@
 
 [`scripts/run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py) was the grammar-only pre-evidence executor for `attempt-0002`. Its executor commit and the resulting evidence remain separate immutable boundaries.
 
+The [Label-Selection Causal Gate](label-selection-causal-gate.md) is now `label_selection_diagnostic_ready`. It records a static grammar/tokenizer audit, freezes a separate neutral `A`/`B` counterbalanced-mapping diagnostic, and authorizes no model run yet. The diagnostic is not `attempt-0003`, does not alter either baseline, and does not select an intervention.
+
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
 ## Research motivation and inherited evidence
@@ -129,6 +131,8 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 **Implementation gate:** passed for a non-model generator, oracle, paired serializer, and static validator suite only. The frozen v1 contract remains independently reviewable without model output.
 
 **Baseline measurements:** [`attempt-0001`](reports/mn-006-attempt-0001.md) is protocol-valid but has `0/32` contiguous and `0/32` interleaved exact correctness in both profiles because all `128/128` outputs are malformed. The separately frozen grammar-constrained [`attempt-0002`](reports/mn-006-attempt-0002.md) is also protocol-valid: all `128/128` outputs strictly parse, but all are `INVALID`, producing `16/32` contiguous and `16/32` interleaved exact correctness in both profiles. Both attempts classify both profiles as `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked.
+
+**Label-selection boundary:** The all-`INVALID` pattern is a response/label-selection collapse whose cause remains unresolved by the baseline. The static gate found no obvious grammar acceptance, prefix, or termination asymmetry, but cannot establish equal filtered token mass or model logits. Its next separate diagnostic begins with direct query states and counterbalanced `A`/`B` mappings; only exact D1 mapping following can make its contiguous event-reconstruction stage eligible. It makes no locality claim.
 
 ## Explicit boundary
 
