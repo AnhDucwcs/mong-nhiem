@@ -194,7 +194,9 @@ def _profile_summary(records: list[dict[str, Any]], profile: Profile) -> dict[st
     }
 
 
-def summarize_attempt(records: list[dict[str, Any]], plan: list[dict[str, Any]]) -> dict[str, object]:
+def summarize_attempt(
+    records: list[dict[str, Any]], plan: list[dict[str, Any]], *, attempt_id: str = ATTEMPT_ID
+) -> dict[str, object]:
     """Recompute all frozen summaries from immutable request records."""
     expected_by_ordinal = {entry["request_ordinal"]: entry for entry in plan}
     observed_by_ordinal = {record.get("request_ordinal"): record for record in records}
@@ -206,7 +208,7 @@ def summarize_attempt(records: list[dict[str, Any]], plan: list[dict[str, Any]])
             records_for_profile = [record for record in records if record["profile"] == profile.identifier]
             profiles[profile.identifier] = _profile_summary(records_for_profile, profile)
     return {
-        "attempt_id": ATTEMPT_ID,
+        "attempt_id": attempt_id,
         "completed_requests": sum(record.get("infrastructure_status") == "complete" for record in records),
         "expected_requests": len(plan),
         "infrastructure_failure_count": len(infrastructure_records),
@@ -221,11 +223,16 @@ def result_fingerprint(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_attempt_directory(run_dir: Path, inventory_root: Path = INVENTORY_ROOT) -> dict[str, object]:
+def validate_attempt_directory(
+    run_dir: Path,
+    inventory_root: Path = INVENTORY_ROOT,
+    *,
+    attempt_id: str = ATTEMPT_ID,
+) -> dict[str, object]:
     """Validate stored records and summary solely from retained files and frozen authority."""
     manifest, plan = build_request_plan(inventory_root)
     metadata = load_json(run_dir / "metadata.json")
-    if metadata.get("attempt_id") != ATTEMPT_ID or metadata.get("inventory_aggregate_sha256") != manifest["aggregate_inventory_sha256"]:
+    if metadata.get("attempt_id") != attempt_id or metadata.get("inventory_aggregate_sha256") != manifest["aggregate_inventory_sha256"]:
         raise MeasurementError("attempt metadata does not identify frozen inventory")
     records_path = run_dir / "results.jsonl"
     records = [json.loads(line) for line in records_path.read_text(encoding="utf-8").splitlines() if line]
@@ -236,7 +243,7 @@ def validate_attempt_directory(run_dir: Path, inventory_root: Path = INVENTORY_R
         evaluation = evaluate_raw_output(record.get("raw_output", ""), expected["canonical_answer"])
         if record.get("evaluation") != evaluation:
             raise MeasurementError(f"record evaluator mismatch: {expected['case_id']}")
-    recomputed = summarize_attempt(records, plan)
+    recomputed = summarize_attempt(records, plan, attempt_id=attempt_id)
     stored = load_json(run_dir / "summary.json")
     if stored != recomputed:
         raise MeasurementError("stored summary differs from recomputation")

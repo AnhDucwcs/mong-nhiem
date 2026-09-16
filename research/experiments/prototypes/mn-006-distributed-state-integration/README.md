@@ -4,6 +4,8 @@
 
 **The frozen Llama `attempt-0001` baseline is [protocol-valid](reports/mn-006-attempt-0001.md), but both profiles close as `no_usable_locality_failure_signal_under_v1_baseline`.** The deterministic infrastructure and canonical inventory remain intact; all 128 model outputs were malformed under the frozen exact-label parser, so the attempt establishes a shared output-channel floor rather than a contiguous-versus-interleaved state-locality result. The subsequent [Response-Channel Gate](response-channel-gate.md) is `response_channel_revision_ready`: it freezes a separate future `attempt-0002` with a constant response grammar only. No intervention was selected or tested.
 
+The uninvoked future executor is [`scripts/run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py). It is a grammar-only, pre-evidence boundary for `attempt-0002`; no inference or `attempt-0002` evidence exists.
+
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
 ## Research motivation and inherited evidence

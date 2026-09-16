@@ -26,6 +26,10 @@ from mn006.measurement import (
     validate_attempt_directory,
     write_new_canonical_json,
 )
+from mn006.response_channel import (
+    FIXED_ANSWER_GRAMMAR,
+    constrained_payload,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNS = ROOT / "runs"
@@ -223,8 +227,33 @@ def server_command(server: Path, model: Path) -> list[str]:
     ]
 
 
-def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
-    """Run `attempt-0001` once; any infrastructure error stops the canonical sequence."""
+def build_request_payload(prompt_bytes: bytes, *, grammar: str | None = None) -> dict[str, Any]:
+    """Build the frozen request mapping, optionally with its sole authorized grammar field."""
+    baseline = {
+        "messages": [{"role": "user", "content": prompt_bytes.decode("utf-8")}],
+        "temperature": INFERENCE["temperature"],
+        "seed": INFERENCE["seed"],
+        "max_tokens": INFERENCE["output_tokens"],
+        "chat_template_kwargs": {},
+    }
+    if grammar is None:
+        return baseline
+    if grammar != FIXED_ANSWER_GRAMMAR:
+        raise AttemptInfrastructureError("attempt request grammar differs from the frozen response-channel contract")
+    return constrained_payload(baseline)
+
+
+def run_attempt(
+    *,
+    attempt_id: str,
+    evidence_schema_version: str,
+    response_channel_contract_version: str | None,
+    grammar: str | None,
+    contract_metadata: dict[str, Any] | None = None,
+    model: Path = DEFAULT_MODEL,
+    server: Path = DEFAULT_SERVER,
+) -> Path:
+    """Run one prospectively frozen MN-006 request contract without retries."""
     if not model.is_file() or file_sha256(model) != EXPECTED_MODEL_SHA256:
         raise AttemptInfrastructureError("model file is missing or differs from the qualified Llama artifact")
     if not server.is_file():
@@ -238,17 +267,17 @@ def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
     pre_environment = environment_snapshot()
     require_clean_environment(pre_environment, base_url)
     runtime = runtime_identity(server)
-    run_dir = RUNS / ATTEMPT_ID
+    run_dir = RUNS / attempt_id
     if run_dir.exists():
-        raise AttemptInfrastructureError("attempt-0001 evidence directory already exists")
+        raise AttemptInfrastructureError(f"{attempt_id} evidence directory already exists")
     run_dir.mkdir(parents=True)
     raw_dir = run_dir / "raw"
     raw_dir.mkdir()
     command = server_command(server, model)
     metadata = {
-        "attempt_id": ATTEMPT_ID,
+        "attempt_id": attempt_id,
         "created_at": utc_now(),
-        "evidence_schema_version": EVIDENCE_SCHEMA_VERSION,
+        "evidence_schema_version": evidence_schema_version,
         "inventory_aggregate_sha256": manifest["aggregate_inventory_sha256"],
         "model": {"file": model.name, "path": str(model), "sha256": EXPECTED_MODEL_SHA256, "size_bytes": model.stat().st_size, "subject": "llama-3.2-3b"},
         "repository": {"commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(), "dirty": False},
@@ -258,6 +287,13 @@ def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
         "server_command": command,
         "start_environment": pre_environment,
     }
+    if response_channel_contract_version is not None:
+        metadata["response_channel"] = {
+            "contract_version": response_channel_contract_version,
+            "grammar": grammar,
+        }
+    if contract_metadata is not None:
+        metadata["attempt_contract"] = contract_metadata
     write_new_canonical_json(run_dir / "metadata.json", metadata)
     (run_dir / "results.jsonl").open("xb").close()
     stdout_path, stderr_path = raw_dir / "llama-server.stdout.txt", raw_dir / "llama-server.stderr.txt"
@@ -279,13 +315,7 @@ def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
         for entry in plan:
             prompt_path = ROOT / "definition" / "baseline-inventory-v1" / entry["public_prompt_path"]
             prompt_bytes = prompt_path.read_bytes()
-            request_payload = {
-                "messages": [{"role": "user", "content": prompt_bytes.decode("utf-8")}],
-                "temperature": INFERENCE["temperature"],
-                "seed": INFERENCE["seed"],
-                "max_tokens": INFERENCE["output_tokens"],
-                "chat_template_kwargs": {},
-            }
+            request_payload = build_request_payload(prompt_bytes, grammar=grammar)
             expected_tokens = None
             raw_response_bytes: bytes | None = None
             response: dict[str, Any] | None = None
@@ -305,8 +335,8 @@ def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
             complete = error is None
             record = {
                 **entry,
-                "attempt_id": ATTEMPT_ID,
-                "evidence_schema_version": EVIDENCE_SCHEMA_VERSION,
+                "attempt_id": attempt_id,
+                "evidence_schema_version": evidence_schema_version,
                 "evaluation": evaluation,
                 "expected_prompt_tokens": expected_tokens,
                 "finish_reason": response.get("choices", [{}])[0].get("finish_reason") if response else None,
@@ -328,7 +358,7 @@ def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
                 break
     except AttemptInfrastructureError as exc:
         if not records:
-            records.append({"attempt_id": ATTEMPT_ID, "error": {"message": str(exc), "type": "startup_infrastructure_error"}, "infrastructure_status": "failed", "request_ordinal": 0})
+            records.append({"attempt_id": attempt_id, "error": {"message": str(exc), "type": "startup_infrastructure_error"}, "infrastructure_status": "failed", "request_ordinal": 0})
             append_canonical_jsonl(run_dir / "results.jsonl", records[-1])
     finally:
         if process is not None:
@@ -348,13 +378,26 @@ def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
         lifecycle["end_environment"] = environment_snapshot()
         write_new_canonical_json(run_dir / "server-lifecycle.json", lifecycle)
     if records and records[0].get("request_ordinal") == 0:
-        summary = {"attempt_id": ATTEMPT_ID, "completed_requests": 0, "expected_requests": len(plan), "infrastructure_failure_count": 1, "outcome": "infrastructure_invalid", "profiles": {}, "request_order_contract": metadata["request_order_contract"]}
+        summary = {"attempt_id": attempt_id, "completed_requests": 0, "expected_requests": len(plan), "infrastructure_failure_count": 1, "outcome": "infrastructure_invalid", "profiles": {}, "request_order_contract": metadata["request_order_contract"]}
     else:
-        summary = summarize_attempt(records, plan)
+        summary = summarize_attempt(records, plan, attempt_id=attempt_id)
     write_new_canonical_json(run_dir / "summary.json", summary)
     if summary["outcome"] == "protocol_valid":
-        validate_attempt_directory(run_dir)
+        validate_attempt_directory(run_dir, attempt_id=attempt_id)
     return run_dir
+
+
+def run(model: Path = DEFAULT_MODEL, server: Path = DEFAULT_SERVER) -> Path:
+    """Run immutable `attempt-0001` with its original unconstrained contract."""
+    return run_attempt(
+        attempt_id=ATTEMPT_ID,
+        evidence_schema_version=EVIDENCE_SCHEMA_VERSION,
+        response_channel_contract_version=None,
+        grammar=None,
+        contract_metadata=None,
+        model=model,
+        server=server,
+    )
 
 
 def main() -> None:
