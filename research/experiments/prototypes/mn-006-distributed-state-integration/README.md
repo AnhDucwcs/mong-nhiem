@@ -2,7 +2,7 @@
 
 ## Status
 
-**The frozen Llama `attempt-0001` baseline is [protocol-valid](reports/mn-006-attempt-0001.md), but both profiles close as `no_usable_locality_failure_signal_under_v1_baseline`.** The deterministic infrastructure and canonical inventory remain intact; all 128 model outputs were malformed under the frozen exact-label parser, so the attempt establishes a shared output-channel floor rather than a contiguous-versus-interleaved state-locality result. No intervention was selected or tested.
+**The frozen Llama `attempt-0001` baseline is [protocol-valid](reports/mn-006-attempt-0001.md), but both profiles close as `no_usable_locality_failure_signal_under_v1_baseline`.** The deterministic infrastructure and canonical inventory remain intact; all 128 model outputs were malformed under the frozen exact-label parser, so the attempt establishes a shared output-channel floor rather than a contiguous-versus-interleaved state-locality result. The subsequent [Response-Channel Gate](response-channel-gate.md) is `response_channel_revision_ready`: it freezes a separate future `attempt-0002` with a constant response grammar only. No intervention was selected or tested.
 
 MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
 
@@ -126,7 +126,7 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 
 **Implementation gate:** passed for a non-model generator, oracle, paired serializer, and static validator suite only. The frozen v1 contract remains independently reviewable without model output.
 
-**Baseline measurement:** [`attempt-0001`](reports/mn-006-attempt-0001.md) completed the predeclared Llama 3.2 3B observation with all 128 requests, no infrastructure failure, and no retries. Both profiles have `0/32` contiguous and `0/32` interleaved exact correctness, each with `64/64` malformed outputs. The frozen classification is `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked.
+**Baseline measurement:** [`attempt-0001`](reports/mn-006-attempt-0001.md) completed the predeclared Llama 3.2 3B observation with all 128 requests, no infrastructure failure, and no retries. Both profiles have `0/32` contiguous and `0/32` interleaved exact correctness, each with `64/64` malformed outputs. The frozen classification is `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked. The later [Response-Channel Gate](response-channel-gate.md) authorizes only a separate grammar-constrained `attempt-0002` measurement with unchanged workload/public bytes/evaluator, not an intervention or an infrastructure retry.
 
 ## Explicit boundary
 

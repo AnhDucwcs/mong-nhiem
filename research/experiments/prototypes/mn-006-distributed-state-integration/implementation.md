@@ -2,7 +2,7 @@
 
 ## Status
 
-**`generator_oracle_validator_implementation_complete`** for the frozen MN-006 v1 semantic contract. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) materialized the inventory, and the dedicated frozen attempt runner produced the protocol-valid [attempt-0001](reports/mn-006-attempt-0001.md). The runner remains untreated baseline infrastructure; it is not a candidate-treatment implementation.
+**`generator_oracle_validator_implementation_complete`** for the frozen MN-006 v1 semantic contract. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) materialized the inventory, and the dedicated frozen attempt runner produced the protocol-valid [attempt-0001](reports/mn-006-attempt-0001.md). The [Response-Channel Gate](response-channel-gate.md) now adds only static helpers that prove a future payload changes by one constant grammar field. The runner remains untreated baseline infrastructure; it is not a candidate-treatment implementation.
 
 ## Implemented boundary
 
@@ -24,4 +24,4 @@ The interleaved serializer intentionally repeats one seeded entity permutation f
 
 ## Next boundary
 
-The frozen first baseline is complete. Its valid shared malformed-output floor does not authorize a candidate intervention or the perfect-state diagnostic. The next boundary is a separate causal-design review of that output-channel failure; this completed attempt may not be tuned, rerun, or reinterpreted to manufacture a locality result.
+The frozen first baseline is complete. Its valid shared malformed-output floor does not authorize a candidate intervention or the perfect-state diagnostic. The [Response-Channel Gate](response-channel-gate.md) completes the separate causal-design review and freezes a grammar-only future `attempt-0002`; no model response was observed in that review. A future distinct runner must use the static payload boundary without tuning, prompt revision, parser relaxation, or case change.
