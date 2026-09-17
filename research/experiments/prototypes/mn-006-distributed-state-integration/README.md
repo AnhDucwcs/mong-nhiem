@@ -140,7 +140,7 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 
 The subsequent static [downstream fixed-label causal review](downstream-fixed-label-causal-review.md) is `behavioral_boundary_reached_l1c_l1d_not_cleanly_identifiable`. It finds that a behavioral test of post-task A/B selection either exposes the final label and duplicates S0, or retains/reintroduces branch-to-label mapping work. It creates no further diagnostic plan or executor. D2, locality, perfect-state work, and interventions remain blocked.
 
-The [diagnostic-branch closure decision](diagnostic-branch-closure-decision.md) now closes this fixed-label branch as `close_fixed_label_branch_redirect_mn006`. The frozen v1 workload and evidence remain authoritative, but the current A/B measurement interface is retired from further model execution because it is non-diagnostic for the intended distributed-state/locality construct. MN-006 remains open only for a later, separately authorized static measurement-interface redesign decision; D2, locality, perfect-state work, and interventions remain unauthorized.
+The [diagnostic-branch closure decision](diagnostic-branch-closure-decision.md) closes this fixed-label branch as `close_fixed_label_branch_redirect_mn006`. The resulting static [measurement-interface redesign](measurement-interface-redesign.md) selects a direct ordered two-entity final-state vector as the single future candidate: it keeps the distributed-state/locality construct while removing the non-neutral equality-to-label adapter. No new interface authority, executor, qualification measurement, or locality measurement exists yet. D2, locality, perfect-state work, and interventions remain unauthorized.
 
 ## Explicit boundary
 
