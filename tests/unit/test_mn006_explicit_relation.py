@@ -12,6 +12,7 @@ SCRIPTS = ROOT / "research" / "experiments" / "prototypes" / "mn-006-distributed
 sys.path.insert(0, str(SCRIPTS))
 
 from mn006 import explicit_relation
+from mn006.explicit_relation_execution import validate_run_directory
 from mn006.fingerprinting import canonical_json_bytes
 from mn006.label_selection import GRAMMAR_AB, parse_label
 from mn006.label_selection_execution import validate_d1_run_directory
@@ -126,13 +127,13 @@ def test_infrastructure_invalidity_precedes_semantic_classification() -> None:
     }
 
 
-def test_prerequisite_evidence_is_valid_and_no_measurement_exists() -> None:
+def test_prerequisite_evidence_and_canonical_run_are_valid() -> None:
     assert validate_s0_run_directory(RUNS / "output-selection-s0-run-0001")["classification"] == "direct_copy_supported"
     assert validate_s1_run_directory(RUNS / "output-selection-s1-run-0001")["classification"] == "fixed_label_preference_recurred"
     assert validate_d1_run_directory(RUNS / "label-selection-d1-run-0001")["classification"] == "fixed_label_preference_supported"
     assert validate_attempt_directory(RUNS / "attempt-0001", attempt_id="attempt-0001")["outcome"] == "protocol_valid"
     assert validate_attempt_directory(RUNS / "attempt-0002", attempt_id="attempt-0002")["outcome"] == "protocol_valid"
-    assert not (RUNS / explicit_relation.RUN_ID).exists()
+    assert validate_run_directory(RUNS / explicit_relation.RUN_ID)["classification"] == "fixed_label_preference_persisted"
     assert not (RUNS / "attempt-0003").exists()
     assert (SCRIPTS / "run_mn006_explicit_relation_direct_rule.py").is_file()
 

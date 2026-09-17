@@ -378,6 +378,7 @@ def test_dry_construction_is_network_free_directory_free_and_immutable(
         RUNS / "label-selection-d1-run-0001",
         execution.S0_RUN_DIRECTORY,
         execution.S1_RUN_DIRECTORY,
+        RUNS / execution.RUN_ID,
         BASE / "definition" / "output-selection-minimality-v1",
         PLAN.parent,
         REVIEW.parent,
@@ -398,7 +399,7 @@ def test_dry_construction_is_network_free_directory_free_and_immutable(
     assert before == after
     assert [entry["relation"] for entry in entries] == ["different", "equal"]
     assert [entry["canonical_answer"] for entry in entries] == ["B", "A"]
-    assert not (RUNS / execution.RUN_ID).exists()
+    assert execution.validate_run_directory(RUNS / execution.RUN_ID)["classification"] == "fixed_label_preference_persisted"
     assert not runner._pending_directory().exists()
     assert not runner._invalid_directory().exists()
     assert not (RUNS / "attempt-0003").exists()
@@ -438,6 +439,9 @@ def test_future_preflight_reuses_runtime_helpers_without_network(
         "commit": "bb4caa754",
     }
     monkeypatch.setattr(baseline, "runtime_identity", lambda _path: runtime)
+    temporary_runs = tmp_path / "runs"
+    temporary_runs.mkdir()
+    monkeypatch.setattr(runner, "RUNS", temporary_runs)
     result = runner._require_preflight(model, server)
     assert len(result[0]) == 2
     assert result[4] == {"fixture": "environment"}
