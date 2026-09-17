@@ -21,6 +21,7 @@ import run_mn006_baseline as baseline
 import run_mn006_output_selection_s0 as runner
 from mn006 import output_selection as minimality
 from mn006 import output_selection_execution as execution
+from mn006 import output_selection_s1_execution as s1_execution
 from mn006.fingerprinting import canonical_json_bytes
 from mn006.label_selection_execution import validate_d1_run_directory
 from mn006.measurement import validate_attempt_directory
@@ -157,6 +158,7 @@ def test_dry_construction_is_s0_only_network_free_and_immutable(monkeypatch: pyt
         RUNS / "attempt-0002",
         RUNS / "label-selection-d1-run-0001",
         RUNS / execution.S0_RUN_ID,
+        RUNS / minimality.S1_RUN_ID,
         PLAN.parent,
     )
     before = _snapshot(retained)
@@ -168,7 +170,7 @@ def test_dry_construction_is_s0_only_network_free_and_immutable(monkeypatch: pyt
     assert [entry["request_ordinal"] for entry in entries] == [1, 2, 3, 4]
     assert {entry["stage"] for entry in entries} == {minimality.S0_STAGE}
     assert execution.validate_s0_run_directory(RUNS / execution.S0_RUN_ID)["classification"] == "direct_copy_supported"
-    assert not (RUNS / minimality.S1_RUN_ID).exists()
+    assert s1_execution.validate_s1_run_directory(RUNS / minimality.S1_RUN_ID)["classification"] == "fixed_label_preference_recurred"
     assert not (RUNS / "attempt-0003").exists()
     assert (SCRIPTS / "run_mn006_output_selection_s1.py").is_file()
     assert not (SCRIPTS / "run_mn006_label_selection_d2.py").exists()

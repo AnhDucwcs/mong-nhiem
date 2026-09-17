@@ -203,6 +203,7 @@ def test_dry_construction_is_s1_only_network_free_and_immutable(monkeypatch: pyt
         RUNS / "attempt-0002",
         RUNS / "label-selection-d1-run-0001",
         RUNS / minimality.S0_RUN_ID,
+        RUNS / minimality.S1_RUN_ID,
         PLAN.parent,
     )
     before = _snapshot(retained)
@@ -214,7 +215,7 @@ def test_dry_construction_is_s1_only_network_free_and_immutable(monkeypatch: pyt
     assert len(entries) == 4
     assert [entry["request_ordinal"] for entry in entries] == [1, 2, 3, 4]
     assert {entry["stage"] for entry in entries} == {minimality.S1_STAGE}
-    assert not (RUNS / minimality.S1_RUN_ID).exists()
+    assert execution.validate_s1_run_directory(RUNS / minimality.S1_RUN_ID)["classification"] == "fixed_label_preference_recurred"
     assert not (RUNS / f".{minimality.S1_RUN_ID}.pending").exists()
     assert not (RUNS / f"{minimality.S1_RUN_ID}.infrastructure-invalid").exists()
     assert not (RUNS / "attempt-0003").exists()
@@ -310,3 +311,4 @@ def test_prior_measurements_s0_and_d1_evidence_remain_valid() -> None:
     assert validate_attempt_directory(RUNS / "attempt-0002", attempt_id="attempt-0002")["outcome"] == "protocol_valid"
     assert validate_d1_run_directory(RUNS / "label-selection-d1-run-0001")["classification"] == "fixed_label_preference_supported"
     assert execution.verify_s0_prerequisite()["classification"] == "direct_copy_supported"
+    assert execution.validate_s1_run_directory(RUNS / minimality.S1_RUN_ID)["classification"] == "fixed_label_preference_recurred"
