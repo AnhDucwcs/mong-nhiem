@@ -126,7 +126,7 @@ def test_infrastructure_invalidity_precedes_semantic_classification() -> None:
     }
 
 
-def test_prerequisite_evidence_is_valid_and_no_measurement_or_executor_exists() -> None:
+def test_prerequisite_evidence_is_valid_and_no_measurement_exists() -> None:
     assert validate_s0_run_directory(RUNS / "output-selection-s0-run-0001")["classification"] == "direct_copy_supported"
     assert validate_s1_run_directory(RUNS / "output-selection-s1-run-0001")["classification"] == "fixed_label_preference_recurred"
     assert validate_d1_run_directory(RUNS / "label-selection-d1-run-0001")["classification"] == "fixed_label_preference_supported"
@@ -134,7 +134,7 @@ def test_prerequisite_evidence_is_valid_and_no_measurement_or_executor_exists() 
     assert validate_attempt_directory(RUNS / "attempt-0002", attempt_id="attempt-0002")["outcome"] == "protocol_valid"
     assert not (RUNS / explicit_relation.RUN_ID).exists()
     assert not (RUNS / "attempt-0003").exists()
-    assert not (SCRIPTS / "run_mn006_explicit_relation_direct_rule.py").exists()
+    assert (SCRIPTS / "run_mn006_explicit_relation_direct_rule.py").is_file()
 
 
 def test_plan_prerequisites_freeze_s0_s1_and_keep_d1_as_context_only() -> None:
