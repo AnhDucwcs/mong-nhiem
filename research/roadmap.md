@@ -94,3 +94,7 @@ Candidate-specific reopening requires new justification:
 - Symmetric State Partitioning: only if the workload introduces the structural asymmetry/interleaving its mechanism is meant to address.
 
 Before MN-006 implementation or measured inference, the workload contract must make the failure mode, controlled dimensions, state oracle, answer oracle, anti-leakage rules, deterministic evaluator, and diagnostic separation explicit. If that cannot be done cleanly, MN-006 should remain in design phase rather than proceed to GPU/model experiments.
+
+## MN-006 measurement-interface disposition
+
+The [diagnostic-branch closure decision](experiments/prototypes/mn-006-distributed-state-integration/diagnostic-branch-closure-decision.md) selects `close_fixed_label_branch_redirect_mn006`. The fixed-label A/B diagnostic branch is complete, and the current v1 response interface is retired from further model execution as non-diagnostic for the intended distributed-state/locality construct. MN-006's semantic workload and retained evidence remain authoritative; the original question remains open only for a later, separately authorized static measurement-interface redesign. D2 remains permanently unauthorized under v1, locality remains unmeasured, and no intervention work is authorized.
