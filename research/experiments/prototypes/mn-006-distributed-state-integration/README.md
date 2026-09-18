@@ -2,7 +2,7 @@
 
 ## Status
 
-**Both frozen Llama measurements are protocol-valid, but neither profile establishes `candidate_locality_failure_signal`.** [`attempt-0001`](reports/mn-006-attempt-0001.md) retains its shared malformed-output floor. The separate grammar-constrained [`attempt-0002`](reports/mn-006-attempt-0002.md) makes all 128 outputs parseable, but every response is `INVALID`, yielding matched `16/32` contiguous and `16/32` interleaved accuracy in both profiles. No intervention was selected or tested.
+**MN-006 is completed and closed at `measurement_interface_blocked` for the qualified model/runtime.** The canonical direct-state-vector qualification is `protocol_valid` / `direct_state_vector_interface_blocked`: Q0 exact response qualification passed `9/9`, while Q1 contiguous task-bearing recovery passed only `1/9` against the frozen exact `18/18` requirement. The direct response channel is therefore qualified, but the frozen Level 2 contiguous control capability floor is not. Locality remains unmeasured; no negative locality or general state-tracking claim is licensed. No retry, alternate interface search, locality run, D2, perfect-state diagnostic, or intervention is authorized. See the formal [milestone closure](milestone-closure.md) and the [MN-007 handoff](../mn-007-state-recovery-operating-region/README.md).
 
 [`scripts/run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py) was the grammar-only pre-evidence executor for `attempt-0002`. Its executor commit and the resulting evidence remain separate immutable boundaries.
 
@@ -141,6 +141,12 @@ Scoped state, bounded dependency chains, or conditional transitions require a se
 The subsequent static [downstream fixed-label causal review](downstream-fixed-label-causal-review.md) is `behavioral_boundary_reached_l1c_l1d_not_cleanly_identifiable`. It finds that a behavioral test of post-task A/B selection either exposes the final label and duplicates S0, or retains/reintroduces branch-to-label mapping work. It creates no further diagnostic plan or executor. D2, locality, perfect-state work, and interventions remain blocked.
 
 The [diagnostic-branch closure decision](diagnostic-branch-closure-decision.md) closes this fixed-label branch as `close_fixed_label_branch_redirect_mn006`. The resulting static [measurement-interface redesign](measurement-interface-redesign.md) selected a direct ordered two-entity final-state vector as the single candidate. Its canonical [18-cell qualification](reports/mn-006-direct-state-vector-qualification-run-0001.md) is `protocol_valid` / `direct_state_vector_interface_blocked`: Q0 exact vector output is `9/9`, while Q1 task-bearing Level 2 contiguous endpoint recovery is `1/9`. The frozen `18/18` requirement was not met, so MN-006 is `measurement_interface_blocked` for the qualified model/runtime. This is not locality evidence and does not establish a state-tracking deficit. The contract prohibits retries, alternate interfaces, locality measurement, D2, perfect-state work, and interventions.
+
+## Milestone closure and handoff
+
+MN-006 is no longer an active measurement-design milestone. The direct-state Q0/Q1 result identifies the final boundary: exact state-vector serialization works, but the frozen contiguous Level 2 task-bearing condition is below the predeclared qualification floor. A matched locality comparison would therefore be causally uninterpretable at this workload.
+
+The milestone is closed rather than adaptively reducing difficulty after observing Q1. Prospectively mapping a contiguous state-recovery operating region is moved to [MN-007](../mn-007-state-recovery-operating-region/README.md). Any later locality experiment requires a new prospective authority after that calibration; it must not reopen or mutate MN-006.
 
 ## Explicit boundary
 
