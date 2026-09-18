@@ -47,54 +47,30 @@ The milestone conclusion is therefore not that all candidates failed. It is that
 
 See the [MN-005 → MN-006 research handoff](experiments/prototypes/mn-005-state-tracking-intervention-selection/mn-006-handoff.md).
 
-## MN-006 — Distributed State Integration workload design
+## MN-006 — Distributed State Integration
 
-Status: **v1 semantic workload design, deterministic infrastructure, and canonical 64-pair / 128-prompt inventory are complete; both frozen Llama measurements are `protocol_valid` but `no_usable_locality_failure_signal_under_v1_baseline`.** [Attempt-0001](experiments/prototypes/mn-006-distributed-state-integration/reports/mn-006-attempt-0001.md) has a shared malformed-output floor under its unconstrained channel. The separate grammar-constrained [attempt-0002](experiments/prototypes/mn-006-distributed-state-integration/reports/mn-006-attempt-0002.md) makes all outputs parseable but returns `INVALID` for every case, yielding matched `16/32` contiguous and `16/32` interleaved accuracy in each profile. The workload, public bytes, parser, evaluator, and thresholds remained unchanged; only the frozen global grammar differed. The periodic scheduler remains an intentional v1 limitation and does not claim arbitrary-interleaving coverage. No treatment or candidate intervention was run.
+Status: **completed and closed at `measurement_interface_blocked` for the qualified model/runtime.**
 
-The [Label-Selection Causal Gate](experiments/prototypes/mn-006-distributed-state-integration/label-selection-causal-gate.md) preserves the baseline history and froze a small separate diagnostic for the all-`INVALID` response-selection collapse: direct-state `A`/`B` mapping counterfactuals with an alternative-order grammar control. The completed [D1 diagnostic](experiments/prototypes/mn-006-distributed-state-integration/reports/mn-006-label-selection-d1-run-0001.md) is `protocol_valid` / `fixed_label_preference_supported`: all 16 outputs were `A`, and no grammar-order pair differed. This is not a locality measurement, an `attempt-0003` baseline, a perfect-state control, or an intervention.
+MN-006 attempted to establish a deterministic, candidate-neutral contiguous-versus-interleaved locality measurement. The v1 equality/label path was retired after the diagnostic ladder showed a lower-level conditioned-output confound. The replacement direct ordered state-vector interface qualified its response channel at Q0 `9/9`, but its frozen contiguous task-bearing Q1 qualification scored only `1/9`. The predeclared exact `18/18` requirement was therefore not met.
 
-D2 remains unauthorized because the frozen D1 prerequisite was exact mapping following. The subsequent [Output-Selection Minimality Gate](experiments/prototypes/mn-006-distributed-state-integration/output-selection-minimality-gate.md) has canonical S0 `direct_copy_supported` and S1 `fixed_label_preference_recurred` evidence: S0 copied both explicit labels, whereas S1 returned `A` for all four direct relation cells. The [recurring fixed-label causal review](experiments/prototypes/mn-006-distributed-state-integration/recurring-fixed-label-causal-review.md) is `next_minimal_diagnostic_identified`. The frozen [Explicit-Relation Direct-Rule Gate](experiments/prototypes/mn-006-distributed-state-integration/explicit-relation-direct-rule-gate.md) has now produced a canonical two-request [direct-rule diagnostic](experiments/prototypes/mn-006-distributed-state-integration/reports/mn-006-explicit-relation-direct-rule-run-0001.md): `protocol_valid` / `fixed_label_preference_persisted`, with `A` for both explicitly supplied `different` and `equal` relations. The result removes structured-state extraction/equality comparison as necessary conditions for the observed fixed-`A` behavior but does not identify an internal mechanism. The follow-up [downstream fixed-label causal review](experiments/prototypes/mn-006-distributed-state-integration/downstream-fixed-label-causal-review.md) is `behavioral_boundary_reached_l1c_l1d_not_cleanly_identifiable`: a new behavioral cut would either duplicate explicit-label copying or add an equally material mapping/selector layer. It creates no new plan or executor. D2, locality work, and treatment work remain unauthorized.
+The final scientific boundary is that the response serialization is usable, while the frozen Level 2 contiguous control condition is below the capability floor required for a causal locality comparison. Locality remains unmeasured. MN-006 does not support a negative locality claim, a general state-tracking claim, or an intervention claim. No retry, alternate interface, D2, perfect-state diagnostic, locality run, or intervention is authorized. See [MN-006 milestone closure](experiments/prototypes/mn-006-distributed-state-integration/milestone-closure.md).
 
-MN-006 changes the immediate research target from selecting another intervention on ECC-006 to designing a better experimental substrate.
+## MN-007 — State Recovery Operating Region
 
-The working central question is:
+Status: **prepared / design phase. No model execution authorized.**
 
-> Can a candidate-neutral workload expose failures in integrating state from distributed/interleaved multi-entity updates, while preserving deterministic evaluation and supporting fair comparison among multiple state-management hypotheses?
+MN-007 prospectively calibrates the contiguous state-recovery operating region needed before any future locality experiment. It is a separate milestone so the frozen MN-006 Q1 failure does not trigger post-hoc benchmark tuning inside MN-006.
 
-The intended workload structure is:
+The next design phase must:
 
-```text
-raw distributed/interleaved events
-    ↓
-canonical entity state
-    ↓
-minimal bounded deterministic downstream rule
-    ↓
-finite canonical answer
-```
+1. preserve a direct semantic state observable unless a static gate identifies a construct-valid reason not to;
+2. freeze a finite difficulty landscape before inference rather than adaptively trying easier/harder workloads;
+3. control workload axes such as entity load, update load, distractors, context/event count, and query-to-latest-update distance only when they are mechanically defined and causally interpretable;
+4. predeclare the rule for identifying a usable contiguous operating region, avoiding both floor and ceiling conditions;
+5. keep calibration evidence separate from any later hold-out matched contiguous/interleaved locality evidence;
+6. stop with a bounded `no usable operating region` conclusion if the frozen landscape contains none;
+7. keep all intervention candidates unauthorized until a later construct-valid locality-sensitive signal exists.
 
-The downstream reasoning step is not a new general-reasoning research goal. It is introduced only to prevent External State Management from becoming an answer oracle: maintained state should be useful input to a decision, not identical to the final evaluated answer.
+The required sequence is static research design -> static construct/difficulty gate -> static executor -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
 
-Initial MN-006 design principles:
-
-1. **Failure-mode first, candidate second.** Freeze the workload before selecting Hierarchical, External State Management, or another intervention.
-2. **Change as few dimensions as possible.** The preferred first changes are contiguous → distributed/interleaved state and endpoint-only → minimal bounded deterministic downstream reasoning.
-3. **Keep other complexity controlled.** Do not initially stack true hierarchy, nested scope, multi-hop causal dependencies, noisy natural language, cross-episode persistence, or long-term memory unless evidence requires them.
-4. **Preserve deterministic grading.** Every case must have one canonical answer from a finite answer space, with no external-world knowledge, subjective judgment, or LLM judge.
-5. **Expose intermediate truth.** The workload should define canonical events, final entity state, derived facts, and final answer so future analysis can separate state-tracking failure from downstream-reasoning failure.
-6. **Remain candidate-neutral.** A valid workload should be capable of evaluating multiple competing state-management strategies rather than being designed to make one preferred treatment win.
-7. **Preserve research history.** Prior candidate outcomes remain evidence. A candidate can reopen only because MN-006 changes the relevant workload properties, not because MN-005 decisions are reset.
-
-Candidate-specific reopening requires new justification:
-
-- Hierarchical representation: only if distributed membership or meaningful scope creates a real hierarchy/locality mechanism.
-- External State Management: only when maintained state is not the final answer.
-- Event-to-State Normalization: only when event semantics require real canonicalization.
-- Multi-pass Reconstruction: only if MN-006 exposes a new reconstruction bottleneck; do not repeat the old Gate B v2 contract.
-- Symmetric State Partitioning: only if the workload introduces the structural asymmetry/interleaving its mechanism is meant to address.
-
-Before MN-006 implementation or measured inference, the workload contract must make the failure mode, controlled dimensions, state oracle, answer oracle, anti-leakage rules, deterministic evaluator, and diagnostic separation explicit. If that cannot be done cleanly, MN-006 should remain in design phase rather than proceed to GPU/model experiments.
-
-## MN-006 measurement-interface disposition
-
-The [diagnostic-branch closure decision](experiments/prototypes/mn-006-distributed-state-integration/diagnostic-branch-closure-decision.md) selects `close_fixed_label_branch_redirect_mn006`. The fixed-label A/B diagnostic branch is complete, and the current v1 response interface is retired from further model execution as non-diagnostic for the intended distributed-state/locality construct. The single replacement interface has completed its canonical [direct-state-vector qualification](experiments/prototypes/mn-006-distributed-state-integration/reports/mn-006-direct-state-vector-qualification-run-0001.md) as `protocol_valid` / `direct_state_vector_interface_blocked`: Q0 is `9/9`, Q1 is `1/9`, and the frozen `18/18` requirement was not met. MN-006 is consequently `measurement_interface_blocked` for the qualified model/runtime. D2 remains permanently unauthorized under v1; locality remains unmeasured; retries, alternate interface search, and intervention work are unauthorized.
+See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
