@@ -2,7 +2,7 @@
 
 ## Status
 
-**Prepared / design phase. No experiment contract, authority plan, executor, model run, or intervention is authorized.**
+**Static design and deterministic materialization contract frozen. No calibration corpus, run authority, executor, model run, locality comparison, or intervention is authorized.**
 
 MN-007 begins after the formal closure of [MN-006](../mn-006-distributed-state-integration/milestone-closure.md). MN-006 qualified the direct ordered state-vector response channel at Q0 (`9/9`) but failed its frozen contiguous task-bearing Q1 capability floor (`1/9`). Because the locality comparison was never reached, MN-006 closed as `measurement_interface_blocked` for the qualified model/runtime with locality still unmeasured.
 
@@ -175,6 +175,11 @@ MN-007 may use their conclusions to motivate design, but it may not rewrite, res
 
 ## Exact next permitted action
 
-A separate **static MN-007 research-design decision** may define the finite difficulty landscape, controlled variables, operating-region criterion, case separation/hold-out policy, and reuse boundaries for the direct-state observable.
+A separate **static deterministic implementation and infrastructure stage** may
+materialize and validate the frozen 108-case calibration corpus defined by the
+[materialization contract](materialization-contract.md). It must verify
+reproducibility and all construction invariants without creating an inference
+authority, executor, or model request.
 
-It must not execute a model.
+Only after that later static stage may another authority consider an executor
+boundary. It must not execute a model.

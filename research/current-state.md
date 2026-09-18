@@ -66,7 +66,7 @@ The replacement direct ordered two-entity state-vector interface removed the equ
 
 The resulting milestone disposition is `measurement_interface_blocked` for the qualified Llama/runtime. This is not evidence that locality failed, that interleaving has no effect, or that the model generally cannot track state. Locality remains **unmeasured**. No retry, alternate interface search, perfect-state diagnostic, locality run, or intervention is authorized. See the formal [MN-006 closure](experiments/prototypes/mn-006-distributed-state-integration/milestone-closure.md).
 
-## MN-007 — State Recovery Operating Region — static design gate frozen
+## MN-007 — State Recovery Operating Region — deterministic materialization contract frozen
 
 MN-007 inherits the prerequisite exposed by MN-006 without reopening it: identify whether the qualified small-model/runtime has a prospectively defined contiguous two-entity latest-state recovery operating region suitable for a later causal locality experiment.
 
@@ -74,4 +74,4 @@ The immediate question is capability calibration, not locality and not intervent
 
 MN-007 must not iteratively lower difficulty after each result until the model passes. A usable region must avoid both a floor (contiguous recovery already unreliable) and a ceiling (task too easy to reveal meaningful degradation). If the bounded prospective landscape contains no usable region, that is a valid calibration result rather than permission for indefinite search.
 
-No MN-007 authority plan, executor, model run, locality comparison, or intervention exists yet. The exact next action is the separately scoped static workload-definition and materialization-contract gate; it must not create a corpus, executor, model authority, or model request. See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
+The [deterministic materialization contract](experiments/prototypes/mn-007-state-recovery-operating-region/materialization-contract.md) now freezes derivable IDs, hash-based seed domains, semantic histories, state balance, contiguous schedules, canonical serialization, and public/evaluator separation for the future 108-case corpus. No MN-007 calibration corpus, run authority, executor, model run, locality comparison, or intervention exists yet. The exact next action is a separately scoped static deterministic implementation/infrastructure stage that materializes and validates the frozen corpus without model activity. That stage still cannot authorize an executor or model request. See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
