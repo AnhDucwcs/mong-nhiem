@@ -296,8 +296,12 @@ def test_authority_owned_replay_and_leakage_fail_closed(
 
 def test_dry_path_is_process_network_model_and_evidence_free(
     monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
 ) -> None:
     before = _snapshot()
+    monkeypatch.setattr(execution, "RUNS", tmp_path)
+    monkeypatch.setattr(runner, "RUNS", tmp_path)
+    monkeypatch.setattr(execution, "require_no_evidence", lambda _runs=None: None)
 
     def forbidden(*_args, **_kwargs):
         pytest.fail(
@@ -313,7 +317,7 @@ def test_dry_path_is_process_network_model_and_evidence_free(
     payloads = runner.dry_construction()
     assert len(payloads) == 18
     assert _snapshot() == before
-    assert not (execution.RUNS / execution.RUN_ID).exists()
+    assert not (tmp_path / execution.RUN_ID).exists()
     assert not runner._pending_directory().exists()
     assert not runner._invalid_directory().exists()
 
@@ -455,6 +459,7 @@ def test_runtime_parameters_cannot_drift(monkeypatch: pytest.MonkeyPatch) -> Non
 def test_real_preflight_fails_closed_with_all_external_operations_mocked(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, violation
 ) -> None:
+    monkeypatch.setattr(execution, "require_no_evidence", lambda _runs=None: None)
     model = tmp_path / "qualified.gguf"
     server = tmp_path / "qualified-server.exe"
     model.write_bytes(b"synthetic placeholder, no model")

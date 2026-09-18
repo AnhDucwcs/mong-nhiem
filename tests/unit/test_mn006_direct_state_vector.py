@@ -11,6 +11,9 @@ SCRIPTS = ROOT / "research" / "experiments" / "prototypes" / "mn-006-distributed
 sys.path.insert(0, str(SCRIPTS))
 
 from mn006 import direct_state_vector as vector
+from mn006.direct_state_vector_execution import (
+    validate_run_directory as validate_qualification_run,
+)
 from mn006.explicit_relation_execution import validate_run_directory
 from mn006.label_selection_execution import validate_d1_run_directory
 from mn006.measurement import validate_attempt_directory
@@ -154,13 +157,17 @@ def test_plan_validation_rejects_wrong_order_or_noncanonical_layer_size() -> Non
         vector.validate_plan(cases[:-1])
 
 
-def test_retained_evidence_is_valid_and_executor_has_no_measured_run() -> None:
+def test_retained_evidence_is_valid_and_qualification_is_measurement_interface_blocked() -> None:
     assert validate_s0_run_directory(RUNS / "output-selection-s0-run-0001")["classification"] == "direct_copy_supported"
     assert validate_s1_run_directory(RUNS / "output-selection-s1-run-0001")["classification"] == "fixed_label_preference_recurred"
     assert validate_d1_run_directory(RUNS / "label-selection-d1-run-0001")["classification"] == "fixed_label_preference_supported"
     assert validate_attempt_directory(RUNS / "attempt-0001", attempt_id="attempt-0001")["outcome"] == "protocol_valid"
     assert validate_attempt_directory(RUNS / "attempt-0002", attempt_id="attempt-0002")["outcome"] == "protocol_valid"
     assert validate_run_directory(RUNS / "explicit-relation-direct-rule-run-0001")["classification"] == "fixed_label_preference_persisted"
-    assert not (RUNS / vector.RUN_ID).exists()
+    qualification = validate_qualification_run(RUNS / vector.RUN_ID)
+    assert qualification["outcome"] == "protocol_valid"
+    assert qualification["classification"] == "direct_state_vector_interface_blocked"
+    assert qualification["layers"]["Q0"]["correct"] == 9
+    assert qualification["layers"]["Q1"]["correct"] == 1
     assert not (RUNS / "attempt-0003").exists()
     assert (SCRIPTS / "run_mn006_direct_state_vector_qualification.py").is_file()
