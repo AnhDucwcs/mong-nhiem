@@ -47,46 +47,30 @@ The milestone conclusion is therefore not that all candidates failed. It is that
 
 See the [MN-005 → MN-006 research handoff](experiments/prototypes/mn-005-state-tracking-intervention-selection/mn-006-handoff.md).
 
-## MN-006 — Distributed State Integration workload design
+## MN-006 — Distributed State Integration
 
-Status: **planned next milestone; not started until MN-005 is merged and a new branch is created from updated `main`.**
+Status: **completed and closed at `measurement_interface_blocked` for the qualified model/runtime.**
 
-MN-006 changes the immediate research target from selecting another intervention on ECC-006 to designing a better experimental substrate.
+MN-006 attempted to establish a deterministic, candidate-neutral contiguous-versus-interleaved locality measurement. The v1 equality/label path was retired after the diagnostic ladder showed a lower-level conditioned-output confound. The replacement direct ordered state-vector interface qualified its response channel at Q0 `9/9`, but its frozen contiguous task-bearing Q1 qualification scored only `1/9`. The predeclared exact `18/18` requirement was therefore not met.
 
-The working central question is:
+The final scientific boundary is that the response serialization is usable, while the frozen Level 2 contiguous control condition is below the capability floor required for a causal locality comparison. Locality remains unmeasured. MN-006 does not support a negative locality claim, a general state-tracking claim, or an intervention claim. No retry, alternate interface, D2, perfect-state diagnostic, locality run, or intervention is authorized. See [MN-006 milestone closure](experiments/prototypes/mn-006-distributed-state-integration/milestone-closure.md).
 
-> Can a candidate-neutral workload expose failures in integrating state from distributed/interleaved multi-entity updates, while preserving deterministic evaluation and supporting fair comparison among multiple state-management hypotheses?
+## MN-007 — State Recovery Operating Region
 
-The intended workload structure is:
+Status: **prepared / design phase. No model execution authorized.**
 
-```text
-raw distributed/interleaved events
-    ↓
-canonical entity state
-    ↓
-minimal bounded deterministic downstream rule
-    ↓
-finite canonical answer
-```
+MN-007 prospectively calibrates the contiguous state-recovery operating region needed before any future locality experiment. It is a separate milestone so the frozen MN-006 Q1 failure does not trigger post-hoc benchmark tuning inside MN-006.
 
-The downstream reasoning step is not a new general-reasoning research goal. It is introduced only to prevent External State Management from becoming an answer oracle: maintained state should be useful input to a decision, not identical to the final evaluated answer.
+The next design phase must:
 
-Initial MN-006 design principles:
+1. preserve a direct semantic state observable unless a static gate identifies a construct-valid reason not to;
+2. freeze a finite difficulty landscape before inference rather than adaptively trying easier/harder workloads;
+3. control workload axes such as entity load, update load, distractors, context/event count, and query-to-latest-update distance only when they are mechanically defined and causally interpretable;
+4. predeclare the rule for identifying a usable contiguous operating region, avoiding both floor and ceiling conditions;
+5. keep calibration evidence separate from any later hold-out matched contiguous/interleaved locality evidence;
+6. stop with a bounded `no usable operating region` conclusion if the frozen landscape contains none;
+7. keep all intervention candidates unauthorized until a later construct-valid locality-sensitive signal exists.
 
-1. **Failure-mode first, candidate second.** Freeze the workload before selecting Hierarchical, External State Management, or another intervention.
-2. **Change as few dimensions as possible.** The preferred first changes are contiguous → distributed/interleaved state and endpoint-only → minimal bounded deterministic downstream reasoning.
-3. **Keep other complexity controlled.** Do not initially stack true hierarchy, nested scope, multi-hop causal dependencies, noisy natural language, cross-episode persistence, or long-term memory unless evidence requires them.
-4. **Preserve deterministic grading.** Every case must have one canonical answer from a finite answer space, with no external-world knowledge, subjective judgment, or LLM judge.
-5. **Expose intermediate truth.** The workload should define canonical events, final entity state, derived facts, and final answer so future analysis can separate state-tracking failure from downstream-reasoning failure.
-6. **Remain candidate-neutral.** A valid workload should be capable of evaluating multiple competing state-management strategies rather than being designed to make one preferred treatment win.
-7. **Preserve research history.** Prior candidate outcomes remain evidence. A candidate can reopen only because MN-006 changes the relevant workload properties, not because MN-005 decisions are reset.
+The required sequence is static research design -> static construct/difficulty gate -> static executor -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
 
-Candidate-specific reopening requires new justification:
-
-- Hierarchical representation: only if distributed membership or meaningful scope creates a real hierarchy/locality mechanism.
-- External State Management: only when maintained state is not the final answer.
-- Event-to-State Normalization: only when event semantics require real canonicalization.
-- Multi-pass Reconstruction: only if MN-006 exposes a new reconstruction bottleneck; do not repeat the old Gate B v2 contract.
-- Symmetric State Partitioning: only if the workload introduces the structural asymmetry/interleaving its mechanism is meant to address.
-
-Before MN-006 implementation or measured inference, the workload contract must make the failure mode, controlled dimensions, state oracle, answer oracle, anti-leakage rules, deterministic evaluator, and diagnostic separation explicit. If that cannot be done cleanly, MN-006 should remain in design phase rather than proceed to GPU/model experiments.
+See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).

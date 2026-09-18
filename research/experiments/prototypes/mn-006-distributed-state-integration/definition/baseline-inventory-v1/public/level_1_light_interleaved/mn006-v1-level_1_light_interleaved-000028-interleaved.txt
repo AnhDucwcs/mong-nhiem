@@ -1,0 +1,12 @@
+All entities begin in S0.
+E01 STATE = S1
+E02 STATE = S1
+E03 STATE = S2
+E01 STATE = S2
+E02 STATE = S2
+E03 STATE = S1
+E01 STATE = S0
+E02 STATE = S0
+E03 STATE = S2
+For E02 and E01, output VALID if their states are equal; otherwise output INVALID.
+Output exactly one label: VALID or INVALID.

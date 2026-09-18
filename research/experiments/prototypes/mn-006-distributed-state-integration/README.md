@@ -1,0 +1,153 @@
+# MN-006 — Distributed State Integration
+
+## Status
+
+**MN-006 is completed and closed at `measurement_interface_blocked` for the qualified model/runtime.** The canonical direct-state-vector qualification is `protocol_valid` / `direct_state_vector_interface_blocked`: Q0 exact response qualification passed `9/9`, while Q1 contiguous task-bearing recovery passed only `1/9` against the frozen exact `18/18` requirement. The direct response channel is therefore qualified, but the frozen Level 2 contiguous control capability floor is not. Locality remains unmeasured; no negative locality or general state-tracking claim is licensed. No retry, alternate interface search, locality run, D2, perfect-state diagnostic, or intervention is authorized. See the formal [milestone closure](milestone-closure.md) and the [MN-007 handoff](../mn-007-state-recovery-operating-region/README.md).
+
+[`scripts/run_mn006_constrained_baseline.py`](scripts/run_mn006_constrained_baseline.py) was the grammar-only pre-evidence executor for `attempt-0002`. Its executor commit and the resulting evidence remain separate immutable boundaries.
+
+The [Label-Selection Causal Gate](label-selection-causal-gate.md) remains canonical. Its separate neutral `A`/`B` counterbalanced-mapping [D1 diagnostic](reports/mn-006-label-selection-d1-run-0001.md) is `protocol_valid` / `fixed_label_preference_supported`: all 16 strict-parser-valid outputs were `A`, while all eight grammar-order matched pairs agreed. D1 is not `attempt-0003`, does not alter either baseline, and does not select an intervention.
+
+[`scripts/run_mn006_label_selection_d1.py`](scripts/run_mn006_label_selection_d1.py) was committed before the separate `label-selection-d1-run-0001` evidence boundary. It consumed only the frozen 16-request direct-state D1 plan and inherited the qualified runtime, including the existing 16-token output limit. D2 remains unauthorized because D1 did not meet its exact `mapping_following_supported` prerequisite.
+
+MN-006 begins from the completed [MN-005 handoff](../mn-005-state-tracking-intervention-selection/mn-006-handoff.md). It preserves MN-003, MN-004, and MN-005 definitions, measurements, reports, raw artifacts, and conclusions as immutable historical evidence.
+
+## Research motivation and inherited evidence
+
+[ECC-006](../mn-003-effective-context-capacity/experiments/ecc-006-state-tracking/README.md) established a bounded Llama State Tracking failure region: one entity receives four ordered updates and the final-state endpoint is graded exactly. It also has two properties that make it a poor substrate for several deeper state-management hypotheses: each target history is already contiguous, and the evaluated endpoint is itself the final state.
+
+MN-004's globally indexed ledger is frozen as `unsupported_no_effect_or_insufficient_effect`; its observed `0/24` to `7/24` 8k movement did not reach the frozen support thresholds. MN-005's canonical Multi-pass Reconstruction result is `inconclusive`, with no authorized replacement `attempt-0003`. Its Hierarchical Gate A audit is `hierarchical_gate_a_unselected`, not a falsification: ECC-006 cannot isolate hierarchy from grouping, formatting, compression, reordering, or target salience. External State Management remains a relevant hypothesis class, but an external final-state register would be too close to an ECC-006 answer oracle.
+
+The resulting bottleneck is therefore not candidate selection on frozen ECC-006. It is a candidate-neutral workload that can expose distributed state integration while retaining deterministic diagnosis.
+
+## Central workload question and hypothesis
+
+**Question:** Can a deterministic workload expose a small language model's difficulty integrating the state of multiple entities when relevant updates are distributed and interleaved through context, while distinguishing that state-integration failure from failure in a deliberately small downstream rule?
+
+**Working falsifiable hypothesis:** For matched generated cases with the same entity/state semantics and downstream rule, a distributed/interleaved regime may yield lower canonical-state and end-to-end correctness than a contiguous-history sanity regime. A later perfect-state control can determine whether any observed end-to-end deficit remains when state integration is removed from the model's task.
+
+This is a workload hypothesis, not a claim that a failure has already been observed. State tracking/state integration remains the primary subject; MN-006 is not a general reasoning benchmark.
+
+## Intended causal pipeline
+
+```text
+canonical source events
+        ↓
+canonical entity states
+        ↓
+canonical derived facts from a small fixed rule
+        ↓
+one finite canonical answer
+```
+
+The downstream rule exists for one causal-design reason. A representation that maintains entity state externally may provide state values to the model, but those values must not be identical to the evaluated answer. The model must apply the shared bounded rule; host logic must not silently apply it or return its result.
+
+## Scope and deliberate non-goals
+
+The first workload family isolates two changes from ECC-006:
+
+1. contiguous target history → distributed/interleaved histories for the queried entities; and
+2. endpoint-only final-state answer → a minimal deterministic decision using multiple entity states.
+
+It deliberately keeps these dimensions simple unless a later design gate justifies an extension:
+
+- no true parent/child hierarchy or nested scope;
+- no causal propagation or dependency graph between entities;
+- no noisy or ambiguous natural language;
+- no commonsense or external-world knowledge;
+- no cross-session/episode persistence, retrieval, RAG, tools, or planning;
+- no candidate treatment, intervention comparison, measured efficacy, or model selection.
+
+Level 3 extensions may later investigate scoped state, bounded dependency chains, or conditional transitions. They are not part of the initial implementation target.
+
+## Workload family and controlled dimensions
+
+Source events will use one regular, unambiguous assignment grammar. Every event changes exactly one entity's state according to the frozen transition semantics. The eventual generator must control and record at least:
+
+- number of entities;
+- updates per entity;
+- number of queried and non-queried entities;
+- distance between successive updates for each queried entity;
+- interleaving density across entity histories;
+- total event count/context length; and
+- downstream-rule input count.
+
+The primary structural property is not merely that there are more events. For every queried entity in the distributed regime, relevant updates must be separated by events for other entities. A contiguous-history Level 1 remains a sanity/control regime, not the primary comparison substrate.
+
+The v1 state vocabulary, event grammar, answer labels, rule depth/arity, contiguous-control role, Level 1/2 profile values, and deterministic scheduler are frozen in the [semantic workload contract](workload-contract.md). The independent, pre-model [baseline inventory and measurement contract](baseline-inventory-measurement-gate.md) now freezes 32 matched pairs per profile, sequential ordinals, physical artifact hashes, runtime procedure, scoring, and interpretation. Candidate treatment remains deferred.
+
+## Deterministic answer and diagnostic policy
+
+The final response must have exactly one canonical value from a finite grammar. The initial design permits a small fixed label vocabulary such as decision/action labels, but not free-form explanation as the benchmark output. The final frozen contract must guarantee that each answer is unique, finite, exactly parseable, LLM-judge-free, and independent of external knowledge.
+
+The generator/oracle must retain four distinct truth layers:
+
+1. source events as rendered to the model;
+2. final canonical state for every entity;
+3. derived facts consumed by the downstream rule; and
+4. the canonical answer.
+
+This structure supports future diagnostic probes for state correctness, reasoning correctness conditional on correct state, and end-to-end correctness. A future perfect-state control may give the model canonical state plus the same bounded rule. It is a diagnostic design option only; no control is implemented or run in this phase.
+
+## Candidate-neutrality and anti-oracle policy
+
+MN-006 is frozen from the failure mode before selecting a treatment. It may later support several hypotheses without ranking them now:
+
+- **Hierarchical State Representation:** distributed entity histories can make locality observable, but a hierarchy treatment must be compared with a flat control preserving source facts, membership, local/global order, and target access. It may not win through compression, deletion, reordering, target-only filtering, or answer hints.
+- **External State Management:** an external representation may contain entity/state values, but never derived facts or the final decision. The host may not evaluate the downstream rule, choose an answer, or use an answer-bearing field.
+- **Event-to-State Normalization:** relevant only if source semantics genuinely require canonicalization. Artificial linguistic variation will not be added to manufacture this candidate.
+- **Multi-pass Reconstruction:** its MN-005 result remains `inconclusive`; it may return only under a distinct MN-006 reconstruction hypothesis with measurable artifacts and a new contract.
+- **Symmetric State Partitioning:** relevant only if naturally motivated by the resulting interleaving/partition structure.
+
+All future treatments and controls must obey these common rules:
+
+- Source events must not contain the final answer literally or fields named `final`, `current`, `answer`, `target answer`, or equivalent answer hints.
+- No representation may contain the downstream derived decision unless that semantic content is explicitly supplied in every matched condition; this is not planned for MN-006.
+- Host code must not perform the bounded downstream reasoning under evaluation.
+- Source facts and event provenance must be conserved across matched conditions.
+- Target-only filtering, event deletion, arbitrary reordering, and unaccounted compression are prohibited unless the specific variable is predeclared, matched, and independently measured.
+- The answer vocabulary and case sampling must not make one output label predictably more likely.
+
+Known open risks include accidental answer leakage through state-field names, uneven answer-label frequencies, a rule whose answer is a transparent copy of one state value, and a flat hierarchy control that changes locality or compression. These require static validation before implementation authorization.
+
+## Progressive difficulty
+
+### Level 1 — distributed state sanity regime
+
+Purpose: validate deterministic generation/oracle semantics, exact grading, answer uniqueness, and elementary integration. It uses few entities, short but real interleaving gaps, and one small shared rule. It must establish that cases are valid and solvable by the oracle; it makes no model-capability claim.
+
+### Level 2 — primary distributed/interleaved regime
+
+Purpose: become the future candidate-comparison substrate. It increases the number of entity histories, separation between updates of queried entities, and interleaving density while keeping event semantics and rule family fixed. Its final decision depends on multiple canonical entity states.
+
+Promotion from Level 1 to Level 2 requires deterministic invariants, answer balance/uniqueness, source conservation, verified interleaving metrics, and a design review showing that the additional difficulty is distribution rather than a hidden semantic change.
+
+### Level 3 — future extension only
+
+Scoped state, bounded dependency chains, or conditional transitions require a separate justification showing why Level 2 cannot answer the next decision-relevant question. Level 3 is not designed, implemented, or measured by this milestone phase.
+
+## Gates and next boundary
+
+[Design Gate A](design-gate-a.md) remains the traceable initial audit. [Design Gate B](design-gate-b.md) freezes the v1 semantic decisions. The [semantic workload contract](workload-contract.md) and [v1 case schema](case-schema.md) are the authority for the deterministic generator/oracle/validator implementation; the earlier [proposed schema](proposed-case-schema.md) is retained as history. The subsequent [Baseline Inventory and Measurement Gate](baseline-inventory-measurement-gate.md) freezes the inventory and first-baseline procedure, while the [manifest](definition/baseline-inventory-v1/manifest.json) identifies the materialized authority artifacts.
+
+**Implementation gate:** passed for a non-model generator, oracle, paired serializer, and static validator suite only. The frozen v1 contract remains independently reviewable without model output.
+
+**Baseline measurements:** [`attempt-0001`](reports/mn-006-attempt-0001.md) is protocol-valid but has `0/32` contiguous and `0/32` interleaved exact correctness in both profiles because all `128/128` outputs are malformed. The separately frozen grammar-constrained [`attempt-0002`](reports/mn-006-attempt-0002.md) is also protocol-valid: all `128/128` outputs strictly parse, but all are `INVALID`, producing `16/32` contiguous and `16/32` interleaved exact correctness in both profiles. Both attempts classify both profiles as `no_usable_locality_failure_signal_under_v1_baseline`; the perfect-state diagnostic is ineligible and candidate treatment remains blocked.
+
+**Label-selection boundary:** The all-`INVALID` pattern is a response/label-selection collapse whose cause remained unresolved by the baseline. The static gate found no obvious grammar acceptance, prefix, or termination asymmetry, but cannot establish equal filtered token mass or model logits. Its separately retained direct-state, counterbalanced `A`/`B` D1 diagnostic is `protocol_valid` / `fixed_label_preference_supported`: all 16 outputs were `A` and no grammar-order pair disagreed. D2 is therefore unauthorized, and no locality claim follows.
+
+**Output-selection minimality boundary:** The [Output-Selection Minimality Gate](output-selection-minimality-gate.md) has canonical S0 `direct_copy_supported` and S1 `fixed_label_preference_recurred` evidence. S0 copied both explicit A/B targets under both grammar orders; S1 returned `A` for all direct-relation cells, so it neither establishes direct equality/instruction following nor localizes D1 specifically to mapping-table abstraction. The static [recurring fixed-label causal review](recurring-fixed-label-causal-review.md) is `next_minimal_diagnostic_identified`: it distinguishes surface-label availability from post-inference label selection. The subsequent [Explicit-Relation Direct-Rule Gate](explicit-relation-direct-rule-gate.md) is now represented by canonical [explicit-relation direct-rule evidence](reports/mn-006-explicit-relation-direct-rule-run-0001.md): its two relation-supplied requests returned `A`, giving `protocol_valid` / `fixed_label_preference_persisted`. State extraction and equality comparison were therefore not necessary for the recurring fixed-`A` behavior under this exact interface; the unresolved region remains direct conditional-rule interpretation and/or post-task constrained-label selection. D2, state reconstruction, locality measurement, perfect-state control, and interventions remain blocked.
+
+The subsequent static [downstream fixed-label causal review](downstream-fixed-label-causal-review.md) is `behavioral_boundary_reached_l1c_l1d_not_cleanly_identifiable`. It finds that a behavioral test of post-task A/B selection either exposes the final label and duplicates S0, or retains/reintroduces branch-to-label mapping work. It creates no further diagnostic plan or executor. D2, locality, perfect-state work, and interventions remain blocked.
+
+The [diagnostic-branch closure decision](diagnostic-branch-closure-decision.md) closes this fixed-label branch as `close_fixed_label_branch_redirect_mn006`. The resulting static [measurement-interface redesign](measurement-interface-redesign.md) selected a direct ordered two-entity final-state vector as the single candidate. Its canonical [18-cell qualification](reports/mn-006-direct-state-vector-qualification-run-0001.md) is `protocol_valid` / `direct_state_vector_interface_blocked`: Q0 exact vector output is `9/9`, while Q1 task-bearing Level 2 contiguous endpoint recovery is `1/9`. The frozen `18/18` requirement was not met, so MN-006 is `measurement_interface_blocked` for the qualified model/runtime. This is not locality evidence and does not establish a state-tracking deficit. The contract prohibits retries, alternate interfaces, locality measurement, D2, perfect-state work, and interventions.
+
+## Milestone closure and handoff
+
+MN-006 is no longer an active measurement-design milestone. The direct-state Q0/Q1 result identifies the final boundary: exact state-vector serialization works, but the frozen contiguous Level 2 task-bearing condition is below the predeclared qualification floor. A matched locality comparison would therefore be causally uninterpretable at this workload.
+
+The milestone is closed rather than adaptively reducing difficulty after observing Q1. Prospectively mapping a contiguous state-recovery operating region is moved to [MN-007](../mn-007-state-recovery-operating-region/README.md). Any later locality experiment requires a new prospective authority after that calibration; it must not reopen or mutate MN-006.
+
+## Explicit boundary
+
+The canonical attempts retain immutable model-run evidence but no intervention evidence: Llama executed `attempt-0001` under the unconstrained finite-output instruction and `attempt-0002` under the separate grammar-constrained response-channel contract. No Qwen call, treatment renderer, external state register, hierarchy condition, multi-pass rerun, or candidate efficacy claim exists. The materialized inventory remains workload authority and the raw attempt records remain separate measured evidence.

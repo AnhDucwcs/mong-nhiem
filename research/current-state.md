@@ -56,16 +56,22 @@ The accumulated MN-005 conclusion is that frozen ECC-006 has become insufficient
 
 The canonical research transition is documented in the [MN-005 → MN-006 handoff](experiments/prototypes/mn-005-state-tracking-intervention-selection/mn-006-handoff.md).
 
-## MN-006 — Distributed State Integration workload design — planned next milestone, not started
+## MN-006 — Distributed State Integration — completed and closed
 
-MN-006 should begin only after MN-005 is squash-merged and a new branch is created from updated `main`. No MN-006 implementation, runner, schema, measured evidence, model inference, or GPU experiment exists at MN-005 closure.
+MN-006 is complete and closed for further model execution under its frozen contracts. Its original goal was to obtain a construct-valid matched contiguous-versus-interleaved measurement of distributed-state locality/integration.
 
-The planned primary question is no longer which intervention to try next on ECC-006. It is whether a candidate-neutral experimental substrate can expose distributed state-integration failures while remaining deterministic enough to compare multiple state-management hypotheses causally.
+The v1 equality/label response path was protocol-valid but non-diagnostic: baseline attempts and the D1/S0/S1/explicit-relation ladder established a lower-level conditioned-output confound, so locality was never attributable from that interface. The fixed-label branch is closed and D2 remains permanently unauthorized under v1.
 
-The working workload direction is distributed/interleaved multi-entity state tracking followed by minimal bounded deterministic downstream reasoning. State tracking remains the central subject; downstream reasoning is introduced only so that maintained external state is useful input rather than the final answer itself. The task must not become a general reasoning benchmark.
+The replacement direct ordered two-entity state-vector interface removed the equality-to-label adapter. Its canonical [qualification](experiments/prototypes/mn-006-distributed-state-integration/reports/mn-006-direct-state-vector-qualification-run-0001.md) is `protocol_valid` / `direct_state_vector_interface_blocked`: Q0 exact response competence is `9/9`, while Q1 contiguous task-bearing final-state recovery is `1/9`. Under the frozen exact `18/18` rule, the interface cannot support a construct-valid locality comparison at the frozen Level 2 workload.
 
-MN-006 should initially change as few dimensions as possible: make related entity updates genuinely distributed/interleaved and add only the minimum deterministic downstream rule needed to avoid an answer-oracle interface. Other dimensions such as true hierarchy, nested scope, causal dependency, noisy language, cross-episode persistence, and long-term memory should stay simple until evidence justifies changing them.
+The resulting milestone disposition is `measurement_interface_blocked` for the qualified Llama/runtime. This is not evidence that locality failed, that interleaving has no effect, or that the model generally cannot track state. Locality remains **unmeasured**. No retry, alternate interface search, perfect-state diagnostic, locality run, or intervention is authorized. See the formal [MN-006 closure](experiments/prototypes/mn-006-distributed-state-integration/milestone-closure.md).
 
-The workload design must define canonical source events, canonical final entity state, canonical derived facts, and a finite canonical final answer so future evaluation can distinguish state-tracking failure, downstream-reasoning failure, and end-to-end failure without an LLM judge.
+## MN-007 — State Recovery Operating Region — prepared / design phase
 
-Previous candidates may be reconsidered on MN-006 only with workload-specific justification. Their MN-005 history remains intact: `unselected on ECC-006` is not reset to `untested`, and the Multi-pass `inconclusive` result remains canonical evidence.
+MN-007 inherits the prerequisite exposed by MN-006 without reopening it: identify whether the qualified small-model/runtime has a prospectively defined contiguous two-entity latest-state recovery operating region suitable for a later causal locality experiment.
+
+The immediate question is capability calibration, not locality and not intervention efficacy. Before any inference, MN-007 must freeze a finite difficulty landscape, controlled workload variables, a non-adaptive operating-region selection rule, exact response/scoring validity, and a policy separating calibration cases from any later hold-out locality evidence.
+
+MN-007 must not iteratively lower difficulty after each result until the model passes. A usable region must avoid both a floor (contiguous recovery already unreliable) and a ceiling (task too easy to reveal meaningful degradation). If the bounded prospective landscape contains no usable region, that is a valid calibration result rather than permission for indefinite search.
+
+No MN-007 experiment definition, authority plan, executor, model run, locality comparison, or intervention exists yet. The exact next action is a static research-design decision. See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
