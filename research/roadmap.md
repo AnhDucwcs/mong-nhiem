@@ -71,8 +71,8 @@ The completed static [operating-region design gate](experiments/prototypes/mn-00
 6. bounded `usable operating region identified`, `no usable operating region in bounded landscape`, and `measurement/design blocked` outcomes; and
 7. continued prohibition of interventions until a later construct-valid locality-sensitive signal exists.
 
-The completed [materialization contract](experiments/prototypes/mn-007-state-recovery-operating-region/materialization-contract.md) freezes deterministic case identities, seed derivation, semantic histories, vector/orientation coverage, contiguous scheduling, canonical serialization, public/evaluator separation, and validation. No corpus, run authority, executor, or model evidence has been created.
+The completed [materialization contract](experiments/prototypes/mn-007-state-recovery-operating-region/materialization-contract.md) freezes deterministic case identities, seed derivation, semantic histories, vector/orientation coverage, contiguous scheduling, canonical serialization, public/evaluator separation, and validation. Its 108-case static corpus has now been materialized and validates under independent byte-identical regeneration. It is a prospective workload definition, not model evidence; no run authority or executor exists.
 
-The next action is a static deterministic implementation/infrastructure stage that materializes and validates the frozen corpus without model activity. The remaining required sequence is that stage -> static executor boundary -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
+The next action is a static executor/measurement-authority gate. The remaining required sequence is that gate -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
 
 See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
