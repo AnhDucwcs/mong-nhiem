@@ -57,20 +57,20 @@ The final scientific boundary is that the response serialization is usable, whil
 
 ## MN-007 — State Recovery Operating Region
 
-Status: **prepared / design phase. No model execution authorized.**
+Status: **static operating-region design gate frozen. No model execution authorized.**
 
 MN-007 prospectively calibrates the contiguous state-recovery operating region needed before any future locality experiment. It is a separate milestone so the frozen MN-006 Q1 failure does not trigger post-hoc benchmark tuning inside MN-006.
 
-The next design phase must:
+The completed static [operating-region design gate](experiments/prototypes/mn-007-state-recovery-operating-region/operating-region-design-gate.md) establishes:
 
-1. preserve a direct semantic state observable unless a static gate identifies a construct-valid reason not to;
-2. freeze a finite difficulty landscape before inference rather than adaptively trying easier/harder workloads;
-3. control workload axes such as entity load, update load, distractors, context/event count, and query-to-latest-update distance only when they are mechanically defined and causally interpretable;
-4. predeclare the rule for identifying a usable contiguous operating region, avoiding both floor and ceiling conditions;
-5. keep calibration evidence separate from any later hold-out matched contiguous/interleaved locality evidence;
-6. stop with a bounded `no usable operating region` conclusion if the frozen landscape contains none;
-7. keep all intervention candidates unauthorized until a later construct-valid locality-sensitive signal exists.
+1. the direct ordered state-vector observable, justified by MN-006 Q0 `9/9` as response-serialization evidence rather than recovery qualification;
+2. six finite contiguous cells: entity counts `3`, `5`, `7` crossed with terminal or leading queried-block placement, while holding three updates/entity and two query entities fixed;
+3. 18 balanced semantic cases per cell and exact parser/score rules;
+4. an exhaustive floor (`<=14/18` exact or any malformed response), usable (`15–16/18` exact and `18/18` parser-valid), and ceiling (`17–18/18` exact and `18/18` parser-valid) classification;
+5. deterministic selection among usable cells and a fresh-case hold-out policy for any later locality work;
+6. bounded `usable operating region identified`, `no usable operating region in bounded landscape`, and `measurement/design blocked` outcomes; and
+7. continued prohibition of interventions until a later construct-valid locality-sensitive signal exists.
 
-The required sequence is static research design -> static construct/difficulty gate -> static executor -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
+The next action is a static deterministic workload-definition and materialization-contract gate. The remaining required sequence is that gate -> static executor boundary -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
 
 See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).

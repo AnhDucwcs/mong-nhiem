@@ -66,12 +66,12 @@ The replacement direct ordered two-entity state-vector interface removed the equ
 
 The resulting milestone disposition is `measurement_interface_blocked` for the qualified Llama/runtime. This is not evidence that locality failed, that interleaving has no effect, or that the model generally cannot track state. Locality remains **unmeasured**. No retry, alternate interface search, perfect-state diagnostic, locality run, or intervention is authorized. See the formal [MN-006 closure](experiments/prototypes/mn-006-distributed-state-integration/milestone-closure.md).
 
-## MN-007 — State Recovery Operating Region — prepared / design phase
+## MN-007 — State Recovery Operating Region — static design gate frozen
 
 MN-007 inherits the prerequisite exposed by MN-006 without reopening it: identify whether the qualified small-model/runtime has a prospectively defined contiguous two-entity latest-state recovery operating region suitable for a later causal locality experiment.
 
-The immediate question is capability calibration, not locality and not intervention efficacy. Before any inference, MN-007 must freeze a finite difficulty landscape, controlled workload variables, a non-adaptive operating-region selection rule, exact response/scoring validity, and a policy separating calibration cases from any later hold-out locality evidence.
+The immediate question is capability calibration, not locality and not intervention efficacy. The static [operating-region design gate](experiments/prototypes/mn-007-state-recovery-operating-region/operating-region-design-gate.md) now freezes six contiguous cells: three entity-load profiles (`3`, `5`, `7`) crossed with terminal or leading queried-block placement. It retains three updates per entity, the direct ordered `Sx,Sy` observable, exact scoring, 18 balanced cases per cell, non-adaptive floor/usable/ceiling rules, deterministic seed-cell selection, and calibration/hold-out separation.
 
 MN-007 must not iteratively lower difficulty after each result until the model passes. A usable region must avoid both a floor (contiguous recovery already unreliable) and a ceiling (task too easy to reveal meaningful degradation). If the bounded prospective landscape contains no usable region, that is a valid calibration result rather than permission for indefinite search.
 
-No MN-007 experiment definition, authority plan, executor, model run, locality comparison, or intervention exists yet. The exact next action is a static research-design decision. See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
+No MN-007 authority plan, executor, model run, locality comparison, or intervention exists yet. The exact next action is the separately scoped static workload-definition and materialization-contract gate; it must not create a corpus, executor, model authority, or model request. See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
