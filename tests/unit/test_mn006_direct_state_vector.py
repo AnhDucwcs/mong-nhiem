@@ -154,7 +154,7 @@ def test_plan_validation_rejects_wrong_order_or_noncanonical_layer_size() -> Non
         vector.validate_plan(cases[:-1])
 
 
-def test_retained_evidence_is_valid_and_no_new_qualification_run_or_executor_exists() -> None:
+def test_retained_evidence_is_valid_and_executor_has_no_measured_run() -> None:
     assert validate_s0_run_directory(RUNS / "output-selection-s0-run-0001")["classification"] == "direct_copy_supported"
     assert validate_s1_run_directory(RUNS / "output-selection-s1-run-0001")["classification"] == "fixed_label_preference_recurred"
     assert validate_d1_run_directory(RUNS / "label-selection-d1-run-0001")["classification"] == "fixed_label_preference_supported"
@@ -163,4 +163,4 @@ def test_retained_evidence_is_valid_and_no_new_qualification_run_or_executor_exi
     assert validate_run_directory(RUNS / "explicit-relation-direct-rule-run-0001")["classification"] == "fixed_label_preference_persisted"
     assert not (RUNS / vector.RUN_ID).exists()
     assert not (RUNS / "attempt-0003").exists()
-    assert not (SCRIPTS / "run_mn006_direct_state_vector_qualification.py").exists()
+    assert (SCRIPTS / "run_mn006_direct_state_vector_qualification.py").is_file()

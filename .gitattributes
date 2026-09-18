@@ -4,6 +4,7 @@
 research/experiments/prototypes/mn-006-distributed-state-integration/definition/baseline-inventory-v1/** text eol=lf
 research/experiments/prototypes/mn-006-distributed-state-integration/definition/label-selection-diagnostic-v1/** text eol=lf
 research/experiments/prototypes/mn-006-distributed-state-integration/definition/output-selection-minimality-v1/** text eol=lf
+research/experiments/prototypes/mn-006-distributed-state-integration/definition/direct-state-vector-qualification-v1/** text eol=lf
 
 # Raw measured evidence is fingerprinted by its exact physical bytes.
 research/experiments/prototypes/mn-006-distributed-state-integration/runs/** -text whitespace=-trailing-space
