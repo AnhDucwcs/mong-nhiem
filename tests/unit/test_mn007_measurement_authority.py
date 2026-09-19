@@ -28,10 +28,10 @@ FROZEN_REQUEST_ORDER_SHA256 = (
     "93d578e5a24903e826f2ad0481a420d219e53be30e2e4a822d9c3fdc0a96b474"
 )
 FROZEN_AUTHORITY_CORE_SHA256 = (
-    "3995bafded4d01539c493d71c217ba97a5a1b8a0b99a5bf50f1a239b8a54146d"
+    "2d5d82c1a342c34dfb0b3d35d0b6f0cef4dba835d8ebcc75e15398a2beab2633"
 )
 FROZEN_AUTHORITY_FILE_SHA256 = (
-    "2694d45d2b7116e1abc6fc6b4bfcfa4a3db36ca2a001b188d8e484d537273b7e"
+    "213e2c355cf3ee7b59f81bf67ab6538608ec92ce90cc00179597f34efeadf5b8"
 )
 
 
@@ -144,6 +144,24 @@ def test_authority_hash_determinism_and_mutation_sensitivity() -> None:
         materialization.canonical_json_bytes(mutated_env)
     )
     assert mut_env_hash != base_hash
+    # Proves composite hash changes when case_insensitive changes
+    mutated_case = copy.deepcopy(core)
+    mutated_case["runtime"]["hermetic_environment"]["env_matching_semantics"] = "case_sensitive"
+    mut_case_hash = materialization.sha256_bytes(materialization.canonical_json_bytes(mutated_case))
+    assert mut_case_hash != base_hash
+
+    # Proves composite hash changes when PROGRAMDATA policy changes
+    mutated_prog = copy.deepcopy(core)
+    mutated_prog["runtime"]["hermetic_environment"]["execution_relevant_env_vars"]["PROGRAMDATA"] = "allow"
+    mut_prog_hash = materialization.sha256_bytes(materialization.canonical_json_bytes(mutated_prog))
+    assert mut_prog_hash != base_hash
+    
+    # Proves composite hash changes when config resolution strategy changes
+    mutated_res = copy.deepcopy(core)
+    mutated_res["runtime"]["configuration_file_policy"]["resolution_strategy"] = "ignore"
+    mut_res_hash = materialization.sha256_bytes(materialization.canonical_json_bytes(mutated_res))
+    assert mut_res_hash != base_hash
+
 
 
 def test_exact_model_and_executable_fingerprints() -> None:
@@ -304,11 +322,13 @@ def test_hermetic_env_vars_comprehensive_coverage() -> None:
 
     config_policy = core["runtime"]["configuration_file_policy"]
     assert config_policy["required_config_files_absent"] is True
-    assert "%PROGRAMDATA%\\llama.cpp\\config.ini" in config_policy["windows_paths_resolved"]
-    assert "%APPDATA%\\llama.cpp\\config.ini" in config_policy["windows_paths_resolved"]
+    assert config_policy["resolution_strategy"] == "read_host_env_resolve_paths_verify_absent_and_freeze_env_to_child"
+    assert "PROGRAMDATA" in config_policy["windows_paths_resolved_from"]
+    assert "APPDATA" in config_policy["windows_paths_resolved_from"]
     
     executor_contract = core["runtime"]["executor_contract"]
     assert executor_contract["must_use_argv_no_shell"] is True
+    assert executor_contract["child_process_environment_policy"] == "freeze_exact_preflight_values_no_inheritance"
 
     assert core["preflight"]["forbidden_env_vars_must_be_unset"] is True
 
@@ -389,3 +409,33 @@ def test_no_silent_prompt_caching_override() -> None:
     is_forbidden = lambda v: any(v.startswith(p) for p in prefixes)
     assert "--no-cache-prompt" in cmd
     assert is_forbidden("LLAMA_ARG_CACHE_PROMPT")
+
+def test_case_insensitive_matching_and_config_paths() -> None:
+    core = authority.build_authority_core()
+    
+    assert core["runtime"]["hermetic_environment"]["env_matching_semantics"] == "case_insensitive_windows_crt"
+    
+    prefixes = core["runtime"]["hermetic_environment"]["forbidden_env_prefixes"]
+    is_forbidden = lambda v: any(v.upper().startswith(p.upper()) for p in prefixes)
+    
+    # Test case insensitivity for prefixes
+    assert is_forbidden("LLAMA_ARG_TEMP")
+    assert is_forbidden("llama_arg_temp")
+    assert is_forbidden("LlAmA_ArG_TeMp")
+    assert is_forbidden("LLAMA_SERVER_DEBUG_FAKE_TIMING")
+    
+    exec_vars = core["runtime"]["hermetic_environment"]["execution_relevant_env_vars"]
+    # Check named variables with uppercase normalized lookup
+    assert exec_vars["PROGRAMDATA".upper()] == "frozen_config_path_input"
+    assert exec_vars["APPDATA".upper()] == "frozen_config_path_input"
+    assert exec_vars["CUDA_VISIBLE_DEVICES".upper()] == "forbidden_unset_verify_before_launch"
+    assert exec_vars["GGML_CUDA_NO_PINNED".upper()] == "forbidden_unset"
+    assert exec_vars["LOCALAPPDATA".upper()] == "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset"
+    
+    config_policy = core["runtime"]["configuration_file_policy"]
+    assert config_policy["resolution_strategy"] == "read_host_env_resolve_paths_verify_absent_and_freeze_env_to_child"
+    assert "PROGRAMDATA" in config_policy["windows_paths_resolved_from"]
+    assert "APPDATA" in config_policy["windows_paths_resolved_from"]
+    
+    executor = core["runtime"]["executor_contract"]
+    assert executor["child_process_environment_policy"] == "freeze_exact_preflight_values_no_inheritance"

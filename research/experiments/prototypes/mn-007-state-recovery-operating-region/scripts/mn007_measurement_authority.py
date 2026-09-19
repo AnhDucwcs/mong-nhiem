@@ -176,7 +176,8 @@ def build_authority_core() -> dict[str, Any]:
             "gpu_offload_flag": "-ngl auto (runtime auto layer fitting into VRAM; verified from retained MN-006 evidence 2267-2289 MiB)",
             "health_deadline_seconds": 180,
             "hermetic_environment": {
-                "cli_overrides_env_proven": True,
+                                "cli_overrides_env_proven": True,
+                "env_matching_semantics": "case_insensitive_windows_crt",
                 "env_precedence_semantics": "config_file_then_env_then_cli",
                 "forbidden_env_prefixes": ["LLAMA_"],
                 "execution_relevant_env_vars": {
@@ -198,22 +199,32 @@ def build_authority_core() -> dict[str, Any]:
                     "LLAMA_SERVER_DEBUG_FAKE_TIMING": "forbidden_unset",
                     "LLAMA_SERVER_ROUTER_PORT": "forbidden_unset_router_only",
                     "LLAMA_SERVER_CHILD_MODE": "forbidden_unset_router_only",
+                    "PROGRAMDATA": "frozen_config_path_input",
+                    "APPDATA": "frozen_config_path_input",
+                    "LOCALAPPDATA": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "XDG_CACHE_HOME": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "XDG_CONFIG_HOME": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "HOME": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "HF_ENDPOINT": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "MODEL_ENDPOINT": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "HF_HOME": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "HF_HUB_CACHE": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
+                    "HUGGINGFACE_HUB_CACHE": "irrelevant_due_to_explicit_local_model_path_but_forbidden_unset",
                 },
                 "negative_env_aliases_derived_via_args_neg": True,
                 "required_env_clean_state": "all_forbidden_vars_unset",
             },
             "configuration_file_policy": {
                 "required_config_files_absent": True,
-                "windows_paths_resolved": [
-                    "%PROGRAMDATA%\\llama.cpp\\config.ini",
-                    "%APPDATA%\\llama.cpp\\config.ini"
-                ],
+                "windows_paths_resolved_from": ["PROGRAMDATA", "APPDATA"],
+                "resolution_strategy": "read_host_env_resolve_paths_verify_absent_and_freeze_env_to_child",
                 "preflight_enforcement": "fail_closed_if_exists"
             },
             "executor_contract": {
                 "must_use_argv_no_shell": True,
                 "must_use_explicit_clean_env": True,
                 "adaptive_env_mutation_prohibited": True,
+                "child_process_environment_policy": "freeze_exact_preflight_values_no_inheritance"
             },
             "host": "127.0.0.1",
             "metrics": True,

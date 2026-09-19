@@ -150,10 +150,11 @@ silently mutated by ambient environment variables (e.g. speculative decoding, dr
 shifting, caching). To enforce absolute hermetic isolation, MN-007 freezes:
 
 - **`forbidden_env_vars_must_be_unset: true`** `[FROZEN EXECUTION CONTRACT]`
-- Any environment variable starting with the prefix `LLAMA_` (including negative aliases derived as `LLAMA_ARG_NO_*`) is strictly forbidden.
-- Execution-relevant variables including `CUDA_VISIBLE_DEVICES`, `GGML_CUDA_NO_PINNED`, `LLAMA_APP_CMD`, etc. must be explicitly unset or strictly evaluated before launch.
-- **Configuration files forbidden**: `llama.cpp` parses configuration from `%PROGRAMDATA%\llama.cpp\config.ini` and `%APPDATA%\llama.cpp\config.ini`. The executor must resolve these paths and assert both are absent, failing closed if either exists (`required_config_files_absent: true`).
-- **Executor contract**: The future executor must use an explicit array for `argv` (prohibiting shell tokenization and environment mutation).
+- Because Windows CRT `getenv()` is case-insensitive, any environment variable matching the prefix `LLAMA_` (case-insensitively, e.g. `llama_arg_temp`, `LlAmA_`) is strictly forbidden.
+- Explicit named variables (e.g., `CUDA_VISIBLE_DEVICES`, `GGML_CUDA_NO_PINNED`, `PROGRAMDATA`, `APPDATA`) are also evaluated case-insensitively.
+- Variables that could theoretically affect HF cache (`LOCALAPPDATA`, `XDG_CACHE_HOME`, `HOME`, `HF_ENDPOINT`, etc.) are declared irrelevant for this execution because we explicitly use an absolute local path to the GGUF model (`-m D:\...\Llama-3.2-3B-Instruct-Q4_K_M.gguf`), bypassing repository discovery entirely, but are frozen unset regardless.
+- **Configuration files forbidden**: `llama.cpp` parses configuration from `%PROGRAMDATA%\llama.cpp\config.ini` and `%APPDATA%\llama.cpp\config.ini`. The preflight must dynamically read the exact `PROGRAMDATA` and `APPDATA` from the host environment, resolve the two canonical config paths, verify both files are absent, and then freeze those exact values into the child-process environment (failing closed if changed).
+- **Executor contract**: The future executor must construct `argv` as an explicit array without shell interpolation, and explicitly freeze the child-process environment without inheriting arbitrary parent values (`child_process_environment_policy = freeze_exact_preflight_values_no_inheritance`).
 ---
 
 ## 3. Frozen sampling authority and parameter classification
@@ -339,8 +340,8 @@ excluding `authority_core_sha256`).
 
 - **Authority ID**: `mn007-calibration-measurement-authority-v1`
 - **Authority Version**: `1.0.0`
-- **Composite Core SHA-256**: `3995bafded4d01539c493d71c217ba97a5a1b8a0b99a5bf50f1a239b8a54146d` `[FROZEN DERIVATION]`
-- **Physical File SHA-256**: `2694d45d2b7116e1abc6fc6b4bfcfa4a3db36ca2a001b188d8e484d537273b7e` `[FROZEN DERIVATION]`
+- **Composite Core SHA-256**: `2d5d82c1a342c34dfb0b3d35d0b6f0cef4dba835d8ebcc75e15398a2beab2633` `[FROZEN DERIVATION]`
+- **Physical File SHA-256**: `213e2c355cf3ee7b59f81bf67ab6538608ec92ce90cc00179597f34efeadf5b8` `[FROZEN DERIVATION]`
 
 Canonical serialization rules:
 - UTF-8 without BOM.
