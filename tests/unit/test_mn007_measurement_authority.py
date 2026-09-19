@@ -28,10 +28,10 @@ FROZEN_REQUEST_ORDER_SHA256 = (
     "93d578e5a24903e826f2ad0481a420d219e53be30e2e4a822d9c3fdc0a96b474"
 )
 FROZEN_AUTHORITY_CORE_SHA256 = (
-    "576d501c13bf11efe4c8cbf2e246b2b60c1478b2dacf6a7ae3d7edf7bbddd139"
+    "ba7bed9d3dde3acfacce5dd6df2b083052267f9034db5eed06e8d612ee853bce"
 )
 FROZEN_AUTHORITY_FILE_SHA256 = (
-    "23d9cac39a023681e3816e02e6d8d317530a369d719a656c15e6752f91edeb23"
+    "51c36abdb0b11204e3496cb1511ab60e352af71b809dc22297c2e3a0f796e8f4"
 )
 
 
@@ -113,6 +113,30 @@ def test_authority_hash_determinism_and_mutation_sensitivity() -> None:
     )
     assert mut_runtime_hash != base_hash
 
+    # Proves composite hash changes when GPU configuration changes
+    mutated_gpu = copy.deepcopy(core)
+    mutated_gpu["runtime"]["gpu"]["n_gpu_layers"] = 0
+    mut_gpu_hash = materialization.sha256_bytes(
+        materialization.canonical_json_bytes(mutated_gpu)
+    )
+    assert mut_gpu_hash != base_hash
+
+    # Proves composite hash changes when timeout changes
+    mutated_timeout = copy.deepcopy(core)
+    mutated_timeout["runtime"]["request_timeout_seconds"] = 60
+    mut_timeout_hash = materialization.sha256_bytes(
+        materialization.canonical_json_bytes(mutated_timeout)
+    )
+    assert mut_timeout_hash != base_hash
+
+    # Proves composite hash changes when sampling classification changes
+    mutated_sampling = copy.deepcopy(core)
+    mutated_sampling["sampling"]["classification"]["top_k"] = "explicit_request_payload"
+    mut_sampling_hash = materialization.sha256_bytes(
+        materialization.canonical_json_bytes(mutated_sampling)
+    )
+    assert mut_sampling_hash != base_hash
+
 
 def test_exact_model_and_executable_fingerprints() -> None:
     core = authority.build_authority_core()
@@ -127,7 +151,7 @@ def test_exact_model_and_executable_fingerprints() -> None:
 def test_server_command_and_offload_authority() -> None:
     core = authority.build_authority_core()
     cmd = core["runtime"]["server_command"]
-    assert "-ngl" not in cmd
+    assert "-ngl" in cmd and cmd[cmd.index("-ngl") + 1] == "auto"
     assert "-fa" in cmd and cmd[cmd.index("-fa") + 1] == "on"
     assert "-c" in cmd and cmd[cmd.index("-c") + 1] == "16896"
     assert "-t" in cmd and cmd[cmd.index("-t") + 1] == "12"
@@ -139,8 +163,32 @@ def test_server_command_and_offload_authority() -> None:
     assert "--no-webui" in cmd
     assert "--metrics" in cmd
 
+    # GPU authority is NOT CPU-only
+    gpu_flag = core["runtime"]["gpu_offload_flag"]
+    assert "cpu threadpool execution" not in gpu_flag.lower()
+    assert "auto" in gpu_flag.lower()
 
-def test_sampling_classification_is_exhaustive() -> None:
+    # n_gpu_layers authority is the frozen auto configuration
+    gpu_conf = core["runtime"]["gpu"]
+    assert gpu_conf["n_gpu_layers_mode"] == "auto"
+    assert gpu_conf["n_gpu_layers"] == -1
+
+    # Runtime GPU defaults are internally consistent
+    assert gpu_conf["device_selection"] == []
+    assert gpu_conf["verified_device_name"] == "NVIDIA GeForce RTX 3050 Laptop GPU"
+    assert gpu_conf["verified_evidence_retained_vram_mib"] == 2267
+    assert gpu_conf["split_mode"] == "layer"
+    assert gpu_conf["main_gpu"] == 0
+    assert gpu_conf["tensor_split"] is None
+    assert gpu_conf["kv_offload"] is True
+    assert gpu_conf["fit_params"] is True
+    assert gpu_conf["fit_params_target_mib"] == 1024
+    assert gpu_conf["fit_params_min_ctx"] == 4096
+    assert gpu_conf["load_mode"] == "auto"
+    assert gpu_conf["op_offload"] is True
+
+
+def test_sampling_classification_and_top_k_semantics() -> None:
     core = authority.build_authority_core()
     classification = core["sampling"]["classification"]
     expected_params = {
@@ -150,6 +198,7 @@ def test_sampling_classification_is_exhaustive() -> None:
         "grammar",
         "messages",
         "chat_template_kwargs",
+        "stream",
         "top_k",
         "top_p",
         "min_p",
@@ -161,12 +210,41 @@ def test_sampling_classification_is_exhaustive() -> None:
         "stop",
     }
     assert set(classification) == expected_params
-    assert (
-        classification["temperature"] == "explicit_request_and_runtime_arg"
-    )
+    assert classification["temperature"] == "explicit_request_and_runtime_arg"
     assert classification["seed"] == "explicit_request_and_runtime_arg"
     assert classification["max_tokens"] == "explicit_request_payload"
     assert classification["grammar"] == "explicit_request_payload"
+    assert classification["stream"] == "explicit_request_payload"
+
+    # top_k is NOT incorrectly represented as 1
+    assert classification["top_k"] == "runtime_default"
+
+    # Temperature-zero greedy behavior is represented separately from top-k
+    effective = core["sampling"]["effective_sampling"]
+    assert effective["runtime_top_k_parameter"] == 40
+    assert effective["candidate_set_size"] == 1
+    assert effective["behavior"] == "greedy_argmax_due_to_temperature_zero"
+
+    # stream=false is frozen in request payload schema
+    payload_schema = core["sampling"]["request_payload_schema"]
+    assert payload_schema["stream"] is False
+
+
+def test_execution_limits_and_timeouts() -> None:
+    core = authority.build_authority_core()
+    limits = core["execution_limits"]
+    assert limits["request_timeout_seconds"] == 120
+    assert limits["health_deadline_seconds"] == 180
+    assert limits["retry_policy"] == "prohibited_strictly_once_per_case"
+    assert limits["timeout_retry_allowed"] is False
+
+    assert core["runtime"]["request_timeout_seconds"] == 120
+    assert core["runtime"]["health_deadline_seconds"] == 180
+
+    failure = core["failure_semantics"]
+    assert failure["request_timeout_seconds"] == 120
+    assert failure["health_deadline_seconds"] == 180
+    assert failure["timeout_failure_policy"] == "abort_run_no_retry_fail_closed"
 
 
 def test_failure_taxonomy_and_no_retry_policy() -> None:

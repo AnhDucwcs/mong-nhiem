@@ -77,8 +77,24 @@ Future calibration is bound to the qualified llama.cpp runtime identity from MN-
 | Chat template | `--jinja` | `VERIFIED FROM RETAINED EVIDENCE` | Native GGUF embedded Jinja chat template rendering. |
 | Web UI | `disabled` (`--no-webui`) | `VERIFIED FROM RETAINED EVIDENCE` | Prevents UI background polling or threads. |
 | Metrics | `enabled` (`--metrics`) | `VERIFIED FROM RETAINED EVIDENCE` | Server timing and token metric logging. |
-| GPU offload flag | `none` (no `-ngl` argument) | `VERIFIED FROM RETAINED EVIDENCE` | `server_command` in MN-006 passed no `-ngl` flag; execution ran on CPU threadpool (`n_threads = 12`). |
-| GPU device audit | NVIDIA GeForce RTX 3050 Laptop GPU (driver `595.95`, 4096 MiB VRAM) | `VERIFIED FROM RETAINED EVIDENCE` | GPU audited for zero compute contention (`0 MiB` used, `0%` utilization, compute processes `[]`). |
+| GPU offload flag | `-ngl auto` | `VERIFIED FROM RETAINED EVIDENCE` | In retained MN-006 `server-lifecycle.json`, `environment_at_ready` recorded `llama-server.exe` as GPU compute process using `2267 MiB` VRAM, and `environment_before_cleanup` recorded `2289 MiB` and `14%` GPU utilization. In `bb4caa754` source (`common.h:465`, `arg.cpp:2765-2768`), `n_gpu_layers = -1` defaults to `'auto'` offload via `fit.cpp`. Absence of `-ngl` executes auto layer offload, NOT CPU-only execution. Explicit `-ngl auto` binds identical C++ `-1` parameter. |
+| GPU device audit | NVIDIA GeForce RTX 3050 Laptop GPU (driver `595.95`, 4096 MiB VRAM) | `VERIFIED FROM RETAINED EVIDENCE` | Qualified GPU device in MN-006. Preflight requires 0 MiB used and 0% utilization prior to server launch. |
+
+### Execution-relevant GPU defaults (`bb4caa754` source verification)
+
+| Parameter | Authority value | Evidence tier | Provenance / Verification |
+| --- | --- | --- | --- |
+| GPU layer mode (`n_gpu_layers`) | `-1` (`"auto"`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:465`, `arg.cpp:2765`. Fits layers into VRAM with target margin. |
+| Device selection (`devices`) | `[]` (auto / default discrete GPU) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:463`, `arg.cpp:2719`. Binds to device index 0 (`RTX 3050 Laptop GPU`). |
+| Split mode (`split_mode`) | `layer` (`LLAMA_SPLIT_MODE_LAYER`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:475`, `arg.cpp:2785`. Standard pipelined layer split across GPUs. |
+| Main GPU (`main_gpu`) | `0` | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:466`, `arg.cpp:2834`. Primary GPU device index. |
+| Tensor split (`tensor_split`) | `null` (default `{0}`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:467`, `arg.cpp:2824`. No manual tensor proportion partitioning. |
+| KV offload (`no_kv_offload` / `offload_kqv`) | `enabled` (`offload_kqv = true`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:568`, `common.cpp:1721`, `arg.cpp:2406`. KV cache offloading enabled. |
+| Parameter fitting (`fit_params`) | `true` (`on`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:468`, `arg.cpp:2844`. Automatic adjustment of unset parameters. |
+| Fit target margin (`fit_params_target`) | `1024 MiB` | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:473`, `arg.cpp:2873`. Memory headroom margin per device. |
+| Fit minimum context (`fit_params_min_ctx`) | `4096` | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:470`, `arg.cpp:2897`. Lower bound context for fitting. |
+| Load mode (`load_mode`) | `auto` (`LLAMA_LOAD_MODE_AUTO`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:476`, `arg.cpp:2687`. Memory map with device fallback. |
+| Op offload (`no_op_offload`) | `enabled` (`no_op_offload = false`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:569`, `arg.cpp:2924`. Host tensor operations offloaded to device. |
 
 Server invocation command:
 
@@ -92,6 +108,7 @@ D:\Materials\llama.cpp\build\bin\Release\llama-server.exe `
   -b 2048 `
   -np 1 `
   -fa on `
+  -ngl auto `
   --temp 0 `
   --seed 42 `
   --jinja `
@@ -105,25 +122,32 @@ D:\Materials\llama.cpp\build\bin\Release\llama-server.exe `
 
 ## 3. Frozen sampling authority and parameter classification
 
-Every sampling parameter is classified to eliminate unproven defaults:
+Every sampling parameter is classified to distinguish actual runtime parameters from derived/effective sampler behaviors:
 
 | Parameter | Frozen value | Classification | Evidence / Rationale |
 | --- | --- | --- | --- |
-| `temperature` | `0.0` | `explicit request and runtime arg` | Sent in request payload and passed via `--temp 0` to llama-server. |
+| `temperature` | `0.0` | `explicit request and runtime arg` | Sent in request payload and passed via `--temp 0` to llama-server. Engages greedy argmax decoding via `llama_sampler_temp_impl`. |
 | `seed` | `42` | `explicit request and runtime arg` | Sent in request payload and passed via `--seed 42` to llama-server. |
 | `max_tokens` | `16` | `explicit request payload` | Sent in request payload (MN-006 `results.jsonl`). |
 | `grammar` | `root ::= state "," state\nstate ::= "S0" \| "S1" \| "S2"\n` | `explicit request payload` | Sent in request payload (`mn007-bare-ordered-two-state-vector-v1`). |
 | `messages` | `[{"role": "user", "content": "<prompt>"}]` | `explicit request payload` | Standard user chat completion turn. |
 | `chat_template_kwargs` | `{}` | `explicit request and runtime arg` | Passed in request payload and `--chat-template-kwargs "{}"`. |
-| `top_k` | `1` (argmax) | `deterministic runtime default` | In build 10566, `temperature=0.0` engages greedy decoding (argmax). |
-| `top_p` | `1.0` | `not applicable / inactive` | Inactive under greedy decoding. |
-| `min_p` | `0.0` | `not applicable / inactive` | Inactive under greedy decoding. |
+| `stream` | `false` | `explicit request payload` | Complete single HTTP response body expected; streaming disabled. |
+| `top_k` | `40` | `runtime default` | In build 10566 (`common.h:229`), runtime default is `top_k = 40`. `temperature = 0.0` engages greedy argmax, pruning the candidate set to 1 token, but the underlying parameter value is 40. |
+| `top_p` | `0.95` | `not applicable / inactive` | Inactive under greedy decoding. |
+| `min_p` | `0.05` | `not applicable / inactive` | Inactive under greedy decoding. |
 | `typical_p` | `1.0` | `not applicable / inactive` | Inactive under greedy decoding. |
 | `repetition_penalty` | `1.0` | `not applicable / inactive` | Disabled / inactive under greedy decoding. |
 | `frequency_penalty` | `0.0` | `not applicable / inactive` | Disabled / inactive under greedy decoding. |
 | `presence_penalty` | `0.0` | `not applicable / inactive` | Disabled / inactive under greedy decoding. |
 | `mirostat` | `0` | `not applicable / inactive` | Disabled. |
 | `stop` | `grammar EOS + GGUF EOS` | `deterministic runtime default` | Managed by grammar completion and GGUF EOS tokens (`<|eot_id|>`, `<|end_of_text|>`). |
+
+### Effective sampling behavior
+
+- **Effective sampler mechanism:** `greedy_argmax_due_to_temperature_zero`
+- **Candidate set size:** Exactly 1 token
+- **Sampler chain execution:** `penalties -> dry -> top_n_sigma -> top_k(40) -> typical_p -> top_p -> min_p -> xtc -> temp(0.0)`. At `temp <= 0.0`, `llama_sampler_temp_impl` selects the maximum logit token and assigns $-\infty$ to all remaining candidate logits.
 
 ---
 
@@ -230,6 +254,15 @@ The evaluator must never be the sole store of raw output.
 | `evaluated` | Parsed and scored against expected vector oracle. | Measured case result recorded. |
 | `invalid_ambiguous` | JSON parse error of HTTP body, protocol framing error, or schema mismatch. | **RUN FAILS CLOSED IMMEDIATELY.** Status: `measurement/design blocked`. |
 
+### Execution limits and timeout policy
+
+| Limit | Frozen value | Evidence tier | Provenance / Verification |
+| --- | --- | --- | --- |
+| Request timeout | `120` seconds | `VERIFIED FROM RETAINED EVIDENCE` | MN-006 `run_mn006_baseline.py:54` (`request_timeout_seconds: 120`). |
+| Health / startup deadline | `180` seconds | `VERIFIED FROM RETAINED EVIDENCE` | MN-006 `run_mn006_baseline.py:55` (`health_deadline_seconds: 180`). |
+| Timeout retry policy | `prohibited` | `FROZEN DERIVATION` | Zero retries. Timeout terminates run as `measurement/design blocked`. |
+| Execution cardinality | `strictly exactly-once` | `FROZEN DERIVATION` | 1 request per case. Never retried. |
+
 ### Specific failure policies:
 - **Persistence failure (`os.fsync` fails / disk error):** Calibration aborts immediately as `measurement/design blocked`. No evaluation is permitted. No retry.
 - **Evaluator failure:** If raw response was persisted but evaluator raises an unhandled exception: calibration aborts as `measurement/design blocked`. Do not rerun request.
@@ -249,7 +282,7 @@ Preflight checklist requirements:
 2. Exact runtime binary exists and SHA-256 equals `28d861538ffdf4e811e2febb0c5f06063792d184b66a2758f103c165629bc08`.
 3. Working tree is clean on branch `codex/mn-007-state-recovery-operating-region`.
 4. Corpus artifacts validate against all frozen manifest SHA-256 fingerprints.
-5. GPU state: NVIDIA GeForce RTX 3050 Laptop GPU, memory used = `0 MiB`, GPU utilization = `0%`, no compute processes.
+5. GPU state: NVIDIA GeForce RTX 3050 Laptop GPU, memory used = `0 MiB`, GPU utilization = `0%`, no compute processes (must be verified prior to server launch).
 6. Process state: No existing `llama-server.exe`, `llama-bench.exe`, or rogue inference processes.
 7. Workload state: All games, heavy GPU applications, and compute-heavy background tasks must be terminated.
 
@@ -268,8 +301,8 @@ excluding `authority_core_sha256`).
 
 - **Authority ID**: `mn007-calibration-measurement-authority-v1`
 - **Authority Version**: `1.0.0`
-- **Composite Core SHA-256**: `576d501c13bf11efe4c8cbf2e246b2b60c1478b2dacf6a7ae3d7edf7bbddd139` `[FROZEN DERIVATION]`
-- **Physical File SHA-256**: `23d9cac39a023681e3816e02e6d8d317530a369d719a656c15e6752f91edeb23` `[FROZEN DERIVATION]`
+- **Composite Core SHA-256**: `ba7bed9d3dde3acfacce5dd6df2b083052267f9034db5eed06e8d612ee853bce` `[FROZEN DERIVATION]`
+- **Physical File SHA-256**: `51c36abdb0b11204e3496cb1511ab60e352af71b809dc22297c2e3a0f796e8f4` `[FROZEN DERIVATION]`
 
 Canonical serialization rules:
 - UTF-8 without BOM.
