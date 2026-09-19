@@ -2,7 +2,7 @@
 
 ## Status
 
-**Static design, materialization contract, and deterministic calibration corpus frozen. No run authority, executor, model run, locality comparison, or intervention is authorized.**
+**Static design, deterministic materialization contract, and measurement-authority gate frozen. No executor, model run, locality comparison, or intervention is authorized. Status remains pre-measurement.**
 
 MN-007 begins after the formal closure of [MN-006](../mn-006-distributed-state-integration/milestone-closure.md). MN-006 qualified the direct ordered state-vector response channel at Q0 (`9/9`) but failed its frozen contiguous task-bearing Q1 capability floor (`1/9`). Because the locality comparison was never reached, MN-006 closed as `measurement_interface_blocked` for the qualified model/runtime with locality still unmeasured.
 
@@ -186,7 +186,7 @@ its semantic/public/evaluator artifacts validate, and two clean independent
 regenerations were byte-identical. These are workload-definition facts, not model
 evidence; no cell has been scored or classified.
 
-The next permitted action is a separate static executor/measurement-authority gate.
-It must freeze the qualified subject/runtime, request ordering, raw-response
-retention, environment validity, and persist-before-evaluate rules without
-executing a model.
+The static executor / measurement-authority gate is complete and frozen in
+[measurement-authority-gate.md](measurement-authority-gate.md). It binds the exact
+model, llama.cpp runtime, sampling, grammar, evaluator, request ordering, raw persistence,
+failure semantics, and preflight without executing a model. Status remains pre-measurement.

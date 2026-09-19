@@ -57,7 +57,7 @@ The final scientific boundary is that the response serialization is usable, whil
 
 ## MN-007 — State Recovery Operating Region
 
-Status: **static operating-region design and deterministic materialization contract frozen. No model execution authorized.**
+Status: **static operating-region design, materialization contract, and measurement-authority gate frozen. No model execution authorized.**
 
 MN-007 prospectively calibrates the contiguous state-recovery operating region needed before any future locality experiment. It is a separate milestone so the frozen MN-006 Q1 failure does not trigger post-hoc benchmark tuning inside MN-006.
 
@@ -73,6 +73,6 @@ The completed static [operating-region design gate](experiments/prototypes/mn-00
 
 The completed [materialization contract](experiments/prototypes/mn-007-state-recovery-operating-region/materialization-contract.md) freezes deterministic case identities, seed derivation, semantic histories, vector/orientation coverage, contiguous scheduling, canonical serialization, public/evaluator separation, and validation. Its 108-case static corpus has now been materialized and validates under independent byte-identical regeneration. It is a prospective workload definition, not model evidence; no run authority or executor exists.
 
-The next action is a static executor/measurement-authority gate. The remaining required sequence is that gate -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
+The static [measurement-authority gate](experiments/prototypes/mn-007-state-recovery-operating-region/measurement-authority-gate.md) is now complete and frozen. It establishes exact model and runtime authority, deterministic round-robin request ordering, persist-before-evaluate persistence, and preflight rules without model invocation. The remaining required sequence is separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
 
 See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
