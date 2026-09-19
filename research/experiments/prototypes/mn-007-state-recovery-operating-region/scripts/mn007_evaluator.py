@@ -63,10 +63,18 @@ def main():
     print(json.dumps(results, indent=2))
     
     usable = [(k, v) for k, v in results.items() if v["class"] == "usable"]
-    if usable:
-        print("usable operating region identified")
-    else:
-        print("no usable operating region in bounded landscape")
+    outcome = "usable operating region identified" if usable else "no usable operating region in bounded landscape"
+    print(outcome)
+    
+    summary = {
+        "source_artifact": str(raw_path.relative_to(root)),
+        "record_count": len(raw_responses),
+        "results": results,
+        "outcome": outcome
+    }
+    with open(run_dir / "evaluator_results.json", "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    print(f"Evaluator summary saved to {run_dir / 'evaluator_results.json'}")
 
 if __name__ == "__main__":
     main()
