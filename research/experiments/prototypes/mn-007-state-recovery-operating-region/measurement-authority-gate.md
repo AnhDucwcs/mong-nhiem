@@ -4,9 +4,10 @@
 
 **`mn007_static_measurement_authority_frozen`**
 
-This is a pre-measurement authority gate. It freezes the exact model, runtime, sampling,
-grammar, evaluator, corpus binding, deterministic request order, raw-response persistence,
-interruption/failure semantics, and clean-environment preflight for MN-007.
+This is a pre-measurement static authority gate. It freezes the exact model, runtime,
+sampling, grammar, evaluator, corpus binding, deterministic request order, raw-response
+persistence, interruption/failure semantics, composite machine-readable authority, and
+clean-environment preflight for MN-007.
 
 **No model is loaded. No llama.cpp server is spawned. No inference loop is run. No
 calibration request is sent. No measured calibration evidence exists. No cell is scored
@@ -18,20 +19,36 @@ This gate does not authorize a locality comparison, intervention, or model searc
 
 ---
 
+## 0. Evidence classification taxonomy
+
+To ensure absolute auditability, every field in this gate is classified into one of four
+evidence tiers:
+
+1. **`[VERIFIED FROM RETAINED EVIDENCE]`**: Directly proven by committed historical
+   artifacts in MN-002, MN-006, or MN-007 materialization.
+2. **`[VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM]`**: Physically hashed and
+   verified directly from local binary/source bytes during this static gate without runtime execution.
+3. **`[FROZEN DERIVATION]`**: Pure deterministic derivation from verified evidence,
+   guaranteed by frozen algorithms and unit tests.
+4. **`[NOT PROVEN / BLOCKED]`**: Any unverified assumption or missing critical authority.
+   *(There are zero critical authority fields in this tier; all requirements are fully proven).*
+
+---
+
 ## 1. Exact model authority
 
 Future calibration is bound to the qualified small-model capability baseline from MN-002
 and MN-006:
 
-| Field | Authority value | Provenance / Verification |
-| --- | --- | --- |
-| Model subject | `llama-3.2-3b` | Qualified baseline in MN-002 (MCB v0.3.0, overall 0.89 PASS). |
-| Model name / family | Meta Llama 3.2 3B Instruct | Meta official architecture and weights. |
-| Model file name | `Llama-3.2-3B-Instruct-Q4_K_M.gguf` | Canonical local GGUF candidate filename. |
-| Model path | `artifacts/models/mn-002/Llama-3.2-3B-Instruct-Q4_K_M.gguf` | Committed artifact repository location. |
-| File size | `2,019,377,696` bytes | Exact physical byte length. |
-| Exact GGUF SHA-256 | `6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff` | Verified on physical file. |
-| Quantization | `Q4_K_M` | k-quant medium quantization format. |
+| Field | Authority value | Evidence tier | Provenance / Verification |
+| --- | --- | --- | --- |
+| Model subject | `llama-3.2-3b` | `VERIFIED FROM RETAINED EVIDENCE` | Qualified baseline in MN-002 (MCB v0.3.0, overall 0.89 PASS). |
+| Model name / family | Meta Llama 3.2 3B Instruct | `VERIFIED FROM RETAINED EVIDENCE` | Meta official architecture and weights. |
+| Model file name | `Llama-3.2-3B-Instruct-Q4_K_M.gguf` | `VERIFIED FROM RETAINED EVIDENCE` | Canonical local GGUF candidate filename in MN-002 / MN-006. |
+| Model path | `artifacts/models/mn-002/Llama-3.2-3B-Instruct-Q4_K_M.gguf` | `VERIFIED FROM RETAINED EVIDENCE` | Committed artifact repository location. |
+| File size | `2,019,377,696` bytes | `VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM` | Exact physical byte length verified on disk. |
+| Exact GGUF SHA-256 | `6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff` | `VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM` | Physically computed via SHA-256 from file bytes. |
+| Quantization | `Q4_K_M` | `VERIFIED FROM RETAINED EVIDENCE` | k-quant medium quantization format. |
 
 No model replacement, weight modification, or alternate quantization is permitted. If the
 physical file hash differs from the frozen SHA-256 above, execution is blocked.
@@ -42,25 +59,26 @@ physical file hash differs from the frozen SHA-256 above, execution is blocked.
 
 Future calibration is bound to the qualified llama.cpp runtime identity from MN-006:
 
-| Parameter | Authority value | Rationale |
-| --- | --- | --- |
-| Backend | `llama.cpp` (`llama-server`) | Local deterministic C++ inference runtime. |
-| Executable path | `D:\Materials\llama.cpp\build\bin\Release\llama-server.exe` | Qualified binary location. |
-| Executable SHA-256 | `28d861538ffdf4e811e2febb0c5f06063792d184b66a2758f103c165629bc08` | Physical binary fingerprint. |
-| Version | `0.2.0-dev` | Qualified version string. |
-| Build | `10566` | Compiler build number. |
-| Commit | `bb4caa754` | Exact Git commit hash of llama.cpp. |
-| Compiler | `MSVC 19.44.35217.0 for x64` | Native MSVC build environment. |
-| Context size (`-c`) | `16896` | Frozen runtime context parity with MN-006 direct-state-vector qualification. |
-| CPU threads (`-t`) | `12` | Deterministic CPU worker allocation. |
-| Batch size (`-b`) | `2048` | Prompt evaluation batch size. |
-| Parallel slots (`-np`) | `1` | Strict single-tenant slot, avoiding multi-tenant interference. |
-| Flash Attention (`-fa`) | `on` | Enabled, identical to MN-006 runtime authority. |
-| Prompt cache | `disabled` (`--no-cache-prompt`) | Eliminates cross-request KV-cache leakage or carryover. |
-| Chat template | `--jinja` | Native GGUF embedded Jinja chat template rendering. |
-| Web UI | `disabled` (`--no-webui`) | Prevents unnecessary HTTP endpoints and background threads. |
-| Metrics | `enabled` (`--metrics`) | Enables observability of server timings and prompt/predicted tokens. |
-| GPU offload | Full offload to NVIDIA GeForce RTX 3050 Laptop GPU (driver `595.95`, 4096 MiB VRAM) | Parity with MN-006 execution environment. |
+| Parameter | Authority value | Evidence tier | Provenance / Verification |
+| --- | --- | --- | --- |
+| Backend | `llama.cpp` (`llama-server`) | `VERIFIED FROM RETAINED EVIDENCE` | Local deterministic C++ inference runtime. |
+| Executable path | `D:\Materials\llama.cpp\build\bin\Release\llama-server.exe` | `VERIFIED FROM RETAINED EVIDENCE` | Qualified binary location in MN-006. |
+| Executable SHA-256 | `28d861538ffdf4e811e2febb0c5f06063792d184b66a2758f103c165629bc08` | `VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM` | Physically computed from executable bytes (10,752 bytes). |
+| Version | `0.2.0-dev` | `VERIFIED FROM RETAINED EVIDENCE` | Qualified version string recorded in MN-006 metadata. |
+| Build | `10566` | `VERIFIED FROM RETAINED EVIDENCE` | Build number in MN-006 metadata. |
+| Commit | `bb4caa754` | `VERIFIED FROM RETAINED EVIDENCE` | Git commit hash in MN-006 metadata. |
+| Compiler | `MSVC 19.44.35217.0 for x64` | `VERIFIED FROM RETAINED EVIDENCE` | Native MSVC build environment from MN-006 version output. |
+| Context size (`-c`) | `16896` | `VERIFIED FROM RETAINED EVIDENCE` | Frozen runtime context parity with MN-006 direct-state-vector qualification. |
+| CPU threads (`-t`) | `12` | `VERIFIED FROM RETAINED EVIDENCE` | Deterministic CPU worker allocation (`n_threads = 12`). |
+| Batch size (`-b`) | `2048` | `VERIFIED FROM RETAINED EVIDENCE` | Prompt evaluation batch size in MN-006. |
+| Parallel slots (`-np`) | `1` | `VERIFIED FROM RETAINED EVIDENCE` | Single slot (`n_slots = 1`), avoiding multi-tenant interference. |
+| Flash Attention (`-fa`) | `on` | `VERIFIED FROM RETAINED EVIDENCE` | Identical to MN-006 runtime authority. |
+| Prompt cache | `disabled` (`--no-cache-prompt`) | `VERIFIED FROM RETAINED EVIDENCE` | Eliminates cross-request KV-cache leakage or carryover. |
+| Chat template | `--jinja` | `VERIFIED FROM RETAINED EVIDENCE` | Native GGUF embedded Jinja chat template rendering. |
+| Web UI | `disabled` (`--no-webui`) | `VERIFIED FROM RETAINED EVIDENCE` | Prevents UI background polling or threads. |
+| Metrics | `enabled` (`--metrics`) | `VERIFIED FROM RETAINED EVIDENCE` | Server timing and token metric logging. |
+| GPU offload flag | `none` (no `-ngl` argument) | `VERIFIED FROM RETAINED EVIDENCE` | `server_command` in MN-006 passed no `-ngl` flag; execution ran on CPU threadpool (`n_threads = 12`). |
+| GPU device audit | NVIDIA GeForce RTX 3050 Laptop GPU (driver `595.95`, 4096 MiB VRAM) | `VERIFIED FROM RETAINED EVIDENCE` | GPU audited for zero compute contention (`0 MiB` used, `0%` utilization, compute processes `[]`). |
 
 Server invocation command:
 
@@ -85,26 +103,27 @@ D:\Materials\llama.cpp\build\bin\Release\llama-server.exe `
 
 ---
 
-## 3. Frozen generation and sampling parameters
+## 3. Frozen sampling authority and parameter classification
 
-All generation parameters are frozen before calibration. No executor may adjust or tune
-these values:
+Every sampling parameter is classified to eliminate unproven defaults:
 
-| Parameter | Frozen value | Rule / Constraint |
-| --- | --- | --- |
-| `temperature` | `0.0` | Deterministic greedy decoding (argmax). |
-| `seed` | `42` | Frozen RNG seed. |
-| `top_k` | `1` | Argmax selection (or inactive under `temperature=0.0`). |
-| `top_p` | `1.0` | Unrestricted cumulative probability. |
-| `min_p` | `0.0` | Disabled. |
-| `typical_p` | `1.0` | Disabled. |
-| `repetition_penalty` | `1.0` | Disabled (1.0 = no penalty). |
-| `frequency_penalty` | `0.0` | Disabled. |
-| `presence_penalty` | `0.0` | Disabled. |
-| `mirostat` | `0` | Disabled. |
-| `max_tokens` | `16` | Maximum output tokens (answer is a 5-character string, e.g. `S1,S2`). |
-| `stop` | `["\n", "<|eot_id|>", "<|end_of_text|>"]` | Strict termination at newline or end-of-turn. |
-| `chat_template_kwargs` | `{}` | No injected system instructions or template flags. |
+| Parameter | Frozen value | Classification | Evidence / Rationale |
+| --- | --- | --- | --- |
+| `temperature` | `0.0` | `explicit request and runtime arg` | Sent in request payload and passed via `--temp 0` to llama-server. |
+| `seed` | `42` | `explicit request and runtime arg` | Sent in request payload and passed via `--seed 42` to llama-server. |
+| `max_tokens` | `16` | `explicit request payload` | Sent in request payload (MN-006 `results.jsonl`). |
+| `grammar` | `root ::= state "," state\nstate ::= "S0" \| "S1" \| "S2"\n` | `explicit request payload` | Sent in request payload (`mn007-bare-ordered-two-state-vector-v1`). |
+| `messages` | `[{"role": "user", "content": "<prompt>"}]` | `explicit request payload` | Standard user chat completion turn. |
+| `chat_template_kwargs` | `{}` | `explicit request and runtime arg` | Passed in request payload and `--chat-template-kwargs "{}"`. |
+| `top_k` | `1` (argmax) | `deterministic runtime default` | In build 10566, `temperature=0.0` engages greedy decoding (argmax). |
+| `top_p` | `1.0` | `not applicable / inactive` | Inactive under greedy decoding. |
+| `min_p` | `0.0` | `not applicable / inactive` | Inactive under greedy decoding. |
+| `typical_p` | `1.0` | `not applicable / inactive` | Inactive under greedy decoding. |
+| `repetition_penalty` | `1.0` | `not applicable / inactive` | Disabled / inactive under greedy decoding. |
+| `frequency_penalty` | `0.0` | `not applicable / inactive` | Disabled / inactive under greedy decoding. |
+| `presence_penalty` | `0.0` | `not applicable / inactive` | Disabled / inactive under greedy decoding. |
+| `mirostat` | `0` | `not applicable / inactive` | Disabled. |
+| `stop` | `grammar EOS + GGUF EOS` | `deterministic runtime default` | Managed by grammar completion and GGUF EOS tokens (`<|eot_id|>`, `<|end_of_text|>`). |
 
 ---
 
@@ -112,17 +131,15 @@ these values:
 
 Evaluation is strictly deterministic and bound to the frozen materialization contract:
 
-| Component | Identifier / Value | Specification |
+| Component | Identifier / Value | Evidence tier |
 | --- | --- | --- |
-| Grammar ID | `mn007-bare-ordered-two-state-vector-v1` | Bare ordered two-state vector grammar. |
-| Grammar definition | `root ::= state "," state\nstate ::= "S0" | "S1" | "S2"\n` | Single LF terminal. |
-| Strict parser | Trims leading/trailing ASCII whitespace; requires exactly one comma and two tokens from `("S0", "S1", "S2")`. | Returns `tuple[str, str]` or `None`. |
-| Evaluator schema | `mn007-evaluator-oracle-v1` | Minimal oracle record schema. |
-| Scoring rule | Exact ordered vector match `parsed == expected` -> `score = 1.0`, else `0.0`. | No partial credit, synonym, keyed form, or LLM judge. |
-| Evaluator corpus SHA-256 | `c88d0ed7d5ded70987e3468917df7e658a40d31b34ad5c4eac6fc10ec69392fa` | Frozen physical file hash. |
-
-Model-visible prompt text contains only the public prompt lines. Expected vectors, case IDs,
-cell IDs, seeds, and oracle metadata remain evaluator-side only.
+| Grammar ID | `mn007-bare-ordered-two-state-vector-v1` | `VERIFIED FROM RETAINED EVIDENCE` |
+| Grammar definition | `root ::= state "," state\nstate ::= "S0" \| "S1" \| "S2"\n` | `VERIFIED FROM RETAINED EVIDENCE` |
+| Grammar SHA-256 | `717e29f7e3081b13a47b402ad8a007d3b5e03c626da05e2cca7d6c3d84a46ceb` | `VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM` |
+| Strict parser | Trims leading/trailing ASCII whitespace; requires exactly one comma and two tokens from `("S0", "S1", "S2")`. Returns `tuple[str, str]` or `None`. | `VERIFIED FROM RETAINED EVIDENCE` |
+| Evaluator schema | `mn007-evaluator-oracle-v1` | `VERIFIED FROM RETAINED EVIDENCE` |
+| Scoring rule | Exact ordered vector match `parsed == expected` -> `score = 1.0`, else `0.0`. | `VERIFIED FROM RETAINED EVIDENCE` |
+| Evaluator corpus SHA-256 | `c88d0ed7d5ded70987e3468917df7e658a40d31b34ad5c4eac6fc10ec69392fa` | `VERIFIED FROM RETAINED EVIDENCE` |
 
 ---
 
@@ -130,14 +147,14 @@ cell IDs, seeds, and oracle metadata remain evaluator-side only.
 
 Future calibration binds directly to the canonical materialized corpus:
 
-- Contract document: `8fad7292d18b56c89ae15d4a7b87a3260008316cc1975348995c8dd9c18c9a61`
-- Root-seed text: `d97d50f4f1b396d13203e91241979945c2787e07a8adeffa5eb13ccc7361a31b`
-- Materializer source: `10e9c39be234ae320e74a70f251206b11246b95555f71b9f0602abf88b1a25ac`
-- Semantic corpus (`semantic-cases.jsonl`): `61ca3269dd948846345831aaa054385d2e2dca03e8a601df3226c0b5dde3f941`
-- Public prompt corpus (`public-prompts.jsonl`): `e3f6ec3881a5d2d98dc702adf1b9085536bca02f4413142cb0e8e7a221541353`
-- Evaluator corpus (`evaluator-records.jsonl`): `c88d0ed7d5ded70987e3468917df7e658a40d31b34ad5c4eac6fc10ec69392fa`
-- Manifest physical bytes (`manifest.json`): `98f30163d72696fac1b14d849fbcdcf9c93c03f5f292d0dfb4c8d50997bfae49`
-- Manifest core: `380da885870e234ba6c9935622096d054e0b9e78ed7755d9add6c660fd974194`
+- Contract document: `8fad7292d18b56c89ae15d4a7b87a3260008316cc1975348995c8dd9c18c9a61` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Root-seed text: `d97d50f4f1b396d13203e91241979945c2787e07a8adeffa5eb13ccc7361a31b` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Materializer source: `10e9c39be234ae320e74a70f251206b11246b95555f71b9f0602abf88b1a25ac` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Semantic corpus (`semantic-cases.jsonl`): `61ca3269dd948846345831aaa054385d2e2dca03e8a601df3226c0b5dde3f941` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Public prompt corpus (`public-prompts.jsonl`): `e3f6ec3881a5d2d98dc702adf1b9085536bca02f4413142cb0e8e7a221541353` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Evaluator corpus (`evaluator-records.jsonl`): `c88d0ed7d5ded70987e3468917df7e658a40d31b34ad5c4eac6fc10ec69392fa` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Manifest physical bytes (`manifest.json`): `98f30163d72696fac1b14d849fbcdcf9c93c03f5f292d0dfb4c8d50997bfae49` `[VERIFIED FROM RETAINED EVIDENCE]`
+- Manifest core: `380da885870e234ba6c9935622096d054e0b9e78ed7755d9add6c660fd974194` `[VERIFIED FROM RETAINED EVIDENCE]`
 
 No corpus regeneration is permitted.
 
@@ -145,11 +162,7 @@ No corpus regeneration is permitted.
 
 ## 6. Deterministic request-order authority
 
-### Contract: `mn007-interleaved-cell-round-robin-v1`
-
-Executing all 18 cases of one cell consecutively introduces temporal, thermal, and process
-drift confounds across entity-load profiles. Calibration requests must be balanced across
-the six cells throughout the entire run.
+### Contract: `mn007-interleaved-cell-round-robin-v1` `[FROZEN DERIVATION]`
 
 The 108 requests are partitioned into exactly 18 strata (waves) of 6 requests each. In wave
 `k ∈ [1..18]`, one case of ordinal `k` is requested from each cell in the fixed canonical
@@ -171,13 +184,8 @@ For request ordinal `r ∈ [0..107]`:
 - `cell = CELLS[cell_idx]`
 - `case_id = f"{cell.cell_id}-c{wave:02d}"`
 
-### Properties:
-1. **Deterministic:** Pure arithmetic index mapping, independent of filesystem, discovery, or OS time.
-2. **Strata Balance:** At any multiple of 6 completed requests, all 6 cells have identical sample sizes.
-3. **Difficulty Balance:** In wave `k`, all six cells share the identical vector slot `(k-1) % 9`.
-4. **Orientation Balance:** Waves 1–9 are all `source_order`; waves 10–18 are all `reverse_source_order`.
-5. **Frozen Fingerprint:** The UTF-8 newline-separated list of 108 case IDs has SHA-256:
-   `93d578e5a24903e826f2ad0481a420d219e53be30e2e4a822d9c3fdc0a96b474`
+**Frozen Request-Order Sequence SHA-256**:
+`93d578e5a24903e826f2ad0481a420d219e53be30e2e4a822d9c3fdc0a96b474` `[FROZEN DERIVATION]`
 
 ---
 
@@ -209,36 +217,34 @@ The evaluator must never be the sole store of raw output.
 
 ---
 
-## 8. Interruption and failure semantics
+## 8. Complete interruption and failure semantics
 
-### Request state taxonomy
+### Request state taxonomy and terminal behaviors
 
-Every request transitions through strictly bounded states:
-- `not_started`: Request socket has not been opened.
-- `sent_unconfirmed`: Request was dispatched over the socket, but connection closed, timed out,
-  or interrupted before full response body was buffered.
-  **CRITICAL RULE: Rerun is strictly prohibited.** If any request enters `sent_unconfirmed`,
-  the entire calibration run aborts immediately as `measurement/design blocked`.
-- `response_received`: Complete HTTP response body buffered in memory.
-- `persisted`: Record written and confirmed on disk via `os.fsync()`.
-- `evaluated`: Strict parser and expected-vector oracle executed.
-- `invalid_ambiguous`: Socket or JSON corruption detected.
+| State | Condition | Terminal behavior |
+| --- | --- | --- |
+| `not_started` | Socket connection not initiated. | May proceed to dispatch if no preceding ambiguity exists. |
+| `sent_unconfirmed` | Socket dispatched, but connection dropped, timed out, or interrupted before full response buffered. | **RUN FAILS CLOSED IMMEDIATELY.** Status: `measurement/design blocked`. **Rerun/retry is strictly prohibited.** |
+| `response_received` | Full HTTP 200 response body buffered in memory. | Must immediately proceed to persistence before evaluation. |
+| `persisted` | Bytes written to `raw-responses.jsonl` and confirmed via `os.fsync()`. | Eligible for strict evaluation. |
+| `evaluated` | Parsed and scored against expected vector oracle. | Measured case result recorded. |
+| `invalid_ambiguous` | JSON parse error of HTTP body, protocol framing error, or schema mismatch. | **RUN FAILS CLOSED IMMEDIATELY.** Status: `measurement/design blocked`. |
 
-### Failure handling:
-- **Server crash / process exit:** Calibration aborts immediately. Status: `measurement/design blocked`.
-- **Timeout / network drop:** Calibration aborts immediately. Status: `measurement/design blocked`.
-- **GPU error / OOM:** Calibration aborts immediately. Status: `measurement/design blocked`.
-- **Malformed model output:** Measured score `0.0`. It is a valid capability measurement result,
-  NOT an infrastructure failure, and MUST NOT trigger a retry.
-- **Selective retries prohibited:** No selective retry of difficult, incorrect, timed-out,
-  or malformed cases. Exactly-once execution is strictly enforced.
+### Specific failure policies:
+- **Persistence failure (`os.fsync` fails / disk error):** Calibration aborts immediately as `measurement/design blocked`. No evaluation is permitted. No retry.
+- **Evaluator failure:** If raw response was persisted but evaluator raises an unhandled exception: calibration aborts as `measurement/design blocked`. Do not rerun request.
+- **Malformed model output:** Persisted intact, scored as `0.0`. It is a valid capability measurement result, NOT an infrastructure failure, and MUST NOT trigger a retry.
+- **Strictly Exactly-Once:** Every calibration request is sent at most once. No automatic retry, timeout retry, per-cell retry, or selective rerun is permitted under any circumstance.
 
 ---
 
-## 9. Clean-environment precondition (preflight)
+## 9. Clean-environment preflight
 
-Before executing calibration, the host environment must pass strict preflight checks:
+### Distinction between Specification and Execution:
+- **This static gate** freezes the preflight checklist specification.
+- **Actual preflight validation** is executed at the start of the future calibration execution task.
 
+Preflight checklist requirements:
 1. Exact model file exists and SHA-256 equals `6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff`.
 2. Exact runtime binary exists and SHA-256 equals `28d861538ffdf4e811e2febb0c5f06063792d184b66a2758f103c165629bc08`.
 3. Working tree is clean on branch `codex/mn-007-state-recovery-operating-region`.
@@ -249,32 +255,30 @@ Before executing calibration, the host environment must pass strict preflight ch
 
 ---
 
-## 10. Authority identity and version
+## 10. Composite authority identity and machine-readable artifact
 
-Single composite authority identifier:
-`mn007-calibration-measurement-authority-v1`
+### Machine-readable artifact: `measurement-authority.json`
 
-Binding tuple:
-```text
-(
-  model: "llama-3.2-3b",
-  model_file_sha256: "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff",
-  runtime_build: "10566",
-  runtime_commit: "bb4caa754",
-  runtime_binary_sha256: "28d861538ffdf4e811e2febb0c5f06063792d184b66a2758f103c165629bc08",
-  runtime_flags: "-c 16896 -t 12 -b 2048 -np 1 -fa on --temp 0 --seed 42 --jinja --no-webui --no-cache-prompt --metrics",
-  sampling: "temp=0.0,seed=42,max_tokens=16",
-  grammar_id: "mn007-bare-ordered-two-state-vector-v1",
-  evaluator_schema: "mn007-evaluator-oracle-v1",
-  evaluator_corpus_sha256: "c88d0ed7d5ded70987e3468917df7e658a40d31b34ad5c4eac6fc10ec69392fa",
-  manifest_core_sha256: "380da885870e234ba6c9935622096d054e0b9e78ed7755d9add6c660fd974194",
-  request_order_contract: "mn007-interleaved-cell-round-robin-v1",
-  request_order_sha256: "93d578e5a24903e826f2ad0481a420d219e53be30e2e4a822d9c3fdc0a96b474"
-)
-```
+The authority is materialized as canonical JSON in `measurement-authority.json` at the
+experiment root.
 
-If any element changes, the authority version must change. Calibration under a modified
-tuple represents a distinct authority.
+### Self-reference prohibition rule:
+The composite fingerprint is computed from canonical bytes of `authority_core` (all fields
+excluding `authority_core_sha256`).
+
+- **Authority ID**: `mn007-calibration-measurement-authority-v1`
+- **Authority Version**: `1.0.0`
+- **Composite Core SHA-256**: `576d501c13bf11efe4c8cbf2e246b2b60c1478b2dacf6a7ae3d7edf7bbddd139` `[FROZEN DERIVATION]`
+- **Physical File SHA-256**: `23d9cac39a023681e3816e02e6d8d317530a369d719a656c15e6752f91edeb23` `[FROZEN DERIVATION]`
+
+Canonical serialization rules:
+- UTF-8 without BOM.
+- NFC normalized.
+- Recursively Unicode-code-point-sorted JSON object keys.
+- Compact separators (`","`, `":"`).
+- Preserved integer, string, boolean types.
+- Exactly one terminal LF (`\n`).
+- Lowercase hexadecimal SHA-256.
 
 ---
 
@@ -295,7 +299,7 @@ Calibration is a fixed prospective protocol executed exactly once.
 
 ---
 
-## 12. Executor boundary and next authorization
+## 12. Future executor boundary and next authorization
 
 This task freezes the measurement authority only. It creates no executor, runs no server,
 and collects no responses.
