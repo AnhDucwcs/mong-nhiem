@@ -1,0 +1,37 @@
+{
+  "source_artifact": "runs\\calibration-run-0002\\raw_responses.jsonl",
+  "record_count": 108,
+  "results": {
+    "e3-terminal": {
+      "P": 18,
+      "C": 3,
+      "class": "floor"
+    },
+    "e3-leading": {
+      "P": 18,
+      "C": 4,
+      "class": "floor"
+    },
+    "e5-terminal": {
+      "P": 18,
+      "C": 1,
+      "class": "floor"
+    },
+    "e5-leading": {
+      "P": 18,
+      "C": 2,
+      "class": "floor"
+    },
+    "e7-terminal": {
+      "P": 18,
+      "C": 1,
+      "class": "floor"
+    },
+    "e7-leading": {
+      "P": 18,
+      "C": 3,
+      "class": "floor"
+    }
+  },
+  "outcome": "no usable operating region in bounded landscape"
+}
