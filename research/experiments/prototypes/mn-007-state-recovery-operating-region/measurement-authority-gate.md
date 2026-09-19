@@ -21,16 +21,20 @@ This gate does not authorize a locality comparison, intervention, or model searc
 
 ## 0. Evidence classification taxonomy
 
-To ensure absolute auditability, every field in this gate is classified into one of four
+To ensure absolute auditability, every field in this gate is classified into one of five
 evidence tiers:
 
 1. **`[VERIFIED FROM RETAINED EVIDENCE]`**: Directly proven by committed historical
    artifacts in MN-002, MN-006, or MN-007 materialization.
-2. **`[VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM]`**: Physically hashed and
+2. **`[VERIFIED FROM EXACT RUNTIME SOURCE]`**: Directly verified from source code and header
+   definitions of the qualified llama.cpp binary at commit `bb4caa754` (`common/common.h`, `common/arg.cpp`, `tools/server/server.cpp`).
+3. **`[VERIFIED DIRECTLY FROM CURRENT STATIC FILESYSTEM]`**: Physically hashed and
    verified directly from local binary/source bytes during this static gate without runtime execution.
-3. **`[FROZEN DERIVATION]`**: Pure deterministic derivation from verified evidence,
+4. **`[FROZEN DERIVATION]`**: Pure deterministic derivation from verified evidence,
    guaranteed by frozen algorithms and unit tests.
-4. **`[NOT PROVEN / BLOCKED]`**: Any unverified assumption or missing critical authority.
+5. **`[FROZEN EXECUTION CONTRACT]`**: Explicit invariant and preflight constraint contractually
+   bound for execution integrity (e.g. forbidden environment clean state, zero retries).
+6. **`[NOT PROVEN / BLOCKED]`**: Any unverified assumption or missing critical authority.
    *(There are zero critical authority fields in this tier; all requirements are fully proven).*
 
 ---
@@ -84,17 +88,17 @@ Future calibration is bound to the qualified llama.cpp runtime identity from MN-
 
 | Parameter | Authority value | Evidence tier | Provenance / Verification |
 | --- | --- | --- | --- |
-| GPU layer mode (`n_gpu_layers`) | `-1` (`"auto"`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:465`, `arg.cpp:2765`. Fits layers into VRAM with target margin. |
-| Device selection (`devices`) | `[]` (auto / default discrete GPU) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:463`, `arg.cpp:2719`. Binds to device index 0 (`RTX 3050 Laptop GPU`). |
-| Split mode (`split_mode`) | `layer` (`LLAMA_SPLIT_MODE_LAYER`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:475`, `arg.cpp:2785`. Standard pipelined layer split across GPUs. |
-| Main GPU (`main_gpu`) | `0` | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:466`, `arg.cpp:2834`. Primary GPU device index. |
-| Tensor split (`tensor_split`) | `null` (default `{0}`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:467`, `arg.cpp:2824`. No manual tensor proportion partitioning. |
-| KV offload (`no_kv_offload` / `offload_kqv`) | `enabled` (`offload_kqv = true`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:568`, `common.cpp:1721`, `arg.cpp:2406`. KV cache offloading enabled. |
-| Parameter fitting (`fit_params`) | `true` (`on`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:468`, `arg.cpp:2844`. Automatic adjustment of unset parameters. |
-| Fit target margin (`fit_params_target`) | `1024 MiB` | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:473`, `arg.cpp:2873`. Memory headroom margin per device. |
-| Fit minimum context (`fit_params_min_ctx`) | `4096` | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:470`, `arg.cpp:2897`. Lower bound context for fitting. |
-| Load mode (`load_mode`) | `auto` (`LLAMA_LOAD_MODE_AUTO`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:476`, `arg.cpp:2687`. Memory map with device fallback. |
-| Op offload (`no_op_offload`) | `enabled` (`no_op_offload = false`) | `VERIFIED FROM RETAINED EVIDENCE` | `common.h:569`, `arg.cpp:2924`. Host tensor operations offloaded to device. |
+| GPU layer mode (`n_gpu_layers`) | `-1` (`"auto"`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:465`, `arg.cpp:2765`. Fits layers into VRAM with target margin. |
+| Device selection (`devices`) | `[]` (auto / default discrete GPU) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:463`, `arg.cpp:2719`. Binds to device index 0 (`RTX 3050 Laptop GPU`). |
+| Split mode (`split_mode`) | `layer` (`LLAMA_SPLIT_MODE_LAYER`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:475`, `arg.cpp:2785`. Standard pipelined layer split across GPUs. |
+| Main GPU (`main_gpu`) | `0` | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:466`, `arg.cpp:2834`. Primary GPU device index. |
+| Tensor split (`tensor_split`) | `null` (default `{0}`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:467`, `arg.cpp:2824`. No manual tensor proportion partitioning. |
+| KV offload (`no_kv_offload` / `offload_kqv`) | `enabled` (`offload_kqv = true`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:568`, `common.cpp:1721`, `arg.cpp:2406`. KV cache offloading enabled. |
+| Parameter fitting (`fit_params`) | `true` (`on`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:468`, `arg.cpp:2844`. Automatic adjustment of unset parameters. |
+| Fit target margin (`fit_params_target`) | `1024 MiB` | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:473`, `arg.cpp:2873`. Memory headroom margin per device. |
+| Fit minimum context (`fit_params_min_ctx`) | `4096` | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:470`, `arg.cpp:2897`. Lower bound context for fitting. |
+| Load mode (`load_mode`) | `auto` (`LLAMA_LOAD_MODE_AUTO`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:476`, `arg.cpp:2687`. Memory map with device fallback. |
+| Op offload (`no_op_offload`) | `enabled` (`no_op_offload = false`) | `VERIFIED FROM EXACT RUNTIME SOURCE` | `common.h:569`, `arg.cpp:2924`. Host tensor operations offloaded to device. |
 
 Server invocation command:
 
@@ -106,9 +110,18 @@ D:\Materials\llama.cpp\build\bin\Release\llama-server.exe `
   -c 16896 `
   -t 12 `
   -b 2048 `
+  -ub 512 `
   -np 1 `
   -fa on `
   -ngl auto `
+  -sm layer `
+  -mg 0 `
+  --fit on `
+  --fit-target 1024 `
+  --fit-ctx 4096 `
+  --kv-offload `
+  --op-offload `
+  --load-mode auto `
   --temp 0 `
   --seed 42 `
   --jinja `
@@ -117,6 +130,30 @@ D:\Materials\llama.cpp\build\bin\Release\llama-server.exe `
   --metrics `
   --chat-template-kwargs "{}"
 ```
+
+### 2.1 Runtime environment precedence and hermetic isolation contract
+
+In `llama.cpp` commit `bb4caa754` (`common/arg.cpp:763-830`), option resolution inside
+`common_params_parse_ex()` follows strict three-stage precedence:
+
+1. **System configuration file**: `common_params_apply_system_config(ctx_arg, params)`
+2. **Environment variables**: `get_value_from_env(ctx_arg.options)`
+3. **Command-line arguments**: `parse_cli_args(ctx_arg, params, argc, argv)`
+
+**Precedence rule**: CLI arguments execute last and overwrite any values set by environment
+variables or configuration files. Explicitly passing CLI arguments (`-ngl auto`, `-sm layer`,
+`-mg 0`, `--fit on`, etc.) guarantees override against matching ambient `LLAMA_ARG_*` variables.
+
+**Hermetic defense-in-depth contract**:
+While explicit CLI flags override their specific counterparts, unpassed flags could still be
+silently mutated by ambient environment variables (e.g. speculative decoding, drafting, context
+shifting, caching). To enforce absolute hermetic isolation, MN-007 freezes:
+
+- **`forbidden_env_vars_must_be_unset: true`** `[FROZEN EXECUTION CONTRACT]`
+- All 123 `LLAMA_ARG_*` and `LLAMA_*` environment variables supported by the binary are
+  cataloged in `measurement-authority.json` (`runtime.hermetic_environment.forbidden_env_vars`).
+- The clean-environment preflight checklist contractually requires that all 123 variables
+  be verified unset before the server process is spawned. Execution fails closed if any variable is set.
 
 ---
 
@@ -285,6 +322,7 @@ Preflight checklist requirements:
 5. GPU state: NVIDIA GeForce RTX 3050 Laptop GPU, memory used = `0 MiB`, GPU utilization = `0%`, no compute processes (must be verified prior to server launch).
 6. Process state: No existing `llama-server.exe`, `llama-bench.exe`, or rogue inference processes.
 7. Workload state: All games, heavy GPU applications, and compute-heavy background tasks must be terminated.
+8. Environment state: All 123 `LLAMA_ARG_*` and `LLAMA_*` environment variables cataloged in `measurement-authority.json` must be unset (`forbidden_env_vars_must_be_unset = true`).
 
 ---
 
@@ -301,8 +339,8 @@ excluding `authority_core_sha256`).
 
 - **Authority ID**: `mn007-calibration-measurement-authority-v1`
 - **Authority Version**: `1.0.0`
-- **Composite Core SHA-256**: `ba7bed9d3dde3acfacce5dd6df2b083052267f9034db5eed06e8d612ee853bce` `[FROZEN DERIVATION]`
-- **Physical File SHA-256**: `51c36abdb0b11204e3496cb1511ab60e352af71b809dc22297c2e3a0f796e8f4` `[FROZEN DERIVATION]`
+- **Composite Core SHA-256**: `f5819784b8f6ea13e7dfc4f0e710832f19e7c7e2cbfd86c8308b69a72aaf29ff` `[FROZEN DERIVATION]`
+- **Physical File SHA-256**: `5783208079007e29acdf306f673a97631d5e30b65417943e81f4ff55edbdccef` `[FROZEN DERIVATION]`
 
 Canonical serialization rules:
 - UTF-8 without BOM.
