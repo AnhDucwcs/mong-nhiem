@@ -2,7 +2,7 @@
 
 ## Status
 
-**Static design, deterministic materialization contract, and measurement-authority gate frozen. No executor, model run, locality comparison, or intervention is authorized. Status remains pre-measurement.**
+**Completed and closed at `no usable operating region in bounded landscape`. All 6 cells classified as `floor`. Canonical clean rerun recorded at `runs/calibration-run-0002/`. See [mn007-calibration-report.md](mn007-calibration-report.md).**
 
 MN-007 begins after the formal closure of [MN-006](../mn-006-distributed-state-integration/milestone-closure.md). MN-006 qualified the direct ordered state-vector response channel at Q0 (`9/9`) but failed its frozen contiguous task-bearing Q1 capability floor (`1/9`). Because the locality comparison was never reached, MN-006 closed as `measurement_interface_blocked` for the qualified model/runtime with locality still unmeasured.
 
@@ -173,20 +173,22 @@ MN-007 may use their conclusions to motivate design, but it may not rewrite, res
 - MN-005 retains the inconclusive Multi-pass result and unselected Hierarchical audit.
 - MN-006 retains the confounded v1 branch, the direct-state redesign, Q0 `9/9`, Q1 `1/9`, and the final `measurement_interface_blocked` closure.
 
-## Exact next permitted action
+## Milestone closure and disposition
 
-A separate **static deterministic implementation and infrastructure stage** may
-materialize and validate the frozen 108-case calibration corpus defined by the
-[materialization contract](materialization-contract.md). It must verify
-reproducibility and all construction invariants without creating an inference
-authority, executor, or model request.
+The clean calibration rerun (`calibration-run-0002`, commit `bfecd51`, evidence `23906e8`) executed all 108 requests under clean-environment preflight and strict persist-before-evaluate ordering.
 
-That stage is complete: the canonical static corpus has 108 cases across six cells,
-its semantic/public/evaluator artifacts validate, and two clean independent
-regenerations were byte-identical. These are workload-definition facts, not model
-evidence; no cell has been scored or classified.
+Results across the six bounded cells:
+- `e3-terminal`: $P=18, C=3$ (16.7%) — `floor`
+- `e3-leading`: $P=18, C=4$ (22.2%) — `floor`
+- `e5-terminal`: $P=18, C=1$ (5.6%) — `floor`
+- `e5-leading`: $P=18, C=2$ (11.1%) — `floor`
+- `e7-terminal`: $P=18, C=1$ (5.6%) — `floor`
+- `e7-leading`: $P=18, C=3$ (16.7%) — `floor`
 
-The static executor / measurement-authority gate is complete and frozen in
-[measurement-authority-gate.md](measurement-authority-gate.md). It binds the exact
-model, llama.cpp runtime, sampling, grammar, evaluator, request ordering, raw persistence,
-failure semantics, and preflight without executing a model. Status remains pre-measurement.
+Outcome: **`no usable operating region in bounded landscape`**.
+All cells are floor ($C_i \le 4/18$). In accordance with the prospective design gate:
+- No seed cell is selected.
+- No adaptive parameter search or prompt engineering is permitted.
+- Contiguous latent state tracking on Llama 3.2 3B is rejected as a reliable foundation for in-context locality testing.
+- MN-007 is closed. Research transitions to MN-008 (External State Management).
+

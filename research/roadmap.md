@@ -38,6 +38,7 @@ Status: **completed and closed for further ECC-006 candidate efficacy work.** Ga
 
 MN-005 established two different kinds of evidence that must not be conflated:
 
+
 1. **Multi-pass Reconstruction was measurable but inconclusive.** None of the six Arm C Stage A artifacts met the intended exact-reconstruction criterion, including the sole beneficial B-to-C flip. The result does not show that reconstruction caused the observed `+1/6`, but it also does not universally reject multi-pass methods.
 2. **Hierarchical State Representation was not experimentally falsified.** Frozen ECC-006 already supplies an ordered contiguous target trajectory, so hierarchy cannot be isolated from grouping, formatting, compression, reordering, salience, or answer simplification. Its decision is workload-bounded: `hierarchical_gate_a_unselected`.
 3. **External State Management remains architecturally strong but poorly matched to the ECC-006 endpoint.** A host-maintained final state would be too close to directly supplying the evaluated answer.
@@ -57,22 +58,24 @@ The final scientific boundary is that the response serialization is usable, whil
 
 ## MN-007 — State Recovery Operating Region
 
-Status: **static operating-region design, materialization contract, and measurement-authority gate frozen. No model execution authorized.**
+Status: **completed and closed at `no usable operating region in bounded landscape`.**
 
-MN-007 prospectively calibrates the contiguous state-recovery operating region needed before any future locality experiment. It is a separate milestone so the frozen MN-006 Q1 failure does not trigger post-hoc benchmark tuning inside MN-006.
+MN-007 prospectively calibrated the contiguous state-recovery operating region needed before any future locality experiment. It was a separate milestone so the frozen MN-006 Q1 failure did not trigger post-hoc benchmark tuning inside MN-006.
 
-The completed static [operating-region design gate](experiments/prototypes/mn-007-state-recovery-operating-region/operating-region-design-gate.md) establishes:
+The clean calibration rerun (`calibration-run-0002`) executed under clean commit `bfecd51` with evidence frozen at `23906e8`. All 108 requests executed strictly once in round-robin order with decoupled disk evaluation.
+1. All six candidate cells in the bounded landscape ($E \in \{3, 5, 7\}, U=3$) scored $C_i \le 4/18$, resulting in a 100% `floor` classification.
+2. The canonical research outcome is **`no usable operating region in bounded landscape`**.
+3. Under the frozen prospective gate, this is an authoritative bounded negative result: in-context contiguous state recovery without explicit support is rejected for Llama 3.2 3B; no post-hoc tuning or search is permitted. MN-007 is closed.
 
-1. the direct ordered state-vector observable, justified by MN-006 Q0 `9/9` as response-serialization evidence rather than recovery qualification;
-2. six finite contiguous cells: entity counts `3`, `5`, `7` crossed with terminal or leading queried-block placement, while holding three updates/entity and two query entities fixed;
-3. 18 balanced semantic cases per cell and exact parser/score rules;
-4. an exhaustive floor (`<=14/18` exact or any malformed response), usable (`15–16/18` exact and `18/18` parser-valid), and ceiling (`17–18/18` exact and `18/18` parser-valid) classification;
-5. deterministic selection among usable cells and a fresh-case hold-out policy for any later locality work;
-6. bounded `usable operating region identified`, `no usable operating region in bounded landscape`, and `measurement/design blocked` outcomes; and
-7. continued prohibition of interventions until a later construct-valid locality-sensitive signal exists.
+See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md) and [Calibration Report](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
 
-The completed [materialization contract](experiments/prototypes/mn-007-state-recovery-operating-region/materialization-contract.md) freezes deterministic case identities, seed derivation, semantic histories, vector/orientation coverage, contiguous scheduling, canonical serialization, public/evaluator separation, and validation. Its 108-case static corpus has now been materialized and validates under independent byte-identical regeneration. It is a prospective workload definition, not model evidence; no run authority or executor exists.
+## MN-008 — External State Management
 
-The static [measurement-authority gate](experiments/prototypes/mn-007-state-recovery-operating-region/measurement-authority-gate.md) is now complete and frozen. It establishes exact model and runtime authority, deterministic round-robin request ordering, persist-before-evaluate persistence, and preflight rules without model invocation. The remaining required sequence is separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
+Status: **in design (Gate A preparation).**
 
-See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
+MN-008 responds to the accumulated failure of in-context implicit state tracking across MN-003, MN-004, MN-005, MN-006, and MN-007.
+
+1. **Core Mechanism:** Offload deterministic event replay and state mutation to a lightweight, deterministic host-managed state engine ($O(1)$ lookup, 0 attention context overhead for history).
+2. **Interface Decoupling:** Format an exact, compact state snapshot (e.g., key-value table or structured schema) and inject it into the prompt context.
+3. **Construct Validity:** Avoid the trivial copy-paste lookup trap (noted in MN-005) by requiring the LLM to perform non-trivial downstream conditional reasoning or action selection conditioned on the state snapshot, rather than merely repeating state values.
+4. **Primary Research Question:** Does an external state engine restore effective reasoning capacity and eliminate context degradation on multi-entity dynamic tasks for small models (<4B)?
