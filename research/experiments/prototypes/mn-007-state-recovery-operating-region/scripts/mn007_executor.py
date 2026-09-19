@@ -115,7 +115,7 @@ def main():
         e = next(x for x in evaluators if x["case_id"] == case_id)
         ordered_prompts.append((p, e))
         
-    run_dir = root / "runs" / "calibration_pass"
+    run_dir = root / "runs" / "calibration-run-0001"
     run_dir.mkdir(parents=True, exist_ok=True)
     
     # Launch server
@@ -131,7 +131,7 @@ def main():
         
         for p, e in ordered_prompts:
             req_data = {
-                "messages": [{"role": "user", "content": p["public_prompt"]}],
+                "messages": [{"role": "user", "content": p["prompt"]}],
                 "temperature": 0.0,
                 "seed": 42,
                 "max_tokens": 16,
@@ -187,7 +187,8 @@ def main():
         score = 0
         if content is not None:
             content = content.strip()
-            if content == ev["expected_exact_vector"]:
+            expected = ",".join(ev["expected_vector"])
+            if content == expected:
                 score = 1
                 
         results[cell_name]["C"] += score
