@@ -150,11 +150,10 @@ silently mutated by ambient environment variables (e.g. speculative decoding, dr
 shifting, caching). To enforce absolute hermetic isolation, MN-007 freezes:
 
 - **`forbidden_env_vars_must_be_unset: true`** `[FROZEN EXECUTION CONTRACT]`
-- All 123 `LLAMA_ARG_*` and `LLAMA_*` environment variables supported by the binary are
-  cataloged in `measurement-authority.json` (`runtime.hermetic_environment.forbidden_env_vars`).
-- The clean-environment preflight checklist contractually requires that all 123 variables
-  be verified unset before the server process is spawned. Execution fails closed if any variable is set.
-
+- Any environment variable starting with the prefix `LLAMA_` (including negative aliases derived as `LLAMA_ARG_NO_*`) is strictly forbidden.
+- Execution-relevant variables including `CUDA_VISIBLE_DEVICES`, `GGML_CUDA_NO_PINNED`, `LLAMA_APP_CMD`, etc. must be explicitly unset or strictly evaluated before launch.
+- **Configuration files forbidden**: `llama.cpp` parses configuration from `%PROGRAMDATA%\llama.cpp\config.ini` and `%APPDATA%\llama.cpp\config.ini`. The executor must resolve these paths and assert both are absent, failing closed if either exists (`required_config_files_absent: true`).
+- **Executor contract**: The future executor must use an explicit array for `argv` (prohibiting shell tokenization and environment mutation).
 ---
 
 ## 3. Frozen sampling authority and parameter classification
@@ -322,7 +321,8 @@ Preflight checklist requirements:
 5. GPU state: NVIDIA GeForce RTX 3050 Laptop GPU, memory used = `0 MiB`, GPU utilization = `0%`, no compute processes (must be verified prior to server launch).
 6. Process state: No existing `llama-server.exe`, `llama-bench.exe`, or rogue inference processes.
 7. Workload state: All games, heavy GPU applications, and compute-heavy background tasks must be terminated.
-8. Environment state: All 123 `LLAMA_ARG_*` and `LLAMA_*` environment variables cataloged in `measurement-authority.json` must be unset (`forbidden_env_vars_must_be_unset = true`).
+8. Environment state: All `LLAMA_*` environment variables, and exact execution-relevant variables (e.g. `CUDA_VISIBLE_DEVICES`, `GGML_CUDA_NO_PINNED`), must be unset (`forbidden_env_vars_must_be_unset = true`).
+9. Configuration state: `%PROGRAMDATA%\llama.cpp\config.ini` and `%APPDATA%\llama.cpp\config.ini` must be absent.
 
 ---
 
@@ -339,8 +339,8 @@ excluding `authority_core_sha256`).
 
 - **Authority ID**: `mn007-calibration-measurement-authority-v1`
 - **Authority Version**: `1.0.0`
-- **Composite Core SHA-256**: `f5819784b8f6ea13e7dfc4f0e710832f19e7c7e2cbfd86c8308b69a72aaf29ff` `[FROZEN DERIVATION]`
-- **Physical File SHA-256**: `5783208079007e29acdf306f673a97631d5e30b65417943e81f4ff55edbdccef` `[FROZEN DERIVATION]`
+- **Composite Core SHA-256**: `3995bafded4d01539c493d71c217ba97a5a1b8a0b99a5bf50f1a239b8a54146d` `[FROZEN DERIVATION]`
+- **Physical File SHA-256**: `2694d45d2b7116e1abc6fc6b4bfcfa4a3db36ca2a001b188d8e484d537273b7e` `[FROZEN DERIVATION]`
 
 Canonical serialization rules:
 - UTF-8 without BOM.

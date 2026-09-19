@@ -28,10 +28,10 @@ FROZEN_REQUEST_ORDER_SHA256 = (
     "93d578e5a24903e826f2ad0481a420d219e53be30e2e4a822d9c3fdc0a96b474"
 )
 FROZEN_AUTHORITY_CORE_SHA256 = (
-    "f5819784b8f6ea13e7dfc4f0e710832f19e7c7e2cbfd86c8308b69a72aaf29ff"
+    "3995bafded4d01539c493d71c217ba97a5a1b8a0b99a5bf50f1a239b8a54146d"
 )
 FROZEN_AUTHORITY_FILE_SHA256 = (
-    "5783208079007e29acdf306f673a97631d5e30b65417943e81f4ff55edbdccef"
+    "2694d45d2b7116e1abc6fc6b4bfcfa4a3db36ca2a001b188d8e484d537273b7e"
 )
 
 
@@ -139,7 +139,7 @@ def test_authority_hash_determinism_and_mutation_sensitivity() -> None:
 
     # Proves composite hash changes when hermetic environment contract changes
     mutated_env = copy.deepcopy(core)
-    mutated_env["runtime"]["hermetic_environment"]["forbidden_env_vars"].pop()
+    mutated_env["runtime"]["hermetic_environment"]["forbidden_env_prefixes"].pop()
     mut_env_hash = materialization.sha256_bytes(
         materialization.canonical_json_bytes(mutated_env)
     )
@@ -292,43 +292,32 @@ def test_failure_taxonomy_and_no_retry_policy() -> None:
 
 def test_hermetic_env_vars_comprehensive_coverage() -> None:
     core = authority.build_authority_core()
-    forbidden = set(core["runtime"]["hermetic_environment"]["forbidden_env_vars"])
-    required_env_vars = {
-        "LLAMA_ARG_DEVICE",
-        "LLAMA_ARG_N_GPU_LAYERS",
-        "LLAMA_ARG_SPLIT_MODE",
-        "LLAMA_ARG_TENSOR_SPLIT",
-        "LLAMA_ARG_MAIN_GPU",
-        "LLAMA_ARG_FIT",
-        "LLAMA_ARG_FIT_TARGET",
-        "LLAMA_ARG_FIT_CTX",
-        "LLAMA_ARG_KV_OFFLOAD",
-        "LLAMA_ARG_OP_OFFLOAD",
-        "LLAMA_ARG_LOAD_MODE",
-        "LLAMA_ARG_FLASH_ATTN",
-        "LLAMA_ARG_THREADS",
-        "LLAMA_ARG_BATCH",
-        "LLAMA_ARG_UBATCH",
-        "LLAMA_ARG_CTX_SIZE",
-        "LLAMA_ARG_N_PARALLEL",
-        "LLAMA_ARG_CACHE_PROMPT",
-        "LLAMA_ARG_NO_CACHE_PROMPT",
-        "LLAMA_ARG_TOP_K",
-        "LLAMA_ARG_TOP_P",
-        "LLAMA_ARG_MIN_P",
-        "LLAMA_ARG_TEMP",
-        "LLAMA_ARG_SEED",
-    }
-    missing = required_env_vars - forbidden
-    assert not missing, f"Missing required forbidden env vars: {missing}"
-    assert core["runtime"]["hermetic_environment"]["cli_overrides_env_proven"] is True
+    env_policy = core["runtime"]["hermetic_environment"]
+    
+    assert "LLAMA_" in env_policy["forbidden_env_prefixes"]
+    
+    execution_relevant = env_policy["execution_relevant_env_vars"]
+    assert execution_relevant["CUDA_VISIBLE_DEVICES"] == "forbidden_unset_verify_before_launch"
+    assert execution_relevant["GGML_CUDA_NO_PINNED"] == "forbidden_unset"
+    assert execution_relevant["LLAMA_APP_CMD"] == "forbidden_unset"
+    assert execution_relevant["LLAMA_SERVER_ROUTER_PORT"] == "forbidden_unset_router_only"
+
+    config_policy = core["runtime"]["configuration_file_policy"]
+    assert config_policy["required_config_files_absent"] is True
+    assert "%PROGRAMDATA%\\llama.cpp\\config.ini" in config_policy["windows_paths_resolved"]
+    assert "%APPDATA%\\llama.cpp\\config.ini" in config_policy["windows_paths_resolved"]
+    
+    executor_contract = core["runtime"]["executor_contract"]
+    assert executor_contract["must_use_argv_no_shell"] is True
+
     assert core["preflight"]["forbidden_env_vars_must_be_unset"] is True
 
 
 def test_no_silent_gpu_placement_override() -> None:
     core = authority.build_authority_core()
     cmd = core["runtime"]["server_command"]
-    forbidden = set(core["runtime"]["hermetic_environment"]["forbidden_env_vars"])
+    prefixes = core["runtime"]["hermetic_environment"]["forbidden_env_prefixes"]
+    is_forbidden = lambda v: any(v.startswith(p) for p in prefixes)
     # Explicit CLI arguments present
     assert "-ngl" in cmd and cmd[cmd.index("-ngl") + 1] == "auto"
     assert "-sm" in cmd and cmd[cmd.index("-sm") + 1] == "layer"
@@ -336,63 +325,67 @@ def test_no_silent_gpu_placement_override() -> None:
     assert "--kv-offload" in cmd
     assert "--op-offload" in cmd
     # Env vars forbidden
-    assert "LLAMA_ARG_DEVICE" in forbidden
-    assert "LLAMA_ARG_N_GPU_LAYERS" in forbidden
-    assert "LLAMA_ARG_SPLIT_MODE" in forbidden
-    assert "LLAMA_ARG_TENSOR_SPLIT" in forbidden
-    assert "LLAMA_ARG_MAIN_GPU" in forbidden
-    assert "LLAMA_ARG_KV_OFFLOAD" in forbidden
-    assert "LLAMA_ARG_OP_OFFLOAD" in forbidden
+    assert is_forbidden("LLAMA_ARG_DEVICE")
+    assert is_forbidden("LLAMA_ARG_N_GPU_LAYERS")
+    assert is_forbidden("LLAMA_ARG_SPLIT_MODE")
+    assert is_forbidden("LLAMA_ARG_TENSOR_SPLIT")
+    assert is_forbidden("LLAMA_ARG_MAIN_GPU")
+    assert is_forbidden("LLAMA_ARG_KV_OFFLOAD")
+    assert is_forbidden("LLAMA_ARG_OP_OFFLOAD")
 
 
 def test_no_silent_fit_behavior_override() -> None:
     core = authority.build_authority_core()
     cmd = core["runtime"]["server_command"]
-    forbidden = set(core["runtime"]["hermetic_environment"]["forbidden_env_vars"])
+    prefixes = core["runtime"]["hermetic_environment"]["forbidden_env_prefixes"]
+    is_forbidden = lambda v: any(v.startswith(p) for p in prefixes)
     assert "--fit" in cmd and cmd[cmd.index("--fit") + 1] == "on"
     assert "--fit-target" in cmd and cmd[cmd.index("--fit-target") + 1] == "1024"
     assert "--fit-ctx" in cmd and cmd[cmd.index("--fit-ctx") + 1] == "4096"
     assert "--load-mode" in cmd and cmd[cmd.index("--load-mode") + 1] == "auto"
-    assert "LLAMA_ARG_FIT" in forbidden
-    assert "LLAMA_ARG_FIT_TARGET" in forbidden
-    assert "LLAMA_ARG_FIT_CTX" in forbidden
-    assert "LLAMA_ARG_LOAD_MODE" in forbidden
+    assert is_forbidden("LLAMA_ARG_FIT")
+    assert is_forbidden("LLAMA_ARG_FIT_TARGET")
+    assert is_forbidden("LLAMA_ARG_FIT_CTX")
+    assert is_forbidden("LLAMA_ARG_LOAD_MODE")
 
 
 def test_no_silent_context_batch_parallelism_override() -> None:
     core = authority.build_authority_core()
     cmd = core["runtime"]["server_command"]
-    forbidden = set(core["runtime"]["hermetic_environment"]["forbidden_env_vars"])
+    prefixes = core["runtime"]["hermetic_environment"]["forbidden_env_prefixes"]
+    is_forbidden = lambda v: any(v.startswith(p) for p in prefixes)
     assert "-c" in cmd and cmd[cmd.index("-c") + 1] == "16896"
     assert "-t" in cmd and cmd[cmd.index("-t") + 1] == "12"
     assert "-b" in cmd and cmd[cmd.index("-b") + 1] == "2048"
     assert "-ub" in cmd and cmd[cmd.index("-ub") + 1] == "512"
     assert "-np" in cmd and cmd[cmd.index("-np") + 1] == "1"
     assert "-fa" in cmd and cmd[cmd.index("-fa") + 1] == "on"
-    assert "LLAMA_ARG_CTX_SIZE" in forbidden
-    assert "LLAMA_ARG_THREADS" in forbidden
-    assert "LLAMA_ARG_BATCH" in forbidden
-    assert "LLAMA_ARG_UBATCH" in forbidden
-    assert "LLAMA_ARG_N_PARALLEL" in forbidden
-    assert "LLAMA_ARG_FLASH_ATTN" in forbidden
+    assert is_forbidden("LLAMA_ARG_CTX_SIZE")
+    assert is_forbidden("LLAMA_ARG_THREADS")
+    assert is_forbidden("LLAMA_ARG_BATCH")
+    assert is_forbidden("LLAMA_ARG_UBATCH")
+    assert is_forbidden("LLAMA_ARG_N_PARALLEL")
+    assert is_forbidden("LLAMA_ARG_FLASH_ATTN")
 
 
 def test_no_silent_sampling_override() -> None:
     core = authority.build_authority_core()
     cmd = core["runtime"]["server_command"]
-    forbidden = set(core["runtime"]["hermetic_environment"]["forbidden_env_vars"])
+    prefixes = core["runtime"]["hermetic_environment"]["forbidden_env_prefixes"]
+    is_forbidden = lambda v: any(v.startswith(p) for p in prefixes)
     assert "--temp" in cmd and cmd[cmd.index("--temp") + 1] == "0"
     assert "--seed" in cmd and cmd[cmd.index("--seed") + 1] == "42"
-    assert "LLAMA_ARG_TOP_K" in forbidden
-    assert "LLAMA_ARG_TEMP" in forbidden
-    assert "LLAMA_ARG_SEED" in forbidden
-    assert "LLAMA_ARG_TOP_P" in forbidden
-    assert "LLAMA_ARG_MIN_P" in forbidden
+    assert is_forbidden("LLAMA_ARG_TOP_K")
+    assert is_forbidden("LLAMA_ARG_TEMP")
+    assert is_forbidden("LLAMA_ARG_SEED")
+    assert is_forbidden("LLAMA_ARG_TOP_P")
+    assert is_forbidden("LLAMA_ARG_MIN_P")
 
 
 def test_no_silent_prompt_caching_override() -> None:
     core = authority.build_authority_core()
     cmd = core["runtime"]["server_command"]
-    forbidden = set(core["runtime"]["hermetic_environment"]["forbidden_env_vars"])
+    prefixes = core["runtime"]["hermetic_environment"]["forbidden_env_prefixes"]
+    is_forbidden = lambda v: any(v.startswith(p) for p in prefixes)
     assert "--no-cache-prompt" in cmd
-    assert "LLAMA_ARG_CACHE_PROMPT" in forbidden
+    assert is_forbidden("LLAMA_ARG_CACHE_PROMPT")
