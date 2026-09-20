@@ -6,5 +6,9 @@ research/experiments/prototypes/mn-006-distributed-state-integration/definition/
 research/experiments/prototypes/mn-006-distributed-state-integration/definition/output-selection-minimality-v1/** text eol=lf
 research/experiments/prototypes/mn-006-distributed-state-integration/definition/direct-state-vector-qualification-v1/** text eol=lf
 
+# MN-007 calibration definitions are static byte-fingerprint authorities, not
+# measured evidence. Keep their canonical UTF-8/LF serialization stable on Windows.
+research/experiments/prototypes/mn-007-state-recovery-operating-region/definition/** text eol=lf
+
 # Raw measured evidence is fingerprinted by its exact physical bytes.
 research/experiments/prototypes/mn-006-distributed-state-integration/runs/** -text whitespace=-trailing-space

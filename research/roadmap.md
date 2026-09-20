@@ -38,6 +38,7 @@ Status: **completed and closed for further ECC-006 candidate efficacy work.** Ga
 
 MN-005 established two different kinds of evidence that must not be conflated:
 
+
 1. **Multi-pass Reconstruction was measurable but inconclusive.** None of the six Arm C Stage A artifacts met the intended exact-reconstruction criterion, including the sole beneficial B-to-C flip. The result does not show that reconstruction caused the observed `+1/6`, but it also does not universally reject multi-pass methods.
 2. **Hierarchical State Representation was not experimentally falsified.** Frozen ECC-006 already supplies an ordered contiguous target trajectory, so hierarchy cannot be isolated from grouping, formatting, compression, reordering, salience, or answer simplification. Its decision is workload-bounded: `hierarchical_gate_a_unselected`.
 3. **External State Management remains architecturally strong but poorly matched to the ECC-006 endpoint.** A host-maintained final state would be too close to directly supplying the evaluated answer.
@@ -57,20 +58,24 @@ The final scientific boundary is that the response serialization is usable, whil
 
 ## MN-007 — State Recovery Operating Region
 
-Status: **prepared / design phase. No model execution authorized.**
+Status: **completed and closed at `no usable operating region in bounded landscape`.**
 
-MN-007 prospectively calibrates the contiguous state-recovery operating region needed before any future locality experiment. It is a separate milestone so the frozen MN-006 Q1 failure does not trigger post-hoc benchmark tuning inside MN-006.
+MN-007 prospectively calibrated the contiguous state-recovery operating region needed before any future locality experiment. It was a separate milestone so the frozen MN-006 Q1 failure did not trigger post-hoc benchmark tuning inside MN-006.
 
-The next design phase must:
+The clean calibration rerun (`calibration-run-0002`) executed under clean commit `bfecd51` with evidence frozen at `23906e8`. All 108 requests executed strictly once in round-robin order with decoupled disk evaluation.
+1. All six candidate cells in the bounded landscape ($E \in \{3, 5, 7\}, U=3$) scored $C_i \le 4/18$, resulting in a 100% `floor` classification.
+2. The canonical research outcome is **`no usable operating region in bounded landscape`**.
+3. Under the frozen prospective gate, this is an authoritative bounded negative result: in-context contiguous state recovery without explicit support is rejected for Llama 3.2 3B; no post-hoc tuning or search is permitted. MN-007 is closed.
 
-1. preserve a direct semantic state observable unless a static gate identifies a construct-valid reason not to;
-2. freeze a finite difficulty landscape before inference rather than adaptively trying easier/harder workloads;
-3. control workload axes such as entity load, update load, distractors, context/event count, and query-to-latest-update distance only when they are mechanically defined and causally interpretable;
-4. predeclare the rule for identifying a usable contiguous operating region, avoiding both floor and ceiling conditions;
-5. keep calibration evidence separate from any later hold-out matched contiguous/interleaved locality evidence;
-6. stop with a bounded `no usable operating region` conclusion if the frozen landscape contains none;
-7. keep all intervention candidates unauthorized until a later construct-valid locality-sensitive signal exists.
+See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md) and [Calibration Report](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
 
-The required sequence is static research design -> static construct/difficulty gate -> static executor -> separately authorized clean-environment calibration -> research-level operating-region decision. Only after a usable region exists may a separate future locality milestone/gate be designed.
+## MN-008 — External State Management
 
-See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
+Status: **in design (Gate A preparation).**
+
+MN-008 responds to the accumulated failure of in-context implicit state tracking across MN-003, MN-004, MN-005, MN-006, and MN-007.
+
+1. **Core Mechanism:** Offload deterministic event replay and state mutation to a lightweight, deterministic host-managed state engine ($O(1)$ lookup, 0 attention context overhead for history).
+2. **Interface Decoupling:** Format an exact, compact state snapshot (e.g., key-value table or structured schema) and inject it into the prompt context.
+3. **Construct Validity:** Avoid the trivial copy-paste lookup trap (noted in MN-005) by requiring the LLM to perform non-trivial downstream conditional reasoning or action selection conditioned on the state snapshot, rather than merely repeating state values.
+4. **Primary Research Question:** Does an external state engine restore effective reasoning capacity and eliminate context degradation on multi-entity dynamic tasks for small models (<4B)?

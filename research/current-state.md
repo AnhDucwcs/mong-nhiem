@@ -66,12 +66,27 @@ The replacement direct ordered two-entity state-vector interface removed the equ
 
 The resulting milestone disposition is `measurement_interface_blocked` for the qualified Llama/runtime. This is not evidence that locality failed, that interleaving has no effect, or that the model generally cannot track state. Locality remains **unmeasured**. No retry, alternate interface search, perfect-state diagnostic, locality run, or intervention is authorized. See the formal [MN-006 closure](experiments/prototypes/mn-006-distributed-state-integration/milestone-closure.md).
 
-## MN-007 — State Recovery Operating Region — prepared / design phase
+## MN-007 — State Recovery Operating Region — completed and closed
 
-MN-007 inherits the prerequisite exposed by MN-006 without reopening it: identify whether the qualified small-model/runtime has a prospectively defined contiguous two-entity latest-state recovery operating region suitable for a later causal locality experiment.
+MN-007 inherited the prerequisite exposed by MN-006: identify whether the qualified small-model/runtime (Llama-3.2-3B-Instruct Q4_K_M) has a prospectively defined contiguous two-entity latest-state recovery operating region suitable for a later causal locality experiment.
 
-The immediate question is capability calibration, not locality and not intervention efficacy. Before any inference, MN-007 must freeze a finite difficulty landscape, controlled workload variables, a non-adaptive operating-region selection rule, exact response/scoring validity, and a policy separating calibration cases from any later hold-out locality evidence.
+The canonical clean calibration rerun (`calibration-run-0002`, executed under clean commit `bfecd51`, evidence commit `23906e8`) completed all 108 requests under the frozen `mn007-interleaved-cell-round-robin-v1` order without retries or mutations. Every request was protocol-valid. The persist-before-evaluate contract was strictly enforced, with evaluation executed from disk artifacts via `scripts/mn007_evaluator.py`.
 
-MN-007 must not iteratively lower difficulty after each result until the model passes. A usable region must avoid both a floor (contiguous recovery already unreliable) and a ceiling (task too easy to reveal meaningful degradation). If the bounded prospective landscape contains no usable region, that is a valid calibration result rather than permission for indefinite search.
+All six cells in the prospective landscape fell into the `floor` classification:
+- `e3-terminal`: $P=18, C=3$ (16.7%) — `floor`
+- `e3-leading`: $P=18, C=4$ (22.2%) — `floor`
+- `e5-terminal`: $P=18, C=1$ (5.6%) — `floor`
+- `e5-leading`: $P=18, C=2$ (11.1%) — `floor`
+- `e7-terminal`: $P=18, C=1$ (5.6%) — `floor`
+- `e7-leading`: $P=18, C=3$ (16.7%) — `floor`
 
-No MN-007 experiment definition, authority plan, executor, model run, locality comparison, or intervention exists yet. The exact next action is a static research-design decision. See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md).
+The canonical outcome is **`no usable operating region in bounded landscape`**. Under the prospective design gate, this is a bounded negative result: no seed cell is selected, and no adaptive parameter tuning, prompt modification, threshold lowering, or landscape expansion is authorized within MN-007. MN-007 is formally closed. See [mn007-calibration-report.md](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
+
+## MN-008 — External State Management — preparing Gate A
+
+MN-008 succeeds MN-007 to address the accumulated evidence across MN-003 (ECC-006), MN-004, MN-005, MN-006, and MN-007: small models (<4B) fail to reliably track and recover multi-entity state purely within implicit attention context.
+
+Rather than forcing the LLM to act as a latent state engine, MN-008 decouples state maintenance into:
+1. **Deterministic Host State Engine:** Ingests the raw event stream, maintains an exact state machine in host code ($O(1)$ memory lookup), and formats a compact state snapshot.
+2. **Downstream LLM Conditional Reasoning:** The LLM consumes the snapshot to perform non-trivial conditional/causal evaluation, escaping both the latent state-tracking bottleneck and the trivial copy-paste lookup trap identified in MN-005.
+
