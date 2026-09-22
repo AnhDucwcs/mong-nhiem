@@ -98,3 +98,11 @@ MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-st
    - **Non-Regression Policy:** $n_{B=1, C=0} = 2$ — FAIL (Requires $0$).
    - **Verdict:** **`UNSUPPORTED`**. See [mn008-gate-c-run-0001-report.md](experiments/prototypes/mn-008-external-state-management/reports/mn008-gate-c-run-0001-report.md).
 5. **Gate D Disposition Review:** Formally completed. The milestone disposition is `unpromoted_hypothesis_unsupported`. Promotion into `src/mong_nhiem/` is denied (zero code promoted). Decoupling deterministic state tracking to a host engine eliminates context load bottlenecks, but does not enable downstream conditional reasoning on small models (<4B) over abstract neutral variables. See [gate-d-disposition-review.md](experiments/prototypes/mn-008-external-state-management/gate-d-disposition-review.md). MN-008 is closed.
+
+## MN-009 — Scoped Context Delivery Engine — in design (Gate A preparation)
+
+MN-009 responds to the empirical capability boundary established across MN-003, MN-004, MN-007, and MN-008: `Llama-3.2-3B` operates reliably on local hardware only within a strictly bounded context ($\le 512$ tokens), collapsing to 0% on complex state and multi-step reasoning at 8k/16k tokens.
+
+1. **Core Mechanism:** Host-side deterministic Knapsack context packing and natural boundary slicing (paragraphs/sentences), prioritizing high-salience chunks without cutting midway through semantic structures.
+2. **Token Invariant:** Guarantees that any arbitrary document stream ($2\text{k}-32\text{k}$ tokens) is deterministically compressed to $\le 512$ tokens under `llama-tokenize.exe` before reaching model inference.
+3. **Governance Invariant:** All prototype development resides strictly within `research/experiments/prototypes/mn-009-context-scaffolding/`. `src/mong_nhiem/` remains 100% clean and receives zero code until Gate D explicitly authorizes promotion.

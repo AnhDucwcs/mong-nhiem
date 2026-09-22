@@ -20,7 +20,9 @@ MN-006 is now formally [completed and closed](experiments/prototypes/mn-006-dist
 
 MN-007 is completed and closed: [State Recovery Operating Region](experiments/prototypes/mn-007-state-recovery-operating-region/README.md). Its clean 108-case calibration rerun (`calibration-run-0002`) classified all six cells as `floor` ($C_i \le 4/18$). Its outcome is `no usable operating region in bounded landscape`. In-context contiguous state recovery without explicit support is rejected for Llama 3.2 3B; no adaptive tuning within MN-007 is authorized.
 
-MN-008 is the next milestone: External State Management. It offloads deterministic state tracking to a host-managed engine, supplying structured state snapshots for downstream LLM conditional reasoning and escaping the latent attention tracking bottleneck.
+MN-008 is completed and closed: [External State Management](experiments/prototypes/mn-008-external-state-management/README.md). Its canonical execution scored 2/24 on Arm C, failing primary efficacy; its Gate D disposition is `unpromoted_hypothesis_unsupported`. Zero code promoted into `src/mong_nhiem/`.
+
+MN-009 is the next milestone: [Scoped Context Delivery Engine](experiments/prototypes/mn-009-context-scaffolding/README.md). It shifts focus to deterministic context scaffolding (<512 tokens) over larger knowledge spaces ($2\text{k}-32\text{k}$ tokens) without silent truncation.
 
 No retrieval, context, memory, summarization, compression, routing, external-state, or ECC architecture has been selected for production. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
@@ -37,5 +39,7 @@ No retrieval, context, memory, summarization, compression, routing, external-sta
 - [MN-006](experiments/prototypes/mn-006-distributed-state-integration/README.md)
 - [MN-007](experiments/prototypes/mn-007-state-recovery-operating-region/README.md)
 - [MN-008](experiments/prototypes/mn-008-external-state-management/README.md)
+- [MN-009](experiments/prototypes/mn-009-context-scaffolding/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
+
