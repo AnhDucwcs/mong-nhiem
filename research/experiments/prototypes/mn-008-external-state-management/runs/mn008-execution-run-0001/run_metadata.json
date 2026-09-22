@@ -1,0 +1,16 @@
+{
+  "actual_persisted_calls": 96,
+  "corpus_manifest_sha256": "61a2adbf1b8f29e90a302aa3065f7f5e08f812810b677a122297b8bfd1ba309c",
+  "duration_seconds": 90.771777,
+  "end_time_utc": "2026-09-22T10:47:41.057080+00:00",
+  "expected_total_calls": 96,
+  "git_head": "2ad5916663738289a8078ee337d57227c376acae",
+  "host": "127.0.0.1",
+  "llama_server_path": "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+  "model_path": "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002\\Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "port": 18508,
+  "run_id": "mn008-execution-run-0001",
+  "start_time_utc": "2026-09-22T10:46:10.285303+00:00",
+  "status": "COMPLETED",
+  "total_cases": 24
+}

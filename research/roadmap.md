@@ -71,11 +71,15 @@ See [MN-007 — State Recovery Operating Region](experiments/prototypes/mn-007-s
 
 ## MN-008 — External State Management
 
+Status: **completed and closed at `unpromoted_hypothesis_unsupported`.**
+
+Completed under Gate D disposition review (`100bbdc`). Run 0001 (24 cases, 96 calls) failed primary efficacy ($2/24$, exact $p \approx 0.991$) and utility delta ($C - B = +0.0\%$). Zero code promoted into `src/mong_nhiem/`. Host state decoupling eliminates history context bloat, but downstream boolean truth-table conjunction over neutral variables is not viable zero-shot on models <4B. See [gate-d-disposition-review.md](experiments/prototypes/mn-008-external-state-management/gate-d-disposition-review.md).
+
+## MN-009 — Scoped Context Delivery Engine
+
 Status: **in design (Gate A preparation).**
 
-MN-008 responds to the accumulated failure of in-context implicit state tracking across MN-003, MN-004, MN-005, MN-006, and MN-007.
+1. **Core Objective:** Build a deterministic, host-side Context Scaffolding Engine in `research/experiments/prototypes/mn-009-context-scaffolding/` to guarantee bounded context ingestion ($\le 512$ tokens) over large document streams ($2\text{k} - 32\text{k}$ tokens) without silent truncation or out-of-budget overflow.
+2. **Core Mechanism:** Greedy Budget Knapsack with lexical salience scoring and natural boundary slicing (paragraphs/sentences). Prefix-aligned system headers maximize local `llama.cpp` prompt caching.
+3. **Preservation Invariant:** `src/mong_nhiem/` remains 100% clean and untouched until Gate D disposition explicitly authorizes promotion.
 
-1. **Core Mechanism:** Offload deterministic event replay and state mutation to a lightweight, deterministic host-managed state engine ($O(1)$ lookup, 0 attention context overhead for history).
-2. **Interface Decoupling:** Format an exact, compact state snapshot (e.g., key-value table or structured schema) and inject it into the prompt context.
-3. **Construct Validity:** Avoid the trivial copy-paste lookup trap (noted in MN-005) by requiring the LLM to perform non-trivial downstream conditional reasoning or action selection conditioned on the state snapshot, rather than merely repeating state values.
-4. **Primary Research Question:** Does an external state engine restore effective reasoning capacity and eliminate context degradation on multi-entity dynamic tasks for small models (<4B)?

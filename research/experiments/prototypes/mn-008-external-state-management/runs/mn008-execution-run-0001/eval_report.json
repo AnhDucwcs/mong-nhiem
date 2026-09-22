@@ -1,0 +1,690 @@
+{
+  "case_count": 24,
+  "case_results": [
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: \n",
+        "pass": true,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that you are describing a simple decision-making system using a finite state machine"
+      },
+      "case_id": "mn008-case-0001",
+      "case_ordinal": 0,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_1: E"
+      },
+      "case_id": "mn008-case-0002",
+      "case_ordinal": 1,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n1. IF E1=S",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_2",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_2: E"
+      },
+      "case_id": "mn008-case-0003",
+      "case_ordinal": 2,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, here are the actions:\n\n1. If E1"
+      },
+      "case_id": "mn008-case-0004",
+      "case_ordinal": 3,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: \n",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a simple decision-making system with four possible actions based on the"
+      },
+      "case_id": "mn008-case-0005",
+      "case_ordinal": 4,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, the actions are:\n\n1. If E1=S"
+      },
+      "case_id": "mn008-case-0006",
+      "case_ordinal": 5,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n1. IF E1=S",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, the actions are as follows:\n\n- If E1"
+      },
+      "case_id": "mn008-case-0007",
+      "case_ordinal": 6,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a simple decision-making system with two states (E1 and"
+      },
+      "case_id": "mn008-case-0008",
+      "case_ordinal": 7,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: \n",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: E"
+      },
+      "case_id": "mn008-case-0009",
+      "case_ordinal": 8,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, here are the actions:\n\n1. If E1"
+      },
+      "case_id": "mn008-case-0010",
+      "case_ordinal": 9,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n1. IF E1=S",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_2",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_2: E"
+      },
+      "case_id": "mn008-case-0011",
+      "case_ordinal": 10,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a simple decision-making system with four possible actions and two states"
+      },
+      "case_id": "mn008-case-0012",
+      "case_ordinal": 11,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: \n",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a decision-making flowchart or a state machine. Based on"
+      },
+      "case_id": "mn008-case-0013",
+      "case_ordinal": 12,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_1: E"
+      },
+      "case_id": "mn008-case-0014",
+      "case_ordinal": 13,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n1. IF E1=S",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a simple decision-making system with four possible states (E1"
+      },
+      "case_id": "mn008-case-0015",
+      "case_ordinal": 14,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the provided decision rules, the actions are as follows:\n\n- ACTION_"
+      },
+      "case_id": "mn008-case-0016",
+      "case_ordinal": 15,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: \n",
+        "pass": true,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that you are describing a simple decision-making system using a finite state machine"
+      },
+      "case_id": "mn008-case-0017",
+      "case_ordinal": 16,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_1: E"
+      },
+      "case_id": "mn008-case-0018",
+      "case_ordinal": 17,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the provided decision rules, here are the actions corresponding to each rule:\n\n"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n1. IF E1=S",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_2",
+        "raw": "Based on the decision rules, the actions are:\n\n- ACTION_2: E"
+      },
+      "case_id": "mn008-case-0019",
+      "case_ordinal": 18,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, here are the actions:\n\n1. If E1"
+      },
+      "case_id": "mn008-case-0020",
+      "case_ordinal": 19,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n- ACTION_0: \n",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a simple decision-making system with four possible actions based on the"
+      },
+      "case_id": "mn008-case-0021",
+      "case_ordinal": 20,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, the actions are:\n\n1. If E1=S"
+      },
+      "case_id": "mn008-case-0022",
+      "case_ordinal": 21,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, the actions are:\n\n1. IF E1=S",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "Based on the decision rules, the actions are as follows:\n\n- If E1"
+      },
+      "case_id": "mn008-case-0023",
+      "case_ordinal": 22,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears that the decision rules are defining the actions to be taken based on the"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "Based on the decision rules, it appears that the actions are related to a traffic",
+        "pass": false,
+        "prediction": null
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": null,
+        "raw": "It appears to be a simple decision-making system with two states (E1 and"
+      },
+      "case_id": "mn008-case-0024",
+      "case_ordinal": 23,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    }
+  ],
+  "criteria": {
+    "criterion_1_baseline_compatibility": {
+      "actual": "0/24 (0.0%)",
+      "met": true,
+      "threshold": "<= 6/24 (25.0%)"
+    },
+    "criterion_2_primary_efficacy_gate": {
+      "actual": "2/24 (8.3%)",
+      "exact_p_value": 0.99096947850202,
+      "met": false,
+      "threshold": ">= 18/24 (75.0%)"
+    },
+    "criterion_3_causal_utility_gate": {
+      "actual": "0/24 (+0.0%)",
+      "met": false,
+      "threshold": "C - B >= 10/24 (+41.7%)"
+    },
+    "criterion_4_strict_non_regression_policy": {
+      "actual_violations": 2,
+      "met": false,
+      "threshold": "n_{B=1,C=0} == 0"
+    }
+  },
+  "metrics": {
+    "arm_a_accuracy": 0.0,
+    "arm_a_passes": 0,
+    "arm_b_accuracy": 0.08333333333333333,
+    "arm_b_passes": 2,
+    "arm_c_accuracy": 0.08333333333333333,
+    "arm_c_passes": 2,
+    "delta_c_minus_a": 0.08333333333333333,
+    "delta_c_minus_b": 0.0,
+    "p_value_c": 0.99096947850202,
+    "regressions_b_pass_c_fail": 2
+  },
+  "run_id": "mn008-execution-run-0001",
+  "verdict": "UNSUPPORTED"
+}

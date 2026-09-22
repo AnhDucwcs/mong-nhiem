@@ -82,11 +82,27 @@ All six cells in the prospective landscape fell into the `floor` classification:
 
 The canonical outcome is **`no usable operating region in bounded landscape`**. Under the prospective design gate, this is a bounded negative result: no seed cell is selected, and no adaptive parameter tuning, prompt modification, threshold lowering, or landscape expansion is authorized within MN-007. MN-007 is formally closed. See [mn007-calibration-report.md](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
 
-## MN-008 — External State Management — preparing Gate A
+## MN-008 — External State Management — completed and closed (unpromoted_hypothesis_unsupported)
 
 MN-008 succeeds MN-007 to address the accumulated evidence across MN-003 (ECC-006), MN-004, MN-005, MN-006, and MN-007: small models (<4B) fail to reliably track and recover multi-entity state purely within implicit attention context.
 
-Rather than forcing the LLM to act as a latent state engine, MN-008 decouples state maintenance into:
-1. **Deterministic Host State Engine:** Ingests the raw event stream, maintains an exact state machine in host code ($O(1)$ memory lookup), and formats a compact state snapshot.
-2. **Downstream LLM Conditional Reasoning:** The LLM consumes the snapshot to perform non-trivial conditional/causal evaluation, escaping both the latent state-tracking bottleneck and the trivial copy-paste lookup trap identified in MN-005.
+MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-state-management/gate-a-hypothesis.md) and its [Gate B measurement contract](experiments/prototypes/mn-008-external-state-management/gate-b-measurement-contract.md):
+1. **Deterministic Host State Engine:** Ingests the raw event stream, maintains an exact state machine in host memory via verified logic ($O(1)$ amortized lookup), and formats a compact scoped state snapshot.
+2. **Downstream LLM Conditional Reasoning:** The LLM consumes the snapshot to perform non-trivial conditional/causal evaluation over a Latin Square counterbalanced 4-branch decision matrix, escaping both the latent state-tracking bottleneck and the trivial copy-paste lookup trap identified in MN-005.
+3. **Measurement Contract:** $N = 24$ cases ($E=5, U=3$), case-interleaved execution schedule, exact support rules ($A \le 6/24$ compatibility floor, $C \ge 18/24$ primary efficacy, $C - B \ge 10/24$ utility gate, $n_{B=1,C=0} = 0$ strict non-regression policy), hard preflight gate ($<100$ tokens for Arm C), and deterministic token sizing policy.
+4. **Gate C Run 0001 Execution:** Completed cleanly under commit `2ad5916`. All 96 calls persisted before evaluation in `runs/mn008-execution-run-0001/raw_responses.jsonl`.
+   - **Arm A (Monolithic In-Context):** $0/24$ ($0.0\%$) — PASS (Compatibility floor satisfied).
+   - **Arm B (Active Two-Call Control):** $2/24$ ($8.3\%$).
+   - **Arm C (External State Engine):** $2/24$ ($8.3\%$) — FAIL (Requires $\ge 18/24$, exact $p \approx 0.991$).
+   - **Delta $C - B$:** $+0.0\%$ — FAIL (Requires $\ge +41.7\%$).
+   - **Non-Regression Policy:** $n_{B=1, C=0} = 2$ — FAIL (Requires $0$).
+   - **Verdict:** **`UNSUPPORTED`**. See [mn008-gate-c-run-0001-report.md](experiments/prototypes/mn-008-external-state-management/reports/mn008-gate-c-run-0001-report.md).
+5. **Gate D Disposition Review:** Formally completed. The milestone disposition is `unpromoted_hypothesis_unsupported`. Promotion into `src/mong_nhiem/` is denied (zero code promoted). Decoupling deterministic state tracking to a host engine eliminates context load bottlenecks, but does not enable downstream conditional reasoning on small models (<4B) over abstract neutral variables. See [gate-d-disposition-review.md](experiments/prototypes/mn-008-external-state-management/gate-d-disposition-review.md). MN-008 is closed.
 
+## MN-009 — Scoped Context Delivery Engine — in design (Gate A preparation)
+
+MN-009 responds to the empirical capability boundary established across MN-003, MN-004, MN-007, and MN-008: `Llama-3.2-3B` operates reliably on local hardware only within a strictly bounded context ($\le 512$ tokens), collapsing to 0% on complex state and multi-step reasoning at 8k/16k tokens.
+
+1. **Core Mechanism:** Host-side deterministic Knapsack context packing and natural boundary slicing (paragraphs/sentences), prioritizing high-salience chunks without cutting midway through semantic structures.
+2. **Token Invariant:** Guarantees that any arbitrary document stream ($2\text{k}-32\text{k}$ tokens) is deterministically compressed to $\le 512$ tokens under `llama-tokenize.exe` before reaching model inference.
+3. **Governance Invariant:** All prototype development resides strictly within `research/experiments/prototypes/mn-009-context-scaffolding/`. `src/mong_nhiem/` remains 100% clean and receives zero code until Gate D explicitly authorizes promotion.
