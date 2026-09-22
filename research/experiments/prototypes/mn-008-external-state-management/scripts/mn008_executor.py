@@ -25,7 +25,7 @@ RUNS_DIR = EXPERIMENT_ROOT / "runs"
 sys.path.insert(0, str(SCRIPTS_DIR))
 import mn008_materialization as mat
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
+REPO_ROOT = Path(__file__).resolve().parents[5]
 MODEL_PATH = REPO_ROOT / "artifacts" / "models" / "mn-002" / "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
 LLAMA_SERVER_PATH = Path(r"D:\Materials\llama.cpp\build\bin\Release\llama-server.exe")
 
@@ -105,10 +105,14 @@ def build_child_env() -> dict[str, str]:
     }
 
 
-def wait_for_server(base_url: str, deadline_seconds: int = 120) -> None:
+def wait_for_server(server: subprocess.Popen, base_url: str, log_path: Path, deadline_seconds: int = 120) -> None:
     health_url = f"{base_url}/health"
     start = time.time()
     while time.time() - start < deadline_seconds:
+        ret = server.poll()
+        if ret is not None:
+            err_log = log_path.read_text(encoding="utf-8", errors="replace") if log_path.exists() else "no log"
+            raise RuntimeError(f"Server exited prematurely with code {ret}.\nLog snippet:\n{err_log[-1000:]}")
         try:
             req = urllib.request.Request(health_url)
             with urllib.request.urlopen(req, timeout=2) as resp:
@@ -184,6 +188,13 @@ def execute_runner() -> None:
 
     check_port_free(PORT)
     print(f"   Port {PORT} is available.")
+
+    if not MODEL_PATH.exists():
+        raise PreflightError(f"Model file does not exist: {MODEL_PATH}")
+    if not LLAMA_SERVER_PATH.exists():
+        raise PreflightError(f"llama-server executable does not exist: {LLAMA_SERVER_PATH}")
+    print(f"   Model verified: {MODEL_PATH.name}")
+    print(f"   llama-server verified: {LLAMA_SERVER_PATH.name}")
 
     val_res = mat.validate_corpus(DEFINITION_DIR)
     print(f"   Corpus validation: {val_res['status']} (manifest: {val_res['manifest_sha256'][:16]}...)")
@@ -264,12 +275,15 @@ def execute_runner() -> None:
         "{}",
     ]
 
+    server_log_path = run_dir / "llama_server.log"
+    server_log_file = open(server_log_path, "w", encoding="utf-8")
+
     print("\n2. Launching llama-server on port 18508...")
     server = subprocess.Popen(
         server_cmd,
         env=child_env,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        stdout=server_log_file,
+        stderr=subprocess.STDOUT,
     )
 
     t_start = datetime.now(timezone.utc)
@@ -277,7 +291,7 @@ def execute_runner() -> None:
 
     try:
         print("   Waiting for server health check...")
-        wait_for_server(BASE_URL, deadline_seconds=120)
+        wait_for_server(server, BASE_URL, server_log_path, deadline_seconds=120)
         print("   Server healthy.")
 
         print(f"\n3. Executing {TOTAL_CASES} cases in interleaved order (A_i -> B_1,i -> B_2,i -> C_2,i)...")
@@ -398,6 +412,7 @@ def execute_runner() -> None:
         print("\n4. Terminating llama-server...")
         server.terminate()
         server.wait(timeout=30)
+        server_log_file.close()
         print("   Server stopped.")
 
     t_end = datetime.now(timezone.utc)
