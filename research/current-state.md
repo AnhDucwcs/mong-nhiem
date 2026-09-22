@@ -82,14 +82,16 @@ All six cells in the prospective landscape fell into the `floor` classification:
 
 The canonical outcome is **`no usable operating region in bounded landscape`**. Under the prospective design gate, this is a bounded negative result: no seed cell is selected, and no adaptive parameter tuning, prompt modification, threshold lowering, or landscape expansion is authorized within MN-007. MN-007 is formally closed. See [mn007-calibration-report.md](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
 
-## MN-008 — External State Management — Gate A frozen
+## MN-008 — External State Management — Gate B frozen
 
 MN-008 succeeds MN-007 to address the accumulated evidence across MN-003 (ECC-006), MN-004, MN-005, MN-006, and MN-007: small models (<4B) fail to reliably track and recover multi-entity state purely within implicit attention context.
 
-MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-state-management/gate-a-hypothesis.md):
+MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-state-management/gate-a-hypothesis.md) and its [Gate B measurement contract](experiments/prototypes/mn-008-external-state-management/gate-b-measurement-contract.md):
 1. **Deterministic Host State Engine:** Ingests the raw event stream, maintains an exact state machine in host memory via verified logic ($O(1)$ amortized lookup), and formats a compact scoped state snapshot.
 2. **Downstream LLM Conditional Reasoning:** The LLM consumes the snapshot to perform non-trivial conditional/causal evaluation over a Latin Square counterbalanced 4-branch decision matrix, escaping both the latent state-tracking bottleneck and the trivial copy-paste lookup trap identified in MN-005.
+3. **Measurement Contract:** $N = 24$ cases ($E=5, U=3$), case-interleaved execution schedule, exact support rules ($A \le 6/24$ compatibility floor, $C \ge 18/24$ primary efficacy, $C - B \ge 10/24$ utility gate, $n_{B=1,C=0} = 0$ strict non-regression policy), hard preflight gate ($<100$ tokens for Arm C), and deterministic token sizing policy.
 
-Gate B measurement contract design is the next required step. No runner execution or empirical inference is authorized.
+Gate C deterministic materialization and runner implementation is the next required step. Model inference is unauthorized prior to static preflight validation.
+
 
 
