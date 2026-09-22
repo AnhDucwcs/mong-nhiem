@@ -82,7 +82,7 @@ All six cells in the prospective landscape fell into the `floor` classification:
 
 The canonical outcome is **`no usable operating region in bounded landscape`**. Under the prospective design gate, this is a bounded negative result: no seed cell is selected, and no adaptive parameter tuning, prompt modification, threshold lowering, or landscape expansion is authorized within MN-007. MN-007 is formally closed. See [mn007-calibration-report.md](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
 
-## MN-008 — External State Management — Gate C completed (UNSUPPORTED)
+## MN-008 — External State Management — completed and closed (unpromoted_hypothesis_unsupported)
 
 MN-008 succeeds MN-007 to address the accumulated evidence across MN-003 (ECC-006), MN-004, MN-005, MN-006, and MN-007: small models (<4B) fail to reliably track and recover multi-entity state purely within implicit attention context.
 
@@ -97,5 +97,4 @@ MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-st
    - **Delta $C - B$:** $+0.0\%$ — FAIL (Requires $\ge +41.7\%$).
    - **Non-Regression Policy:** $n_{B=1, C=0} = 2$ — FAIL (Requires $0$).
    - **Verdict:** **`UNSUPPORTED`**. See [mn008-gate-c-run-0001-report.md](experiments/prototypes/mn-008-external-state-management/reports/mn008-gate-c-run-0001-report.md).
-
-Gate D disposition and promotion review is the next required step.
+5. **Gate D Disposition Review:** Formally completed. The milestone disposition is `unpromoted_hypothesis_unsupported`. Promotion into `src/mong_nhiem/` is denied (zero code promoted). Decoupling deterministic state tracking to a host engine eliminates context load bottlenecks, but does not enable downstream conditional reasoning on small models (<4B) over abstract neutral variables. See [gate-d-disposition-review.md](experiments/prototypes/mn-008-external-state-management/gate-d-disposition-review.md). MN-008 is closed.

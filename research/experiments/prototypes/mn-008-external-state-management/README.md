@@ -2,7 +2,7 @@
 
 ## Status
 
-**Active — Gate C completed (UNSUPPORTED).**
+**Completed and closed — Gate D disposition review complete (`unpromoted_hypothesis_unsupported`).**
 
 MN-008 succeeds MN-007 following its formal closure at `no usable operating region in bounded landscape` ([mn007-calibration-report.md](../mn-007-state-recovery-operating-region/mn007-calibration-report.md)). Across MN-003 (ECC-006), MN-004, MN-005, MN-006, and MN-007, small models (<4B parameter class, specifically `Llama-3.2-3B-Instruct`) consistently fail to maintain and recover multi-entity state purely within implicit attention context (floor performance $\le 22.2\%$).
 
