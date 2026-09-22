@@ -82,7 +82,7 @@ All six cells in the prospective landscape fell into the `floor` classification:
 
 The canonical outcome is **`no usable operating region in bounded landscape`**. Under the prospective design gate, this is a bounded negative result: no seed cell is selected, and no adaptive parameter tuning, prompt modification, threshold lowering, or landscape expansion is authorized within MN-007. MN-007 is formally closed. See [mn007-calibration-report.md](experiments/prototypes/mn-007-state-recovery-operating-region/mn007-calibration-report.md).
 
-## MN-008 — External State Management — Gate C Phase 1 complete
+## MN-008 — External State Management — Gate C completed (UNSUPPORTED)
 
 MN-008 succeeds MN-007 to address the accumulated evidence across MN-003 (ECC-006), MN-004, MN-005, MN-006, and MN-007: small models (<4B) fail to reliably track and recover multi-entity state purely within implicit attention context.
 
@@ -90,9 +90,12 @@ MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-st
 1. **Deterministic Host State Engine:** Ingests the raw event stream, maintains an exact state machine in host memory via verified logic ($O(1)$ amortized lookup), and formats a compact scoped state snapshot.
 2. **Downstream LLM Conditional Reasoning:** The LLM consumes the snapshot to perform non-trivial conditional/causal evaluation over a Latin Square counterbalanced 4-branch decision matrix, escaping both the latent state-tracking bottleneck and the trivial copy-paste lookup trap identified in MN-005.
 3. **Measurement Contract:** $N = 24$ cases ($E=5, U=3$), case-interleaved execution schedule, exact support rules ($A \le 6/24$ compatibility floor, $C \ge 18/24$ primary efficacy, $C - B \ge 10/24$ utility gate, $n_{B=1,C=0} = 0$ strict non-regression policy), hard preflight gate ($<100$ tokens for Arm C), and deterministic token sizing policy.
-4. **Gate C Phase 1 (Materialization & Preflight):** Completed and verified.
-   - Materialized canonical 24-case corpus in `definition/corpus-v1/` (`manifest.json` SHA-256: `61a2adbf1b8f29e90a302aa3065f7f5e08f812810b677a122297b8bfd1ba309c`).
-   - Latin Square balance mathematically verified: each of 4 state pairs appears exactly 6 times; each of 4 actions is the target in exactly 6 cases.
-   - Token budget hard preflight gate passed: all 24 Arm C Stage 2 prompts measure strictly $<100$ tokens under `Llama-3.2-3B-Instruct` tokenizer (max raw 87 tokens, max templated 96 tokens).
-   - 7/7 unit tests pass in `tests/unit/test_mn008_materialization.py`.
-Phase 2 (hermetic model runner execution) is the next required step.
+4. **Gate C Run 0001 Execution:** Completed cleanly under commit `2ad5916`. All 96 calls persisted before evaluation in `runs/mn008-execution-run-0001/raw_responses.jsonl`.
+   - **Arm A (Monolithic In-Context):** $0/24$ ($0.0\%$) — PASS (Compatibility floor satisfied).
+   - **Arm B (Active Two-Call Control):** $2/24$ ($8.3\%$).
+   - **Arm C (External State Engine):** $2/24$ ($8.3\%$) — FAIL (Requires $\ge 18/24$, exact $p \approx 0.991$).
+   - **Delta $C - B$:** $+0.0\%$ — FAIL (Requires $\ge +41.7\%$).
+   - **Non-Regression Policy:** $n_{B=1, C=0} = 2$ — FAIL (Requires $0$).
+   - **Verdict:** **`UNSUPPORTED`**. See [mn008-gate-c-run-0001-report.md](experiments/prototypes/mn-008-external-state-management/reports/mn008-gate-c-run-0001-report.md).
+
+Gate D disposition and promotion review is the next required step.
