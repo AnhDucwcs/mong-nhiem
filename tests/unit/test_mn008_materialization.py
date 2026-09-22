@@ -1,7 +1,6 @@
 """Unit tests for MN-008 Gate C Phase 1 materialization and preflight validation."""
 from __future__ import annotations
 
-import json
 import subprocess
 import sys
 from collections import Counter
@@ -170,7 +169,7 @@ def test_arm_c_prompt_token_budget_hard_gate(corpus_data):
 
 def test_deterministic_reproducibility_and_manifest_validation(tmp_path):
     # Materialize to temp dir
-    manifest_tmp = mat.materialize_corpus(tmp_path)
+    assert mat.materialize_corpus(tmp_path) is not None
     result_tmp = mat.validate_corpus(tmp_path)
     assert result_tmp["status"] == "VALID"
 
