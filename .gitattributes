@@ -12,3 +12,7 @@ research/experiments/prototypes/mn-007-state-recovery-operating-region/definitio
 
 # Raw measured evidence is fingerprinted by its exact physical bytes.
 research/experiments/prototypes/mn-006-distributed-state-integration/runs/** -text whitespace=-trailing-space
+
+# MN-008 External State Management definitions
+research/experiments/prototypes/mn-008-external-state-management/definition/** text eol=lf
+

@@ -18,6 +18,8 @@
 
 | 2026-09-19 | MN-007 closes with `no usable operating region in bounded landscape` on Llama-3.2-3B-Instruct (Q4_K_M). All six candidate cells in the bounded landscape ($E \in \{3, 5, 7\}, U=3$) scored in the floor regime ($C_i \le 4/18$). Under the prospective operating-region design gate, this is a bounded negative calibration result; no adaptive parameter tuning, prompt alteration, threshold lowering, or landscape expansion is permitted. MN-007 is closed and in-context latent state recovery is rejected on this subject. | accepted |
 | 2026-09-19 | MN-008 is chartered as an External State Management milestone. In light of the accumulated failure evidence of implicit attention state tracking across MN-003, MN-004, MN-005, MN-006, and MN-007, deterministic state tracking is offloaded to a host-managed state engine. MN-008 must evaluate downstream non-trivial conditional/causal reasoning conditioned on state snapshots, avoiding both in-context tracking failure and trivial lookup tautology. | accepted |
+| 2026-09-22 | MN-008 Gate A freezes the External State Management hypothesis: decouple deterministic event replay to an O(1) host engine providing scoped snapshots, evaluating downstream conditional reasoning over a Latin Square counterbalanced 4-branch decision matrix across 3 matched arms. This authorizes Gate B measurement contract design only; no runner execution or model inference is authorized. | accepted |
+
 
 Record meaningful architecture or evaluation decisions here. Research hypotheses, parameters, and measurements belong in the relevant experiment evidence.
 
