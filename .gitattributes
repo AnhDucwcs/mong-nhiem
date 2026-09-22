@@ -16,3 +16,14 @@ research/experiments/prototypes/mn-006-distributed-state-integration/runs/** -te
 # MN-008 External State Management definitions
 research/experiments/prototypes/mn-008-external-state-management/definition/** text eol=lf
 
+# Windows CRLF frozen authority files across historical prototypes
+research/experiments/prototypes/mn-004-state-representation-intervention/definition/source-inventory.json text eol=crlf
+research/experiments/prototypes/mn-004-state-representation-intervention/definition/preflight-llama-3.2-3b.json text eol=crlf
+research/experiments/prototypes/mn-004-state-representation-intervention/definition/preflight-qwen3-4b.json text eol=crlf
+research/experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-a-hypothesis.md text eol=crlf
+research/experiments/prototypes/mn-006-distributed-state-integration/recurring-fixed-label-causal-review.md text eol=crlf
+
+# Prototype LF authority files
+research/experiments/prototypes/mn-003-effective-context-capacity/** text eol=lf
+research/experiments/prototypes/mn-005-state-tracking-intervention-selection/gate-b*.md text eol=lf
+
