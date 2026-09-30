@@ -1,37 +1,49 @@
 # MN-009 Gate C: Scoped Context Delivery Engine Execution Report
 
+## Context & Navigation
+
+- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
+- System Architecture: [[research/concepts/architecture.md|architecture]]
+- Current Milestone State: [[research/current-state.md|current-state]]
+- Parent Milestone Charter: [[charter.md|MN-009 Gate A Charter]]
+- Measurement Contract: [[gate-b-contract.md|MN-009 Gate B Contract]]
+- Gate D Disposition Review: [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]]
+- Canonical Evidence Run: `runs/mn009-execution-run-0001/`
+
 **Run ID:** `mn009-execution-run-0001`  
-**Timestamp:** `2026-09-30T14:40:15.579635+00:00`  
-**Evaluated Binary:** `D:\Materials\llama.cpp\build\bin\Release\llama-tokenize.exe`  
+**Timestamp:** `2026-09-30T15:13:57.544086+00:00`  
+**Evaluated Tokenizer:** `D:\Materials\llama.cpp\build\bin\Release\llama-tokenize.exe`  
 **Model Weights:** `Llama-3.2-3B-Instruct-Q4_K_M.gguf`  
 
 ---
 
-## 1. Kết Quả Nghiệm Thu 5 Tiêu Chuẩn Đóng Băng (Frozen Rules)
+## 1. Acceptance Verification across 5 Frozen Rules
 
-| Tiêu chuẩn (Rule) | Ngưỡng yêu cầu (Threshold) | Kết quả thực nghiệm (Measured) | Trạng thái |
+| Support Rule | Target Threshold | Measured Empirical Result | Status |
 | :--- | :--- | :--- | :---: |
-| **Rule 1: Hard Token Ceiling** | $\le 512$ tokens ($100\%$) | Max: **501**, Mean: **229.7** | **PASS** |
-| **Rule 2: Boundary & AST Integrity** | $100\%$ valid syntax / boundaries | Pass rate: **30/30** ($100\%$) | **PASS** |
+| **Rule 1: Hard Token Ceiling** | $\le 512$ tokens ($100\%$ of cases) | Max: **501**, Mean: **229.7** | **PASS** |
+| **Rule 2: Boundary & AST Integrity** | $100\%$ valid syntax & natural boundaries | Pass rate: **30/30** ($100\%$) | **PASS** |
 | **Rule 3: Salience Recall** | $\ge 28/30$ cases ($93.3\%$) | Recall rate: **30/30 (100.0%)** | **PASS** |
-| **Rule 4: CPU Latency Gate** | Mean $< 15.0\text{ ms}$, Max $< 35.0\text{ ms}$ | Mean: **3.62 ms**, Max: **16.83 ms** | **PASS** |
-| **Rule 5: Prefix Cache Invariant** | $100\%$ identical prefix header | Hit rate: **100%** | **PASS** |
+| **Rule 4: CPU Latency Gate** | Mean $< 15.0\text{ ms}$, Max $< 35.0\text{ ms}$ | Mean: **3.37 ms**, Max: **15.37 ms** | **PASS** |
+| **Rule 5: Prefix Cache Invariant** | $100\%$ identical prefix header | Cache Hit Rate: **100%** | **PASS** |
 
 ---
 
-## 2. Phân Bố Theo Nhóm Dữ Liệu & Quy Mô
+## 2. Empirical Performance by Problem Domain
 
-| Nhóm bài toán | Số cases | Quy mô thô (Tokens) | Token sau đóng gói | Mean CPU Latency | AST / Cú pháp |
+| Domain | Case Count | Raw Scale Range | Packed Tokens | Mean CPU Latency | AST / Syntax Integrity |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Nhóm A: Text Stream** | 10 | 2k - 32k | $\le 512$ | 3.9 ms | $10/10$ Hoàn chỉnh |
-| **Nhóm B: Graph & State Tables** | 10 | 2k - 32k | $\le 512$ | 0.55 ms | $10/10$ Chuẩn hóa |
-| **Nhóm C: Codebase AST Slicing** | 10 | 2k - 32k | $\le 512$ | 6.39 ms | $10/10$ Valid AST |
+| **Domain A: Text Stream** | 10 | 2k - 32k | $\le 512$ | 3.72 ms | $10/10$ Natural Boundaries |
+| **Domain B: Graph & State Tables** | 10 | 2k - 32k | $\le 512$ | 0.53 ms | $10/10$ Projected Invariants |
+| **Domain C: Codebase AST Slicing** | 10 | 2k - 32k | $\le 512$ | 5.87 ms | $10/10$ Valid Python AST |
 
 ---
 
-## 3. Khuyến Nghị Phê Chuẩn Gate D (Gate D Disposition)
+## 3. Gate D Disposition Recommendation
 
-- **Đánh giá tổng thể:** **RECOMMEND_PROCEED**
-- Cả 5/5 tiêu chuẩn hỗ trợ đều đạt 100% yêu cầu.
-- Không phát hiện bất kỳ trường hợp nào tràn ngưỡng 512 tokens hoặc lỗi cú pháp AST.
-- Thuật toán đóng gói CPU hoàn thành toàn bộ 30 cases với thời gian trung bình 3.62 ms, sẵn sàng cho việc xúc tiến vào production pipeline `src/mong_nhiem/context/`.
+- **Overall Milestone Evaluation:** **RECOMMEND_PROCEED**
+- All 5/5 frozen support rules have been satisfied with zero margin breaches.
+- Zero token overflow detected across the 30-case matrix under official `llama-tokenize.exe`.
+- Zero AST syntax errors produced across arbitrary Python code structures.
+- Host packaging executed on CPU in an average of 3.37 ms with zero GPU/VRAM footprint.
+- Scaffolding engine qualifies for promotion consideration under [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]].

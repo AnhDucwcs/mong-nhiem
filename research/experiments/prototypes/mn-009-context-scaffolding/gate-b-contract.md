@@ -1,80 +1,91 @@
 # MN-009 Gate B: Measurement Contract & Evaluation Protocol
 
-## 1. Mục tiêu & Nguyên tắc Đo lường
+## Context & Navigation
 
-Tài liệu này đóng băng hợp đồng đo lường thực nghiệm cho **MN-009: Scoped Context Delivery Engine**.
-Mục tiêu là kiểm chứng toán học và thực nghiệm khả năng nén, cắt gọt và đóng gói các luồng dữ liệu lớn ($2\text{k} - 32\text{k}$ tokens) xuống ngân sách $\le 512$ tokens mà không làm mất mát ngữ nghĩa, không đứt gãy cấu trúc cú pháp và bảo toàn $100\%$ tính toàn vẹn thời gian (temporal invariants).
-
-Toàn bộ quá trình đánh giá tuân thủ nguyên tắc:
-1. **Đo lường Token Cứng (Hard Token Accounting):** Sử dụng trực tiếp binary `llama-tokenize.exe` và file model `Llama-3.2-3B-Instruct-Q4_K_M.gguf`.
-2. **Cách ly Tuyệt đối (Hermetic Sandbox):** Mọi mã nguồn thử nghiệm nằm tại `research/experiments/prototypes/mn-009-context-scaffolding/`. Thư mục `src/mong_nhiem/` tiếp tục đóng và không nhận code cho đến khi Gate D phê chuẩn.
-3. **Tính Tất định & Khả năng Tái lặp (Deterministic Reproducibility):** Dữ liệu kiểm chuẩn được sinh bằng seed cố định, có mã băm SHA-256 xác thực trong `manifest.json`.
+- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
+- System Architecture: [[research/concepts/architecture.md|architecture]]
+- Current Milestone State: [[research/current-state.md|current-state]]
+- Parent Milestone Charter: [[charter.md|MN-009 Gate A Charter]]
+- Execution Runner: [`scripts/mn009_executor.py`](scripts/mn009_executor.py)
+- Execution Report: [[reports/mn009-execution-report.md|MN-009 Gate C Execution Report]]
+- Disposition Review: [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]]
 
 ---
 
-## 2. Thiết kế Tập Dữ liệu Kiểm chuẩn (Corpus 30 Cases)
+## 1. Objectives & Measurement Principles
 
-Tập dữ liệu gồm 30 trường hợp thử nghiệm độc lập (`mn009-case-0001` đến `mn009-case-0030`), bao phủ 5 bậc quy mô ngữ cảnh ($2\text{k}, 4\text{k}, 8\text{k}, 16\text{k}, 32\text{k}$ tokens) qua 3 nhóm cấu trúc dữ liệu thực tế:
+This document freezes the empirical measurement contract for **MN-009: Scoped Context Delivery Engine**.
+The objective is to mathematically and empirically verify that host-side context scaffolding can compress extensive raw document streams ($2\text{k} - 32\text{k}$ tokens) down to a strict $\le 512$-token budget without semantic breakdown, broken syntax trees, or temporal inconsistency.
 
-| Nhóm bài toán | Số cases | Phân bố kích thước | Đặc tính kỹ thuật kiểm tra |
+All evaluations adhere to three core principles:
+1. **Hard Token Accounting:** Measurement relies strictly on the official offline `llama-tokenize.exe` binary with `Llama-3.2-3B-Instruct-Q4_K_M.gguf`.
+2. **Hermetic Sandbox Isolation:** All prototype code resides within `research/experiments/prototypes/mn-009-context-scaffolding/`. The production package `src/mong_nhiem/` remains closed until Gate D approval.
+3. **Deterministic Reproducibility:** The benchmark corpus is generated via fixed seeds, authenticated with SHA-256 digests in [`definition/corpus-v1/manifest.json`](definition/corpus-v1/manifest.json).
+
+---
+
+## 2. Evaluation Benchmark Corpus Design (30 Cases)
+
+The evaluation suite comprises 30 independent cases (`mn009-case-0001` through `mn009-case-0030`), covering 5 context size tiers ($2\text{k}, 4\text{k}, 8\text{k}, 16\text{k}, 32\text{k}$ tokens) across 3 practical data structures:
+
+| Problem Domain | Case Count | Scale Distribution | Core Technical Invariants Evaluated |
 | :--- | :---: | :---: | :--- |
-| **Nhóm A: Văn bản & Dòng sự kiện (Text & Story Stream)** | 10 | 2k: 2, 4k: 2, 8k: 2, 16k: 2, 32k: 2 | - Cơ chế **Anchor-and-Spoke**: Ghim 60 tokens mở đầu + trật tự thời gian gốc.<br>- **Causal Timeline**: Nén sự kiện đan xen thành dòng biến đổi trạng thái.<br>- Giải quyết bẫy mất đại từ ("anh ấy", "công ty đó") của RAG thông thường. |
-| **Nhóm B: Đồ thị Tri thức & Bảng Trạng thái (Graph & State Tables)** | 10 | 2k: 2, 4k: 2, 8k: 2, 16k: 2, 32k: 2 | - **Invariant Temporal Check:** $100\%$ thực thể xuất hiện phải có Latest State.<br>- **k-Hop Subgraph BFS ($k \le 2$):** Cắt tỉa đồ thị 500 nodes xuống $\le 8$ nodes.<br>- **Shortest Path Bridging:** Bảo toàn đường đi kết nối giữa 2 thực thể mục tiêu.<br>- **Column/Row Projection:** Lọc bảng 50 dòng xuống đúng 2 dòng hữu quan. |
-| **Nhóm C: Codebase AST Slicing (Mã nguồn phần mềm)** | 10 | 2k: 2, 4k: 2, 8k: 2, 16k: 2, 32k: 2 | - **AST Skeletoning:** Thu gọn 25 hàm phụ thành `def name(...): ...`.<br>- **Untyped Handling:** Trích xuất default values và biến trong câu lệnh `return`.<br>- **Adaptive Inlining:** Tự động giữ nguyên thân hàm nếu hàm phụ ngắn $\le 5$ dòng.<br>- **Syntax Integrity:** Mã sau khi nén phải vượt qua `ast.parse` không lỗi cú pháp. |
+| **Domain A: Narrative & Event Stream (`text_stream`)** | 10 | 2k: 2, 4k: 2, 8k: 2, 16k: 2, 32k: 2 | - **Anchor-and-Spoke:** Preserves the opening 60-token executive anchor + original chronological order.<br>- **Causal Timeline:** Compresses multi-entity events into causal state updates.<br>- Eliminates pronoun detachment ("he", "the system") common in standard vector RAG. |
+| **Domain B: Knowledge Graphs & State Tables (`graph_table`)** | 10 | 2k: 2, 4k: 2, 8k: 2, 16k: 2, 32k: 2 | - **Invariant Temporal Check:** $100\%$ active entities must have an explicit Latest State.<br>- **$k$-Hop Subgraph BFS ($k \le 2$):** Prunes 500-node networks down to $\le 8$ relevant nodes in $O(V+E)$.<br>- **Shortest Path Bridging:** Guarantees connection preservation between target entities.<br>- **Column/Row Projection:** Filters 50-row tables down to exact queried records. |
+| **Domain C: Software Codebase AST (`code_ast`)** | 10 | 2k: 2, 4k: 2, 8k: 2, 16k: 2, 32k: 2 | - **AST Skeletoning:** Stubs 25 auxiliary functions to signatures + inferred returns + `...`.<br>- **Adaptive Inlining:** Retains complete function bodies if short ($\le 5$ lines).<br>- **Call Closure Pruning:** Omits uncalled helper functions via `omit_uncalled=True`.<br>- **Syntax Integrity:** Code must pass `ast.parse` with zero `SyntaxError`. |
 
 ---
 
-## 3. Năm Tiêu chuẩn Nghiệm thu Đóng băng (Frozen Support Rules)
+## 3. Five Frozen Acceptance Support Rules
 
-Để đạt điều kiện đề xuất promote tại Gate D, kết quả chạy thực nghiệm bắt buộc phải thỏa mãn đồng thời cả 5 tiêu chí sau:
+To qualify for promotion recommendation at Gate D, the execution must satisfy all 5 frozen rules:
 
-### Rule 1: Ngân sách Token Cứng (Hard Token Budget Ceiling)
-- **Tiêu chuẩn:** $100\%$ ($30/30$ cases) đầu ra sau khi đóng gói đo bằng `llama-tokenize.exe` phải có độ dài:
+### Rule 1: Hard Token Budget Ceiling
+- **Requirement:** $100\%$ ($30/30$ cases) of packed outputs measured by `llama-tokenize.exe` must satisfy:
   $$\text{TokenCount}(\text{packed\_context}) \le 512$$
-- **Sai số cho phép:** $0$ trường hợp vượt ngưỡng (Zero Overflow Tolerance).
+- **Tolerance:** 0 overflow cases allowed (Zero Overflow Tolerance).
 
-### Rule 2: Tính Toàn vẹn Ranh giới Cú pháp (Boundary & AST Integrity)
-- **Tiêu chuẩn:** 
-  - $0$ câu văn bị đứt gãy giữa chừng (phải kết thúc bằng dấu chấm câu hoặc ngắt dòng hợp lệ).
-  - $100\%$ các đoạn mã sau nén trong Nhóm C phải là mã nguồn Python hợp lệ (`ast.parse` trả về hợp lệ).
+### Rule 2: Boundary & AST Syntax Integrity
+- **Requirement:**
+  - 0 sentences cut midway (must end on valid punctuation or paragraph break).
+  - $100\%$ of code outputs in Domain C must be valid Python code (`ast.parse` succeeds).
 
-### Rule 3: Bảo tồn Dữ kiện Mục tiêu (Salience Information Recall)
-- **Tiêu chuẩn:** Ít nhất $28/30$ cases ($93.3\%$) phải bảo toàn được dữ kiện mục tiêu (Target Fact / State / Logic) trong ngữ cảnh 512 tokens.
+### Rule 3: Target Fact Salience Recall
+- **Requirement:** At least $28/30$ cases ($93.3\%$) must retain target factual queries, latest states, or logic in the packed 512-token context.
 
-### Rule 4: Độ trễ Xử lý CPU (CPU Packing Latency Gate)
-- **Tiêu chuẩn:** Thời gian đóng gói trung bình trên CPU của máy host:
+### Rule 4: Host CPU Packaging Latency Gate
+- **Requirement:** Packaging latency on host CPU must satisfy:
   $$\text{MeanLatency}_{\text{CPU}} < 15.0\text{ ms}$$
-  (Thời gian tối đa cho case 32k tokens $< 35\text{ ms}$).
+  $$\text{MaxLatency}_{\text{CPU}} < 35.0\text{ ms} \quad (\text{for 32k tokens})$$
 
-### Rule 5: Căn chỉnh Tiền tố Prompt Cache (Prefix Cache Invariant)
-- **Tiêu chuẩn:** Cấu trúc System Header cố định ở đầu context đạt tỷ lệ tái sử dụng bộ nhớ đệm KV Cache trên `llama-server.exe`:
+### Rule 5: Prefix Cache Invariant
+- **Requirement:** Uniform system header structure across cases to guarantee KV Cache reuse on `llama-server.exe`:
   $$\text{CacheHitRate} = 100\%$$
-  Giúp giảm độ trễ Time-to-First-Token (TTFT) của model $\ge 80\%$ so với nạp thô 8k/16k tokens.
 
 ---
 
-## 4. Định dạng Schema Dữ liệu Kiểm chuẩn
+## 4. Benchmark Case Schema
 
-Mỗi trường hợp trong tập 30 cases được lưu trữ dưới định dạng JSON Lines gồm các trường:
+Each case in [`definition/corpus-v1/cases.jsonl`](definition/corpus-v1/cases.jsonl) follows the strict schema:
 ```json
 {
   "case_id": "mn009-case-0001",
   "category": "text_stream | graph_table | code_ast",
   "raw_token_count": 8192,
-  "raw_content": "... [Văn bản, Code hoặc Đồ thị đầy đủ] ...",
-  "query": "Trạng thái cuối cùng của Thực thể X là gì?",
-  "target_fact": "Thực thể X đang ở trạng thái ACTIVE tại Khu vực B",
-  "required_entities": ["Entity_X", "Entity_Y"],
-  "oracle_answer": "ACTIVE"
+  "raw_content": "... [Complete unstructured text, code, or graph] ...",
+  "query": "What is the final condition and location of Operative Alex?",
+  "target_fact": "Operative Alex is SECURED at Sector-4.",
+  "required_entities": ["Alex"],
+  "oracle_answer": "SECURED at Sector-4"
 }
 ```
 
 ---
 
-## 5. Ranh giới Phủ quyết (Rejection Boundary)
+## 5. Rejection Boundaries (Automatic Veto)
 
-Nếu xảy ra bất kỳ điều kiện nào sau đây, milestone tự động bị bác bỏ tại Gate D:
-1. Có dù chỉ 1 case có độ dài $> 512$ tokens sau khi đóng gói.
-2. Phát hiện lỗi cú pháp `SyntaxError` hoặc đứt đoạn AST trong code sinh ra.
-3. Vi phạm `Invariant Temporal Check`: Tồn tại thực thể mục tiêu trong query nhưng thiếu Latest State tương ứng trong context.
-4. Tỷ lệ giữ dữ kiện mục tiêu $< 28/30$.
+A milestone is automatically rejected at Gate D if any of the following occur:
+1. Any case exceeds 512 tokens after packaging.
+2. A `SyntaxError` or broken AST is produced in sliced code.
+3. Violation of `Invariant Temporal Check`: A queried entity lacks an explicit latest state.
+4. Salience recall falls below $28/30$.

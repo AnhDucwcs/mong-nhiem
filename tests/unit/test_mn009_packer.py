@@ -54,8 +54,15 @@ def get_offline_llama_tokenizer():
                 "--show-count",
                 "--no-bos",
             ]
-            res = subprocess.run(cmd, capture_output=True, text=True, check=True)
-            for line in res.stdout.splitlines():
+            res = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=True,
+            )
+            for line in (res.stdout or "").splitlines():
                 if "Total number of tokens:" in line:
                     return int(line.split(":")[-1].strip())
             raise RuntimeError("Failed to parse token count")
