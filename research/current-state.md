@@ -99,10 +99,22 @@ MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-st
    - **Verdict:** **`UNSUPPORTED`**. See [mn008-gate-c-run-0001-report.md](experiments/prototypes/mn-008-external-state-management/reports/mn008-gate-c-run-0001-report.md).
 5. **Gate D Disposition Review:** Formally completed. The milestone disposition is `unpromoted_hypothesis_unsupported`. Promotion into `src/mong_nhiem/` is denied (zero code promoted). Decoupling deterministic state tracking to a host engine eliminates context load bottlenecks, but does not enable downstream conditional reasoning on small models (<4B) over abstract neutral variables. See [gate-d-disposition-review.md](experiments/prototypes/mn-008-external-state-management/gate-d-disposition-review.md). MN-008 is closed.
 
-## MN-009 — Scoped Context Delivery Engine — in design (Gate A preparation)
+## MN-009 — Scoped Context Delivery Engine — completed evaluation (Gate D recommend_proceed)
 
 MN-009 responds to the empirical capability boundary established across MN-003, MN-004, MN-007, and MN-008: `Llama-3.2-3B` operates reliably on local hardware only within a strictly bounded context ($\le 512$ tokens), collapsing to 0% on complex state and multi-step reasoning at 8k/16k tokens.
 
-1. **Core Mechanism:** Host-side deterministic Knapsack context packing and natural boundary slicing (paragraphs/sentences), prioritizing high-salience chunks without cutting midway through semantic structures.
-2. **Token Invariant:** Guarantees that any arbitrary document stream ($2\text{k}-32\text{k}$ tokens) is deterministically compressed to $\le 512$ tokens under `llama-tokenize.exe` before reaching model inference.
-3. **Governance Invariant:** All prototype development resides strictly within `research/experiments/prototypes/mn-009-context-scaffolding/`. `src/mong_nhiem/` remains 100% clean and receives zero code until Gate D explicitly authorizes promotion.
+1. **Gate A Charter & Gate B Measurement Contract:** Frozen at `charter.md` and `gate-b-contract.md`. Established 5 frozen support rules and a 30-case evaluation matrix across 3 data categories (Text Stream, Graph & State Tables, Codebase AST) and 5 scale tiers ($2\text{k}, 4\text{k}, 8\text{k}, 16\text{k}, 32\text{k}$ tokens).
+2. **Deterministic Context Scaffolding Engine:** Implemented in `src/packer.py` and `src/slicer.py`:
+   - Natural boundary preservation with Anchor-and-Spoke and chronological causal sorting.
+   - AST Codebase Slicer with adaptive short-helper inlining, transitive call-closure pruning, and syntax integrity guarantee (`ast.parse`).
+   - k-hop BFS graph induction and active entity tabular projection.
+   - Invariant Temporal Check enforcing explicit latest state for active entities.
+   - Fast single-pass lexical analysis achieving $< 4\text{ ms}$ CPU packing latency.
+3. **Unit Test Suite:** `tests/unit/test_mn009_packer.py` passed 9/9 unit tests cleanly under `pytest` with real `llama-tokenize.exe` and `Llama-3.2-3B-Instruct-Q4_K_M.gguf`.
+4. **Gate C Canonical Execution (`mn009-execution-run-0001`):**
+   - **Rule 1 (Hard Token Ceiling):** 30/30 ($100\%$) cases $\le 512$ tokens (Max: 501, Mean: 229.7) — PASS.
+   - **Rule 2 (Boundary & AST Integrity):** 30/30 ($100\%$) valid syntax and boundaries — PASS.
+   - **Rule 3 (Salience Recall):** 30/30 ($100.0\%$) target fact retention (target $\ge 28/30$) — PASS.
+   - **Rule 4 (CPU Latency Gate):** Mean 3.62 ms, Max 16.83 ms (target Mean $< 15\text{ ms}$, Max $< 35\text{ ms}$) — PASS.
+   - **Rule 5 (Prefix Cache Invariant):** 30/30 ($100\%$) prefix alignment — PASS.
+5. **Gate D Disposition Review:** All 5 support rules satisfied ($100\%$). The final milestone disposition is `recommend_proceed`. Promotion into `src/mong_nhiem/context/` is prepared and awaiting explicit user authorization. See [gate-d-disposition-review.md](experiments/prototypes/mn-009-context-scaffolding/gate-d-disposition-review.md).

@@ -1,0 +1,49 @@
+{
+  "case_count": 30,
+  "case_ids": [
+    "mn009-case-0001",
+    "mn009-case-0002",
+    "mn009-case-0003",
+    "mn009-case-0004",
+    "mn009-case-0005",
+    "mn009-case-0006",
+    "mn009-case-0007",
+    "mn009-case-0008",
+    "mn009-case-0009",
+    "mn009-case-0010",
+    "mn009-case-0011",
+    "mn009-case-0012",
+    "mn009-case-0013",
+    "mn009-case-0014",
+    "mn009-case-0015",
+    "mn009-case-0016",
+    "mn009-case-0017",
+    "mn009-case-0018",
+    "mn009-case-0019",
+    "mn009-case-0020",
+    "mn009-case-0021",
+    "mn009-case-0022",
+    "mn009-case-0023",
+    "mn009-case-0024",
+    "mn009-case-0025",
+    "mn009-case-0026",
+    "mn009-case-0027",
+    "mn009-case-0028",
+    "mn009-case-0029",
+    "mn009-case-0030"
+  ],
+  "cases_sha256": "291594891b7d94c87c64509d287a6db1c3d41f8b84abb17aac009600394608d3",
+  "categories": {
+    "code_ast": 10,
+    "graph_table": 10,
+    "text_stream": 10
+  },
+  "namespace": "mn009-corpus-v1",
+  "size_tiers": [
+    2048,
+    4096,
+    8192,
+    16384,
+    32768
+  ]
+}
