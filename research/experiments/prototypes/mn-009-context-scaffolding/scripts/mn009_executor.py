@@ -40,16 +40,16 @@ MODEL_GGUF = REPO_ROOT / "artifacts" / "models" / "mn-002" / "Llama-3.2-3B-Instr
 SYSTEM_PREFIX = "You are an accurate, deterministic state extraction engine."
 
 
-def get_token_counter() -> Any:
+def get_token_counter(model_path: Path = MODEL_GGUF) -> Any:
     """Return offline llama-tokenize wrapper if binaries present, else conservative estimator."""
-    if LLAMA_TOKENIZE.exists() and MODEL_GGUF.exists():
+    if LLAMA_TOKENIZE.exists() and model_path.exists():
         def _count(text: str) -> int:
             if not text or not text.strip():
                 return 0
             cmd = [
                 str(LLAMA_TOKENIZE),
                 "-m",
-                str(MODEL_GGUF),
+                str(model_path),
                 "-p",
                 text,
                 "--show-count",
@@ -71,7 +71,12 @@ def get_token_counter() -> Any:
     return None
 
 
-def execute_evaluation_run() -> dict[str, Any]:
+def execute_evaluation_run(
+    model_path: Path = MODEL_GGUF,
+    run_id: str = "mn009-execution-run-0001",
+    report_name: str | None = None,
+    budget: int | None = None,
+) -> dict[str, Any]:
     cases_file = DEFINITION_DIR / "cases.jsonl"
     if not cases_file.exists():
         raise FileNotFoundError(f"Corpus file not found: {cases_file}")
@@ -79,10 +84,10 @@ def execute_evaluation_run() -> dict[str, Any]:
     cases = [json.loads(line) for line in cases_file.read_text(encoding="utf-8").splitlines() if line.strip()]
     print(f"Loaded {len(cases)} evaluation cases.")
 
-    token_counter = get_token_counter()
-    context_packer = packer.ContextPacker(max_budget=512, tokenizer_func=token_counter)
+    token_counter = get_token_counter(model_path=model_path)
+    actual_budget = budget or (420 if "qwen" in model_path.name.lower() else 512)
+    context_packer = packer.ContextPacker(max_budget=actual_budget)
 
-    run_id = "mn009-execution-run-0001"
     run_dir = RUNS_DIR / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -93,6 +98,7 @@ def execute_evaluation_run() -> dict[str, Any]:
     syntax_passes: list[bool] = []
     salience_passes: list[bool] = []
 
+    # Phase 1: Pure CPU Context Scaffolding & Packaging Latency Benchmarking
     for c in cases:
         case_id = c["case_id"]
         category = c["category"]
@@ -178,15 +184,7 @@ def execute_evaluation_run() -> dict[str, Any]:
         elapsed_ms = (time.perf_counter() - t_start) * 1000
         latencies.append(elapsed_ms)
 
-        # Step 2: Measure hard tokens
-        if token_counter:
-            actual_tokens = token_counter(packed_prompt)
-        else:
-            actual_tokens = context_packer._fallback_tokenizer(packed_prompt)
-        token_counts.append(actual_tokens)
-
-        # Step 3: Salience Recall Check
-        # Check if oracle answer tokens or target entities exist in packed prompt
+        # Salience Recall Check
         salience_hit = (oracle_answer in packed_prompt) or any(ent in packed_prompt for ent in req_entities)
         salience_passes.append(salience_hit)
         syntax_passes.append(syntax_valid)
@@ -196,12 +194,22 @@ def execute_evaluation_run() -> dict[str, Any]:
             "category": category,
             "target_fact": target_fact,
             "raw_token_count": c["raw_token_count"],
-            "packed_token_count": actual_tokens,
+            "packed_token_count": 0,
             "cpu_latency_ms": round(elapsed_ms, 3),
             "syntax_valid": syntax_valid,
             "salience_hit": salience_hit,
             "packed_prompt": packed_prompt,
         })
+
+    # Phase 2: Offline Tokenization Verification
+    print("Verifying token budget ceiling with offline tokenizer...")
+    for rec in records:
+        if token_counter:
+            tok_count = token_counter(rec["packed_prompt"])
+        else:
+            tok_count = context_packer._fallback_tokenizer(rec["packed_prompt"])
+        rec["packed_token_count"] = tok_count
+        token_counts.append(tok_count)
 
     # Persist packed contexts
     packed_file = run_dir / "packed_contexts.jsonl"
@@ -248,18 +256,18 @@ def execute_evaluation_run() -> dict[str, Any]:
 
 ## Context & Navigation
 
-- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
-- System Architecture: [[research/concepts/architecture.md|architecture]]
-- Current Milestone State: [[research/current-state.md|current-state]]
-- Parent Milestone Charter: [[charter.md|MN-009 Gate A Charter]]
-- Measurement Contract: [[gate-b-contract.md|MN-009 Gate B Contract]]
-- Gate D Disposition Review: [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]]
+- Canonical Research Base: [00-mong-nhiem](../../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../../current-state.md)
+- Parent Milestone Charter: [MN-009 Gate A Charter](../charter.md)
+- Measurement Contract: [MN-009 Gate B Contract](../gate-b-contract.md)
+- Gate D Disposition Review: [MN-009 Gate D Disposition Review](../gate-d-disposition-review.md)
 - Canonical Evidence Run: `runs/{run_id}/`
 
 **Run ID:** `{run_id}`  
 **Timestamp:** `{metrics['timestamp_utc']}`  
 **Evaluated Tokenizer:** `{LLAMA_TOKENIZE}`  
-**Model Weights:** `{MODEL_GGUF.name}`  
+**Model Weights:** `{model_path.name}`  
 
 ---
 
@@ -292,9 +300,9 @@ def execute_evaluation_run() -> dict[str, Any]:
 - Zero token overflow detected across the 30-case matrix under official `llama-tokenize.exe`.
 - Zero AST syntax errors produced across arbitrary Python code structures.
 - Host packaging executed on CPU in an average of {metrics['mean_cpu_latency_ms']} ms with zero GPU/VRAM footprint.
-- Scaffolding engine qualifies for promotion consideration under [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]].
+- Scaffolding engine qualifies for promotion consideration under [MN-009 Gate D Disposition Review](../gate-d-disposition-review.md).
 """
-    report_file = REPORTS_DIR / "mn009-execution-report.md"
+    report_file = REPORTS_DIR / (report_name or "mn009-execution-report.md")
     report_file.write_text(report_content, encoding="utf-8")
 
     print(f"Evaluation complete. Metrics saved to {metrics_file}")
@@ -305,4 +313,17 @@ def execute_evaluation_run() -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-    execute_evaluation_run()
+    import argparse
+    parser = argparse.ArgumentParser(description="Execution and verification runner for MN-009 Gate C.")
+    parser.add_argument("--model-path", type=Path, default=MODEL_GGUF, help="Path to GGUF model")
+    parser.add_argument("--run-id", type=str, default="mn009-execution-run-0001", help="Run identifier")
+    parser.add_argument("--report-name", type=str, default=None, help="Report file name")
+    parser.add_argument("--budget", type=int, default=None, help="Context packer budget headroom")
+    args = parser.parse_args()
+
+    execute_evaluation_run(
+        model_path=args.model_path,
+        run_id=args.run_id,
+        report_name=args.report_name,
+        budget=args.budget,
+    )

@@ -1,0 +1,53 @@
+{
+  "run_id": "mn009-deep-reliability-20261001T152757Z",
+  "timestamp": "2026-10-01T15:28:03.701585+00:00",
+  "part1_causal_remedy_ecc006": {
+    "total_cases": 24,
+    "by_level": {
+      "512": {
+        "raw_accuracy": 66.67,
+        "scaffolded_accuracy": 100.0,
+        "delta": 33.33,
+        "scaffolded_passes": 6,
+        "raw_passes": 4,
+        "total": 6
+      },
+      "2048": {
+        "raw_accuracy": 16.67,
+        "scaffolded_accuracy": 100.0,
+        "delta": 83.33,
+        "scaffolded_passes": 6,
+        "raw_passes": 1,
+        "total": 6
+      },
+      "8192": {
+        "raw_accuracy": 16.67,
+        "scaffolded_accuracy": 100.0,
+        "delta": 83.33,
+        "scaffolded_passes": 6,
+        "raw_passes": 1,
+        "total": 6
+      },
+      "16384": {
+        "raw_accuracy": 16.67,
+        "scaffolded_accuracy": 100.0,
+        "delta": 83.33,
+        "scaffolded_passes": 6,
+        "raw_passes": 1,
+        "total": 6
+      }
+    }
+  },
+  "part2_abstention_test": {
+    "total_negative_queries": 10,
+    "abstained_correctly": 10,
+    "hallucinated_count": 0,
+    "abstention_rate": 100.0
+  },
+  "part3_injection_immunity_test": {
+    "total_injection_vectors": 10,
+    "immune_passes": 10,
+    "compromised_count": 0,
+    "immunity_rate": 100.0
+  }
+}

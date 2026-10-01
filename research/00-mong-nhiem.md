@@ -22,9 +22,9 @@ MN-007 is completed and closed: [State Recovery Operating Region](experiments/pr
 
 MN-008 is completed and closed: [External State Management](experiments/prototypes/mn-008-external-state-management/README.md). Its canonical execution scored 2/24 on Arm C, failing primary efficacy; its Gate D disposition is `unpromoted_hypothesis_unsupported`. Zero code promoted into `src/mong_nhiem/`.
 
-MN-009 is the next milestone: [Scoped Context Delivery Engine](experiments/prototypes/mn-009-context-scaffolding/README.md). It shifts focus to deterministic context scaffolding (<512 tokens) over larger knowledge spaces ($2\text{k}-32\text{k}$ tokens) without silent truncation.
+MN-009 is completed and promoted: [Scoped Context Delivery Engine](experiments/prototypes/mn-009-context-scaffolding/README.md). It established deterministic context scaffolding (<=512 tokens) over large knowledge spaces ($2\text{k}-32\text{k}$ tokens) without silent truncation, earning Gate D promotion into `src/mong_nhiem/context/`.
 
-No retrieval, context, memory, summarization, compression, routing, external-state, or ECC architecture has been selected for production. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
+The scoped context delivery subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
 ## Navigate
 

@@ -2,12 +2,12 @@
 
 ## Context & Navigation
 
-- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
-- System Architecture: [[research/concepts/architecture.md|architecture]]
-- Current Milestone State: [[research/current-state.md|current-state]]
-- Architectural Decisions: [[research/decisions/decisions.md|decisions]]
+- Canonical Research Base: [00-mong-nhiem](../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../current-state.md)
+- Architectural Decisions: [decisions](../../../decisions/decisions.md)
 
-MN-009 investigates host-side deterministic context scaffolding to enable small language models (<4B) to operate reliably over extensive information spaces without experiencing the severe long-context degradation identified in [[research/experiments/prototypes/mn-003-effective-context-capacity/README.md|MN-003]], [[research/experiments/prototypes/mn-004-state-representation-intervention/README.md|MN-004]], [[research/experiments/prototypes/mn-007-state-recovery-operating-region/README.md|MN-007]], and [[research/experiments/prototypes/mn-008-external-state-management/README.md|MN-008]].
+MN-009 investigates host-side deterministic context scaffolding to enable small language models (<4B) to operate reliably over extensive information spaces without experiencing the severe long-context degradation identified in [MN-003](../mn-003-effective-context-capacity/README.md), [MN-004](../mn-004-state-representation-intervention/README.md), [MN-007](../mn-007-state-recovery-operating-region/README.md), and [MN-008](../mn-008-external-state-management/README.md).
 
 ---
 
@@ -22,10 +22,10 @@ MN-009 investigates host-side deterministic context scaffolding to enable small 
 
 ## Artifact Navigation
 
-- [[charter.md|Gate A: Charter & Hypothesis]]
-- [[gate-b-contract.md|Gate B: Measurement Contract]]
-- [[reports/mn009-execution-report.md|Gate C: Execution Report]]
-- [[gate-d-disposition-review.md|Gate D: Disposition Review]]
+- [Gate A: Charter & Hypothesis](charter.md)
+- [Gate B: Measurement Contract](gate-b-contract.md)
+- [Gate C: Execution Report](reports/mn009-execution-report.md)
+- [Gate D: Disposition Review](gate-d-disposition-review.md)
 - Evaluation Corpus: [`definition/corpus-v1/`](definition/corpus-v1/)
 - Benchmark Runner: [`scripts/mn009_executor.py`](scripts/mn009_executor.py)
 - Unit Tests: [`tests/unit/test_mn009_packer.py`](../../../../tests/unit/test_mn009_packer.py)

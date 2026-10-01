@@ -49,9 +49,13 @@ def run_one(model: Path, server: Path, port: int) -> Path:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-all", action="store_true")
+    parser.add_argument("--model", type=str, default=None, help="Specific model filename to run")
     parser.add_argument("--models-dir", type=Path, default=mcb.MODELS)
     parser.add_argument("--llama-server", type=Path, default=mcb.BIN / "llama-server.exe")
+    parser.add_argument("--port", type=int, default=18390)
     args = parser.parse_args()
-    if args.run_all:
+    if args.model:
+        print(run_one(args.models_dir / args.model, args.llama_server, args.port))
+    elif args.run_all:
         for index, name in enumerate(mcb.MODELS_REQUIRED):
             print(run_one(args.models_dir / name, args.llama_server, 18300 + index))

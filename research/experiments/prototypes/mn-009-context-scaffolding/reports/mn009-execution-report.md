@@ -2,12 +2,12 @@
 
 ## Context & Navigation
 
-- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
-- System Architecture: [[research/concepts/architecture.md|architecture]]
-- Current Milestone State: [[research/current-state.md|current-state]]
-- Parent Milestone Charter: [[charter.md|MN-009 Gate A Charter]]
-- Measurement Contract: [[gate-b-contract.md|MN-009 Gate B Contract]]
-- Gate D Disposition Review: [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]]
+- Canonical Research Base: [00-mong-nhiem](../../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../../current-state.md)
+- Parent Milestone Charter: [MN-009 Gate A Charter](../charter.md)
+- Measurement Contract: [MN-009 Gate B Contract](../gate-b-contract.md)
+- Gate D Disposition Review: [MN-009 Gate D Disposition Review](../gate-d-disposition-review.md)
 - Canonical Evidence Run: `runs/mn009-execution-run-0001/`
 
 **Run ID:** `mn009-execution-run-0001`  
@@ -46,4 +46,4 @@
 - Zero token overflow detected across the 30-case matrix under official `llama-tokenize.exe`.
 - Zero AST syntax errors produced across arbitrary Python code structures.
 - Host packaging executed on CPU in an average of 3.37 ms with zero GPU/VRAM footprint.
-- Scaffolding engine qualifies for promotion consideration under [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]].
+- Scaffolding engine qualifies for promotion consideration under [MN-009 Gate D Disposition Review](../gate-d-disposition-review.md).

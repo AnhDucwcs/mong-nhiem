@@ -1,0 +1,25 @@
+{
+  "model": "Llama-3.2-3B",
+  "accuracy": 96.67,
+  "correct_count": 29,
+  "total_count": 30,
+  "mean_latency_ms": 853.38,
+  "mean_tokens": 38.33,
+  "by_domain": {
+    "text_stream": {
+      "correct": 9,
+      "total": 10,
+      "accuracy": 90.0
+    },
+    "graph_table": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 100.0
+    },
+    "code_ast": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 100.0
+    }
+  }
+}

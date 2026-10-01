@@ -2,25 +2,25 @@
 
 ## Context & Navigation
 
-- Canonical Knowledge Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
-- System Architecture: [[research/concepts/architecture.md|architecture]]
-- Current Milestone State: [[research/current-state.md|current-state]]
-- Architectural Decisions: [[research/decisions/decisions.md|decisions]]
+- Canonical Knowledge Base: [00-mong-nhiem](../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../current-state.md)
+- Architectural Decisions: [decisions](../../../decisions/decisions.md)
 - Predecessors:
-  - [[research/experiments/prototypes/mn-003-effective-context-capacity/README.md|MN-003: Effective Context Capacity]]
-  - [[research/experiments/prototypes/mn-004-state-representation-intervention/README.md|MN-004: State Representation Intervention]]
-  - [[research/experiments/prototypes/mn-007-state-recovery-operating-region/README.md|MN-007: State Recovery Operating Region]]
-  - [[research/experiments/prototypes/mn-008-external-state-management/README.md|MN-008: External State Management]]
+  - [MN-003: Effective Context Capacity](../mn-003-effective-context-capacity/README.md)
+  - [MN-004: State Representation Intervention](../mn-004-state-representation-intervention/README.md)
+  - [MN-007: State Recovery Operating Region](../mn-007-state-recovery-operating-region/README.md)
+  - [MN-008: External State Management](../mn-008-external-state-management/README.md)
 - Successors & Downstream Artifacts:
-  - [[gate-b-contract.md|MN-009 Gate B Measurement Contract]]
-  - [[reports/mn009-execution-report.md|MN-009 Gate C Execution Report]]
-  - [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]]
+  - [MN-009 Gate B Measurement Contract](gate-b-contract.md)
+  - [MN-009 Gate C Execution Report](reports/mn009-execution-report.md)
+  - [MN-009 Gate D Disposition Review](gate-d-disposition-review.md)
 
 ---
 
 ## 1. Problem Statement
 
-Empirical evidence across [[research/experiments/prototypes/mn-003-effective-context-capacity/README.md|MN-003]], [[research/experiments/prototypes/mn-004-state-representation-intervention/README.md|MN-004]], [[research/experiments/prototypes/mn-007-state-recovery-operating-region/README.md|MN-007]], and [[research/experiments/prototypes/mn-008-external-state-management/README.md|MN-008]] established that `Llama-3.2-3B-Instruct` suffers catastrophic capability loss on complex tasks (state tracking, multi-entity reasoning, conditional conjunction) as context expands beyond 512 tokens, collapsing to 0% accuracy at 8,192 tokens. Furthermore, feeding 8k-16k direct tokens incurs severe runtime latency (~18-25s per call on consumer 4GB VRAM hardware) and frequent KV-cache evictions.
+Empirical evidence across [MN-003](../mn-003-effective-context-capacity/README.md), [MN-004](../mn-004-state-representation-intervention/README.md), [MN-007](../mn-007-state-recovery-operating-region/README.md), and [MN-008](../mn-008-external-state-management/README.md) established that `Llama-3.2-3B-Instruct` suffers catastrophic capability loss on complex tasks (state tracking, multi-entity reasoning, conditional conjunction) as context expands beyond 512 tokens, collapsing to 0% accuracy at 8,192 tokens. Furthermore, feeding 8k-16k direct tokens incurs severe runtime latency (~18-25s per call on consumer 4GB VRAM hardware) and frequent KV-cache evictions.
 
 Small models (<4B) cannot reliably manage their own global context in-context. A host-side deterministic scaffolding system is strictly required.
 
@@ -53,6 +53,6 @@ A deterministic, CPU-bound Lexical Salience Knapsack Packer operating on natural
 ## 4. Promotion Criteria (Gate D Gatekeeper)
 
 Source code may only be promoted into `src/mong_nhiem/context/packer.py` and `src/mong_nhiem/context/slicer.py` when:
-1. All 5 frozen support rules of [[gate-b-contract.md|Gate B]] are satisfied without exception.
+1. All 5 frozen support rules of [Gate B](gate-b-contract.md) are satisfied without exception.
 2. Zero regression or token overflow occurs across the entire benchmark matrix.
-3. The formal [[gate-d-disposition-review.md|Gate D Disposition Review]] is approved.
+3. The formal [Gate D Disposition Review](gate-d-disposition-review.md) is approved.

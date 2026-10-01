@@ -2,13 +2,13 @@
 
 ## Context & Navigation
 
-- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
-- System Architecture: [[research/concepts/architecture.md|architecture]]
-- Current Milestone State: [[research/current-state.md|current-state]]
-- Parent Milestone Charter: [[charter.md|MN-009 Gate A Charter]]
+- Canonical Research Base: [00-mong-nhiem](../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../current-state.md)
+- Parent Milestone Charter: [MN-009 Gate A Charter](charter.md)
 - Execution Runner: [`scripts/mn009_executor.py`](scripts/mn009_executor.py)
-- Execution Report: [[reports/mn009-execution-report.md|MN-009 Gate C Execution Report]]
-- Disposition Review: [[gate-d-disposition-review.md|MN-009 Gate D Disposition Review]]
+- Execution Report: [MN-009 Gate C Execution Report](reports/mn009-execution-report.md)
+- Disposition Review: [MN-009 Gate D Disposition Review](gate-d-disposition-review.md)
 
 ---
 

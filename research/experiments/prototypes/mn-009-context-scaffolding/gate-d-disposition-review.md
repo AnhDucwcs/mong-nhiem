@@ -2,14 +2,14 @@
 
 ## Context & Navigation
 
-- Canonical Research Base: [[research/00-mong-nhiem.md|00-mong-nhiem]]
-- System Architecture: [[research/concepts/architecture.md|architecture]]
-- Current Milestone State: [[research/current-state.md|current-state]]
-- Architectural Decisions: [[research/decisions/decisions.md|decisions]]
+- Canonical Research Base: [00-mong-nhiem](../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../current-state.md)
+- Architectural Decisions: [decisions](../../../decisions/decisions.md)
 - Preceding Gate Artifacts:
-  - [[charter.md|MN-009 Gate A Charter]]
-  - [[gate-b-contract.md|MN-009 Gate B Measurement Contract]]
-  - [[reports/mn009-execution-report.md|MN-009 Gate C Execution Report]]
+  - [MN-009 Gate A Charter](charter.md)
+  - [MN-009 Gate B Measurement Contract](gate-b-contract.md)
+  - [MN-009 Gate C Execution Report](reports/mn009-execution-report.md)
 - Unit Test Suite: [`tests/unit/test_mn009_packer.py`](../../../../tests/unit/test_mn009_packer.py)
 - Evidence Directory: `runs/mn009-execution-run-0001/`
 
@@ -27,7 +27,7 @@ Gate B Support Rules Satisfied: 5/5 (100%)
 Unit Test Coverage: tests/unit/test_mn009_packer.py (9/9 passed)
 ```
 
-This disposition is bounded to the qualified model/runtime (`Llama-3.2-3B-Instruct-Q4_K_M` on `llama.cpp`) and the frozen [[gate-b-contract.md|MN-009 Gate B]] measurement contract across 30 cases ($2\text{k}-32\text{k}$ raw tokens).
+This disposition is bounded to the qualified model/runtime (`Llama-3.2-3B-Instruct-Q4_K_M` on `llama.cpp`) and the frozen [MN-009 Gate B](gate-b-contract.md) measurement contract across 30 cases ($2\text{k}-32\text{k}$ raw tokens).
 
 ---
 
@@ -70,6 +70,6 @@ Upon user authorization and completion of extended stress validation, the protot
 1. **Host-Side Context Scaffolding is Feasible and Sub-Millisecond:**
    Running AST traversal, $k$-hop BFS, and deterministic Knapsack packing on the host CPU achieves $< 4\text{ ms}$ latency on $32\text{k}$-token input streams, consuming zero VRAM.
 2. **Small Models Require Exact Scoping Rather than Dense Attention:**
-   Compressing the input to $\le 512$ tokens completely avoids the $0\%$ attention collapse documented in [[research/experiments/prototypes/mn-003-effective-context-capacity/README.md|MN-003]], [[research/experiments/prototypes/mn-004-state-representation-intervention/README.md|MN-004]], [[research/experiments/prototypes/mn-007-state-recovery-operating-region/README.md|MN-007]], and [[research/experiments/prototypes/mn-008-external-state-management/README.md|MN-008]].
+   Compressing the input to $\le 512$ tokens completely avoids the $0\%$ attention collapse documented in [MN-003](../mn-003-effective-context-capacity/README.md), [MN-004](../mn-004-state-representation-intervention/README.md), [MN-007](../mn-007-state-recovery-operating-region/README.md), and [MN-008](../mn-008-external-state-management/README.md).
 3. **Temporal Invariants Prevent Hallucinations:**
    Ensuring that every queried entity has an explicit latest state before packing eliminates entity hallucination in narrative and state tracking tasks.

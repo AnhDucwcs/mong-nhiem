@@ -33,19 +33,30 @@ class InvariantViolationError(ValueError):
 
 
 def sanitize_chat_tokens(text: str) -> str:
-    """Escape Llama 3 chat-template control tokens to prevent prompt injection."""
-    if "<|" not in text:
+    """Escape Llama 3, Qwen ChatML, and thinking delimiters to prevent prompt injection."""
+    if "<" not in text:
         return text
     patterns = [
+        # Llama 3 control tokens
         ("<|begin_of_text|>", r"\<\|begin_of_text\|\>"),
         ("<|end_of_text|>", r"\<\|end_of_text\|\>"),
         ("<|start_header_id|>", r"\<\|start_header_id\|\>"),
         ("<|end_header_id|>", r"\<\|end_header_id\|\>"),
         ("<|eot_id|>", r"\<\|eot_id\|\>"),
+        # Qwen ChatML & Base special tokens
+        ("<|im_start|>", r"\<\|im_start\|\>"),
+        ("<|im_end|>", r"\<\|im_end\|\>"),
+        ("<|endoftext|>", r"\<\|endoftext\|\>"),
+        # Reasoning delimiters
+        ("<think>", r"\<think\>"),
+        ("</think>", r"\<\/think\>"),
     ]
     sanitized = text
     for raw, escaped in patterns:
         sanitized = sanitized.replace(raw, escaped)
+    # Neutralize any unescaped generic control tokens <|...|>
+    if "<|" in sanitized:
+        sanitized = re.sub(r"(?<!\\)<\|", r"\<\|", sanitized)
     return sanitized
 
 

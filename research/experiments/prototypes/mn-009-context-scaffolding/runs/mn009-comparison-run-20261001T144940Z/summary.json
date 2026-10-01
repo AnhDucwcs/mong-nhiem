@@ -1,0 +1,80 @@
+{
+  "run_id": "mn009-comparison-run-20261001T144940Z",
+  "timestamp": "2026-10-01T14:54:35.447373+00:00",
+  "model": "Qwen3.5-2B-Q4_K_M.gguf",
+  "total_cases": 30,
+  "arms": {
+    "Arm_1_Direct": {
+      "accuracy": 100.0,
+      "correct_count": 30,
+      "total_count": 30,
+      "mean_latency_ms": 471.71,
+      "mean_tokens": 21.67,
+      "by_domain": {
+        "text_stream": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        },
+        "graph_table": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        },
+        "code_ast": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        }
+      }
+    },
+    "Arm_2_Monolithic_CoT": {
+      "accuracy": 0.0,
+      "correct_count": 0,
+      "total_count": 30,
+      "mean_latency_ms": 5953.67,
+      "mean_tokens": 512.0,
+      "by_domain": {
+        "text_stream": {
+          "correct": 0,
+          "total": 10,
+          "accuracy": 0.0
+        },
+        "graph_table": {
+          "correct": 0,
+          "total": 10,
+          "accuracy": 0.0
+        },
+        "code_ast": {
+          "correct": 0,
+          "total": 10,
+          "accuracy": 0.0
+        }
+      }
+    },
+    "Arm_3_Two_Milestone": {
+      "accuracy": 33.33,
+      "correct_count": 10,
+      "total_count": 30,
+      "mean_latency_ms": 3417.14,
+      "mean_tokens": 265.2,
+      "by_domain": {
+        "text_stream": {
+          "correct": 0,
+          "total": 10,
+          "accuracy": 0.0
+        },
+        "graph_table": {
+          "correct": 0,
+          "total": 10,
+          "accuracy": 0.0
+        },
+        "code_ast": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        }
+      }
+    }
+  }
+}

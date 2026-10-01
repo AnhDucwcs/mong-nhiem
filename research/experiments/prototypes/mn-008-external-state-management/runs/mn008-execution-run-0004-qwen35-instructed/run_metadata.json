@@ -1,0 +1,18 @@
+{
+  "actual_persisted_calls": 96,
+  "constrain_actions": true,
+  "corpus_manifest_sha256": "61a2adbf1b8f29e90a302aa3065f7f5e08f812810b677a122297b8bfd1ba309c",
+  "duration_seconds": 52.080576,
+  "end_time_utc": "2026-10-01T13:42:34.530697+00:00",
+  "expected_total_calls": 96,
+  "git_head": "d5053e51e70ac2aa7a8c15ae5b01b2448dd68831",
+  "host": "127.0.0.1",
+  "llama_server_path": "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+  "model_path": "artifacts\\models\\mn-002\\Qwen3.5-2B-Q4_K_M.gguf",
+  "port": 18508,
+  "run_id": "mn008-execution-run-0004-qwen35-instructed",
+  "start_time_utc": "2026-10-01T13:41:42.450121+00:00",
+  "status": "COMPLETED",
+  "system_prompt": "You are a deterministic decision engine. Read the state snapshot or event history, look up the matching rule under [DECISION RULES], and output ONLY the exact matching action (ACTION_0, ACTION_1, ACTION_2, or ACTION_3). Do not provide explanations or reasoning.",
+  "total_cases": 24
+}
