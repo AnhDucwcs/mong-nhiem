@@ -1,0 +1,103 @@
+{
+  "run_id": "20261001T140509Z-ecc-006-qwen3.5-2b-c178b9cb",
+  "created_at": "2026-10-01T14:05:09.387066+00:00",
+  "experiment": {
+    "id": "ecc-006-state-tracking",
+    "version": "0.1.0"
+  },
+  "definition_fingerprint": "37f2dc1cc4cdfbf4a667c54f159bbd5203918f85f4d39001fa62ffcba379ac2e",
+  "repository": {
+    "commit": "d5053e51e70ac2aa7a8c15ae5b01b2448dd68831",
+    "dirty": true
+  },
+  "model": {
+    "key": "qwen3.5-2b",
+    "name": "Qwen3.5-2B-Q4_K_M",
+    "file": "Qwen3.5-2B-Q4_K_M.gguf",
+    "size_bytes": 1396198496,
+    "sha256": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+    "qualified_by": "MN-002 MCB v0.3.0"
+  },
+  "runtime": {
+    "backend": "llama.cpp",
+    "version": "0.2.0-dev",
+    "build": "10566",
+    "commit": "bb4caa754",
+    "raw_version_output": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with MSVC 19.44.35217.0 for x64\n"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "ram_bytes": null,
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_bytes": 4294967296,
+    "driver": "595.95",
+    "cuda": null
+  },
+  "inference": {
+    "temperature": 0.0,
+    "seed": 42,
+    "threads": 12,
+    "batch_size": 2048,
+    "parallel_slots": 1,
+    "flash_attention": true,
+    "prompt_cache": false,
+    "configured_context_size": 16896,
+    "output_tokens": 16,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    }
+  },
+  "selection": {
+    "context_levels": [
+      16384
+    ],
+    "case_ids": [
+      "ecc006-001",
+      "ecc006-002",
+      "ecc006-003",
+      "ecc006-004",
+      "ecc006-005",
+      "ecc006-006"
+    ],
+    "complete_definition_coverage": false
+  },
+  "command": {
+    "server": [
+      "D:\\Materials\\llama.cpp\\build\\bin\\Release\\llama-server.exe",
+      "-m",
+      "D:\\Code\\mong-nhiem\\artifacts\\models\\mn-002\\Qwen3.5-2B-Q4_K_M.gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18501",
+      "-c",
+      "16896",
+      "-t",
+      "12",
+      "-b",
+      "2048",
+      "-np",
+      "1",
+      "-fa",
+      "on",
+      "--temp",
+      "0",
+      "--seed",
+      "42",
+      "--jinja",
+      "--no-webui",
+      "--no-cache-prompt",
+      "--metrics",
+      "--chat-template-kwargs",
+      "{\"enable_thinking\":false}"
+    ],
+    "runner": [
+      "run_ecc006.py",
+      "--model",
+      "qwen3.5-2b",
+      "--context-level",
+      "16384"
+    ]
+  }
+}

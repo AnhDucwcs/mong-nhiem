@@ -1,0 +1,690 @@
+{
+  "case_count": 24,
+  "case_results": [
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0001",
+      "case_ordinal": 0,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_2",
+        "raw": "ACTION_2"
+      },
+      "case_id": "mn008-case-0002",
+      "case_ordinal": 1,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": true,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0003",
+      "case_ordinal": 2,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0004",
+      "case_ordinal": 3,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": true,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0005",
+      "case_ordinal": 4,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_3",
+        "raw": "ACTION_3"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0006",
+      "case_ordinal": 5,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_3",
+        "raw": "ACTION_3"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0007",
+      "case_ordinal": 6,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_3",
+        "raw": "ACTION_3"
+      },
+      "case_id": "mn008-case-0008",
+      "case_ordinal": 7,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_2",
+        "raw": "ACTION_2"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0009",
+      "case_ordinal": 8,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": true,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0010",
+      "case_ordinal": 9,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_3",
+        "raw": "ACTION_3"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_2",
+        "raw": "ACTION_2"
+      },
+      "case_id": "mn008-case-0011",
+      "case_ordinal": 10,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0012",
+      "case_ordinal": 11,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0013",
+      "case_ordinal": 12,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0014",
+      "case_ordinal": 13,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_3",
+        "raw": "ACTION_3"
+      },
+      "case_id": "mn008-case-0015",
+      "case_ordinal": 14,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": true,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0016",
+      "case_ordinal": 15,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0017",
+      "case_ordinal": 16,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_2",
+        "raw": "ACTION_2"
+      },
+      "case_id": "mn008-case-0018",
+      "case_ordinal": 17,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": true,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0019",
+      "case_ordinal": 18,
+      "target_action": "ACTION_0",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0020",
+      "case_ordinal": 19,
+      "target_action": "ACTION_2",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": true,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "case_id": "mn008-case-0021",
+      "case_ordinal": 20,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S0",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0022",
+      "case_ordinal": 21,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S1",
+        "S0"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_0",
+        "pass": false,
+        "prediction": "ACTION_0"
+      },
+      "arm_c": {
+        "pass": false,
+        "prediction": "ACTION_0",
+        "raw": "ACTION_0"
+      },
+      "case_id": "mn008-case-0023",
+      "case_ordinal": 22,
+      "target_action": "ACTION_1",
+      "target_pair": [
+        "S1",
+        "S1"
+      ]
+    },
+    {
+      "arm_a": {
+        "pass": false,
+        "prediction": "ACTION_1",
+        "raw": "ACTION_1"
+      },
+      "arm_b": {
+        "b1_grammar_status": "VALID",
+        "b1_grammar_valid": true,
+        "b1_raw": "pad=OMICRON\npad=OMICRON\npad=OMICRON\npad=OMICRON",
+        "b2_raw": "ACTION_1",
+        "pass": false,
+        "prediction": "ACTION_1"
+      },
+      "arm_c": {
+        "pass": true,
+        "prediction": "ACTION_3",
+        "raw": "ACTION_3"
+      },
+      "case_id": "mn008-case-0024",
+      "case_ordinal": 23,
+      "target_action": "ACTION_3",
+      "target_pair": [
+        "S0",
+        "S0"
+      ]
+    }
+  ],
+  "criteria": {
+    "criterion_1_baseline_compatibility": {
+      "actual": "8/24 (33.3%)",
+      "met": false,
+      "threshold": "<= 6/24 (25.0%)"
+    },
+    "criterion_2_primary_efficacy_gate": {
+      "actual": "16/24 (66.7%)",
+      "exact_p_value": 2.0221056992397735e-05,
+      "met": false,
+      "threshold": ">= 18/24 (75.0%)"
+    },
+    "criterion_3_causal_utility_gate": {
+      "actual": "10/24 (+41.7%)",
+      "met": true,
+      "threshold": "C - B >= 10/24 (+41.7%)"
+    },
+    "criterion_4_strict_non_regression_policy": {
+      "actual_violations": 0,
+      "met": true,
+      "threshold": "n_{B=1,C=0} == 0"
+    }
+  },
+  "metrics": {
+    "arm_a_accuracy": 0.3333333333333333,
+    "arm_a_passes": 8,
+    "arm_b_accuracy": 0.25,
+    "arm_b_passes": 6,
+    "arm_c_accuracy": 0.6666666666666666,
+    "arm_c_passes": 16,
+    "delta_c_minus_a": 0.3333333333333333,
+    "delta_c_minus_b": 0.4166666666666667,
+    "p_value_c": 2.0221056992397735e-05,
+    "regressions_b_pass_c_fail": 0
+  },
+  "run_id": "mn008-execution-run-0004-qwen35-instructed",
+  "verdict": "UNSUPPORTED"
+}

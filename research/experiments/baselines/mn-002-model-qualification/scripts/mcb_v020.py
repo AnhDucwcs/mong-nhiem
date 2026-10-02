@@ -28,7 +28,7 @@ VERSION = "0.2.0"
 
 
 def template_kwargs(filename: str) -> dict[str, bool] | None:
-    if filename.startswith(("Qwen3-", "SmolLM3-")):
+    if filename.startswith(("Qwen3-", "Qwen3.5-", "SmolLM3-")):
         return {"enable_thinking": False}
     return None
 

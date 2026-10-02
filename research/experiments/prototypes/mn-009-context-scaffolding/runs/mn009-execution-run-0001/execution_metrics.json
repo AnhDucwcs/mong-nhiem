@@ -1,0 +1,18 @@
+{
+  "run_id": "mn009-execution-run-0001",
+  "timestamp_utc": "2026-09-30T15:13:57.544086+00:00",
+  "total_cases": 30,
+  "rule_1_token_budget_ceiling_pass": true,
+  "max_packed_tokens": 501,
+  "min_packed_tokens": 57,
+  "mean_packed_tokens": 229.7,
+  "rule_2_syntax_boundary_integrity_pass": true,
+  "syntax_pass_rate": "30/30",
+  "rule_3_salience_recall_pass": true,
+  "salience_recall_rate": "30/30 (100.0%)",
+  "rule_4_cpu_latency_gate_pass": true,
+  "mean_cpu_latency_ms": 3.37,
+  "max_cpu_latency_ms": 15.37,
+  "rule_5_prefix_cache_invariant_pass": true,
+  "gate_d_disposition": "RECOMMEND_PROCEED"
+}

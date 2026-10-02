@@ -34,12 +34,13 @@ Thresholds are unchanged: overall `>= 0.80`; instruction `>= 0.80`; structured `
 | --- | ---: | --- |
 | Llama-3.2-3B-Instruct-Q4_K_M | 0.89 | PASS |
 | Qwen3-4B-Q4_K_M | 0.93 | PASS |
+| Qwen3.5-2B-Q4_K_M | 0.85 | PASS |
 
-Qwen3-1.7B exceeds the overall threshold but fails the State gate. Gemma exceeds the overall threshold but fails the Structured gate. A candidate must meet every critical suite. The passing models are qualified capability baselines for MN-003, not production-model selections.
+Qwen3-1.7B exceeds the overall threshold but fails the State gate. Gemma exceeds the overall threshold but fails the Structured gate. Qwen3.5-2B passes every critical gate (State: 0.75, Structured: 1.00, Instruction: 0.90, Retrieval: 0.80, Causal: 0.80). A candidate must meet every critical suite. The passing models are qualified capability baselines for downstream milestones, not production-model selections.
 
 ## Runtime and evidence
 
-Capability qualification and runtime performance are separate. See the [v0.1 audit](reports/mcb-v0.1.0-audit.md), [v0.2 audit](reports/mcb-v0.2.0-audit.json), [v0.2 report](reports/model-qualification-v0.2.0.md), [v0.3 report](reports/model-qualification-v0.3.0.md), [v0.3 validation](reports/mcb-v0.3.0-validation.json), selected `runs/` artefacts, and [retention policy](reports/artifact-retention-policy.md).
+Capability qualification and runtime performance are separate. See the [v0.1 audit](reports/mcb-v0.1.0-audit.md), [v0.2 audit](reports/mcb-v0.2.0-audit.json), [v0.2 report](reports/model-qualification-v0.2.0.md), [v0.3 report](reports/model-qualification-v0.3.0.md), [Qwen3.5-2B report](reports/model-qualification-qwen35-2b.md), [v0.3 validation](reports/mcb-v0.3.0-validation.json), selected `runs/` artefacts, and [retention policy](reports/artifact-retention-policy.md).
 
 ## Reproduction
 

@@ -77,9 +77,33 @@ Completed under Gate D disposition review (`100bbdc`). Run 0001 (24 cases, 96 ca
 
 ## MN-009 — Scoped Context Delivery Engine
 
-Status: **in design (Gate A preparation).**
+Status: **completed and promoted into `src/mong_nhiem/context/`.**
 
-1. **Core Objective:** Build a deterministic, host-side Context Scaffolding Engine in `research/experiments/prototypes/mn-009-context-scaffolding/` to guarantee bounded context ingestion ($\le 512$ tokens) over large document streams ($2\text{k} - 32\text{k}$ tokens) without silent truncation or out-of-budget overflow.
-2. **Core Mechanism:** Greedy Budget Knapsack with lexical salience scoring and natural boundary slicing (paragraphs/sentences). Prefix-aligned system headers maximize local `llama.cpp` prompt caching.
-3. **Preservation Invariant:** `src/mong_nhiem/` remains 100% clean and untouched until Gate D disposition explicitly authorizes promotion.
+1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules across 3 data categories and 5 context tiers ($2\text{k}-32\text{k}$).
+2. **Gate C Execution & Gate D Promotion:** All 5 support rules achieved $100\%$ ($30/30$), achieving $2.07\text{M tokens/sec}$ CPU packing throughput, $100\%$ causal remedy on ECC-006, $100\%$ negative query abstention, $100\%$ injection immunity, and $22.9\times$ downstream inference latency reduction. Promoted into `src/mong_nhiem/context/` under Decision 2026-10-01.
+
+## MN-010 — Iterative Context Working Set Loop
+
+Status: **in design (Gate A preparation).**
+Track: **NCC Phase 2 (Substrate Expansion).**
+
+1. **Core Objective:** Evolve the single-shot scoped context delivery engine (MN-009) into an iterative multi-turn working set loop, enabling small models (<4B) to solve multi-hop reasoning tasks across large external corpora ($32\text{k}+$ tokens) without exceeding a bounded working set ($\le 512$ tokens per turn).
+2. **Core Mechanism:**
+   - Host-maintained external memory and state coordinator.
+   - Structured action dispatch protocol (e.g. `FETCH`, `STEP`, `RESOLVE`).
+   - Circuit breaker with strict turn bounds (`max_turns <= 3`) and duplicate cycle detection to prevent infinite retrieval loops.
+   - Preserves 100% pure Python standard library footprint in `src/mong_nhiem/context/`.
+3. **Preservation Invariant:** Code remains in `research/experiments/prototypes/mn-010-iterative-context-loop/` until Gate D disposition explicitly authorizes promotion.
+
+## MN-011 — Scaffolding-Assisted Effective Context Frontier
+
+Status: **scheduled (post MN-010).**
+Track: **ECC Reactivation (Utilization & Frontier Mapping).**
+
+1. **Core Objective:** Reactivate empirical Effective Context Capacity (ECC) measurement by leveraging the completed context scaffolding engines (MN-009 single-shot + MN-010 iterative) as protective intermediate layers.
+2. **Core Mechanism:**
+   - Map the model's true empirical boundary across budget scaling: $B \in \{256, 512, 1024, 2048\}$ tokens.
+   - Re-evaluate blocked complex reasoning suites, starting with ECC-007 Causal Reasoning.
+   - Quantify conversion efficiency across the Context Utilization Chain: $\text{Theoretical} \rightarrow \text{Fed} \rightarrow \text{Accessed} \rightarrow \text{Utilized} \rightarrow \text{Outcome}$.
+
 

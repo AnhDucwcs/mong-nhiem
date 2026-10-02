@@ -1,0 +1,25 @@
+{
+  "model": "Qwen3-4B",
+  "accuracy": 66.67,
+  "correct_count": 20,
+  "total_count": 30,
+  "mean_latency_ms": 1640.37,
+  "mean_tokens": 38.27,
+  "by_domain": {
+    "text_stream": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 100.0
+    },
+    "graph_table": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 100.0
+    },
+    "code_ast": {
+      "correct": 0,
+      "total": 10,
+      "accuracy": 0.0
+    }
+  }
+}

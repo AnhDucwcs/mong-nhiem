@@ -49,9 +49,9 @@ def run_cmd(args: list[str]) -> str:
     return res.stdout.strip()
 
 
-def check_git_status() -> str:
+def check_git_status(allow_dirty: bool = False) -> str:
     status = run_cmd(["git", "status", "--porcelain"])
-    if status != "":
+    if status != "" and not allow_dirty:
         raise PreflightError(f"Working tree is dirty. Clean rerun requires a clean git state:\n{status}")
     return run_cmd(["git", "rev-parse", "HEAD"])
 
@@ -125,9 +125,17 @@ def wait_for_server(server: subprocess.Popen, base_url: str, log_path: Path, dea
     raise RuntimeError(f"Server at {base_url} failed to become healthy within {deadline_seconds}s")
 
 
+def template_kwargs(model_name: str) -> dict[str, Any] | None:
+    if model_name.startswith(("Qwen", "SmolLM")):
+        return {"enable_thinking": False}
+    return None
+
+
 def send_chat_completion(
     messages: list[dict[str, str]],
     *,
+    base_url: str = BASE_URL,
+    chat_template_kwargs: dict[str, Any] | None = None,
     temperature: float = 0.0,
     seed: int = 42,
     max_tokens: int = 16,
@@ -143,10 +151,12 @@ def send_chat_completion(
     }
     if grammar is not None:
         payload["grammar"] = grammar
+    if chat_template_kwargs is not None:
+        payload["chat_template_kwargs"] = chat_template_kwargs
 
     data_bytes = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
-        f"{BASE_URL}/v1/chat/completions",
+        f"{base_url}/v1/chat/completions",
         data=data_bytes,
         headers={"Content-Type": "application/json"},
         method="POST",
@@ -160,6 +170,9 @@ def send_chat_completion(
         return res_json, latency_ms
 
 
+ACTION_GBNF = 'root ::= "ACTION_" [0-3]'
+
+
 def persist_raw_response(
     raw_path: Path,
     record: dict[str, Any],
@@ -170,30 +183,42 @@ def persist_raw_response(
         os.fsync(f.fileno())
 
 
-def execute_runner() -> None:
-    print(f"=== Starting MN-008 Gate C Phase 2 Hermetic Execution [{RUN_ID}] ===")
+def execute_runner(
+    model_path: Path = MODEL_PATH,
+    run_id: str = RUN_ID,
+    port: int = PORT,
+    allow_dirty: bool = False,
+    constrain_actions: bool = False,
+    system_prompt: str | None = None,
+) -> None:
+    base_url = f"http://{HOST}:{port}"
+    print(f"=== Starting MN-008 Gate C Phase 2 Hermetic Execution [{run_id}] ===")
+    if constrain_actions:
+        print("   Constrained decoding enabled: GBNF grammar 'root ::= \"ACTION_\" [0-3]'")
+    if system_prompt:
+        print(f"   System prompt enabled: {system_prompt[:60]}...")
 
     # 1. Environment Preflight
     print("1. Performing static environment preflight...")
-    git_head = check_git_status()
+    git_head = check_git_status(allow_dirty=allow_dirty)
     print(f"   Git HEAD clean: {git_head}")
 
     mem, util = check_gpu_status()
     print(f"   GPU State: {mem} MiB used, {util}% util")
-    if (mem, util) != (0, 0):
+    if (mem, util) != (0, 0) and not allow_dirty:
         raise PreflightError(f"GPU not clean: {mem} MiB used, {util}% util (must be 0, 0)")
 
     check_no_stale_processes()
     print("   No stale llama processes.")
 
-    check_port_free(PORT)
-    print(f"   Port {PORT} is available.")
+    check_port_free(port)
+    print(f"   Port {port} is available.")
 
-    if not MODEL_PATH.exists():
-        raise PreflightError(f"Model file does not exist: {MODEL_PATH}")
+    if not model_path.exists():
+        raise PreflightError(f"Model file does not exist: {model_path}")
     if not LLAMA_SERVER_PATH.exists():
         raise PreflightError(f"llama-server executable does not exist: {LLAMA_SERVER_PATH}")
-    print(f"   Model verified: {MODEL_PATH.name}")
+    print(f"   Model verified: {model_path.name}")
     print(f"   llama-server verified: {LLAMA_SERVER_PATH.name}")
 
     val_res = mat.validate_corpus(DEFINITION_DIR)
@@ -203,7 +228,7 @@ def execute_runner() -> None:
     print("   Child environment frozen.")
 
     # 2. Setup Run Directory
-    run_dir = RUNS_DIR / RUN_ID
+    run_dir = RUNS_DIR / run_id
     if run_dir.exists():
         raise PreflightError(f"Run directory already exists: {run_dir}. Refusing to overwrite.")
     run_dir.mkdir(parents=True, exist_ok=False)
@@ -226,15 +251,17 @@ def execute_runner() -> None:
     assert len(public_prompts) == TOTAL_CASES
     assert len(semantic_cases) == TOTAL_CASES
 
+    extra_template_kwargs = template_kwargs(model_path.name)
+
     # 4. Launch llama-server
     server_cmd = [
         str(LLAMA_SERVER_PATH),
         "-m",
-        str(MODEL_PATH),
+        str(model_path),
         "--host",
         HOST,
         "--port",
-        str(PORT),
+        str(port),
         "-c",
         "16896",
         "-t",
@@ -272,13 +299,13 @@ def execute_runner() -> None:
         "--no-cache-prompt",
         "--metrics",
         "--chat-template-kwargs",
-        "{}",
+        json.dumps(extra_template_kwargs or {}),
     ]
 
     server_log_path = run_dir / "llama_server.log"
     server_log_file = open(server_log_path, "w", encoding="utf-8")
 
-    print("\n2. Launching llama-server on port 18508...")
+    print(f"\n2. Launching llama-server on port {port}...")
     server = subprocess.Popen(
         server_cmd,
         env=child_env,
@@ -291,7 +318,7 @@ def execute_runner() -> None:
 
     try:
         print("   Waiting for server health check...")
-        wait_for_server(server, BASE_URL, server_log_path, deadline_seconds=120)
+        wait_for_server(server, base_url, server_log_path, deadline_seconds=120)
         print("   Server healthy.")
 
         print(f"\n3. Executing {TOTAL_CASES} cases in interleaved order (A_i -> B_1,i -> B_2,i -> C_2,i)...")
@@ -303,16 +330,26 @@ def execute_runner() -> None:
             case_ordinal = pub["case_ordinal"]
 
             mapping = mat.get_counterbalanced_mapping(case_ordinal)
+            action_grammar = ACTION_GBNF if constrain_actions else None
+
+            def make_messages(user_prompt: str, sys_text: str | None = None) -> list[dict[str, str]]:
+                if sys_text:
+                    return [{"role": "system", "content": sys_text}, {"role": "user", "content": user_prompt}]
+                return [{"role": "user", "content": user_prompt}]
 
             # --- 1. Arm A ---
             prompt_a = pub["arm_a_prompt"]
             res_a, lat_a = send_chat_completion(
-                [{"role": "user", "content": prompt_a}],
+                make_messages(prompt_a, system_prompt),
+                base_url=base_url,
+                chat_template_kwargs=extra_template_kwargs,
                 temperature=0.0,
                 seed=42,
                 max_tokens=16,
+                grammar=action_grammar,
             )
-            content_a = res_a["choices"][0]["message"]["content"]
+            msg_a = res_a["choices"][0]["message"]
+            content_a = (msg_a.get("content") or msg_a.get("reasoning_content") or "").strip()
             rec_a = {
                 "arm": "A",
                 "call_id": f"{case_id}-A",
@@ -331,14 +368,18 @@ def execute_runner() -> None:
             # --- 2. Arm B Stage 1 ---
             prompt_b1 = pub["arm_b_stage1_prompt"]
             grammar_b1 = pub["arm_b_grammar"]
+            b1_sys = "You are a deterministic token generator. Output only the requested padding block." if system_prompt else None
             res_b1, lat_b1 = send_chat_completion(
-                [{"role": "user", "content": prompt_b1}],
+                make_messages(prompt_b1, b1_sys),
+                base_url=base_url,
+                chat_template_kwargs=extra_template_kwargs,
                 temperature=0.0,
                 seed=42,
                 max_tokens=64,
                 grammar=grammar_b1,
             )
-            content_b1 = res_b1["choices"][0]["message"]["content"]
+            msg_b1 = res_b1["choices"][0]["message"]
+            content_b1 = (msg_b1.get("content") or msg_b1.get("reasoning_content") or "").strip()
             rec_b1 = {
                 "arm": "B1",
                 "call_id": f"{case_id}-B1",
@@ -357,12 +398,16 @@ def execute_runner() -> None:
             # --- 3. Arm B Stage 2 ---
             prompt_b2 = mat.render_arm_b_stage2_prompt(content_b1, mapping)
             res_b2, lat_b2 = send_chat_completion(
-                [{"role": "user", "content": prompt_b2}],
+                make_messages(prompt_b2, system_prompt),
+                base_url=base_url,
+                chat_template_kwargs=extra_template_kwargs,
                 temperature=0.0,
                 seed=42,
                 max_tokens=16,
+                grammar=action_grammar,
             )
-            content_b2 = res_b2["choices"][0]["message"]["content"]
+            msg_b2 = res_b2["choices"][0]["message"]
+            content_b2 = (msg_b2.get("content") or msg_b2.get("reasoning_content") or "").strip()
             rec_b2 = {
                 "arm": "B2",
                 "call_id": f"{case_id}-B2",
@@ -381,12 +426,16 @@ def execute_runner() -> None:
             # --- 4. Arm C Stage 2 ---
             prompt_c2 = pub["arm_c_stage2_prompt"]
             res_c2, lat_c2 = send_chat_completion(
-                [{"role": "user", "content": prompt_c2}],
+                make_messages(prompt_c2, system_prompt),
+                base_url=base_url,
+                chat_template_kwargs=extra_template_kwargs,
                 temperature=0.0,
                 seed=42,
                 max_tokens=16,
+                grammar=action_grammar,
             )
-            content_c2 = res_c2["choices"][0]["message"]["content"]
+            msg_c2 = res_c2["choices"][0]["message"]
+            content_c2 = (msg_c2.get("content") or msg_c2.get("reasoning_content") or "").strip()
             rec_c2 = {
                 "arm": "C2",
                 "call_id": f"{case_id}-C2",
@@ -425,6 +474,7 @@ def execute_runner() -> None:
     # 5. Write Run Metadata
     metadata = {
         "actual_persisted_calls": actual_persisted_calls,
+        "constrain_actions": constrain_actions,
         "corpus_manifest_sha256": val_res["manifest_sha256"],
         "duration_seconds": (t_end - t_start).total_seconds(),
         "end_time_utc": t_end.isoformat(),
@@ -432,11 +482,12 @@ def execute_runner() -> None:
         "git_head": git_head,
         "host": HOST,
         "llama_server_path": str(LLAMA_SERVER_PATH),
-        "model_path": str(MODEL_PATH),
-        "port": PORT,
-        "run_id": RUN_ID,
+        "model_path": str(model_path),
+        "port": port,
+        "run_id": run_id,
         "start_time_utc": t_start.isoformat(),
         "status": "COMPLETED",
+        "system_prompt": system_prompt,
         "total_cases": TOTAL_CASES,
     }
     with open(run_dir / "run_metadata.json", "w", encoding="utf-8") as f:
@@ -447,8 +498,25 @@ def execute_runner() -> None:
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Hermetic model runner executor for MN-008 Gate C Phase 2.")
+    parser.add_argument("--model-path", type=Path, default=MODEL_PATH, help="Path to GGUF model")
+    parser.add_argument("--run-id", type=str, default=RUN_ID, help="Run identifier")
+    parser.add_argument("--port", type=int, default=PORT, help="Port for llama-server")
+    parser.add_argument("--allow-dirty", action="store_true", help="Allow dirty working tree for comparative runs")
+    parser.add_argument("--constrain-actions", action="store_true", help="Constrain action generation using GBNF grammar to eliminate conversational preamble")
+    parser.add_argument("--system-prompt", type=str, default=None, help="System prompt to guide deterministic decision making")
+    args = parser.parse_args()
+
     try:
-        execute_runner()
+        execute_runner(
+            model_path=args.model_path,
+            run_id=args.run_id,
+            port=args.port,
+            allow_dirty=args.allow_dirty,
+            constrain_actions=args.constrain_actions,
+            system_prompt=args.system_prompt,
+        )
     except Exception as e:
         print(f"\nExecution failed: {e}", file=sys.stderr)
         sys.exit(1)
