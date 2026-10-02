@@ -19,6 +19,8 @@ MN-008 is completed and closed: [External State Management](experiments/prototyp
 
 MN-009 is completed and promoted: [Scoped Context Delivery Engine](experiments/prototypes/mn-009-context-scaffolding/README.md). It established deterministic context scaffolding (<=512 tokens) over large knowledge spaces ($2\text{k}-32\text{k}$ tokens) without silent truncation, earning Gate D promotion into `src/mong_nhiem/context/`.
 
+The primary active successor is **MN-010: Iterative Context Working Set Loop** (NCC Phase 2), extending the substrate to iterative multi-turn working set dispatch over large external corpora while bounding forward passes to $\le 512$ tokens. Empirical reactivation of the Effective Context Capacity frontier (**MN-011**) is scheduled as a subsequent follow-up once the iterative substrate is established.
+
 The scoped context delivery subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
 ## Navigate
@@ -36,6 +38,7 @@ The scoped context delivery subsystem (`src/mong_nhiem/context/`) is selected an
 - [MN-007](experiments/prototypes/mn-007-state-recovery-operating-region/README.md)
 - [MN-008](experiments/prototypes/mn-008-external-state-management/README.md)
 - [MN-009](experiments/prototypes/mn-009-context-scaffolding/README.md)
+- [MN-010](experiments/prototypes/mn-010-iterative-context-loop/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

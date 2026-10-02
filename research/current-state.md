@@ -136,5 +136,15 @@ MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-st
    - **Part 3 (ChatML & Special Token Injection Immunity):** Evaluated 10 adversarial injection attack vectors (`<|im_start|>`, `<|im_end|>`, `<|endoftext|>`, `<think>`, `</think>`, Llama 3 headers, code comment injections, and multi-turn spoofing). MN-009 knapsack sanitization achieved **100.0% (10/10)** syntactic sanitization, zero prompt hijacking, and 100% accurate ground-truth fact extraction under real downstream inference. See [mn009-deep-reliability-report.md](experiments/prototypes/mn-009-context-scaffolding/reports/mn009-deep-reliability-report.md).
 10. **Throughput & Speedup Verification:** Measured CPU scaffolding throughput from 584k to 2.07M tokens/sec (0.88 ms at 512 tokens to 15.79 ms at 32k tokens, zero GPU compute). Downstream inference with `Qwen3.5-2B` on scoped context achieves 250.44 ms mean latency and 52.3 tokens/sec generation speed, delivering an empirical **22.9x end-to-end latency reduction** compared to raw 16k context (5,726.5 ms).
 
+---
+
+## Active Transition — MN-010 & Next Research Tracks
+
+With the verified completion and promotion of MN-009 into `src/mong_nhiem/context/`, Mộng Nhiễm formalizes its research progression across two sequential tracks:
+
+1. **MN-010 — Iterative Context Working Set Loop (NCC Phase 2):** Primary active next milestone. Evolves the single-shot scoped context delivery engine into an iterative multi-turn working set loop, enabling small models (<4B) to execute multi-hop reasoning over vast external knowledge spaces while preserving bounded ($\le 512$ token) forward passes.
+2. **MN-011 — Scaffolding-Assisted Effective Context Frontier (ECC Reactivation):** Scheduled successor. Reactivates empirical ECC frontier mapping across budget tiers ($256, 512, 1024, 2048$ tokens) and complex causal reasoning suites (ECC-007) once the iterative substrate is established.
+
+
 
 
