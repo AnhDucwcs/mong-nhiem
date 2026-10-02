@@ -41,6 +41,7 @@ The context subsystem (`src/mong_nhiem/context/`) is selected and promoted for p
 - [MN-008](experiments/prototypes/mn-008-external-state-management/README.md)
 - [MN-009](experiments/prototypes/mn-009-context-scaffolding/README.md)
 - [MN-010](experiments/prototypes/mn-010-iterative-context-loop/README.md)
+- [MN-011](experiments/prototypes/mn-011-scaffolding-context-frontier/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 
