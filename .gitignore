@@ -225,3 +225,7 @@ artifacts/*
 
 # Local Obsidian vault settings
 research/.obsidian/
+
+# Local CI workflows
+.github/workflows/
+
