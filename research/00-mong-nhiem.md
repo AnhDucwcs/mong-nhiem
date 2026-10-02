@@ -4,15 +4,10 @@ Mộng Nhiễm researches reliable small-model use over information and context 
 
 ## Direction
 
-- **Effective Context Capacity (ECC):** improve useful operation over external context beyond current effective capability.
-# Mộng Nhiễm
+Comparative definitions and architectural principles are formalized in [ECC vs NCC](concepts/ecc-vs-ncc.md). Both directions strictly adhere to Mộng Nhiễm's invariant principle: **no fine-tuning, no weight modification, and no architectural alteration to the model**; the model is maintained strictly as an unchanged black-box reasoning engine.
 
-Mộng Nhiễm researches reliable small-model use over information and context spaces beyond a model's current effective capability.
-
-## Direction
-
-- **Effective Context Capacity (ECC):** improve useful operation over external context beyond current effective capability.
-- **Native Context Capacity (NCC):** investigate substantial effective/native context expansion while reducing long-context degradation.
+- **Effective Context Capacity (ECC) — Utilization:** optimize useful operation over a fixed native context window through an external context management layer (structured decomposition, external state tracking, noise filtering, and task-aligned restructuring).
+- **Native Context Capacity (NCC) — Expansion:** enable reliable operation over information spaces far exceeding the model's native effective context via an external context substrate (*large external memory + bounded native context + iterative access*).
 
 State consistency, positional degradation, context overload, and reasoning over distributed information are research concerns, not selected solutions. MN-001 is complete. MN-002 is complete and freezes MCB v0.3.0 as the capability-qualification baseline. MN-003 completed its bounded direct-context measurement and synthesis phase. MN-004 then tested one explicit state-representation intervention and closed without meeting its frozen efficacy thresholds; no architecture was promoted. MN-005 is completed and closed for further ECC-006 candidate efficacy work: its canonical Multi-pass result is `inconclusive` (`1/6` Arm C versus `0/6` active control; `D=+1`), no `attempt-0003` is authorized, and its Hierarchical audit is `hierarchical_gate_a_unselected`. MN-006's first frozen Llama baseline is protocol-valid but yields a shared malformed-output floor (`0/32` in both schedules and profiles). Its separately frozen grammar-constrained `attempt-0002` is also protocol-valid: all responses parse but every response is `INVALID`, yielding `16/32` in both schedules and profiles. Neither establishes a locality-sensitive state-integration failure region; no candidate treatment has been created.
 
@@ -29,6 +24,7 @@ The scoped context delivery subsystem (`src/mong_nhiem/context/`) is selected an
 ## Navigate
 
 - [Architecture](concepts/architecture.md)
+- [ECC vs NCC](concepts/ecc-vs-ncc.md)
 - [Current state](current-state.md)
 - [Research methodology](research.md)
 - [Experiments](experiments/README.md)
