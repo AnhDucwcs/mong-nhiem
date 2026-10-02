@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "total_cases": 30,
+  "domains": {
+    "code_ast": 10,
+    "knowledge_graph": 10,
+    "state_table": 10
+  },
+  "sha256": "360d2e0ec0f0789109e9d5f87868ad00bfa91f8bedd4a64e8e84d847ac20c249",
+  "cases_file": "cases.jsonl"
+}

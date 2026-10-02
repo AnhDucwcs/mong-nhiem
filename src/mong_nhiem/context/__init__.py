@@ -1,6 +1,17 @@
 """Context delivery and scaffolding subsystem for Mộng Nhiễm."""
 from __future__ import annotations
 
+from mong_nhiem.context.coordinator import (
+    ActionType,
+    AgentAction,
+    CircuitBreaker,
+    CircuitBreakerStatus,
+    CoordinatorResult,
+    IterativeCoordinator,
+    TurnRecord,
+    format_action,
+    parse_action,
+)
 from mong_nhiem.context.packer import (
     ContextPacker,
     InvariantViolationError,
@@ -22,4 +33,13 @@ __all__ = [
     "slice_table_by_projection",
     "CodebaseSlicer",
     "slice_codebase",
+    "ActionType",
+    "AgentAction",
+    "parse_action",
+    "format_action",
+    "CircuitBreakerStatus",
+    "CircuitBreaker",
+    "TurnRecord",
+    "CoordinatorResult",
+    "IterativeCoordinator",
 ]
