@@ -1,24 +1,72 @@
 # Mộng Nhiễm
 
-Mộng Nhiễm researches how small language models can work reliably with knowledge and context spaces beyond their current effective capability.
+Mộng Nhiễm researches reliable reasoning and state tracking for lightweight open-weights language models (<4B parameters) over extensive knowledge and context spaces ($32\text{k}+$ tokens).
 
-MN-001 established the development foundation. MN-002 is complete and frozen: MCB v0.3.0 is the canonical reproducible capability-qualification benchmark, with definition fingerprint `2ac24df4e6cca12e13da577fb48db5da8e39d89cf3646ef705ea7679b4548f7a`. Llama 3.2 3B and Qwen3-4B are qualified capability baselines, not production-model selections. MN-003 is completed and closed for further ECC measurement work; its retained evidence maps model-specific retrieval, State Tracking, and causal-reasoning behavior under context pressure. [MN-004](research/experiments/prototypes/mn-004-state-representation-intervention/README.md) is prepared for hypothesis/intervention design only—no intervention is selected or implemented.
+The project adheres strictly to an invariant core principle: **no fine-tuning, no weight modification, and no architectural alteration to the model**. The model is maintained strictly as an unchanged black-box reasoning engine, while host-managed substrates guarantee deterministic context bounds, prompt sanitization, and safety invariants.
 
-## Layout
+---
 
-- `research/` is the canonical research knowledge base and Obsidian vault.
-- `research/experiments/` contains research baselines and prototypes, separate from reusable code.
-- `src/mong_nhiem/` is the reusable package boundary.
-- `data/` and `artifacts/` hold local generated material and are ignored by Git.
+## Production Library (`src/mong_nhiem/`)
 
-## Development
+The core library is implemented using **100% Python Standard Library** with zero external runtime dependencies.
 
-Python 3.11 or newer is required.
+### Scoped Context & Scaffolding Subsystem (`mong_nhiem.context`)
+
+Promoted into production under milestones **MN-009** and **MN-010**:
+
+- **`ContextPacker`:** Deterministic Knapsack context packing algorithm that compresses extensive document streams ($2\text{k}-32\text{k}$ tokens) down to a strict $\le 512$-token native forward-pass ceiling. Features lexical salience ranking, natural boundary preservation (zero sentence-splitting mid-token), and complete prompt injection sanitization against ChatML, Llama 3 headers, and reasoning delimiters (`<think>...</think>`).
+- **`CodebaseSlicer`:** AST-based code compression engine that generates function skeletons, stubs uncalled auxiliary helpers, and adaptively inlines short utility functions while maintaining $100\%$ valid Python syntax (`ast.parse`).
+- **`IterativeCoordinator`:** Host-managed multi-turn context loop coordinator. Interleaves bounded model forward passes ($\le 512$ tokens per turn) with deterministic host-side context extraction to resolve sequential multi-hop dependencies ($A \rightarrow B \rightarrow C$).
+- **`CircuitBreaker`:** Defensive safety subsystem enforcing a hard turn ceiling ($\le 3$ turns) and duplicate/cycle detection (`visited_targets` set hashing), guaranteeing zero infinite retrieval loops or runaway latency.
+- **Graph & Tabular Slicers:** Breadth-first $k$-hop subgraph extraction ($O(V+E)$) and attribute projection for structured state tables.
+
+---
+
+## Research Milestone Progression
+
+Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ Gate B Contract $\rightarrow$ Gate C Execution $\rightarrow$ Gate D Disposition Review). Experimental artifacts remain isolated in `research/experiments/` until earned promotion into `src/mong_nhiem/`.
+
+| Milestone | Title | Track | Status | Primary Empirical Outcome |
+| :--- | :--- | :---: | :---: | :--- |
+| **MN-001** | Development Foundation | Foundation | **Completed** | Packaging, test harness, CI workflows, and canonical research structure. |
+| **MN-002** | Model Qualification | Qualification | **Completed** | MCB v0.3.0 qualification benchmark. Qualified Llama 3.2 3B, Qwen3 4B, and Qwen 3.5 2B. |
+| **MN-003** | Effective Context Capacity | ECC | **Completed** | Mapped empirical limits of direct native attention up to 16k tokens; identified state tracking collapse. |
+| **MN-004** | State Representation Intervention | ECC | **Closed (Unsupported)** | Evaluated global state-transition ledgers; missed frozen support thresholds. |
+| **MN-005** | State Tracking Intervention Selection | ECC | **Closed (Inconclusive)** | Multi-pass reconstruction audit; demonstrated ECC-006 workload limitations. |
+| **MN-006** | Distributed State Integration | ECC | **Closed (Interface Blocked)** | Evaluated contiguous vs interleaved state locality under strict model qualification. |
+| **MN-007** | State Recovery Operating Region | ECC | **Closed (Floor Regime)** | 108-case calibration proved in-context contiguous state recovery is unviable without support. |
+| **MN-008** | External State Management | NCC | **Closed (Unsupported)** | Offloaded event replay to host engine; identified small-model conditional conjunction bounds. |
+| **MN-009** | Scoped Context Delivery Engine | NCC Phase 1 | **Promoted** | 100% causal remedy on ECC-006, 100% injection immunity, and 22.9x downstream latency reduction. |
+| **MN-010** | Iterative Context Working Set Loop | NCC Phase 2 | **Promoted** | 100% multi-hop resolution (30/30 vs 0/30 baseline), 100% budget adherence ($\le 512$ tokens), circuit breaker safety. |
+| **MN-011** | Scaffolding-Assisted Context Frontier | ECC Reactivation | **Scheduled** | Reactivate empirical ECC capacity frontier mapping across scaled budget tiers ($256-2048$ tokens). |
+
+---
+
+## Repository Layout
+
+- `research/`: Canonical research knowledge base (directly viewable as an Obsidian vault).
+  - `research/00-mong-nhiem.md`: Master entrypoint and navigational hub.
+  - `research/concepts/`: Core theoretical frameworks ([`ecc-vs-ncc.md`](research/concepts/ecc-vs-ncc.md), [`architecture.md`](research/concepts/architecture.md)).
+  - `research/decisions/`: Architectural Decision Records (ADRs).
+  - `research/experiments/`: Sandbox prototypes and frozen empirical evidence.
+- `src/mong_nhiem/`: Production package boundary (pure Python standard library).
+- `tests/unit/`: Comprehensive test suite (420+ unit and integration tests passing).
+
+---
+
+## Getting Started & Development
+
+Python 3.11+ is required.
 
 ```powershell
+# Install editable package with development dependencies
 python -m pip install -e ".[dev]"
+
+# Linting and syntax formatting checks
 ruff check .
-pytest
+
+# Run test suite
+python -m pytest tests/unit/ -v
 ```
 
-Read the [research index](research/00-mong-nhiem.md), [current state](research/current-state.md), [MN-002 overview](research/experiments/baselines/mn-002-model-qualification/README.md), [MN-003 closure](research/experiments/prototypes/mn-003-effective-context-capacity/README.md), and [MN-004 charter](research/experiments/prototypes/mn-004-state-representation-intervention/README.md) before contributing.
+Before contributing or modifying architectural decisions, read [`research/00-mong-nhiem.md`](research/00-mong-nhiem.md), [`research/concepts/architecture.md`](research/concepts/architecture.md), and [`research/decisions/decisions.md`](research/decisions/decisions.md).

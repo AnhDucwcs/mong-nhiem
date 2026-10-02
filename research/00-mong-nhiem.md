@@ -19,9 +19,11 @@ MN-008 is completed and closed: [External State Management](experiments/prototyp
 
 MN-009 is completed and promoted: [Scoped Context Delivery Engine](experiments/prototypes/mn-009-context-scaffolding/README.md). It established deterministic context scaffolding (<=512 tokens) over large knowledge spaces ($2\text{k}-32\text{k}$ tokens) without silent truncation, earning Gate D promotion into `src/mong_nhiem/context/`.
 
-The primary active successor is **MN-010: Iterative Context Working Set Loop** (NCC Phase 2), extending the substrate to iterative multi-turn working set dispatch over large external corpora while bounding forward passes to $\le 512$ tokens. Empirical reactivation of the Effective Context Capacity frontier (**MN-011**) is scheduled as a subsequent follow-up once the iterative substrate is established.
+MN-010 is completed and promoted: [Iterative Context Working Set Loop](experiments/prototypes/mn-010-iterative-context-loop/README.md). It established host-coordinated multi-turn working set dispatch over large external corpora ($32\text{k}+$ tokens) under strict $\le 512$ token forward passes and $\le 3$ turn circuit breaker safety, resolving multi-hop transitive dependencies with 100% accuracy (30/30 vs 0/30 baseline), earning Gate D promotion into `src/mong_nhiem/context/`.
 
-The scoped context delivery subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
+The primary active successor is **MN-011: Scaffolding-Assisted Effective Context Frontier** (ECC Reactivation), re-evaluating the model's true empirical context capacity boundary across budget tiers ($256, 512, 1024, 2048$ tokens) under hybrid host-scaffolded substrates.
+
+The context subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding and iterative coordination. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
 ## Navigate
 
@@ -39,6 +41,7 @@ The scoped context delivery subsystem (`src/mong_nhiem/context/`) is selected an
 - [MN-008](experiments/prototypes/mn-008-external-state-management/README.md)
 - [MN-009](experiments/prototypes/mn-009-context-scaffolding/README.md)
 - [MN-010](experiments/prototypes/mn-010-iterative-context-loop/README.md)
+- [MN-011](experiments/prototypes/mn-011-scaffolding-context-frontier/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

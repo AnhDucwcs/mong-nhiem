@@ -84,20 +84,16 @@ Status: **completed and promoted into `src/mong_nhiem/context/`.**
 
 ## MN-010 — Iterative Context Working Set Loop
 
-Status: **in design (Gate A preparation).**
+Status: **completed and promoted into `src/mong_nhiem/context/`.**
 Track: **NCC Phase 2 (Substrate Expansion).**
 
-1. **Core Objective:** Evolve the single-shot scoped context delivery engine (MN-009) into an iterative multi-turn working set loop, enabling small models (<4B) to solve multi-hop reasoning tasks across large external corpora ($32\text{k}+$ tokens) without exceeding a bounded working set ($\le 512$ tokens per turn).
-2. **Core Mechanism:**
-   - Host-maintained external memory and state coordinator.
-   - Structured action dispatch protocol (e.g. `FETCH`, `STEP`, `RESOLVE`).
-   - Circuit breaker with strict turn bounds (`max_turns <= 3`) and duplicate cycle detection to prevent infinite retrieval loops.
-   - Preserves 100% pure Python standard library footprint in `src/mong_nhiem/context/`.
-3. **Preservation Invariant:** Code remains in `research/experiments/prototypes/mn-010-iterative-context-loop/` until Gate D disposition explicitly authorizes promotion.
+1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules and 30 multi-hop cases across Code AST, Knowledge Graph paths, and State Tables.
+2. **Action Protocol & Circuit Breaker:** Implemented Action Protocol Grammar Choice A (flat regex text: `ACTION: FETCH <target>` / `ACTION: RESOLVE <answer>`) and circuit breaker hard ceiling $\le 3$ turns with duplicate/cycle detection.
+3. **Gate C Execution & Gate D Promotion:** All 5 support rules verified with $100\%$ compliance (Arm B $100.0\%$ [30/30] vs Arm A $0.0\%$ [0/30] accuracy, $100\%$ per-turn token adherence $\le 512$ tokens, $100\%$ circuit breaker safety, $< 0.5\text{ms}$ host coordination). Formally promoted into `src/mong_nhiem/context/coordinator.py` with zero regressions (420/420 tests passing).
 
 ## MN-011 — Scaffolding-Assisted Effective Context Frontier
 
-Status: **scheduled (post MN-010).**
+Status: **scheduled next milestone.**
 Track: **ECC Reactivation (Utilization & Frontier Mapping).**
 
 1. **Core Objective:** Reactivate empirical Effective Context Capacity (ECC) measurement by leveraging the completed context scaffolding engines (MN-009 single-shot + MN-010 iterative) as protective intermediate layers.
@@ -105,5 +101,16 @@ Track: **ECC Reactivation (Utilization & Frontier Mapping).**
    - Map the model's true empirical boundary across budget scaling: $B \in \{256, 512, 1024, 2048\}$ tokens.
    - Re-evaluate blocked complex reasoning suites, starting with ECC-007 Causal Reasoning.
    - Quantify conversion efficiency across the Context Utilization Chain: $\text{Theoretical} \rightarrow \text{Fed} \rightarrow \text{Accessed} \rightarrow \text{Utilized} \rightarrow \text{Outcome}$.
+
+## MN-012 — Hierarchical Tool & Memory Integration
+
+Status: **future planned milestone.**
+Track: **NCC Phase 3 (Cognitive Orchestration).**
+
+1. **Core Objective:** Bridge iterative context coordination with structured tool calling and persistent external memory stores.
+2. **Core Mechanism:**
+   - Hierarchical working memory partitioning.
+   - Multi-agent coordination and external tool execution contracts.
+
 
 

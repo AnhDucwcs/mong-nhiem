@@ -4,11 +4,18 @@ from __future__ import annotations
 import pytest
 
 from mong_nhiem.context import (
+    ActionType,
+    AgentAction,
+    CircuitBreaker,
+    CircuitBreakerStatus,
     CodebaseSlicer,
     ContextPacker,
     InvariantViolationError,
+    IterativeCoordinator,
     TextChunk,
     assert_temporal_invariant,
+    format_action,
+    parse_action,
     sanitize_chat_tokens,
     slice_codebase,
     slice_graph_by_khop,
@@ -96,3 +103,61 @@ def target_fn(n):
     assert "def target_fn(n):" in sliced
     assert "def short_helper(x):" in sliced
     assert "def unused_long_helper" not in sliced
+
+
+def test_action_protocol_parse_and_format() -> None:
+    act_fetch = parse_action("ACTION: FETCH Entity_101")
+    assert act_fetch.action_type == ActionType.FETCH
+    assert act_fetch.argument == "Entity_101"
+    assert format_action(act_fetch.action_type, act_fetch.argument) == "ACTION: FETCH Entity_101"
+
+    act_res = parse_action("ACTION: RESOLVE 'Cluster Active'")
+    assert act_res.action_type == ActionType.RESOLVE
+    assert act_res.argument == "Cluster Active"
+
+    act_inv = parse_action("No action here")
+    assert act_inv.action_type == ActionType.INVALID
+
+
+def test_circuit_breaker_cycle_prevention() -> None:
+    cb = CircuitBreaker(max_turns=3)
+    a1 = AgentAction(ActionType.FETCH, "Target_A", "raw")
+    ok, status, _ = cb.validate_action(a1)
+    assert ok and status == CircuitBreakerStatus.OK
+    cb.record_step(a1)
+
+    # Attempt to fetch same target again
+    a1_repeat = AgentAction(ActionType.FETCH, "target_a", "raw")
+    ok, status, reason = cb.validate_action(a1_repeat)
+    assert not ok
+    assert status == CircuitBreakerStatus.TRIPPED_CYCLE_DETECTED
+    assert "Cycle detected" in reason
+
+
+def test_iterative_coordinator_multi_hop_run() -> None:
+    db = {
+        "Cluster_X": "Primary router is Gateway_99.",
+        "Gateway_99": "Host IP is 192.168.1.99.",
+    }
+    responses = [
+        "ACTION: FETCH Gateway_99",
+        "ACTION: RESOLVE 192.168.1.99",
+    ]
+    resp_iter = iter(responses)
+
+    coordinator = IterativeCoordinator(
+        retriever_fn=lambda t: db.get(t),
+        model_fn=lambda p: next(resp_iter),
+        max_turns=3,
+        max_budget=512,
+    )
+
+    result = coordinator.run(
+        query="What is the host IP for Cluster_X?",
+        initial_context=db["Cluster_X"],
+    )
+    assert result.status == "RESOLVED"
+    assert result.answer == "192.168.1.99"
+    assert result.total_turns == 2
+    assert result.all_under_budget is True
+

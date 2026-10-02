@@ -138,12 +138,32 @@ MN-008 freezes its [Gate A hypothesis](experiments/prototypes/mn-008-external-st
 
 ---
 
-## Active Transition — MN-010 & Next Research Tracks
+## MN-010 — Iterative Context Working Set Loop — completed and promoted
 
-With the verified completion and promotion of MN-009 into `src/mong_nhiem/context/`, Mộng Nhiễm formalizes its research progression across two sequential tracks:
+MN-010 is complete and formally promoted into `src/mong_nhiem/context/` under Gate D disposition review:
 
-1. **MN-010 — Iterative Context Working Set Loop (NCC Phase 2):** Primary active next milestone. Evolves the single-shot scoped context delivery engine into an iterative multi-turn working set loop, enabling small models (<4B) to execute multi-hop reasoning over vast external knowledge spaces while preserving bounded ($\le 512$ token) forward passes.
-2. **MN-011 — Scaffolding-Assisted Effective Context Frontier (ECC Reactivation):** Scheduled successor. Reactivates empirical ECC frontier mapping across budget tiers ($256, 512, 1024, 2048$ tokens) and complex causal reasoning suites (ECC-007) once the iterative substrate is established.
+1. **Gate A Charter & Falsifiable Hypothesis:** Addressed the fundamental horizon limit of single-shot context scaffolding (MN-009) on multi-hop transitive dependencies ($A \rightarrow B \rightarrow C$). Formulated the hypothesis that host-coordinated iterative working set loops can solve multi-hop reasoning over $32\text{k}+$ spaces under bounded $\le 512$-token passes.
+2. **Gate B Measurement Contract:** Frozen 30-case multi-hop benchmark corpus ([`definition/corpus-v1/cases.jsonl`](experiments/prototypes/mn-010-iterative-context-loop/definition/corpus-v1/cases.jsonl)) covering Code AST transitive call chains, Knowledge Graph paths, and State Table indirected lookups.
+3. **Action Protocol Grammar (Choice A):** Adopted flat regex text grammar (`ACTION: FETCH <target>` / `ACTION: RESOLVE <answer>`), completely eliminating JSON brace/syntax parsing failures common on lightweight models (<4B).
+4. **Circuit Breaker Subsystem:** Hard ceiling of $\le 3$ turns (`max_turns = 3`) with visited-target set hashing for duplicate and cycle detection, intercepting infinite loops on turn 2.
+5. **Gate C Execution Benchmark (`mn010-execution-run-0001`):**
+   - **Rule 1 (Multi-Hop Resolution Efficacy):** Arm B (Iterative Coordinator) achieved **100.0% (30/30)** resolution accuracy vs Arm A (Single-Shot Baseline) at **0.0% (0/30)** due to horizon blindness on downstream hops.
+   - **Rule 2 (Per-Turn Budget Ceiling):** **100.0% (30/30)** of generated prompts satisfied the hard $\le 512$ token ceiling (max turn: 228 tokens, zero overflow).
+   - **Rule 3 (Loop Boundedness & Safety):** $100\%$ terminated within $\le 3$ turns (mean: 2.67 turns). Recursive circular dependencies (`Loop_A <-> Loop_B`) tripped circuit breaker on Turn 2 with `TRIPPED_CYCLE_DETECTED`.
+   - **Rule 4 (Action Protocol Adherence):** $100\%$ adherence to regex action grammar without conversational drift.
+   - **Rule 5 (Host Coordination Latency):** Host coordination overhead averaged $< 0.5\text{ ms}$ per turn.
+   See [mn010-execution-report.md](experiments/prototypes/mn-010-iterative-context-loop/reports/mn010-execution-report.md).
+6. **Gate D Promotion:** Promoted `IterativeCoordinator`, `CircuitBreaker`, `parse_action`, `format_action`, `AgentAction`, `ActionType`, and telemetry records into `src/mong_nhiem/context/coordinator.py` and exported through `src/mong_nhiem/context/__init__.py`. All 420 unit tests pass cleanly with zero regressions. See [gate-d-disposition-review.md](experiments/prototypes/mn-010-iterative-context-loop/gate-d-disposition-review.md).
+
+---
+
+## Active Transition & Next Research Tracks
+
+With the verified completion and promotion of MN-010 into `src/mong_nhiem/context/`, Mộng Nhiễm formalizes its research progression:
+
+1. **MN-011 — Empirical ECC Reactivation & Scaffolding Capacity Frontier:** Re-evaluates effective context capacity under hybrid host-scaffolded and iterative substrates across model architectures (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`), measuring effective horizon boundaries beyond raw attention limits.
+2. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling and persistent external memory stores.
+
 
 
 
