@@ -12,13 +12,11 @@ from typing import Dict, Optional
 DEFAULT_CONTEXT_BUDGET: int = 512
 
 # Canonical model budget profiles
-# Accounts for tokenizer vocabulary density differences (e.g. 248k BPE subword expansion)
+# Only records models empirically verified through research gates
 MODEL_BUDGET_PROFILES: Dict[str, int] = {
-    "qwen3.5-2b": 420,
-    "qwen3.5-4b": 512,
     "llama-3.2-3b": 512,
-    "qwen3-4b": 512,
 }
+
 
 
 def register_model_budget_profile(model_name: str, budget: int) -> None:

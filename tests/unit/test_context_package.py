@@ -171,39 +171,48 @@ def test_budget_resolution_hierarchy(monkeypatch: pytest.MonkeyPatch) -> None:
     assert resolve_context_budget() == DEFAULT_CONTEXT_BUDGET
     assert resolve_context_budget() == 512
 
-    # 2. Model profiling lookup
-    assert resolve_context_budget(model_name="qwen3.5-2b") == 420
-    assert resolve_context_budget(model_name="unsloth/Qwen3.5-4B-GGUF") == 512
+    # 2. Empirically verified model profile
+    assert resolve_context_budget(model_name="llama-3.2-3b") == 512
+    # Unregistered/unknown models safely fall back to 512
+    assert resolve_context_budget(model_name="unregistered-model-xyz") == 512
 
     # 3. Environment variable override
     monkeypatch.setenv("MONG_NHIEM_MAX_BUDGET", "768")
     assert resolve_context_budget() == 768
-    # Env var overrides model profile
-    assert resolve_context_budget(model_name="qwen3.5-2b") == 768
+    # Env var overrides verified profile and defaults
+    assert resolve_context_budget(model_name="llama-3.2-3b") == 768
 
     # 4. Explicit override takes precedence over everything
-    assert resolve_context_budget(model_name="qwen3.5-2b", override_budget=256) == 256
+    assert resolve_context_budget(model_name="llama-3.2-3b", override_budget=256) == 256
     assert resolve_context_budget(override_budget=1024) == 1024
 
     # 5. Dynamic profile registration
-    register_model_budget_profile("custom-deepseek-7b", 640)
-    assert resolve_context_budget(model_name="custom-deepseek-7b") == 768  # env var still active
+    register_model_budget_profile("custom-benchmark-model", 640)
+    assert resolve_context_budget(model_name="custom-benchmark-model") == 768  # env var still active
     monkeypatch.delenv("MONG_NHIEM_MAX_BUDGET", raising=False)
-    assert resolve_context_budget(model_name="custom-deepseek-7b") == 640
+    assert resolve_context_budget(model_name="custom-benchmark-model") == 640
 
 
 def test_packer_and_coordinator_model_budget_integration() -> None:
+    # Dynamic profile registration for custom experimentation
+    register_model_budget_profile("experiment-model-x", 384)
+
     # ContextPacker auto-resolves from model_name
-    packer = ContextPacker(model_name="qwen3.5-2b")
-    assert packer.max_budget == 420
+    packer = ContextPacker(model_name="experiment-model-x")
+    assert packer.max_budget == 384
+
+    # Default ContextPacker without arguments stays at 512
+    packer_default = ContextPacker()
+    assert packer_default.max_budget == 512
 
     # IterativeCoordinator auto-resolves from model_name
     coordinator = IterativeCoordinator(
         retriever_fn=lambda t: None,
         model_fn=lambda p: "ACTION: RESOLVE done",
-        model_name="qwen3.5-2b",
+        model_name="experiment-model-x",
     )
-    assert coordinator.max_budget == 420
-    assert coordinator.packer.max_budget == 420
+    assert coordinator.max_budget == 384
+    assert coordinator.packer.max_budget == 384
+
 
 
