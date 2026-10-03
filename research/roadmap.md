@@ -102,13 +102,41 @@ Track: **ECC Reactivation (Utilization & Frontier Mapping).**
 
 ## MN-012 — Hierarchical Tool & Memory Integration
 
-Status: **scheduled next milestone.**
+Status: **scheduled next milestone.**  
 Track: **NCC Phase 3 (Cognitive Orchestration).**
 
 1. **Core Objective:** Bridge iterative context coordination with structured tool calling and persistent external memory stores.
 2. **Core Mechanism:**
-   - Hierarchical working memory partitioning.
-   - Multi-agent coordination and external tool execution contracts.
+   - Structured tool execution contracts (`READ`, `INSPECT`, `DISPATCH`) under deterministic regex action grammar.
+   - Dual-tier memory partitioning: In-memory Working Set ($\le 512$ tokens) vs Persistent External State Store on disk.
+3. **Pivoting Gate:** Establishes operational tool dispatch reliability ($T \le 5$). If lightweight models exhibit persistent tool-calling format collapse, serves as a decision gate to reconsider grammar or abstraction boundaries before increasing environmental complexity.
+
+## MN-013 — Backtracking & Error Self-Correction
+
+Status: **scheduled successor milestone.**  
+Track: **NCC Phase 4 (Autonomous Recovery).**
+
+1. **Core Objective:** Equip the host coordinator with state rollback and self-correction primitives when tool actions fail or encounter obstacles.
+2. **Core Mechanism:**
+   - Host-managed action rejection signaling and cycle-safe state rollback ($S_{t+1} \rightarrow S_t$).
+   - Counterfactual exploration and alternative branch selection without prompt history pollution.
+3. **Pivoting Gate:** Evaluates whether small models can recover from deadlocks. If failure recovery produces recursive thrashing, determines whether heuristic search or structural graph pruning is required.
+
+## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
+
+Status: **ultimate benchmark / long-horizon destination.**  
+Track: **NCC Phase 5 (Full Stateful World Continuity).**
+
+1. **Ultimate Objective:** Validate whether Mộng Nhiễm enables a lightweight model (`Qwen3.5-2B`) to sustain, evolve, and reliably govern a multi-entity simulated world across extended discrete time horizons ($T \ge 20-50$ steps).
+2. **Evaluation Protocol:**
+   - An authoritative, discrete simulated microworld (locations, entities, inventories, physics/causal invariants).
+   - Zero hallucinated state transitions, zero conservation-law breaches, and zero memory leaks.
+3. **Incremental Gating & Failure Isolation Philosophy:**
+   - The project avoids rushing directly to this final testbed. Intermediate milestones (MN-012, MN-013, and potential subsequent stepping stones) exist specifically to isolate failure modes at each layer of the cognitive stack:
+     - Tool execution errors are isolated and solved in MN-012.
+     - Search, backtracking, and obstacle deadlocks are isolated and solved in MN-013.
+   - At each intermediate gate, empirical failure will serve as formal falsification to pivot Mộng Nhiễm's architectural approach rather than compounding unisolated confounds into the final world simulation.
+
 
 
 
