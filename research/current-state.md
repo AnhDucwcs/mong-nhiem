@@ -179,6 +179,10 @@ With the empirical verification of the capacity frontier in MN-011, Mộng Nhi�
 
 1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Formally established as the canonical Primary Research Subject for all forward milestones (MN-012+). Prior empirical results demonstrated that under host context scaffolding, `Qwen3.5-2B` achieves 100% downstream accuracy, sub-second latency (471 ms, 3.5x faster than 4B), and 44% lower memory footprint (1.4 GB). `Llama-3.2-3B-Instruct` and `Qwen3-4B` are preserved strictly as secondary cross-model generalization baselines.
 2. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling, external memory partitioning, and multi-turn state persistence.
+   - **Gate A Charter & Hypotheses:** Frozen at `charter.md`. Formulates $H_1$ (Tool Grammar Reliability $\ge 90\%$ under regex protocol), $H_2$ (Dual-Tier Hierarchical Memory state consistency across $T \le 5$ turns with prompt context $\le 512$ tokens), and $H_3$ (Failure-isolation directional pivoting gate).
+   - **Gate B Measurement Contract:** Frozen at `gate-b-contract.md`. Establishes 5 frozen acceptance rules and a 30-case evaluation matrix across Codebase AST Mutation, Stateful Resource Ledger, and System Registry Orchestration.
+   - **Failure Isolation Gate:** Serves as the operational decision gate before introducing backtracking (MN-013) or simulated microworld evolution (MN-Final).
+
 
 
 
