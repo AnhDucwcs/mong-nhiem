@@ -177,7 +177,9 @@ MN-011 is complete and canonically synthesized under Gate D disposition review:
 
 With the empirical verification of the capacity frontier in MN-011, Mộng Nhiễm transitions to the cognitive orchestration layer:
 
-1. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling, external memory partitioning, and multi-turn state persistence.
+1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Formally established as the canonical Primary Research Subject for all forward milestones (MN-012+). Prior empirical results demonstrated that under host context scaffolding, `Qwen3.5-2B` achieves 100% downstream accuracy, sub-second latency (471 ms, 3.5x faster than 4B), and 44% lower memory footprint (1.4 GB). `Llama-3.2-3B-Instruct` and `Qwen3-4B` are preserved strictly as secondary cross-model generalization baselines.
+2. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling, external memory partitioning, and multi-turn state persistence.
+
 
 
 

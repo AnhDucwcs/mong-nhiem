@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from mong_nhiem.context.config import (
     DEFAULT_CONTEXT_BUDGET,
+    DEFAULT_MODEL_NAME,
     MODEL_BUDGET_PROFILES,
     register_model_budget_profile,
     resolve_context_budget,
@@ -31,6 +32,7 @@ from mong_nhiem.context.slicer import CodebaseSlicer, slice_codebase
 
 __all__ = [
     "DEFAULT_CONTEXT_BUDGET",
+    "DEFAULT_MODEL_NAME",
     "MODEL_BUDGET_PROFILES",
     "register_model_budget_profile",
     "resolve_context_budget",

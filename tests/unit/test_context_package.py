@@ -5,6 +5,7 @@ import pytest
 
 from mong_nhiem.context import (
     DEFAULT_CONTEXT_BUDGET,
+    DEFAULT_MODEL_NAME,
     MODEL_BUDGET_PROFILES,
     ActionType,
     AgentAction,
@@ -25,6 +26,7 @@ from mong_nhiem.context import (
     slice_graph_by_khop,
     slice_table_by_projection,
 )
+
 
 
 def test_sanitize_chat_tokens_all_architectures() -> None:
@@ -167,14 +169,17 @@ def test_iterative_coordinator_multi_hop_run() -> None:
 
 
 def test_budget_resolution_hierarchy(monkeypatch: pytest.MonkeyPatch) -> None:
-    # 1. Default fallback
+    # 1. Default fallback & primary research model
+    assert DEFAULT_MODEL_NAME == "qwen3.5-2b"
     assert resolve_context_budget() == DEFAULT_CONTEXT_BUDGET
     assert resolve_context_budget() == 512
 
-    # 2. Empirically verified model profile
+    # 2. Empirically verified model profiles
+    assert resolve_context_budget(model_name="qwen3.5-2b") == 512
     assert resolve_context_budget(model_name="llama-3.2-3b") == 512
     # Unregistered/unknown models safely fall back to 512
     assert resolve_context_budget(model_name="unregistered-model-xyz") == 512
+
 
     # 3. Environment variable override
     monkeypatch.setenv("MONG_NHIEM_MAX_BUDGET", "768")

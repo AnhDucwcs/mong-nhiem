@@ -11,11 +11,16 @@ from typing import Dict, Optional
 # Default hard context budget invariant (empirically validated in MN-009 & MN-011)
 DEFAULT_CONTEXT_BUDGET: int = 512
 
+# Primary research subject model identifier (empirically established in MN-009, MN-010)
+DEFAULT_MODEL_NAME: str = "qwen3.5-2b"
+
 # Canonical model budget profiles
 # Only records models empirically verified through research gates
 MODEL_BUDGET_PROFILES: Dict[str, int] = {
+    "qwen3.5-2b": 512,
     "llama-3.2-3b": 512,
 }
+
 
 
 
