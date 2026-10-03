@@ -93,18 +93,16 @@ Track: **NCC Phase 2 (Substrate Expansion).**
 
 ## MN-011 — Scaffolding-Assisted Effective Context Frontier
 
-Status: **scheduled next milestone.**
+Status: **completed and synthesized.**
 Track: **ECC Reactivation (Utilization & Frontier Mapping).**
 
-1. **Core Objective:** Reactivate empirical Effective Context Capacity (ECC) measurement by leveraging the completed context scaffolding engines (MN-009 single-shot + MN-010 iterative) as protective intermediate layers.
-2. **Core Mechanism:**
-   - Map the model's true empirical boundary across budget scaling: $B \in \{256, 512, 1024, 2048\}$ tokens.
-   - Re-evaluate blocked complex reasoning suites, starting with ECC-007 Causal Reasoning.
-   - Quantify conversion efficiency across the Context Utilization Chain: $\text{Theoretical} \rightarrow \text{Fed} \rightarrow \text{Accessed} \rightarrow \text{Utilized} \rightarrow \text{Outcome}$.
+1. **Gate A Charter & Gate B Contract:** Frozen 4 support rules and 40 evaluation cases across Suite A (parametric budget sweep $256-2048$ tokens) and Suite B (ECC-007 causal reachability matched suite $512-16\text{k}$ tokens).
+2. **Pre-Run Freeze Authority:** Pre-run authority sealed under commit `f9e52aa`. Operational buffer limitations under Windows OS CLI flags (`WinError 206`) recorded in Attempt 0001 (`a2a7866`) and repaired via stdin streaming in Attempt 0002 (`738e714`).
+3. **Gate C Execution & Gate D Synthesis:** Confirmed $H_1$ (capacity plateaus at $B^* \approx 512$ tokens, while expanding to $1024/2048$ yields 0% gain with $35.4\%$ efficiency degradation), confirmed $H_2$ (100% causal reachability accuracy on ECC-007 up to 16k context, eliminating false positives), and confirmed $H_3$ ($\eta_{512} = 0.139$ vs $\eta_{\text{raw}} = 0.0023$, a $60\times$ efficiency gap).
 
 ## MN-012 — Hierarchical Tool & Memory Integration
 
-Status: **future planned milestone.**
+Status: **scheduled next milestone.**
 Track: **NCC Phase 3 (Cognitive Orchestration).**
 
 1. **Core Objective:** Bridge iterative context coordination with structured tool calling and persistent external memory stores.

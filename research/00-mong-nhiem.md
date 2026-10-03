@@ -21,7 +21,9 @@ MN-009 is completed and promoted: [Scoped Context Delivery Engine](experiments/p
 
 MN-010 is completed and promoted: [Iterative Context Working Set Loop](experiments/prototypes/mn-010-iterative-context-loop/README.md). It established host-coordinated multi-turn working set dispatch over large external corpora ($32\text{k}+$ tokens) under strict $\le 512$ token forward passes and $\le 3$ turn circuit breaker safety, resolving multi-hop transitive dependencies with 100% accuracy (30/30 vs 0/30 baseline), earning Gate D promotion into `src/mong_nhiem/context/`.
 
-The primary active successor is **MN-011: Scaffolding-Assisted Effective Context Frontier** (ECC Reactivation), re-evaluating the model's true empirical context capacity boundary across budget tiers ($256, 512, 1024, 2048$ tokens) under hybrid host-scaffolded substrates.
+MN-011 is completed and synthesized: [Scaffolding-Assisted Effective Context Frontier](experiments/prototypes/mn-011-scaffolding-context-frontier/README.md). It empirically confirmed that small models achieve peak capacity-efficiency at $B^* \approx 512$ tokens ($H_1$), restored 100% causal reachability on ECC-007 across scales up to 16k tokens ($H_2$), and demonstrated a $60\times$ conversion efficiency advantage over raw attention ($H_3$).
+
+The primary active successor is **MN-012: Hierarchical Tool & Memory Integration** (NCC Phase 3), bridging iterative context coordination with structured external tool calling and persistent memory partitioning.
 
 The context subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding and iterative coordination. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
