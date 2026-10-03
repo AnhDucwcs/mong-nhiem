@@ -57,13 +57,13 @@ def get_token_counter(model_path: Path = MODEL_GGUF) -> Callable[[str], int]:
                 str(LLAMA_TOKENIZE),
                 "-m",
                 str(model_path),
-                "-p",
-                text,
+                "--stdin",
                 "--show-count",
                 "--no-bos",
             ]
             res = subprocess.run(
                 cmd,
+                input=text,
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
@@ -83,7 +83,7 @@ def get_token_counter(model_path: Path = MODEL_GGUF) -> Callable[[str], int]:
     return _fallback_count
 
 
-def execute_evaluation(run_id: str = "mn011-execution-run-0001") -> dict[str, Any]:
+def execute_evaluation(run_id: str = "mn011-execution-run-0002") -> dict[str, Any]:
     cases_file = DEFINITION_DIR / "cases.jsonl"
     if not cases_file.exists():
         raise FileNotFoundError(f"Corpus file not found: {cases_file}")
@@ -315,8 +315,8 @@ Host-side causal graph extraction (`slice_graph_by_khop`) eliminates 100% of dis
 All four frozen Gate B rules and three scientific hypotheses ($H_1, H_2, H_3$) have been confirmed with 100% empirical compliance.
 Milestone MN-011 is certified for Gate D disposition review.
 """
-    (REPORTS_DIR / "mn011-execution-report-attempt-0001.md").write_text(report_md, encoding="utf-8")
-    print(f"\nWrote Gate C execution report to {REPORTS_DIR / 'mn011-execution-report-attempt-0001.md'}")
+    (REPORTS_DIR / "mn011-execution-report-attempt-0002.md").write_text(report_md, encoding="utf-8")
+    print(f"\nWrote Gate C execution report to {REPORTS_DIR / 'mn011-execution-report-attempt-0002.md'}")
     return summary
 
 
