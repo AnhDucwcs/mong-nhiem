@@ -4,6 +4,8 @@ from __future__ import annotations
 import pytest
 
 from mong_nhiem.context import (
+    DEFAULT_CONTEXT_BUDGET,
+    MODEL_BUDGET_PROFILES,
     ActionType,
     AgentAction,
     CircuitBreaker,
@@ -16,6 +18,8 @@ from mong_nhiem.context import (
     assert_temporal_invariant,
     format_action,
     parse_action,
+    register_model_budget_profile,
+    resolve_context_budget,
     sanitize_chat_tokens,
     slice_codebase,
     slice_graph_by_khop,
@@ -160,4 +164,46 @@ def test_iterative_coordinator_multi_hop_run() -> None:
     assert result.answer == "192.168.1.99"
     assert result.total_turns == 2
     assert result.all_under_budget is True
+
+
+def test_budget_resolution_hierarchy(monkeypatch: pytest.MonkeyPatch) -> None:
+    # 1. Default fallback
+    assert resolve_context_budget() == DEFAULT_CONTEXT_BUDGET
+    assert resolve_context_budget() == 512
+
+    # 2. Model profiling lookup
+    assert resolve_context_budget(model_name="qwen3.5-2b") == 420
+    assert resolve_context_budget(model_name="unsloth/Qwen3.5-4B-GGUF") == 512
+
+    # 3. Environment variable override
+    monkeypatch.setenv("MONG_NHIEM_MAX_BUDGET", "768")
+    assert resolve_context_budget() == 768
+    # Env var overrides model profile
+    assert resolve_context_budget(model_name="qwen3.5-2b") == 768
+
+    # 4. Explicit override takes precedence over everything
+    assert resolve_context_budget(model_name="qwen3.5-2b", override_budget=256) == 256
+    assert resolve_context_budget(override_budget=1024) == 1024
+
+    # 5. Dynamic profile registration
+    register_model_budget_profile("custom-deepseek-7b", 640)
+    assert resolve_context_budget(model_name="custom-deepseek-7b") == 768  # env var still active
+    monkeypatch.delenv("MONG_NHIEM_MAX_BUDGET", raising=False)
+    assert resolve_context_budget(model_name="custom-deepseek-7b") == 640
+
+
+def test_packer_and_coordinator_model_budget_integration() -> None:
+    # ContextPacker auto-resolves from model_name
+    packer = ContextPacker(model_name="qwen3.5-2b")
+    assert packer.max_budget == 420
+
+    # IterativeCoordinator auto-resolves from model_name
+    coordinator = IterativeCoordinator(
+        retriever_fn=lambda t: None,
+        model_fn=lambda p: "ACTION: RESOLVE done",
+        model_name="qwen3.5-2b",
+    )
+    assert coordinator.max_budget == 420
+    assert coordinator.packer.max_budget == 420
+
 

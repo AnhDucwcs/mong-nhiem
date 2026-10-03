@@ -168,13 +168,21 @@ class IterativeCoordinator:
         model_fn: Callable[[str], str],
         token_counter: Optional[Callable[[str], int]] = None,
         max_turns: int = 3,
-        max_budget: int = 512,
+        max_budget: Optional[int] = None,
+        model_name: Optional[str] = None,
     ) -> None:
+        from mong_nhiem.context.config import resolve_context_budget
+
         self.retriever_fn = retriever_fn
         self.model_fn = model_fn
         self.max_turns = max_turns
-        self.max_budget = max_budget
-        self.packer = ContextPacker(max_budget=max_budget, tokenizer_func=token_counter)
+        self.model_name = model_name
+        self.max_budget = resolve_context_budget(model_name=model_name, override_budget=max_budget)
+        self.packer = ContextPacker(
+            max_budget=self.max_budget,
+            model_name=model_name,
+            tokenizer_func=token_counter,
+        )
         self.circuit_breaker = CircuitBreaker(max_turns=max_turns)
 
     def _build_turn_prompt(self, working_set: str, query: str) -> str:
