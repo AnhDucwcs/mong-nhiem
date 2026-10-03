@@ -17,8 +17,9 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
+REPO_ROOT = Path(__file__).resolve().parents[5]
 PROTOTYPE_ROOT = Path(__file__).resolve().parents[1]
+
 SERVER_BIN = Path(r"D:\Materials\llama.cpp\build\bin\Release\llama-server.exe")
 MODELS_DIR = REPO_ROOT / "artifacts" / "models" / "mn-002"
 CASES_FILE = PROTOTYPE_ROOT / "definition" / "corpus-v1" / "cases.jsonl"
@@ -104,7 +105,7 @@ def check_exact_or_contained(prediction: str, oracle: str) -> bool:
     return False
 
 
-def run_all(host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
+def run_all(selected_models: list[str] | None = None, host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
     with CASES_FILE.open("r", encoding="utf-8") as f:
         cases = {json.loads(line)["case_id"]: json.loads(line) for line in f if line.strip()}
     with PACKED_FILE.open("r", encoding="utf-8") as f:
@@ -116,12 +117,20 @@ def run_all(host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
 
     summary = {"run_id": run_id, "models": {}}
 
-    for m in MODELS:
+    target_models = MODELS
+    if selected_models:
+        target_models = [m for m in MODELS if m["name"].lower() in [s.lower() for s in selected_models]]
+
+    for m in target_models:
+
         m_name = m["name"]
         m_file = m["file"]
         print(f"\n=======================================================", flush=True)
         print(f"Evaluating Model: {m_name} ({m_file.name})", flush=True)
         print(f"=======================================================", flush=True)
+
+        server_log_path = run_dir / f"{m_name}_server.log"
+        server_log = server_log_path.open("w", encoding="utf-8")
 
         server_process = subprocess.Popen(
             [
@@ -129,7 +138,8 @@ def run_all(host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
                 "-m", str(m_file),
                 "--host", host,
                 "--port", str(port),
-                "-c", "4096",
+                "-ngl", "99",
+                "-c", "2048",
                 "-t", "8",
                 "-b", "512",
                 "-np", "1",
@@ -140,14 +150,16 @@ def run_all(host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
                 "--no-webui",
                 "--metrics",
             ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stdout=server_log,
+            stderr=server_log,
         )
 
         try:
             if not wait_for_server(host, port, timeout_sec=60):
-                raise RuntimeError(f"Server failed to start for {m_name}")
+                server_log.flush()
+                raise RuntimeError(f"Server failed to start for {m_name}. See log: {server_log_path}")
             print("Server is ready.", flush=True)
+
 
             m_stats = {"correct": 0, "total": len(packed), "latencies": [], "tokens": [], "by_domain": {}}
             m_records = []
@@ -204,7 +216,9 @@ def run_all(host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
                 server_process.wait(15)
             except subprocess.TimeoutExpired:
                 server_process.kill()
+            server_log.close()
             time.sleep(1.0)
+
 
     summary_file = run_dir / "cross_model_summary.json"
     with summary_file.open("w", encoding="utf-8") as f:
@@ -223,4 +237,9 @@ def run_all(host: str = "127.0.0.1", port: int = 18502) -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-    run_all()
+    parser = argparse.ArgumentParser(description="Run cross-model benchmark comparison")
+    parser.add_argument("--models", nargs="+", default=["Qwen3.5-2B", "Qwen3-4B"], help="Models to compare")
+    parser.add_argument("--port", type=int, default=18502, help="llama-server port")
+    args = parser.parse_args()
+    run_all(selected_models=args.models, port=args.port)
+

@@ -38,7 +38,8 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 | **MN-008** | External State Management | NCC | **Closed (Unsupported)** | Offloaded event replay to host engine; identified small-model conditional conjunction bounds. |
 | **MN-009** | Scoped Context Delivery Engine | NCC Phase 1 | **Promoted** | 100% causal remedy on ECC-006, 100% injection immunity, and 22.9x downstream latency reduction. |
 | **MN-010** | Iterative Context Working Set Loop | NCC Phase 2 | **Promoted** | 100% multi-hop resolution (30/30 vs 0/30 baseline), 100% budget adherence ($\le 512$ tokens), circuit breaker safety. |
-| **MN-011** | Scaffolding-Assisted Context Frontier | ECC Reactivation | **Scheduled** | Reactivate empirical ECC capacity frontier mapping across scaled budget tiers ($256-2048$ tokens). |
+| **MN-011** | Scaffolding-Assisted Context Frontier | ECC Reactivation | **Completed** | Proved $B^* \approx 512$ capacity-efficiency peak ($H_1$), 100% causal restoration on ECC-007 ($H_2$), and $60\times$ conversion advantage ($H_3$). |
+| **MN-012** | Hierarchical Tool & Memory Integration | NCC Phase 3 | **Scheduled** | Bridge iterative coordination with structured tool calling and persistent memory partitioning. |
 
 ---
 

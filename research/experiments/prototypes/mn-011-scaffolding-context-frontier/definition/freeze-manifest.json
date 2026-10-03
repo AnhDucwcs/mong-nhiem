@@ -1,0 +1,11 @@
+{
+  "freeze_status": "SEALED",
+  "timestamp_utc": "2026-10-03T09:02:40Z",
+  "digests": {
+    "contract": "52d46d2c3604e202fa3035df64c9a384d187321ddb223ca42e59e7a2fe48626d",
+    "cases": "75e0e58527fb16cb7baf276eaf590db0fb7d16621e1fbdf4d56420c079b8b5b9",
+    "manifest": "31f0c5688f6b6df37e8f23b4c8e41ccb02fd6037808706e7a898754fd2e1638b",
+    "evaluator": "a1aa5f9530864b742a1de9b1e02d482120362484de68a990b42e709fb208970b",
+    "executor": "860e4d6455acdd9cbbe2548c9494dbaec168f6289ce700147a7f83bfb4aba266"
+  }
+}

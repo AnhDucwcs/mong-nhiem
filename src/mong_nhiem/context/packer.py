@@ -130,10 +130,14 @@ class ContextPacker:
 
     def __init__(
         self,
-        max_budget: int = 512,
+        max_budget: int | None = None,
+        model_name: str | None = None,
         tokenizer_func: Callable[[str], int] | None = None,
     ) -> None:
-        self.max_budget = max_budget
+        from mong_nhiem.context.config import resolve_context_budget
+
+        self.model_name = model_name
+        self.max_budget = resolve_context_budget(model_name=model_name, override_budget=max_budget)
         # Approximate 1 token ~= 3.5 chars in English/code if no offline tokenizer provided
         self.tokenizer_func = tokenizer_func or self._fallback_tokenizer
 

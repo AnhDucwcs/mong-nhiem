@@ -1,6 +1,13 @@
 """Context delivery and scaffolding subsystem for Mộng Nhiễm."""
 from __future__ import annotations
 
+from mong_nhiem.context.config import (
+    DEFAULT_CONTEXT_BUDGET,
+    DEFAULT_MODEL_NAME,
+    MODEL_BUDGET_PROFILES,
+    register_model_budget_profile,
+    resolve_context_budget,
+)
 from mong_nhiem.context.coordinator import (
     ActionType,
     AgentAction,
@@ -24,6 +31,11 @@ from mong_nhiem.context.packer import (
 from mong_nhiem.context.slicer import CodebaseSlicer, slice_codebase
 
 __all__ = [
+    "DEFAULT_CONTEXT_BUDGET",
+    "DEFAULT_MODEL_NAME",
+    "MODEL_BUDGET_PROFILES",
+    "register_model_budget_profile",
+    "resolve_context_budget",
     "ContextPacker",
     "TextChunk",
     "InvariantViolationError",
@@ -43,3 +55,4 @@ __all__ = [
     "CoordinatorResult",
     "IterativeCoordinator",
 ]
+

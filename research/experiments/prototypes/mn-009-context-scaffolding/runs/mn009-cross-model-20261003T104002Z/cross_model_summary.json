@@ -1,0 +1,55 @@
+{
+  "run_id": "mn009-cross-model-20261003T104002Z",
+  "models": {
+    "Qwen3-4B": {
+      "file": "Qwen3-4B-Q4_K_M.gguf",
+      "accuracy": 70.0,
+      "correct_count": 21,
+      "total_count": 30,
+      "mean_latency_ms": 858.7,
+      "mean_tokens": 38.27,
+      "by_domain": {
+        "text_stream": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        },
+        "graph_table": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        },
+        "code_ast": {
+          "correct": 1,
+          "total": 10,
+          "accuracy": 10.0
+        }
+      }
+    },
+    "Qwen3.5-2B": {
+      "file": "Qwen3.5-2B-Q4_K_M.gguf",
+      "accuracy": 100.0,
+      "correct_count": 30,
+      "total_count": 30,
+      "mean_latency_ms": 374.2,
+      "mean_tokens": 21.97,
+      "by_domain": {
+        "text_stream": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        },
+        "graph_table": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        },
+        "code_ast": {
+          "correct": 10,
+          "total": 10,
+          "accuracy": 100.0
+        }
+      }
+    }
+  }
+}

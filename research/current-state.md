@@ -157,12 +157,34 @@ MN-010 is complete and formally promoted into `src/mong_nhiem/context/` under Ga
 
 ---
 
+## MN-011 — Scaffolding-Assisted Context Frontier — completed and synthesized
+
+MN-011 is complete and canonically synthesized under Gate D disposition review:
+
+1. **Gate A Charter & Hypotheses:** Formulated three falsifiable hypotheses ($H_1$: Budget Frontier Inverted-U, $H_2$: Causal Reachability Restoration, $H_3$: Conversion Efficiency Superiority).
+2. **Gate B Measurement Contract:** Frozen 40-case evaluation benchmark across two suites: Suite A (24 parametric budget-scaling cases across $B \in \{256, 512, 1024, 2048\}$) and Suite B (16 causal reachability cases matched from ECC-007 across $512, 2\text{k}, 8\text{k}, 16\text{k}$).
+3. **Pre-Run Freeze Authority:** Pre-run authority sealed under commit `f9e52aa`. Operational buffer limitations under Windows OS CLI flags (`WinError 206`) recorded in Attempt 0001 (`a2a7866`) and repaired via stdin streaming in Attempt 0002 (`738e714`).
+4. **Gate C Execution Findings (`mn011-execution-run-0002`):**
+   - **$H_1$ Supported:** Accuracy plateaus at $B^* \approx 512$ tokens. Moving from $B=512$ to $1024/2048$ yields 0% marginal accuracy gain while prompt tokens expand to ~778 tokens, degrading conversion efficiency $\eta$ by $35.4\%$.
+   - **$H_2$ Supported:** Host-side $k$-hop subgraph extraction (`slice_graph_by_khop`) achieved **100.0% (16/16)** accuracy across all context scales up to 16,384 tokens, completely repairing the long-context distractor noise and 8k false positives of raw attention (25.0%).
+   - **$H_3$ Supported:** Cognitive utility per token is maximized under scoped budgets ($\eta_{512} = 0.139$) compared to unconstrained raw contexts ($\eta_{\text{raw}} = 0.0023$, a $60\times$ efficiency gap).
+   See [mn011-execution-report-attempt-0002.md](experiments/prototypes/mn-011-scaffolding-context-frontier/reports/mn011-execution-report-attempt-0002.md).
+5. **Gate D Synthesis:** Completed and closed under Gate D disposition review. Confirmed that small models (<4B) achieve optimal reasoning capacity when forward passes are bounded to $B^* \approx 512$ tokens by host scaffolding. See [gate-d-disposition-review.md](experiments/prototypes/mn-011-scaffolding-context-frontier/gate-d-disposition-review.md).
+
+---
+
 ## Active Transition & Next Research Tracks
 
-With the verified completion and promotion of MN-010 into `src/mong_nhiem/context/`, Mộng Nhiễm formalizes its research progression:
+With the empirical verification of the capacity frontier in MN-011, Mộng Nhiễm transitions to the cognitive orchestration layer:
 
-1. **MN-011 — Empirical ECC Reactivation & Scaffolding Capacity Frontier:** Re-evaluates effective context capacity under hybrid host-scaffolded and iterative substrates across model architectures (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`), measuring effective horizon boundaries beyond raw attention limits.
-2. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling and persistent external memory stores.
+1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Formally established as the canonical Primary Research Subject for all forward milestones (MN-012+). Prior empirical results demonstrated that under host context scaffolding, `Qwen3.5-2B` achieves 100% downstream accuracy, sub-second latency (471 ms, 3.5x faster than 4B), and 44% lower memory footprint (1.4 GB). `Llama-3.2-3B-Instruct` and `Qwen3-4B` are preserved strictly as secondary cross-model generalization baselines.
+2. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling, external memory partitioning, and multi-turn state persistence.
+   - **Gate A Charter & Hypotheses:** Frozen at `charter.md`. Formulates $H_1$ (Tool Grammar Reliability $\ge 90\%$ under regex protocol), $H_2$ (Dual-Tier Hierarchical Memory state consistency across $T \le 5$ turns with prompt context $\le 512$ tokens), and $H_3$ (Failure-isolation directional pivoting gate).
+   - **Gate B Measurement Contract:** Frozen at `gate-b-contract.md`. Establishes 5 frozen acceptance rules and a 30-case evaluation matrix across Codebase AST Mutation, Stateful Resource Ledger, and System Registry Orchestration.
+   - **Failure Isolation Gate:** Serves as the operational decision gate before introducing backtracking (MN-013) or simulated microworld evolution (MN-Final).
+
+
+
 
 
 

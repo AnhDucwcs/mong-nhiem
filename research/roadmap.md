@@ -93,24 +93,50 @@ Track: **NCC Phase 2 (Substrate Expansion).**
 
 ## MN-011 — Scaffolding-Assisted Effective Context Frontier
 
-Status: **scheduled next milestone.**
+Status: **completed and synthesized.**
 Track: **ECC Reactivation (Utilization & Frontier Mapping).**
 
-1. **Core Objective:** Reactivate empirical Effective Context Capacity (ECC) measurement by leveraging the completed context scaffolding engines (MN-009 single-shot + MN-010 iterative) as protective intermediate layers.
-2. **Core Mechanism:**
-   - Map the model's true empirical boundary across budget scaling: $B \in \{256, 512, 1024, 2048\}$ tokens.
-   - Re-evaluate blocked complex reasoning suites, starting with ECC-007 Causal Reasoning.
-   - Quantify conversion efficiency across the Context Utilization Chain: $\text{Theoretical} \rightarrow \text{Fed} \rightarrow \text{Accessed} \rightarrow \text{Utilized} \rightarrow \text{Outcome}$.
+1. **Gate A Charter & Gate B Contract:** Frozen 4 support rules and 40 evaluation cases across Suite A (parametric budget sweep $256-2048$ tokens) and Suite B (ECC-007 causal reachability matched suite $512-16\text{k}$ tokens).
+2. **Pre-Run Freeze Authority:** Pre-run authority sealed under commit `f9e52aa`. Operational buffer limitations under Windows OS CLI flags (`WinError 206`) recorded in Attempt 0001 (`a2a7866`) and repaired via stdin streaming in Attempt 0002 (`738e714`).
+3. **Gate C Execution & Gate D Synthesis:** Confirmed $H_1$ (capacity plateaus at $B^* \approx 512$ tokens, while expanding to $1024/2048$ yields 0% gain with $35.4\%$ efficiency degradation), confirmed $H_2$ (100% causal reachability accuracy on ECC-007 up to 16k context, eliminating false positives), and confirmed $H_3$ ($\eta_{512} = 0.139$ vs $\eta_{\text{raw}} = 0.0023$, a $60\times$ efficiency gap).
 
 ## MN-012 — Hierarchical Tool & Memory Integration
 
-Status: **future planned milestone.**
+Status: **scheduled next milestone.**  
 Track: **NCC Phase 3 (Cognitive Orchestration).**
 
 1. **Core Objective:** Bridge iterative context coordination with structured tool calling and persistent external memory stores.
 2. **Core Mechanism:**
-   - Hierarchical working memory partitioning.
-   - Multi-agent coordination and external tool execution contracts.
+   - Structured tool execution contracts (`READ`, `INSPECT`, `DISPATCH`) under deterministic regex action grammar.
+   - Dual-tier memory partitioning: In-memory Working Set ($\le 512$ tokens) vs Persistent External State Store on disk.
+3. **Pivoting Gate:** Establishes operational tool dispatch reliability ($T \le 5$). If lightweight models exhibit persistent tool-calling format collapse, serves as a decision gate to reconsider grammar or abstraction boundaries before increasing environmental complexity.
+
+## MN-013 — Backtracking & Error Self-Correction
+
+Status: **scheduled successor milestone.**  
+Track: **NCC Phase 4 (Autonomous Recovery).**
+
+1. **Core Objective:** Equip the host coordinator with state rollback and self-correction primitives when tool actions fail or encounter obstacles.
+2. **Core Mechanism:**
+   - Host-managed action rejection signaling and cycle-safe state rollback ($S_{t+1} \rightarrow S_t$).
+   - Counterfactual exploration and alternative branch selection without prompt history pollution.
+3. **Pivoting Gate:** Evaluates whether small models can recover from deadlocks. If failure recovery produces recursive thrashing, determines whether heuristic search or structural graph pruning is required.
+
+## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
+
+Status: **ultimate benchmark / long-horizon destination.**  
+Track: **NCC Phase 5 (Full Stateful World Continuity).**
+
+1. **Ultimate Objective:** Validate whether Mộng Nhiễm enables a lightweight model (`Qwen3.5-2B`) to sustain, evolve, and reliably govern a multi-entity simulated world across extended discrete time horizons ($T \ge 20-50$ steps).
+2. **Evaluation Protocol:**
+   - An authoritative, discrete simulated microworld (locations, entities, inventories, physics/causal invariants).
+   - Zero hallucinated state transitions, zero conservation-law breaches, and zero memory leaks.
+3. **Incremental Gating & Failure Isolation Philosophy:**
+   - The project avoids rushing directly to this final testbed. Intermediate milestones (MN-012, MN-013, and potential subsequent stepping stones) exist specifically to isolate failure modes at each layer of the cognitive stack:
+     - Tool execution errors are isolated and solved in MN-012.
+     - Search, backtracking, and obstacle deadlocks are isolated and solved in MN-013.
+   - At each intermediate gate, empirical failure will serve as formal falsification to pivot Mộng Nhiễm's architectural approach rather than compounding unisolated confounds into the final world simulation.
+
 
 
 

@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "total_cases": 40,
+  "suites": {
+    "suite_a_budget_scaling": 24,
+    "suite_b_causal_reachability": 16
+  },
+  "sha256": "6ae717d0f589dc9c7385672fab29c8904b9af0d47f6a952617c256047d21f2f5",
+  "cases_file": "cases.jsonl"
+}
