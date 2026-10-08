@@ -65,24 +65,32 @@ sequenceDiagram
 
 ---
 
-## 3. Benchmark Corpus Design (30 Stateful Cases, $T \le 5$ turns)
+## 3. Benchmark Corpus Design (60 Stateful Cases, $T \le 5$ turns)
 
-The evaluation suite comprises 30 deterministic multi-turn tool interaction cases across 3 distinct operational domains:
+To ensure the most rigorous evaluation barrier before any potential promotion into production packages, the evaluation suite comprises 60 deterministic multi-turn tool interaction cases across 3 distinct operational domains (20 cases per domain):
 
 | Domain | Case Count | Turn Horizon | Core Capability Under Evaluation |
 | :--- | :---: | :---: | :--- |
-| **Domain A: Codebase Refactoring & AST Mutation (`code_mutation`)** | 10 | $3 - 5$ turns | Model reads a target function, inspects downstream call references, dispatches a signature mutation, verifies syntax validity, and resolves the updated interface hash. |
-| **Domain B: Stateful Resource Ledger & Inventory (`resource_ledger`)** | 10 | $3 - 5$ turns | Multi-entity resource allocation. Model inspects entity balances, dispatches transactional transfers across accounts, verifies balance conservation invariants, and resolves final state. |
-| **Domain C: System Registry & Configuration (`system_registry`)** | 10 | $3 - 5$ turns | Model inspects hierarchical config blocks, queries service dependency status, dispatches environment flag mutations, and resolves target deployment readiness. |
+| **Domain A: Codebase Refactoring & AST Mutation (`code_mutation`)** | 20 | $3 - 5$ turns | Model reads a target function, inspects downstream call references, dispatches a signature mutation, verifies syntax validity, and resolves the updated interface hash. Includes invalid syntax injection and circular call edge cases. |
+| **Domain B: Stateful Resource Ledger & Inventory (`resource_ledger`)** | 20 | $3 - 5$ turns | Multi-entity resource allocation. Model inspects entity balances, dispatches transactional transfers across accounts, verifies balance conservation invariants, and resolves final state. Includes overdraft boundary checks and multi-party transfer loops. |
+| **Domain C: System Registry & Configuration (`system_registry`)** | 20 | $3 - 5$ turns | Model inspects hierarchical config blocks, queries service dependency status, dispatches environment flag mutations, and resolves target deployment readiness. Includes conflicting flag stress tests and deeply nested keys. |
 
 ---
 
-## 4. Five Frozen Acceptance Rules
+## 4. Dual-Track Execution Protocol
+
+All 60 cases must be verified across both execution tracks:
+- **Track 1 (Deterministic Simulator):** Validates deterministic logic, invariant enforcement, state machine transitions, and edge cases under automated test suites.
+- **Track 2 (Real Model Inference):** Evaluates `Qwen3.5-2B-Q4_K_M.gguf` directly via `llama-cli.exe` (greedy decoding `temp=0.0`, `max_tokens=64`, `--no-warmup`) to produce immutable Gate C empirical evidence.
+
+---
+
+## 5. Five Frozen Acceptance Rules
 
 To qualify for recommendation at Gate D disposition review, the prototype execution must satisfy all 5 frozen acceptance rules:
 
 ### Rule 1: Multi-Turn Task Completion Efficacy
-- **Requirement:** `Qwen3.5-2B` must achieve $\ge 85\%$ end-to-end task success ($\ge 26/30$ cases resolved correctly).
+- **Requirement:** `Qwen3.5-2B` must achieve $\ge 85\%$ end-to-end task success ($\ge 51/60$ cases resolved correctly).
 - **Control Baseline:** Direct single-pass baseline without tools must achieve $< 20\%$ on the same stateful problems.
 
 ### Rule 2: Hard Per-Turn Token Budget Ceiling
@@ -101,7 +109,7 @@ To qualify for recommendation at Gate D disposition review, the prototype execut
 
 ---
 
-## 5. Directional Pivoting Gate & Failure Taxonomy
+## 6. Directional Pivoting Gate & Failure Taxonomy
 
 If the prototype fails to satisfy the Gate B criteria, the failure mode dictates the mandatory architectural pivot:
 
