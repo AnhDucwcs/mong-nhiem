@@ -1,0 +1,11 @@
+{
+  "milestone": "MN-012",
+  "status": "track_1_frozen",
+  "cases_sha256": "c0a4cf353cc1f11ea4223d03dc6f04f3fd893f5d88ac1c0a925ba9c859d1d784",
+  "track_1_run": {
+    "run_id": "mn012-execution-run-0001",
+    "arm_a_sha256": "32adac9e01bfb29a15ce61d171c8d240b177fc087ea74bdabf37f3e8e8b7e632",
+    "arm_b_sha256": "2227a67ccb7126aa7f5e9c43a52b75a4a867099fc53d7477e87c4b1054549d76",
+    "summary_sha256": "b7213017b229bb736389fff9ae07ca02e4e0742b19b185089903e6979d6c8038"
+  }
+}

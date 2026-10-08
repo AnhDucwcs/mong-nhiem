@@ -7,6 +7,7 @@
 - Primary Model: `Qwen3.5-2B-Q4_K_M.gguf`
 - Execution Run ID: `mn012-execution-run-0001`
 - Mode: `Track 1 (Deterministic Simulator & Invariant Stress Verification)`
+- Freeze Status: `FROZEN` under [`definition/freeze-manifest.json`](../definition/freeze-manifest.json)
 
 ---
 
