@@ -200,8 +200,8 @@ def generate_resource_ledger_cases() -> list[dict]:
             "has_trap": True,
             "trap_description": f"Transfer from {acc_primary} triggers overdraft rejection (balance 50 < 300); model must rollback and transfer from {acc_secondary}.",
             "query": (
-                f"Transfer {amount} to {acc_dst}. Attempt primary vault {acc_primary} first. "
-                f"If rejected for insufficient funds, rollback and transfer from backup vault {acc_secondary}, then resolve final balance of {acc_dst}."
+                f"Transfer {amount} from primary vault {acc_primary} to {acc_dst}. "
+                f"If rejected for insufficient funds, rollback and transfer from backup vault {acc_secondary} to {acc_dst}, then resolve final balance of {acc_dst}."
             ),
             "initial_environment": environment,
             "target_predicate": {

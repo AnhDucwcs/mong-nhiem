@@ -46,24 +46,24 @@ class CoordinatorResult:
 
 SYSTEM_PROTOCOL_PROMPT = (
     "You are a stateful tool execution agent. Follow protocol strictly:\n"
-    "Step 1: If an action needs to be executed, READ, INSPECT, or DISPATCH.\n"
-    "Step 2: If an action is REJECTED, avoid the rejected action and choose an alternative path.\n"
-    "Step 3: Only after environment invariants and target state are satisfied, RESOLVE the final result.\n\n"
-    "Example 1 (AST Refactoring):\n"
-    "Task: Refactor calculate_tax with rate=20, resolve final rate.\n"
-    "Recent History: READ calculate_tax -> DISPATCH refactor_calculate_tax rate=20\n"
-    "Latest Observation: MUTATION_SUCCESS calculate_tax updated\n"
-    "Directive: ACTION: RESOLVE 20\n\n"
-    "Example 2 (Resource Transfer with Rollback):\n"
-    "Task: Transfer 300 to acc_treasury. Try vault_a first, else backup vault_b.\n"
-    "Constraint: REJECTED: DISPATCH:transfer:vault_a,acc_treasury,300 (INSUFFICIENT_FUNDS). Do NOT repeat.\n"
-    "Latest Observation: Rollback to initial state committed.\n"
-    "Directive: ACTION: DISPATCH transfer vault_b,acc_treasury,300\n\n"
-    "Example 3 (System Configuration):\n"
-    "Task: Activate svc_gateway with mode=SECURE, resolve final mode.\n"
+    "Rule 1: If Observation is None, or if an action was REJECTED, DISPATCH or READ the required tool action. NEVER resolve before committing.\n"
+    "Rule 2: ONLY after MUTATION_SUCCESS, TRANSFER_COMMITTED, or SERVICE_ACTIVATED, RESOLVE the final value.\n\n"
+    "Example 1 (Turn 1 start):\n"
+    "Task: Transfer 50 from demo_src to demo_dst and resolve balance of demo_dst.\n"
     "Recent History: None\n"
     "Latest Observation: None\n"
-    "Directive: ACTION: DISPATCH activate_service svc_gateway,SECURE"
+    "Directive: ACTION: DISPATCH transfer demo_src,demo_dst,50\n\n"
+    "Example 2 (Turn 2 recovery after rejection):\n"
+    "Task: Transfer 200 to demo_dst. Try demo_primary first, else backup demo_secondary.\n"
+    "Recent History: None\n"
+    "Latest Observation: ROLLBACK_COMMITTED: Restored turn 1. REJECTED: DISPATCH:transfer:demo_primary,demo_dst,200 (INSUFFICIENT_FUNDS). Do NOT repeat this action. Choose an alternative step.\n"
+    "Constraint: REJECTED: DISPATCH:transfer:demo_primary,demo_dst,200. Do NOT use demo_primary.\n"
+    "Directive: ACTION: DISPATCH transfer demo_secondary,demo_dst,200\n\n"
+    "Example 3 (Final turn resolve):\n"
+    "Task: Transfer 200 to demo_dst.\n"
+    "Recent History: ACTION: DISPATCH transfer demo_secondary,demo_dst,200 -> TRANSFER_COMMITTED balance_demo_dst=500\n"
+    "Latest Observation: TRANSFER_COMMITTED balance_demo_dst=500\n"
+    "Directive: ACTION: RESOLVE demo_dst:500"
 )
 
 
@@ -137,22 +137,24 @@ class BacktrackingCoordinator:
             payload = action.payload
 
             if domain == "code_mutation":
+                clean_tool = re.sub(r"^(?:refactor_|inspect:?|mutate:?)", "", tool_name).strip(":, ")
                 # Check locked/syntax error trap
                 locked = env.get("locked_entities", [])
                 for lk in locked:
-                    if lk in tool_name or lk in payload:
+                    if lk in clean_tool or lk in payload:
                         return False, f"SYNTAX_INVARIANT_VIOLATION: {lk} has locked malformed AST."
 
                 # Successful mutation
-                if "rate=" in payload:
-                    val = payload.split("rate=")[-1].strip()
-                    env.setdefault("rates", {})[tool_name.replace("refactor_", "")] = val
-                    return True, f"MUTATION_SUCCESS {tool_name} updated ({payload})"
-                return True, f"MUTATION_SUCCESS {tool_name} applied"
+                if "=" in payload:
+                    val = payload.split("=")[-1].strip()
+                    env.setdefault("rates", {})[clean_tool] = val
+                    return True, f"MUTATION_SUCCESS {clean_tool} updated ({payload})"
+                return True, f"MUTATION_SUCCESS {clean_tool} applied"
 
             elif domain == "resource_ledger":
-                # Format: transfer src,dst,amount
-                parts = [p.strip() for p in payload.split(",")]
+                # Format: transfer src,dst,amount (support comma or colon)
+                clean_payload = payload.replace(":", ",")
+                parts = [p.strip() for p in clean_payload.split(",") if p.strip()]
                 if len(parts) == 3:
                     src, dst, amt_str = parts
                     try:
@@ -170,8 +172,9 @@ class BacktrackingCoordinator:
                 return False, "INVALID_TRANSFER_SYNTAX"
 
             elif domain == "system_registry":
-                # Format: set_config svc,key,val OR activate_service svc,mode
-                parts = [p.strip() for p in payload.split(",")]
+                # Format: set_config svc,key,val OR activate_service svc,mode (support comma or colon)
+                clean_payload = payload.replace(":", ",")
+                parts = [p.strip() for p in clean_payload.split(",") if p.strip()]
                 locked_svcs = env.get("locked_services", [])
                 if len(parts) >= 2:
                     svc = parts[0]

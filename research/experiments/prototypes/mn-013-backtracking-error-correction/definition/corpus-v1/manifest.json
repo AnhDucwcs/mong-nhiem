@@ -3,7 +3,7 @@
   "milestone": "MN-013",
   "case_count": 60,
   "cases_file": "cases.jsonl",
-  "cases_sha256": "b534523911c8bb96c1b0e3d938469e152d4f11045fc38dabee5539709970f788",
+  "cases_sha256": "781ae28914227862da288c7663c6180230283d44e9763975b6df98abfbc3d297",
   "domains": {
     "code_mutation": 20,
     "resource_ledger": 20,

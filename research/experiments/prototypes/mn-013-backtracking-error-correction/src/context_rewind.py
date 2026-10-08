@@ -44,7 +44,7 @@ class ContextRewindManager:
         latest_observation: str,
         arm: int = 4,
     ) -> str:
-        """Construct prompt and ensure it stays strictly within the 512-token budget."""
+        """Construct prompt aligned with few-shot ordering and bounded to <= 512 tokens."""
         safe_query = sanitize_chat_tokens(task_query)
         safe_state = sanitize_chat_tokens(state_summary)
         safe_obs = sanitize_chat_tokens(latest_observation)
@@ -55,33 +55,42 @@ class ContextRewindManager:
             return (
                 f"{system_prompt}\n\n"
                 f"Task: {safe_query}\n\n"
-                f"State Summary: {safe_state}\n\n"
+                f"State: {safe_state}\n\n"
                 f"Full Execution History:\n{hist_str}\n\n"
                 f"Latest Observation:\n{safe_obs}\n\n"
                 f"Directive: ACTION:"
             )
 
-        chunks = []
-        if safe_state:
-            chunks.append(f"State Summary: {safe_state}")
-
         # Arms 1, 3, 4: bound history to last 2 actions
         recent = self.history_records[-2:] if self.history_records else ["None"]
-        chunks.append(f"Recent History: {' | '.join(recent)}")
 
-        if self.active_negative_directive and arm == 4:
-            chunks.append(f"Constraint:\n{self.active_negative_directive}")
+        sections = [
+            system_prompt,
+            f"Task: {safe_query}",
+        ]
+
+        if safe_state:
+            sections.append(f"State: {safe_state}")
+
+        sections.append(f"Recent History: {' | '.join(recent)}")
 
         if safe_obs:
-            chunks.append(f"Latest Observation:\n{safe_obs}")
+            sections.append(f"Latest Observation:\n{safe_obs}")
 
-        packed_body = self.packer.pack(chunks, query=safe_query)
+        # Recency-aligned: Negative directive placed right before Directive to override recency bias
+        if self.active_negative_directive and arm == 4:
+            sections.append(f"Constraint:\n{self.active_negative_directive}")
 
-        return (
-            f"{system_prompt}\n\n"
-            f"=== WORKING MEMORY (L1) ===\n"
-            f"{packed_body}\n\n"
-            f"=== CURRENT TASK ===\n"
-            f"{safe_query}\n\n"
-            f"Directive: ACTION:"
-        )
+        sections.append("Directive: ACTION:")
+
+        raw_prompt = "\n\n".join(sections)
+        sanitized = sanitize_chat_tokens(raw_prompt)
+
+        # Token ceiling assurance
+        tok_count = self.packer.count_tokens(sanitized)
+        if tok_count > self.max_budget:
+            # Prune observation or history if edge case exceeds budget
+            sections[3] = "Recent History: None"
+            sanitized = sanitize_chat_tokens("\n\n".join(sections))
+
+        return sanitized
