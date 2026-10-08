@@ -1,0 +1,14 @@
+{
+  "benchmark_version": "v1.0.0",
+  "milestone": "MN-013",
+  "case_count": 60,
+  "cases_file": "cases.jsonl",
+  "cases_sha256": "b534523911c8bb96c1b0e3d938469e152d4f11045fc38dabee5539709970f788",
+  "domains": {
+    "code_mutation": 20,
+    "resource_ledger": 20,
+    "system_registry": 20
+  },
+  "trap_cases_count": 30,
+  "standard_cases_count": 30
+}

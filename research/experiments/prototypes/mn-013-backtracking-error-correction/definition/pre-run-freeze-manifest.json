@@ -1,0 +1,22 @@
+{
+  "milestone": "MN-013",
+  "stage": "pre",
+  "timestamp_utc": "2026-10-08T12:58:07.545783+00:00",
+  "files": {
+    "artifacts/models/mn-002/Qwen3.5-2B-Q4_K_M.gguf": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/definition/corpus-v1/cases.jsonl": "b534523911c8bb96c1b0e3d938469e152d4f11045fc38dabee5539709970f788",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/definition/corpus-v1/manifest.json": "eba6c6075327cc14e1daaf4121b1c4cd7003a1dcff13ce7df49e01e956b6f13a",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/definition/generate_corpus.py": "cece60021bdaf723c20043f200d7a898b38b54a691121fdc686a36d61a0908b7",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/scripts/mn013_executor.py": "7fec6c6c4afd597c6ba01a2a424a31947a1fc85b88727ae25e064e0504812ead",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/src/circuit_breaker.py": "43664c19bdc46cde4f4fcac67567c407d80415eff2c37f250f0a5d3c569b2ce2",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/src/context_rewind.py": "1783e249900a4a704d10c9c54a335450e2fe056fcb16ca1a7b6e1db9a4242854",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/src/coordinator.py": "8874a3e82a7fa1d29c5a2b852191580906f843972e98f380a7e119556990bde9",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/src/memento_stack.py": "6e6470f62a690b855ae1388f752b8d6f276a3bcf8a625bcbe71350c43f3c9ee7",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/src/phase_gate.py": "f0e4640f6f07367949a18aad9ee394c9db36a37bb46e7aa6eb48daac24e21de3",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/src/protocol.py": "17b331f353f9cf1735bd0341159c4bffd65a4e31a1c19bb9d9de0ff243ca45a2",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/tests/test_context_rewind.py": "dc191eaa23568d2f7aea9d887d10bf846b15bdf5d81ed96b775797bb49bf2e0b",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/tests/test_coordinator.py": "638be42991de87fe8fe128d5568899f024538dccb007fa07a9abba221684f184",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/tests/test_memento_stack.py": "cfdea8a3b907d236d97908e1045aa20ffd5499f0015588e42c86a1df1ffee473",
+    "research/experiments/prototypes/mn-013-backtracking-error-correction/tests/test_phase_gate.py": "ae7bfa51bd38d30b791927d24eb968143e4fcc10bf849ea9e802291ff0f8390e"
+  }
+}
