@@ -1,0 +1,6 @@
+{"turn": 1, "action_type": "set_flag", "target": "svc_payment_api_54.deployment=READY", "payload": "svc_payment_api_54.deployment=READY", "status": "REJECTED", "details": "ACTION_REJECTED PrerequisiteUnmet kms_key_must_be_loaded"}
+{"turn": 2, "action_type": "set_flag", "target": "kms_vault_0054.key_loaded=true", "payload": "kms_vault_0054.key_loaded=true", "status": "COMMITTED", "details": "FLAG_UPDATED kms_vault_0054.key_loaded=true"}
+{"turn": 3, "action_type": "set_flag", "target": "svc_payment_api_54.deployment=READY", "payload": "svc_payment_api_54.deployment=READY", "status": "COMMITTED", "details": "FLAG_UPDATED svc_payment_api_54.deployment=READY"}
+{"turn": 1, "action_type": "set_flag", "target": "svc_payment_api_54.deployment=READY", "payload": "svc_payment_api_54.deployment=READY", "status": "REJECTED", "details": "ACTION_REJECTED PrerequisiteUnmet kms_key_must_be_loaded"}
+{"turn": 2, "action_type": "set_flag", "target": "kms_vault_54.key_loaded=true", "payload": "kms_vault_54.key_loaded=true", "status": "COMMITTED", "details": "FLAG_UPDATED kms_vault_54.key_loaded=true"}
+{"turn": 3, "action_type": "set_flag", "target": "svc_payment_api_54.deployment=READY", "payload": "svc_payment_api_54.deployment=READY", "status": "COMMITTED", "details": "FLAG_UPDATED svc_payment_api_54.deployment=READY"}

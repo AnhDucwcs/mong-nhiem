@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-10-08T05:14:58.715344+00:00",
+  "run_id": "mn012-execution-run-0001",
+  "mode": "simulator",
+  "case_count": 60,
+  "arm_a_accuracy": 0.0,
+  "arm_b_accuracy": 1.0,
+  "rules_verification": {
+    "rule_1_efficacy": true,
+    "rule_2_hard_budget": true,
+    "rule_3_action_grammar": true,
+    "rule_4_state_invariant": true,
+    "rule_5_latency": true
+  },
+  "all_rules_passed": true
+}
