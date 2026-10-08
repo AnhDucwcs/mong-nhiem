@@ -1,0 +1,2 @@
+{"turn": 1, "action_type": "<action_name>", "target": "<payload>", "payload": "<payload>", "status": "REJECTED", "details": "ACTION_REJECTED UnknownToolAction: <action_name>"}
+{"turn": 2, "action_type": "<action_name>", "target": "<payload>", "payload": "<payload>", "status": "REJECTED", "details": "ACTION_REJECTED UnknownToolAction: <action_name>"}

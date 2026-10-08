@@ -173,15 +173,28 @@ MN-011 is complete and canonically synthesized under Gate D disposition review:
 
 ---
 
+## MN-012 — Hierarchical Tool & Memory Integration — completed and closed (pivoting gate activated)
+
+MN-012 is complete and closed under Gate D disposition review (`gate-d-disposition-review.md`):
+
+1. **Gate A Charter & Hypotheses:** Formulated $H_1$ (Tool Grammar Reliability $\ge 90\%$), $H_2$ (Dual-Tier Hierarchical Memory state consistency across $T \le 5$ turns with prompt $\le 512$ tokens), and $H_3$ (Failure-isolation directional pivoting gate).
+2. **Gate B Measurement Contract:** Frozen at `gate-b-contract.md`. 60-case rigorous corpus (20 Code AST, 20 Resource Ledger, 20 System Registry with adversarial error-injection edge cases) evaluated under Dual-Track Protocol.
+3. **Gate C Dual-Track Findings:**
+   - **Track 1 (Deterministic Simulator):** 100.0% (60/60) task resolution on Arm B vs 0.0% (0/60) on Arm A. 100% budget compliance ($\le 512$ tokens), zero invariant breaches, host overhead $< 0.15\text{ ms}$/turn. Frozen under `definition/freeze-manifest.json` (`41a54c5`).
+   - **Track 2 (Real Model Inference — Qwen 3.5 2B):**
+     - Run 0002 (Raw Zero-Shot): 0.0% accuracy; model copied literal `<target_id>` placeholders, triggering Failure Mode 1 (Format Collapse) and Failure Mode 2 (Argument Grounding).
+     - Run 0004 (Ponytail Grounding: 3 Exemplars + Prefill + Bounded History): Achieved 100% valid protocol action parses and 4/4 PASS on AST syntax error recovery (Cases 13–16). However, unassisted models exhibited Goal Divergence (Premature Resolution / Horizon Jumping and lack of multi-step error recovery), triggering **Failure Mode 3 (Goal Divergence)**.
+4. **Gate D Disposition Review:** Formally closed at `pivoting_gate_activated_failure_mode_3`. Promotion into `src/mong_nhiem/` is denied (zero code promoted; strictly quarantined in prototype directory). Host State Store and Dual-Tier Memory architecture are verified, while empirical evidence mandates advancing to **MN-013: Backtracking & Error Self-Correction**.
+
+---
+
 ## Active Transition & Next Research Tracks
 
-With the empirical verification of the capacity frontier in MN-011, Mộng Nhiễm transitions to the cognitive orchestration layer:
-
-1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Formally established as the canonical Primary Research Subject for all forward milestones (MN-012+). Prior empirical results demonstrated that under host context scaffolding, `Qwen3.5-2B` achieves 100% downstream accuracy, sub-second latency (471 ms, 3.5x faster than 4B), and 44% lower memory footprint (1.4 GB). `Llama-3.2-3B-Instruct` and `Qwen3-4B` are preserved strictly as secondary cross-model generalization baselines.
-2. **MN-012 — Hierarchical Tool & Memory Integration (NCC Phase 3):** Bridges iterative context coordination with structured tool calling, external memory partitioning, and multi-turn state persistence.
-   - **Gate A Charter & Hypotheses:** Frozen at `charter.md`. Formulates $H_1$ (Tool Grammar Reliability $\ge 90\%$ under regex protocol), $H_2$ (Dual-Tier Hierarchical Memory state consistency across $T \le 5$ turns with prompt context $\le 512$ tokens), and $H_3$ (Failure-isolation directional pivoting gate).
-   - **Gate B Measurement Contract:** Frozen at `gate-b-contract.md`. Establishes 5 frozen acceptance rules and a 30-case evaluation matrix across Codebase AST Mutation, Stateful Resource Ledger, and System Registry Orchestration.
-   - **Failure Isolation Gate:** Serves as the operational decision gate before introducing backtracking (MN-013) or simulated microworld evolution (MN-Final).
+1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Reaffirmed as the canonical Primary Research Subject for forward milestones. Prior empirical results demonstrated that under host context scaffolding, `Qwen3.5-2B` achieves 100% downstream accuracy, sub-second latency (471 ms), and minimal memory footprint (1.4 GB). `Llama-3.2-3B-Instruct` and `Qwen3-4B` are preserved strictly as secondary cross-model generalization baselines.
+2. **MN-013 — Backtracking & Error Self-Correction (NCC Phase 4 — Autonomous Recovery):** Active successor milestone scheduled to overcome the Goal Divergence and error-recovery bottleneck isolated in MN-012:
+   - **Host State Checkpointing & Atomic Rollback:** In-memory $O(1)$ stack of snapshots ($S_t \rightarrow S_{t-1}$) completely decoupled from prompt context (0 LLM tokens).
+   - **Negative Action Masking & Pruning:** Host prunes failed branches and provides concise negative constraints (`"Action X failed. Do not repeat."`) to prevent cycle thrashing without context bloat ($\le 512$ tokens).
+   - **Host-Directed Phase Gating:** 3-phase state machine (Discovery $\rightarrow$ Mutation $\rightarrow$ Resolution) preventing premature resolution.
 
 
 

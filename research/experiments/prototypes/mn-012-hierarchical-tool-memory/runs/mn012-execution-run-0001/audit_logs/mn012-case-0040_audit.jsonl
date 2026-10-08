@@ -1,0 +1,7 @@
+{"turn": 1, "action_type": "transfer", "target": "acc_node_a_40", "payload": "acc_node_a_40,acc_node_b_40,200", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_a_40=400 balance_acc_node_b_40=500"}
+{"turn": 2, "action_type": "transfer", "target": "acc_node_b_0040", "payload": "acc_node_b_0040,acc_node_c_0040,150", "status": "REJECTED", "details": "ACTION_REJECTED OverdraftForbidden balance_acc_node_b_0040=0 requested=150"}
+{"turn": 3, "action_type": "transfer", "target": "acc_node_a_40", "payload": "acc_node_a_40,acc_node_b_40,200", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_a_40=200 balance_acc_node_b_40=700"}
+{"turn": 1, "action_type": "transfer", "target": "acc_node_a_40", "payload": "acc_node_a_40,acc_node_b_40,200", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_a_40=400 balance_acc_node_b_40=500"}
+{"turn": 2, "action_type": "transfer", "target": "acc_node_b_40", "payload": "acc_node_b_40,acc_node_c_40,150", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_b_40=350 balance_acc_node_c_40=250"}
+{"turn": 1, "action_type": "transfer", "target": "acc_node_a_40", "payload": "acc_node_a_40,acc_node_b_40,200", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_a_40=400 balance_acc_node_b_40=500"}
+{"turn": 2, "action_type": "transfer", "target": "acc_node_b_40", "payload": "acc_node_b_40,acc_node_c_40,150", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_b_40=350 balance_acc_node_c_40=250"}

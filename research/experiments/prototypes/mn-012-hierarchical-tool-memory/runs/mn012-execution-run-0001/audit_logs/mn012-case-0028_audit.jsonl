@@ -1,0 +1,3 @@
+{"turn": 1, "action_type": "transfer", "target": "acc_alpha_28", "payload": "acc_alpha_28,acc_beta_28,300", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_alpha_28=2100 balance_acc_beta_28=800"}
+{"turn": 1, "action_type": "transfer", "target": "acc_alpha_28", "payload": "acc_alpha_28,acc_beta_28,300", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_alpha_28=2100 balance_acc_beta_28=800"}
+{"turn": 1, "action_type": "transfer", "target": "acc_alpha_28", "payload": "acc_alpha_28,acc_beta_28,300", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_alpha_28=2100 balance_acc_beta_28=800"}

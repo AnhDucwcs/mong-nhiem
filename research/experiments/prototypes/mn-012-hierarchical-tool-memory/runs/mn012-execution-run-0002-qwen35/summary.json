@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-10-08T05:50:44.095687+00:00",
+  "run_id": "mn012-execution-run-0002-qwen35",
+  "mode": "model",
+  "case_count": 60,
+  "arm_a_accuracy": 0.0,
+  "arm_b_accuracy": 0.0,
+  "rules_verification": {
+    "rule_1_efficacy": false,
+    "rule_2_hard_budget": true,
+    "rule_3_action_grammar": false,
+    "rule_4_state_invariant": true,
+    "rule_5_latency": true
+  },
+  "all_rules_passed": false
+}

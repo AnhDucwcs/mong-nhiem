@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "benchmark": "MN-012 Stateful Tool & Memory Benchmark",
+  "case_count": 60,
+  "domains": {
+    "code_mutation": 20,
+    "resource_ledger": 20,
+    "system_registry": 20
+  },
+  "sha256": "c0a4cf353cc1f11ea4223d03dc6f04f3fd893f5d88ac1c0a925ba9c859d1d784",
+  "files": {
+    "cases.jsonl": "c0a4cf353cc1f11ea4223d03dc6f04f3fd893f5d88ac1c0a925ba9c859d1d784"
+  }
+}

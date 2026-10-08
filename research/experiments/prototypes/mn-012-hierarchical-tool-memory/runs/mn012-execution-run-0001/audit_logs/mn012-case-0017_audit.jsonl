@@ -1,0 +1,3 @@
+{"turn": 2, "action_type": "refactor", "target": "core_executor_17", "payload": "core_executor_17:multiplier=3", "status": "COMMITTED", "details": "MUTATION_SUCCESS core_executor_17 refactored"}
+{"turn": 2, "action_type": "refactor", "target": "core_executor_17", "payload": "core_executor_17:multiplier=3", "status": "COMMITTED", "details": "MUTATION_SUCCESS core_executor_17 refactored"}
+{"turn": 2, "action_type": "refactor", "target": "core_executor_17", "payload": "core_executor_17:multiplier=3", "status": "COMMITTED", "details": "MUTATION_SUCCESS core_executor_17 refactored"}

@@ -1,0 +1,27 @@
+{
+  "milestone": "MN-012",
+  "status": "gate_c_dual_track_frozen",
+  "verdict": "pivoting_gate_activated_failure_mode_3",
+  "cases_sha256": "c0a4cf353cc1f11ea4223d03dc6f04f3fd893f5d88ac1c0a925ba9c859d1d784",
+  "track_1_simulation": {
+    "run_id": "mn012-execution-run-0001",
+    "arm_a_sha256": "32adac9e01bfb29a15ce61d171c8d240b177fc087ea74bdabf37f3e8e8b7e632",
+    "arm_b_sha256": "2227a67ccb7126aa7f5e9c43a52b75a4a867099fc53d7477e87c4b1054549d76",
+    "summary_sha256": "b7213017b229bb736389fff9ae07ca02e4e0742b19b185089903e6979d6c8038",
+    "accuracy": 1.0
+  },
+  "track_2_real_model_raw": {
+    "run_id": "mn012-execution-run-0002-qwen35",
+    "arm_a_sha256": "89fd8ceed3855681f0b2dfcacd5b8fbaa19ad3d843fc27e251ab67df3266e58f",
+    "arm_b_sha256": "381a9cfc6162ff7d5d0ffd476286267931def4bd1765d4f7b73ea62f43ceaf9d",
+    "summary_sha256": "c2cf93bb8872ee6e06df40414c10849ccf097a6dd5d264d2f10aa4441e875b71",
+    "accuracy": 0.0
+  },
+  "track_2_real_model_ponytail": {
+    "run_id": "mn012-execution-run-0004-ponytail-resolve",
+    "arm_a_sha256": "89fd8ceed3855681f0b2dfcacd5b8fbaa19ad3d843fc27e251ab67df3266e58f",
+    "arm_b_sha256": "a10b98589bed0beb7397b550142d699fc8b9ef27766516e76cd9fa5c6ef145fc",
+    "summary_sha256": "245c963c6668f68a2e82d905b1d5d24cb9ad1bf39d7270535959807925a43e24",
+    "accuracy": 0.0667
+  }
+}

@@ -1,0 +1,2 @@
+{"turn": 1, "action_type": "set_flag", "target": "svc_payment_api_55.deployment=READY", "payload": "svc_payment_api_55.deployment=READY", "status": "REJECTED", "details": "ACTION_REJECTED PrerequisiteUnmet kms_key_must_be_loaded"}
+{"turn": 2, "action_type": "set_flag", "target": "svc_payment_api_55.deployment=READY", "payload": "svc_payment_api_55.deployment=READY", "status": "REJECTED", "details": "ACTION_REJECTED PrerequisiteUnmet kms_key_must_be_loaded"}

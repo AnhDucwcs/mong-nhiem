@@ -1,0 +1,2 @@
+{"turn": 1, "action_type": "transfer", "target": "acc_node_a_39", "payload": "acc_node_a_39,acc_node_b_39,200", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_a_39=400 balance_acc_node_b_39=500"}
+{"turn": 2, "action_type": "transfer", "target": "acc_node_a_39", "payload": "acc_node_a_39,acc_node_b_39,200", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_node_a_39=200 balance_acc_node_b_39=700"}
