@@ -102,24 +102,25 @@ Track: **ECC Reactivation (Utilization & Frontier Mapping).**
 
 ## MN-012 — Hierarchical Tool & Memory Integration
 
-Status: **scheduled next milestone.**  
+Status: **completed and synthesized (pivoting gate activated).**  
 Track: **NCC Phase 3 (Cognitive Orchestration).**
 
-1. **Core Objective:** Bridge iterative context coordination with structured tool calling and persistent external memory stores.
-2. **Core Mechanism:**
-   - Structured tool execution contracts (`READ`, `INSPECT`, `DISPATCH`) under deterministic regex action grammar.
-   - Dual-tier memory partitioning: In-memory Working Set ($\le 512$ tokens) vs Persistent External State Store on disk.
-3. **Pivoting Gate:** Establishes operational tool dispatch reliability ($T \le 5$). If lightweight models exhibit persistent tool-calling format collapse, serves as a decision gate to reconsider grammar or abstraction boundaries before increasing environmental complexity.
+1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules and 60 stateful evaluation cases across Code AST, Resource Ledger, and System Registry under Dual-Track protocol.
+2. **Gate C Dual-Track Execution:**
+   - Track 1 (Simulator): 100% (60/60) task completion on Arm B vs 0% on Arm A, 100% budget compliance ($\le 512$ tokens), 0 invariant breaches, $< 0.15\text{ms}$ host overhead. Frozen under `freeze-manifest.json` (`41a54c5`).
+   - Track 2 (Real Model Inference — `Qwen3.5-2B`): Run 0002 confirmed Failure Mode 1 (Format Collapse) under raw zero-shot. Run 0004 under Ponytail grounding achieved 100% valid protocol action parses and 4/4 PASS on AST error recovery (Cases 13–16), but unassisted models exhibited Goal Divergence (Premature Resolution / Horizon Jumping and lack of error recovery), triggering **Failure Mode 3 (Goal Divergence)**.
+3. **Gate D Disposition Review:** Closed as `pivoting_gate_activated_failure_mode_3`. Prototype remains hermetically quarantined in `research/experiments/prototypes/mn-012-hierarchical-tool-memory/` (zero code promoted into `src/mong_nhiem/`). Empirically proves that small models require host-directed state machine and backtracking, authorizing immediate transition to MN-013.
 
 ## MN-013 — Backtracking & Error Self-Correction
 
-Status: **scheduled successor milestone.**  
+Status: **scheduled active milestone.**  
 Track: **NCC Phase 4 (Autonomous Recovery).**
 
 1. **Core Objective:** Equip the host coordinator with state rollback and self-correction primitives when tool actions fail or encounter obstacles.
-2. **Core Mechanism:**
-   - Host-managed action rejection signaling and cycle-safe state rollback ($S_{t+1} \rightarrow S_t$).
-   - Counterfactual exploration and alternative branch selection without prompt history pollution.
+2. **Core Mechanisms:**
+   - **Host State Checkpointing & Atomic Rollback:** In-memory $O(1)$ stack of snapshots ($S_t \rightarrow S_{t-1}$) completely decoupled from prompt context (0 LLM tokens).
+   - **Negative Action Masking & Pruning:** Host prunes failed branches and provides concise negative constraints (`"Action X failed. Do not repeat."`) to prevent cycle thrashing without context bloat ($\le 512$ tokens).
+   - **Host-Directed Phase Gating:** 3-phase state machine (Discovery $\rightarrow$ Mutation $\rightarrow$ Resolution) preventing premature resolution.
 3. **Pivoting Gate:** Evaluates whether small models can recover from deadlocks. If failure recovery produces recursive thrashing, determines whether heuristic search or structural graph pruning is required.
 
 ## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
