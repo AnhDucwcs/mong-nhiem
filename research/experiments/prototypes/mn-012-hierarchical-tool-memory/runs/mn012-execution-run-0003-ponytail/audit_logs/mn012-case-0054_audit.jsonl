@@ -1,0 +1,2 @@
+{"turn": 1, "action_type": "activate", "target": "svc_payment_api_54", "payload": "svc_payment_api_54", "status": "REJECTED", "details": "ACTION_REJECTED UnknownToolAction: activate"}
+{"turn": 2, "action_type": "activate", "target": "svc_payment_api_54", "payload": "svc_payment_api_54", "status": "REJECTED", "details": "ACTION_REJECTED UnknownToolAction: activate"}

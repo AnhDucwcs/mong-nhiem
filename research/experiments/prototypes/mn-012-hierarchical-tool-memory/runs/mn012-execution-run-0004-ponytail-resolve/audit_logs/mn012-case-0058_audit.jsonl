@@ -1,0 +1,1 @@
+{"turn": 1, "action_type": "set_flag", "target": "cluster_58.region_us.node_4.telemetry.drain_state=DRAINED", "payload": "cluster_58.region_us.node_4.telemetry.drain_state=DRAINED", "status": "COMMITTED", "details": "FLAG_UPDATED cluster_58.region_us.node_4.telemetry.drain_state=DRAINED"}

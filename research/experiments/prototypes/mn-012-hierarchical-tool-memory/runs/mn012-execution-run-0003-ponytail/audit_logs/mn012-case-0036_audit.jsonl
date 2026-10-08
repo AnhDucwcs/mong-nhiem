@@ -1,0 +1,4 @@
+{"turn": 1, "action_type": "transfer", "target": "acc_vault_36", "payload": "acc_vault_36,acc_reserve_36,500", "status": "REJECTED", "details": "ACTION_REJECTED OverdraftForbidden balance_acc_vault_36=100 requested=500"}
+{"turn": 2, "action_type": "transfer", "target": "acc_reserve_36", "payload": "acc_reserve_36,acc_vault_36,150", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_reserve_36=100 balance_acc_vault_36=250"}
+{"turn": 3, "action_type": "transfer", "target": "acc_vault_36", "payload": "acc_vault_36,acc_reserve_36,500", "status": "REJECTED", "details": "ACTION_REJECTED OverdraftForbidden balance_acc_vault_36=250 requested=500"}
+{"turn": 4, "action_type": "transfer", "target": "acc_reserve_36", "payload": "acc_reserve_36,acc_vault_36,150", "status": "REJECTED", "details": "ACTION_REJECTED OverdraftForbidden balance_acc_reserve_36=100 requested=150"}

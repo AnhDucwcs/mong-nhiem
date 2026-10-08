@@ -48,6 +48,12 @@ def parse_action(text: str) -> ToolAction:
     cleaned = _THINK_TAG_REGEX.sub("", text).strip()
     matches = list(_ACTION_REGEX.finditer(cleaned))
     if not matches:
+        for verb_candidate in ("READ", "INSPECT", "DISPATCH", "RESOLVE"):
+            if cleaned.upper().startswith(verb_candidate):
+                cleaned = f"ACTION: {cleaned}"
+                matches = list(_ACTION_REGEX.finditer(cleaned))
+                break
+    if not matches:
         return ToolAction(action_type=ActionType.INVALID, target="", payload="", raw=text)
 
     last_match = matches[-1]

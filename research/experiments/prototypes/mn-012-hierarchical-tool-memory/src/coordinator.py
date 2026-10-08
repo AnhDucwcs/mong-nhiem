@@ -42,12 +42,24 @@ class CoordinatorResult:
 
 
 SYSTEM_PROTOCOL_PROMPT = (
-    "You are a stateful tool execution agent. Follow this protocol strictly:\n"
-    "- To read a function or document, output: ACTION: READ <target_id>\n"
-    "- To inspect an entity property or balance, output: ACTION: INSPECT <entity_id>.<property>\n"
-    "- To execute a state mutation, output: ACTION: DISPATCH <action_name> <payload>\n"
-    "- When the objective is achieved, output: ACTION: RESOLVE <final_result>\n"
-    "Output only the single ACTION directive without conversational filler."
+    "You are a stateful tool execution agent. Follow protocol strictly:\n"
+    "Step 1: If an action needs to be executed, READ or DISPATCH.\n"
+    "Step 2: Only after SUCCESS, COMMITTED, or FLAG_UPDATED, RESOLVE the requested value.\n\n"
+    "Example 1:\n"
+    "Task: Read auth, dispatch refactor auth:t=10, resolve result.\n"
+    "History: READ auth -> DISPATCH refactor auth:t=10\n"
+    "Observation: MUTATION_SUCCESS auth updated (t=10)\n"
+    "Directive: ACTION: RESOLVE 10\n\n"
+    "Example 2:\n"
+    "Task: Transfer 50 units from acc_x to acc_y and resolve balance of acc_y.\n"
+    "History: DISPATCH transfer acc_x,acc_y,50\n"
+    "Observation: TRANSFER_COMMITTED balance_acc_y=250\n"
+    "Directive: ACTION: RESOLVE acc_y:250\n\n"
+    "Example 3:\n"
+    "Task: Update flag of svc_x.status=ACTIVE, and resolve final status of svc_x.\n"
+    "History: None\n"
+    "Observation: None\n"
+    "Directive: ACTION: DISPATCH set_flag svc_x.status=ACTIVE"
 )
 
 
@@ -73,6 +85,7 @@ class HierarchicalToolCoordinator:
         latest_observation: str,
         query: str,
         initial_context: str = "",
+        action_history: Optional[List[str]] = None,
     ) -> str:
         safe_l2 = sanitize_chat_tokens(l2_summary)
         safe_obs = sanitize_chat_tokens(latest_observation)
@@ -83,6 +96,9 @@ class HierarchicalToolCoordinator:
         if safe_init:
             chunks.append(f"Context: {safe_init}")
         chunks.append(f"State Summary:\n{safe_l2}")
+        if action_history:
+            # ponytail: bound history to last 2 actions to guarantee prompt <= 512 tokens
+            chunks.append(f"History: {' -> '.join(action_history[-2:])}")
         if safe_obs:
             chunks.append(f"Latest Observation:\n{safe_obs}")
 
@@ -94,7 +110,7 @@ class HierarchicalToolCoordinator:
             f"{packed_body}\n\n"
             f"=== CURRENT TASK ===\n"
             f"{safe_query}\n\n"
-            f"Directive:"
+            f"Directive: ACTION:"
         )
 
     def run(
@@ -110,6 +126,7 @@ class HierarchicalToolCoordinator:
 
         store = HostStateStore(initial_env=initial_env, audit_log_path=audit_log_path)
         turn_records: List[TurnRecord] = []
+        action_history: List[str] = []
         all_under_budget = True
         latest_obs = "None"
         resolved_answer = "UNKNOWN"
@@ -123,7 +140,7 @@ class HierarchicalToolCoordinator:
 
             # Compile L1 working set
             l2_summary = store.format_l1_state_summary()
-            prompt = self._build_turn_prompt(l2_summary, latest_obs, query, initial_context)
+            prompt = self._build_turn_prompt(l2_summary, latest_obs, query, initial_context, action_history)
             prompt_tokens = self.packer.count_tokens(prompt)
             if prompt_tokens > self.max_budget:
                 all_under_budget = False
@@ -164,6 +181,9 @@ class HierarchicalToolCoordinator:
                 # INVALID action
                 latest_obs = "ACTION_REJECTED InvalidGrammar"
                 is_rejected = True
+
+            if action.action_type != ActionType.INVALID:
+                action_history.append(action.raw.replace("ACTION:", "").strip())
 
             turn_records.append(
                 TurnRecord(

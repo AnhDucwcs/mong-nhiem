@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-10-08T06:13:01.119095+00:00",
+  "run_id": "mn012-execution-run-0004-ponytail-resolve",
+  "mode": "model",
+  "case_count": 60,
+  "arm_a_accuracy": 0.0,
+  "arm_b_accuracy": 0.06666666666666667,
+  "rules_verification": {
+    "rule_1_efficacy": false,
+    "rule_2_hard_budget": false,
+    "rule_3_action_grammar": false,
+    "rule_4_state_invariant": true,
+    "rule_5_latency": true
+  },
+  "all_rules_passed": false
+}

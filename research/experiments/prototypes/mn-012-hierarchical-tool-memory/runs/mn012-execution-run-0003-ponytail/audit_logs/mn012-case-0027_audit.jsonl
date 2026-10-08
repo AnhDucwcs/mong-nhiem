@@ -1,0 +1,2 @@
+{"turn": 1, "action_type": "transfer", "target": "acc_alpha_27", "payload": "acc_alpha_27,acc_beta_27,300", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_alpha_27=2050 balance_acc_beta_27=800"}
+{"turn": 2, "action_type": "transfer", "target": "acc_alpha_27", "payload": "acc_alpha_27,acc_beta_27,300", "status": "COMMITTED", "details": "TRANSFER_COMMITTED balance_acc_alpha_27=1750 balance_acc_beta_27=1100"}
