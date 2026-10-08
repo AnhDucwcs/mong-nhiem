@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 343, "action": "ACTION: DISPATCH transfer acc_vault_a_37,acc_treasury_37,300", "observation": "ROLLBACK_COMMITTED: Restored turn 1", "is_rollback": true, "latency_ms": 0.12170000081823673}
+{"turn_index": 2, "prompt_tokens": 348, "action": "ACTION: INSPECT acc_vault_b_37.balance", "observation": "800", "is_rollback": false, "latency_ms": 0.09809999937715475}
+{"turn_index": 3, "prompt_tokens": 353, "action": "ACTION: INSPECT acc_vault_b_37.balance", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 0.09420000060345046}

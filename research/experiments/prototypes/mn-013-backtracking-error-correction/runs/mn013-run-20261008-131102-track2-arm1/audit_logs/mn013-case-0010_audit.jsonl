@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 326, "action": "ACTION: DISPATCH calculate_tax_10:rate=40", "observation": "MUTATION_SUCCESS calculate_tax_10:rate=40 applied", "is_rollback": false, "latency_ms": 295.1955000007729}
+{"turn_index": 2, "prompt_tokens": 351, "action": "ACTION: RESOLVE calculate_tax_10:rate=40", "observation": "RESOLVED: calculate_tax_10:rate=40", "is_rollback": false, "latency_ms": 311.6673999993509}

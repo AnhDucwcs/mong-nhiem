@@ -1,0 +1,14 @@
+{
+  "milestone": "MN-013",
+  "track": 2,
+  "arm": 1,
+  "use_ablation_slice": false,
+  "case_count": 60,
+  "success_count": 42,
+  "success_rate": 0.7,
+  "total_rollbacks": 0,
+  "deadlock_cycle_count": 2,
+  "over_budget_cases": 0,
+  "average_turns_per_case": 1.93,
+  "timestamp_utc": "2026-10-08T13:11:41.296751+00:00"
+}

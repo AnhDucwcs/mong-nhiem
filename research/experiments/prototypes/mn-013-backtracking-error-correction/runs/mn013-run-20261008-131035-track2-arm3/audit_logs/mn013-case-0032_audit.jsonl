@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 343, "action": "ACTION: DISPATCH transfer acc_vault_a_32,acc_treasury_32,300", "observation": "ROLLBACK_COMMITTED: Restored turn 1", "is_rollback": true, "latency_ms": 431.82640000122774}
+{"turn_index": 2, "prompt_tokens": 348, "action": "ACTION: RESOLVE acc_treasury_32:100", "observation": "RESOLVED: acc_treasury_32:100", "is_rollback": false, "latency_ms": 366.5067000001727}

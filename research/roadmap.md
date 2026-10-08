@@ -113,15 +113,31 @@ Track: **NCC Phase 3 (Cognitive Orchestration).**
 
 ## MN-013 — Backtracking & Error Self-Correction
 
-Status: **scheduled active milestone.**  
+Status: **completed and closed (quarantined prototype, core mechanism verified).**  
 Track: **NCC Phase 4 (Autonomous Recovery).**
 
-1. **Core Objective:** Equip the host coordinator with state rollback and self-correction primitives when tool actions fail or encounter obstacles.
+1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules and 60 benchmark cases (30 normal, 30 dead-end traps across Code AST, Resource Ledger, and System Registry) evaluated across 4 comparative arms under Dual-Track protocol. Pre-run freeze commit: `6bcd358`.
+2. **Gate C Dual-Track Execution:**
+   - Track 1 (Simulator, 240 runs): Arm 4 achieved 100% (60/60) task completion with 30 rollbacks and 0 deadlocks. Arms 2 and 3 suffered 30 deadlock cycles each.
+   - Track 2 (Real Model Inference — `Qwen3.5-2B`, 132 runs):
+     - **Domain B Traps (Resource Ledger):** Arm 4 achieved **10/10 PASS (100.0% recovery)** vs Arm 1 baseline **0/10 PASS (0.0%)**, empirically validating that Host Memento Rollback + Context Rewind + Negative Masking enables sub-4B models to autonomously escape dead-ends.
+     - **Domain A Traps (AST Recovery):** Arm 4 achieved 8/10 PASS (80.0%) with 11 rollbacks, while Arm 1 committed unverified Horizon Jumping.
+     - **Arm 2 Ablation:** Demonstrated monotonic context inflation (+138 tokens on turn 1 failure).
+     - **Arm 3 Ablation:** Produced 100% Amnesia Deadlock on registry traps, confirming that state rollback without negative masking causes deterministic cycle repetition under greedy decoding ($T=0.0$).
+     - **Non-Trap Formatting Brittleness:** Unconstrained greedy decoding occasionally emitted unspaced parameters (`DISPATCH calculate_tax_1:rate=22`), triggering Phase Gate premature resolve rejections and cycle breaker trips.
+3. **Gate D Disposition Review:** Formally closed at `quarantined_prototype_core_mechanism_verified`. Zero code promoted into `src/mong_nhiem/` (prototype quarantined in `research/experiments/prototypes/mn-013-backtracking-error-correction/`). Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (389 files). Directs transition to MN-014 for grammar-constrained decoding.
+
+## MN-014 — Grammar-Constrained Decoding & Structured Cognitive Routing
+
+Status: **scheduled active milestone.**  
+Track: **NCC Phase 4 (Robust Action Synthesis).**
+
+1. **Core Objective:** Eliminate formatting token collapses and punctuation/whitespace sensitivity on sub-4B models (`Qwen3.5-2B`) via native GBNF (Grammar-Based Context-Free Grammar) decoding at the `llama-server` engine layer.
 2. **Core Mechanisms:**
-   - **Host State Checkpointing & Atomic Rollback:** In-memory $O(1)$ stack of snapshots ($S_t \rightarrow S_{t-1}$) completely decoupled from prompt context (0 LLM tokens).
-   - **Negative Action Masking & Pruning:** Host prunes failed branches and provides concise negative constraints (`"Action X failed. Do not repeat."`) to prevent cycle thrashing without context bloat ($\le 512$ tokens).
-   - **Host-Directed Phase Gating:** 3-phase state machine (Discovery $\rightarrow$ Mutation $\rightarrow$ Resolution) preventing premature resolution.
-3. **Pivoting Gate:** Evaluates whether small models can recover from deadlocks. If failure recovery produces recursive thrashing, determines whether heuristic search or structural graph pruning is required.
+   - **Native GBNF Action Grammar:** Engine-level logit masking enforcing strictly valid action syntax (`ACTION: READ <target>`, `ACTION: DISPATCH <tool> <payload>`, `ACTION: RESOLVE <ans>`), completely eliminating regex parsing failures and malformed parameter concatenation.
+   - **Dynamic Affordance Filtering:** Injecting dynamic grammar rules or host-filtered candidate action lists to prevent the model from selecting unavailable tools.
+   - **Full Stack Integration (MN-010 + MN-012 + MN-013 + MN-014):** Coupling bounded context working set ($\le 512$ tokens), Host Memento state stack, Phase Gate validation, and GBNF grammar decoding to target $\ge 85\%$ end-to-end task completion across all 60 benchmark cases.
+3. **Pivoting Gate:** Evaluates whether GBNF grammar constraints eliminate all non-trap false rejections and elevate overall task completion to qualify for production promotion into `src/mong_nhiem/`.
 
 ## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
 
@@ -133,10 +149,8 @@ Track: **NCC Phase 5 (Full Stateful World Continuity).**
    - An authoritative, discrete simulated microworld (locations, entities, inventories, physics/causal invariants).
    - Zero hallucinated state transitions, zero conservation-law breaches, and zero memory leaks.
 3. **Incremental Gating & Failure Isolation Philosophy:**
-   - The project avoids rushing directly to this final testbed. Intermediate milestones (MN-012, MN-013, and potential subsequent stepping stones) exist specifically to isolate failure modes at each layer of the cognitive stack:
-     - Tool execution errors are isolated and solved in MN-012.
-     - Search, backtracking, and obstacle deadlocks are isolated and solved in MN-013.
-   - At each intermediate gate, empirical failure will serve as formal falsification to pivot Mộng Nhiễm's architectural approach rather than compounding unisolated confounds into the final world simulation.
+   - Intermediate stepping stones (MN-012 Tool Memory, MN-013 Backtracking, MN-014 Grammar Decoding) methodically isolate and solve each cognitive and architectural failure mode before scaling to the full world simulation.
+
 
 
 

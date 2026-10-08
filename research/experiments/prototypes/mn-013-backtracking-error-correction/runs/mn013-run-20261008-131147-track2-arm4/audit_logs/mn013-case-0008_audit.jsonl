@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 326, "action": "ACTION: DISPATCH calculate_tax_8:rate=36", "observation": "MUTATION_SUCCESS calculate_tax_8:rate=36 applied", "is_rollback": false, "latency_ms": 295.525199999247}
+{"turn_index": 2, "prompt_tokens": 351, "action": "ACTION: RESOLVE calculate_tax_8:rate=36", "observation": "REJECTED: PREMATURE_RESOLVE: Function calculate_tax_8 has not been updated to expected rate 36.", "is_rollback": false, "latency_ms": 317.7207999997336}
+{"turn_index": 3, "prompt_tokens": 389, "action": "ACTION: RESOLVE calculate_tax_8:rate=36", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 346.48310000011406}

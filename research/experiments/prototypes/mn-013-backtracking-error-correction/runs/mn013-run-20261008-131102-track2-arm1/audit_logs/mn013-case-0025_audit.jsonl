@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 324, "action": "ACTION: DISPATCH transfer acc_alpha_25,acc_beta_25,175", "observation": "TRANSFER_COMMITTED balance_acc_beta_25=875", "is_rollback": false, "latency_ms": 374.6288000002096}
+{"turn_index": 2, "prompt_tokens": 343, "action": "ACTION: RESOLVE acc_beta_25:875", "observation": "RESOLVED: acc_beta_25:875", "is_rollback": false, "latency_ms": 304.3127999990247}

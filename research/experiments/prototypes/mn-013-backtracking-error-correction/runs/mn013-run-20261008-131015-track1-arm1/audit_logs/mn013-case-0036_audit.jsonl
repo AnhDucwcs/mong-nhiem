@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 343, "action": "ACTION: DISPATCH transfer acc_vault_a_36,acc_treasury_36,300", "observation": "ACTION_REJECTED: INSUFFICIENT_FUNDS: acc_vault_a_36 balance 50 < 300", "is_rollback": false, "latency_ms": 0.10780000047816429}
+{"turn_index": 2, "prompt_tokens": 353, "action": "ACTION: INSPECT acc_vault_b_36.balance", "observation": "800", "is_rollback": false, "latency_ms": 0.10639999891282059}
+{"turn_index": 3, "prompt_tokens": 353, "action": "ACTION: RESOLVE acc_treasury_36:400", "observation": "RESOLVED: acc_treasury_36:400", "is_rollback": false, "latency_ms": 0.09390000013809185}
