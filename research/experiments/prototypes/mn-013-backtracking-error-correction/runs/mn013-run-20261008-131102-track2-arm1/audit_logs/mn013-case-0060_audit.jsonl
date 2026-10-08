@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 340, "action": "ACTION: DISPATCH activate_worker:svc_worker_a_60:AGGRESSIVE_PARALLEL", "observation": "ACTION_REJECTED: INVALID_REGISTRY_COMMAND", "is_rollback": false, "latency_ms": 349.14329999992333}
+{"turn_index": 2, "prompt_tokens": 342, "action": "ACTION: RESOLVE svc_worker_b_60:CONSERVATIVE_PIPELINE", "observation": "RESOLVED: svc_worker_b_60:CONSERVATIVE_PIPELINE", "is_rollback": false, "latency_ms": 332.43149999907473}

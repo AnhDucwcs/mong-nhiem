@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 324, "action": "ACTION: RESOLVE acc_alpha_28:2400", "observation": "REJECTED: PREMATURE_RESOLVE: Account acc_beta_28 balance is 760, expected 938.", "is_rollback": false, "latency_ms": 330.41839999896183}
+{"turn_index": 2, "prompt_tokens": 364, "action": "ACTION: RESOLVE acc_alpha_28:2400", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 332.71980000063195}

@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 334, "action": "ACTION: DISPATCH inspect discount_primary_11", "observation": "ROLLBACK_COMMITTED: Restored turn 1", "is_rollback": true, "latency_ms": 545.150799998737}
+{"turn_index": 2, "prompt_tokens": 339, "action": "ACTION: RESOLVE discount_primary_11:36", "observation": "RESOLVED: discount_primary_11:36", "is_rollback": false, "latency_ms": 305.57410000074015}

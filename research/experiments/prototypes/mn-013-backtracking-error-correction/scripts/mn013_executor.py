@@ -47,7 +47,7 @@ CORE_SRC = REPO_ROOT / "src"
 if str(CORE_SRC) not in sys.path:
     sys.path.insert(0, str(CORE_SRC))
 
-from coordinator import BacktrackingCoordinator, CoordinatorResult
+from coordinator import BacktrackingCoordinator, CoordinatorResult, SYSTEM_PROTOCOL_PROMPT
 from mong_nhiem.context import ContextPacker
 from protocol import parse_action
 
@@ -162,24 +162,24 @@ def make_simulated_model(case: Dict[str, Any], arm: int) -> Callable[[str], str]
 
         elif arm == 4:
             # Arm 4: Full MN-013 -> reads negative directive and routes via alternative path
-            working_memory = prompt.split("=== WORKING MEMORY (L1) ===")[-1] if "=== WORKING MEMORY (L1) ===" in prompt else prompt
-            has_active_constraint = "Constraint:\nREJECTED:" in working_memory
+            turn_section = prompt.replace(SYSTEM_PROTOCOL_PROMPT, "")
+            has_active_constraint = "Constraint:\nREJECTED:" in turn_section
 
             if has_active_constraint:
                 if domain == "code_mutation":
                     target_func = case["target_predicate"]["target_func"]
-                    if "MUTATION_SUCCESS" in working_memory:
+                    if "MUTATION_SUCCESS" in turn_section:
                         return f"ACTION: RESOLVE {oracle_answer}"
                     return f"ACTION: DISPATCH refactor_{target_func} rate={oracle_answer}"
                 elif domain == "resource_ledger":
                     case_num = int(case['case_id'].split('-')[-1])
-                    if "TRANSFER_COMMITTED" in working_memory:
+                    if "TRANSFER_COMMITTED" in turn_section:
                         return f"ACTION: RESOLVE {oracle_answer}"
                     return f"ACTION: DISPATCH transfer acc_vault_b_{case_num},acc_treasury_{case_num},300"
                 elif domain == "system_registry":
                     case_num = int(case['case_id'].split('-')[-1])
                     svc_fb = f"svc_worker_b_{case_num}"
-                    if "SERVICE_ACTIVATED" in working_memory:
+                    if "SERVICE_ACTIVATED" in turn_section:
                         return f"ACTION: RESOLVE {oracle_answer}"
                     return f"ACTION: DISPATCH activate_service {svc_fb},CONSERVATIVE_PIPELINE"
 

@@ -1,0 +1,1 @@
+{"turn_index": 1, "prompt_tokens": 324, "action": "ACTION: RESOLVE acc_alpha_26:2300", "observation": "RESOLVED: acc_alpha_26:2300", "is_rollback": false, "latency_ms": 307.17169999843463}

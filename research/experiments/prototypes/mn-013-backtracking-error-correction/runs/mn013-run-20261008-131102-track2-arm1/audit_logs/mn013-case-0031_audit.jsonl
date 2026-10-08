@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 343, "action": "ACTION: DISPATCH transfer acc_vault_a_31,acc_treasury_31,300", "observation": "ACTION_REJECTED: INSUFFICIENT_FUNDS: acc_vault_a_31 balance 50 < 300", "is_rollback": false, "latency_ms": 435.1969999988796}
+{"turn_index": 2, "prompt_tokens": 353, "action": "ACTION: RESOLVE acc_treasury_31:100", "observation": "RESOLVED: acc_treasury_31:100", "is_rollback": false, "latency_ms": 364.4750000003114}
