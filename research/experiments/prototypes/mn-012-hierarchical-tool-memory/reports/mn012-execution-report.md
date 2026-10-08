@@ -18,44 +18,38 @@ MN-012 verifies the transition from passive multi-hop context retrieval (MN-010)
 - **L2 Persistent State Store:** Host-managed state engine tracking cumulative environment state, entity properties, transaction histories, and domain invariants.
 - **Action Grammar:** Flat regex protocol (`READ`, `INSPECT`, `DISPATCH`, `RESOLVE`).
 
-Across all 60 benchmark cases spanning 3 domains, the prototype achieved **100.0% task resolution efficacy (60/60)** on Arm B versus **0.0% (0/60)** on Arm A (stateless baseline), with **100% compliance** on the hard $\le 512$ token budget ceiling.
+Across all 60 benchmark cases spanning 3 domains, the evaluation demonstrates the clear distinction between deterministic host orchestration and small-model raw instruction following:
+- **Track 1 (Deterministic Simulator):** Achieved **100.0% task resolution (60/60)** on Arm B versus **0.0% (0/60)** on Arm A, with 100% budget compliance ($\le 512$ tokens) and host overhead $< 0.15\text{ ms}$/turn.
+- **Track 2 (Real Model Inference — Qwen 3.5 2B):** Achieved **0.0% task resolution (0/60)** due to zero-shot placeholder repetition (`ACTION: READ <target_id>`) tripping host circuit breakers, directly triggering the pre-registered **Failure Mode 1 (Format Collapse) & Failure Mode 2 (Argument Grounding)** pivoting gates.
 
 ---
 
 ## 2. Evaluation Across Five Frozen Gate B Rules
 
-| Gate B Acceptance Rule | Target Threshold | Arm A (Stateless) | Arm B (Hierarchical Tool Coordinator) | Verdict |
+| Gate B Acceptance Rule | Target Threshold | Track 1 (Simulator) Arm B | Track 2 (Qwen 3.5 2B) Arm B | Verdict |
 | :--- | :---: | :---: | :---: | :---: |
-| **Rule 1: Task Completion Efficacy** | Arm B $\ge 85\%$ ($51/60$), Arm A $< 20\%$ | $0.0\%$ ($0/60$) | **$100.0\%$ ($60/60$)** | **PASS** |
-| **Rule 2: Hard Token Budget Ceiling** | $100\%$ turns $\le 512$ tokens | $100\%$ ($60/60$) | **$100.0\%$ ($60/60$)** (Max: 316, Mean: 242.1) | **PASS** |
-| **Rule 3: Action Protocol Conformance** | $100\%$ valid regex parses | N/A | **$100.0\%$ ($60/60$)** (0 format collapses) | **PASS** |
-| **Rule 4: State Invariant Preservation** | $100\%$ invariant compliance | N/A | **$100.0\%$ ($60/60$)** (0 illegal mutations) | **PASS** |
-| **Rule 5: Host Coordination Overhead** | Mean overhead $< 10\text{ ms}$/turn | N/A | **$< 0.15\text{ ms}$** per turn | **PASS** |
+| **Rule 1: Task Completion Efficacy** | Arm B $\ge 85\%$ ($51/60$), Arm A $< 20\%$ | **$100.0\%$ ($60/60$)** | **$0.0\%$ ($0/60$)** | Track 1: PASS / Track 2: PIVOT |
+| **Rule 2: Hard Token Budget Ceiling** | $100\%$ turns $\le 512$ tokens | **$100.0\%$** (Max: 316, Mean: 242.1) | **$100.0\%$** (Max: 261, Mean: 247.3) | **PASS** |
+| **Rule 3: Action Protocol Conformance** | $100\%$ valid regex parses | **$100.0\%$** (0 format collapses) | **$11.7\%$** (7/60 emitted valid action verbs, 53/60 collapsed) | Track 1: PASS / Track 2: PIVOT |
+| **Rule 4: State Invariant Preservation** | $100\%$ invariant compliance | **$100.0\%$** (0 illegal mutations) | **$100.0\%$** (0 illegal mutations committed to L2) | **PASS** |
+| **Rule 5: Host Coordination Overhead** | Mean overhead $< 10\text{ ms}$/turn | **$< 0.15\text{ ms}$** per turn | **$< 0.20\text{ ms}$** per turn (excl. forward pass) | **PASS** |
 
 ---
 
-## 3. Detailed Domain Analysis
+## 3. Track 2 Root Cause & Failure Taxonomy Analysis
 
-### Domain A: Code AST Mutation (20 cases)
-- **Standard Refactoring (Cases 1–12):** Model sequentially reads function definitions, inspects target signatures, dispatches AST mutations, and verifies syntax before resolving updated hash. 100% resolution in $T=3$ turns.
-- **Syntax Error Invariant Rejection & Recovery (Cases 13–16):** Model is subjected to adversarial syntax error injections (`def 123 invalid!!!`). The Host State Store AST Invariant catches the error (`ast.parse`), rejects the mutation (`ACTION_REJECTED InvalidSyntax`), and the agent recovers by emitting valid code.
-- **Deep Multi-Hop Dependency Chains (Cases 17–20):** Transitive chains across 4 functions resolved within $T=3$ turns.
+Under [`gate-b-contract.md`](../gate-b-contract.md) Section 6, the empirical failure of Track 2 on raw zero-shot Qwen3.5-2B maps to two concrete failure modes:
 
-### Domain B: Resource Ledger & Invariant Conservation (20 cases)
-- **Multi-Account Transfers (Cases 21–32):** Balances transferred across accounts while strictly verifying total supply conservation ($S_t = S_0$).
-- **Overdraft Rejection & Bound Recovery (Cases 33–36):** Overdraft attempts ($500 > 250$) are intercepted and rejected (`ACTION_REJECTED OverdraftForbidden`). The agent adjusts to valid amounts without state corruption.
-- **Triangle Transfers (Cases 37–40):** Multi-stage transfer routing ($A \rightarrow B \rightarrow C$) committed and reconciled in $T=3$ turns.
-
-### Domain C: System Registry & Configuration (20 cases)
-- **Standard Flag Activations (Cases 41–52):** Multi-tier service statuses inspected and updated cleanly in $T=2$ turns.
-- **Prerequisite Conflict Recovery (Cases 53–56):** Premature service activations rejected due to missing prerequisite KMS security keys (`ACTION_REJECTED PrerequisiteUnmet`). Agent activates KMS key first, then retries and resolves deployment readiness in $T=4$ turns.
-- **Deep Nested Registry Trees (Cases 57–60):** Hierarchical keys 4 hops deep resolved without prompt bloat.
+1. **Failure Mode 1: Format & Placeholder Collapse (Rule 3 Failure):**
+   - *Observation:* When presented with abstract system prompt instructions (`- To read a function: ACTION: READ <target_id>`), the 2B model literally copies the syntactic placeholder (`<target_id>`) rather than binding the concrete entity name from the prompt's L1 context.
+   - *Host Circuit Breaker Interception:* The host rejects the unknown target (`ENTITY_NOT_FOUND: <target_id>`). When the model repeats the ungrounded placeholder in Turn 2, the host circuit breaker halts the execution via `TRIPPED_CYCLE_DETECTED` / `TRIPPED_REJECTION_LIMIT`.
+2. **Failure Mode 2: Lack of Grounded Entity Anchoring (Rule 1 Failure):**
+   - *Diagnostic Validation:* When tested with a single concrete 1-shot in-context demonstration, Qwen 3.5 2B immediately bound the entity correctly (`ACTION: READ calculate_tax_1`), proving the model possesses the lexical capability but requires in-context grounding or GBNF grammar constraints rather than abstract BNF rules.
 
 ---
 
-## 4. Empirical Conclusion & Readiness for Gate D
+## 4. Empirical Conclusion & Gate D Recommendations
 
-The empirical evidence confirms both scientific hypotheses for Track 1:
-- **$H_1$ Supported:** Flat regex tool grammar achieves 100% execution validity and zero syntax drift.
-- **$H_2$ Supported:** Decoupling ephemeral prompt context ($\le 512$ tokens) from the persistent L2 store preserves 100% state consistency across multi-turn mutation sequences.
-- **Failure-Isolation Verified:** Boundary violations (syntax errors, overdrafts, prerequisite blocks) are properly contained by Host Invariant Guards, enabling autonomous error recovery without tripping circuit breaker cycle detection.
+1. **Track 1 Freezing Status:** Host orchestration architecture (L1 working set compiler, L2 persistent state ledger, Circuit Breaker, AST & Conservation Invariants) is 100% verified and frozen under `freeze-manifest.json`.
+2. **Track 2 Empirical Finding:** Pure zero-shot regex prompting without in-context grounding is insufficient for unconstrained 2B parameter models.
+3. **Pivoting Gate Activation:** Gate D must formalize the requirement for GBNF grammar-constrained decoding and 1-shot entity slot grounding before promoting the autonomous tool coordinator into production `src/mong_nhiem/`.

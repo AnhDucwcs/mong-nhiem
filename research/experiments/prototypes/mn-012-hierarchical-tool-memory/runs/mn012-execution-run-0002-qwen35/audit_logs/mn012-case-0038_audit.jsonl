@@ -1,0 +1,1 @@
+{"turn": 1, "action_type": "transfer", "target": "200 acc_node_a_38 acc_node_b_38", "payload": "200 acc_node_a_38 acc_node_b_38", "status": "REJECTED", "details": "ACTION_REJECTED InvalidTransferArguments"}

@@ -23,6 +23,8 @@ import re
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
@@ -50,6 +52,7 @@ from protocol import ActionType, ToolAction, format_action, parse_action
 
 LLAMA_TOKENIZE = Path(r"D:\Materials\llama.cpp\build\bin\Release\llama-tokenize.exe")
 LLAMA_CLI = Path(r"D:\Materials\llama.cpp\build\bin\Release\llama-cli.exe")
+SERVER_BIN = Path(r"D:\Materials\llama.cpp\build\bin\Release\llama-server.exe")
 DEFAULT_MODEL_GGUF = REPO_ROOT / "artifacts" / "models" / "mn-002" / "Qwen3.5-2B-Q4_K_M.gguf"
 
 
@@ -195,37 +198,93 @@ def make_simulated_model(case: Dict[str, Any]) -> Callable[[str], str]:
     return _model_fn
 
 
-def make_real_model(model_path: Path = DEFAULT_MODEL_GGUF) -> Callable[[str], str]:
-    """Execute real local LLM forward pass using llama-cli.exe."""
-    if not LLAMA_CLI.exists() or not model_path.exists():
-        raise FileNotFoundError(f"LLM binaries or model not found: cli={LLAMA_CLI}, model={model_path}")
+class LlamaServerSession:
+    """Manages lifecycle and HTTP completions for local llama-server."""
 
-    def _model_fn(prompt: str) -> str:
+    def __init__(self, model_path: Path = DEFAULT_MODEL_GGUF, host: str = "127.0.0.1", port: int = 18503) -> None:
+        self.model_path = model_path
+        self.host = host
+        self.port = port
+        self.proc: Optional[subprocess.Popen] = None
+
+    def start(self) -> None:
+        if self._check_health():
+            print(f"[llama-server] Reusing already running server on port {self.port}.", flush=True)
+            return
+
+        print(f"[llama-server] Spawning server for {self.model_path.name} on port {self.port}...", flush=True)
         cmd = [
-            str(LLAMA_CLI),
-            "-m", str(model_path),
-            "-p", prompt,
-            "-n", "64",
-            "--temp", "0.0",
-            "--no-warmup",
+            str(SERVER_BIN),
+            "-m", str(self.model_path),
+            "--port", str(self.port),
+            "--host", self.host,
             "-ngl", "99",
+            "-c", "2048",
             "--log-disable",
         ]
-        res = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            check=True,
-        )
-        output = res.stdout or ""
-        # Extract model completion following prompt
-        if prompt in output:
-            output = output[output.find(prompt) + len(prompt):]
-        return output.strip()
+        self.proc = subprocess.Popen(cmd)
+        t0 = time.time()
+        while time.time() - t0 < 30:
+            if self._check_health():
+                print(f"[llama-server] Server healthy in {time.time() - t0:.1f}s.", flush=True)
+                return
+            time.sleep(0.5)
+        raise RuntimeError("Timed out waiting for llama-server to become healthy.")
 
-    return _model_fn
+    def stop(self) -> None:
+        if self.proc:
+            print("[llama-server] Terminating server...", flush=True)
+            self.proc.terminate()
+            try:
+                self.proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self.proc.kill()
+            self.proc = None
+
+    def _check_health(self) -> bool:
+        try:
+            url = f"http://{self.host}:{self.port}/health"
+            req = urllib.request.Request(url, headers={"User-Agent": "mn012-executor"})
+            with urllib.request.urlopen(req, timeout=1.0) as resp:
+                return resp.status == 200
+        except Exception:
+            return False
+
+    def complete(self, prompt: str) -> str:
+        url = f"http://{self.host}:{self.port}/completion"
+        payload = {
+            "prompt": prompt,
+            "temperature": 0.0,
+            "n_predict": 64,
+            "stop": ["\n", "\n\n", "Directive:", "=== CURRENT TASK ==="],
+        }
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        raw = data.get("content", "").strip()
+        return re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
+
+    def count_tokens(self, text: str) -> int:
+        if not text or not text.strip():
+            return 0
+        if text in _TOKEN_CACHE:
+            return _TOKEN_CACHE[text]
+        url = f"http://{self.host}:{self.port}/tokenize"
+        payload = {"content": text}
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        cnt = len(data.get("tokens", []))
+        _TOKEN_CACHE[text] = cnt
+        return cnt
 
 
 def run_benchmark(
@@ -241,81 +300,93 @@ def run_benchmark(
     print(f"\n[MN-012] Loaded {len(cases)} benchmark cases from {cases_file.name}.", flush=True)
     print(f"[MN-012] Execution Mode: {mode.upper()} | Run ID: {run_id}", flush=True)
 
-    token_counter = get_token_counter(model_path=model_path, fast_mode=(mode == "simulator"))
     run_dir = RUNS_DIR / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
+    server_session: Optional[LlamaServerSession] = None
+    if mode == "model":
+        server_session = LlamaServerSession(model_path=model_path)
+        server_session.start()
+        token_counter = server_session.count_tokens
+    else:
+        token_counter = get_token_counter(model_path=model_path, fast_mode=True)
+
     arm_a_results = []
     arm_b_results = []
 
-    for idx, c in enumerate(cases, 1):
-        case_id = c["case_id"]
-        domain = c["domain"]
-        query = c["query"]
-        oracle = c["oracle_answer"]
-        env = c["environment"]
-        init_ctx = c["initial_context"]
+    try:
+        for idx, c in enumerate(cases, 1):
+            case_id = c["case_id"]
+            domain = c["domain"]
+            query = c["query"]
+            oracle = c["oracle_answer"]
+            env = c["environment"]
+            init_ctx = c["initial_context"]
 
-        # --- Arm A: Stateless Baseline ---
-        packer_a = ContextPacker(max_budget=512, tokenizer_func=token_counter)
-        prompt_a = packer_a.pack([init_ctx], query=query)
-        arm_a_pred = oracle if (oracle in init_ctx) else "UNKNOWN"
-        arm_a_correct = (arm_a_pred == oracle)
-        arm_a_results.append({
-            "case_id": case_id,
-            "domain": domain,
-            "prediction": arm_a_pred,
-            "oracle": oracle,
-            "correct": arm_a_correct,
-            "tokens": packer_a.count_tokens(prompt_a),
-        })
+            # --- Arm A: Stateless Baseline ---
+            packer_a = ContextPacker(max_budget=512, tokenizer_func=token_counter)
+            prompt_a = packer_a.pack([init_ctx], query=query)
+            arm_a_pred = oracle if (oracle in init_ctx) else "UNKNOWN"
+            arm_a_correct = (arm_a_pred == oracle)
+            arm_a_results.append({
+                "case_id": case_id,
+                "domain": domain,
+                "prediction": arm_a_pred,
+                "oracle": oracle,
+                "correct": arm_a_correct,
+                "tokens": packer_a.count_tokens(prompt_a),
+            })
 
-        # --- Arm B: Hierarchical Tool & Memory Coordinator ---
-        if mode == "simulator":
-            model_fn = make_simulated_model(c)
-        else:
-            model_fn = make_real_model(model_path)
+            # --- Arm B: Hierarchical Tool & Memory Coordinator ---
+            if mode == "simulator":
+                model_fn = make_simulated_model(c)
+            else:
+                assert server_session is not None
+                model_fn = server_session.complete
 
-        coordinator = HierarchicalToolCoordinator(
-            model_fn=model_fn,
-            token_counter=token_counter,
-            max_turns=5,
-            max_budget=512,
-        )
+            coordinator = HierarchicalToolCoordinator(
+                model_fn=model_fn,
+                token_counter=token_counter,
+                max_turns=5,
+                max_budget=512,
+            )
 
-        audit_path = run_dir / "audit_logs" / f"{case_id}_audit.jsonl"
-        res_b = coordinator.run(
-            query=query,
-            initial_env=env,
-            initial_context=init_ctx,
-            audit_log_path=audit_path,
-        )
+            audit_path = run_dir / "audit_logs" / f"{case_id}_audit.jsonl"
+            res_b = coordinator.run(
+                query=query,
+                initial_env=env,
+                initial_context=init_ctx,
+                audit_log_path=audit_path,
+            )
 
-        arm_b_correct = (res_b.answer == oracle)
-        arm_b_results.append({
-            "case_id": case_id,
-            "domain": domain,
-            "status": res_b.status,
-            "answer": res_b.answer,
-            "oracle": oracle,
-            "correct": arm_b_correct,
-            "total_turns": res_b.total_turns,
-            "all_under_budget": res_b.all_under_budget,
-            "total_latency_ms": res_b.total_latency_ms,
-            "turns": [
-                {
-                    "turn_index": t.turn_index,
-                    "action": t.action.raw,
-                    "prompt_tokens": t.prompt_tokens,
-                    "observation": t.observation,
-                    "latency_ms": t.latency_ms,
-                }
-                for t in res_b.turns
-            ],
-        })
+            arm_b_correct = (res_b.answer == oracle)
+            arm_b_results.append({
+                "case_id": case_id,
+                "domain": domain,
+                "status": res_b.status,
+                "answer": res_b.answer,
+                "oracle": oracle,
+                "correct": arm_b_correct,
+                "total_turns": res_b.total_turns,
+                "all_under_budget": res_b.all_under_budget,
+                "total_latency_ms": res_b.total_latency_ms,
+                "turns": [
+                    {
+                        "turn_index": t.turn_index,
+                        "action": t.action.raw,
+                        "prompt_tokens": t.prompt_tokens,
+                        "observation": t.observation,
+                        "latency_ms": t.latency_ms,
+                    }
+                    for t in res_b.turns
+                ],
+            })
 
-        print(f"  [{idx:02d}/60] {case_id} ({domain}) -> Arm A: {'PASS' if arm_a_correct else 'FAIL'} | Arm B: {'PASS' if arm_b_correct else 'FAIL'} (Turns: {res_b.total_turns})")
+            print(f"  [{idx:02d}/60] {case_id} ({domain}) -> Arm A: {'PASS' if arm_a_correct else 'FAIL'} | Arm B: {'PASS' if arm_b_correct else 'FAIL'} (Turns: {res_b.total_turns})")
+    finally:
+        if server_session is not None:
+            server_session.stop()
 
     # Metrics aggregation
     arm_a_accuracy = sum(1 for r in arm_a_results if r["correct"]) / len(cases)
