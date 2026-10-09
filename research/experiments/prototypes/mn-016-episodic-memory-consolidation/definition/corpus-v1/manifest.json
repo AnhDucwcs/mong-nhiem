@@ -1,0 +1,12 @@
+{
+  "milestone": "MN-016",
+  "corpus_version": "v1",
+  "case_count": 40,
+  "sha256": "1d1236f40dd89090535634d09b796960c10b21a2dfd1bd0da9679efc7bc91877",
+  "domains": {
+    "code_refactoring": 15,
+    "asset_ledger": 15,
+    "system_registry": 10
+  },
+  "target_horizon_range": "20-50"
+}

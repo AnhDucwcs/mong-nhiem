@@ -1,0 +1,26 @@
+{
+  "milestone": "MN-016",
+  "stage": "pre",
+  "timestamp_utc": "2026-10-09T14:11:15.159971+00:00",
+  "files": {
+    "artifacts/models/mn-002/Qwen3.5-2B-Q4_K_M.gguf": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/charter.md": "c3e672fe80e3d5dbde1ad4b1aaa398e85d0689d149d3010bfb0cb0e8e0eb68d6",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/definition/corpus-v1/cases.json": "1d1236f40dd89090535634d09b796960c10b21a2dfd1bd0da9679efc7bc91877",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/definition/corpus-v1/manifest.json": "6891f524307c3194e6d50ab30cae34e59969d7d753a0d997f4a95d0eec7d0aa9",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/gate-b-contract.md": "c0b3b04f001427efcda6072ff7ca71f4cd955a985623023c096ae2213928a25c",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/scripts/run_benchmark.py": "172c2225e170bfe10a95ad68e9c2dd1577e874ecc98152501f63c6b63c818fce",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/__init__.py": "1903f682267dd9ee27b9fd3a02eb4a998ec93edeb363c0f4a156edbb18ab3802",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/auto_dream_trigger.py": "4db7415471ef6491965a473e8894eff131b926102b04144caff1832c3a06f8e0",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/conflict_resolver.py": "e92d3cf2d1decb167c4637ea1f316f00bd1f72007f61b0e6ce16fd0d827f6a4e",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/consolidation_lock.py": "0b294cbc1ceab40507e4d5af0cde6e7bdb71187b254437a8af3f26ccc99abd93",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/dream_engine.py": "897812464f8bd025a363ec560bdaf84e86237d9394e2dd66752d1029f0143f65",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/provenance.py": "388b84272b7d2ad03a69bde9665bb3ec43743c6b3de6f0aa9ec9bc609dbd912a",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/src/recall_coordinator.py": "a9721107278d3518e264110d0ad18234c8a572e76b4707f1a76a6758494fdd3a",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/tests/test_auto_dream_trigger.py": "b28a0dbf0ecf48b93feebfb7f05b3113243b47b1549dca68ea6b67f2113cc675",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/tests/test_conflict_resolver.py": "c3441ca583cbeaacd4d9dc8123af333bf974b52d39ae366362958b6dd91c8944",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/tests/test_consolidation_lock.py": "922b03996b502e12cb8a5cb2c903e45a45ac256a22e0fa6e8be84f64fd4b0f6c",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/tests/test_dream_engine.py": "dec1d9f6c9179e2131af30f4fdf096a15935447618aa694d534ce2e70f301490",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/tests/test_provenance.py": "f018153420a869adb40f1a084c274f8d173da478ddf70879f598b2d71e8d9725",
+    "research/experiments/prototypes/mn-016-episodic-memory-consolidation/tests/test_recall_coordinator.py": "f9220b6c3ab047a2bff2a9139312007ff35438ee665e636fccf0b9cfa64fbf40"
+  }
+}

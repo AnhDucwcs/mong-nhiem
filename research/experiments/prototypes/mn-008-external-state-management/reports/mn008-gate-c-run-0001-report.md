@@ -59,14 +59,14 @@ Across all 96 model calls, the raw completions reveal a structural response-chan
 
 ## 3-Expert Evaluation
 
-### 🏛️ Systems Architect
+### Systems Architect
 - **Mechanistic Root Cause:** Decoupling state tracking to an external host engine successfully collapsed the input context from $15$ raw event transitions to a clean $2$-entity snapshot (`E1=S0; E2=S1`, measuring only $87$ tokens). However, downstream conditional branch reasoning failed to materialize because the LLM subject did not execute the conjunction logic ($E1 \land E2 \rightarrow \text{ACTION}$).
 - **Architecture Takeaway:** Small language models (<4B) exhibit a two-fold failure: they fail at latent state tracking (proven in MN-003 through MN-007), but supplying external state alone does not guarantee reliable conditional execution if the prompt interface allows unconstrained conversational generation.
 
-### 🛡️ Security Engineer
+### Security Engineer
 - **Construct Validity:** The experiment maintains 100% protocol validity: zero data leakage, complete isolation of the host state engine, exact Latin Square balance, and full persistence before validation.
 - **Vulnerability / Non-Regression:** The failure of the strict non-regression policy ($n_{B=1, C=0} = 2$) proves that under greedy decoding without grammar guidance, small model outputs are dominated by stochastic template-recitation rather than monotonic conditional evaluation.
 
-### 🛠️ Pragmatist
+### Pragmatist
 - **Empirical Rigor:** The experiment was executed cleanly, reproducibly, and without ad-hoc parameter tampering. The negative result is definitive for this contract: External State Management under open-ended prompt formulation does not resolve conditional decision reasoning on `Llama-3.2-3B-Instruct`.
 - **Recommendation:** Do not tune prompt templates post-hoc or lower thresholds to rescue the run. Record the result as canonical evidence and proceed to Gate D disposition review.

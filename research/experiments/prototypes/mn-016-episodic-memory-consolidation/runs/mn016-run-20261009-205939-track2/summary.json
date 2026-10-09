@@ -1,0 +1,69 @@
+{
+  "run_id": "mn016-run-20261009-205939-track2",
+  "track": 2,
+  "timestamp_utc": "2026-10-09T13:59:48.905035+00:00",
+  "total_cases": 3,
+  "arms": {
+    "arm_1": {
+      "passed": 0,
+      "total": 3,
+      "accuracy_pct": 0.0,
+      "amnesia_count": 3,
+      "token_violations": 0,
+      "mean_tokens": 51.38555283224401,
+      "max_tokens": 67,
+      "mean_latency_ms": 0.0003074961147369663,
+      "contradiction_count": 0
+    },
+    "arm_2": {
+      "passed": 0,
+      "total": 3,
+      "accuracy_pct": 0.0,
+      "amnesia_count": 0,
+      "token_violations": 3,
+      "mean_tokens": 142.5991966230937,
+      "max_tokens": 514,
+      "mean_latency_ms": 0.0006840141474773162,
+      "contradiction_count": 0
+    },
+    "arm_3": {
+      "passed": 0,
+      "total": 3,
+      "accuracy_pct": 0.0,
+      "amnesia_count": 0,
+      "token_violations": 0,
+      "mean_tokens": 116.06733387799564,
+      "max_tokens": 334,
+      "mean_latency_ms": 26.914494607769708,
+      "contradiction_count": 0
+    }
+  },
+  "rules_verdict": {
+    "rule_1_primary_efficacy": {
+      "rule": "Accuracy(Arm 3) >= 90.0% (36/40 cases)",
+      "value": "0.0%",
+      "passed": false
+    },
+    "rule_2_amnesia_remediation": {
+      "rule": "Delta(Arm 3 - Arm 1) >= +50.0%",
+      "value": "+0.0%",
+      "passed": false
+    },
+    "rule_3_token_ceiling": {
+      "rule": "max(Tokens_prompt) <= 512 for 100% of Arm 3 turns",
+      "value": "Max: 334 tokens (Mean: 116.1)",
+      "passed": true
+    },
+    "rule_4_latency_sla": {
+      "rule": "Mean Turn Latency < 1000 ms",
+      "value": "26.9 ms",
+      "passed": true
+    },
+    "rule_5_contradiction_suppression": {
+      "rule": "Factual Contradiction Rate = 0.0%",
+      "value": "0 contradictions",
+      "passed": true
+    }
+  },
+  "overall_verdict": "FAIL"
+}

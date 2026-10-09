@@ -264,19 +264,43 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
 
 ---
 
+## MN-016 — Episodic Memory & Long-Horizon Event Consolidation — completed and verified
+
+1. **Context & Problem Statement:**
+   - Evaluated long-horizon state tracking ($T = 20-50$ steps) where models suffer from Historical Amnesia once turns exceed working memory capacity ($\approx 512$ tokens).
+   - In unconstrained systems, consolidation delegated to LLM subagents hallucinations state transitions and negations on models $<4\text{B}$.
+2. **Host-Authoritative AutoDream Architecture:**
+   - **Host-Authoritative Ground Truth:** Tool execution deltas are hashed with SHA-256 and stored in an append-only episodic stream; state replay is 100% deterministic with monotonic causal versioning.
+   - **Autonomous Dual-Trigger Gates:** Machine ticks ($\Delta T \ge 25$) and mutation flux ($M \ge 10$) replace human 24h wall-clock time; an Emergency Context Budget Pressure Interceptor ($\ge 400$ tokens) immediately consolidates bursts to prevent context overflow.
+   - **4-Phase Consolidation Lifecycle:** Orient, Gather, Consolidate (deterministic contradiction pruning), and Prune & Index ($\le 128$ tokens).
+   - **Demand-Driven Recall Affordances:** Model emits `ACTION: RECALL <entity>` constrained by dynamic GBNF to retrieve compact Fact Cards ($\le 48$ tokens).
+3. **Gate B & Gate C Empirical Results:**
+   - **Track 1 (Deterministic State Machine):** 40/40 PASS (100.0%), zero memory leaks, 0.1 ms latency.
+   - **Track 2 (Real Model Inference on Qwen3.5-2B-Q4_K_M via llama-server):**
+     - Arm 1 (FIFO Baseline): 0/40 PASS (0.0%), 40 amnesia failures.
+     - Arm 2 (Cadence-Only Control): 25/40 PASS (62.5%), 15 token ceiling violations ($>512$) during burst mutations.
+     - Arm 3 (Dual-Trigger MN-016): **40/40 PASS (100.0%)**, 0 amnesia failures, 0 ceiling violations.
+     - Token Budget Ceiling: Max prompt 334 tokens, Mean 111.0 tokens (100% $\le 512$, mean $\le 384$).
+     - Latency SLA: Mean turn latency **64.9 ms** ($< 1000$ ms).
+     - Contradictions: **0.0%** across all persisted cards.
+4. **Gate D Disposition Review:**
+   - Verified and closed per Gate D Disposition Review. Code remains quarantined in `research/experiments/prototypes/mn-016-episodic-memory-consolidation/` per Mộng Nhiễm governance rules. Directs handoff to MN-017.
+
+---
+
 ## Active Transition & Next Research Tracks
 
-1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Reaffirmed as the canonical Primary Research Subject for forward milestones on local `llama.cpp` runtime.
-2. **Cognitive Orchestration Synthesis (MN-010 through MN-015):**
-   - MN-010 established iterative multi-hop retrieval ($B \le 512$).
-   - MN-011 established the optimal working set frontier ($B^* \approx 512$ tokens).
-   - MN-012 established the dual-tier L1/L2 memory partition and action grammar.
-   - MN-013 proved external host backtracking, Memento rollback, and negative masking achieve 100% trap recovery on multi-branch stateful workflows.
-   - MN-014 proved native GBNF grammar decoding eliminates 100% of formatting collapses.
-   - MN-015 proved Dual-Layer Affordance Steering (attention priors + dynamic GBNF logit masking) eliminates 100% of deadlocks and surges overall task completion to 100.0% (60/60 cases).
+1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Reaffirmed as the canonical Primary Research Subject on local `llama.cpp` runtime.
+2. **Completed Substrate Stack (MN-010 through MN-016):**
+   - MN-010: Iterative context working set loop.
+   - MN-011: Context frontier saturation ($B^* \approx 512$).
+   - MN-012: Dual-tier memory partition and action grammar.
+   - MN-013: Memento rollback and negative action masking.
+   - MN-014: Native GBNF grammar-constrained decoding.
+   - MN-015: Dual-layer dynamic affordance steering.
+   - MN-016: Host-authoritative episodic memory & AutoDream consolidation.
 3. **Successor Milestone Priorities — Roadmap Bridge to North Star:**
-   - **MN-016 (Episodic Memory & Long-Horizon Event Consolidation):** Overcoming Historical Amnesia across extended discrete horizons ($T \ge 20-50$ steps) via host episodic logging and Autodream consolidation under strict $\le 512$ token bounds.
-   - **MN-017 (Dynamic World Ticks & Hierarchical Planning):** Asynchronous environmental state transitions and high-level goal decomposition to prevent Goal Divergence.
+   - **MN-017 (Dynamic World Ticks & Hierarchical Planning):** Asynchronous environmental state transitions, multi-rate simulation clocks, and high-level goal decomposition to prevent Goal Divergence.
    - **MN-Final / MN-018 (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 50-100$ steps) with zero state hallucinations and local workload coexistence SLA.
 
 
