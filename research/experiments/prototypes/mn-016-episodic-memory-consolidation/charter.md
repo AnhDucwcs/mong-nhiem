@@ -9,7 +9,7 @@ While MN-015 achieved 100.0% task resolution on short-horizon tasks ($T \le 6-8$
 2. **Historical Amnesia vs Context Explosion**:
    - A naive FIFO sliding window purges historical turns, causing the agent to forget decisions or state changes made at $T=3$ when evaluating conditions at $T=35$.
    - Naive chronological history accumulation inflates context ($> 2048$ tokens), destroying turn latency ($> 3000\text{ ms}$) and inducing severe hallucinations.
-3. **The Raison d'Être of Mộng Nhiễm**:
+3. **Core Architectural Division of Responsibilities**:
    - The LLM is strictly an isolated **Reasoning Engine**, emitting structured action proposals (`ACTION: ...`).
    - The Host is the sole authority over **State Integrity, Ground Truth, and Memory Consolidation**.
    - GBNF enforces syntax; the Host enforces truth and provenance.

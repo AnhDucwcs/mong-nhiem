@@ -26,24 +26,24 @@ In long-horizon autonomous operation ($T = 20-50$ steps), lightweight language m
 
 ## 2. Core Architecture: Host-Authoritative AutoDream
 
-MN-016 establishes a strictly host-authoritative memory consolidation architecture designed specifically for the raison d'être of Mộng Nhiễm:
+MN-016 establishes a strictly host-authoritative memory consolidation architecture designed specifically for the core mission of Mộng Nhiễm:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   MÔ HÌNH (LLM) — BỘ SUY LUẬN THUẦN TÚY                 │
-│  - Không sở hữu trạng thái, không tự ghi nhớ, không tự sửa DB         │
-│  - Tiêu thụ ngữ cảnh hữu hạn (<= 512 tokens)                           │
-│  - Phát sinh ĐỀ XUẤT HÀNH ĐỘNG CÓ CẤU TRÚC (ACTION: ...) qua GBNF       │
+│                   MODEL (LLM) — PURE REASONING ENGINE                  │
+│  - Stateless: does not own state, never writes directly to DB          │
+│  - Bounded context consumption (<= 512 tokens)                         │
+│  - Emits STRUCTURED ACTION PROPOSALS (ACTION: ...) via GBNF            │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │ Action Proposal
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│                HOST (MÁY CHỦ) — CƠ QUAN CHỦ QUẢN TOÀN VẸN               │
-│  1. Kiểm tra tính hợp lệ & điều kiện tiên quyết của hành động          │
-│  2. Thực thi hành động trên môi trường thật, ghi nhận nguồn gốc (SHA256)│
-│  3. Cập nhật kho ký ức bằng CÁC QUY TẮC XÁC ĐỊNH (Deterministic Rules) │
-│  4. Giải quyết xung đột trạng thái dựa trên NGUỒN DỮ LIỆU ĐÁNG TIN CẬY │
-│  5. Chỉ đưa ĐÚNG THÔNG TIN ĐƯỢC YÊU CẦU vào ngữ cảnh (<= 512 tokens)  │
+│                HOST SYSTEM — SOLE AUTHORITY OVER INTEGRITY             │
+│  1. Validates preconditions and action structure                       │
+│  2. Executes actions in verified environment, computes SHA-256 hashes  │
+│  3. Updates episodic memory using DETERMINISTIC STATE REPLAY RULES     │
+│  4. Resolves state conflicts strictly from AUTHORITATIVE TOOL SOURCES  │
+│  5. Delivers strictly SCOPED WORKING CONTEXT on demand (<= 512 tokens) │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
