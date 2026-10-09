@@ -238,9 +238,10 @@ MN-014 is complete and closed under Gate D disposition review (`gate-d-dispositi
    - MN-012 established the dual-tier L1/L2 memory partition and action grammar.
    - MN-013 proved external host backtracking, Memento rollback, and negative masking can enable a 2B model to achieve 100% trap recovery on multi-branch stateful workflows.
    - MN-014 proved native GBNF grammar decoding eliminates 100% of formatting collapses, boosting task completion by +21.7% with sub-second turn latency.
-3. **Successor Milestone Priorities (MN-Final / Cognitive OS Synthesis):**
-   - **Dynamic Affordance Constrained Decoding:** Dynamically binding runtime GBNF grammar rules to active state affordances.
-   - **Decision Model & Specialized Sub-Agents:** Investigating specialized micro-models for distinct OS sub-tasks (planner, verifier, executor) within the Mộng Nhiễm cognitive framework.
+3. **Successor Milestone Priorities — MN-015 & North Star Horizon:**
+   - **MN-015 (Dynamic Affordance Constrained Decoding & Dual-Layer Steering):** Direction established in [MN-015 Direction Memo](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md). Combines prompt-level attention priors ($\le 20$ tokens) with engine-level dynamic GBNF logit masking ($O(1)$, $< 0.1\text{ ms}$) to resolve multi-branch combinatorial search exhaustion.
+   - **MN-Final (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 20-50$ steps) with zero state hallucinations.
+   - **Decision Model & Specialized Sub-Agents:** Investigating specialized micro-models for distinct cognitive OS sub-tasks (planner, verifier, executor) within the Mộng Nhiễm architecture.
 
 
 
