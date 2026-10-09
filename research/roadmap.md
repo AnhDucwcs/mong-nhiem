@@ -142,15 +142,20 @@ Track: **NCC Phase 4 (Robust Action Synthesis).**
 
 ## MN-015 — Dynamic Affordance Constrained Decoding & Dual-Layer Steering
 
-Status: **scheduled active milestone (orientation memo established).**  
-Track: **NCC Phase 4 (Dynamic Affordance & Search Navigation).**
+Status: **completed and promoted into `src/mong_nhiem/orchestration/`.**  
+Track: **NCC Phase 4 (Dynamic Affordance & Cognitive Orchestration).**
 
-1. **Core Problem:** MN-014 achieved 100% syntactic determinism, but unassisted greedy decoding stalled at 55.0% task completion due to *Failure Mode 2 (Multi-Branch Search Exhaustion)* in complex environments (Domain C System Registry: 0/20 completion). The static GBNF grammar allowed the model to syntactically guess invalid actions, resulting in repeated rollback cycles and cycle breaker tripping.
-2. **Dual-Layer Affordance Steering Architecture:**
-   - **Prompt Layer (Attention Prior):** Host generates a compact affordance reminder ($\le 15-20$ tokens, e.g., `VALID ACTIONS: READ, DISPATCH migrate_v2`) in the observation block, placing high attention probability on active options to prevent Perplexity Distortion.
-   - **Engine Layer (Dynamic GBNF Masking):** Host dynamically compiles a minimal GBNF grammar per turn based on current environment state $S_t$, mathematically setting the logits of inactive actions to $-\infty$.
-   - **Ponytail Minimality:** Shared single Host evaluation function (`get_active_affordances(env)`), zero new dependencies, $< 0.1\text{ ms}$ CPU latency, $O(1)$ complexity.
-3. **Target Metrics:** Resolve multi-branch exploration bottlenecks, targeting $\ge 85\%$ end-to-end task completion across all 60 benchmark cases before advancing to the project's ultimate North Star: **MN-Final (Stateful Simulated Microworld Evolution)**.
+1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules and 60-case benchmark evaluated across 2 matched arms on Track 1 (Simulator) and Track 2 (Real Model Inference on `Qwen3.5-2B-Q4_K_M.gguf` via `llama-server.exe`). Pre-run freeze commit: `9908575`.
+2. **Gate C Dual-Track Execution:**
+   - **Flawless Efficacy ($H_1$ Strongly Confirmed):** Achieved **100.0% (60/60 PASS)** task completion. Domain A: 20/20 (100.0%), Domain B: 20/20 (100.0%), Domain C: 20/20 (100.0%, surging +85.0% over MN-014).
+   - **Zero Deadlock Cycles ($H_2$ Strongly Confirmed):** Circuit-breaker tripped deadlocks dropped from 15 in MN-014 to **exactly 0 (0.0%)**.
+   - **Trap Recovery Efficacy:** Exactly **30/30 (100.0%)** traps resolved cleanly with 1 host rollback per trap and zero false rollbacks on non-trap cases.
+   - **Hard Invariants & Latency ($H_3$ Confirmed):** 100% turns adhered to $\le 512$ tokens (Max: 396, Mean: 318.5) with 0 parse failures and 329.37 ms mean turn latency.
+3. **Packaging & Cross-Model Reusability Qualification:**
+   - Packaged into domain-agnostic `src/mong_nhiem/orchestration/` (100% Python standard library).
+   - Added 14 unit and stress tests in `tests/unit/test_orchestration.py` (441/441 test suite passes).
+   - Validated across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`), achieving 100.0% cross-model accuracy (15/15 PASS per subject) and sub-second turn latency.
+4. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (122 files). Advances roadmap to MN-016 (Stateful Simulated Microworld Evolution).
 
 ## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
 

@@ -20,6 +20,17 @@ Promoted into production under milestones **MN-009** and **MN-010**:
 - **`CircuitBreaker`:** Defensive safety subsystem enforcing a hard turn ceiling ($\le 3$ turns) and duplicate/cycle detection (`visited_targets` set hashing), guaranteeing zero infinite retrieval loops or runaway latency.
 - **Graph & Tabular Slicers:** Breadth-first $k$-hop subgraph extraction ($O(V+E)$) and attribute projection for structured state tables.
 
+### Cognitive Orchestration Subsystem (`mong_nhiem.orchestration`)
+
+Promoted into production under milestone **MN-015**:
+
+- **`CognitiveOrchestrator`:** Dual-layer cognitive steering engine. Integrates prompt attention priors with runtime dynamic GBNF logit masking, host memento rollbacks, context rewind, and phase gate interceptors.
+- **`DynamicGBNFCompiler`:** Sub-millisecond CFG grammar compiler ($< 0.1\text{ ms}$) compiling state-dependent token masks for `llama.cpp` to eliminate parse collapses and constrain model logits to valid runtime affordances.
+- **`MementoStack`:** Bounded deepcopy state snapshot and rollback engine isolating host state mutations from trial-and-error model explorations.
+- **`ContextRewindManager`:** Prompt working memory manager guaranteeing strict $\le 512$-token context ceilings and managing negative action masks after rollbacks.
+- **`PhaseGate`:** Task completion interceptor evaluating custom predicates before accepting model termination, preventing premature hallucinated resolutions.
+- **`DeclarativeAffordanceEngine`:** Schema-driven, domain-agnostic affordance registry mapping host state models to action specifications without hardcoded domain couplings.
+
 ---
 
 ## Research Milestone Progression
@@ -41,9 +52,8 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 | **MN-011** | Scaffolding-Assisted Context Frontier | ECC Reactivation | **Completed** | Proved $B^* \approx 512$ capacity-efficiency peak ($H_1$), 100% causal restoration on ECC-007 ($H_2$), and $60\times$ conversion advantage ($H_3$). |
 | **MN-012** | Hierarchical Tool & Memory Integration | NCC Phase 3 | **Closed (Pivoted)** | Validated dual-tier memory; unassisted models suffer Horizon Jumping; activated pivoting gate. |
 | **MN-013** | Backtracking & Error Self-Correction | NCC Phase 4 | **Closed (Quarantined)** | Achieved 100% trap recovery on resource contention via Memento rollback; proved amnesia deadlock on unguided rewind. |
-| **MN-014** | Grammar-Constrained Decoding | NCC Phase 4 | **Closed (Standard Adopted)** | Native GBNF engine-level logit masking eliminated 100% parse failures; boosted task completion by +21.7% (55.0% vs 33.3%). Ratified ADR-0014. |
-| **MN-015** | Dynamic Affordance Constrained Decoding | NCC Phase 4 | **Scheduled (Orientation)** | Dual-Layer Affordance Steering (prompt attention priors + dynamic runtime GBNF logit masking) to resolve multi-branch search exhaustion. |
-
+| **MN-014** | Grammar-Constrained Decoding | NCC Phase 4 | **Closed (Standard Adopted)** | GBNF engine-level logit masking eliminated 100% format collapses (0 parse errors); surged refactoring to 100%. Ratified ADR-0014. |
+| **MN-015** | Dynamic Affordance Constrained Decoding | NCC Phase 4 | **Promoted** | Dual-Layer Affordance Steering achieved 100.0% completion (60/60) and 0 deadlocks. Promoted to `src/mong_nhiem/orchestration/` after 100% qualification on Qwen3.5-2B, Llama-3.2-3B, Qwen3-4B. |
 
 ---
 
@@ -55,7 +65,7 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
   - `research/decisions/`: Architectural Decision Records (ADRs).
   - `research/experiments/`: Sandbox prototypes and frozen empirical evidence.
 - `src/mong_nhiem/`: Production package boundary (pure Python standard library).
-- `tests/unit/`: Comprehensive test suite (420+ unit and integration tests passing).
+- `tests/unit/`: Comprehensive test suite (441 unit and integration tests passing).
 
 ---
 

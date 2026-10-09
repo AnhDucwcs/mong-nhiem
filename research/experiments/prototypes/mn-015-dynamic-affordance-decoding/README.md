@@ -1,9 +1,15 @@
 # MN-015: Dynamic Affordance Constrained Decoding & Dual-Layer Steering
 
-## Status: Orientation & Pre-Charter Strategic Direction
+## Status: Completed & Closed — Dual-Layer Affordance Steering Standard Proven
 
-> [!NOTE] Strategic Continuity
-> This document records the agreed architectural direction synthesized from the empirical findings of **MN-014**. It preserves design decisions, theoretical rationale, and mechanism specifications so future sessions can immediately resume implementation without context loss.
+> [!NOTE] Strategic Continuity & Empirical Success
+> This milestone has been completed and verified under **Gate C execution** and closed under **Gate D disposition review** ([`gate-d-disposition-review.md`](gate-d-disposition-review.md)).
+> - **Overall Task Completion:** **100.0% (60/60 PASS)** on real model inference (`Qwen3.5-2B-Q4_K_M.gguf`).
+> - **Domain C Resolution:** Surged from $15.0\%$ to **100.0% (20/20 PASS)** (+85.0% absolute gain).
+> - **Trap Recovery:** **100.0% (30/30 PASS)** with 0 deadlock cycles (down from 15 in MN-014).
+> - **Parse Failures:** Exactly **0.0% (0/216 turns)**.
+> - **Hard Working Budget:** **100% compliance** ($\le 512$ tokens, Max: 396 tokens, Mean: 318.5 tokens).
+> - **Execution Report:** [`reports/mn015-execution-report.md`](reports/mn015-execution-report.md).
 
 ---
 

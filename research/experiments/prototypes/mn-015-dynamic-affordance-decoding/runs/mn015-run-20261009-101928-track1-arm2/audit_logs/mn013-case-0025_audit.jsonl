@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 261, "raw_response": "ACTION: DISPATCH transfer acc_alpha_25,acc_beta_25,175", "action_key": "DISPATCH:transfer:acc_alpha_25,acc_beta_25,175", "observation": "TRANSFER_COMMITTED balance_acc_beta_25=875", "is_rollback": false, "latency_ms": 1.0}
+{"turn_index": 2, "prompt_tokens": 272, "raw_response": "ACTION: RESOLVE acc_beta_25:875", "action_key": "RESOLVE:acc_beta_25:875", "observation": "TASK_RESOLVED", "is_rollback": false, "latency_ms": 1.0}

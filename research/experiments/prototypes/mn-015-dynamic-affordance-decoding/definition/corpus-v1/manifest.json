@@ -1,0 +1,16 @@
+{
+  "milestone": "MN-014",
+  "corpus_version": "v1",
+  "case_count": 60,
+  "sha256": "781ae28914227862da288c7663c6180230283d44e9763975b6df98abfbc3d297",
+  "source": "inherited from MN-013 corpus-v1",
+  "domains": {
+    "code_mutation": 20,
+    "resource_ledger": 20,
+    "system_registry": 20
+  },
+  "topology": {
+    "standard_cases": 30,
+    "trap_cases": 30
+  }
+}

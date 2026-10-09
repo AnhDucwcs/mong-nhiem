@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 261, "raw_response": "ACTION: INSPECT acc_alpha_29.balance", "action_key": "INSPECT:acc_alpha_29.balance", "observation": "2450", "is_rollback": false, "latency_ms": 274.3748000011692}
+{"turn_index": 2, "prompt_tokens": 265, "raw_response": "ACTION: DISPATCH transfer acc_alpha_29,acc_beta_29,179", "action_key": "DISPATCH:transfer:acc_alpha_29,acc_beta_29,179", "observation": "TRANSFER_COMMITTED balance_acc_beta_29=959", "is_rollback": false, "latency_ms": 377.7215999998589}
+{"turn_index": 3, "prompt_tokens": 284, "raw_response": "ACTION: RESOLVE acc_beta_29:959", "action_key": "RESOLVE:acc_beta_29:959", "observation": "TASK_RESOLVED", "is_rollback": false, "latency_ms": 329.7672999997303}

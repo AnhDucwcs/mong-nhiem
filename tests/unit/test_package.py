@@ -26,3 +26,37 @@ def test_context_subsystem_imports() -> None:
     sliced = slice_codebase(code, target_function="target")
     assert "def target():" in sliced
 
+
+def test_orchestration_subsystem_imports() -> None:
+    from mong_nhiem.orchestration import (
+        ActionType,
+        AffordanceSpec,
+        BaseAffordanceProvider,
+        CircuitBreaker,
+        CircuitBreakerStatus,
+        CognitiveOrchestrator,
+        ContextRewindManager,
+        DeclarativeAffordanceEngine,
+        DynamicGBNFCompiler,
+        Memento,
+        MementoStack,
+        OrchestratorResult,
+        PhaseGate,
+        ToolAction,
+        TurnRecord,
+        format_action,
+        format_affordance_prior,
+        parse_action,
+    )
+
+    spec = AffordanceSpec(reads=["doc1"], dispatches=[("fetch", "key")])
+    gbnf = DynamicGBNFCompiler.compile(spec)
+    assert "read-action" in gbnf
+    assert "fetch key" in gbnf
+
+    stack = MementoStack()
+    stack.push(turn_index=0, state={"status": "init"})
+    assert len(stack) == 1
+    assert stack.pop().state == {"status": "init"}
+
+
