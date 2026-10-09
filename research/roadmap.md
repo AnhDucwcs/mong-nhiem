@@ -155,19 +155,38 @@ Track: **NCC Phase 4 (Dynamic Affordance & Cognitive Orchestration).**
    - Packaged into domain-agnostic `src/mong_nhiem/orchestration/` (100% Python standard library).
    - Added 14 unit and stress tests in `tests/unit/test_orchestration.py` (441/441 test suite passes).
    - Validated across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`), achieving 100.0% cross-model accuracy (15/15 PASS per subject) and sub-second turn latency.
-4. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (122 files). Advances roadmap to MN-016 (Stateful Simulated Microworld Evolution).
+4. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (122 files). Advances roadmap to MN-016 (Episodic Memory & Long-Horizon Event Consolidation).
 
-## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
+## MN-016 — Episodic Memory & Long-Horizon Event Consolidation
 
-Status: **ultimate benchmark / long-horizon destination.**  
-Track: **NCC Phase 5 (Full Stateful World Continuity).**
+Status: **completed and verified prototype. Gate D criteria satisfied.**  
+Track: **NCC Phase 5 (Long-Horizon Continuity & Archival Memory).**
 
-1. **Ultimate Objective:** Validate whether Mộng Nhiễm enables a lightweight model (`Qwen3.5-2B`) to sustain, evolve, and reliably govern a multi-entity simulated world across extended discrete time horizons ($T \ge 20-50$ steps).
-2. **Evaluation Protocol:**
-   - An authoritative, discrete simulated microworld (locations, entities, inventories, physics/causal invariants).
-   - Zero hallucinated state transitions, zero conservation-law breaches, and zero memory leaks.
-3. **Incremental Gating & Failure Isolation Philosophy:**
-   - Intermediate stepping stones (MN-012 Tool Memory, MN-013 Backtracking, MN-014 Grammar Decoding) methodically isolate and solve each cognitive and architectural failure mode before scaling to the full world simulation.
+1. **Strategic Intent & Outcome:**
+   - Overcame Historical Amnesia across extended discrete horizons ($T = 20-50$ steps) via host-authoritative episodic logging and AutoDream consolidation under strict $\le 512$ token bounds.
+   - Achieved 100.0% task resolution (40/40) on `Qwen3.5-2B`, remediating 100% of FIFO amnesia failures (+100.0% delta) with 0 memory contradictions, 0 ceiling violations (max: 334, mean: 111.0 tokens), and 64.9 ms latency.
+2. **Core Architectural Pillars:**
+   - **Host Episodic Store:** Immutable append-only event log with SHA-256 provenance hashes and monotonic causal replay.
+   - **Autonomous Dual-Trigger Gates:** Machine ticks ($\Delta T \ge 25$) and mutation flux ($M \ge 10$) combined with Emergency Context Budget Pressure Interceptor ($\ge 400$ tokens).
+   - **4-Phase Consolidation Lifecycle:** Orient $\rightarrow$ Gather $\rightarrow$ Consolidate $\rightarrow$ Prune & Index ($\le 128$ tokens).
+   - **Episodic Recall Affordances:** Demand-driven retrieval via dynamic GBNF-governed `ACTION: RECALL <entity_id>` delivering compact Fact Cards ($\le 48$ tokens).
+3. **Gate D Disposition:** Verified and closed under Decision 2026-10-09. Code quarantined in prototype directory per governance rules; transition to MN-017 authorized.
+
+## MN-017 — Dynamic World Ticks & Hierarchical Planning
+
+Status: **active / next implementation milestone.**  
+Track: **NCC Phase 6 (Environmental Concurrency & Autonomous Planning).**
+
+1. **Environmental Dynamics:** Introduce independent environment state transitions ("World Ticks") where entities mutate asynchronously outside of agent intervention.
+2. **Hierarchical Goal Decomposition:** High-level planning layer structuring multi-phase missions into discrete sub-goals, preventing Goal Divergence and Horizon Jumping identified in MN-012.
+
+## North Star Horizon: MN-Final (MN-018) — Stateful Simulated Microworld Evolution
+
+Status: **ultimate benchmark / project closure destination.**  
+Track: **NCC Final Synthesis (Full World Continuity & Coexistence).**
+
+1. **Ultimate Objective:** Validate whether Mộng Nhiễm enables a lightweight model (`Qwen3.5-2B`) to sustain, evolve, and reliably govern a multi-entity simulated world across extended discrete time horizons ($T \ge 50-100$ steps) with zero state hallucinations, zero conservation-law breaches, and verified local workload coexistence.
+2. **Full System Convergence:** Scaffolding (MN-009) + Working Set (MN-010) + Backtracking (MN-013) + GBNF (MN-014) + Affordance Steering (MN-015) + Episodic Memory (MN-016) + World Engine & Planning (MN-017).
 
 
 
