@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 265, "raw_response": "ACTION: READ calculate_tax_10", "action_key": "READ:calculate_tax_10", "observation": "def calculate_tax_10(amount):\n    rate = 20\n    return rate", "is_rollback": false, "latency_ms": 264.3977999996423}
+{"turn_index": 2, "prompt_tokens": 286, "raw_response": "ACTION: DISPATCH refactor_calculate_tax_10 rate=40", "action_key": "DISPATCH:refactor_calculate_tax_10:rate=40", "observation": "MUTATION_SUCCESS calculate_tax_10 updated (rate=40)", "is_rollback": false, "latency_ms": 330.1257999992231}
+{"turn_index": 3, "prompt_tokens": 290, "raw_response": "ACTION: RESOLVE 40", "action_key": "RESOLVE:40", "observation": "TASK_RESOLVED", "is_rollback": false, "latency_ms": 249.4265000004816}

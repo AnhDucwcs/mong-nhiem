@@ -229,18 +229,36 @@ MN-014 is complete and closed under Gate D disposition review (`gate-d-dispositi
 
 ---
 
+## MN-015 — Dynamic Affordance Constrained Decoding & Dual-Layer Steering — completed and closed (quarantined prototype, dual-layer standard proven)
+
+MN-015 is complete and closed under Gate D disposition review (`gate-d-disposition-review.md`):
+
+1. **Gate A Charter & Hypotheses:** Formulated $H_1$ (Efficacy Surge $\ge 85.0\%$), $H_2$ (Zero Deadlock Cycles), and $H_3$ (Prompt Budget $\le 512$ tokens, sub-second latency).
+2. **Gate B Measurement Contract:** Frozen at `gate-b-contract.md`. 60-case benchmark evaluated across 2 matched arms on Track 1 (Simulator) and Track 2 (Real Model Inference on `Qwen3.5-2B-Q4_K_M.gguf` via `llama-server.exe`).
+3. **Dual-Freeze Commit Lifecycle:**
+   - Pre-run manifest sealed under `definition/pre-run-freeze-manifest.json` (Commit `9908575`, 16 files hashed).
+   - Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (122 files hashed including all raw JSONL runs, audit trails, and execution reports).
+4. **Gate C Empirical Findings:**
+   - **Flawless Task Resolution ($H_1$ Strongly Confirmed):** Exactly **100.0% (60/60 PASS)** achieved across the entire benchmark. Domain A reached 20/20 (100.0%), Domain B reached 20/20 (100.0%), and Domain C surged from 15.0% in MN-014 to **20/20 (100.0%)** (+85.0% absolute gain).
+   - **Complete Deadlock Elimination ($H_2$ Strongly Confirmed):** Circuit-breaker tripped deadlocks dropped from 15 in MN-014 to **exactly 0 (0.0%)**.
+   - **Adversarial Trap Recovery Efficacy:** Exactly **30/30 (100.0%)** trap cases resolved cleanly with 1 host rollback per trap and zero false rollbacks on non-trap cases.
+   - **Zero Parse Failures & Hard Budget Compliance ($H_3$ Confirmed):** Exactly **0.0% parse failures** (0/216 turns) and **100.0% prompt compliance** ($\le 512$ tokens, Max: 396, Mean: 318.5). Mean turn latency was **329.37 ms** (< 1000 ms SLA).
+5. **Gate D Disposition Review:** Formally closed at `quarantined_prototype_dual_layer_affordance_proven`. Ratifies Dual-Layer Affordance Steering as an authoritative standard (ADR-0015). Code remains strictly quarantined in prototype directory. Directs forward transition to MN-016 (Stateful Simulated Microworld Evolution).
+
+---
+
 ## Active Transition & Next Research Tracks
 
 1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Reaffirmed as the canonical Primary Research Subject for forward milestones on local `llama.cpp` runtime.
-2. **Cognitive Orchestration Synthesis (MN-010 through MN-014):**
+2. **Cognitive Orchestration Synthesis (MN-010 through MN-015):**
    - MN-010 established iterative multi-hop retrieval ($B \le 512$).
    - MN-011 established the optimal working set frontier ($B^* \approx 512$ tokens).
    - MN-012 established the dual-tier L1/L2 memory partition and action grammar.
-   - MN-013 proved external host backtracking, Memento rollback, and negative masking can enable a 2B model to achieve 100% trap recovery on multi-branch stateful workflows.
-   - MN-014 proved native GBNF grammar decoding eliminates 100% of formatting collapses, boosting task completion by +21.7% with sub-second turn latency.
-3. **Successor Milestone Priorities — MN-015 & North Star Horizon:**
-   - **MN-015 (Dynamic Affordance Constrained Decoding & Dual-Layer Steering):** Direction established in [MN-015 Direction Memo](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md). Combines prompt-level attention priors ($\le 20$ tokens) with engine-level dynamic GBNF logit masking ($O(1)$, $< 0.1\text{ ms}$) to resolve multi-branch combinatorial search exhaustion.
-   - **MN-Final (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 20-50$ steps) with zero state hallucinations.
+   - MN-013 proved external host backtracking, Memento rollback, and negative masking achieve 100% trap recovery on multi-branch stateful workflows.
+   - MN-014 proved native GBNF grammar decoding eliminates 100% of formatting collapses.
+   - MN-015 proved Dual-Layer Affordance Steering (attention priors + dynamic GBNF logit masking) eliminates 100% of deadlocks and surges overall task completion to 100.0% (60/60 cases).
+3. **Successor Milestone Priorities — MN-016 & North Star Horizon:**
+   - **MN-016 / MN-Final (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 20-50$ steps) with zero state hallucinations.
    - **Decision Model & Specialized Sub-Agents:** Investigating specialized micro-models for distinct cognitive OS sub-tasks (planner, verifier, executor) within the Mộng Nhiễm architecture.
 
 

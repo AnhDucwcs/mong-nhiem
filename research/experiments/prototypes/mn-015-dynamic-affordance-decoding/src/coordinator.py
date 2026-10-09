@@ -222,6 +222,7 @@ class Coordinator:
         all_under_budget = True
         total_latency_ms = 0.0
         rejected_actions: Set[str] = set()
+        executed_actions: Set[str] = set()
 
         for turn_idx in range(1, self.max_turns + 1):
             state_summary = self._summarize_state(current_env, domain)
@@ -234,6 +235,7 @@ class Coordinator:
                 rejected_actions=rejected_actions,
                 target_predicate=target_predicate,
                 turn_index=turn_idx,
+                executed_actions=executed_actions,
             )
 
             # Arm-dependent steering configuration
@@ -347,6 +349,7 @@ class Coordinator:
             success, obs = self._execute_tool(action, current_env, domain)
 
             if success:
+                executed_actions.add(action.action_key)
                 latest_observation = obs
                 context_mgr.record_success(format_action(action), obs)
                 turns.append(TurnRecord(

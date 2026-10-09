@@ -27,6 +27,7 @@ class AffordanceEngine:
         rejected_actions: Set[str],
         target_predicate: Optional[Dict[str, Any]] = None,
         turn_index: int = 1,
+        executed_actions: Optional[Set[str]] = None,
     ) -> Affordances:
         """Calculate currently active affordances.
         
@@ -37,10 +38,14 @@ class AffordanceEngine:
             rejected_actions: Set of action_key strings rejected in prior rollbacks
             target_predicate: Goal specification predicate
             turn_index: Current execution turn index (1-based)
+            executed_actions: Set of action_key strings successfully executed in prior turns
             
         Returns:
             Affordances object containing valid reads, inspects, dispatches, and resolves.
         """
+        if executed_actions is None:
+            executed_actions = set()
+
         affordances = Affordances()
 
         # Check if target predicate is currently satisfied
@@ -58,15 +63,15 @@ class AffordanceEngine:
 
         # 2. Domain-specific active affordances
         if domain == "code_mutation":
-            self._compute_code_affordances(affordances, env, query, rejected_actions, turn_index, target_predicate)
+            self._compute_code_affordances(affordances, env, query, rejected_actions, executed_actions, turn_index, target_predicate)
         elif domain == "resource_ledger":
-            self._compute_ledger_affordances(affordances, env, query, rejected_actions, turn_index)
+            self._compute_ledger_affordances(affordances, env, query, rejected_actions, executed_actions, turn_index)
         elif domain == "system_registry":
-            self._compute_registry_affordances(affordances, env, query, rejected_actions, turn_index)
+            self._compute_registry_affordances(affordances, env, query, rejected_actions, executed_actions, turn_index)
 
         # Fallback if no specific affordance was found
         if affordances.is_empty():
-            self._compute_generic_fallback(affordances, domain, env)
+            self._compute_generic_fallback(affordances, domain, env, rejected_actions, executed_actions)
 
         return affordances
 
@@ -96,6 +101,7 @@ class AffordanceEngine:
         env: Dict[str, Any],
         query: str,
         rejected_actions: Set[str],
+        executed_actions: Set[str],
         turn_index: int,
         target_predicate: Optional[Dict[str, Any]] = None,
     ) -> None:
@@ -121,7 +127,7 @@ class AffordanceEngine:
         if turn_index == 1:
             for f in sorted(funcs.keys()):
                 read_key = f"READ:{f}"
-                if read_key not in rejected_actions:
+                if read_key not in rejected_actions and read_key not in executed_actions:
                     affordances.reads.append(f)
 
         # DISPATCH candidates: prioritize primary before trap, or alt after trap
@@ -156,43 +162,57 @@ class AffordanceEngine:
         env: Dict[str, Any],
         query: str,
         rejected_actions: Set[str],
+        executed_actions: Set[str],
         turn_index: int,
     ) -> None:
         accs = env.get("accounts", {})
 
-        # Extract transfer parameters: src, dst, amount
-        # e.g., "Transfer 100 to demo_dst. Try demo_primary first, else backup demo_secondary"
+        # Subtype A: Standard transfer query with inspection
+        # e.g., "Inspect balance of acc_alpha_21, transfer 171 from acc_alpha_21 to acc_beta_21, and resolve final balance of acc_beta_21."
+        inspect_match = re.search(r"[Ii]nspect balance of (acc_[a-z0-9_]+)", query)
+        if inspect_match:
+            inspect_acc = inspect_match.group(1)
+            inspect_target = f"{inspect_acc}.balance"
+            inspect_key = f"INSPECT:{inspect_target}"
+            if inspect_key not in executed_actions and inspect_key not in rejected_actions:
+                affordances.inspects.append(inspect_target)
+
+        # Subtype B: Transfer parameters: amount, destination, candidate sources
         amt_match = re.search(r"[Tt]ransfer (\d+)", query)
         amt = int(amt_match.group(1)) if amt_match else 50
 
-        dst_match = re.search(r"to (acc_\w+|demo_\w+)", query)
-        dst = dst_match.group(1) if dst_match else "acc_target"
+        dst_match = re.search(r"to (acc_[a-z0-9_]+)", query)
+        dst = dst_match.group(1) if dst_match else ""
 
-        # Candidate sources in query or env
+        # Extract candidate sources in order of appearance
+        all_accs = re.findall(r"acc_[a-z0-9_]+", query)
         sources: List[str] = []
-        src_matches = re.findall(r"(acc_vault_[a-z0-9_]+|demo_[a-z0-9_]+)", query)
-        for s in src_matches:
-            if s != dst and s not in sources:
-                sources.append(s)
+        for a in all_accs:
+            if a != dst and a not in sources:
+                sources.append(a)
 
-        for s in sorted(accs.keys()):
-            if s != dst and s not in sources:
-                sources.append(s)
+        # Fallback to env accounts if none found in query
+        if not sources:
+            for a in sorted(accs.keys()):
+                if a != dst and a not in sources:
+                    sources.append(a)
 
-        # READ balance
-        if turn_index == 1 and not rejected_actions:
-            for acc in sorted(accs.keys()):
-                read_key = f"READ:balance_{acc}"
-                if read_key not in rejected_actions:
-                    affordances.reads.append(f"balance_{acc}")
+        # If backup vault needs inspection after primary failure
+        if len(sources) > 1 and rejected_actions:
+            backup_acc = sources[1]
+            b_inspect_target = f"{backup_acc}.balance"
+            b_inspect_key = f"INSPECT:{b_inspect_target}"
+            if b_inspect_key not in executed_actions and b_inspect_key not in rejected_actions:
+                affordances.inspects.append(b_inspect_target)
 
-        # DISPATCH transfer
         for src in sources:
+            if not dst:
+                continue
             payload = f"{src},{dst},{amt}"
             action_key = f"DISPATCH:transfer:{payload}"
 
             # Filter out rejected transfers
-            if action_key in rejected_actions or any(src in rej for rej in rejected_actions):
+            if action_key in rejected_actions:
                 continue
 
             affordances.dispatches.append(("transfer", payload))
@@ -203,53 +223,62 @@ class AffordanceEngine:
         env: Dict[str, Any],
         query: str,
         rejected_actions: Set[str],
+        executed_actions: Set[str],
         turn_index: int,
     ) -> None:
         svcs = env.get("services", {})
         locked_svcs = set(env.get("locked_services", []))
 
-        # Check for standard config queries
+        # Subtype A: Standard configuration queries
         # e.g., "Inspect status of svc_gateway_41, dispatch configuration update svc_gateway_41:log_level=VERBOSE"
         config_match = re.search(r"(svc_[a-z0-9_]+):([a-z_]+)=([A-Z0-9_]+)", query)
         if config_match:
             svc_name, key, val = config_match.groups()
+            inspect_target = f"{svc_name}.status"
+            inspect_key = f"INSPECT:{inspect_target}"
             action_key = f"DISPATCH:set_config:{svc_name},{key},{val}"
 
-            if turn_index == 1 and not rejected_actions:
-                affordances.inspects.append(f"{svc_name}.status")
+            if inspect_key not in executed_actions and inspect_key not in rejected_actions:
+                affordances.inspects.append(inspect_target)
 
             if action_key not in rejected_actions:
                 affordances.dispatches.append(("set_config", f"{svc_name},{key},{val}"))
             return
 
-        # Check for mutual exclusion trap queries
-        # e.g., "Attempt svc_worker_a_51:AGGRESSIVE_PARALLEL first. If rejected due to lock conflict, rollback and activate svc_worker_b_51:CONSERVATIVE_PIPELINE"
-        pairs = re.findall(r"(svc_[a-z0-9_]+):([A-Z0-9_]+)", query)
-        if pairs:
-            for svc_name, mode in pairs:
-                action_key = f"DISPATCH:activate_service:{svc_name},{mode}"
+        # Subtype B: Mutual exclusion trap queries
+        # e.g., "Activate high-throughput processing. Attempt svc_worker_a_51:AGGRESSIVE_PARALLEL first. If rejected due to lock conflict, rollback and activate svc_worker_b_51:CONSERVATIVE_PIPELINE"
+        attempt_match = re.search(r"[Aa]ttempt (svc_[a-z0-9_]+):([A-Z0-9_]+) first", query)
+        alt_match = re.search(r"activate (svc_[a-z0-9_]+):([A-Z0-9_]+)", query)
 
-                # If this specific activation was rejected, filter it out
-                if action_key in rejected_actions or any(svc_name in rej for rej in rejected_actions):
-                    continue
+        if attempt_match:
+            primary_svc, primary_mode = attempt_match.groups()
+            primary_action = f"DISPATCH:activate_service:{primary_svc},{primary_mode}"
 
-                # If service is currently locked and we've already had a rollback, filter it out
-                if svc_name in locked_svcs and rejected_actions:
-                    continue
+            if primary_action not in rejected_actions:
+                affordances.dispatches.append(("activate_service", f"{primary_svc},{primary_mode}"))
+                if alt_match:
+                    alt_svc, alt_mode = alt_match.groups()
+                    affordances.dispatches.append(("activate_service", f"{alt_svc},{alt_mode}"))
+                return
+            elif alt_match:
+                alt_svc, alt_mode = alt_match.groups()
+                alt_inspect = f"{alt_svc}.status"
+                alt_inspect_key = f"INSPECT:{alt_inspect}"
+                alt_action = f"DISPATCH:activate_service:{alt_svc},{alt_mode}"
 
-                # Add inspect
-                inspect_target = f"{svc_name}.status"
-                if f"INSPECT:{inspect_target}" not in rejected_actions:
-                    affordances.inspects.append(inspect_target)
+                if alt_inspect_key not in executed_actions and alt_inspect_key not in rejected_actions:
+                    affordances.inspects.append(alt_inspect)
 
-                # Add dispatch
-                affordances.dispatches.append(("activate_service", f"{svc_name},{mode}"))
-            return
+                if alt_action not in rejected_actions:
+                    affordances.dispatches.append(("activate_service", f"{alt_svc},{alt_mode}"))
+                return
 
         # Generic registry fallback
         for svc in sorted(svcs.keys()):
             if svc not in locked_svcs:
-                affordances.inspects.append(f"{svc}.status")
+                inspect_target = f"{svc}.status"
+                if f"INSPECT:{inspect_target}" not in executed_actions and f"INSPECT:{inspect_target}" not in rejected_actions:
+                    affordances.inspects.append(inspect_target)
                 affordances.dispatches.append(("activate_service", f"{svc},ACTIVE"))
 
     def _compute_generic_fallback(
@@ -257,13 +286,20 @@ class AffordanceEngine:
         affordances: Affordances,
         domain: str,
         env: Dict[str, Any],
+        rejected_actions: Set[str],
+        executed_actions: Set[str],
     ) -> None:
         if domain == "code_mutation":
             for f in sorted(env.get("functions", {}).keys()):
-                affordances.reads.append(f)
+                if f"READ:{f}" not in executed_actions and f"READ:{f}" not in rejected_actions:
+                    affordances.reads.append(f)
         elif domain == "resource_ledger":
             for acc in sorted(env.get("accounts", {}).keys()):
-                affordances.reads.append(f"balance_{acc}")
+                target = f"{acc}.balance"
+                if f"INSPECT:{target}" not in executed_actions and f"INSPECT:{target}" not in rejected_actions:
+                    affordances.inspects.append(target)
         elif domain == "system_registry":
             for s in sorted(env.get("services", {}).keys()):
-                affordances.inspects.append(f"{s}.status")
+                target = f"{s}.status"
+                if f"INSPECT:{target}" not in executed_actions and f"INSPECT:{target}" not in rejected_actions:
+                    affordances.inspects.append(target)
