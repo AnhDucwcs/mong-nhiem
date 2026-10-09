@@ -39,7 +39,10 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 | **MN-009** | Scoped Context Delivery Engine | NCC Phase 1 | **Promoted** | 100% causal remedy on ECC-006, 100% injection immunity, and 22.9x downstream latency reduction. |
 | **MN-010** | Iterative Context Working Set Loop | NCC Phase 2 | **Promoted** | 100% multi-hop resolution (30/30 vs 0/30 baseline), 100% budget adherence ($\le 512$ tokens), circuit breaker safety. |
 | **MN-011** | Scaffolding-Assisted Context Frontier | ECC Reactivation | **Completed** | Proved $B^* \approx 512$ capacity-efficiency peak ($H_1$), 100% causal restoration on ECC-007 ($H_2$), and $60\times$ conversion advantage ($H_3$). |
-| **MN-012** | Hierarchical Tool & Memory Integration | NCC Phase 3 | **Scheduled** | Bridge iterative coordination with structured tool calling and persistent memory partitioning. |
+| **MN-012** | Hierarchical Tool & Memory Integration | NCC Phase 3 | **Closed (Pivoted)** | Validated dual-tier memory; unassisted models suffer Horizon Jumping; activated pivoting gate. |
+| **MN-013** | Backtracking & Error Self-Correction | NCC Phase 4 | **Closed (Quarantined)** | Achieved 100% trap recovery on resource contention via Memento rollback; proved amnesia deadlock on unguided rewind. |
+| **MN-014** | Grammar-Constrained Decoding | NCC Phase 4 | **Active** | Native GBNF engine-level logit masking on llama-server to eliminate formatting token collapse and whitespace fragility. |
+
 
 ---
 
