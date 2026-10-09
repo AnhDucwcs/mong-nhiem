@@ -1,0 +1,23 @@
+{
+  "milestone": "MN-015",
+  "stage": "pre",
+  "timestamp_utc": "2026-10-09T10:11:37.864314+00:00",
+  "files": {
+    "artifacts/models/mn-002/Qwen3.5-2B-Q4_K_M.gguf": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/definition/corpus-v1/cases.jsonl": "781ae28914227862da288c7663c6180230283d44e9763975b6df98abfbc3d297",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/definition/corpus-v1/manifest.json": "851a70f07778f9c9cfc48e568a14341d0f01233bdf1083e1be771d9a22904512",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/scripts/mn015_executor.py": "3130d58358f1ec7bcc28f8e6c4dc640decb063381e0c611ebd16397595912529",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/affordance_engine.py": "c136512b09808ec583f1dbba05401dd98e9ba31c2e1baf10d33a25f5fc50bbff",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/circuit_breaker.py": "941f98a4396c06320e1aced0b3d2b68f227dda11028509c2ebf22d7e0da85bc3",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/context_rewind.py": "a3c1eaf0ae6f6aaee0b92bed21b98d2a78c8fd3e956e0cafe9f6293bb52e459c",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/coordinator.py": "728fbfcfaa79085d03f5ee13e03b98dbecdb789273e139eab46be73e6f3dfb8e",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/dynamic_gbnf.py": "4276d8a05a3a8ca811ff2f145e6ed87aa0b86eaf830c697df12b8936f96ef0d5",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/gbnf_client.py": "e5a9a1002913feeb433b512f6346780872ef221c75504e100d2ea75c1037c719",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/memento_stack.py": "04c93909a3996db4eaec49f017a59538961dced047d5b35b43b02cf1ac2ec899",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/phase_gate.py": "f7962e5d6101adb777eea730b0f7f6475d44c9c1fe44cd594174150a826b5972",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/src/protocol.py": "6ae792bf014443994b2aab670642d0418ff7368e3fa665ef3c7d85f63eabf0f6",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/tests/test_affordance_engine.py": "b361f79b64643861f15e26ec442f3a1d3b81261a005835c016aeff5489d1a045",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/tests/test_coordinator.py": "dc5349683d71d1996dac88cf0602b81f7138341dbccd8c255c072220ea06ccad",
+    "research/experiments/prototypes/mn-015-dynamic-affordance-decoding/tests/test_dynamic_gbnf.py": "892390a622447f2c8a2b79582ecd185bbe76f29a03688d3a35abb0a4f60cda04"
+  }
+}
