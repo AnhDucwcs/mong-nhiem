@@ -34,7 +34,7 @@ class LlamaServerClient:
         use_grammar: bool = True,
         stop_sequences: Optional[list] = None,
     ) -> Dict[str, Any]:
-        """Execute completion request with optional GBNF grammar constraint."""
+        url = f"http://{self.host}:{self.port}/completion"
         if stop_sequences is not None:
             stops = stop_sequences
         elif use_grammar:
