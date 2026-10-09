@@ -260,7 +260,7 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      - `Llama-3.2-3B-Instruct-Q4_K_M`: **15/15 PASS (100.0%)**, 315.3 ms mean turn latency.
      - `Qwen3-4B-Q4_K_M`: **15/15 PASS (100.0%)**, 426.6 ms mean turn latency.
    - All models achieved 100.0% task resolution, 100% trap recovery, and 0 deadlock cycles.
-7. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Directs forward transition to MN-016 (Stateful Simulated Microworld Evolution).
+7. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Directs forward transition to MN-016 (Episodic Memory & Long-Horizon Event Consolidation).
 
 ---
 
@@ -274,9 +274,10 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
    - MN-013 proved external host backtracking, Memento rollback, and negative masking achieve 100% trap recovery on multi-branch stateful workflows.
    - MN-014 proved native GBNF grammar decoding eliminates 100% of formatting collapses.
    - MN-015 proved Dual-Layer Affordance Steering (attention priors + dynamic GBNF logit masking) eliminates 100% of deadlocks and surges overall task completion to 100.0% (60/60 cases).
-3. **Successor Milestone Priorities — MN-016 & North Star Horizon:**
-   - **MN-016 / MN-Final (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 20-50$ steps) with zero state hallucinations.
-   - **Decision Model & Specialized Sub-Agents:** Investigating specialized micro-models for distinct cognitive OS sub-tasks (planner, verifier, executor) within the Mộng Nhiễm architecture.
+3. **Successor Milestone Priorities — Roadmap Bridge to North Star:**
+   - **MN-016 (Episodic Memory & Long-Horizon Event Consolidation):** Overcoming Historical Amnesia across extended discrete horizons ($T \ge 20-50$ steps) via host episodic logging and Autodream consolidation under strict $\le 512$ token bounds.
+   - **MN-017 (Dynamic World Ticks & Hierarchical Planning):** Asynchronous environmental state transitions and high-level goal decomposition to prevent Goal Divergence.
+   - **MN-Final / MN-018 (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 50-100$ steps) with zero state hallucinations and local workload coexistence SLA.
 
 
 
