@@ -32,7 +32,7 @@ def test_coordinator_trap_recovery_arm2():
         step[0] += 1
         if "REJECTED: DISPATCH:transfer:acc_vault_a,acc_treasury,300" in prompt:
             # Model observes negative constraint and picks alternative vault_b
-            if "TRANSFER_COMMITTED" in prompt:
+            if "TRANSFER_COMMITTED balance_acc_treasury=400" in prompt:
                 return "ACTION: RESOLVE acc_treasury:400", 10.0
             return "ACTION: DISPATCH transfer acc_vault_b,acc_treasury,300", 10.0
 

@@ -35,8 +35,12 @@ class LlamaServerClient:
         stop_sequences: Optional[list] = None,
     ) -> Dict[str, Any]:
         """Execute completion request with optional GBNF grammar constraint."""
-        url = f"http://{self.host}:{self.port}/completion"
-        stops = stop_sequences or ["\n\n", "User:", "Task:", "Directive:"]
+        if stop_sequences is not None:
+            stops = stop_sequences
+        elif use_grammar:
+            stops = ["\n", "\n\n", "User:", "Task:", "Directive:"]
+        else:
+            stops = ["\n\n", "User:", "Task:", "Directive:"]
 
         payload_dict: Dict[str, Any] = {
             "prompt": prompt,

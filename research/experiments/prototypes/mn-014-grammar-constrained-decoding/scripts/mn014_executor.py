@@ -151,7 +151,7 @@ def run_benchmark(
         session = LlamaServerSession()
         session.start()
 
-    packer = ContextPacker(budget_tokens=512)
+    packer = ContextPacker(max_budget=512)
 
     def token_counter(text: str) -> int:
         return packer.count_tokens(text)

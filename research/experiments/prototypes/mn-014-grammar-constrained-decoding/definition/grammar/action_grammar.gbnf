@@ -1,7 +1,7 @@
 # Canonical GBNF Action Grammar for MN-014
 # Enforces strictly conforming tool interaction for sub-4B models in llama.cpp
 
-root ::= action
+root ::= action ("\n" | "")
 
 action ::= "ACTION: " ( read-action | inspect-action | dispatch-action | resolve-action )
 

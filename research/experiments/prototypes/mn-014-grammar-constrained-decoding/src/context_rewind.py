@@ -18,7 +18,7 @@ class ContextRewindManager:
 
     def record_success(self, action_str: str, observation: str) -> None:
         """Append a validated successful turn interaction."""
-        self._successful_turns.append(f"Action: {action_str}\nObservation: {observation}")
+        self._successful_turns.append(f"{action_str} -> {observation}")
         self._active_negative_directive = None  # Clear negative directive upon forward progress
 
     def rewind(self, negative_directive: Optional[str] = None) -> None:
@@ -37,17 +37,23 @@ class ContextRewindManager:
         latest_observation: str = "None",
     ) -> str:
         """Construct per-turn prompt ensuring working context <= 512 tokens."""
-        sections = [system_prompt, f"=== ENVIRONMENT STATE (L2) ===\n{state_summary}"]
+        sections = [
+            system_prompt,
+            f"Task: {task_query}",
+        ]
+        if state_summary:
+            sections.append(f"State: {state_summary}")
 
         if self._successful_turns:
-            hist_str = "\n".join(self._successful_turns[-2:])  # Bounded to last 2 successful turns
-            sections.append(f"=== PROGRESS HISTORY ===\n{hist_str}")
+            hist_str = " | ".join(self._successful_turns[-2:])
+            sections.append(f"Recent History: {hist_str}")
+        else:
+            sections.append("Recent History: None")
 
-        sections.append(f"Latest Observation:\n{latest_observation}")
+        sections.append(f"Latest Observation: {latest_observation}")
 
-        # Recency ordering: Constraint placed right before Directive
         if self._active_negative_directive:
-            sections.append(f"Constraint:\n{self._active_negative_directive}")
+            sections.append(f"Constraint: {self._active_negative_directive}")
 
-        sections.append(f"Task:\n{task_query}\n\nDirective:\nACTION:")
-        return "\n\n".join(sections)
+        sections.append("Directive:")
+        return "\n\n".join(sections) + "\n"

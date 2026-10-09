@@ -20,14 +20,30 @@ from memento_stack import MementoStack
 from phase_gate import PhaseGateInterceptor
 from protocol import ActionType, ToolAction, format_action, format_negative_directive, parse_action
 
-SYSTEM_PROTOCOL_PROMPT = """You are an autonomous systems agent operating in a stateful environment.
-You must emit EXACTLY ONE action directive per turn using this strict protocol:
-- To inspect a function: ACTION: READ <function_id>
-- To inspect state properties: ACTION: INSPECT <entity_id>.<property>
-- To dispatch an action: ACTION: DISPATCH <tool_name> <payload>
-- To conclude and resolve task: ACTION: RESOLVE <final_answer>
-
-Never generate explanations, preamble, or markdown blocks. Emit ONLY the ACTION line."""
+SYSTEM_PROTOCOL_PROMPT = (
+    "You are a stateful tool execution agent. Follow protocol strictly:\n"
+    "Rule 1: If Observation is None, or if an action was REJECTED, DISPATCH or READ the required tool action. NEVER resolve before committing.\n"
+    "Rule 2: ONLY after observing the required property or receiving MUTATION_SUCCESS, TRANSFER_COMMITTED, or SERVICE_ACTIVATED, RESOLVE the final value.\n\n"
+    "Example 1 (Turn 1 start):\n"
+    "Task: Transfer 50 from demo_src to demo_dst and resolve balance of demo_dst.\n"
+    "Recent History: None\n"
+    "Latest Observation: None\n"
+    "Directive:\n"
+    "ACTION: DISPATCH transfer demo_src,demo_dst,50\n\n"
+    "Example 2 (Turn 2 recovery after rejection):\n"
+    "Task: Transfer 200 to demo_dst. Try demo_primary first, else backup demo_secondary.\n"
+    "Recent History: None\n"
+    "Latest Observation: ROLLBACK_COMMITTED: Restored turn 1. REJECTED: DISPATCH:transfer:demo_primary,demo_dst,200 (INSUFFICIENT_FUNDS). Do NOT repeat this action. Choose an alternative step.\n"
+    "Constraint: REJECTED: DISPATCH:transfer:demo_primary,demo_dst,200. Do NOT use demo_primary.\n"
+    "Directive:\n"
+    "ACTION: DISPATCH transfer demo_secondary,demo_dst,200\n\n"
+    "Example 3 (Final turn resolve):\n"
+    "Task: Transfer 200 to demo_dst.\n"
+    "Recent History: ACTION: DISPATCH transfer demo_secondary,demo_dst,200 -> TRANSFER_COMMITTED balance_demo_dst=500\n"
+    "Latest Observation: TRANSFER_COMMITTED balance_demo_dst=500\n"
+    "Directive:\n"
+    "ACTION: RESOLVE demo_dst:500"
+)
 
 
 @dataclass
@@ -299,11 +315,16 @@ class GrammarBacktrackingCoordinator:
                 else:
                     # Action rejected / trap hit! Commit rollback
                     circuit_breaker.record_action(action.action_key, is_rejected=True)
-                    snapshot = stack.pop()
-                    current_env = copy.deepcopy(snapshot.state)
+                    if stack.depth > 1:
+                        snapshot = stack.pop()
+                    else:
+                        snapshot = stack.peek()
+                    if snapshot is not None:
+                        current_env = copy.deepcopy(snapshot.state)
+                    restore_turn = snapshot.turn_index if snapshot else 0
                     neg_dir = format_negative_directive(action.action_key, obs)
                     context_mgr.rewind(neg_dir)
-                    latest_observation = f"ROLLBACK_COMMITTED: Restored turn {snapshot.turn_index}. {neg_dir}"
+                    latest_observation = f"ROLLBACK_COMMITTED: Restored turn {restore_turn}. {neg_dir}"
                     rollback_count += 1
                     is_rollback_turn = True
 
