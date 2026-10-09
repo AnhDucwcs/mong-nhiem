@@ -41,7 +41,7 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 | **MN-011** | Scaffolding-Assisted Context Frontier | ECC Reactivation | **Completed** | Proved $B^* \approx 512$ capacity-efficiency peak ($H_1$), 100% causal restoration on ECC-007 ($H_2$), and $60\times$ conversion advantage ($H_3$). |
 | **MN-012** | Hierarchical Tool & Memory Integration | NCC Phase 3 | **Closed (Pivoted)** | Validated dual-tier memory; unassisted models suffer Horizon Jumping; activated pivoting gate. |
 | **MN-013** | Backtracking & Error Self-Correction | NCC Phase 4 | **Closed (Quarantined)** | Achieved 100% trap recovery on resource contention via Memento rollback; proved amnesia deadlock on unguided rewind. |
-| **MN-014** | Grammar-Constrained Decoding | NCC Phase 4 | **Active** | Native GBNF engine-level logit masking on llama-server to eliminate formatting token collapse and whitespace fragility. |
+| **MN-014** | Grammar-Constrained Decoding | NCC Phase 4 | **Closed (Standard Adopted)** | Native GBNF engine-level logit masking eliminated 100% parse failures; boosted task completion by +21.7% (55.0% vs 33.3%). Ratified ADR-0014. |
 
 
 ---
