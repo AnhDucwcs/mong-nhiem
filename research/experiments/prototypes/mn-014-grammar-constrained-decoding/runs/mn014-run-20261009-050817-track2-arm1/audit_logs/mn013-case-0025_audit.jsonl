@@ -1,0 +1,4 @@
+{"turn_index": 1, "prompt_tokens": 170, "action": "READ acc_alpha_25", "action_key": "INVALID:READ acc_alpha_25", "observation": "INVALID_ACTION_SYNTAX: READ acc_alpha_25", "is_rollback": false, "latency_ms": 179.04429999907734, "used_grammar": false}
+{"turn_index": 2, "prompt_tokens": 189, "action": "READ <function_id>", "action_key": "INVALID:READ <function_id>", "observation": "INVALID_ACTION_SYNTAX: READ <function_id>", "is_rollback": false, "latency_ms": 167.74069999883068, "used_grammar": false}
+{"turn_index": 3, "prompt_tokens": 192, "action": "RESOLVE 175", "action_key": "INVALID:RESOLVE 175", "observation": "INVALID_ACTION_SYNTAX: RESOLVE 175", "is_rollback": false, "latency_ms": 188.20690000029572, "used_grammar": false}
+{"turn_index": 4, "prompt_tokens": 189, "action": "RESOLVE 175", "action_key": "INVALID:RESOLVE 175", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 175.19549999997253, "used_grammar": false}

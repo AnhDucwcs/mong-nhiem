@@ -129,15 +129,28 @@ Track: **NCC Phase 4 (Autonomous Recovery).**
 
 ## MN-014 — Grammar-Constrained Decoding & Structured Cognitive Routing
 
-Status: **scheduled active milestone.**  
+Status: **completed and closed (quarantined prototype, GBNF standard adopted).**  
 Track: **NCC Phase 4 (Robust Action Synthesis).**
 
-1. **Core Objective:** Eliminate formatting token collapses and punctuation/whitespace sensitivity on sub-4B models (`Qwen3.5-2B`) via native GBNF (Grammar-Based Context-Free Grammar) decoding at the `llama-server` engine layer.
-2. **Core Mechanisms:**
-   - **Native GBNF Action Grammar:** Engine-level logit masking enforcing strictly valid action syntax (`ACTION: READ <target>`, `ACTION: DISPATCH <tool> <payload>`, `ACTION: RESOLVE <ans>`), completely eliminating regex parsing failures and malformed parameter concatenation.
-   - **Dynamic Affordance Filtering:** Injecting dynamic grammar rules or host-filtered candidate action lists to prevent the model from selecting unavailable tools.
-   - **Full Stack Integration (MN-010 + MN-012 + MN-013 + MN-014):** Coupling bounded context working set ($\le 512$ tokens), Host Memento state stack, Phase Gate validation, and GBNF grammar decoding to target $\ge 85\%$ end-to-end task completion across all 60 benchmark cases.
-3. **Pivoting Gate:** Evaluates whether GBNF grammar constraints eliminate all non-trap false rejections and elevate overall task completion to qualify for production promotion into `src/mong_nhiem/`.
+1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules and 60 benchmark cases (Domain A AST, Domain B Resource Ledger, Domain C System Registry) evaluated across 2 matched arms (Arm 1 Unconstrained Greedy vs Arm 2 GBNF Grammar Constrained) on `Qwen3.5-2B-Q4_K_M.gguf`. Pre-run freeze commits: `07c443e`, `9066b7e`, `9d12d13`.
+2. **Gate C Dual-Track Execution:**
+   - **Syntax Determinism ($H_1$ Supported):** Exactly 100% (197/197 turns) conformed to the Context-Free Grammar. Zero delimiter omissions, whitespace failures, or regex parsing errors.
+   - **Efficacy Surge (+21.7% Absolute Gain):** Overall task completion rose from 33.3% (20/60) to 55.0% (33/60). Domain A standard refactoring surged from 0.0% (0/10) to 100.0% (10/10). Domain B maintained 100.0% (20/20).
+   - **Thrashing Suppression:** Total turns dropped -16.5% (236 to 197), rollbacks dropped -34.3% (99 to 65), deadlock cycles dropped -31.8% (22 to 15).
+   - **Hard Invariant:** 100% turns adhered to $\le 512$ tokens (Max: 489, Mean: 379.4) with sub-second turn latency (468.0 ms).
+3. **Gate D Disposition Review:** Formally closed at `quarantined_prototype_gbnf_standard_adopted`. Engine-level GBNF grammar decoding is ratified as an authoritative architectural standard (ADR-0014). Code remains quarantined in `research/experiments/prototypes/mn-014-grammar-constrained-decoding/`. Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (Commit `7a087fb`, 239 files). Directs transition to MN-015 to resolve multi-branch combinatorial search exhaustion.
+
+## MN-015 — Dynamic Affordance Constrained Decoding & Dual-Layer Steering
+
+Status: **scheduled active milestone (orientation memo established).**  
+Track: **NCC Phase 4 (Dynamic Affordance & Search Navigation).**
+
+1. **Core Problem:** MN-014 achieved 100% syntactic determinism, but unassisted greedy decoding stalled at 55.0% task completion due to *Failure Mode 2 (Multi-Branch Search Exhaustion)* in complex environments (Domain C System Registry: 0/20 completion). The static GBNF grammar allowed the model to syntactically guess invalid actions, resulting in repeated rollback cycles and cycle breaker tripping.
+2. **Dual-Layer Affordance Steering Architecture:**
+   - **Prompt Layer (Attention Prior):** Host generates a compact affordance reminder ($\le 15-20$ tokens, e.g., `VALID ACTIONS: READ, DISPATCH migrate_v2`) in the observation block, placing high attention probability on active options to prevent Perplexity Distortion.
+   - **Engine Layer (Dynamic GBNF Masking):** Host dynamically compiles a minimal GBNF grammar per turn based on current environment state $S_t$, mathematically setting the logits of inactive actions to $-\infty$.
+   - **Ponytail Minimality:** Shared single Host evaluation function (`get_active_affordances(env)`), zero new dependencies, $< 0.1\text{ ms}$ CPU latency, $O(1)$ complexity.
+3. **Target Metrics:** Resolve multi-branch exploration bottlenecks, targeting $\ge 85\%$ end-to-end task completion across all 60 benchmark cases before advancing to the project's ultimate North Star: **MN-Final (Stateful Simulated Microworld Evolution)**.
 
 ## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
 

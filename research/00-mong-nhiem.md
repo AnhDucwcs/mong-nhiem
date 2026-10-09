@@ -23,8 +23,13 @@ MN-010 is completed and promoted: [Iterative Context Working Set Loop](experimen
 
 MN-011 is completed and synthesized: [Scaffolding-Assisted Effective Context Frontier](experiments/prototypes/mn-011-scaffolding-context-frontier/README.md). It empirically confirmed that small models achieve peak capacity-efficiency at $B^* \approx 512$ tokens ($H_1$), restored 100% causal reachability on ECC-007 across scales up to 16k tokens ($H_2$), and demonstrated a $60\times$ conversion efficiency advantage over raw attention ($H_3$).
 
-The primary active successor is **MN-012: Hierarchical Tool & Memory Integration** (NCC Phase 3), bridging iterative context coordination with structured external tool calling and persistent memory partitioning. This leads sequentially to **MN-013: Backtracking & Error Self-Correction** (NCC Phase 4), aiming toward the project's ultimate North Star Benchmark: the **Stateful Simulated Microworld Evolution** ($T \ge 20-50$ steps). Intermediate milestones serve as strict failure-isolation boundaries and empirical pivoting gates.
+MN-012 is completed and synthesized: [Hierarchical Tool & Memory Integration](experiments/prototypes/mn-012-hierarchical-tool-memory/README.md). It confirmed dual-tier memory partitioning, while unassisted SLMs exhibited Goal Divergence (Premature Resolution), activating the pivoting gate.
 
+MN-013 is completed and closed: [Backtracking & Error Self-Correction](experiments/prototypes/mn-013-backtracking-error-correction/README.md). It proved that Host Memento state rollback, context rewind, and negative directives achieve 100% trap recovery on resource contention, while greedy unguided rewind causes 100% Amnesia Deadlock.
+
+MN-014 is completed and closed: [Grammar-Constrained Decoding](experiments/prototypes/mn-014-grammar-constrained-decoding/README.md). It proved that Native GBNF engine-level logit masking eliminates 100% of formatting collapses (0 parse errors), boosting overall resolution to 55.0% and standard refactoring to 100%, ratifying ADR-0014.
+
+The primary active successor is **MN-015: Dynamic Affordance Constrained Decoding** ([MN-015 Direction Memo](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md)), introducing Dual-Layer Affordance Steering (prompt attention priors + dynamic runtime GBNF logit masking) to resolve multi-branch combinatorial search exhaustion before scaling to the project's ultimate North Star Benchmark: the **Stateful Simulated Microworld Evolution** ($T \ge 20-50$ steps).
 
 The context subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding and iterative coordination. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
@@ -45,6 +50,10 @@ The context subsystem (`src/mong_nhiem/context/`) is selected and promoted for p
 - [MN-009](experiments/prototypes/mn-009-context-scaffolding/README.md)
 - [MN-010](experiments/prototypes/mn-010-iterative-context-loop/README.md)
 - [MN-011](experiments/prototypes/mn-011-scaffolding-context-frontier/README.md)
+- [MN-012](experiments/prototypes/mn-012-hierarchical-tool-memory/README.md)
+- [MN-013](experiments/prototypes/mn-013-backtracking-error-correction/README.md)
+- [MN-014](experiments/prototypes/mn-014-grammar-constrained-decoding/README.md)
+- [MN-015](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

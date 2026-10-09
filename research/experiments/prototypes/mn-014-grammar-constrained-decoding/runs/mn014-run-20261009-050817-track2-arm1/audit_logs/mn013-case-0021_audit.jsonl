@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 170, "action": "READ <function_id>", "action_key": "INVALID:READ <function_id>", "observation": "INVALID_ACTION_SYNTAX: READ <function_id>", "is_rollback": false, "latency_ms": 170.80999999961932, "used_grammar": false}
+{"turn_index": 2, "prompt_tokens": 192, "action": "RESOLVE 171", "action_key": "INVALID:RESOLVE 171", "observation": "INVALID_ACTION_SYNTAX: RESOLVE 171", "is_rollback": false, "latency_ms": 170.98019999866665, "used_grammar": false}
+{"turn_index": 3, "prompt_tokens": 189, "action": "RESOLVE 171", "action_key": "INVALID:RESOLVE 171", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 185.7027999994898, "used_grammar": false}

@@ -1,0 +1,22 @@
+{
+  "milestone": "MN-014",
+  "stage": "pre",
+  "timestamp_utc": "2026-10-09T05:23:48.657099+00:00",
+  "files": {
+    "artifacts/models/mn-002/Qwen3.5-2B-Q4_K_M.gguf": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/definition/corpus-v1/cases.jsonl": "781ae28914227862da288c7663c6180230283d44e9763975b6df98abfbc3d297",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/definition/corpus-v1/manifest.json": "851a70f07778f9c9cfc48e568a14341d0f01233bdf1083e1be771d9a22904512",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/definition/grammar/action_grammar.gbnf": "059524457401af40b2a5eba08a137012e8c1f2b0cae1cba7529c8df09411572f",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/scripts/mn014_executor.py": "05f65d8bf20ac97b93c09264016989633dd85777acd47235f4bb6a092ae2ed7e",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/circuit_breaker.py": "941f98a4396c06320e1aced0b3d2b68f227dda11028509c2ebf22d7e0da85bc3",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/context_rewind.py": "a3c1eaf0ae6f6aaee0b92bed21b98d2a78c8fd3e956e0cafe9f6293bb52e459c",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/coordinator.py": "0487cda894906c402411bcfd820172e6aa17bba756d540813886fba480874855",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/gbnf_client.py": "9e2a78a45e3fbbe3623d0ec006c316eee1aeeefd645771861fa37ba037b31f5b",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/memento_stack.py": "04c93909a3996db4eaec49f017a59538961dced047d5b35b43b02cf1ac2ec899",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/phase_gate.py": "ebe5dcd3a4b30341c863f7fbf223b97255aa8a91707f0b5c2c3cd025371fd2cc",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/src/protocol.py": "68877fd2d3de0466a2a58832b5a1f3ff6413b5dc734269ac875ae663ee3655f6",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/tests/test_coordinator.py": "4ebeaa66adb961d5d70f8723795a14ff2bd43c79fcd63c98c3cbbd96de0f5fbb",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/tests/test_gbnf_grammar.py": "047b6a829ee7d83af3f1b6227c3291a4d3b9ca53244ea21d1d66994e113a0050",
+    "research/experiments/prototypes/mn-014-grammar-constrained-decoding/tests/test_protocol.py": "50749428f6fc7d22586ed19837c653a229c86ce8d415db8eda4aed81fc9988fd"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "milestone": "MN-014",
+  "track": 2,
+  "arm": 2,
+  "case_count": 60,
+  "success_count": 33,
+  "success_rate": 0.55,
+  "parse_failures": 0,
+  "total_rollbacks": 65,
+  "deadlock_cycle_count": 15,
+  "over_budget_cases": 0,
+  "average_turns_per_case": 3.28,
+  "timestamp_utc": "2026-10-09T05:27:01.861469+00:00"
+}
