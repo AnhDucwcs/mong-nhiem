@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 342, "action": "ACTION: DISPATCH calculate_tax_4 rate=28", "action_key": "DISPATCH:calculate_tax_4:rate=28", "observation": "MUTATION_SUCCESS calculate_tax_4 updated (rate=28)", "is_rollback": false, "latency_ms": 383.8383000002068, "used_grammar": true}
+{"turn_index": 2, "prompt_tokens": 369, "action": "ACTION: RESOLVE calculate_tax_4:28", "action_key": "RESOLVE:calculate_tax_4:28", "observation": "RESOLVED: calculate_tax_4:28", "is_rollback": false, "latency_ms": 350.583600000391, "used_grammar": true}

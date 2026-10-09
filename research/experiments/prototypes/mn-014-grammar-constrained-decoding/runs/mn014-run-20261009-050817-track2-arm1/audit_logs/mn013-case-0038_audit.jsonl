@@ -1,0 +1,3 @@
+{"turn_index": 1, "prompt_tokens": 190, "action": "DISPATCH <tool_name> <payload>", "action_key": "INVALID:DISPATCH <tool_name> <payload>", "observation": "INVALID_ACTION_SYNTAX: DISPATCH <tool_name> <payload>", "is_rollback": false, "latency_ms": 225.91149999971094, "used_grammar": false}
+{"turn_index": 2, "prompt_tokens": 216, "action": "RESOLVE 100", "action_key": "INVALID:RESOLVE 100", "observation": "INVALID_ACTION_SYNTAX: RESOLVE 100", "is_rollback": false, "latency_ms": 195.8028999997623, "used_grammar": false}
+{"turn_index": 3, "prompt_tokens": 210, "action": "RESOLVE 100", "action_key": "INVALID:RESOLVE 100", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 188.77640000027895, "used_grammar": false}

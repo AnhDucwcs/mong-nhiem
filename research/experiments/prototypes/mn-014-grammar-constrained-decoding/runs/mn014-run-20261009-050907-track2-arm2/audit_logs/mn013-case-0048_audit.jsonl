@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 167, "action": "ACTION: RESOLVE <final_answer>", "action_key": "RESOLVE:<final_answer>", "observation": "REJECTED: PREMATURE_RESOLVE: Service svc_gateway_48 log_level is INFO, expected VERBOSE.", "is_rollback": false, "latency_ms": 326.5523000009125, "used_grammar": true}
+{"turn_index": 2, "prompt_tokens": 208, "action": "ACTION: RESOLVE <final_answer>", "action_key": "RESOLVE:<final_answer>", "observation": "CIRCUIT_BREAKER: CYCLE_DETECTED", "is_rollback": false, "latency_ms": 386.15570000001753, "used_grammar": true}

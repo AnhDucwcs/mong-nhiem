@@ -1,0 +1,2 @@
+{"turn_index": 1, "prompt_tokens": 332, "action": "ACTION: DISPATCH transfer acc_alpha_24,acc_beta_24,174", "action_key": "DISPATCH:transfer:acc_alpha_24,acc_beta_24,174", "observation": "TRANSFER_COMMITTED balance_acc_beta_24=854", "is_rollback": false, "latency_ms": 397.1897000010358, "used_grammar": false}
+{"turn_index": 2, "prompt_tokens": 351, "action": "ACTION: RESOLVE acc_beta_24:854", "action_key": "RESOLVE:acc_beta_24:854", "observation": "RESOLVED: acc_beta_24:854", "is_rollback": false, "latency_ms": 330.24309999927937, "used_grammar": false}
