@@ -159,23 +159,22 @@ Track: **NCC Phase 4 (Dynamic Affordance & Cognitive Orchestration).**
 
 ## MN-016 — Episodic Memory & Long-Horizon Event Consolidation
 
-Status: **active planning / next implementation milestone.**  
+Status: **completed and verified prototype. Gate D criteria satisfied.**  
 Track: **NCC Phase 5 (Long-Horizon Continuity & Archival Memory).**
 
-1. **Strategic Intent:**
-   - Overcome Historical Amnesia across extended discrete horizons ($T \ge 20-50$ steps) while strictly maintaining the $\le 512$ token forward-pass budget and sub-second latency SLA.
+1. **Strategic Intent & Outcome:**
+   - Overcame Historical Amnesia across extended discrete horizons ($T = 20-50$ steps) via host-authoritative episodic logging and AutoDream consolidation under strict $\le 512$ token bounds.
+   - Achieved 100.0% task resolution (40/40) on `Qwen3.5-2B`, remediating 100% of FIFO amnesia failures (+100.0% delta) with 0 memory contradictions, 0 ceiling violations (max: 334, mean: 111.0 tokens), and 64.9 ms latency.
 2. **Core Architectural Pillars:**
-   - **Host Episodic Store:** Immutable append-only historical event log decoupled from working memory, paired with structured entity indexing.
-   - **Autodream / Consolidation Protocol:** Periodic or threshold-triggered salience compaction consolidating multi-turn trajectory episodes into bounded semantic priors without token budget inflation.
-   - **Episodic Recall Affordances:** Integrating dynamic memory retrieval into the Dual-Layer Affordance Steering framework (`RECALL <entity_id>` / `QUERY_MEMORY <key>`).
-3. **Primary Success Metrics:**
-   - 100% long-horizon temporal consistency across $T \ge 20-50$ turns.
-   - Absolute adherence to the $\le 512$ token forward-pass ceiling.
-   - Zero historical amnesia or contradictory state assertions.
+   - **Host Episodic Store:** Immutable append-only event log with SHA-256 provenance hashes and monotonic causal replay.
+   - **Autonomous Dual-Trigger Gates:** Machine ticks ($\Delta T \ge 25$) and mutation flux ($M \ge 10$) combined with Emergency Context Budget Pressure Interceptor ($\ge 400$ tokens).
+   - **4-Phase Consolidation Lifecycle:** Orient $\rightarrow$ Gather $\rightarrow$ Consolidate $\rightarrow$ Prune & Index ($\le 128$ tokens).
+   - **Episodic Recall Affordances:** Demand-driven retrieval via dynamic GBNF-governed `ACTION: RECALL <entity_id>` delivering compact Fact Cards ($\le 48$ tokens).
+3. **Gate D Disposition:** Verified and closed under Decision 2026-10-09. Code quarantined in prototype directory per governance rules; transition to MN-017 authorized.
 
 ## MN-017 — Dynamic World Ticks & Hierarchical Planning
 
-Status: **queued successor milestone.**  
+Status: **active / next implementation milestone.**  
 Track: **NCC Phase 6 (Environmental Concurrency & Autonomous Planning).**
 
 1. **Environmental Dynamics:** Introduce independent environment state transitions ("World Ticks") where entities mutate asynchronously outside of agent intervention.
