@@ -2,16 +2,16 @@
 
 ## Final Status
 
-**Completed and closed — Quarantined Prototype / Dual-Layer Affordance Steering Standard Proven.**
+**Completed and closed — Promoted into Production (`src/mong_nhiem/orchestration/`).**
 
 ```text
-Final Milestone Disposition: quarantined_prototype_dual_layer_affordance_proven
-Promotion to src/mong_nhiem/: DENIED (Zero code promoted; strictly quarantined)
+Final Milestone Disposition: promoted_dual_layer_orchestration_standard_proven
+Promotion to src/mong_nhiem/: PROMOTED into src/mong_nhiem/orchestration/
 Canonical Pre-Run Manifest: definition/pre-run-freeze-manifest.json (Commit 9908575)
 Canonical Post-Run Manifest: definition/post-run-freeze-manifest.json
 Canonical Evidence:
   - Track 1 (Deterministic Environment Simulator): 60/60 PASS (100.0%), 30 rollbacks, 0 deadlocks
-  - Track 2 (Real Model Inference — Qwen3.5-2B-Q4_K_M on llama-server):
+  - Track 2 (Primary Model Subject — Qwen3.5-2B-Q4_K_M on llama-server):
       * Overall Task Completion: 60/60 PASS (100.0%)
       * Domain A (Code AST Mutation): 20/20 PASS (100.0%)
       * Domain B (Resource Ledger): 20/20 PASS (100.0%)
@@ -21,6 +21,11 @@ Canonical Evidence:
       * Parse Failures: Exactly 0.0% (0/216 turns)
       * Token Budget Ceiling: 100.0% turns <= 512 tokens (Max: 396, Mean: 318.5)
       * Mean Turn Latency: 329.37 ms (< 1000 ms SLA)
+  - Cross-Model Generalization Suite (15 diagnostic cases across all local models):
+      * Qwen3.5-2B-Q4_K_M:    15/15 PASS (100.0%), 9 rollbacks, 387.1 ms
+      * Llama-3.2-3B-Instruct: 15/15 PASS (100.0%), 9 rollbacks, 315.3 ms
+      * Qwen3-4B-Q4_K_M:       15/15 PASS (100.0%), 8 rollbacks, 426.6 ms
+  - Production Test Suite: 441/441 PASSED (0 regressions)
 Canonical Report: reports/mn015-execution-report.md
 ```
 

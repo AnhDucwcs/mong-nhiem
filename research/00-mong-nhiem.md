@@ -29,11 +29,11 @@ MN-013 is completed and closed: [Backtracking & Error Self-Correction](experimen
 
 MN-014 is completed and closed: [Grammar-Constrained Decoding](experiments/prototypes/mn-014-grammar-constrained-decoding/README.md). It proved that Native GBNF engine-level logit masking eliminates 100% of formatting collapses (0 parse errors), boosting overall resolution to 55.0% and standard refactoring to 100%, ratifying ADR-0014.
 
-MN-015 is completed and closed: [Dynamic Affordance Constrained Decoding](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md). It established that Dual-Layer Affordance Steering (prompt attention priors + dynamic runtime GBNF logit masking) eliminates 100% of deadlock cycles (0 vs 15 in MN-014) and surges end-to-end task completion to 100.0% (60/60 cases), achieving 100% trap recovery (30/30) and 329 ms mean turn latency on Qwen3.5-2B, ratifying ADR-0015.
+MN-015 is completed and promoted: [Dynamic Affordance Constrained Decoding](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md). It established that Dual-Layer Affordance Steering (prompt attention priors + dynamic runtime GBNF logit masking) eliminates 100% of deadlock cycles (0 vs 15 in MN-014) and surges end-to-end task completion to 100.0% (60/60 cases). Following 100.0% cross-model qualification across Qwen3.5-2B, Llama-3.2-3B, and Qwen3-4B and 441/441 test suite verification, the domain-agnostic engine was promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015).
 
 The primary active successor is **MN-016 / MN-Final: Stateful Simulated Microworld Evolution**, scaling cognitive orchestration to extended time horizons ($T \ge 20-50$ steps) over multi-entity environments with zero state hallucinations.
 
-The context subsystem (`src/mong_nhiem/context/`) is selected and promoted for production context scaffolding and iterative coordination. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
+The context subsystem (`src/mong_nhiem/context/`) and cognitive orchestration subsystem (`src/mong_nhiem/orchestration/`) are selected and promoted for production context scaffolding, iterative coordination, and dual-layer cognitive steering. Retrieval, memory, and routing architectures remain open for future milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
 ## Navigate
 

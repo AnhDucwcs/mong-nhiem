@@ -229,9 +229,9 @@ MN-014 is complete and closed under Gate D disposition review (`gate-d-dispositi
 
 ---
 
-## MN-015 — Dynamic Affordance Constrained Decoding & Dual-Layer Steering — completed and closed (quarantined prototype, dual-layer standard proven)
+## MN-015 — Dynamic Affordance Constrained Decoding & Dual-Layer Steering — completed and promoted into `src/mong_nhiem/orchestration/`
 
-MN-015 is complete and closed under Gate D disposition review (`gate-d-disposition-review.md`):
+MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposition-review.md`):
 
 1. **Gate A Charter & Hypotheses:** Formulated $H_1$ (Efficacy Surge $\ge 85.0\%$), $H_2$ (Zero Deadlock Cycles), and $H_3$ (Prompt Budget $\le 512$ tokens, sub-second latency).
 2. **Gate B Measurement Contract:** Frozen at `gate-b-contract.md`. 60-case benchmark evaluated across 2 matched arms on Track 1 (Simulator) and Track 2 (Real Model Inference on `Qwen3.5-2B-Q4_K_M.gguf` via `llama-server.exe`).
@@ -243,7 +243,24 @@ MN-015 is complete and closed under Gate D disposition review (`gate-d-dispositi
    - **Complete Deadlock Elimination ($H_2$ Strongly Confirmed):** Circuit-breaker tripped deadlocks dropped from 15 in MN-014 to **exactly 0 (0.0%)**.
    - **Adversarial Trap Recovery Efficacy:** Exactly **30/30 (100.0%)** trap cases resolved cleanly with 1 host rollback per trap and zero false rollbacks on non-trap cases.
    - **Zero Parse Failures & Hard Budget Compliance ($H_3$ Confirmed):** Exactly **0.0% parse failures** (0/216 turns) and **100.0% prompt compliance** ($\le 512$ tokens, Max: 396, Mean: 318.5). Mean turn latency was **329.37 ms** (< 1000 ms SLA).
-5. **Gate D Disposition Review:** Formally closed at `quarantined_prototype_dual_layer_affordance_proven`. Ratifies Dual-Layer Affordance Steering as an authoritative standard (ADR-0015). Code remains strictly quarantined in prototype directory. Directs forward transition to MN-016 (Stateful Simulated Microworld Evolution).
+5. **Production Architecture Packaging (`src/mong_nhiem/orchestration/`):**
+   - Packaged the complete dual-layer steering framework into a domain-agnostic, zero-external-dependency library in pure Python 3.11+ standard library:
+     - `protocol.py`: Typed action protocol, affordance specifications, and parse rules.
+     - `grammar.py`: Sub-millisecond dynamic GBNF grammar compiler for `llama.cpp`.
+     - `memento.py`: Bounded state snapshot stack and deepcopy rollback.
+     - `circuit_breaker.py`: Turn ceiling, cycle detection, and action thrashing defense.
+     - `rewind.py`: Working memory token management bounded at $\le 512$ tokens.
+     - `phase_gate.py`: Goal satisfaction validation and predicate registry.
+     - `affordance.py`: Declarative affordance schema registry decoupling core orchestration from domain logic.
+     - `coordinator.py`: Unified `CognitiveOrchestrator` coordinating prompt priors and dynamic GBNF decoding.
+6. **Stress Testing & Cross-Model Reusability Qualification:**
+   - Added 14 unit and stress tests in `tests/unit/test_orchestration.py` covering parse safety, injection resistance, sub-millisecond compilation ($< 0.1$ ms), deepcopy isolation, cycle detection, and engine registries (441/441 test suite passes).
+   - Executed cross-model qualification across all locally qualified models (`Qwen3.5-2B-Q4_K_M`, `Llama-3.2-3B-Instruct-Q4_K_M`, and `Qwen3-4B-Q4_K_M`) across 15 balanced diagnostic cases:
+     - `Qwen3.5-2B-Q4_K_M`: **15/15 PASS (100.0%)**, 387.1 ms mean turn latency.
+     - `Llama-3.2-3B-Instruct-Q4_K_M`: **15/15 PASS (100.0%)**, 315.3 ms mean turn latency.
+     - `Qwen3-4B-Q4_K_M`: **15/15 PASS (100.0%)**, 426.6 ms mean turn latency.
+   - All models achieved 100.0% task resolution, 100% trap recovery, and 0 deadlock cycles.
+7. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Directs forward transition to MN-016 (Stateful Simulated Microworld Evolution).
 
 ---
 

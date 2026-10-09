@@ -142,8 +142,8 @@ Track: **NCC Phase 4 (Robust Action Synthesis).**
 
 ## MN-015 — Dynamic Affordance Constrained Decoding & Dual-Layer Steering
 
-Status: **completed and closed (quarantined prototype, dual-layer standard proven).**  
-Track: **NCC Phase 4 (Dynamic Affordance & Search Navigation).**
+Status: **completed and promoted into `src/mong_nhiem/orchestration/`.**  
+Track: **NCC Phase 4 (Dynamic Affordance & Cognitive Orchestration).**
 
 1. **Gate A Charter & Gate B Contract:** Frozen 5 support rules and 60-case benchmark evaluated across 2 matched arms on Track 1 (Simulator) and Track 2 (Real Model Inference on `Qwen3.5-2B-Q4_K_M.gguf` via `llama-server.exe`). Pre-run freeze commit: `9908575`.
 2. **Gate C Dual-Track Execution:**
@@ -151,7 +151,11 @@ Track: **NCC Phase 4 (Dynamic Affordance & Search Navigation).**
    - **Zero Deadlock Cycles ($H_2$ Strongly Confirmed):** Circuit-breaker tripped deadlocks dropped from 15 in MN-014 to **exactly 0 (0.0%)**.
    - **Trap Recovery Efficacy:** Exactly **30/30 (100.0%)** traps resolved cleanly with 1 host rollback per trap and zero false rollbacks on non-trap cases.
    - **Hard Invariants & Latency ($H_3$ Confirmed):** 100% turns adhered to $\le 512$ tokens (Max: 396, Mean: 318.5) with 0 parse failures and 329.37 ms mean turn latency.
-3. **Gate D Disposition Review:** Formally closed at `quarantined_prototype_dual_layer_affordance_proven`. Dual-Layer Affordance Steering is ratified as an authoritative architectural standard (ADR-0015). Code remains strictly quarantined in prototype directory. Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (122 files). Advances roadmap to MN-016 (Stateful Simulated Microworld Evolution).
+3. **Packaging & Cross-Model Reusability Qualification:**
+   - Packaged into domain-agnostic `src/mong_nhiem/orchestration/` (100% Python standard library).
+   - Added 14 unit and stress tests in `tests/unit/test_orchestration.py` (441/441 test suite passes).
+   - Validated across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`), achieving 100.0% cross-model accuracy (15/15 PASS per subject) and sub-second turn latency.
+4. **Gate D Disposition Review:** Formally promoted into `src/mong_nhiem/orchestration/` under Decision 2026-10-09 (ADR-0015). Post-run manifest sealed under `definition/post-run-freeze-manifest.json` (122 files). Advances roadmap to MN-016 (Stateful Simulated Microworld Evolution).
 
 ## North Star Horizon: MN-Final — Stateful Simulated Microworld Evolution
 
