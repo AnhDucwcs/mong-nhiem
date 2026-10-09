@@ -1,7 +1,7 @@
 {
   "milestone": "MN-014",
   "stage": "post",
-  "timestamp_utc": "2026-10-09T05:28:13.076536+00:00",
+  "timestamp_utc": "2026-10-09T07:19:02.038150+00:00",
   "files": {
     "research/experiments/prototypes/mn-014-grammar-constrained-decoding/reports/mn014-execution-report.md": "db9b5f6aecc3147d32b515fbe32c31892c4c87ec98577e1a17cb04b774145b90",
     "research/experiments/prototypes/mn-014-grammar-constrained-decoding/runs/mn014-run-20261009-050817-track2-arm1/arm_results.jsonl": "80dba83432013fe63a1815eae7050ea55615a1ec752534adfc0b46003a2f6bb1",
