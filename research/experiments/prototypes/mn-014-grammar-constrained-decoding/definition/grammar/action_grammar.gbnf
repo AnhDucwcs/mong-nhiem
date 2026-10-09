@@ -3,12 +3,12 @@
 
 root ::= action
 
-action ::= "ACTION: " ( read_action | inspect_action | dispatch_action | resolve_action )
+action ::= "ACTION: " ( read-action | inspect-action | dispatch-action | resolve-action )
 
-read_action ::= "READ " identifier
-inspect_action ::= "INSPECT " identifier "." identifier
-dispatch_action ::= "DISPATCH " identifier " " payload
-resolve_action ::= "RESOLVE " payload
+read-action ::= "READ " identifier
+inspect-action ::= "INSPECT " identifier "." identifier
+dispatch-action ::= "DISPATCH " identifier " " payload
+resolve-action ::= "RESOLVE " payload
 
 identifier ::= [a-zA-Z0-9_]+
 payload ::= [^\r\n]+

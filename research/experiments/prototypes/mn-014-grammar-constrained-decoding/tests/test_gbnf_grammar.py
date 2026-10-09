@@ -9,9 +9,9 @@ def test_gbnf_file_exists_and_valid():
     content = grammar_path.read_text(encoding="utf-8")
     assert "root ::= action" in content
     assert "action ::= \"ACTION: \"" in content
-    assert "read_action ::=" in content
-    assert "inspect_action ::=" in content
-    assert "dispatch_action ::=" in content
-    assert "resolve_action ::=" in content
+    assert "read-action ::=" in content
+    assert "inspect-action ::=" in content
+    assert "dispatch-action ::=" in content
+    assert "resolve-action ::=" in content
     assert "identifier ::=" in content
     assert "payload ::=" in content
