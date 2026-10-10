@@ -2,12 +2,12 @@
 ## Cross-Model Stress Suite Synthesis: Multi-Distractor, Cascading Shocks, and Ultra Long-Horizon Microworlds
 
 **Date:** 2026-10-10  
-**Milestone:** MN-018 (Stateful Simulated Microworld Evolution / MN-Final)  
+**Milestone:** MN-018 (Stateful Simulated Microworld Evolution)  
 **Corpus:** `corpus-v2-stress` (30 Ultra Long-Horizon Scenarios, $K = 8\text{ sub-goals}$, $T = 150 - 200\text{ ticks}$)  
 **Models Evaluated:** `Qwen3.5-2B-Q4_K_M`, `Llama-3.2-3B-Instruct-Q4_K_M`, `Qwen3-4B-Q4_K_M`  
 **Host Runtime:** Dual-Engine Cognitive Host (Physics Conservation Guard, Dynamic GBNF Affordance, Memento Stack, Concurrency Guard, AutoDream Consolidation)  
 **Evaluation Tracks:** Track 1 (Programmatic Simulator) and Track 2 (Local LLM Inference via `llama-server.exe`)  
-**Overall Stress Verdict:** `PASS` (Empirically Validated across 90/90 Stress Inference Runs)  
+**Overall Stress Verdict:** `FUNCTIONAL PASS (M5 GAP)` (100% Task Completion across 90/90 Stress Inference Runs; M5 Memory Compaction Gap)  
 
 ---
 
@@ -113,3 +113,4 @@ The stress evaluation benchmark demonstrates that:
 1. **The Dual-Engine Cognitive Host is Robust to Extreme Long Horizons:** Scaling from $K=5$ to $K=8$ and $T=60$ to $T=150$ produces zero degradation in Arm 3 task completion (100.0% across all 90 evaluation episodes).
 2. **Dynamic GBNF and Memento are Indispensable:** Without Host-side dynamic affordance restriction and atomic rollback, even 3B and 4B models fail 100% of long-horizon stateful microworld tasks.
 3. **Consumer Hardware Feasibility:** All three models operate comfortably within 4.0 GB VRAM with turn latencies well under 1 second.
+4. **Stepping Stone Disposition (M5 Acceptance Gap):** While functional execution, safety conservation, and state synchronization passed completely, AutoDream memory compression density achieved 24% - 47% under stress (falling below the frozen contract threshold $\ge 70\%$). In compliance with Mộng Nhiễm governance rules, Milestone MN-018 is retained in quarantine as a stepping stone on the developmental ladder rather than promoting prematurely.

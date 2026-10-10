@@ -4,7 +4,7 @@
 **Date:** 2026-10-10 08:18:30 UTC  
 **Track:** Track 2 (Real LLM Inference)  
 **Corpus:** `corpus-v2-stress` (30 High-Difficulty Stress Scenarios)  
-**Model Evaluated:** `Qwen3-4B`  
+**Model Evaluated:** `Qwen3-4B-Q4_K_M.gguf`  
 **Overall Verdict:** `FAIL`  
 
 ---
@@ -34,7 +34,7 @@ Milestone MN-018 evaluates the long-horizon governance capabilities (T = 150 - 2
 | **M2** | Comparative Margin | $\ge +50.0\%$ | +100.0% | `PASS` |
 | **M3** | Conservation Law Violations | $= 0.0\%$ | 0 committed (0 rolled back) | `PASS` |
 | **M4** | Stale Version Commit Rate | $= 0.0\%$ | 0 | `PASS` |
-| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 26.0% | `PASS` |
+| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 26.0% | `FAIL` |
 | **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 572 tok | `FAIL` |
 | **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 294.8 tok | `PASS` |
 | **M9** | Turn Latency SLA | $< 1000\text{ ms}$ | 668.4 ms | `PASS` |

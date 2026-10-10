@@ -187,26 +187,35 @@ Track: **NCC Phase 6 (Environmental Concurrency & Autonomous Planning).**
    - **`HierarchicalPlanner`**: Topological DAG mission graph evaluated by Host symbolic predicates.
    - **`DynamicAffordanceCompiler`**: GBNF phase-gate compiler masking out illegal actions for unactivated sub-goals.
    - **`ConcurrencyGuard`**: Monotonic entity versioning ($v_{entity}$), conflict detection, and compact delta notices ($\le 64$ tokens).
-3. **Gate D Disposition:** Verified and closed under Decision 2026-10-10 (ADR-0017). Code quarantined in prototype directory per governance rules; handoff to MN-Final authorized.
+3. **Gate D Disposition:** Verified and closed under Decision 2026-10-10 (ADR-0017). Code quarantined in prototype directory per governance rules; handoff to MN-018 authorized.
 
-## North Star Horizon: MN-Final (MN-018) — Stateful Simulated Microworld Evolution
+## MN-018 — Stateful Simulated Microworld Evolution
 
-Status: **completed and verified prototype. Gate D criteria satisfied — North Star Achieved.**  
-Track: **NCC Final Synthesis (Full World Continuity & Coexistence).**
+Status: **completed and conditionally verified prototype (quarantined in research/experiments/prototypes/). Gate D criteria conditionally satisfied (M5 gap).**  
+Track: **NCC Phase 7 (Stateful World Continuity & Governance).**
 
-1. **Strategic Intent & Outcome:**
-   - Validated that lightweight models (`Qwen3.5-2B`, $<4\text{B}$) reliably govern and evolve complex, multi-entity simulated microworlds across extended discrete time horizons ($T \ge 50-100$ steps) under physical conservation invariants, multi-rate decay, and coupled dependencies.
-   - Evaluated across 30 complex scenarios across 3 heterogeneous domains: Orbital Life Support ($N=10$), Smart Microgrid ($N=10$), and Fleet Logistics Supply Chain ($N=10$).
-   - Achieved 100.0% task resolution (30/30) on real model inference (`Qwen3.5-2B`) vs 0.0% in Arm 1 (+100.0% delta) and 0.0% in Arm 2.
-   - Preserved zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), 0 unmanaged stale-state overwrites, prompt ceiling strictly $\le 512$ tokens (max 386, mean 184.5), turn latency 649.4 ms ($< 1000\text{ ms}$ SLA), and sustained AutoDream memory consolidation.
-2. **Full System Convergence:**
-   - Unified Scaffolding (MN-009) + Working Set (MN-010) + Backtracking/Rollback (MN-013) + Native GBNF (MN-014) + Affordance Steering (MN-015) + Episodic Memory & AutoDream (MN-016) + World Engine, Planning & Concurrency Guard (MN-017).
-3. **High-Difficulty Stress Benchmark (`corpus-v2-stress`):**
-   - Validated across 30 ultra long-horizon stress scenarios ($T = 150-200$ ticks, $K=8$ topological sub-goals, 4–6 actions per phase with delayed traps, cascading compound shocks) across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`).
-   - Arm 3 achieved **100.0% (90/90)** task resolution across all models and domains (Arm 1 and Arm 2 at 0.0%), zero committed conservation breaches, 45 trap breaches intercepted and rolled back by Memento, 1 to 4 consecutive AutoDream consolidation cycles per episode bounding prompt growth ($\le 512$ tok), and all models operating inside 4.0 GB VRAM.
-4. **Gate D Disposition:** Verified and closed under Decision 2026-10-10 (ADR-0018). Code quarantined in prototype directory per governance rules. Concludes canonical milestone progression of Mộng Nhiễm.
+1. **Strategic Intent & Stepping Stone Horizon:**
+   - Validated that lightweight models (`Qwen3.5-2B`, $<4\text{B}$) reliably govern and evolve complex, multi-entity simulated microworlds across extended discrete time horizons ($T = 50-100$ steps) under physical conservation invariants, multi-rate decay, and coupled dependencies.
+   - Operates as a foundational stepping stone on the cognitive architecture ladder, establishing simulated microworld governance before progressing to non-stationary environments and multi-agent interaction.
+   - Evaluated across 30 complex scenarios spanning 3 heterogeneous domains: Orbital Life Support ($N=10$), Smart Microgrid ($N=10$), and Fleet Logistics Supply Chain ($N=10$).
+   - Achieved 100.0% task resolution (30/30) on real model inference (`Qwen3.5-2B`) on Arm 3 vs 0.0% in Arm 1 (+100.0% delta) and 0.0% in Arm 2.
+   - Preserved zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), 0 unmanaged stale-state overwrites, prompt ceiling strictly $\le 512$ tokens (max 386, mean 184.5), turn latency 649.4 ms ($< 1000\text{ ms}$ SLA).
+2. **Empirical Bound & AutoDream M5 Gap:**
+   - Evaluated AutoDream episodic memory compaction across long horizons. Achieved 58.0% (Track 2) and 57.0% (Track 1) compression ratios, missing the frozen contract bound ($\ge 70.0\%$).
+   - In accordance with empirical rigor, Criterion M5 is evaluated strictly as `FAIL / NOT MET` without retroactive threshold alteration.
+3. **Arm 2 Methodological Resolution:**
+   - Track 1 Simulator (decoupled static checklist without DAG gating): 20/30 (66.7%) on `corpus-v1` (10 invariant breaches), 0/30 (0.0%) on `corpus-v2-stress` (100% trap failure).
+   - Track 2 Real Inference (unconstrained grammar): 0/30 (0.0%) across baseline and stress suites due to premature resolution or repetitive action loops.
+4. **Full System Convergence & High-Difficulty Stress Suite (`corpus-v2-stress`):**
+   - Validated across 30 ultra long-horizon stress scenarios ($T = 150-200$ ticks, $K=8$ topological sub-goals, 4–6 actions per phase with delayed rollback traps, cascading compound shocks) across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`).
+   - Arm 3 achieved **100.0% (90/90)** task resolution across all models and domains (Arm 1 and Arm 2 at 0.0%), zero committed conservation breaches, 45 trap breaches intercepted and rolled back by Memento, 1 to 4 consecutive AutoDream consolidation cycles per episode bounding prompt growth ($\le 512$ tokens), and all models operating inside 4.0 GB VRAM.
+5. **Gate D Disposition & Prototype Quarantine:**
+   - Disposition review: `stateful_microworld_evolution_conditionally_verified_quarantined`.
+   - In adherence to Gate D governance, experimental code remains strictly quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted to `src/mong_nhiem/` due to the M5 metric gap. Cryptographic manifests (`definition/pre-run-freeze-manifest.json`, `definition/post-run-freeze-manifest.json`) and raw execution traces (`runs/`) are sealed.
 
+## Active Developmental Horizons
 
-
-
-
+1. **MN-019 — Continuous Non-Stationary Domain Drift & Dynamic Adaptation**
+   - Scope: Evaluating agent resilience and host affordance adaptation when microworld transition dynamics themselves undergo non-stationary drift over extended time.
+2. **MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance**
+   - Scope: Extending host-authoritative cognitive governance to multi-agent concurrent interactions and shared resource worlds.

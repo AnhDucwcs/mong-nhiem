@@ -1,8 +1,8 @@
-# Milestone MN-018: Stateful Simulated Microworld Evolution (MN-Final)
+# Milestone MN-018: Stateful Simulated Microworld Evolution
 
 ## Overview
 
-Milestone **MN-018** (designated as **MN-Final: Full Cognitive Host Synthesis**) represents the culminating North Star milestone of project Mộng Nhiễm. It brings together all cognitive substrates developed and verified across MN-009 through MN-017 into an integrated Dual-Engine Cognitive Host:
+Milestone **MN-018** (**Stateful Simulated Microworld Evolution**) represents a foundational cognitive host milestone in project Mộng Nhiễm. It brings together all cognitive substrates developed and verified across MN-009 through MN-017 into an integrated Dual-Engine Cognitive Host:
 - Dynamic multi-rate world simulation and background environmental shocks.
 - Host-authoritative physical conservation laws and invariant verification.
 - Hierarchical mission DAG decomposition with symbolic Host predicate gates.

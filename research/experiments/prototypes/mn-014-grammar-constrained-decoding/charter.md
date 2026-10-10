@@ -10,7 +10,7 @@
   - [MN-012: Hierarchical Tool & Memory Integration](../mn-012-hierarchical-tool-memory/README.md)
   - [MN-013: Backtracking & Error Self-Correction](../mn-013-backtracking-error-correction/README.md)
 - Successors:
-  - [MN-Final: Stateful Simulated Microworld Evolution](../../../roadmap.md#north-star-horizon-mn-final--stateful-simulated-microworld-evolution)
+  - [MN-018: Stateful Simulated Microworld Evolution](../../../roadmap.md#mn-018--stateful-simulated-microworld-evolution)
 
 ---
 

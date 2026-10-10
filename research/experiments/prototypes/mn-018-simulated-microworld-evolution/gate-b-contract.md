@@ -1,5 +1,5 @@
 # Gate B Evaluation Contract: Milestone MN-018
-## Stateful Simulated Microworld Evolution (MN-Final)
+## Stateful Simulated Microworld Evolution
 
 ### 1. Evaluation Arms & Comparative Configuration
 

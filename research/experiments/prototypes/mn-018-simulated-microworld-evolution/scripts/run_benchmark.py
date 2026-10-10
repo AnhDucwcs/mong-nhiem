@@ -78,6 +78,9 @@ def compute_freeze_manifest(stage: str = "pre", corpus: str = "corpus-v1") -> Pa
             continue
         for p in sorted(tdir.rglob("*")):
             if p.is_file() and "__pycache__" not in p.parts:
+                # Strictly exclude any manifest file to prevent circular / self-referential hashing
+                if "manifest" in p.name.lower():
+                    continue
                 rel_path = p.relative_to(PROTOTYPE_ROOT).as_posix()
                 h = hashlib.sha256(p.read_bytes()).hexdigest()
                 manifest_data["files"][rel_path] = h
@@ -92,11 +95,8 @@ def compute_freeze_manifest(stage: str = "pre", corpus: str = "corpus-v1") -> Pa
             h = hashlib.sha256(doc_path.read_bytes()).hexdigest()
             manifest_data["files"][doc] = h
 
-    if corpus == "corpus-v2-stress":
-        out_file = DEFINITION_DIR / "corpus-v2-stress" / f"{stage}-run-freeze-manifest.json"
-    else:
-        out_file = DEFINITION_DIR / f"{stage}-run-freeze-manifest.json"
-
+    # Canonical root manifest tracks the complete prototype
+    out_file = DEFINITION_DIR / f"{stage}-run-freeze-manifest.json"
     out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(json.dumps(manifest_data, indent=2, sort_keys=True), encoding="utf-8")
     return out_file
@@ -516,10 +516,11 @@ def execute_case_simulation(case: Dict[str, Any], arm: str) -> ExecutionResult:
                 # Emits random later sub-goal action without satisfying prerequisites
                 raw_action = f"ACTION: DISPATCH {case['all_actions'][-1]}"
         elif arm == "arm2":
-            # Arm 2 Static Plan Control: dispatches in checklist order but lacks dynamic GBNF masking
-            active_sg = orch.planner.active_subgoal
-            if active_sg:
-                raw_action = f"ACTION: DISPATCH {active_sg.allowed_actions[0]}"
+            # Arm 2 Naive Tool Agent: dispatches in static checklist sequence
+            # without Host topological DAG gating or dynamic affordance logit masking
+            checklist = case.get("all_actions", [])
+            if turn < len(checklist):
+                raw_action = f"ACTION: DISPATCH {checklist[turn]}"
             else:
                 raw_action = "ACTION: RESOLVE COMPLETE"
         else:
@@ -559,8 +560,19 @@ def execute_case_simulation(case: Dict[str, Any], arm: str) -> ExecutionResult:
             if len(recent_unprogressed) == 3 and len(set(recent_unprogressed)) == 1:
                 break
 
-    success = mission.is_mission_accomplished(engine) and not premature_count
-    status = "SUCCESS" if success else ("PREMATURE_RESOLUTION" if premature_count else "FAILED_INCOMPLETE")
+    success = (
+        mission.is_mission_accomplished(engine)
+        and not premature_count
+        and orch.conservation_breaches_committed == 0
+    )
+    if success:
+        status = "SUCCESS"
+    elif premature_count:
+        status = "PREMATURE_RESOLUTION"
+    elif orch.conservation_breaches_committed > 0:
+        status = "CONSERVATION_BREACH"
+    else:
+        status = "FAILED_INCOMPLETE"
 
     return ExecutionResult(
         case_id=case["case_id"],
@@ -656,8 +668,19 @@ def execute_case_inference(
             if len(recent_unprogressed) == 3 and len(set(recent_unprogressed)) == 1:
                 break
 
-    success = mission.is_mission_accomplished(engine) and not premature_count
-    status = "SUCCESS" if success else ("PREMATURE_RESOLUTION" if premature_count else "FAILED_INCOMPLETE")
+    success = (
+        mission.is_mission_accomplished(engine)
+        and not premature_count
+        and orch.conservation_breaches_committed == 0
+    )
+    if success:
+        status = "SUCCESS"
+    elif premature_count:
+        status = "PREMATURE_RESOLUTION"
+    elif orch.conservation_breaches_committed > 0:
+        status = "CONSERVATION_BREACH"
+    else:
+        status = "FAILED_INCOMPLETE"
 
     return ExecutionResult(
         case_id=case["case_id"],
@@ -730,12 +753,13 @@ def generate_academic_report(
     m2_pass = delta_acc >= 50.0
     m3_pass = total_breaches == 0
     m4_pass = total_stale == 0
-    m5_pass = avg_comp_ratio >= 0.70 or any(r.autodream_cycles > 0 for r in results_by_arm.get("arm3", [])) or track == 1
+    m5_pass = avg_comp_ratio >= 0.70
     m7_pass = max_prompt <= 512
     m8_pass = mean_prompt <= 384
     m9_pass = mean_latency < 1000.0 or track == 1
 
-    overall_pass = m1_pass and m2_pass and m3_pass and m4_pass and m7_pass and m8_pass
+    overall_pass = m1_pass and m2_pass and m3_pass and m4_pass and m5_pass and m7_pass and m8_pass
+    verdict_str = "PASS" if overall_pass else ("CONDITIONAL (M5 GAP)" if (m1_pass and m2_pass and m3_pass and m4_pass and m7_pass and m8_pass) else "FAIL")
 
     title_suite = "Stress Suite (T=150-200 ticks, K=8 subgoals)" if is_stress else "Standard Baseline"
     lines = [
@@ -746,7 +770,7 @@ def generate_academic_report(
         f"**Track:** Track {track} ({'Programmatic State Simulator' if track == 1 else 'Real LLM Inference'})  ",
         f"**Corpus:** `{corpus}` ({'30 High-Difficulty Stress Scenarios' if is_stress else '30 Standard Scenarios'})  ",
         f"**Model Evaluated:** `{model_name}`  ",
-        f"**Overall Verdict:** `{'PASS' if overall_pass else 'FAIL'}`  ",
+        f"**Overall Verdict:** `{verdict_str}`  ",
         "",
         "---",
         "",
@@ -839,6 +863,12 @@ def main() -> None:
     cases = json.loads(cases_file.read_text(encoding="utf-8"))
     print(f"Loaded {len(cases)} benchmark cases from {cases_file}")
 
+    model_tag = "Simulator" if args.track == 1 else Path(args.model).stem
+    run_id = f"mn018-run-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}-{args.corpus}-track{args.track}-{model_tag}"
+    run_dir = RUNS_DIR / run_id
+    audit_dir = run_dir / "audit_logs"
+    audit_dir.mkdir(parents=True, exist_ok=True)
+
     if args.track == 1:
         print(f"\n=== Executing Track 1 on {args.corpus} (Programmatic State Machine Simulator) ===")
         results: Dict[str, List[ExecutionResult]] = {"arm1": [], "arm2": [], "arm3": []}
@@ -848,9 +878,27 @@ def main() -> None:
             for case in cases:
                 res = execute_case_simulation(case, arm=arm)
                 results[arm].append(res)
+                audit_file = audit_dir / f"{case['case_id']}_{arm}_audit.json"
+                audit_file.write_text(json.dumps(asdict(res), indent=2), encoding="utf-8")
             acc = sum(1 for r in results[arm] if r.success) / len(cases) * 100.0
             print(f"  {arm.upper()} Accuracy: {acc:.1f}% ({sum(1 for r in results[arm] if r.success)}/{len(cases)})")
 
+        run_info = {
+            "run_id": run_id,
+            "track": 1,
+            "model": "Simulator",
+            "corpus": args.corpus,
+            "timestamp_utc": datetime.now(UTC).isoformat(),
+            "total_cases": len(cases),
+            "results_summary": {
+                arm: {
+                    "success_rate": f"{sum(1 for r in results[arm] if r.success)}/{len(cases)}",
+                    "accuracy": (sum(1 for r in results[arm] if r.success) / len(cases) * 100.0) if cases else 0.0,
+                }
+                for arm in results
+            },
+        }
+        (run_dir / "run_info.json").write_text(json.dumps(run_info, indent=2), encoding="utf-8")
         generate_academic_report(results, track=1, model_name="Simulator", corpus=args.corpus)
 
     elif args.track == 2:
@@ -874,11 +922,29 @@ def main() -> None:
                 print(f"  [{arm.upper()}] Case {idx+1}/{len(cases)}: {case['case_id']}...", end="", flush=True)
                 res = execute_case_inference(case, arm=arm, client=client)
                 results[arm].append(res)
+                audit_file = audit_dir / f"{case['case_id']}_{arm}_audit.json"
+                audit_file.write_text(json.dumps(asdict(res), indent=2), encoding="utf-8")
                 print(f" {res.terminal_status} ({res.total_turns} turns, mean lat {res.mean_turn_latency_ms} ms)")
 
             acc = sum(1 for r in results[arm] if r.success) / len(cases) * 100.0
             print(f"Finished {arm.upper()}: {acc:.1f}% accuracy.")
 
+        run_info = {
+            "run_id": run_id,
+            "track": 2,
+            "model": args.model,
+            "corpus": args.corpus,
+            "timestamp_utc": datetime.now(UTC).isoformat(),
+            "total_cases": len(cases),
+            "results_summary": {
+                arm: {
+                    "success_rate": f"{sum(1 for r in results[arm] if r.success)}/{len(cases)}",
+                    "accuracy": (sum(1 for r in results[arm] if r.success) / len(cases) * 100.0) if cases else 0.0,
+                }
+                for arm in results
+            },
+        }
+        (run_dir / "run_info.json").write_text(json.dumps(run_info, indent=2), encoding="utf-8")
         vram_info = get_gpu_vram_info()
         generate_academic_report(results, track=2, model_name=args.model, vram_info=vram_info, corpus=args.corpus)
 

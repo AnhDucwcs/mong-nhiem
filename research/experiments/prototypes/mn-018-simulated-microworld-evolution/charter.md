@@ -1,5 +1,5 @@
 # Experiment Charter: Milestone MN-018
-## Stateful Simulated Microworld Evolution (MN-Final: Full Cognitive Host Synthesis)
+## Stateful Simulated Microworld Evolution (Full Cognitive Host Synthesis)
 
 ### 1. Context and Motivation
 

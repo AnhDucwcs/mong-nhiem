@@ -4,8 +4,8 @@
 **Date:** 2026-10-10 08:12:32 UTC  
 **Track:** Track 2 (Real LLM Inference)  
 **Corpus:** `corpus-v2-stress` (30 High-Difficulty Stress Scenarios)  
-**Model Evaluated:** `Llama-3.2-3B`  
-**Overall Verdict:** `PASS`  
+**Model Evaluated:** `Llama-3.2-3B-Instruct-Q4_K_M.gguf`  
+**Overall Verdict:** `CONDITIONAL (M5 GAP)`  
 
 ---
 
@@ -34,7 +34,7 @@ Milestone MN-018 evaluates the long-horizon governance capabilities (T = 150 - 2
 | **M2** | Comparative Margin | $\ge +50.0\%$ | +100.0% | `PASS` |
 | **M3** | Conservation Law Violations | $= 0.0\%$ | 0 committed (0 rolled back) | `PASS` |
 | **M4** | Stale Version Commit Rate | $= 0.0\%$ | 0 | `PASS` |
-| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 24.0% | `PASS` |
+| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 24.0% | `FAIL` |
 | **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 492 tok | `PASS` |
 | **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 289.6 tok | `PASS` |
 | **M9** | Turn Latency SLA | $< 1000\text{ ms}$ | 591.0 ms | `PASS` |

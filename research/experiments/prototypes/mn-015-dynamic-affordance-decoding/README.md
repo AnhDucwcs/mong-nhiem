@@ -103,4 +103,4 @@ While combining prompt guidance and logit masking might appear redundant at firs
 ## 5. Strategic Predecessors & Successors
 
 - **Predecessor:** [MN-014: Grammar-Constrained Decoding](../mn-014-grammar-constrained-decoding/README.md) (Standard GBNF logit sampling established, ADR-0014).
-- **Successor:** [MN-Final: Stateful Simulated Microworld Evolution](../../../roadmap.md#north-star-horizon-mn-final--stateful-simulated-microworld-evolution) (Long-horizon world continuity over $T \ge 20-50$ steps).
+- **Successor:** [MN-018: Stateful Simulated Microworld Evolution](../../../roadmap.md#mn-018--stateful-simulated-microworld-evolution) (Long-horizon world continuity over $T \ge 20-50$ steps).

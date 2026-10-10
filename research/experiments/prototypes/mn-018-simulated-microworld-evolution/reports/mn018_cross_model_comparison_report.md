@@ -12,16 +12,16 @@
 
 ## 1. Executive Summary & Comparative Headline Metrics
 
-This report evaluates cross-model generalization and local hardware resource footprints for Milestone **MN-018 (Stateful Simulated Microworld Evolution / MN-Final)** across all three locally qualified open-weights models in Mộng Nhiễm. The benchmark executes 30 long-horizon microworld scenarios ($T = 50 - 100$ steps, $K = 5 - 8$ topological sub-goals) across 3 heterogeneous operational domains (Orbital Station Life Support, Smart Industrial Microgrid, Multi-Hub Fleet Supply Chain) under the matched 3-arm protocol.
+This report evaluates cross-model generalization and local hardware resource footprints for Milestone **MN-018 (Stateful Simulated Microworld Evolution)** across all three locally qualified open-weights models in Mộng Nhiễm. The benchmark executes 30 long-horizon microworld scenarios ($T = 50 - 100$ steps, $K = 5 - 8$ topological sub-goals) across 3 heterogeneous operational domains (Orbital Station Life Support, Smart Industrial Microgrid, Multi-Hub Fleet Supply Chain) under the matched 3-arm protocol.
 
 ### Table 1: Cross-Model Benchmark Synthesis (Arm 3)
 
-| Model Subject | Quantized File Size | Peak GPU VRAM (MiB) | VRAM Capacity (%) | Task Resolution (Arm 3) | Comparative Margin ($\Delta \text{Acc}$) | Committed Breaches | Max Prompt (tok) | Mean Latency (ms) | Gate B Verdict |
+| Model Subject | Quantized File Size | Peak GPU VRAM (MiB) | VRAM Capacity (%) | Task Resolution (Arm 3) | Comparative Margin ($\Delta \text{Acc}$) | Committed Breaches | Max Prompt (tok) | Mean Latency (ms) | Functional Verdict (M5 Gap) |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **`Qwen3.5-2B-Q4_K_M`** | **1.30 GB** | **1,662.0 MiB** | **40.6%** | **100.0% (30/30)** | **+100.0%** | **0** | **386** | **649.4 ms** | **PASS** |
-| **`Llama-3.2-3B-Instruct`** | 1.88 GB | **2,297.0 MiB** | **56.1%** | **100.0% (30/30)** | **+100.0%** | **0** | **392** | **483.0 ms** | **PASS** |
-| **`Qwen3-4B-Q4_K_M`** | 2.33 GB | **2,827.0 MiB** | **69.0%** | **100.0% (30/30)** | **+100.0%** | **0** | **483** | **587.7 ms** | **PASS** |
-| **Cross-Model Mean / Aggregate** | — | **2,262.0 MiB** | **55.2%** | **100.0% (90/90)** | **+100.0%** | **0** | **420.3** | **573.4 ms** | **ALL PASS** |
+| **`Qwen3.5-2B-Q4_K_M`** | **1.30 GB** | **1,662.0 MiB** | **40.6%** | **100.0% (30/30)** | **+100.0%** | **0** | **386** | **649.4 ms** | **CONDITIONAL (M5: 58%)** |
+| **`Llama-3.2-3B-Instruct`** | 1.88 GB | **2,297.0 MiB** | **56.1%** | **100.0% (30/30)** | **+100.0%** | **0** | **392** | **483.0 ms** | **CONDITIONAL (M5: 25%)** |
+| **`Qwen3-4B-Q4_K_M`** | 2.33 GB | **2,827.0 MiB** | **69.0%** | **100.0% (30/30)** | **+100.0%** | **0** | **483** | **587.7 ms** | **CONDITIONAL (M5: 33%)** |
+| **Cross-Model Mean / Aggregate** | — | **2,262.0 MiB** | **55.2%** | **100.0% (90/90)** | **+100.0%** | **0** | **420.3** | **573.4 ms** | **FUNCTIONAL PASS (M5 GAP)** |
 
 ---
 
@@ -65,5 +65,5 @@ Empirical VRAM measurements captured on the local `NVIDIA GeForce RTX 3050 Lapto
    The Mộng Nhiễm Dual-Engine Cognitive Host achieves identical 100.0% task resolution across three distinct open-weights architectures (Qwen 3.5, Llama 3.2, Qwen 3), confirming that the governance guarantees are domain-agnostic and model-agnostic.
 2. **Host-Side Rollback & Invariant Guarantees:**
    The Host Conservation Guard structurally prevents physical violations. While Qwen3.5 explored illegal actions in 10 cases, Memento Rollback intercepted all 10 transitions before state commit. Llama-3.2 and Qwen3-4B committed zero breaches from the start.
-3. **North Star Verification:**
-   All 11 Gate B criteria are fully satisfied across all three candidate models, formally closing the empirical roadmap of Mộng Nhiễm.
+3. **Stepping Stone on Cognitive Ladder:**
+   Core functional criteria (M1, M2, M3, M4, M7, M8, M9, M10, M11) are satisfied across all three candidate models. AutoDream memory compaction density (M5) exhibits an empirical gap (25.0% - 58.0% vs $\ge 70.0\%$ threshold), placing Milestone MN-018 in Conditional Disposition (Quarantined) as a foundational stepping stone towards future developmental horizons.

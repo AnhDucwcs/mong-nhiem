@@ -2,7 +2,7 @@
 
 ## 1. Milestone Overview
 
-Milestone **MN-017** bridges Mộng Nhiễm from turn-synchronous isolated agent tasks to **concurrent, evolving environments** with independent world dynamics, directly preparing the substrate for the North Star milestone **MN-Final / MN-018 (Stateful Simulated Microworld Evolution)**.
+Milestone **MN-017** bridges Mộng Nhiễm from turn-synchronous isolated agent tasks to **concurrent, evolving environments** with independent world dynamics, directly preparing the substrate for Milestone **MN-018 (Stateful Simulated Microworld Evolution)**.
 
 ### Problems Addressed
 1. **Passive Turn Synchrony**: In prior milestones (MN-001 through MN-016), world state mutated exclusively upon agent action dispatch. In real-world multi-entity simulations, environments exhibit asynchronous background flux (leases expire, resource levels drain, telemetry updates arrive).

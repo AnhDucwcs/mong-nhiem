@@ -319,12 +319,12 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      - `Qwen3-4B-Q4_K_M` (2.50 GB): Advanced from 13/40 (32.5%) pre-patch to **38/40 PASS (95.0%)** post-patch (Domain A: 13/15 [86.7%], Domain B: 15/15 [100%], Domain C: 10/10 [100%]), 413.3 ms latency.
    - All 3 models satisfied the $\le 512$ token ceiling and $< 1000$ ms turn latency SLA. Zero unmanaged stale overwrites committed across all models. Confirms that Host dynamic affordance pruning generalizes across heterogeneous model architectures, eliminating degenerate recall loops. See [`reports/mn017_cross_model_comparison_report.md`](experiments/prototypes/mn-017-dynamic-world-ticks/reports/mn017_cross_model_comparison_report.md).
 5. **Gate D Disposition Review:**
-   - Verified and closed per Gate D Disposition Review. Code remains quarantined in `research/experiments/prototypes/mn-017-dynamic-world-ticks/` per Mộng Nhiễm governance rules. Directs handoff to MN-Final.
+   - Verified and closed per Gate D Disposition Review. Code remains quarantined in `research/experiments/prototypes/mn-017-dynamic-world-ticks/` per Mộng Nhiễm governance rules. Directs handoff to MN-018.
 
-## MN-018 — Stateful Simulated Microworld Evolution (MN-Final: Full Cognitive Host Synthesis) — completed and verified
+## MN-018 — Stateful Simulated Microworld Evolution — verified prototype (Conditional Quarantine)
 
 1. **Milestone Summary & Scope:**
-   MN-018 represents the culminating North Star synthesis of the Mộng Nhiễm research project. It evaluates the ability of lightweight models ($< 4\text{B}$) to govern and evolve complex, multi-entity, long-horizon simulated microworlds ($T = 50 - 100$ steps) under continuous background dynamics, physical conservation laws (mass, energy, capacity), topological prerequisite dependencies, and multi-rate entity drift.
+   MN-018 establishes the foundational simulated microworld governance substrate, serving as an essential stepping stone on the cognitive architecture ladder. It evaluates the ability of lightweight models ($< 4\text{B}$) to govern and evolve complex, multi-entity, long-horizon simulated microworlds ($T = 50 - 100$ steps) under continuous background dynamics, physical conservation laws (mass, energy, capacity), topological prerequisite dependencies, and multi-rate entity drift.
 2. **Architectural Components Integrated:**
    - **Host-Authoritative Microworld Engine:** Multi-rate `WorldClock`, decoupled `WorldEntity` states with TTL/decay, atomic multi-entity transfer transactions, and strict `ConservationGuard` invariants.
    - **Hierarchical Mission Graph & Topological Sub-Goals:** Monotonic sub-goal retention preventing backward state regressions.
@@ -335,18 +335,18 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
 3. **Gate B & Gate C Empirical Results:**
    - **Track 1 (Deterministic State Simulator):**
      - Arm 1 (Flat Baseline): 0/30 PASS (0.0%), 30 premature resolution failures.
-     - Arm 2 (Static Plan Control): 30/30 PASS (100.0%).
+     - Arm 2 (Static Plan Control): 20/30 PASS (66.7% on corpus-v1, 0/30 on corpus-v2-stress; static checklist fails when invariant breaches occur).
      - Arm 3 (Dual-Engine Host): **30/30 PASS (100.0%)**, 0 horizon jumping, 0 conservation breaches committed.
    - **Track 2 (Real Model Inference on Qwen3.5-2B-Q4_K_M via llama-server):**
      - Arm 1 (Flat Baseline): 0/30 PASS (0.0%).
-     - Arm 2 (Static Plan Control): 0/30 PASS (0.0%), 30/30 premature resolution failures on Turn 1.
+     - Arm 2 (Static Plan Control): 0/30 PASS (0.0%), 30/30 failures (premature resolution or repetitive loops due to unconstrained grammar).
      - Arm 3 (Dual-Engine Host): **30/30 PASS (100.0%)** (Orbital Life Support: 10/10, Smart Microgrid: 10/10, Fleet Supply Chain: 10/10).
      - Comparative Margin ($\Delta \text{Accuracy}$): **+100.0%** (threshold $\ge +50.0\%$).
      - Physical Conservation Law Breaches: **0 committed to world state** (10 invariant breaches safely intercepted and rolled back by Memento).
      - Unmanaged Stale Overwrites Committed: **0**.
      - Token Ceiling Invariant: Max prompt **386 tokens** (ceiling $\le 512$), Mean prompt **184.5 tokens** (budget $\le 384$).
      - Turn Latency SLA: Mean turn latency **649.4 ms** ($< 1000\text{ ms}$), Host processing overhead $< 0.5\text{ ms}$.
-     - Autonomous Memory Consolidation: Sustained over long horizon with 1 consolidation cycle per case, bounding prompt growth.
+     - Autonomous Memory Consolidation (M5 Gap): Sustained over long horizon with 1 consolidation cycle per case; compression ratio achieved **58.0%** (Track 2) / **57.0%** (Track 1), falling below the frozen contract bound ($\ge 70.0\%$). M5 recorded as **FAIL / NOT MET**.
 4. **Cross-Model Benchmark Generalization & VRAM Footprint:**
    - Evaluated across all 3 qualified local open-weights models on consumer hardware (`NVIDIA RTX 3050 Laptop GPU`, 4,096 MiB VRAM):
      - `Qwen3.5-2B-Q4_K_M` (1.30 GB): **30/30 (100.0%)**, Peak VRAM **1,662.0 MiB** (1.62 GB, 40.6%), Turn Latency 649.4 ms.
@@ -359,23 +359,27 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      2. *Cascading Compound Environmental Shocks:* Multiple compound shock clusters across ticks 15, 30, 55, 80, 110, 135 (e.g. concurrent solar loss and thermal spikes) forcing dynamic affordance regeneration.
      3. *Ultra Long-Horizon ($T = 150 - 200$ ticks, $K = 8$ topological sub-goals):* Extended execution horizons across 10–22 turns, forcing 1 to 4 consecutive AutoDream consolidation cycles per episode.
    - **Cross-Model Stress Evaluation Results:**
-     - **Track 1 Simulator:** ARM3: 100.0% (30/30), ARM1: 0.0% (0/30).
+     - **Track 1 Simulator:** ARM3: 100.0% (30/30), ARM2: 0.0% (0/30), ARM1: 0.0% (0/30).
      - **`Qwen3.5-2B` (1.30 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 1,507 MiB (1.47 GB). Intercepted and rolled back **45 invariant breach traps**. AutoDream triggered across 3–4 cycles per episode. Max prompt: 503 tokens ($\le 512$), Mean prompt: 252.2 tokens. Mean latency: 613.3 ms.
      - **`Llama-3.2-3B` (1.88 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,299 MiB (2.25 GB). 0 breaches committed. Max prompt: 492 tokens ($\le 512$), Mean prompt: 289.6 tokens. Mean latency: 591.0 ms.
      - **`Qwen3-4B` (2.33 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,827 MiB (2.76 GB). 0 breaches committed. Mean prompt: 294.8 tokens. Mean latency: 668.4 ms.
      - **Aggregate Stress Outcome:** Across 90 stress episodes, ARM3 maintained **100.0% task success (90/90)**, with 0 committed conservation breaches, 0 unmanaged stale overwrites, and all models fitting comfortably within 4.0 GB VRAM. See [`reports/mn018_stress_cross_model_comparison_report.md`](experiments/prototypes/mn-018-simulated-microworld-evolution/reports/mn018_stress_cross_model_comparison_report.md).
-7. **Gate D Disposition & Closure:**
-   - Formal disposition: `full_cognitive_host_microworld_evolution_proven`.
-   - Gate D criteria fully satisfied under both baseline and high-difficulty stress suites. Prototype code quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` per Mộng Nhiễm governance rules. Pre-run and post-run cryptographic manifests frozen.
+7. **Gate D Disposition & Directional Review:**
+   - Formal disposition: `stateful_microworld_evolution_conditionally_verified_quarantined`.
+   - Core functional criteria (M1, M2, M3, M4, M7, M8, M9, M10, M11) fully validated; M5 memory compaction exhibits an empirical gap ($58.0\% < 70.0\%$). In strict adherence to Gate D governance, prototype code remains **QUARANTINED** in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted to `src/mong_nhiem/`.
+   - Pre-run and post-run cryptographic manifests frozen with full raw execution logs in `runs/`.
 
 ---
 
-## Active Transition & Project Culmination
+## Active Transition & Developmental Horizons
 
-1. **North Star Milestone Achieved:**
-   - The primary research objective of Mộng Nhiễm — demonstrating that small models (< 4B) can achieve zero-hallucination, long-horizon, physically consistent stateful governance when augmented by a dual-engine cognitive host — is empirically validated and complete across MN-001 through MN-018.
-2. **Canonical Evidence Freeze:**
-   - Complete architectural and experimental verification artifacts are crytpographically hashed and archived across `research/experiments/prototypes/mn-018-simulated-microworld-evolution/`.
+1. **Foundational Stepping Stone Achieved:**
+   - Milestone MN-018 successfully demonstrates that small models (< 4B) can achieve zero-hallucination, physically consistent microworld governance when supported by a dual-engine cognitive host. It serves as a vital rung on the architectural ladder rather than a project terminus.
+2. **Next Developmental Horizons:**
+   - **MN-019**: Continuous Non-Stationary Domain Drift & Dynamic Adaptation (evaluating agent adaptation under structural environment shifts where transition rules themselves evolve).
+   - **MN-020**: Multi-Agent Symbiosis & Distributed Cognitive Governance (scaling host cognitive authority across concurrent interacting agents in shared microworlds).
+3. **Canonical Evidence Freeze:**
+   - Complete architectural and experimental verification artifacts, raw execution traces (`runs/`), and cryptographic manifests are frozen across `research/experiments/prototypes/mn-018-simulated-microworld-evolution/`.
 
 
 

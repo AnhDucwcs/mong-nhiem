@@ -1,10 +1,11 @@
 # Academic Evaluation Report: Milestone MN-018
-## Stateful Simulated Microworld Evolution (MN-Final)
+## Stateful Simulated Microworld Evolution (Standard Baseline)
 
 **Date:** 2026-10-10 07:35:32 UTC  
 **Track:** Track 2 (Real LLM Inference)  
-**Model Evaluated:** `Qwen3-4B`  
-**Overall Verdict:** `PASS`  
+**Corpus:** `corpus-v1` (30 Standard Scenarios)  
+**Model Evaluated:** `Qwen3-4B-Q4_K_M.gguf`  
+**Overall Verdict:** `CONDITIONAL (M5 GAP)`  
 
 ---
 
@@ -33,7 +34,7 @@ Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 1
 | **M2** | Comparative Margin | $\ge +50.0\%$ | +100.0% | `PASS` |
 | **M3** | Conservation Law Violations | $= 0.0\%$ | 0 committed (0 rolled back) | `PASS` |
 | **M4** | Stale Version Commit Rate | $= 0.0\%$ | 0 | `PASS` |
-| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 33.0% | `PASS` |
+| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 33.0% | `FAIL` |
 | **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 483 tok | `PASS` |
 | **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 247.8 tok | `PASS` |
 | **M9** | Turn Latency SLA | $< 1000\text{ ms}$ | 587.7 ms | `PASS` |

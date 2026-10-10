@@ -1,13 +1,15 @@
 {
+  "corpus": "corpus-v1",
   "files": {
-    "README.md": "24869d93c2b03e1d904c598c63345d8a45d8193c5642744eaa2bb14a7b67bbfd",
-    "charter.md": "cedb2688c8dd45da43f9fa08f0ec60211d69a0ee465d4545de58d728dfa026fb",
+    "README.md": "8819e27295302b73d86d84c7936467bbde7a0cdf06ef99c2af291157b045bce3",
+    "charter.md": "0b2fbcbf1254229f06307a3d34c851b2043944dd8bdc61969bba7ab4cc7b89e7",
     "definition/corpus-v1/cases.json": "301609227cb8759e19724ef548a47150e7afd21be5618b619835dd2d8a9adb62",
-    "definition/post-run-freeze-manifest.json": "a05c3ff2ef480cef5f2b469a35e4f06557e475f8f45a06f9d191cfc42c3b40ed",
-    "definition/pre-run-freeze-manifest.json": "b1df9ceeabdeab546f8261dc4437ba7d33ca87f2007e34ad02b25328e3f37712",
-    "gate-b-contract.md": "7fccd9e9d769300955bfe769af08e495d1e991f4fcd19eb8af708b692c14c441",
+    "definition/corpus-v2-stress/cases.json": "f0e14caa10a34802c89356fbe5b6a1de71ee7ee469e64ad42529ea4491323615",
+    "gate-b-contract.md": "040d269b6b602881173cf3ddcdd80bfe7ab3497b3d6d099cdd3a4fa80b6ddccb",
     "scripts/generate_corpus.py": "044983c57d6d54882a9b7e85996a5590e1ba95ffab1c09a6df95e408b064c00f",
-    "scripts/run_benchmark.py": "a442d2c560c141f005e1d14fc458463ad7ba37542e3658f65c6763cc9d10574a",
+    "scripts/generate_stress_corpus.py": "39a3868bbbe5b346d3873c5713159e33a3b99ee371bf2b1c4827d2adc88beccc",
+    "scripts/populate_track2_audit_runs.py": "e153ec9bc0736d34d50e05c5176c99738b4a5e164b4b3af50c5f4515a1e12873",
+    "scripts/run_benchmark.py": "d0b966161cd8437a21ea874393802bcd7c3e521b000554cb11cd90c2788aa5ab",
     "src/__init__.py": "2d8cb1d4729b2f525e897632ddf8b76b7c19d021e1ec2c56b23b2734b0d30e62",
     "src/autodream_engine.py": "a5de1d74149e24a768101ba0c6613e285ab5700636982c157946a217d9d754b1",
     "src/concurrency_guard.py": "dec6f70a1edf85e01d56ff0b220cd5a26bfec80c7c41db7bd314d469257e69d3",
@@ -26,5 +28,5 @@
   },
   "milestone": "MN-018",
   "stage": "pre",
-  "timestamp_utc": "2026-10-10T07:28:13.844789+00:00"
+  "timestamp_utc": "2026-10-10T09:29:02.667807+00:00"
 }

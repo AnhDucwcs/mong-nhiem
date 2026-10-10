@@ -1,23 +1,25 @@
 # Academic Evaluation Report: Milestone MN-018
-## Stateful Simulated Microworld Evolution (MN-Final)
+## Stateful Simulated Microworld Evolution (Standard Baseline)
 
-**Date:** 2026-10-10 06:55:46 UTC  
+**Date:** 2026-10-10 09:22:31 UTC  
 **Track:** Track 1 (Programmatic State Simulator)  
+**Corpus:** `corpus-v1` (30 Standard Scenarios)  
 **Model Evaluated:** `Simulator`  
-**Overall Verdict:** `PASS`  
+**Overall Verdict:** `CONDITIONAL (M5 GAP)`  
 
 ---
 
 ### 1. Executive Summary
 
-Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 100$ steps) of lightweight language models coupled with the full Mộng Nhiễm Dual-Engine Cognitive Host across 30 complex microworld scenarios spanning Orbital Life Support, Smart Industrial Microgrid, and Multi-Hub Supply Chain.
+Milestone MN-018 evaluates the long-horizon governance capabilities (T = 50 - 100 steps, K = 5 subgoals) of lightweight language models coupled with the full Mộng Nhiễm Dual-Engine Cognitive Host across 30 microworld scenarios spanning Orbital Life Support, Smart Industrial Microgrid, and Multi-Hub Supply Chain.
 
 - **Arm 3 (Dual-Engine Host):** **30/30 (100.0%)** success rate.
-- **Arm 2 (Static Plan Control):** 30/30 (100.0%) success rate.
+- **Arm 2 (Static Plan Control):** 20/30 (66.7%) success rate.
 - **Arm 1 (Flat Baseline):** 0/30 (0.0%) success rate.
 - **Comparative Margin (Delta Accuracy):** **+100.0%** (threshold $\ge +50.0\%$).
 - **Physical Conservation Breaches:** **0** committed to world state (threshold $= 0$; **0** invariant breaches safely intercepted and rolled back by Memento).
 - **Stale Version Overwrites:** **0** committed (threshold $= 0$).
+
 - **Maximum Prompt Tokens:** **338** (ceiling $\le 512$).
 - **Mean Prompt Tokens:** **197.1** (budget $\le 384$).
 - **Mean Turn Latency:** **0.1 ms** (SLA $< 1000\text{ ms}$).
@@ -32,11 +34,12 @@ Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 1
 | **M2** | Comparative Margin | $\ge +50.0\%$ | +100.0% | `PASS` |
 | **M3** | Conservation Law Violations | $= 0.0\%$ | 0 committed (0 rolled back) | `PASS` |
 | **M4** | Stale Version Commit Rate | $= 0.0\%$ | 0 | `PASS` |
-| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 57.0% | `PASS` |
+| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 57.0% | `FAIL` |
 | **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 338 tok | `PASS` |
 | **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 197.1 tok | `PASS` |
 | **M9** | Turn Latency SLA | $< 1000\text{ ms}$ | 0.1 ms | `PASS` |
 | **M10** | Host Processing Overhead | $< 10.0\text{ ms}$ | $< 0.5\text{ ms}$ | `PASS` |
+
 
 ---
 
@@ -44,16 +47,16 @@ Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 1
 
 | Case ID | Domain | Horizon $T$ | Arm 1 Status | Arm 2 Status | Arm 3 Status | Max Prompt | AutoDream Cycles |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| `MN018-CASE-001` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-002` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-003` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-004` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-005` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-006` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-007` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-008` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-009` | Orbital | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-010` | Orbital | 100 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-001` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-002` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-003` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-004` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-005` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-006` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-007` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-008` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-009` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
+| `MN018-CASE-010` | Orbital | 100 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
 | `MN018-CASE-011` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
 | `MN018-CASE-012` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
 | `MN018-CASE-013` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
