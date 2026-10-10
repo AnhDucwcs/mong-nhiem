@@ -1,13 +1,13 @@
 {
   "files": {
-    "README.md": "ace6795435afb72e9940b7612daa9d112988c3a638b3bf7b3359f319703cb2cd",
+    "README.md": "924994bf2fde607136eb99507b6b0d321df61dd89e8adcdf7986cc1910163458",
     "charter.md": "9a85163bb02ebbe0d870bfb8521a6d3dcbabe36c402a45c2328ebdabf8b9d789",
     "definition/corpus-v1/cases.json": "e022f59eb1fa1aed5818ceef5aa72135d59a62883149e27e74aba2485df9def0",
     "definition/corpus-v1/manifest.json": "ac18b504d968bc6865cd53696d3335edfa9d24547a73da600b72805fae0cad1e",
-    "definition/post-run-freeze-manifest.json": "496691d0f797784eb467bbe8bd83d684b18094ac855d575a60274392d1b7913e",
+    "definition/post-run-freeze-manifest.json": "48dde6e76fca69384b93020ccdef9159a6c9787ee8c04b0d6148fdaa96d413c1",
     "definition/pre-run-freeze-manifest.json": "d374db985af629f42925e4d82e468f168b554fc0480419943e32c817f1b4835b",
     "gate-b-contract.md": "70ef30e9d8befe2702d89cea5f93d06596175b713a317fe889812e5d31136f1f",
-    "gate-d-disposition-review.md": "1300c8943ca00668fe30c05841d7a60b493c96d6875d4e27da2eaaa790384e2c",
+    "gate-d-disposition-review.md": "30d4339a4eba09d78ed060ffee3fd9a522c7a8c3129f4e16878d148c768bb34f",
     "reports/mn017_benchmark_report_mn017-run-20261010-094807-track1.md": "758fa2a951a7fca1cbfa93277e6960e0175e999d29af65603625c2a5e8604b5c",
     "reports/mn017_benchmark_report_mn017-run-20261010-094937-track1.md": "a323170cdf188a68d0898227bd8c8a06cb69aa9dc4ca175edcdf29d3c58d5b99",
     "reports/mn017_benchmark_report_mn017-run-20261010-095016-track2.md": "53e960bbeb18c81cc7c5f0e4f16f5cfc6f99349a48e778d8cb54c54a6235713a",
@@ -1130,5 +1130,5 @@
   },
   "milestone": "MN-017",
   "stage": "post",
-  "timestamp_utc": "2026-10-10T04:29:41.941490+00:00"
+  "timestamp_utc": "2026-10-10T05:49:57.714606+00:00"
 }

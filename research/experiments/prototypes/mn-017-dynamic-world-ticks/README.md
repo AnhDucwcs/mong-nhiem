@@ -67,9 +67,10 @@ python research/experiments/prototypes/mn-017-dynamic-world-ticks/scripts/run_be
   - Arm 3 (Dual-Engine MN-017): 40/40 PASS (100.0%), 0 horizon jumping, 0 premature resolutions, 0 unmanaged stale overwrites, 31 intercepted version drifts recovered via delta notices.
   - Token Usage: Peak 253.0 tokens, Mean 137.8 tokens ($\le 384$ SLA).
   - SLA Latency: 534.4 ms ($< 1000\text{ ms}$ SLA).
-- **Cross-Model Benchmark Comparison**:
-  - `Qwen3.5-2B-Q4_K_M.gguf`: 40/40 PASS (100.0%) across all 3 domains.
-  - `Llama-3.2-3B-Instruct-Q4_K_M.gguf`: 25/40 PASS (62.5% overall; Domain B: 15/15, Domain C: 10/10).
-  - `Qwen3-4B-Q4_K_M.gguf`: 13/40 PASS (32.5% overall; Domain A: 13/15).
+- **Cross-Model Benchmark Comparison (Post-Affordance Pruning)**:
+  - `Qwen3.5-2B-Q4_K_M.gguf`: **40/40 PASS (100.0%)** across all 3 domains, 502.8 ms latency.
+  - `Llama-3.2-3B-Instruct-Q4_K_M.gguf`: **35/40 PASS (87.5%)** (Domain B: 15/15 [100%], Domain C: 10/10 [100%], Domain A: 10/15 [66.7%]), 294.6 ms latency.
+  - `Qwen3-4B-Q4_K_M.gguf`: **38/40 PASS (95.0%)** (Domain A: 13/15 [86.7%], Domain B: 15/15 [100%], Domain C: 10/10 [100%]), 413.3 ms latency.
+  - Cross-Model Mean Accuracy: Surged from 65.0% pre-patch to **94.2%** post-patch (+29.2% absolute gain), with zero unmanaged stale overwrites committed across all runs.
   - Detailed cross-model report: [`reports/mn017_cross_model_comparison_report.md`](reports/mn017_cross_model_comparison_report.md).
 - **Gate Disposition**: `VERIFIED_PASS` — Gate D Review complete in [`gate-d-disposition-review.md`](gate-d-disposition-review.md).

@@ -181,6 +181,7 @@ Track: **NCC Phase 6 (Environmental Concurrency & Autonomous Planning).**
    - Overcame environmental drift and asynchronous background mutations via multi-rate simulation clocks ($\Delta t_{world} = 1-3$), monotonic versioning, and an Optimistic Concurrency Guard with Host-driven delta notices.
    - Eliminated Goal Divergence and Horizon Jumping on complex multi-stage objectives ($K = 3-5$ sub-goals, $T = 15-35$ steps) by combining topological DAG sub-goal planning with dynamic GBNF phase-gate logit masking.
    - Achieved 100.0% task resolution (40/40) on `Qwen3.5-2B`, with 0 unmanaged stale-state overwrites committed, 31 intercepted version drifts recovered, 0 horizon jumping events, 0 premature resolutions, peak prompt bounded at 253 tokens (mean 137.8 tokens), and 534.4 ms turn latency.
+   - Cross-Model Qualification: Host dynamic affordance pruning verified across all 3 local open-weights models (`Qwen3.5-2B`: 100.0%, `Qwen3-4B`: 95.0%, `Llama-3.2-3B`: 87.5%), lifting cross-model mean accuracy from 65.0% to 94.2% with zero unmanaged stale overwrites.
 2. **Core Architectural Pillars:**
    - **`DynamicWorldEngine`**: Multi-rate world clock, entity TTL decay, and background mutation loops.
    - **`HierarchicalPlanner`**: Topological DAG mission graph evaluated by Host symbolic predicates.
