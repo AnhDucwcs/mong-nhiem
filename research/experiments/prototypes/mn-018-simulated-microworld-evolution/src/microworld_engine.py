@@ -27,8 +27,23 @@ class WorldEntity:
             return True
         return not self.is_active
 
-    def render_fact_card(self) -> str:
-        """Render compact Fact Card strictly bounded to <= 48 tokens."""
+    def render_fact_card(self, compact: bool = False) -> str:
+        """Render compact Fact Card strictly bounded to <= 48 tokens.
+        
+        Args:
+            compact: If True, format as high-density representation for AutoDream memory.
+        """
+        if compact:
+            props = []
+            for k, v in sorted(self.properties.items()):
+                if isinstance(v, float):
+                    v_str = f"{v:.1f}".rstrip('0').rstrip('.')
+                else:
+                    v_str = str(v)
+                props.append(f"{k}:{v_str}")
+            props_str = " ".join(props)
+            exp_str = " EXPIRED" if self.is_expired() else ""
+            return f"[{self.entity_id} v{self.version}{exp_str} {props_str}]"
         status = "ACTIVE" if not self.is_expired() else "EXPIRED"
         props_str = " ".join(f"{k}={v}" for k, v in sorted(self.properties.items()))
         ttl_str = f" ttl={self.ttl}" if self.ttl is not None else ""

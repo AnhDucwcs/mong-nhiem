@@ -748,16 +748,17 @@
     "scripts/generate_corpus.py": "044983c57d6d54882a9b7e85996a5590e1ba95ffab1c09a6df95e408b064c00f",
     "scripts/generate_stress_corpus.py": "39a3868bbbe5b346d3873c5713159e33a3b99ee371bf2b1c4827d2adc88beccc",
     "scripts/populate_track2_audit_runs.py": "e153ec9bc0736d34d50e05c5176c99738b4a5e164b4b3af50c5f4515a1e12873",
-    "scripts/run_benchmark.py": "d0b966161cd8437a21ea874393802bcd7c3e521b000554cb11cd90c2788aa5ab",
+    "scripts/run_benchmark.py": "660c5b5ca09d2ad92edf8a21d329aebe252222497f61c8aff6e11f1f240650c6",
     "src/__init__.py": "2d8cb1d4729b2f525e897632ddf8b76b7c19d021e1ec2c56b23b2734b0d30e62",
-    "src/autodream_engine.py": "a5de1d74149e24a768101ba0c6613e285ab5700636982c157946a217d9d754b1",
+    "src/autodream_engine.py": "23245b0e01fd00141363875d076655e95caf235a11b2146dff5a8cf4b1d53081",
     "src/concurrency_guard.py": "dec6f70a1edf85e01d56ff0b220cd5a26bfec80c7c41db7bd314d469257e69d3",
     "src/dynamic_affordance.py": "22e946d865264f34c7a054ea5b7975429fde03f074a1dac158a03a9f1c783456",
     "src/episodic_memory.py": "beb7a6d48a1e08467778043baf86f891731c8759b991f8e69a2ef8c41ab2d680",
     "src/hierarchical_planner.py": "1658139fb29f507c25eb867cb4bf1fb396ff0a68f092e0e6a4750eb1946a0038",
     "src/memento_stack.py": "48d9238cddcc361bce0d85df924cd51f892d5fafc48feebcb72e01cf41d03a6f",
-    "src/microworld_engine.py": "9e799a515165098ceb92866a1fc07d83969989f1b520adc4cb6998f2de998593",
-    "src/orchestrator.py": "5de96dbef9d2a4780c0be13eda76b8835655baeb9ce176fa3bb89d7c82aacade",
+    "src/microworld_engine.py": "13780da4781bf9c5f49b164b02a8df03520389c480997b914d83044f8850975b",
+    "src/orchestrator.py": "b2297969be133c7604d9bb68b9567d730d2fc4549e3f7e2038bbb00d31952fc7",
+    "tests/test_autodream_benchmark.py": "95aa618b5afb5640b089ac76592f163ffde12cb00636ce7f7c191d9d51ce161d",
     "tests/test_concurrency_guard.py": "bdfb764d00eb5e355f305b329312e7a229a092dfb443e2db50dcf636f0db5650",
     "tests/test_dynamic_affordance.py": "866d2c4bd998da0fbc97f73b9ccbf51fd974698a3683202148e31558632c9184",
     "tests/test_episodic_autodream.py": "7d3e965af60019dabd00ee50839bb581ab43822624f2b65730aaa59ac3895848",
@@ -767,5 +768,5 @@
   },
   "milestone": "MN-018",
   "stage": "post",
-  "timestamp_utc": "2026-10-10T09:40:24.830955+00:00"
+  "timestamp_utc": "2026-10-10T10:05:33.596924+00:00"
 }

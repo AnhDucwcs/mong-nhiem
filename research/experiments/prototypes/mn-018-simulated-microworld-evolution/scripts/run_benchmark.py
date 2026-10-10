@@ -560,6 +560,8 @@ def execute_case_simulation(case: Dict[str, Any], arm: str) -> ExecutionResult:
             if len(recent_unprogressed) == 3 and len(set(recent_unprogressed)) == 1:
                 break
 
+    orch.finalize()
+
     success = (
         mission.is_mission_accomplished(engine)
         and not premature_count
@@ -667,6 +669,8 @@ def execute_case_inference(
             recent_unprogressed = [m.raw_action for m in turn_metrics[-3:] if not m.phase_advanced]
             if len(recent_unprogressed) == 3 and len(set(recent_unprogressed)) == 1:
                 break
+
+    orch.finalize()
 
     success = (
         mission.is_mission_accomplished(engine)

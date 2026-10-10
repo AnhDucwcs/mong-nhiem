@@ -87,13 +87,21 @@ class AutoDreamEngine:
         # This guarantees deterministic replay and ZERO contradictions
         for eid in touched_entities:
             ent = engine.get_entity(eid)
-            if ent:
-                self.declarative_cards[eid] = ent.render_fact_card()
+            if ent and not ent.is_expired():
+                self.declarative_cards[eid] = ent.render_fact_card(compact=True)
             elif eid in self.declarative_cards:
-                # Entity deleted/purged
+                # Entity deleted, expired, or purged
                 del self.declarative_cards[eid]
 
-        # 3. Calculate compacted token footprint
+        # Also prune any previously tracked entity that has since expired or been removed
+        expired_eids = [
+            eid for eid in self.declarative_cards
+            if engine.get_entity(eid) is None or engine.get_entity(eid).is_expired()
+        ]
+        for eid in expired_eids:
+            del self.declarative_cards[eid]
+
+        # 3. Calculate compacted token footprint of active declarative memory
         card_chars = sum(len(c) for c in self.declarative_cards.values())
         compacted_tokens = max(1, card_chars // 4)
 
@@ -101,7 +109,8 @@ class AutoDreamEngine:
         self.stats.total_cycles += 1
         self.stats.total_events_consolidated += len(unconsolidated)
         self.stats.raw_tokens_input += raw_tokens
-        self.stats.compacted_tokens_output += compacted_tokens
+        # Active consolidated memory footprint replacing cumulative raw event history in prompt
+        self.stats.compacted_tokens_output = compacted_tokens
         log.mark_consolidated()
 
         return True, len(unconsolidated)

@@ -361,3 +361,9 @@ class MN018Orchestrator:
         if len(tokens) >= 2:
             return tokens[1]
         return None
+
+    def finalize(self) -> None:
+        """Finalize episode execution, performing terminal consolidation pass if pending events exist."""
+        if self.arm == "arm3":
+            if self.episodic_log.get_unconsolidated_events():
+                self.autodream.consolidate(self.episodic_log, self.engine, force=True)
