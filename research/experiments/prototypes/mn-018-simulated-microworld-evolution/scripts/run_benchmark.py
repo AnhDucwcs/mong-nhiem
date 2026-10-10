@@ -51,11 +51,12 @@ DEFAULT_MODEL_GGUF = REPO_ROOT / "artifacts" / "models" / "mn-002" / "Qwen3.5-2B
 DEFAULT_LLAMA_SERVER = Path(r"D:\Materials\llama.cpp\build\bin\Release\llama-server.exe")
 
 
-def compute_freeze_manifest(stage: str = "pre") -> Path:
+def compute_freeze_manifest(stage: str = "pre", corpus: str = "corpus-v1") -> Path:
     """Compute and record SHA-256 manifest for pre-run or post-run freeze."""
     manifest_data: Dict[str, Any] = {
         "milestone": "MN-018",
         "stage": stage,
+        "corpus": corpus,
         "timestamp_utc": datetime.now(UTC).isoformat(),
         "files": {},
     }
@@ -91,7 +92,11 @@ def compute_freeze_manifest(stage: str = "pre") -> Path:
             h = hashlib.sha256(doc_path.read_bytes()).hexdigest()
             manifest_data["files"][doc] = h
 
-    out_file = DEFINITION_DIR / f"{stage}-run-freeze-manifest.json"
+    if corpus == "corpus-v2-stress":
+        out_file = DEFINITION_DIR / "corpus-v2-stress" / f"{stage}-run-freeze-manifest.json"
+    else:
+        out_file = DEFINITION_DIR / f"{stage}-run-freeze-manifest.json"
+
     out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(json.dumps(manifest_data, indent=2, sort_keys=True), encoding="utf-8")
     return out_file
@@ -329,8 +334,30 @@ def make_domain_action_executor(case: Dict[str, Any]) -> Any:
         elif cmd == "vent_cabin":
             # Venting cabin drops pressure to 90 kPa (below 95 kPa minimum, triggering invariant breach)
             return engine.mutate_entity("life_support", {"pressure_kpa": 90.0})[:2]
+        elif cmd == "purge_coolant":
+            # Purge coolant dumps reserve without transfer -> breaks coolant volume conservation
+            vol = float(tokens[2])
+            res = engine.get_entity("coolant_reserve")
+            if not res:
+                return False, "Coolant reserve missing"
+            return engine.mutate_entity("coolant_reserve", {"volume_liters": res.properties.get("volume_liters", 20.0) - vol})[:2]
+        elif cmd == "overheat_loop":
+            # Overheat loop triggers negative coolant volume invariant breach
+            return engine.mutate_entity("coolant_loop_b", {"volume_liters": -5.0})[:2]
+        elif cmd == "depressurize_buffer":
+            return engine.mutate_entity("life_support", {"pressure_kpa": float(tokens[2])})[:2]
+        elif cmd == "stow_solar_array":
+            return engine.mutate_entity("solar_array", {"output_kw": 0.0, "tracking_mode": "STOW"})[:2]
+        elif cmd == "set_radiator_mode":
+            return engine.mutate_entity("coolant_loop_b", {"radiator_mode": tokens[2]})[:2]
         elif cmd == "set_solar_mode":
             return engine.mutate_entity("solar_array", {"tracking_mode": tokens[2]})[:2]
+        elif cmd == "recalibrate_bus":
+            return engine.mutate_entity("power_bus", {"impedance_mode": tokens[2]})[:2]
+        elif cmd == "overload_bus":
+            return engine.mutate_entity("power_bus", {"stored_kwh": -10.0})[:2]
+        elif cmd == "seal_airlock":
+            return engine.mutate_entity("life_support", {"airlock_state": tokens[2]})[:2]
         elif cmd == "confirm_stabilization":
             return engine.mutate_entity("power_bus", {"stabilized": True})[:2]
 
@@ -338,62 +365,108 @@ def make_domain_action_executor(case: Dict[str, Any]) -> Any:
         elif cmd == "ramp_turbine":
             val = float(tokens[2])
             return engine.mutate_entity("gas_turbine", {"output_kw": val})[:2]
+        elif cmd == "trip_turbine":
+            return engine.mutate_entity("gas_turbine", {"output_kw": 0.0})[:2]
         elif cmd == "set_bess_mode":
             # set_bess_mode bess_unit DISCHARGE 30
             mode = tokens[2]
             return engine.mutate_entity("bess_unit", {"mode": mode})[:2]
+        elif cmd == "deep_discharge_bess":
+            return engine.mutate_entity("bess_unit", {"soc_percent": -10.0})[:2]
         elif cmd == "curtail_load":
             # curtail_load factory_load 100
             val = float(tokens[2])
             return engine.mutate_entity("factory_load", {"curtail_state": "CURTAILED", "power_kw": val})[:2]
+        elif cmd == "surge_factory_load":
+            return engine.mutate_entity("factory_load", {"power_kw": float(tokens[2])})[:2]
+        elif cmd == "sync_inverter":
+            return engine.mutate_entity("solar_pv", {"sync_mode": tokens[2]})[:2]
+        elif cmd == "overload_inverter":
+            return engine.mutate_entity("solar_pv", {"output_kw": float(tokens[2])})[:2]
         elif cmd == "lock_feeder":
             # lock_feeder hospital_ward DUAL_REDUNDANT
             return engine.mutate_entity("hospital_ward", {"feeder": tokens[2]})[:2]
+        elif cmd == "shed_hospital_feeder":
+            return engine.mutate_entity("hospital_ward", {"power_kw": 20.0})[:2]
+        elif cmd == "trim_power_factor":
+            return engine.mutate_entity("grid_controller", {"power_factor": float(tokens[2])})[:2]
+        elif cmd == "detune_capacitors":
+            return engine.mutate_entity("grid_controller", {"power_factor": float(tokens[2])})[:2]
+        elif cmd == "arm_breaker":
+            return engine.mutate_entity("grid_controller", {"breaker_state": tokens[2]})[:2]
+        elif cmd == "trip_breaker":
+            return engine.mutate_entity("grid_controller", {"breaker_state": "TRIPPED"})[:2]
         elif cmd == "certify_stability":
             return engine.mutate_entity("grid_controller", {"grid_stable": True})[:2]
 
         # Domain C Actions
         elif cmd == "load_payload":
-            # load_payload hub_alpha drone_alpha_1 4
+            # load_payload <hub> <drone> <units>
+            hub_id = tokens[1]
+            drone_id = tokens[2]
             units = int(tokens[3])
-            hub = engine.get_entity("hub_alpha")
-            drone = engine.get_entity("drone_alpha_1")
+            hub = engine.get_entity(hub_id)
+            drone = engine.get_entity(drone_id)
             if not hub or not drone:
                 return False, "Fleet entities missing"
-            new_hub_inv = hub.properties.get("inventory_units", 60) - units
+            new_hub_inv = hub.properties.get("inventory_units", 0) - units
             new_drone_pay = drone.properties.get("payload_units", 0) + units
             ok, msg, _ = engine.apply_transaction({
-                "hub_alpha": {"inventory_units": new_hub_inv},
-                "drone_alpha_1": {"payload_units": new_drone_pay},
+                hub_id: {"inventory_units": new_hub_inv},
+                drone_id: {"payload_units": new_drone_pay},
             })
             return ok, msg
         elif cmd == "dispatch_flight":
-            # dispatch_flight drone_alpha_1 hub_beta
+            # dispatch_flight <drone> <dest>
+            drone_id = tokens[1]
             dest = tokens[2]
-            return engine.mutate_entity("drone_alpha_1", {"location": dest, "route_status": "EN_ROUTE"})[:2]
+            return engine.mutate_entity(drone_id, {"location": dest, "route_status": "EN_ROUTE"})[:2]
         elif cmd == "unload_payload":
-            # unload_payload drone_alpha_1 hub_beta 4
+            # unload_payload <drone> <hub> <units>
+            drone_id = tokens[1]
+            hub_id = tokens[2]
             units = int(tokens[3])
-            drone = engine.get_entity("drone_alpha_1")
-            hub_beta = engine.get_entity("hub_beta")
-            if not drone or not hub_beta:
+            drone = engine.get_entity(drone_id)
+            hub = engine.get_entity(hub_id)
+            if not drone or not hub:
                 return False, "Fleet entities missing"
-            new_drone_pay = drone.properties.get("payload_units", 4) - units
-            new_beta_inv = hub_beta.properties.get("inventory_units", 40) + units
+            new_drone_pay = drone.properties.get("payload_units", 0) - units
+            new_hub_inv = hub.properties.get("inventory_units", 0) + units
             ok, msg, _ = engine.apply_transaction({
-                "drone_alpha_1": {"payload_units": new_drone_pay},
-                "hub_beta": {"inventory_units": new_beta_inv},
+                drone_id: {"payload_units": new_drone_pay},
+                hub_id: {"inventory_units": new_hub_inv},
             })
             return ok, msg
         elif cmd == "dock_recharge":
-            # dock_recharge drone_alpha_1 hub_beta
-            return engine.mutate_entity("drone_alpha_1", {"route_status": "RECHARGING", "battery_percent": 100.0})[:2]
+            # dock_recharge <drone> <hub>
+            drone_id = tokens[1]
+            return engine.mutate_entity(drone_id, {"route_status": "RECHARGING", "battery_percent": 100.0})[:2]
+        elif cmd == "dump_untracked_inventory":
+            # dump_untracked_inventory <drone> <units> -> breaks inventory conservation
+            drone_id = tokens[1]
+            units = int(tokens[2])
+            drone = engine.get_entity(drone_id)
+            if not drone:
+                return False, "Drone missing"
+            return engine.mutate_entity(drone_id, {"payload_units": max(0, drone.properties.get("payload_units", 0) - units)})[:2]
+        elif cmd == "overload_drone":
+            # overload_drone <drone> <units> -> breaks max_capacity
+            drone_id = tokens[1]
+            units = int(tokens[2])
+            return engine.mutate_entity(drone_id, {"payload_units": units})[:2]
+        elif cmd == "force_drain_battery":
+            # force_drain_battery <drone> 100 -> breaks battery >= 0
+            drone_id = tokens[1]
+            return engine.mutate_entity(drone_id, {"battery_percent": -10.0})[:2]
         elif cmd == "certify_fleet":
             return engine.mutate_entity("fleet_coordinator", {"mission_certified": True})[:2]
 
         # Read-only or inspection commands
-        elif any(act_target.startswith(p) for p in ("inspect_", "calibrate_", "poll_", "audit_", "status_", "throttle_", "disconnect_")):
-            return True, f"Inspected or calibrated {act_target} successfully."
+        elif any(act_target.startswith(p) for p in (
+            "inspect_", "calibrate_", "poll_", "audit_", "status_", "throttle_",
+            "disconnect_", "check_", "measure_", "hold_", "scan_",
+        )):
+            return True, f"Inspected or checked {act_target} successfully."
 
         return False, f"Unknown action: {act_target}"
 
@@ -453,12 +526,14 @@ def execute_case_simulation(case: Dict[str, Any], arm: str) -> ExecutionResult:
             # Arm 3 Full Cognitive Host: recalls entities if unobserved, dispatches valid active sub-goal actions
             active_sg = orch.planner.active_subgoal
             if active_sg:
-                # Check if target entity needs recall
-                tgt_id = active_sg.allowed_actions[0].split()[1] if len(active_sg.allowed_actions[0].split()) >= 2 else None
+                neg_actions = set(orch.memento.get_negative_actions())
+                candidate_actions = [a for a in active_sg.allowed_actions if a not in neg_actions]
+                chosen_act = candidate_actions[0] if candidate_actions else active_sg.allowed_actions[0]
+                tgt_id = chosen_act.split()[1] if len(chosen_act.split()) >= 2 else None
                 if tgt_id and tgt_id in engine.entities and tgt_id not in orch.working_entities:
                     raw_action = f"ACTION: RECALL {tgt_id}"
                 else:
-                    raw_action = f"ACTION: DISPATCH {active_sg.allowed_actions[0]}"
+                    raw_action = f"ACTION: DISPATCH {chosen_act}"
             else:
                 raw_action = "ACTION: RESOLVE COMPLETE"
 
@@ -625,10 +700,13 @@ def generate_academic_report(
     track: int,
     model_name: str,
     vram_info: Optional[Dict[str, float]] = None,
+    corpus: str = "corpus-v1",
 ) -> Path:
     """Generate formal academic markdown report adhering to Gate B contract."""
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    report_file = REPORTS_DIR / f"mn018_academic_benchmark_track{track}_{model_name}.md"
+    is_stress = (corpus == "corpus-v2-stress")
+    suffix = "_stress" if is_stress else ""
+    report_file = REPORTS_DIR / f"mn018{suffix}_academic_benchmark_track{track}_{model_name}.md"
 
     total_cases = len(results_by_arm.get("arm3", []))
     arm3_successes = sum(1 for r in results_by_arm.get("arm3", []) if r.success)
@@ -659,12 +737,14 @@ def generate_academic_report(
 
     overall_pass = m1_pass and m2_pass and m3_pass and m4_pass and m7_pass and m8_pass
 
+    title_suite = "Stress Suite (T=150-200 ticks, K=8 subgoals)" if is_stress else "Standard Baseline"
     lines = [
         f"# Academic Evaluation Report: Milestone MN-018",
-        f"## Stateful Simulated Microworld Evolution (MN-Final)",
+        f"## Stateful Simulated Microworld Evolution ({title_suite})",
         "",
         f"**Date:** {datetime.now(UTC).strftime('%Y-%m-%d %H:%M:%S UTC')}  ",
         f"**Track:** Track {track} ({'Programmatic State Simulator' if track == 1 else 'Real LLM Inference'})  ",
+        f"**Corpus:** `{corpus}` ({'30 High-Difficulty Stress Scenarios' if is_stress else '30 Standard Scenarios'})  ",
         f"**Model Evaluated:** `{model_name}`  ",
         f"**Overall Verdict:** `{'PASS' if overall_pass else 'FAIL'}`  ",
         "",
@@ -672,7 +752,7 @@ def generate_academic_report(
         "",
         "### 1. Executive Summary",
         "",
-        f"Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 100$ steps) of lightweight language models coupled with the full Mộng Nhiễm Dual-Engine Cognitive Host across 30 complex microworld scenarios spanning Orbital Life Support, Smart Industrial Microgrid, and Multi-Hub Supply Chain.",
+        f"Milestone MN-018 evaluates the long-horizon governance capabilities ({'T = 150 - 200 steps, K = 8 subgoals' if is_stress else 'T = 50 - 100 steps, K = 5 subgoals'}) of lightweight language models coupled with the full Mộng Nhiễm Dual-Engine Cognitive Host across 30 microworld scenarios spanning Orbital Life Support, Smart Industrial Microgrid, and Multi-Hub Supply Chain.",
         "",
         f"- **Arm 3 (Dual-Engine Host):** **{arm3_successes}/{total_cases} ({arm3_acc:.1f}%)** success rate.",
         f"- **Arm 2 (Static Plan Control):** {arm2_successes}/{total_cases} ({arm2_acc:.1f}%) success rate.",
@@ -715,7 +795,7 @@ def generate_academic_report(
         r2 = results_by_arm["arm2"][i]
         r1 = results_by_arm["arm1"][i]
         domain = "Orbital" if i < 10 else ("Microgrid" if i < 20 else "Supply Chain")
-        t_bound = 100 if (i + 1) in (10, 20, 30) else 60
+        t_bound = 150 if is_stress else (100 if (i + 1) in (10, 20, 30) else 60)
         lines.append(
             f"| `{r3.case_id}` | {domain} | {t_bound} | `{r1.terminal_status}` | `{r2.terminal_status}` | `{r3.terminal_status}` | {r3.max_prompt_tokens} | {r3.autodream_cycles} |"
         )
@@ -739,6 +819,7 @@ def generate_academic_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="MN-018 Benchmark Runner")
+    parser.add_argument("--corpus", choices=["corpus-v1", "corpus-v2-stress"], default="corpus-v1", help="Benchmark corpus")
     parser.add_argument("--freeze", choices=["pre", "post"], help="Compute cryptographic freeze manifest")
     parser.add_argument("--track", type=int, choices=[1, 2], help="Execution track (1: simulator, 2: LLM inference)")
     parser.add_argument("--model", type=str, default="qwen2b", help="Model to evaluate for Track 2 (qwen2b, llama3b, qwen4b)")
@@ -746,19 +827,20 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.freeze:
-        mfile = compute_freeze_manifest(stage=args.freeze)
+        mfile = compute_freeze_manifest(stage=args.freeze, corpus=args.corpus)
         print(f"Recorded {args.freeze}-run freeze manifest: {mfile}")
         return
 
-    if not CASES_FILE.exists():
-        print(f"Cases file {CASES_FILE} not found. Run generate_corpus.py first.")
+    cases_file = DEFINITION_DIR / args.corpus / "cases.json"
+    if not cases_file.exists():
+        print(f"Cases file {cases_file} not found. Run generator script first.")
         sys.exit(1)
 
-    cases = json.loads(CASES_FILE.read_text(encoding="utf-8"))
-    print(f"Loaded {len(cases)} benchmark cases from {CASES_FILE}")
+    cases = json.loads(cases_file.read_text(encoding="utf-8"))
+    print(f"Loaded {len(cases)} benchmark cases from {cases_file}")
 
     if args.track == 1:
-        print("\n=== Executing Track 1 (Programmatic State Machine Simulator) ===")
+        print(f"\n=== Executing Track 1 on {args.corpus} (Programmatic State Machine Simulator) ===")
         results: Dict[str, List[ExecutionResult]] = {"arm1": [], "arm2": [], "arm3": []}
 
         for arm in ["arm1", "arm2", "arm3"]:
@@ -769,10 +851,10 @@ def main() -> None:
             acc = sum(1 for r in results[arm] if r.success) / len(cases) * 100.0
             print(f"  {arm.upper()} Accuracy: {acc:.1f}% ({sum(1 for r in results[arm] if r.success)}/{len(cases)})")
 
-        generate_academic_report(results, track=1, model_name="Simulator")
+        generate_academic_report(results, track=1, model_name="Simulator", corpus=args.corpus)
 
     elif args.track == 2:
-        print(f"\n=== Executing Track 2 (Real Model Inference: {args.model}) ===")
+        print(f"\n=== Executing Track 2 on {args.corpus} (Real Model Inference: {args.model}) ===")
         client = LlamaServerClient(endpoint_url=f"http://127.0.0.1:{args.port}")
 
         # Check if server is running
@@ -798,7 +880,7 @@ def main() -> None:
             print(f"Finished {arm.upper()}: {acc:.1f}% accuracy.")
 
         vram_info = get_gpu_vram_info()
-        generate_academic_report(results, track=2, model_name=args.model, vram_info=vram_info)
+        generate_academic_report(results, track=2, model_name=args.model, vram_info=vram_info, corpus=args.corpus)
 
 
 if __name__ == "__main__":
