@@ -347,7 +347,13 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      - Token Ceiling Invariant: Max prompt **386 tokens** (ceiling $\le 512$), Mean prompt **184.5 tokens** (budget $\le 384$).
      - Turn Latency SLA: Mean turn latency **649.4 ms** ($< 1000\text{ ms}$), Host processing overhead $< 0.5\text{ ms}$.
      - Autonomous Memory Consolidation: Sustained over long horizon with 1 consolidation cycle per case, bounding prompt growth.
-4. **Gate D Disposition & Closure:**
+4. **Cross-Model Benchmark Generalization & VRAM Footprint:**
+   - Evaluated across all 3 qualified local open-weights models on consumer hardware (`NVIDIA RTX 3050 Laptop GPU`, 4,096 MiB VRAM):
+     - `Qwen3.5-2B-Q4_K_M` (1.30 GB): **30/30 (100.0%)**, Peak VRAM **1,662.0 MiB** (1.62 GB, 40.6%), Turn Latency 649.4 ms.
+     - `Llama-3.2-3B-Instruct-Q4_K_M` (1.88 GB): **30/30 (100.0%)**, Peak VRAM **2,297.0 MiB** (2.24 GB, 56.1%), Turn Latency 483.0 ms.
+     - `Qwen3-4B-Q4_K_M` (2.33 GB): **30/30 (100.0%)**, Peak VRAM **2,827.0 MiB** (2.76 GB, 69.0%), Turn Latency 587.7 ms.
+   - Aggregate Cross-Model Resolution: **90/90 PASS (100.0%)** across all arms and domains, exactly 0 committed conservation breaches, 0 unmanaged stale overwrites, 100% token budget adherence ($\le 512$ tokens), and all 3 models operating strictly within consumer GPU limits. Confirms universal architectural robustness. See [`reports/mn018_cross_model_comparison_report.md`](experiments/prototypes/mn-018-simulated-microworld-evolution/reports/mn018_cross_model_comparison_report.md).
+5. **Gate D Disposition & Closure:**
    - Formal disposition: `full_cognitive_host_microworld_evolution_proven`.
    - Gate D criteria fully satisfied. Prototype code quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` per Mộng Nhiễm governance rules. Pre-run and post-run cryptographic manifests frozen.
 

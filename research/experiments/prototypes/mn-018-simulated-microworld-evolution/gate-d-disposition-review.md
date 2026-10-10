@@ -25,8 +25,13 @@ Canonical Evidence:
       * Token Budget Ceiling: 100.0% turns <= 512 tokens (Max 386, Mean 184.5)
       * Mean Turn Latency: 649.4 ms (< 1000 ms SLA)
       * AutoDream Memory Consolidation: Sustained over T=50-100 steps with 58.0% - 75.0% compression ratio
+      * Peak GPU VRAM Usage: 1,662.0 MiB (1.62 GB / 4.0 GB, 40.6%)
+  - Track 2 Cross-Model Generalization (Llama-3.2-3B & Qwen3-4B):
+      * Llama-3.2-3B-Instruct: 30/30 PASS (100.0%), VRAM 2,297.0 MiB (2.24 GB, 56.1%), Latency 483.0 ms
+      * Qwen3-4B-Q4_K_M: 30/30 PASS (100.0%), VRAM 2,827.0 MiB (2.76 GB, 69.0%), Latency 587.7 ms
+      * Aggregate Cross-Model Resolution: 90/90 PASS (100.0%), 0 committed conservation breaches
   - Prototype Test Suite: 18/18 PASSED (100.0%)
-  - Master Repository Regression Suite: 441/441 PASSED (100.0%)
+  - Master Repository Regression Suite: 459/459 PASSED (100.0%)
 ```
 
 This disposition is strictly bounded to the Primary Research Subject (`Qwen3.5-2B-Q4_K_M.gguf` on local `llama-server.exe` runtime) and the frozen 30-case long-horizon microworld benchmark corpus (`definition/corpus-v1/cases.json`).
