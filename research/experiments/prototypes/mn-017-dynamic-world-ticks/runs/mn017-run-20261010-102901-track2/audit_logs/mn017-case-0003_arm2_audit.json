@@ -1,0 +1,48 @@
+{
+  "case_id": "mn017-case-0003",
+  "arm": "arm2",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 2,
+  "final_world_tick": 2,
+  "stale_violations": 0,
+  "horizon_jumping_events": 0,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 109,
+  "mean_prompt_tokens": 108.0,
+  "mean_turn_latency_ms": 231.49949999969976,
+  "stale_intercepted": 0,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 1,
+      "prompt_tokens": 109,
+      "raw_action": "ACTION: DISPATCH acquire_lease lease_3",
+      "action_type": "DISPATCH",
+      "action_target": "acquire_lease lease_3",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.24450000000797445,
+      "model_latency_ms": 261.5422999997463
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 107,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.1770999997461331,
+      "model_latency_ms": 201.4566999996532
+    }
+  ]
+}

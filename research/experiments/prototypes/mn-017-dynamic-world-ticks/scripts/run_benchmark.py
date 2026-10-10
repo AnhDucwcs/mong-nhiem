@@ -116,7 +116,7 @@ class LlamaServerClient:
             "temperature": temperature,
             "n_predict": max_tokens,
             "stream": False,
-            "stop": ["\n", "<|im_end|>", "<|endoftext|>"],
+            "stop": ["\n", "<|im_end|>", "<|endoftext|>", "<|eot_id|>", "<|end_of_text|>"],
         }
         if grammar:
             payload["grammar"] = grammar
@@ -701,8 +701,14 @@ def load_run_results(run_dir: Path) -> Tuple[Dict[str, List[ExecutionResult]], i
         )
         arm_results[arm].append(res)
     
-    track = 2 if "track2" in run_dir.name else 1
-    model_name = "Qwen3.5-2B-Q4_K_M.gguf" if track == 2 else "Deterministic Simulator"
+    meta_file = run_dir / "meta.json"
+    if meta_file.exists():
+        meta = json.loads(meta_file.read_text(encoding="utf-8"))
+        track = meta.get("track", 2 if "track2" in run_dir.name else 1)
+        model_name = meta.get("model", "Qwen3.5-2B-Q4_K_M.gguf")
+    else:
+        track = 2 if "track2" in run_dir.name else 1
+        model_name = "Qwen3.5-2B-Q4_K_M.gguf" if track == 2 else "Deterministic Simulator"
     return arm_results, track, model_name
 
 
@@ -743,14 +749,24 @@ def main() -> None:
     audit_dir = run_dir / "audit_logs"
     audit_dir.mkdir(parents=True, exist_ok=True)
 
+    meta = {
+        "run_id": run_id,
+        "track": args.track,
+        "model": Path(args.model).name if args.track == 2 else "Deterministic Simulator",
+        "timestamp_utc": datetime.now(UTC).isoformat(),
+        "cases": len(cases_data),
+    }
+    (run_dir / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
     print(f"=== Starting MN-017 Benchmark ({run_id}) ===")
+    print(f"Model: {meta['model']}")
     print(f"Evaluating {len(cases_data)} cases on Track {args.track} across Arms 1, 2, and 3.")
 
     server_mgr: Optional[LlamaServerManager] = None
     client: Optional[LlamaServerClient] = None
 
     if args.track == 2:
-        server_mgr = LlamaServerManager(port=args.port)
+        server_mgr = LlamaServerManager(model_gguf=Path(args.model), port=args.port)
         server_mgr.start()
         client = LlamaServerClient(f"http://127.0.0.1:{args.port}")
 

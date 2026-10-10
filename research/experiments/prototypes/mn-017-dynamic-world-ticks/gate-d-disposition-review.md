@@ -52,6 +52,14 @@ The canonical Gate C execution completed evaluations across 3 operational domain
 | **Max Prompt Tokens** | 225 | 178 | **253** | $\le 512$ | **PASS** |
 | **Mean Turn Latency** | 919.2 ms | 318.4 ms | **534.4 ms** | $< 1000.0\text{ ms}$ | **PASS** |
 
+### Cross-Model Comparative Generalization
+
+Following primary verification, the identical 40-case Track 2 benchmark was executed across the two secondary reference subjects:
+- **`Llama-3.2-3B-Instruct-Q4_K_M`**: 25/40 PASS (62.5% overall; Domain A: 0/15 due to idempotent recall loop; Domain B: 15/15 [100.0%]; Domain C: 10/10 [100.0%]; 339.4 ms latency).
+- **`Qwen3-4B-Q4_K_M`**: 13/40 PASS (32.5% overall; Domain A: 13/15 [86.7%]; Domain B: 0/15 and Domain C: 0/10 due to idempotent recall loop; 445.3 ms latency).
+
+Detailed comparative distributions are recorded in [`reports/mn017_cross_model_comparison_report.md`](reports/mn017_cross_model_comparison_report.md).
+
 ---
 
 ## 2. Gate B Acceptance Rules Audit
