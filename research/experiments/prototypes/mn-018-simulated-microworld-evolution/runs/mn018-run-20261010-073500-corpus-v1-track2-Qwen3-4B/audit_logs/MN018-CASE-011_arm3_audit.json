@@ -11,12 +11,12 @@
   "conservation_breaches": 0,
   "token_ceiling_violations": 0,
   "max_prompt_tokens": 422,
-  "mean_prompt_tokens": 210.3,
+  "mean_prompt_tokens": 200.7,
   "mean_turn_latency_ms": 587.7,
   "stale_intercepted": 0,
   "conservation_intercepted": 0,
-  "autodream_cycles": 1,
-  "compression_ratio": 0.52,
+  "autodream_cycles": 2,
+  "compression_ratio": 0.63,
   "turn_history": [
     {
       "turn_idx": 1,
@@ -31,7 +31,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.11269999959040433,
+      "host_latency_ms": 0.11689999882946722,
       "model_latency_ms": 587.7
     },
     {
@@ -47,7 +47,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.19890000112354755,
+      "host_latency_ms": 0.2111000030708965,
       "model_latency_ms": 587.7
     },
     {
@@ -63,7 +63,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.08309999975608662,
+      "host_latency_ms": 0.0855999969644472,
       "model_latency_ms": 587.7
     },
     {
@@ -79,7 +79,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.19270000120741315,
+      "host_latency_ms": 0.18909999926108867,
       "model_latency_ms": 587.7
     },
     {
@@ -95,7 +95,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.07350000305450521,
+      "host_latency_ms": 0.07680000271648169,
       "model_latency_ms": 587.7
     },
     {
@@ -111,13 +111,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.20640000002458692,
+      "host_latency_ms": 0.26309999884688295,
       "model_latency_ms": 587.7
     },
     {
       "turn_idx": 7,
       "world_tick": 7,
-      "prompt_tokens": 263,
+      "prompt_tokens": 242,
       "raw_action": "ACTION: RECALL hospital_ward",
       "action_type": "RECALL",
       "action_target": "hospital_ward",
@@ -127,13 +127,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.05949999831500463,
+      "host_latency_ms": 0.06230000144569203,
       "model_latency_ms": 587.7
     },
     {
       "turn_idx": 8,
       "world_tick": 8,
-      "prompt_tokens": 287,
+      "prompt_tokens": 266,
       "raw_action": "ACTION: DISPATCH lock_feeder hospital_ward DUAL_REDUNDANT",
       "action_type": "DISPATCH",
       "action_target": "lock_feeder hospital_ward DUAL_REDUNDANT",
@@ -143,13 +143,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.16150000010384247,
+      "host_latency_ms": 0.18210000052931719,
       "model_latency_ms": 587.7
     },
     {
       "turn_idx": 9,
       "world_tick": 9,
-      "prompt_tokens": 287,
+      "prompt_tokens": 266,
       "raw_action": "ACTION: RECALL grid_controller",
       "action_type": "RECALL",
       "action_target": "grid_controller",
@@ -159,13 +159,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.06040000153006986,
+      "host_latency_ms": 0.06159999975352548,
       "model_latency_ms": 587.7
     },
     {
       "turn_idx": 10,
       "world_tick": 10,
-      "prompt_tokens": 321,
+      "prompt_tokens": 300,
       "raw_action": "ACTION: DISPATCH certify_stability grid_controller",
       "action_type": "DISPATCH",
       "action_target": "certify_stability grid_controller",
@@ -175,13 +175,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.15209999764920212,
+      "host_latency_ms": 0.1554000009491574,
       "model_latency_ms": 587.7
     },
     {
       "turn_idx": 11,
       "world_tick": 11,
-      "prompt_tokens": 302,
+      "prompt_tokens": 281,
       "raw_action": "ACTION: RESOLVE COMPLETE",
       "action_type": "RESOLVE",
       "action_target": "COMPLETE",
@@ -191,7 +191,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.01759999940986745,
+      "host_latency_ms": 0.016900001355679706,
       "model_latency_ms": 587.7
     }
   ]

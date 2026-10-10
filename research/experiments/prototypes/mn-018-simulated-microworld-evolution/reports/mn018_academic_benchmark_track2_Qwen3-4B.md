@@ -1,17 +1,17 @@
 # Academic Evaluation Report: Milestone MN-018
 ## Stateful Simulated Microworld Evolution (Standard Baseline)
 
-**Date:** 2026-10-10 07:35:32 UTC  
+**Date:** 2026-10-10 10:13:12 UTC  
 **Track:** Track 2 (Real LLM Inference)  
 **Corpus:** `corpus-v1` (30 Standard Scenarios)  
-**Model Evaluated:** `Qwen3-4B-Q4_K_M.gguf`  
-**Overall Verdict:** `CONDITIONAL (M5 GAP)`  
+**Model Evaluated:** `Qwen3-4B`  
+**Overall Verdict:** `PASS`  
 
 ---
 
 ### 1. Executive Summary
 
-Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 100$ steps) of lightweight language models coupled with the full Mộng Nhiễm Dual-Engine Cognitive Host across 30 complex microworld scenarios spanning Orbital Life Support, Smart Industrial Microgrid, and Multi-Hub Supply Chain.
+Milestone MN-018 evaluates the long-horizon governance capabilities (T = 50 - 100 steps, K = 5 subgoals) of lightweight language models coupled with the full Mộng Nhiễm Dual-Engine Cognitive Host across 30 microworld scenarios spanning Orbital Life Support, Smart Industrial Microgrid, and Multi-Hub Supply Chain.
 
 - **Arm 3 (Dual-Engine Host):** **30/30 (100.0%)** success rate.
 - **Arm 2 (Static Plan Control):** 0/30 (0.0%) success rate.
@@ -21,7 +21,7 @@ Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 1
 - **Stale Version Overwrites:** **0** committed (threshold $= 0$).
 - **Peak GPU VRAM Usage:** **2827.0 MiB** (2.76 GB / 4.00 GB, 69.0% capacity).
 - **Maximum Prompt Tokens:** **483** (ceiling $\le 512$).
-- **Mean Prompt Tokens:** **247.8** (budget $\le 384$).
+- **Mean Prompt Tokens:** **180.3** (budget $\le 384$).
 - **Mean Turn Latency:** **587.7 ms** (SLA $< 1000\text{ ms}$).
 
 ---
@@ -34,9 +34,9 @@ Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 1
 | **M2** | Comparative Margin | $\ge +50.0\%$ | +100.0% | `PASS` |
 | **M3** | Conservation Law Violations | $= 0.0\%$ | 0 committed (0 rolled back) | `PASS` |
 | **M4** | Stale Version Commit Rate | $= 0.0\%$ | 0 | `PASS` |
-| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 33.0% | `FAIL` |
+| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 70.0% | `PASS` |
 | **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 483 tok | `PASS` |
-| **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 247.8 tok | `PASS` |
+| **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 180.3 tok | `PASS` |
 | **M9** | Turn Latency SLA | $< 1000\text{ ms}$ | 587.7 ms | `PASS` |
 | **M10** | Host Processing Overhead | $< 10.0\text{ ms}$ | $< 0.5\text{ ms}$ | `PASS` |
 | **M11** | Peak VRAM Footprint | $\le 3072\text{ MiB}$ (3.0 GB) | 2827.0 MiB (2.76 GB) | `PASS` |
@@ -57,26 +57,26 @@ Milestone MN-018 evaluates the long-horizon governance capabilities ($T = 50 - 1
 | `MN018-CASE-008` | Orbital | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 419 | 2 |
 | `MN018-CASE-009` | Orbital | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 419 | 2 |
 | `MN018-CASE-010` | Orbital | 100 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 419 | 2 |
-| `MN018-CASE-011` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-012` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-013` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-014` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-015` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-016` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-017` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 387 | 1 |
-| `MN018-CASE-018` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 1 |
-| `MN018-CASE-019` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 387 | 1 |
-| `MN018-CASE-020` | Microgrid | 100 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 387 | 1 |
-| `MN018-CASE-021` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-022` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 408 | 1 |
-| `MN018-CASE-023` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-024` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-025` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-026` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-027` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-028` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 1 |
-| `MN018-CASE-029` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 408 | 1 |
-| `MN018-CASE-030` | Supply Chain | 100 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 408 | 1 |
+| `MN018-CASE-011` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-012` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-013` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-014` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-015` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-016` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-017` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 387 | 2 |
+| `MN018-CASE-018` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 422 | 2 |
+| `MN018-CASE-019` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 387 | 2 |
+| `MN018-CASE-020` | Microgrid | 100 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 387 | 2 |
+| `MN018-CASE-021` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-022` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 408 | 2 |
+| `MN018-CASE-023` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-024` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-025` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-026` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-027` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-028` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 389 | 2 |
+| `MN018-CASE-029` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 408 | 2 |
+| `MN018-CASE-030` | Supply Chain | 100 | `PREMATURE_RESOLUTION` | `PREMATURE_RESOLUTION` | `SUCCESS` | 408 | 2 |
 
 ---
 

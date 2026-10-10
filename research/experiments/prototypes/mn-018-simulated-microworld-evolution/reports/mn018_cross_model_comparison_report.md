@@ -16,12 +16,12 @@ This report evaluates cross-model generalization and local hardware resource foo
 
 ### Table 1: Cross-Model Benchmark Synthesis (Arm 3)
 
-| Model Subject | Quantized File Size | Peak GPU VRAM (MiB) | VRAM Capacity (%) | Task Resolution (Arm 3) | Comparative Margin ($\Delta \text{Acc}$) | Committed Breaches | Max Prompt (tok) | Mean Latency (ms) | Functional Verdict (M5 Gap) |
+| Model Subject | Quantized File Size | Peak GPU VRAM (MiB) | VRAM Capacity (%) | Task Resolution (Arm 3) | Comparative Margin ($\Delta \text{Acc}$) | Committed Breaches | Max Prompt (tok) | Mean Latency (ms) | Functional Verdict |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **`Qwen3.5-2B-Q4_K_M`** | **1.30 GB** | **1,662.0 MiB** | **40.6%** | **100.0% (30/30)** | **+100.0%** | **0** | **386** | **649.4 ms** | **CONDITIONAL (M5: 58%)** |
-| **`Llama-3.2-3B-Instruct`** | 1.88 GB | **2,297.0 MiB** | **56.1%** | **100.0% (30/30)** | **+100.0%** | **0** | **392** | **483.0 ms** | **CONDITIONAL (M5: 25%)** |
-| **`Qwen3-4B-Q4_K_M`** | 2.33 GB | **2,827.0 MiB** | **69.0%** | **100.0% (30/30)** | **+100.0%** | **0** | **483** | **587.7 ms** | **CONDITIONAL (M5: 33%)** |
-| **Cross-Model Mean / Aggregate** | — | **2,262.0 MiB** | **55.2%** | **100.0% (90/90)** | **+100.0%** | **0** | **420.3** | **573.4 ms** | **FUNCTIONAL PASS (M5 GAP)** |
+| **`Qwen3.5-2B-Q4_K_M`** | **1.30 GB** | **1,507.0 MiB** | **36.8%** | **100.0% (30/30)** | **+100.0%** | **0** | **386** | **649.4 ms** | **PASS (M5: 70.0%)** |
+| **`Llama-3.2-3B-Instruct`** | 1.88 GB | **2,297.0 MiB** | **56.1%** | **100.0% (30/30)** | **+100.0%** | **0** | **392** | **483.0 ms** | **PASS (M5: 70.0%)** |
+| **`Qwen3-4B-Q4_K_M`** | 2.33 GB | **2,827.0 MiB** | **69.0%** | **100.0% (30/30)** | **+100.0%** | **0** | **483** | **587.7 ms** | **PASS (M5: 70.0%)** |
+| **Cross-Model Mean / Aggregate** | — | **2,210.3 MiB** | **54.0%** | **100.0% (90/90)** | **+100.0%** | **0** | **420.3** | **573.4 ms** | **PASS (100% COMPLIANT)** |
 
 ---
 

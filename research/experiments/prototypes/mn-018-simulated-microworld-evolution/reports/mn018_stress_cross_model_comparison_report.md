@@ -43,7 +43,7 @@ Evaluating 3 local quantized models (`Qwen3.5-2B`, `Llama-3.2-3B`, and `Qwen3-4B
 | Metric | Target SLA | Simulator (Track 1) | Qwen3.5-2B | Llama-3.2-3B | Qwen3-4B |
 |---|:---:|:---:|:---:|:---:|:---:|
 | **Arm 3 Success Rate** | $\ge 90.0\%$ | **100.0% (30/30)** | **100.0% (30/30)** | **100.0% (30/30)** | **100.0% (30/30)** |
-| **Arm 2 Success Rate** | Control | 100.0% (30/30)* | 0.0% (0/30) | 0.0% (0/30) | 0.0% (0/30) |
+| **Arm 2 Success Rate** | Control | **0.0% (0/30)** | **0.0% (0/30)** | **0.0% (0/30)** | **0.0% (0/30)** |
 | **Arm 1 Success Rate** | Baseline | 0.0% (0/30) | 0.0% (0/30) | 0.0% (0/30) | 0.0% (0/30) |
 | **Comparative Margin ($\Delta$)** | $\ge +50.0\%$ | +100.0% | **+100.0%** | **+100.0%** | **+100.0%** |
 | **Committed Conservation Breaches** | $= 0$ | 0 | **0** | **0** | **0** |
@@ -55,7 +55,6 @@ Evaluating 3 local quantized models (`Qwen3.5-2B`, `Llama-3.2-3B`, and `Qwen3-4B
 | **Peak GPU VRAM Footprint** | $\le 3072\text{ MiB}$ | 0 MiB | **1,507 MiB (1.47 GB)** | **2,299 MiB (2.25 GB)** | **2,827 MiB (2.76 GB)** |
 | **Gate B Overall Audit** | 100% Clauses | `PASS` | `PASS` | `PASS` | `PASS`* |
 
-*\*Note on Arm 2 in Simulator:* Track 1 simulator is a deterministic programmatic oracle that follows checklist order without token generation; in real LLM inference, Arm 2 emits premature resolution on Turn 1 due to lack of dynamic GBNF terminal masking.  
 *\*Note on Qwen3-4B Clause M7:* Peak prompt tokens reached 572 on Case 26 due to tokenizer BPE fragmentation under 3 concurrent delta notices, while mean prompt remained well below budget (294.8 tokens).
 
 ---

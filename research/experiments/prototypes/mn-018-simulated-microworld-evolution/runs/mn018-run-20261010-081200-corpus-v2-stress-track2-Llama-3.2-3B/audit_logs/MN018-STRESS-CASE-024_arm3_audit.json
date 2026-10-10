@@ -11,12 +11,12 @@
   "conservation_breaches": 0,
   "token_ceiling_violations": 0,
   "max_prompt_tokens": 407,
-  "mean_prompt_tokens": 229.5,
+  "mean_prompt_tokens": 222.5,
   "mean_turn_latency_ms": 591.0,
   "stale_intercepted": 0,
   "conservation_intercepted": 0,
   "autodream_cycles": 2,
-  "compression_ratio": 0.56,
+  "compression_ratio": 0.67,
   "turn_history": [
     {
       "turn_idx": 1,
@@ -31,7 +31,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.12179999976069666,
+      "host_latency_ms": 0.134599999000784,
       "model_latency_ms": 591.0
     },
     {
@@ -47,7 +47,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.2454999994370155,
+      "host_latency_ms": 0.2558999985922128,
       "model_latency_ms": 591.0
     },
     {
@@ -63,7 +63,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.09309999950346537,
+      "host_latency_ms": 0.09670000144978985,
       "model_latency_ms": 591.0
     },
     {
@@ -79,7 +79,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.20600000061676838,
+      "host_latency_ms": 0.23190000138129108,
       "model_latency_ms": 591.0
     },
     {
@@ -95,7 +95,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.2021000000240747,
+      "host_latency_ms": 0.21560000095632859,
       "model_latency_ms": 591.0
     },
     {
@@ -111,13 +111,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.10459999975864775,
+      "host_latency_ms": 0.15699999858043157,
       "model_latency_ms": 591.0
     },
     {
       "turn_idx": 7,
       "world_tick": 7,
-      "prompt_tokens": 276,
+      "prompt_tokens": 262,
       "raw_action": "ACTION: DISPATCH load_payload hub_beta drone_beta_1 3",
       "action_type": "DISPATCH",
       "action_target": "load_payload hub_beta drone_beta_1 3",
@@ -127,13 +127,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.19939999765483662,
+      "host_latency_ms": 0.21970000307192095,
       "model_latency_ms": 591.0
     },
     {
       "turn_idx": 8,
       "world_tick": 8,
-      "prompt_tokens": 278,
+      "prompt_tokens": 264,
       "raw_action": "ACTION: RECALL drone_beta_1",
       "action_type": "RECALL",
       "action_target": "drone_beta_1",
@@ -143,13 +143,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.06669999856967479,
+      "host_latency_ms": 0.07330000153160654,
       "model_latency_ms": 591.0
     },
     {
       "turn_idx": 9,
       "world_tick": 9,
-      "prompt_tokens": 310,
+      "prompt_tokens": 296,
       "raw_action": "ACTION: DISPATCH dispatch_flight drone_beta_1 hub_gamma",
       "action_type": "DISPATCH",
       "action_target": "dispatch_flight drone_beta_1 hub_gamma",
@@ -159,13 +159,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.1809999994293321,
+      "host_latency_ms": 0.19389999943086877,
       "model_latency_ms": 591.0
     },
     {
       "turn_idx": 10,
       "world_tick": 10,
-      "prompt_tokens": 309,
+      "prompt_tokens": 295,
       "raw_action": "ACTION: RECALL fleet_coordinator",
       "action_type": "RECALL",
       "action_target": "fleet_coordinator",
@@ -175,13 +175,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.057100001868093386,
+      "host_latency_ms": 0.06260000009206124,
       "model_latency_ms": 591.0
     },
     {
       "turn_idx": 11,
       "world_tick": 11,
-      "prompt_tokens": 331,
+      "prompt_tokens": 317,
       "raw_action": "ACTION: DISPATCH certify_fleet fleet_coordinator",
       "action_type": "DISPATCH",
       "action_target": "certify_fleet fleet_coordinator",
@@ -191,13 +191,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.16600000162725337,
+      "host_latency_ms": 0.17490000027464703,
       "model_latency_ms": 591.0
     },
     {
       "turn_idx": 12,
       "world_tick": 12,
-      "prompt_tokens": 291,
+      "prompt_tokens": 277,
       "raw_action": "ACTION: RESOLVE COMPLETE",
       "action_type": "RESOLVE",
       "action_target": "COMPLETE",
@@ -207,7 +207,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.019500002963468432,
+      "host_latency_ms": 0.020299998141126707,
       "model_latency_ms": 591.0
     }
   ]

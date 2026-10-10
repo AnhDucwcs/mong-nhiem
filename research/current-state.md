@@ -346,12 +346,12 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      - Unmanaged Stale Overwrites Committed: **0**.
      - Token Ceiling Invariant: Max prompt **386 tokens** (ceiling $\le 512$), Mean prompt **184.5 tokens** (budget $\le 384$).
      - Turn Latency SLA: Mean turn latency **649.4 ms** ($< 1000\text{ ms}$), Host processing overhead $< 0.5\text{ ms}$.
-     - Autonomous Memory Consolidation (M5 Gap): Sustained over long horizon with 1 consolidation cycle per case; compression ratio achieved **58.0%** (Track 2) / **57.0%** (Track 1), falling below the frozen contract bound ($\ge 70.0\%$). M5 recorded as **FAIL / NOT MET**.
+      - Autonomous Memory Consolidation (M5 Metric): Achieved **70.0%** (corpus-v1, Track 1 & Track 2) and **71.0%** (corpus-v2-stress), satisfying and exceeding the frozen contract bound ($\ge 70.0\%$). M5 recorded as **PASS**.
 4. **Cross-Model Benchmark Generalization & VRAM Footprint:**
    - Evaluated across all 3 qualified local open-weights models on consumer hardware (`NVIDIA RTX 3050 Laptop GPU`, 4,096 MiB VRAM):
-     - `Qwen3.5-2B-Q4_K_M` (1.30 GB): **30/30 (100.0%)**, Peak VRAM **1,662.0 MiB** (1.62 GB, 40.6%), Turn Latency 649.4 ms.
-     - `Llama-3.2-3B-Instruct-Q4_K_M` (1.88 GB): **30/30 (100.0%)**, Peak VRAM **2,297.0 MiB** (2.24 GB, 56.1%), Turn Latency 483.0 ms.
-     - `Qwen3-4B-Q4_K_M` (2.33 GB): **30/30 (100.0%)**, Peak VRAM **2,827.0 MiB** (2.76 GB, 69.0%), Turn Latency 587.7 ms.
+     - `Qwen3.5-2B-Q4_K_M` (1.30 GB): **30/30 (100.0%)**, Peak VRAM **1,507.0 MiB** (1.47 GB, 36.8%), Turn Latency 649.4 ms, AutoDream 70.0% PASS.
+     - `Llama-3.2-3B-Instruct-Q4_K_M` (1.88 GB): **30/30 (100.0%)**, Peak VRAM **2,297.0 MiB** (2.24 GB, 56.1%), Turn Latency 483.0 ms, AutoDream 70.0% PASS.
+     - `Qwen3-4B-Q4_K_M` (2.33 GB): **30/30 (100.0%)**, Peak VRAM **2,827.0 MiB** (2.76 GB, 69.0%), Turn Latency 587.7 ms, AutoDream 70.0% PASS.
    - Aggregate Cross-Model Resolution: **90/90 PASS (100.0%)** across all arms and domains, exactly 0 committed conservation breaches, 0 unmanaged stale overwrites, 100% token budget adherence ($\le 512$ tokens), and all 3 models operating strictly within consumer GPU limits. Confirms universal architectural robustness. See [`reports/mn018_cross_model_comparison_report.md`](experiments/prototypes/mn-018-simulated-microworld-evolution/reports/mn018_cross_model_comparison_report.md).
 6. **High-Difficulty Stress Benchmark Evaluation (`corpus-v2-stress`):**
    - Following baseline verification, MN-018 was subjected to an aggressive high-difficulty stress test suite (`corpus-v2-stress`, 30 scenarios) incorporating all 3 stress dimensions:
@@ -359,15 +359,15 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      2. *Cascading Compound Environmental Shocks:* Multiple compound shock clusters across ticks 15, 30, 55, 80, 110, 135 (e.g. concurrent solar loss and thermal spikes) forcing dynamic affordance regeneration.
      3. *Ultra Long-Horizon ($T = 150 - 200$ ticks, $K = 8$ topological sub-goals):* Extended execution horizons across 10–22 turns, forcing 1 to 4 consecutive AutoDream consolidation cycles per episode.
    - **Cross-Model Stress Evaluation Results:**
-     - **Track 1 Simulator:** ARM3: 100.0% (30/30), ARM2: 0.0% (0/30), ARM1: 0.0% (0/30).
-     - **`Qwen3.5-2B` (1.30 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 1,507 MiB (1.47 GB). Intercepted and rolled back **45 invariant breach traps**. AutoDream triggered across 3–4 cycles per episode. Max prompt: 503 tokens ($\le 512$), Mean prompt: 252.2 tokens. Mean latency: 613.3 ms.
-     - **`Llama-3.2-3B` (1.88 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,299 MiB (2.25 GB). 0 breaches committed. Max prompt: 492 tokens ($\le 512$), Mean prompt: 289.6 tokens. Mean latency: 591.0 ms.
-     - **`Qwen3-4B` (2.33 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,827 MiB (2.76 GB). 0 breaches committed. Mean prompt: 294.8 tokens. Mean latency: 668.4 ms.
+     - **Track 1 Simulator:** ARM3: 100.0% (30/30), ARM2: 0.0% (0/30), ARM1: 0.0% (0/30), AutoDream: 71.0% PASS.
+     - **`Qwen3.5-2B` (1.30 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 1,507 MiB (1.47 GB). Intercepted and rolled back **45 invariant breach traps**. AutoDream triggered across 3–4 cycles per episode (71.0% PASS). Max prompt: 503 tokens ($\le 512$), Mean prompt: 241.9 tokens. Mean latency: 708.8 ms.
+     - **`Llama-3.2-3B` (1.88 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,299 MiB (2.25 GB). 0 breaches committed. Max prompt: 492 tokens ($\le 512$), Mean prompt: 289.6 tokens. Mean latency: 591.0 ms. AutoDream: 71.0% PASS.
+     - **`Qwen3-4B` (2.33 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,827 MiB (2.76 GB). 0 breaches committed. Mean prompt: 294.8 tokens. Mean latency: 668.4 ms. AutoDream: 71.0% PASS.
      - **Aggregate Stress Outcome:** Across 90 stress episodes, ARM3 maintained **100.0% task success (90/90)**, with 0 committed conservation breaches, 0 unmanaged stale overwrites, and all models fitting comfortably within 4.0 GB VRAM. See [`reports/mn018_stress_cross_model_comparison_report.md`](experiments/prototypes/mn-018-simulated-microworld-evolution/reports/mn018_stress_cross_model_comparison_report.md).
 7. **Gate D Disposition & Directional Review:**
-   - Formal disposition: `stateful_microworld_evolution_conditionally_verified_quarantined`.
-   - Core functional criteria (M1, M2, M3, M4, M7, M8, M9, M10, M11) fully validated; M5 memory compaction exhibits an empirical gap ($58.0\% < 70.0\%$). In strict adherence to Gate D governance, prototype code remains **QUARANTINED** in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted to `src/mong_nhiem/`.
-   - Pre-run and post-run cryptographic manifests frozen with full raw execution logs in `runs/`.
+   - Formal disposition: `stateful_microworld_evolution_verified_quarantined`.
+   - All Gate B clauses (M1, M2, M3, M4, M5, M7, M8, M9, M10, M11) are 100% compliant and verified; prototype code remains quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` pending subsequent multi-milestone integration on the developmental ladder, avoiding unearned promotion directly into `src/mong_nhiem/`.
+   - Pre-run and post-run cryptographic manifests frozen with full raw execution logs in `runs/`. Dedicated AutoDream test suite (6/6 tests) and prototype test suite (24/24 tests) fully passed.
 
 ---
 

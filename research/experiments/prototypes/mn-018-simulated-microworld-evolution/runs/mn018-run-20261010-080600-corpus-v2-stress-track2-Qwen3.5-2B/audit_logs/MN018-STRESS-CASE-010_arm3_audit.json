@@ -11,12 +11,12 @@
   "conservation_breaches": 0,
   "token_ceiling_violations": 0,
   "max_prompt_tokens": 406,
-  "mean_prompt_tokens": 250.4,
+  "mean_prompt_tokens": 237.6,
   "mean_turn_latency_ms": 708.8,
   "stale_intercepted": 0,
   "conservation_intercepted": 0,
   "autodream_cycles": 3,
-  "compression_ratio": 0.44,
+  "compression_ratio": 0.76,
   "turn_history": [
     {
       "turn_idx": 1,
@@ -31,7 +31,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.1320000010309741,
+      "host_latency_ms": 0.13349999790079892,
       "model_latency_ms": 708.8
     },
     {
@@ -47,7 +47,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.2452000007906463,
+      "host_latency_ms": 0.24359999952139333,
       "model_latency_ms": 708.8
     },
     {
@@ -63,7 +63,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.1033000007737428,
+      "host_latency_ms": 0.10209999891230837,
       "model_latency_ms": 708.8
     },
     {
@@ -79,7 +79,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.22710000121151097,
+      "host_latency_ms": 0.24119999943650328,
       "model_latency_ms": 708.8
     },
     {
@@ -95,7 +95,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.09510000018053688,
+      "host_latency_ms": 0.10739999925135635,
       "model_latency_ms": 708.8
     },
     {
@@ -111,13 +111,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.24670000129844993,
+      "host_latency_ms": 0.2955999989353586,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 7,
       "world_tick": 7,
-      "prompt_tokens": 278,
+      "prompt_tokens": 258,
       "raw_action": "ACTION: DISPATCH inject_buffer_gas life_support 102.5",
       "action_type": "DISPATCH",
       "action_target": "inject_buffer_gas life_support 102.5",
@@ -127,13 +127,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.19329999850015156,
+      "host_latency_ms": 0.2049999966402538,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 8,
       "world_tick": 8,
-      "prompt_tokens": 281,
+      "prompt_tokens": 262,
       "raw_action": "ACTION: RECALL solar_array",
       "action_type": "RECALL",
       "action_target": "solar_array",
@@ -143,13 +143,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.07479999840143137,
+      "host_latency_ms": 0.07819999882485718,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 9,
       "world_tick": 9,
-      "prompt_tokens": 300,
+      "prompt_tokens": 281,
       "raw_action": "ACTION: DISPATCH set_solar_mode solar_array MAXIMUM_INSOLATION",
       "action_type": "DISPATCH",
       "action_target": "set_solar_mode solar_array MAXIMUM_INSOLATION",
@@ -159,13 +159,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.1869000006990973,
+      "host_latency_ms": 0.19740000061574392,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 10,
       "world_tick": 10,
-      "prompt_tokens": 300,
+      "prompt_tokens": 280,
       "raw_action": "ACTION: RECALL power_bus",
       "action_type": "RECALL",
       "action_target": "power_bus",
@@ -175,13 +175,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.07509999704780057,
+      "host_latency_ms": 0.08130000060191378,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 11,
       "world_tick": 11,
-      "prompt_tokens": 326,
+      "prompt_tokens": 307,
       "raw_action": "ACTION: DISPATCH recalibrate_bus power_bus HIGH_IMPEDANCE",
       "action_type": "DISPATCH",
       "action_target": "recalibrate_bus power_bus HIGH_IMPEDANCE",
@@ -191,13 +191,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.18650000129127875,
+      "host_latency_ms": 0.20090000180061907,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 12,
       "world_tick": 12,
-      "prompt_tokens": 328,
+      "prompt_tokens": 308,
       "raw_action": "ACTION: DISPATCH seal_airlock life_support LOCKED",
       "action_type": "DISPATCH",
       "action_target": "seal_airlock life_support LOCKED",
@@ -207,13 +207,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.22140000146464445,
+      "host_latency_ms": 0.3057000030821655,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 13,
       "world_tick": 13,
-      "prompt_tokens": 375,
+      "prompt_tokens": 344,
       "raw_action": "ACTION: DISPATCH confirm_stabilization power_bus",
       "action_type": "DISPATCH",
       "action_target": "confirm_stabilization power_bus",
@@ -223,13 +223,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.17269999807467684,
+      "host_latency_ms": 0.16940000205067918,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 14,
       "world_tick": 14,
-      "prompt_tokens": 340,
+      "prompt_tokens": 309,
       "raw_action": "ACTION: RESOLVE COMPLETE",
       "action_type": "RESOLVE",
       "action_target": "COMPLETE",

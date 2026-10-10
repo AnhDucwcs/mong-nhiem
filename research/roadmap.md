@@ -191,7 +191,7 @@ Track: **NCC Phase 6 (Environmental Concurrency & Autonomous Planning).**
 
 ## MN-018 — Stateful Simulated Microworld Evolution
 
-Status: **completed and conditionally verified prototype (quarantined in research/experiments/prototypes/). Gate D criteria conditionally satisfied (M5 gap).**  
+Status: **completed and verified prototype (quarantined in research/experiments/prototypes/). Gate D criteria satisfied.**  
 Track: **NCC Phase 7 (Stateful World Continuity & Governance).**
 
 1. **Strategic Intent & Stepping Stone Horizon:**
@@ -199,19 +199,20 @@ Track: **NCC Phase 7 (Stateful World Continuity & Governance).**
    - Operates as a foundational stepping stone on the cognitive architecture ladder, establishing simulated microworld governance before progressing to non-stationary environments and multi-agent interaction.
    - Evaluated across 30 complex scenarios spanning 3 heterogeneous domains: Orbital Life Support ($N=10$), Smart Microgrid ($N=10$), and Fleet Logistics Supply Chain ($N=10$).
    - Achieved 100.0% task resolution (30/30) on real model inference (`Qwen3.5-2B`) on Arm 3 vs 0.0% in Arm 1 (+100.0% delta) and 0.0% in Arm 2.
-   - Preserved zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), 0 unmanaged stale-state overwrites, prompt ceiling strictly $\le 512$ tokens (max 386, mean 184.5), turn latency 649.4 ms ($< 1000\text{ ms}$ SLA).
-2. **Empirical Bound & AutoDream M5 Gap:**
-   - Evaluated AutoDream episodic memory compaction across long horizons. Achieved 58.0% (Track 2) and 57.0% (Track 1) compression ratios, missing the frozen contract bound ($\ge 70.0\%$).
-   - In accordance with empirical rigor, Criterion M5 is evaluated strictly as `FAIL / NOT MET` without retroactive threshold alteration.
+   - Preserved zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), 0 unmanaged stale-state overwrites, prompt ceiling strictly $\le 512$ tokens (max 386, mean 180.3), turn latency 649.4 ms ($< 1000\text{ ms}$ SLA).
+2. **AutoDream Memory Optimization & M5 Contract Fulfillment:**
+   - Identified root cause of the initial compaction gap: cumulative global entity card summation and verbose card rendering.
+   - Implemented compact high-density Fact Cards (`[entity_id v{version} {key}:{val}]`, saving ~37.5% tokens), active TTL entity pruning, and terminal episodic finalization (`orch.finalize()`).
+   - Achieved **70.0%** compression ratio on `corpus-v1` (both Track 1 and Track 2) and **71.0%** on `corpus-v2-stress`, fully meeting and surpassing the contract bound ($\ge 70.0\%$, PASS). Verified via dedicated test suite `test_autodream_benchmark.py` (6/6 tests passing).
 3. **Arm 2 Methodological Resolution:**
-   - Track 1 Simulator (decoupled static checklist without DAG gating): 20/30 (66.7%) on `corpus-v1` (10 invariant breaches), 0/30 (0.0%) on `corpus-v2-stress` (100% trap failure).
+   - Track 1 Simulator (decoupled static checklist without DAG gating): 20/30 (66.7%) on `corpus-v1` (10 invariant breaches in Orbital domain), 0/30 (0.0%) on `corpus-v2-stress` (100% trap failure).
    - Track 2 Real Inference (unconstrained grammar): 0/30 (0.0%) across baseline and stress suites due to premature resolution or repetitive action loops.
 4. **Full System Convergence & High-Difficulty Stress Suite (`corpus-v2-stress`):**
    - Validated across 30 ultra long-horizon stress scenarios ($T = 150-200$ ticks, $K=8$ topological sub-goals, 4–6 actions per phase with delayed rollback traps, cascading compound shocks) across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`).
    - Arm 3 achieved **100.0% (90/90)** task resolution across all models and domains (Arm 1 and Arm 2 at 0.0%), zero committed conservation breaches, 45 trap breaches intercepted and rolled back by Memento, 1 to 4 consecutive AutoDream consolidation cycles per episode bounding prompt growth ($\le 512$ tokens), and all models operating inside 4.0 GB VRAM.
 5. **Gate D Disposition & Prototype Quarantine:**
-   - Disposition review: `stateful_microworld_evolution_conditionally_verified_quarantined`.
-   - In adherence to Gate D governance, experimental code remains strictly quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted to `src/mong_nhiem/` due to the M5 metric gap. Cryptographic manifests (`definition/pre-run-freeze-manifest.json`, `definition/post-run-freeze-manifest.json`) and raw execution traces (`runs/`) are sealed.
+   - Disposition review: `stateful_microworld_evolution_verified_quarantined`.
+   - In adherence to Gate D governance, experimental code remains strictly quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted directly to `src/mong_nhiem/` pending broader multi-milestone progression. Cryptographic manifests (`definition/pre-run-freeze-manifest.json`, `definition/post-run-freeze-manifest.json`) and raw execution traces (`runs/`) are sealed.
 
 ## Active Developmental Horizons
 

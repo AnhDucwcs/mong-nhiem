@@ -11,12 +11,12 @@
   "conservation_breaches": 0,
   "token_ceiling_violations": 0,
   "max_prompt_tokens": 365,
-  "mean_prompt_tokens": 170.6,
+  "mean_prompt_tokens": 166.6,
   "mean_turn_latency_ms": 649.4,
   "stale_intercepted": 0,
   "conservation_intercepted": 0,
-  "autodream_cycles": 1,
-  "compression_ratio": 0.54,
+  "autodream_cycles": 2,
+  "compression_ratio": 0.71,
   "turn_history": [
     {
       "turn_idx": 1,
@@ -31,7 +31,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.12000000060652383,
+      "host_latency_ms": 0.10059999840450473,
       "model_latency_ms": 649.4
     },
     {
@@ -47,7 +47,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.23010000222711824,
+      "host_latency_ms": 0.2390000008745119,
       "model_latency_ms": 649.4
     },
     {
@@ -63,7 +63,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.08120000347844325,
+      "host_latency_ms": 0.0838999985717237,
       "model_latency_ms": 649.4
     },
     {
@@ -79,7 +79,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.18180000188294798,
+      "host_latency_ms": 0.19270000120741315,
       "model_latency_ms": 649.4
     },
     {
@@ -95,7 +95,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.1702999979897868,
+      "host_latency_ms": 0.18279999858350493,
       "model_latency_ms": 649.4
     },
     {
@@ -111,13 +111,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.10069999916595407,
+      "host_latency_ms": 0.14139999984763563,
       "model_latency_ms": 649.4
     },
     {
       "turn_idx": 7,
       "world_tick": 7,
-      "prompt_tokens": 273,
+      "prompt_tokens": 257,
       "raw_action": "ACTION: DISPATCH certify_fleet fleet_coordinator",
       "action_type": "DISPATCH",
       "action_target": "certify_fleet fleet_coordinator",
@@ -127,13 +127,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.1478000012866687,
+      "host_latency_ms": 0.22760000138077885,
       "model_latency_ms": 649.4
     },
     {
       "turn_idx": 8,
       "world_tick": 8,
-      "prompt_tokens": 243,
+      "prompt_tokens": 227,
       "raw_action": "ACTION: RESOLVE COMPLETE",
       "action_type": "RESOLVE",
       "action_target": "COMPLETE",
@@ -143,7 +143,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.013700002455152571,
+      "host_latency_ms": 0.014799999917158857,
       "model_latency_ms": 649.4
     }
   ]

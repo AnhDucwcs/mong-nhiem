@@ -11,12 +11,12 @@
   "conservation_breaches": 0,
   "token_ceiling_violations": 0,
   "max_prompt_tokens": 364,
-  "mean_prompt_tokens": 283.2,
+  "mean_prompt_tokens": 265.7,
   "mean_turn_latency_ms": 708.8,
   "stale_intercepted": 0,
   "conservation_intercepted": 0,
-  "autodream_cycles": 1,
-  "compression_ratio": 0.23,
+  "autodream_cycles": 3,
+  "compression_ratio": 0.69,
   "turn_history": [
     {
       "turn_idx": 1,
@@ -31,7 +31,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.1269999993382953,
+      "host_latency_ms": 0.14089999967836775,
       "model_latency_ms": 708.8
     },
     {
@@ -47,7 +47,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.23439999858965166,
+      "host_latency_ms": 0.2539000015531201,
       "model_latency_ms": 708.8
     },
     {
@@ -63,7 +63,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.10259999908157624,
+      "host_latency_ms": 0.11010000162059441,
       "model_latency_ms": 708.8
     },
     {
@@ -79,7 +79,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.22089999765739776,
+      "host_latency_ms": 0.23490000239689834,
       "model_latency_ms": 708.8
     },
     {
@@ -95,7 +95,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.11340000128257088,
+      "host_latency_ms": 0.10010000187321566,
       "model_latency_ms": 708.8
     },
     {
@@ -111,13 +111,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.24909999774536118,
+      "host_latency_ms": 0.31740000122226775,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 7,
       "world_tick": 7,
-      "prompt_tokens": 278,
+      "prompt_tokens": 257,
       "raw_action": "ACTION: RECALL solar_pv",
       "action_type": "RECALL",
       "action_target": "solar_pv",
@@ -127,13 +127,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.08489999891025946,
+      "host_latency_ms": 0.08819999857223593,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 8,
       "world_tick": 8,
-      "prompt_tokens": 303,
+      "prompt_tokens": 281,
       "raw_action": "ACTION: DISPATCH sync_inverter solar_pv GRID_TIE",
       "action_type": "DISPATCH",
       "action_target": "sync_inverter solar_pv GRID_TIE",
@@ -143,13 +143,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.20279999807826243,
+      "host_latency_ms": 0.20960000256309286,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 9,
       "world_tick": 9,
-      "prompt_tokens": 311,
+      "prompt_tokens": 290,
       "raw_action": "ACTION: RECALL hospital_ward",
       "action_type": "RECALL",
       "action_target": "hospital_ward",
@@ -159,13 +159,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.07919999916339293,
+      "host_latency_ms": 0.0824999988253694,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 10,
       "world_tick": 10,
-      "prompt_tokens": 335,
+      "prompt_tokens": 314,
       "raw_action": "ACTION: DISPATCH lock_feeder hospital_ward DUAL_REDUNDANT",
       "action_type": "DISPATCH",
       "action_target": "lock_feeder hospital_ward DUAL_REDUNDANT",
@@ -175,13 +175,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.1965000010386575,
+      "host_latency_ms": 0.20709999807877466,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 11,
       "world_tick": 11,
-      "prompt_tokens": 334,
+      "prompt_tokens": 313,
       "raw_action": "ACTION: RECALL grid_controller",
       "action_type": "RECALL",
       "action_target": "grid_controller",
@@ -191,13 +191,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.08059999890974723,
+      "host_latency_ms": 0.08380000144825317,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 12,
       "world_tick": 12,
-      "prompt_tokens": 379,
+      "prompt_tokens": 357,
       "raw_action": "ACTION: DISPATCH trim_power_factor grid_controller 0.98",
       "action_type": "DISPATCH",
       "action_target": "trim_power_factor grid_controller 0.98",
@@ -207,13 +207,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.23180000061984174,
+      "host_latency_ms": 0.33679999978630804,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 13,
       "world_tick": 13,
-      "prompt_tokens": 475,
+      "prompt_tokens": 430,
       "raw_action": "ACTION: DISPATCH arm_breaker grid_controller ARMED",
       "action_type": "DISPATCH",
       "action_target": "arm_breaker grid_controller ARMED",
@@ -223,13 +223,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": true,
-      "host_latency_ms": 0.18679999993764795,
+      "host_latency_ms": 0.18909999926108867,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 14,
       "world_tick": 14,
-      "prompt_tokens": 467,
+      "prompt_tokens": 422,
       "raw_action": "ACTION: DISPATCH certify_stability grid_controller",
       "action_type": "DISPATCH",
       "action_target": "certify_stability grid_controller",
@@ -239,13 +239,13 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.16659999891999178,
+      "host_latency_ms": 0.17210000078193843,
       "model_latency_ms": 708.8
     },
     {
       "turn_idx": 15,
       "world_tick": 15,
-      "prompt_tokens": 432,
+      "prompt_tokens": 388,
       "raw_action": "ACTION: RESOLVE COMPLETE",
       "action_type": "RESOLVE",
       "action_target": "COMPLETE",
@@ -255,7 +255,7 @@
       "is_premature_resolution": false,
       "is_conservation_breach": false,
       "phase_advanced": false,
-      "host_latency_ms": 0.014799999917158857,
+      "host_latency_ms": 0.015400000847876072,
       "model_latency_ms": 708.8
     }
   ]

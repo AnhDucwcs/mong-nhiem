@@ -1,11 +1,11 @@
 # Academic Evaluation Report: Milestone MN-018
 ## Stateful Simulated Microworld Evolution (Standard Baseline)
 
-**Date:** 2026-10-10 09:22:31 UTC  
+**Date:** 2026-10-10 10:09:29 UTC  
 **Track:** Track 1 (Programmatic State Simulator)  
 **Corpus:** `corpus-v1` (30 Standard Scenarios)  
 **Model Evaluated:** `Simulator`  
-**Overall Verdict:** `CONDITIONAL (M5 GAP)`  
+**Overall Verdict:** `PASS`  
 
 ---
 
@@ -20,8 +20,8 @@ Milestone MN-018 evaluates the long-horizon governance capabilities (T = 50 - 10
 - **Physical Conservation Breaches:** **0** committed to world state (threshold $= 0$; **0** invariant breaches safely intercepted and rolled back by Memento).
 - **Stale Version Overwrites:** **0** committed (threshold $= 0$).
 
-- **Maximum Prompt Tokens:** **338** (ceiling $\le 512$).
-- **Mean Prompt Tokens:** **197.1** (budget $\le 384$).
+- **Maximum Prompt Tokens:** **316** (ceiling $\le 512$).
+- **Mean Prompt Tokens:** **189.8** (budget $\le 384$).
 - **Mean Turn Latency:** **0.1 ms** (SLA $< 1000\text{ ms}$).
 
 ---
@@ -34,9 +34,9 @@ Milestone MN-018 evaluates the long-horizon governance capabilities (T = 50 - 10
 | **M2** | Comparative Margin | $\ge +50.0\%$ | +100.0% | `PASS` |
 | **M3** | Conservation Law Violations | $= 0.0\%$ | 0 committed (0 rolled back) | `PASS` |
 | **M4** | Stale Version Commit Rate | $= 0.0\%$ | 0 | `PASS` |
-| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 57.0% | `FAIL` |
-| **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 338 tok | `PASS` |
-| **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 197.1 tok | `PASS` |
+| **M5** | AutoDream Compression Ratio | $\ge 70.0\%$ | 70.0% | `PASS` |
+| **M7** | Prompt Token Ceiling | $\le 512\text{ tok}$ | 316 tok | `PASS` |
+| **M8** | Mean Prompt Budget | $\le 384\text{ tok}$ | 189.8 tok | `PASS` |
 | **M9** | Turn Latency SLA | $< 1000\text{ ms}$ | 0.1 ms | `PASS` |
 | **M10** | Host Processing Overhead | $< 10.0\text{ ms}$ | $< 0.5\text{ ms}$ | `PASS` |
 
@@ -47,36 +47,36 @@ Milestone MN-018 evaluates the long-horizon governance capabilities (T = 50 - 10
 
 | Case ID | Domain | Horizon $T$ | Arm 1 Status | Arm 2 Status | Arm 3 Status | Max Prompt | AutoDream Cycles |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| `MN018-CASE-001` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-002` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-003` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-004` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-005` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-006` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-007` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-008` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-009` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-010` | Orbital | 100 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 278 | 1 |
-| `MN018-CASE-011` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-012` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-013` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-014` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-015` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-016` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-017` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-018` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-019` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-020` | Microgrid | 100 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 338 | 1 |
-| `MN018-CASE-021` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-022` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-023` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-024` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-025` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-026` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-027` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-028` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-029` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
-| `MN018-CASE-030` | Supply Chain | 100 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 287 | 1 |
+| `MN018-CASE-001` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-002` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-003` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-004` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-005` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-006` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-007` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-008` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-009` | Orbital | 60 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-010` | Orbital | 100 | `PREMATURE_RESOLUTION` | `CONSERVATION_BREACH` | `SUCCESS` | 259 | 2 |
+| `MN018-CASE-011` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-012` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-013` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-014` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-015` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-016` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-017` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-018` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-019` | Microgrid | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-020` | Microgrid | 100 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 316 | 2 |
+| `MN018-CASE-021` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-022` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-023` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-024` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-025` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-026` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-027` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-028` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-029` | Supply Chain | 60 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
+| `MN018-CASE-030` | Supply Chain | 100 | `PREMATURE_RESOLUTION` | `SUCCESS` | `SUCCESS` | 270 | 2 |
 
 ---
 

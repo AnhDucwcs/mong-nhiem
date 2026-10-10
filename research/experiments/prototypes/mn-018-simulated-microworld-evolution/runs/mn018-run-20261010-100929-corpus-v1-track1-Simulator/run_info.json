@@ -1,0 +1,22 @@
+{
+  "run_id": "mn018-run-20261010-100929-corpus-v1-track1-Simulator",
+  "track": 1,
+  "model": "Simulator",
+  "corpus": "corpus-v1",
+  "timestamp_utc": "2026-10-10T10:09:29.257328+00:00",
+  "total_cases": 30,
+  "results_summary": {
+    "arm1": {
+      "success_rate": "0/30",
+      "accuracy": 0.0
+    },
+    "arm2": {
+      "success_rate": "20/30",
+      "accuracy": 66.66666666666666
+    },
+    "arm3": {
+      "success_rate": "30/30",
+      "accuracy": 100.0
+    }
+  }
+}
