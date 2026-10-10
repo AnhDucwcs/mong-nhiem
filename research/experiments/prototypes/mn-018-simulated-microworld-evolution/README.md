@@ -99,5 +99,13 @@ Milestone **MN-018** (designated as **MN-Final: Full Cognitive Host Synthesis**)
    ```
 5. Run Track 2 (real LLM inference via `llama-server.exe`):
    ```bash
-   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/run_benchmark.py --track 2
+   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/run_benchmark.py --track 2 --model Qwen3.5-2B --port 8080
+   ```
+6. Run High-Difficulty Stress Benchmark (`corpus-v2-stress`, $T=150-200$, $K=8$):
+   ```bash
+   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/generate_stress_corpus.py
+   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/run_benchmark.py --corpus corpus-v2-stress --track 1
+   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/run_benchmark.py --corpus corpus-v2-stress --track 2 --model Qwen3.5-2B --port 8080
+   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/run_benchmark.py --corpus corpus-v2-stress --track 2 --model Llama-3.2-3B --port 8080
+   python research/experiments/prototypes/mn-018-simulated-microworld-evolution/scripts/run_benchmark.py --corpus corpus-v2-stress --track 2 --model Qwen3-4B --port 8080
    ```

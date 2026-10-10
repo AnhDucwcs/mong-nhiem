@@ -30,6 +30,12 @@ Canonical Evidence:
       * Llama-3.2-3B-Instruct: 30/30 PASS (100.0%), VRAM 2,297.0 MiB (2.24 GB, 56.1%), Latency 483.0 ms
       * Qwen3-4B-Q4_K_M: 30/30 PASS (100.0%), VRAM 2,827.0 MiB (2.76 GB, 69.0%), Latency 587.7 ms
       * Aggregate Cross-Model Resolution: 90/90 PASS (100.0%), 0 committed conservation breaches
+  - High-Difficulty Stress Benchmark Suite (corpus-v2-stress, K=8, T=150-200, 4-6 actions/phase):
+      * Track 1 Simulator: Arm 3 30/30 (100.0%), Arm 1 0/30 (0.0%)
+      * Track 2 Qwen3.5-2B: Arm 3 30/30 (100.0%), 45 invariant traps intercepted and rolled back by Memento, 1-4 AutoDream cycles/ep
+      * Track 2 Llama-3.2-3B: Arm 3 30/30 (100.0%), VRAM 2.25 GB, Latency 591.0 ms
+      * Track 2 Qwen3-4B: Arm 3 30/30 (100.0%), VRAM 2.76 GB, Latency 668.4 ms
+      * Aggregate Stress Resolution: 90/90 PASS (100.0%), 0 committed breaches, 0 unmanaged stale overwrites
   - Prototype Test Suite: 18/18 PASSED (100.0%)
   - Master Repository Regression Suite: 459/459 PASSED (100.0%)
 ```

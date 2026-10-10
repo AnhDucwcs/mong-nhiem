@@ -1,15 +1,16 @@
 {
   "corpus": "corpus-v2-stress",
   "files": {
-    "README.md": "24869d93c2b03e1d904c598c63345d8a45d8193c5642744eaa2bb14a7b67bbfd",
+    "README.md": "d4f5b9fd11c9291a7c5ba0b93f1543d30c2582fecdda111575a8df1a5dc6bba6",
     "charter.md": "cedb2688c8dd45da43f9fa08f0ec60211d69a0ee465d4545de58d728dfa026fb",
     "definition/corpus-v1/cases.json": "301609227cb8759e19724ef548a47150e7afd21be5618b619835dd2d8a9adb62",
     "definition/corpus-v2-stress/cases.json": "f0e14caa10a34802c89356fbe5b6a1de71ee7ee469e64ad42529ea4491323615",
+    "definition/corpus-v2-stress/post-run-freeze-manifest.json": "68574f10c0b1cde6550b3ff2149b0cfd91bff0b11953cb1612cc3a415b2783e9",
     "definition/corpus-v2-stress/pre-run-freeze-manifest.json": "b5eded9b7180e1311a14718050aa23da344e7f060590b2dcdf0149f744171c62",
     "definition/post-run-freeze-manifest.json": "4a4ebfab39780085237534117e28b5ae21f3b35870ea80d0e07a30c3d13f3e87",
     "definition/pre-run-freeze-manifest.json": "1c629d46c9760e26750564364da29b865dcd731228018b5b136ed42647743948",
     "gate-b-contract.md": "7fccd9e9d769300955bfe769af08e495d1e991f4fcd19eb8af708b692c14c441",
-    "gate-d-disposition-review.md": "4aa56b98070b3bc8e16fee6e3430c166e909e5ff4801069097149cf160c091b1",
+    "gate-d-disposition-review.md": "d3253fad5342bab095d41fe7a76c29332fbfab8707943d0562814245bb6672fd",
     "reports/mn018_academic_benchmark_track1_Simulator.md": "43b6e793c082a95b23ecb81a6a2484fd7d3685904663a79e1d7f1c4859730ece",
     "reports/mn018_academic_benchmark_track2_Llama-3.2-3B.md": "14ddfc67e57321558a7c9d946aa1670de10680163af4b9d38c9b605d2f6d66ff",
     "reports/mn018_academic_benchmark_track2_Qwen3-4B.md": "c30ac1e67e191dccbb5d0548730c7033816d14fb74dbfbb1b3cac3134877493b",
@@ -41,5 +42,5 @@
   },
   "milestone": "MN-018",
   "stage": "post",
-  "timestamp_utc": "2026-10-10T08:19:39.418261+00:00"
+  "timestamp_utc": "2026-10-10T08:26:09.494347+00:00"
 }

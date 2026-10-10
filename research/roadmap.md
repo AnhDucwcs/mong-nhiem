@@ -201,7 +201,10 @@ Track: **NCC Final Synthesis (Full World Continuity & Coexistence).**
    - Preserved zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), 0 unmanaged stale-state overwrites, prompt ceiling strictly $\le 512$ tokens (max 386, mean 184.5), turn latency 649.4 ms ($< 1000\text{ ms}$ SLA), and sustained AutoDream memory consolidation.
 2. **Full System Convergence:**
    - Unified Scaffolding (MN-009) + Working Set (MN-010) + Backtracking/Rollback (MN-013) + Native GBNF (MN-014) + Affordance Steering (MN-015) + Episodic Memory & AutoDream (MN-016) + World Engine, Planning & Concurrency Guard (MN-017).
-3. **Gate D Disposition:** Verified and closed under Decision 2026-10-10 (ADR-0018). Code quarantined in prototype directory per governance rules. Concludes canonical milestone progression of Mộng Nhiễm.
+3. **High-Difficulty Stress Benchmark (`corpus-v2-stress`):**
+   - Validated across 30 ultra long-horizon stress scenarios ($T = 150-200$ ticks, $K=8$ topological sub-goals, 4–6 actions per phase with delayed traps, cascading compound shocks) across all 3 qualified local models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`).
+   - Arm 3 achieved **100.0% (90/90)** task resolution across all models and domains (Arm 1 and Arm 2 at 0.0%), zero committed conservation breaches, 45 trap breaches intercepted and rolled back by Memento, 1 to 4 consecutive AutoDream consolidation cycles per episode bounding prompt growth ($\le 512$ tok), and all models operating inside 4.0 GB VRAM.
+4. **Gate D Disposition:** Verified and closed under Decision 2026-10-10 (ADR-0018). Code quarantined in prototype directory per governance rules. Concludes canonical milestone progression of Mộng Nhiễm.
 
 
 

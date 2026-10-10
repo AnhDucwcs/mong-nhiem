@@ -353,9 +353,20 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      - `Llama-3.2-3B-Instruct-Q4_K_M` (1.88 GB): **30/30 (100.0%)**, Peak VRAM **2,297.0 MiB** (2.24 GB, 56.1%), Turn Latency 483.0 ms.
      - `Qwen3-4B-Q4_K_M` (2.33 GB): **30/30 (100.0%)**, Peak VRAM **2,827.0 MiB** (2.76 GB, 69.0%), Turn Latency 587.7 ms.
    - Aggregate Cross-Model Resolution: **90/90 PASS (100.0%)** across all arms and domains, exactly 0 committed conservation breaches, 0 unmanaged stale overwrites, 100% token budget adherence ($\le 512$ tokens), and all 3 models operating strictly within consumer GPU limits. Confirms universal architectural robustness. See [`reports/mn018_cross_model_comparison_report.md`](experiments/prototypes/mn-018-simulated-microworld-evolution/reports/mn018_cross_model_comparison_report.md).
-5. **Gate D Disposition & Closure:**
+6. **High-Difficulty Stress Benchmark Evaluation (`corpus-v2-stress`):**
+   - Following baseline verification, MN-018 was subjected to an aggressive high-difficulty stress test suite (`corpus-v2-stress`, 30 scenarios) incorporating all 3 stress dimensions:
+     1. *Multi-Distractor & Delayed Rollback Traps:* 4–6 candidate actions per phase, with unmetered coolant purging, cabin venting, and inventory dumping traps requiring Memento atomic rollback.
+     2. *Cascading Compound Environmental Shocks:* Multiple compound shock clusters across ticks 15, 30, 55, 80, 110, 135 (e.g. concurrent solar loss and thermal spikes) forcing dynamic affordance regeneration.
+     3. *Ultra Long-Horizon ($T = 150 - 200$ ticks, $K = 8$ topological sub-goals):* Extended execution horizons across 10–22 turns, forcing 1 to 4 consecutive AutoDream consolidation cycles per episode.
+   - **Cross-Model Stress Evaluation Results:**
+     - **Track 1 Simulator:** ARM3: 100.0% (30/30), ARM1: 0.0% (0/30).
+     - **`Qwen3.5-2B` (1.30 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 1,507 MiB (1.47 GB). Intercepted and rolled back **45 invariant breach traps**. AutoDream triggered across 3–4 cycles per episode. Max prompt: 503 tokens ($\le 512$), Mean prompt: 252.2 tokens. Mean latency: 613.3 ms.
+     - **`Llama-3.2-3B` (1.88 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,299 MiB (2.25 GB). 0 breaches committed. Max prompt: 492 tokens ($\le 512$), Mean prompt: 289.6 tokens. Mean latency: 591.0 ms.
+     - **`Qwen3-4B` (2.33 GB):** ARM3: **30/30 (100.0%)**, ARM1: 0.0%, ARM2: 0.0%. Peak VRAM: 2,827 MiB (2.76 GB). 0 breaches committed. Mean prompt: 294.8 tokens. Mean latency: 668.4 ms.
+     - **Aggregate Stress Outcome:** Across 90 stress episodes, ARM3 maintained **100.0% task success (90/90)**, with 0 committed conservation breaches, 0 unmanaged stale overwrites, and all models fitting comfortably within 4.0 GB VRAM. See [`reports/mn018_stress_cross_model_comparison_report.md`](experiments/prototypes/mn-018-simulated-microworld-evolution/reports/mn018_stress_cross_model_comparison_report.md).
+7. **Gate D Disposition & Closure:**
    - Formal disposition: `full_cognitive_host_microworld_evolution_proven`.
-   - Gate D criteria fully satisfied. Prototype code quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` per Mộng Nhiễm governance rules. Pre-run and post-run cryptographic manifests frozen.
+   - Gate D criteria fully satisfied under both baseline and high-difficulty stress suites. Prototype code quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` per Mộng Nhiễm governance rules. Pre-run and post-run cryptographic manifests frozen.
 
 ---
 
