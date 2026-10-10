@@ -16,7 +16,7 @@ does not retry, rescore, relax, or otherwise amend them. In particular, it does
 not establish a locality result or authorize a locality comparison.
 
 The sole next step licensed by this gate is the separate static workload-definition
-and materialization-contract work stated in [Next authorized action](#next-authorized-action).
+and materialization-contract work stated in [Next authorized action](#8-next-authorized-action).
 Model execution requires a later authority step.
 
 ## 1. Primary construct and boundary
