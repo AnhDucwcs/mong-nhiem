@@ -62,6 +62,7 @@ class ExecutionResult:
     mean_prompt_tokens: float
     mean_turn_latency_ms: float
     stale_intercepted: int = 0
+    conservation_intercepted: int = 0
     autodream_cycles: int = 0
     compression_ratio: float = 0.0
     turn_history: List[TurnMetric] = field(default_factory=list)
@@ -84,7 +85,7 @@ class MN018Orchestrator:
         self.planner = HierarchicalPlanner(mission)
         self.guard = ConcurrencyGuard()
         self.episodic_log = EpisodicLog()
-        self.autodream = AutoDreamEngine(event_threshold=15, token_threshold=400)
+        self.autodream = AutoDreamEngine(event_threshold=6, token_threshold=200)
         self.memento = MementoStack(max_depth=10)
         self.arm = arm.lower()
         self.ticks_per_turn = ticks_per_turn
@@ -146,6 +147,14 @@ class MN018Orchestrator:
                 for notice in self.pending_delta_notices[-2:]:
                     sections.append(notice)
                 self.pending_delta_notices.clear()
+
+            # Synchronize working entities and record observation version as of this prompt
+            for eid in list(self.working_entities.keys()):
+                ent = self.engine.get_entity(eid)
+                if ent:
+                    self.working_entities[eid] = ent.render_fact_card()
+                    self.working_entity_versions[eid] = ent.version
+                    self.guard.record_observation(eid, ent.version, self.engine.clock.current_tick)
 
             # 3. AutoDream Consolidated Declarative Memory (if any)
             decl_mem = self.autodream.render_declarative_context()
@@ -278,11 +287,13 @@ class MN018Orchestrator:
 
             success, message = action_executor(act_type, act_target, self.engine)
 
-            if "CONSERVATION_BREACH" in message or "INVARIANT_BREACH" in message:
-                is_conservation_breach = True
+            if not success or "CONSERVATION_BREACH" in message or "INVARIANT_BREACH" in message:
+                if "CONSERVATION_BREACH" in message or "INVARIANT_BREACH" in message:
+                    is_conservation_breach = True
                 if self.arm == "arm3":
-                    # Roll back immediately to restore physical integrity
+                    # Roll back immediately to restore physical integrity and record negative directive
                     self.memento.rollback_latest(self.engine, reason=message)
+                    self.memento.record_negative_action(act_target)
                     self.pending_delta_notices.append(f"[MEMENTO ROLLBACK: {message}]")
                 else:
                     self.conservation_breaches_committed += 1
@@ -315,6 +326,12 @@ class MN018Orchestrator:
 
         # 6. Check Phase Advancement
         advanced, _ = self.planner.update_plan(self.engine)
+        if self.arm == "arm3":
+            if advanced:
+                self.memento.negative_actions.clear()
+            elif act_type == "DISPATCH" and not is_conservation_breach:
+                # Action succeeded but did not advance active sub-goal (e.g. read-only inspect/poll/audit)
+                self.memento.record_negative_action(act_target)
 
         host_latency_ms = (time.perf_counter() - t_start) * 1000.0
 

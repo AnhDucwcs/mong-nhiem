@@ -35,6 +35,8 @@ MN-016 is completed and verified: [Episodic Memory & Long-Horizon Event Consolid
 
 MN-017 is completed and verified: [Dynamic World Ticks & Hierarchical Planning](experiments/prototypes/mn-017-dynamic-world-ticks/README.md). It proved that Dynamic World Ticks, Hierarchical Planning, and Optimistic Concurrency Guarding overcome Goal Divergence, Horizon Jumping, and asynchronous environmental drift across concurrent multi-phase missions ($K = 3-5$ sub-goals, $T = 15-35$ steps), achieving 100.0% task resolution (40/40) on `Qwen3.5-2B` (+100.0% delta over flat baseline), zero unmanaged stale overwrites committed (31 intercepted version drifts recovered via delta notices), zero horizon jumping events, bounded token ceilings ($\le 512$ tokens, Max: 253, Mean: 137.8), and 534.4 ms turn latency. Prototype remains quarantined per Mộng Nhiễm governance rules, authorizing transition to **MN-Final** (Stateful Simulated Microworld Evolution).
 
+MN-018 is completed and verified: [Stateful Simulated Microworld Evolution](experiments/prototypes/mn-018-simulated-microworld-evolution/README.md). It represents the culminating North Star synthesis of Mộng Nhiễm, validating that lightweight models (`Qwen3.5-2B`, $<4\text{B}$) reliably govern complex simulated microworlds across extended discrete horizons ($T = 50-100$ steps) under physical conservation invariants, multi-rate decay, and topological mission DAGs. Arm 3 achieved 100.0% task resolution (30/30) on real model inference (+100.0% delta over flat baseline), zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), zero unmanaged stale overwrites, bounded prompt token ceilings ($\le 512$ tokens, Max: 386, Mean: 184.5), sub-second turn latency (649.4 ms), and sustained AutoDream memory consolidation. Prototype remains quarantined per governance rules, concluding the canonical research roadmap.
+
 The context subsystem (`src/mong_nhiem/context/`) and cognitive orchestration subsystem (`src/mong_nhiem/orchestration/`) are selected and promoted for production context scaffolding, iterative coordination, and dual-layer cognitive steering. Retrieval, episodic memory, and autonomous planning architectures remain open for subsequent research milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
 ## Navigate
@@ -60,6 +62,7 @@ The context subsystem (`src/mong_nhiem/context/`) and cognitive orchestration su
 - [MN-015](experiments/prototypes/mn-015-dynamic-affordance-decoding/README.md)
 - [MN-016](experiments/prototypes/mn-016-episodic-memory-consolidation/README.md)
 - [MN-017](experiments/prototypes/mn-017-dynamic-world-ticks/README.md)
+- [MN-018](experiments/prototypes/mn-018-simulated-microworld-evolution/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

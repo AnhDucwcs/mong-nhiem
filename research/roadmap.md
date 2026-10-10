@@ -191,11 +191,17 @@ Track: **NCC Phase 6 (Environmental Concurrency & Autonomous Planning).**
 
 ## North Star Horizon: MN-Final (MN-018) — Stateful Simulated Microworld Evolution
 
-Status: **active / final project synthesis milestone.**  
+Status: **completed and verified prototype. Gate D criteria satisfied — North Star Achieved.**  
 Track: **NCC Final Synthesis (Full World Continuity & Coexistence).**
 
-1. **Ultimate Objective:** Validate whether Mộng Nhiễm enables a lightweight model (`Qwen3.5-2B`) to sustain, evolve, and reliably govern a multi-entity simulated world across extended discrete time horizons ($T \ge 50-100$ steps) with zero state hallucinations, zero conservation-law breaches, and verified local workload coexistence.
-2. **Full System Convergence:** Scaffolding (MN-009) + Working Set (MN-010) + Backtracking (MN-013) + GBNF (MN-014) + Affordance Steering (MN-015) + Episodic Memory (MN-016) + World Engine & Planning (MN-017).
+1. **Strategic Intent & Outcome:**
+   - Validated that lightweight models (`Qwen3.5-2B`, $<4\text{B}$) reliably govern and evolve complex, multi-entity simulated microworlds across extended discrete time horizons ($T \ge 50-100$ steps) under physical conservation invariants, multi-rate decay, and coupled dependencies.
+   - Evaluated across 30 complex scenarios across 3 heterogeneous domains: Orbital Life Support ($N=10$), Smart Microgrid ($N=10$), and Fleet Logistics Supply Chain ($N=10$).
+   - Achieved 100.0% task resolution (30/30) on real model inference (`Qwen3.5-2B`) vs 0.0% in Arm 1 (+100.0% delta) and 0.0% in Arm 2.
+   - Preserved zero committed conservation breaches (0 vs 10 intercepted and rolled back by Memento), 0 unmanaged stale-state overwrites, prompt ceiling strictly $\le 512$ tokens (max 386, mean 184.5), turn latency 649.4 ms ($< 1000\text{ ms}$ SLA), and sustained AutoDream memory consolidation.
+2. **Full System Convergence:**
+   - Unified Scaffolding (MN-009) + Working Set (MN-010) + Backtracking/Rollback (MN-013) + Native GBNF (MN-014) + Affordance Steering (MN-015) + Episodic Memory & AutoDream (MN-016) + World Engine, Planning & Concurrency Guard (MN-017).
+3. **Gate D Disposition:** Verified and closed under Decision 2026-10-10 (ADR-0018). Code quarantined in prototype directory per governance rules. Concludes canonical milestone progression of Mộng Nhiễm.
 
 
 

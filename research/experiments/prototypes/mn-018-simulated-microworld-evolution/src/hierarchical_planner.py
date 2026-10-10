@@ -50,6 +50,8 @@ class MissionGraph:
         """Determine current active sub-goal based on prerequisite satisfaction and Host predicates."""
         for gid in self.topological_order:
             sg = self.subgoals[gid]
+            if sg.is_completed:
+                continue
             prereqs_met = all(self.subgoals[pid].is_completed for pid in sg.prerequisites)
             if not prereqs_met:
                 continue
