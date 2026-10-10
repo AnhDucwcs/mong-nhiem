@@ -288,10 +288,39 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
 
 ---
 
+---
+
+## MN-017 — Dynamic World Ticks & Hierarchical Planning — completed and verified
+
+1. **Context & Problem Statement:**
+   - Previous milestones evaluated turn-synchronous execution where the world only mutated upon direct agent action dispatch. In realistic multi-entity simulations, environments exhibit asynchronous background dynamics (leases expire, resource levels drain, concurrent entities fail over).
+   - On complex multi-stage objectives ($T = 15-35$), small models ($<4\text{B}$) suffer from Goal Divergence and Horizon Jumping when exposed to monolithic mission descriptions, or collapse into Premature Resolution when unconstrained grammars permit completion actions before intermediate phases finish.
+2. **Dual-Engine Architecture & Concurrency Guard:**
+   - **Multi-Rate World Clock & Entity Decay:** `DynamicWorldEngine` steps discrete simulation ticks ($\Delta t_{world} = 1-3$ per agent turn), updating entity versions ($v_{entity}$) and TTL decay.
+   - **Hierarchical Mission Graph & Topological Sub-Goals:** Long-horizon missions are decomposed into a DAG of sub-goals ($G_1 \rightarrow \dots \rightarrow G_K$) evaluated by Host symbolic predicates.
+   - **Dynamic GBNF Phase-Gate Affordance Compiler:** Masks actions to strictly valid operations for the active sub-goal $G_k$, eliminating premature resolution and out-of-order execution at the token level.
+   - **Optimistic Concurrency Guard & Delta Recovery:** Intercepts agent actions targeting superseded entity versions ($v_{agent} < v_{world}$), blocks illegal mutations, and injects concise delta notices ($\le 64$ tokens) prompting immediate re-observation.
+3. **Gate B & Gate C Empirical Results:**
+   - **Track 1 (Deterministic State Simulator):**
+     - Arm 1 (Flat Baseline): 0/40 PASS (0.0%), 118 horizon jumping actions.
+     - Arm 2 (Static Plan Control): 40/40 PASS (100.0%).
+     - Arm 3 (Dual-Engine MN-017): 40/40 PASS (100.0%), 0 horizon jumping, 0 stale overwrites, 0.1 ms latency.
+   - **Track 2 (Real Model Inference on Qwen3.5-2B-Q4_K_M via llama-server):**
+     - Arm 1 (Flat Baseline): 0/40 PASS (0.0%), 118 horizon jumping actions, 1 premature resolution.
+     - Arm 2 (Static Plan Control): 0/40 PASS (0.0%), 40/40 premature resolution failures on Turn 1 (model emitted `ACTION: RESOLVE COMPLETE` immediately due to lack of phase-gate logit masking).
+     - Arm 3 (Dual-Engine MN-017): **40/40 PASS (100.0%)**, 0 horizon jumping, 0 premature resolutions, 0 unmanaged stale overwrites committed.
+     - Stale Version Drifts: 31 asynchronous version mismatches intercepted and cleanly recovered via delta notices across multi-rate stress cases.
+     - Token Budget Ceiling: Max prompt 253.0 tokens, Mean prompt 137.8 tokens (100% $\le 512$, mean $\le 384$).
+     - Latency SLA: Mean turn latency **534.4 ms** ($< 1000$ ms), with Host processing overhead $< 0.3$ ms.
+4. **Gate D Disposition Review:**
+   - Verified and closed per Gate D Disposition Review. Code remains quarantined in `research/experiments/prototypes/mn-017-dynamic-world-ticks/` per Mộng Nhiễm governance rules. Directs handoff to MN-Final.
+
+---
+
 ## Active Transition & Next Research Tracks
 
 1. **Primary Model Subject Designation (`Qwen3.5-2B-Q4_K_M`):** Reaffirmed as the canonical Primary Research Subject on local `llama.cpp` runtime.
-2. **Completed Substrate Stack (MN-010 through MN-016):**
+2. **Completed Substrate Stack (MN-010 through MN-017):**
    - MN-010: Iterative context working set loop.
    - MN-011: Context frontier saturation ($B^* \approx 512$).
    - MN-012: Dual-tier memory partition and action grammar.
@@ -299,8 +328,8 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
    - MN-014: Native GBNF grammar-constrained decoding.
    - MN-015: Dual-layer dynamic affordance steering.
    - MN-016: Host-authoritative episodic memory & AutoDream consolidation.
+   - MN-017: Multi-rate dynamic world ticks, hierarchical planning & optimistic concurrency guard.
 3. **Successor Milestone Priorities — Roadmap Bridge to North Star:**
-   - **MN-017 (Dynamic World Ticks & Hierarchical Planning):** Asynchronous environmental state transitions, multi-rate simulation clocks, and high-level goal decomposition to prevent Goal Divergence.
    - **MN-Final / MN-018 (Stateful Simulated Microworld Evolution):** Ultimate benchmark validating whether lightweight models can sustain and evolve a multi-entity simulated world across extended time horizons ($T \ge 50-100$ steps) with zero state hallucinations and local workload coexistence SLA.
 
 

@@ -1,0 +1,62 @@
+{
+  "case_id": "mn017-case-0034",
+  "arm": "arm1",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 3,
+  "final_world_tick": 3,
+  "stale_violations": 0,
+  "horizon_jumping_events": 1,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 167,
+  "mean_prompt_tokens": 167.0,
+  "mean_turn_latency_ms": 770.7462666668713,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 1,
+      "prompt_tokens": 167,
+      "raw_action": "ACTION: DISPATCH probe_node node_34",
+      "action_type": "DISPATCH",
+      "action_target": "probe_node node_34",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.2258999998048239,
+      "model_latency_ms": 968.3649000003243
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 167,
+      "raw_action": "ACTION: DISPATCH probe_node node_34",
+      "action_type": "DISPATCH",
+      "action_target": "probe_node node_34",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": true,
+      "is_premature_resolution": false,
+      "phase_advanced": false,
+      "host_latency_ms": 0.1874999998108251,
+      "model_latency_ms": 937.732600000345
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 3,
+      "prompt_tokens": 167,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.6125999998403131,
+      "model_latency_ms": 406.14129999994475
+    }
+  ]
+}

@@ -52,6 +52,7 @@ class ExecutionResult:
     max_prompt_tokens: int
     mean_prompt_tokens: float
     mean_turn_latency_ms: float
+    stale_intercepted: int = 0
     turn_history: List[TurnMetric] = field(default_factory=list)
 
 

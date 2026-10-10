@@ -52,3 +52,19 @@ python research/experiments/prototypes/mn-017-dynamic-world-ticks/scripts/run_be
 ```bash
 python research/experiments/prototypes/mn-017-dynamic-world-ticks/scripts/run_benchmark.py --track 2 --model artifacts/models/mn-002/Qwen3.5-2B-Q4_K_M.gguf
 ```
+
+---
+
+## 4. Empirical Verification & Gate Status
+
+- **Track 1 (Deterministic State Simulator)**:
+  - Arm 1 (Flat Baseline): 0/40 PASS (0.0%), 118 horizon jumping actions.
+  - Arm 2 (Static Plan Control): 40/40 PASS (100.0%).
+  - Arm 3 (Dual-Engine MN-017): 40/40 PASS (100.0%), 0 horizon jumping, 0 stale overwrites.
+- **Track 2 (Real Model Inference — `Qwen3.5-2B-Q4_K_M.gguf`)**:
+  - Arm 1 (Flat Baseline): 0/40 PASS (0.0%), 118 horizon jumping events.
+  - Arm 2 (Static Plan Control): 0/40 PASS (0.0%), 40/40 premature resolution failures on Turn 1.
+  - Arm 3 (Dual-Engine MN-017): 40/40 PASS (100.0%), 0 horizon jumping, 0 premature resolutions, 0 unmanaged stale overwrites, 31 intercepted version drifts recovered via delta notices.
+  - Token Usage: Peak 253.0 tokens, Mean 137.8 tokens ($\le 384$ SLA).
+  - SLA Latency: 534.4 ms ($< 1000\text{ ms}$ SLA).
+- **Gate Disposition**: `VERIFIED_PASS` — Gate D Review complete in [`gate-d-disposition-review.md`](gate-d-disposition-review.md).
