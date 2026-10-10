@@ -6,7 +6,7 @@
     "definition/corpus-v1/cases.json": "301609227cb8759e19724ef548a47150e7afd21be5618b619835dd2d8a9adb62",
     "definition/corpus-v2-stress/cases.json": "f0e14caa10a34802c89356fbe5b6a1de71ee7ee469e64ad42529ea4491323615",
     "gate-b-contract.md": "040d269b6b602881173cf3ddcdd80bfe7ab3497b3d6d099cdd3a4fa80b6ddccb",
-    "gate-d-disposition-review.md": "528698e00d8e16ed830aeb4c6b6d0fe92c26905edd2046202b669edc12591274",
+    "gate-d-disposition-review.md": "59156720087239af626952fa5d3841444be7d2352cb1953df06e602a77e217fa",
     "reports/mn018_academic_benchmark_track1_Simulator.md": "2a50084c1ac789c3619c2c31f0900124058ac77a385ed5d1ed7f7d645310469d",
     "reports/mn018_academic_benchmark_track2_Llama-3.2-3B.md": "1f236b7da5ab4e072b05bdce84e174defd0f7b3be454b245578e97c517437760",
     "reports/mn018_academic_benchmark_track2_Qwen3-4B.md": "0b1512720070e928802a8cfa1586ef30a602c659e814bd223f324820e629ffbc",
@@ -16,7 +16,7 @@
     "reports/mn018_stress_academic_benchmark_track2_Llama-3.2-3B.md": "a0b4b8e81b2c3c5606322d6a6e706effc48204f13dcce3581a262aae1652962e",
     "reports/mn018_stress_academic_benchmark_track2_Qwen3-4B.md": "57264230a44f656dbd7996edb1c36b1fe7dad010767d9cefd946e38162a0f70a",
     "reports/mn018_stress_academic_benchmark_track2_Qwen3.5-2B.md": "34b4dd8fcb9433e4cbe8f39a69e1e88c35e3df0f5d7f2c7f3d1bc647d631fc47",
-    "reports/mn018_stress_cross_model_comparison_report.md": "491f705898fc8f96709838a65d248b387a7338cf75c2ffeabef13a40a9c641d6",
+    "reports/mn018_stress_cross_model_comparison_report.md": "b87ff63c5df92131ee2c5f8aea2bf7ea469f45968f2293a10b82b6d272abad20",
     "runs/mn018-run-20261010-070106-corpus-v1-track2-Qwen3.5-2B/audit_logs/MN018-CASE-001_arm1_audit.json": "94d2b2fc29b2fb9ef0a91cbcc4cbe92808b63cbc6e235e661c7f8044881657f9",
     "runs/mn018-run-20261010-070106-corpus-v1-track2-Qwen3.5-2B/audit_logs/MN018-CASE-001_arm2_audit.json": "f74080a7df8440ff31498e3e76fd3036fdd36ecde92ffa934e78ea69551ddf3e",
     "runs/mn018-run-20261010-070106-corpus-v1-track2-Qwen3.5-2B/audit_logs/MN018-CASE-001_arm3_audit.json": "4b03c151a1f9dc3cb8463603ce27cf484dccd7586da5e8100184b0fe6269cac1",
@@ -950,5 +950,5 @@
   },
   "milestone": "MN-018",
   "stage": "post",
-  "timestamp_utc": "2026-10-10T10:16:52.143811+00:00"
+  "timestamp_utc": "2026-10-10T13:58:01.911502+00:00"
 }

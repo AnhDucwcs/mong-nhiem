@@ -38,7 +38,7 @@ Canonical Evidence:
       * Track 1 Simulator: Arm 3 30/30 (100.0%), Arm 2 0/30 (0.0%), Arm 1 0/30 (0.0%), AutoDream 71.0% PASS
       * Track 2 Qwen3.5-2B: Arm 3 30/30 (100.0%), 45 invariant traps intercepted and rolled back by Memento, 1-4 AutoDream cycles/ep, AutoDream 71.0% PASS
       * Track 2 Llama-3.2-3B: Arm 3 30/30 (100.0%), VRAM 2.25 GB, Latency 591.0 ms, AutoDream 71.0% PASS
-      * Track 2 Qwen3-4B: Arm 3 30/30 (100.0%), VRAM 2.76 GB, Latency 668.4 ms, AutoDream 71.0% PASS
+      * Track 2 Qwen3-4B: Arm 3 30/30 (100.0%), VRAM 2.76 GB, Latency 668.4 ms, AutoDream 71.0% PASS; M7 Token Ceiling Gap (Max 572 tok > 512 tok on Case 26, evaluating Qwen3-4B stress overall verdict as FAIL)
       * Aggregate Stress Resolution: 90/90 PASS (100.0%), 0 committed breaches, 0 unmanaged stale overwrites
   - Dedicated AutoDream Benchmark Suite: 6/6 PASSED (100.0%)
   - Prototype Test Suite: 24/24 PASSED (100.0%)

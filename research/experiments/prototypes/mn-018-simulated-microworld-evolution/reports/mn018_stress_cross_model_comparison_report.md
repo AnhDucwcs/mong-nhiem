@@ -53,9 +53,9 @@ Evaluating 3 local quantized models (`Qwen3.5-2B`, `Llama-3.2-3B`, and `Qwen3-4B
 | **Mean Prompt Tokens** | $\le 384$ | 240.1 | **252.2** | **289.6** | **294.8** |
 | **Mean Turn Latency** | $< 1000\text{ ms}$ | $< 0.5\text{ ms}$ | **613.3 ms** | **591.0 ms** | **668.4 ms** |
 | **Peak GPU VRAM Footprint** | $\le 3072\text{ MiB}$ | 0 MiB | **1,507 MiB (1.47 GB)** | **2,299 MiB (2.25 GB)** | **2,827 MiB (2.76 GB)** |
-| **Gate B Overall Audit** | 100% Clauses | `PASS` | `PASS` | `PASS` | `PASS`* |
+| **Gate B Overall Audit** | 100% Clauses | `PASS` | `PASS` | `PASS` | `FAIL (M7 GAP)`* |
 
-*\*Note on Qwen3-4B Clause M7:* Peak prompt tokens reached 572 on Case 26 due to tokenizer BPE fragmentation under 3 concurrent delta notices, while mean prompt remained well below budget (294.8 tokens).
+*\*Note on Qwen3-4B Clause M7 Failure:* Peak prompt tokens reached 572 on Case 26 (exceeding the strict $\le 512$ token ceiling bound) due to tokenizer BPE fragmentation under 3 concurrent delta notices, evaluating M7 and the overall audit as `FAIL`.
 
 ---
 
