@@ -65,7 +65,7 @@ class MissionGraph:
 
     def is_mission_accomplished(self, engine: DynamicWorldEngine) -> bool:
         """Verify whether every sub-goal in the mission has satisfied its Host predicate."""
-        return all(sg.check_completion(engine) for sg in self.subgoals.values())
+        return all(sg.is_completed for sg in self.subgoals.values())
 
 
 class HierarchicalPlanner:

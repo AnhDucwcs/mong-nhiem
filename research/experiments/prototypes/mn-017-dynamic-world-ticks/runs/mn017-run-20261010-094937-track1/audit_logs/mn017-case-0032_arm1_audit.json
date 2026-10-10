@@ -1,0 +1,62 @@
+{
+  "case_id": "mn017-case-0032",
+  "arm": "arm1",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 3,
+  "final_world_tick": 3,
+  "stale_violations": 0,
+  "horizon_jumping_events": 1,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 158,
+  "mean_prompt_tokens": 158.0,
+  "mean_turn_latency_ms": 0.1,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 1,
+      "prompt_tokens": 158,
+      "raw_action": "ACTION: DISPATCH probe_node node_32",
+      "action_type": "DISPATCH",
+      "action_target": "probe_node node_32",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.04290000015316764,
+      "model_latency_ms": 0.1
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 158,
+      "raw_action": "ACTION: DISPATCH update_routing cluster_32",
+      "action_type": "DISPATCH",
+      "action_target": "update_routing cluster_32",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": true,
+      "is_premature_resolution": false,
+      "phase_advanced": false,
+      "host_latency_ms": 0.03239999978177366,
+      "model_latency_ms": 0.1
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 3,
+      "prompt_tokens": 158,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.02230000018244027,
+      "model_latency_ms": 0.1
+    }
+  ]
+}
