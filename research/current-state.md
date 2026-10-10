@@ -313,11 +313,11 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
      - Token Budget Ceiling: Max prompt 253.0 tokens, Mean prompt 137.8 tokens (100% $\le 512$, mean $\le 384$).
      - Latency SLA: Mean turn latency **534.4 ms** ($< 1000$ ms), with Host processing overhead $< 0.3$ ms.
 4. **Cross-Model Benchmark Generalization:**
-   - Evaluated identical 40-case Track 2 benchmarks across all 3 qualified local models:
-     - `Qwen3.5-2B-Q4_K_M` (1.40 GB): **40/40 PASS (100.0%)** across all 3 domains, 534.4 ms latency.
-     - `Llama-3.2-3B-Instruct-Q4_K_M` (2.02 GB): **25/40 PASS (62.5%)** (Domain B: 15/15 [100%], Domain C: 10/10 [100%]; Domain A: 0/15 failed due to idempotent recall loop on unprogressed entity cards), 339.4 ms latency.
-     - `Qwen3-4B-Q4_K_M` (2.50 GB): **13/40 PASS (32.5%)** (Domain A: 13/15 [86.7%]; Domains B and C failed due to idempotent recall loop), 445.3 ms latency.
-   - All 3 models satisfied the $\le 512$ token ceiling and $< 1000$ ms turn latency SLA. Zero unmanaged stale overwrites committed across all models. Reaffirms `Qwen3.5-2B` as the superior Primary Research Subject. See [`reports/mn017_cross_model_comparison_report.md`](experiments/prototypes/mn-017-dynamic-world-ticks/reports/mn017_cross_model_comparison_report.md).
+   - Evaluated identical 40-case Track 2 benchmarks across all 3 qualified local models before and after Host dynamic affordance pruning:
+     - `Qwen3.5-2B-Q4_K_M` (1.40 GB): **40/40 PASS (100.0%)** across all 3 domains, 502.8 ms latency.
+     - `Llama-3.2-3B-Instruct-Q4_K_M` (2.02 GB): Advanced from 25/40 (62.5%) pre-patch to **35/40 PASS (87.5%)** post-patch (Domain B: 15/15 [100%], Domain C: 10/10 [100%], Domain A: 10/15 [66.7%]), 294.6 ms latency.
+     - `Qwen3-4B-Q4_K_M` (2.50 GB): Advanced from 13/40 (32.5%) pre-patch to **38/40 PASS (95.0%)** post-patch (Domain A: 13/15 [86.7%], Domain B: 15/15 [100%], Domain C: 10/10 [100%]), 413.3 ms latency.
+   - All 3 models satisfied the $\le 512$ token ceiling and $< 1000$ ms turn latency SLA. Zero unmanaged stale overwrites committed across all models. Confirms that Host dynamic affordance pruning generalizes across heterogeneous model architectures, eliminating degenerate recall loops. See [`reports/mn017_cross_model_comparison_report.md`](experiments/prototypes/mn-017-dynamic-world-ticks/reports/mn017_cross_model_comparison_report.md).
 5. **Gate D Disposition Review:**
    - Verified and closed per Gate D Disposition Review. Code remains quarantined in `research/experiments/prototypes/mn-017-dynamic-world-ticks/` per Mộng Nhiễm governance rules. Directs handoff to MN-Final.
 

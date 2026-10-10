@@ -109,6 +109,11 @@ class MN017Orchestrator:
                 for notice in self.pending_delta_notices[-2:]:  # Keep at most 2 freshest notices
                     sections.append(notice)
                 self.pending_delta_notices.clear()
+                for eid in self.working_entities:
+                    ent = self.engine.get_entity(eid)
+                    if ent:
+                        self.working_entities[eid] = ent.render_fact_card()
+                        self.guard.record_observation(eid, ent.version, self.engine.clock.current_tick)
 
         # Append working set entity cards
         if self.working_entities:
@@ -127,12 +132,13 @@ class MN017Orchestrator:
         """Compile GBNF grammar matching current arm and plan state."""
         known_eids = list(self.engine.entities.keys())
         all_completed = self.planner.mission.is_mission_accomplished(self.engine)
+        unobserved_eids = [eid for eid in known_eids if eid not in self.working_entities]
 
         if self.arm in ("arm1", "arm2"):
             # Unconstrained global grammar
             return DynamicAffordanceCompiler.compile_global_grammar(
                 all_actions=all_case_actions,
-                known_entity_ids=known_eids,
+                known_entity_ids=unobserved_eids,
                 allow_resolve=True,
             )
         else:
@@ -140,7 +146,7 @@ class MN017Orchestrator:
             self.planner.update_plan(self.engine)
             return DynamicAffordanceCompiler.compile_for_subgoal(
                 subgoal=self.planner.active_subgoal,
-                known_entity_ids=known_eids,
+                known_entity_ids=unobserved_eids,
                 all_completed=all_completed,
             )
 

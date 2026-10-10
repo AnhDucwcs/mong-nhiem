@@ -51,6 +51,8 @@ def test_orchestrator_turn_stepping() -> None:
     metric_recall = orch.step("ACTION: RECALL res_alpha", dummy_executor)
     assert metric_recall.action_type == "RECALL"
     assert "res_alpha" in orch.working_entities
+    grammar_post_recall = orch.get_gbnf_grammar(["lock_resource res_alpha"])
+    assert "ACTION: RECALL res_alpha" not in grammar_post_recall
 
     # 4. In the background, an external drift event mutates res_alpha from v1 -> v2
     engine.mutate_entity("res_alpha", {"metadata": "drifted"})

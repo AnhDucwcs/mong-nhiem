@@ -54,9 +54,9 @@ The canonical Gate C execution completed evaluations across 3 operational domain
 
 ### Cross-Model Comparative Generalization
 
-Following primary verification, the identical 40-case Track 2 benchmark was executed across the two secondary reference subjects:
-- **`Llama-3.2-3B-Instruct-Q4_K_M`**: 25/40 PASS (62.5% overall; Domain A: 0/15 due to idempotent recall loop; Domain B: 15/15 [100.0%]; Domain C: 10/10 [100.0%]; 339.4 ms latency).
-- **`Qwen3-4B-Q4_K_M`**: 13/40 PASS (32.5% overall; Domain A: 13/15 [86.7%]; Domain B: 0/15 and Domain C: 0/10 due to idempotent recall loop; 445.3 ms latency).
+Following primary verification, the identical 40-case Track 2 benchmark was evaluated across the two secondary reference subjects before and after the Host dynamic affordance pruning patch:
+- **`Llama-3.2-3B-Instruct-Q4_K_M`**: Advanced from 25/40 (62.5%) pre-patch to **35/40 (87.5%)** post-patch (Domain A: 10/15 [66.7%]; Domain B: 15/15 [100.0%]; Domain C: 10/10 [100.0%]; 294.6 ms latency).
+- **`Qwen3-4B-Q4_K_M`**: Advanced from 13/40 (32.5%) pre-patch to **38/40 (95.0%)** post-patch (Domain A: 13/15 [86.7%]; Domain B: 15/15 [100.0%]; Domain C: 10/10 [100.0%]; 413.3 ms latency).
 
 Detailed comparative distributions are recorded in [`reports/mn017_cross_model_comparison_report.md`](reports/mn017_cross_model_comparison_report.md).
 

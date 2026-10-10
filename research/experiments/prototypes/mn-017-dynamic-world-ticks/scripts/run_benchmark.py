@@ -460,7 +460,7 @@ def execute_case_real_model(
 
         # Standard Mộng Nhiễm Circuit Breaker: trip on 3 consecutive identical unprogressed actions
         if len(turn_metrics) >= 3:
-            recent_unprogressed = [m.raw_action for m in turn_metrics[-3:] if not m.phase_advanced and m.action_type != "RECALL"]
+            recent_unprogressed = [m.raw_action for m in turn_metrics[-3:] if not m.phase_advanced]
             if len(recent_unprogressed) == 3 and len(set(recent_unprogressed)) == 1:
                 break
 
