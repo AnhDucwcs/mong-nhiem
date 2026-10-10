@@ -1,0 +1,63 @@
+{
+  "case_id": "mn017-case-0020",
+  "arm": "arm2",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 3,
+  "final_world_tick": 3,
+  "stale_violations": 0,
+  "horizon_jumping_events": 0,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 146,
+  "mean_prompt_tokens": 133.33333333333334,
+  "mean_turn_latency_ms": 474.11000000041287,
+  "stale_intercepted": 0,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 1,
+      "prompt_tokens": 113,
+      "raw_action": "ACTION: RECALL cargo_20",
+      "action_type": "RECALL",
+      "action_target": "cargo_20",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": false,
+      "host_latency_ms": 0.18759999966277974,
+      "model_latency_ms": 463.88260000003356
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 141,
+      "raw_action": "ACTION: DISPATCH inspect_cargo cargo_20",
+      "action_type": "DISPATCH",
+      "action_target": "inspect_cargo cargo_20",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.1830000001064036,
+      "model_latency_ms": 613.2682000006753
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 3,
+      "prompt_tokens": 146,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.14600000031350646,
+      "model_latency_ms": 345.1792000005298
+    }
+  ]
+}

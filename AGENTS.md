@@ -48,6 +48,7 @@ All research reports, prototypes, manifests, diagrams, and knowledge base files 
 
 ## 4. Development & Governance Constraints
 
+- **Mandatory Pre-Branch Remote Synchronization:** Before creating any new feature or milestone branch, you MUST execute `git fetch origin` and verify that the local base branch (e.g., `main`) is 100% synchronized and fast-forwarded to `origin/main` (`git status`, `git pull origin main`). Never branch off a stale, un-fetched, or diverged local state.
 - Treat `papers/` and `concepts/` as knowledge and reference, not implementation requirements; hypotheses require validation, while decisions are authoritative.
 - Respect recorded architectural decisions; do not treat hypotheses as facts.
 - Keep tasks narrow and do not implement future roadmap items unless explicitly requested.

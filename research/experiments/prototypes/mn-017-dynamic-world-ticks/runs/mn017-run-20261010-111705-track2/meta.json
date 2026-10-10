@@ -1,0 +1,7 @@
+{
+  "run_id": "mn017-run-20261010-111705-track2",
+  "track": 2,
+  "model": "Qwen3.5-2B-Q4_K_M.gguf",
+  "timestamp_utc": "2026-10-10T04:17:05.417477+00:00",
+  "cases": 40
+}

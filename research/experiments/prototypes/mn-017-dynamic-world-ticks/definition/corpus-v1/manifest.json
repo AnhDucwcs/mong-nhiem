@@ -1,0 +1,12 @@
+{
+  "cases_file": "cases.json",
+  "cases_sha256": "55bc5d126609d00a7e74a9ff55a3db6f6324f5b674a35dcb7304ca16c78d5151",
+  "corpus_version": "v1",
+  "domain_distribution": {
+    "domain_a_infrastructure": 15,
+    "domain_b_asset_logistics": 15,
+    "domain_c_system_registry": 10
+  },
+  "milestone": "MN-017",
+  "total_cases": 40
+}

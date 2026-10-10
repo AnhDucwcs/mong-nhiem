@@ -1,0 +1,26 @@
+{
+  "files": {
+    "README.md": "54b102dec694f8baf8cb8429b2e3bd36a69f6f9bd1296b5c9b03e8821b518981",
+    "charter.md": "9a85163bb02ebbe0d870bfb8521a6d3dcbabe36c402a45c2328ebdabf8b9d789",
+    "definition/corpus-v1/cases.json": "e022f59eb1fa1aed5818ceef5aa72135d59a62883149e27e74aba2485df9def0",
+    "definition/corpus-v1/manifest.json": "ac18b504d968bc6865cd53696d3335edfa9d24547a73da600b72805fae0cad1e",
+    "definition/pre-run-freeze-manifest.json": "6ebb48aae896982fc1b1d42019322dc7284ffd58a64362b42b2c72c007122568",
+    "gate-b-contract.md": "70ef30e9d8befe2702d89cea5f93d06596175b713a317fe889812e5d31136f1f",
+    "scripts/generate_corpus.py": "bd55a961940f374ff093ee2c3ff7139bc0c4d6acb7b3d4e96d697bdd05249757",
+    "scripts/run_benchmark.py": "30aa01fba19393425975011666cbbad15072ee710a550d9fd4cdb261d402110b",
+    "src/__init__.py": "3d95f0bcb8c6dfc69a322c9f9bdc3e31f19994ec4fa07f018b0564c06cacc4aa",
+    "src/concurrency_guard.py": "6c8f0856a52f3849cf96c723ba9cb23139e1b766cfb0c7026bc0c8ccf94f3450",
+    "src/dynamic_affordance_compiler.py": "0f28fa7f64ca61b9a1349c472321a5daf90be5011e16cc225282718211330818",
+    "src/hierarchical_planner.py": "6f7a0a1c6b0d682d43c08a59458becd8afbe7033e5c1822147836bb948e8f228",
+    "src/orchestrator.py": "2ccabc46c42776ae10c2ddba4034ccc4a5a3c718979d362e96384a414a7b2d08",
+    "src/world_engine.py": "3118086e2867d8b2b6116bc5bec97725182db3bd111c8d0a17e4bdcabbc565be",
+    "tests/test_concurrency_guard.py": "7a8c113769d6eee9634678dfb481fc10f0efe39e1f8e9a3efa1ad7a48614069d",
+    "tests/test_dynamic_affordance_compiler.py": "2081b3a03c71d02d349bc6db48345773405bc759fc55aee6967f649e5f807397",
+    "tests/test_hierarchical_planner.py": "81803f57ba000a0f203b5317a817bd2b501be9f2f7f444f928ccbdcadd10a257",
+    "tests/test_orchestrator.py": "6576a07f3371fdbb31c87095552c94af65eeb6b7e4116e6d5ca5a5946364dab1",
+    "tests/test_world_engine.py": "b029be394403e1a47090189d32a7ffd7770e13ce88a290eb75dc357a8a8080b9"
+  },
+  "milestone": "MN-017",
+  "stage": "pre",
+  "timestamp_utc": "2026-10-10T02:52:43.035235+00:00"
+}

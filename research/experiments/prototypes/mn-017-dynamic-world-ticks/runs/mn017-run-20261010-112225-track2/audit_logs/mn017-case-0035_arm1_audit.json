@@ -1,0 +1,48 @@
+{
+  "case_id": "mn017-case-0035",
+  "arm": "arm1",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 2,
+  "final_world_tick": 2,
+  "stale_violations": 0,
+  "horizon_jumping_events": 0,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 190,
+  "mean_prompt_tokens": 174.0,
+  "mean_turn_latency_ms": 356.98355000113224,
+  "stale_intercepted": 0,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 1,
+      "prompt_tokens": 158,
+      "raw_action": "ACTION: RECALL standby_35",
+      "action_type": "RECALL",
+      "action_target": "standby_35",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.16090000099211466,
+      "model_latency_ms": 514.3667000011192
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 190,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.10590000056254212,
+      "model_latency_ms": 199.60040000114532
+    }
+  ]
+}

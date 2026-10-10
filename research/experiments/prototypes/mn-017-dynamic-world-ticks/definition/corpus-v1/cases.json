@@ -1,0 +1,4037 @@
+[
+  {
+    "case_id": "mn017-case-0001",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_1' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_1' with active lock. 2. Migrate payload chunks to 'res_1'. 3. Verify data checksum on 'res_1'. 4. Release lease and finalize migration on 'res_1'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_1",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_1",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_1",
+          "inspect_lease lease_1"
+        ],
+        "description": "Lock resource by acquiring lease lease_1.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_1",
+        "title": "Acquire Exclusive Lease lease_1"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_1",
+          "check_payload res_1"
+        ],
+        "description": "Transfer payload chunks to partition res_1.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_1",
+        "title": "Migrate Payload res_1"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_1"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_1.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_1",
+        "title": "Verify Checksum res_1"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_1",
+          "release_lease lease_1"
+        ],
+        "description": "Mark partition finalized and release lease_1.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_1",
+        "title": "Release Lease and Finalize res_1"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_1 under concurrent lease lease_1"
+  },
+  {
+    "case_id": "mn017-case-0002",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_2' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_2' with active lock. 2. Migrate payload chunks to 'res_2'. 3. Verify data checksum on 'res_2'. 4. Release lease and finalize migration on 'res_2'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_2",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_2",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_2",
+          "inspect_lease lease_2"
+        ],
+        "description": "Lock resource by acquiring lease lease_2.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_2",
+        "title": "Acquire Exclusive Lease lease_2"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_2",
+          "check_payload res_2"
+        ],
+        "description": "Transfer payload chunks to partition res_2.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_2",
+        "title": "Migrate Payload res_2"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_2"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_2.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_2",
+        "title": "Verify Checksum res_2"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_2",
+          "release_lease lease_2"
+        ],
+        "description": "Mark partition finalized and release lease_2.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_2",
+        "title": "Release Lease and Finalize res_2"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_2 under concurrent lease lease_2"
+  },
+  {
+    "case_id": "mn017-case-0003",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_3' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_3' with active lock. 2. Migrate payload chunks to 'res_3'. 3. Verify data checksum on 'res_3'. 4. Release lease and finalize migration on 'res_3'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_3",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_3",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_3",
+          "inspect_lease lease_3"
+        ],
+        "description": "Lock resource by acquiring lease lease_3.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_3",
+        "title": "Acquire Exclusive Lease lease_3"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_3",
+          "check_payload res_3"
+        ],
+        "description": "Transfer payload chunks to partition res_3.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_3",
+        "title": "Migrate Payload res_3"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_3"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_3.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_3",
+        "title": "Verify Checksum res_3"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_3",
+          "release_lease lease_3"
+        ],
+        "description": "Mark partition finalized and release lease_3.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_3",
+        "title": "Release Lease and Finalize res_3"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_3 under concurrent lease lease_3"
+  },
+  {
+    "case_id": "mn017-case-0004",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_4' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_4' with active lock. 2. Migrate payload chunks to 'res_4'. 3. Verify data checksum on 'res_4'. 4. Release lease and finalize migration on 'res_4'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_4",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_4",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_4",
+          "inspect_lease lease_4"
+        ],
+        "description": "Lock resource by acquiring lease lease_4.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_4",
+        "title": "Acquire Exclusive Lease lease_4"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_4",
+          "check_payload res_4"
+        ],
+        "description": "Transfer payload chunks to partition res_4.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_4",
+        "title": "Migrate Payload res_4"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_4"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_4.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_4",
+        "title": "Verify Checksum res_4"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_4",
+          "release_lease lease_4"
+        ],
+        "description": "Mark partition finalized and release lease_4.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_4",
+        "title": "Release Lease and Finalize res_4"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_4 under concurrent lease lease_4"
+  },
+  {
+    "case_id": "mn017-case-0005",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_5' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_5' with active lock. 2. Migrate payload chunks to 'res_5'. 3. Verify data checksum on 'res_5'. 4. Release lease and finalize migration on 'res_5'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_5",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_5",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_5",
+          "inspect_lease lease_5"
+        ],
+        "description": "Lock resource by acquiring lease lease_5.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_5",
+        "title": "Acquire Exclusive Lease lease_5"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_5",
+          "check_payload res_5"
+        ],
+        "description": "Transfer payload chunks to partition res_5.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_5",
+        "title": "Migrate Payload res_5"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_5"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_5.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_5",
+        "title": "Verify Checksum res_5"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_5",
+          "release_lease lease_5"
+        ],
+        "description": "Mark partition finalized and release lease_5.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_5",
+        "title": "Release Lease and Finalize res_5"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_5 under concurrent lease lease_5"
+  },
+  {
+    "case_id": "mn017-case-0006",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_6' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_6' with active lock. 2. Migrate payload chunks to 'res_6'. 3. Verify data checksum on 'res_6'. 4. Release lease and finalize migration on 'res_6'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_6",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_6",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_6",
+          "inspect_lease lease_6"
+        ],
+        "description": "Lock resource by acquiring lease lease_6.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_6",
+        "title": "Acquire Exclusive Lease lease_6"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_6",
+          "check_payload res_6"
+        ],
+        "description": "Transfer payload chunks to partition res_6.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_6",
+        "title": "Migrate Payload res_6"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_6"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_6.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_6",
+        "title": "Verify Checksum res_6"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_6",
+          "release_lease lease_6"
+        ],
+        "description": "Mark partition finalized and release lease_6.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_6",
+        "title": "Release Lease and Finalize res_6"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_6 under concurrent lease lease_6"
+  },
+  {
+    "case_id": "mn017-case-0007",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_7' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_7' with active lock. 2. Migrate payload chunks to 'res_7'. 3. Verify data checksum on 'res_7'. 4. Release lease and finalize migration on 'res_7'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_7",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_7",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_7",
+          "inspect_lease lease_7"
+        ],
+        "description": "Lock resource by acquiring lease lease_7.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_7",
+        "title": "Acquire Exclusive Lease lease_7"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_7",
+          "check_payload res_7"
+        ],
+        "description": "Transfer payload chunks to partition res_7.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_7",
+        "title": "Migrate Payload res_7"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_7"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_7.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_7",
+        "title": "Verify Checksum res_7"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_7",
+          "release_lease lease_7"
+        ],
+        "description": "Mark partition finalized and release lease_7.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_7",
+        "title": "Release Lease and Finalize res_7"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_7 under concurrent lease lease_7"
+  },
+  {
+    "case_id": "mn017-case-0008",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_8' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_8' with active lock. 2. Migrate payload chunks to 'res_8'. 3. Verify data checksum on 'res_8'. 4. Release lease and finalize migration on 'res_8'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_8",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_8",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_8",
+          "inspect_lease lease_8"
+        ],
+        "description": "Lock resource by acquiring lease lease_8.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_8",
+        "title": "Acquire Exclusive Lease lease_8"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_8",
+          "check_payload res_8"
+        ],
+        "description": "Transfer payload chunks to partition res_8.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_8",
+        "title": "Migrate Payload res_8"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_8"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_8.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_8",
+        "title": "Verify Checksum res_8"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_8",
+          "release_lease lease_8"
+        ],
+        "description": "Mark partition finalized and release lease_8.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_8",
+        "title": "Release Lease and Finalize res_8"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_8 under concurrent lease lease_8"
+  },
+  {
+    "case_id": "mn017-case-0009",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_9' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_9' with active lock. 2. Migrate payload chunks to 'res_9'. 3. Verify data checksum on 'res_9'. 4. Release lease and finalize migration on 'res_9'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_9",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_9",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_9",
+          "inspect_lease lease_9"
+        ],
+        "description": "Lock resource by acquiring lease lease_9.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_9",
+        "title": "Acquire Exclusive Lease lease_9"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_9",
+          "check_payload res_9"
+        ],
+        "description": "Transfer payload chunks to partition res_9.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_9",
+        "title": "Migrate Payload res_9"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_9"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_9.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_9",
+        "title": "Verify Checksum res_9"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_9",
+          "release_lease lease_9"
+        ],
+        "description": "Mark partition finalized and release lease_9.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_9",
+        "title": "Release Lease and Finalize res_9"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_9 under concurrent lease lease_9"
+  },
+  {
+    "case_id": "mn017-case-0010",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_10' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_10' with active lock. 2. Migrate payload chunks to 'res_10'. 3. Verify data checksum on 'res_10'. 4. Release lease and finalize migration on 'res_10'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_10",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 15,
+        "version": 1
+      },
+      {
+        "entity_id": "res_10",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_10",
+          "inspect_lease lease_10"
+        ],
+        "description": "Lock resource by acquiring lease lease_10.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_10",
+        "title": "Acquire Exclusive Lease lease_10"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_10",
+          "check_payload res_10"
+        ],
+        "description": "Transfer payload chunks to partition res_10.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_10",
+        "title": "Migrate Payload res_10"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_10"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_10.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_10",
+        "title": "Verify Checksum res_10"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_10",
+          "release_lease lease_10"
+        ],
+        "description": "Mark partition finalized and release lease_10.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_10",
+        "title": "Release Lease and Finalize res_10"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Migrate database partition res_10 under concurrent lease lease_10"
+  },
+  {
+    "case_id": "mn017-case-0011",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_11' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_11' with active lock. 2. Migrate payload chunks to 'res_11'. 3. Verify data checksum on 'res_11'. 4. Release lease and finalize migration on 'res_11'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_11",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 10,
+        "version": 1
+      },
+      {
+        "entity_id": "res_11",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "telemetry_sync_res_11",
+        "property_updates": {
+          "telemetry_synced": true
+        },
+        "target_entity": "res_11",
+        "trigger_tick": 6
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_11",
+          "inspect_lease lease_11"
+        ],
+        "description": "Lock resource by acquiring lease lease_11.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_11",
+        "title": "Acquire Exclusive Lease lease_11"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_11",
+          "check_payload res_11"
+        ],
+        "description": "Transfer payload chunks to partition res_11.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_11",
+        "title": "Migrate Payload res_11"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_11"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_11.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_11",
+        "title": "Verify Checksum res_11"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_11",
+          "release_lease lease_11"
+        ],
+        "description": "Mark partition finalized and release lease_11.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_11",
+        "title": "Release Lease and Finalize res_11"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Migrate database partition res_11 under concurrent lease lease_11"
+  },
+  {
+    "case_id": "mn017-case-0012",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_12' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_12' with active lock. 2. Migrate payload chunks to 'res_12'. 3. Verify data checksum on 'res_12'. 4. Release lease and finalize migration on 'res_12'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_12",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 10,
+        "version": 1
+      },
+      {
+        "entity_id": "res_12",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "telemetry_sync_res_12",
+        "property_updates": {
+          "telemetry_synced": true
+        },
+        "target_entity": "res_12",
+        "trigger_tick": 6
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_12",
+          "inspect_lease lease_12"
+        ],
+        "description": "Lock resource by acquiring lease lease_12.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_12",
+        "title": "Acquire Exclusive Lease lease_12"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_12",
+          "check_payload res_12"
+        ],
+        "description": "Transfer payload chunks to partition res_12.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_12",
+        "title": "Migrate Payload res_12"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_12"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_12.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_12",
+        "title": "Verify Checksum res_12"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_12",
+          "release_lease lease_12"
+        ],
+        "description": "Mark partition finalized and release lease_12.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_12",
+        "title": "Release Lease and Finalize res_12"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Migrate database partition res_12 under concurrent lease lease_12"
+  },
+  {
+    "case_id": "mn017-case-0013",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_13' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_13' with active lock. 2. Migrate payload chunks to 'res_13'. 3. Verify data checksum on 'res_13'. 4. Release lease and finalize migration on 'res_13'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_13",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 10,
+        "version": 1
+      },
+      {
+        "entity_id": "res_13",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "telemetry_sync_res_13",
+        "property_updates": {
+          "telemetry_synced": true
+        },
+        "target_entity": "res_13",
+        "trigger_tick": 6
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_13",
+          "inspect_lease lease_13"
+        ],
+        "description": "Lock resource by acquiring lease lease_13.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_13",
+        "title": "Acquire Exclusive Lease lease_13"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_13",
+          "check_payload res_13"
+        ],
+        "description": "Transfer payload chunks to partition res_13.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_13",
+        "title": "Migrate Payload res_13"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_13"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_13.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_13",
+        "title": "Verify Checksum res_13"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_13",
+          "release_lease lease_13"
+        ],
+        "description": "Mark partition finalized and release lease_13.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_13",
+        "title": "Release Lease and Finalize res_13"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Migrate database partition res_13 under concurrent lease lease_13"
+  },
+  {
+    "case_id": "mn017-case-0014",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_14' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_14' with active lock. 2. Migrate payload chunks to 'res_14'. 3. Verify data checksum on 'res_14'. 4. Release lease and finalize migration on 'res_14'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_14",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 10,
+        "version": 1
+      },
+      {
+        "entity_id": "res_14",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "telemetry_sync_res_14",
+        "property_updates": {
+          "telemetry_synced": true
+        },
+        "target_entity": "res_14",
+        "trigger_tick": 6
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_14",
+          "inspect_lease lease_14"
+        ],
+        "description": "Lock resource by acquiring lease lease_14.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_14",
+        "title": "Acquire Exclusive Lease lease_14"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_14",
+          "check_payload res_14"
+        ],
+        "description": "Transfer payload chunks to partition res_14.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_14",
+        "title": "Migrate Payload res_14"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_14"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_14.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_14",
+        "title": "Verify Checksum res_14"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_14",
+          "release_lease lease_14"
+        ],
+        "description": "Mark partition finalized and release lease_14.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_14",
+        "title": "Release Lease and Finalize res_14"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Migrate database partition res_14 under concurrent lease lease_14"
+  },
+  {
+    "case_id": "mn017-case-0015",
+    "domain": "domain_a",
+    "domain_name": "Infrastructure Migration & Lease Expiry",
+    "global_mission": "Mission: Migrate database partition 'res_15' safely without data loss. You must strictly complete 4 phases in order: 1. Acquire/Renew lease 'lease_15' with active lock. 2. Migrate payload chunks to 'res_15'. 3. Verify data checksum on 'res_15'. 4. Release lease and finalize migration on 'res_15'. Beware: World ticks elapse asynchronously and leases expire if delayed!",
+    "initial_entities": [
+      {
+        "entity_id": "lease_15",
+        "entity_type": "Lease",
+        "properties": {
+          "holder": "none",
+          "locked": false,
+          "status": "ACTIVE"
+        },
+        "ttl": 10,
+        "version": 1
+      },
+      {
+        "entity_id": "res_15",
+        "entity_type": "DataPartition",
+        "properties": {
+          "checksum_verified": false,
+          "migration_finalized": false,
+          "payload_migrated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "telemetry_sync_res_15",
+        "property_updates": {
+          "telemetry_synced": true
+        },
+        "target_entity": "res_15",
+        "trigger_tick": 6
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "acquire_lease lease_15",
+          "inspect_lease lease_15"
+        ],
+        "description": "Lock resource by acquiring lease lease_15.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "holder": "agent",
+          "locked": true
+        },
+        "prerequisites": [],
+        "target_entity": "lease_15",
+        "title": "Acquire Exclusive Lease lease_15"
+      },
+      {
+        "allowed_actions": [
+          "migrate_payload res_15",
+          "check_payload res_15"
+        ],
+        "description": "Transfer payload chunks to partition res_15.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "payload_migrated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "res_15",
+        "title": "Migrate Payload res_15"
+      },
+      {
+        "allowed_actions": [
+          "verify_checksum res_15"
+        ],
+        "description": "Compute and verify SHA256 checksum on res_15.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "checksum_verified": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "res_15",
+        "title": "Verify Checksum res_15"
+      },
+      {
+        "allowed_actions": [
+          "finalize_migration res_15",
+          "release_lease lease_15"
+        ],
+        "description": "Mark partition finalized and release lease_15.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "migration_finalized": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "res_15",
+        "title": "Release Lease and Finalize res_15"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Migrate database partition res_15 under concurrent lease lease_15"
+  },
+  {
+    "case_id": "mn017-case-0016",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_16' using vessel 'transport_16'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_16'. 2. Allocate fuel/power reserve on 'transport_16'. 3. Dispatch cargo transfer from 'cargo_16' to 'transport_16'. 4. Settle delivery ledger for 'cargo_16'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_16",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_16",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_16"
+        ],
+        "description": "Verify manifests and cargo status for cargo_16.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_16",
+        "title": "Inspect Cargo cargo_16"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_16",
+          "check_power transport_16"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_16.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_16",
+        "title": "Allocate Reserve transport_16"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_16"
+        ],
+        "description": "Execute loading and transfer of cargo_16.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_16",
+        "title": "Dispatch Cargo Transfer cargo_16"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_16"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_16.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_16",
+        "title": "Settle Delivery Ledger cargo_16"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_16 via transport vessel transport_16"
+  },
+  {
+    "case_id": "mn017-case-0017",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_17' using vessel 'transport_17'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_17'. 2. Allocate fuel/power reserve on 'transport_17'. 3. Dispatch cargo transfer from 'cargo_17' to 'transport_17'. 4. Settle delivery ledger for 'cargo_17'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_17",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_17",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_17"
+        ],
+        "description": "Verify manifests and cargo status for cargo_17.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_17",
+        "title": "Inspect Cargo cargo_17"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_17",
+          "check_power transport_17"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_17.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_17",
+        "title": "Allocate Reserve transport_17"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_17"
+        ],
+        "description": "Execute loading and transfer of cargo_17.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_17",
+        "title": "Dispatch Cargo Transfer cargo_17"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_17"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_17.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_17",
+        "title": "Settle Delivery Ledger cargo_17"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_17 via transport vessel transport_17"
+  },
+  {
+    "case_id": "mn017-case-0018",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_18' using vessel 'transport_18'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_18'. 2. Allocate fuel/power reserve on 'transport_18'. 3. Dispatch cargo transfer from 'cargo_18' to 'transport_18'. 4. Settle delivery ledger for 'cargo_18'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_18",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_18",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_18"
+        ],
+        "description": "Verify manifests and cargo status for cargo_18.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_18",
+        "title": "Inspect Cargo cargo_18"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_18",
+          "check_power transport_18"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_18.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_18",
+        "title": "Allocate Reserve transport_18"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_18"
+        ],
+        "description": "Execute loading and transfer of cargo_18.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_18",
+        "title": "Dispatch Cargo Transfer cargo_18"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_18"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_18.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_18",
+        "title": "Settle Delivery Ledger cargo_18"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_18 via transport vessel transport_18"
+  },
+  {
+    "case_id": "mn017-case-0019",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_19' using vessel 'transport_19'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_19'. 2. Allocate fuel/power reserve on 'transport_19'. 3. Dispatch cargo transfer from 'cargo_19' to 'transport_19'. 4. Settle delivery ledger for 'cargo_19'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_19",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_19",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_19"
+        ],
+        "description": "Verify manifests and cargo status for cargo_19.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_19",
+        "title": "Inspect Cargo cargo_19"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_19",
+          "check_power transport_19"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_19.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_19",
+        "title": "Allocate Reserve transport_19"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_19"
+        ],
+        "description": "Execute loading and transfer of cargo_19.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_19",
+        "title": "Dispatch Cargo Transfer cargo_19"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_19"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_19.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_19",
+        "title": "Settle Delivery Ledger cargo_19"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_19 via transport vessel transport_19"
+  },
+  {
+    "case_id": "mn017-case-0020",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_20' using vessel 'transport_20'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_20'. 2. Allocate fuel/power reserve on 'transport_20'. 3. Dispatch cargo transfer from 'cargo_20' to 'transport_20'. 4. Settle delivery ledger for 'cargo_20'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_20",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_20",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_20"
+        ],
+        "description": "Verify manifests and cargo status for cargo_20.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_20",
+        "title": "Inspect Cargo cargo_20"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_20",
+          "check_power transport_20"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_20.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_20",
+        "title": "Allocate Reserve transport_20"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_20"
+        ],
+        "description": "Execute loading and transfer of cargo_20.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_20",
+        "title": "Dispatch Cargo Transfer cargo_20"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_20"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_20.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_20",
+        "title": "Settle Delivery Ledger cargo_20"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_20 via transport vessel transport_20"
+  },
+  {
+    "case_id": "mn017-case-0021",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_21' using vessel 'transport_21'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_21'. 2. Allocate fuel/power reserve on 'transport_21'. 3. Dispatch cargo transfer from 'cargo_21' to 'transport_21'. 4. Settle delivery ledger for 'cargo_21'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_21",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_21",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_21"
+        ],
+        "description": "Verify manifests and cargo status for cargo_21.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_21",
+        "title": "Inspect Cargo cargo_21"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_21",
+          "check_power transport_21"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_21.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_21",
+        "title": "Allocate Reserve transport_21"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_21"
+        ],
+        "description": "Execute loading and transfer of cargo_21.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_21",
+        "title": "Dispatch Cargo Transfer cargo_21"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_21"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_21.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_21",
+        "title": "Settle Delivery Ledger cargo_21"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_21 via transport vessel transport_21"
+  },
+  {
+    "case_id": "mn017-case-0022",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_22' using vessel 'transport_22'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_22'. 2. Allocate fuel/power reserve on 'transport_22'. 3. Dispatch cargo transfer from 'cargo_22' to 'transport_22'. 4. Settle delivery ledger for 'cargo_22'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_22",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_22",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_22"
+        ],
+        "description": "Verify manifests and cargo status for cargo_22.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_22",
+        "title": "Inspect Cargo cargo_22"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_22",
+          "check_power transport_22"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_22.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_22",
+        "title": "Allocate Reserve transport_22"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_22"
+        ],
+        "description": "Execute loading and transfer of cargo_22.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_22",
+        "title": "Dispatch Cargo Transfer cargo_22"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_22"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_22.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_22",
+        "title": "Settle Delivery Ledger cargo_22"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_22 via transport vessel transport_22"
+  },
+  {
+    "case_id": "mn017-case-0023",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_23' using vessel 'transport_23'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_23'. 2. Allocate fuel/power reserve on 'transport_23'. 3. Dispatch cargo transfer from 'cargo_23' to 'transport_23'. 4. Settle delivery ledger for 'cargo_23'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_23",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_23",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_23"
+        ],
+        "description": "Verify manifests and cargo status for cargo_23.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_23",
+        "title": "Inspect Cargo cargo_23"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_23",
+          "check_power transport_23"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_23.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_23",
+        "title": "Allocate Reserve transport_23"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_23"
+        ],
+        "description": "Execute loading and transfer of cargo_23.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_23",
+        "title": "Dispatch Cargo Transfer cargo_23"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_23"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_23.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_23",
+        "title": "Settle Delivery Ledger cargo_23"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_23 via transport vessel transport_23"
+  },
+  {
+    "case_id": "mn017-case-0024",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_24' using vessel 'transport_24'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_24'. 2. Allocate fuel/power reserve on 'transport_24'. 3. Dispatch cargo transfer from 'cargo_24' to 'transport_24'. 4. Settle delivery ledger for 'cargo_24'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_24",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_24",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_24"
+        ],
+        "description": "Verify manifests and cargo status for cargo_24.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_24",
+        "title": "Inspect Cargo cargo_24"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_24",
+          "check_power transport_24"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_24.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_24",
+        "title": "Allocate Reserve transport_24"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_24"
+        ],
+        "description": "Execute loading and transfer of cargo_24.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_24",
+        "title": "Dispatch Cargo Transfer cargo_24"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_24"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_24.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_24",
+        "title": "Settle Delivery Ledger cargo_24"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_24 via transport vessel transport_24"
+  },
+  {
+    "case_id": "mn017-case-0025",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_25' using vessel 'transport_25'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_25'. 2. Allocate fuel/power reserve on 'transport_25'. 3. Dispatch cargo transfer from 'cargo_25' to 'transport_25'. 4. Settle delivery ledger for 'cargo_25'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_25",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_25",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 25.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_25"
+        ],
+        "description": "Verify manifests and cargo status for cargo_25.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_25",
+        "title": "Inspect Cargo cargo_25"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_25",
+          "check_power transport_25"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_25.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_25",
+        "title": "Allocate Reserve transport_25"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_25"
+        ],
+        "description": "Execute loading and transfer of cargo_25.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_25",
+        "title": "Dispatch Cargo Transfer cargo_25"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_25"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_25.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_25",
+        "title": "Settle Delivery Ledger cargo_25"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Dispatch asset cargo_25 via transport vessel transport_25"
+  },
+  {
+    "case_id": "mn017-case-0026",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_26' using vessel 'transport_26'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_26'. 2. Allocate fuel/power reserve on 'transport_26'. 3. Dispatch cargo transfer from 'cargo_26' to 'transport_26'. 4. Settle delivery ledger for 'cargo_26'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_26",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_26",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 18.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_26"
+        ],
+        "description": "Verify manifests and cargo status for cargo_26.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_26",
+        "title": "Inspect Cargo cargo_26"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_26",
+          "check_power transport_26"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_26.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_26",
+        "title": "Allocate Reserve transport_26"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_26"
+        ],
+        "description": "Execute loading and transfer of cargo_26.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_26",
+        "title": "Dispatch Cargo Transfer cargo_26"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_26"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_26.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_26",
+        "title": "Settle Delivery Ledger cargo_26"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Dispatch asset cargo_26 via transport vessel transport_26"
+  },
+  {
+    "case_id": "mn017-case-0027",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_27' using vessel 'transport_27'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_27'. 2. Allocate fuel/power reserve on 'transport_27'. 3. Dispatch cargo transfer from 'cargo_27' to 'transport_27'. 4. Settle delivery ledger for 'cargo_27'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_27",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_27",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 18.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_27"
+        ],
+        "description": "Verify manifests and cargo status for cargo_27.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_27",
+        "title": "Inspect Cargo cargo_27"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_27",
+          "check_power transport_27"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_27.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_27",
+        "title": "Allocate Reserve transport_27"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_27"
+        ],
+        "description": "Execute loading and transfer of cargo_27.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_27",
+        "title": "Dispatch Cargo Transfer cargo_27"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_27"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_27.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_27",
+        "title": "Settle Delivery Ledger cargo_27"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Dispatch asset cargo_27 via transport vessel transport_27"
+  },
+  {
+    "case_id": "mn017-case-0028",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_28' using vessel 'transport_28'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_28'. 2. Allocate fuel/power reserve on 'transport_28'. 3. Dispatch cargo transfer from 'cargo_28' to 'transport_28'. 4. Settle delivery ledger for 'cargo_28'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_28",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_28",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 18.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_28"
+        ],
+        "description": "Verify manifests and cargo status for cargo_28.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_28",
+        "title": "Inspect Cargo cargo_28"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_28",
+          "check_power transport_28"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_28.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_28",
+        "title": "Allocate Reserve transport_28"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_28"
+        ],
+        "description": "Execute loading and transfer of cargo_28.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_28",
+        "title": "Dispatch Cargo Transfer cargo_28"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_28"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_28.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_28",
+        "title": "Settle Delivery Ledger cargo_28"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Dispatch asset cargo_28 via transport vessel transport_28"
+  },
+  {
+    "case_id": "mn017-case-0029",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_29' using vessel 'transport_29'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_29'. 2. Allocate fuel/power reserve on 'transport_29'. 3. Dispatch cargo transfer from 'cargo_29' to 'transport_29'. 4. Settle delivery ledger for 'cargo_29'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_29",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_29",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 18.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_29"
+        ],
+        "description": "Verify manifests and cargo status for cargo_29.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_29",
+        "title": "Inspect Cargo cargo_29"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_29",
+          "check_power transport_29"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_29.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_29",
+        "title": "Allocate Reserve transport_29"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_29"
+        ],
+        "description": "Execute loading and transfer of cargo_29.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_29",
+        "title": "Dispatch Cargo Transfer cargo_29"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_29"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_29.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_29",
+        "title": "Settle Delivery Ledger cargo_29"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Dispatch asset cargo_29 via transport vessel transport_29"
+  },
+  {
+    "case_id": "mn017-case-0030",
+    "domain": "domain_b",
+    "domain_name": "Asset Logistics & Resource Depletion",
+    "global_mission": "Mission: Coordinate transport of cargo 'cargo_30' using vessel 'transport_30'. You must strictly complete 4 phases in order: 1. Inspect cargo specifications on 'cargo_30'. 2. Allocate fuel/power reserve on 'transport_30'. 3. Dispatch cargo transfer from 'cargo_30' to 'transport_30'. 4. Settle delivery ledger for 'cargo_30'. Beware: Vessel battery decays by -0.5 per world tick!",
+    "initial_entities": [
+      {
+        "entity_id": "cargo_30",
+        "entity_type": "CargoUnit",
+        "properties": {
+          "inspected": false,
+          "settled": false,
+          "transferred": false
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "transport_30",
+        "entity_type": "Vessel",
+        "properties": {
+          "power": 18.0,
+          "reserve_allocated": false
+        },
+        "rate_of_decay": {
+          "power": -0.5
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "inspect_cargo cargo_30"
+        ],
+        "description": "Verify manifests and cargo status for cargo_30.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "inspected": true
+        },
+        "prerequisites": [],
+        "target_entity": "cargo_30",
+        "title": "Inspect Cargo cargo_30"
+      },
+      {
+        "allowed_actions": [
+          "allocate_reserve transport_30",
+          "check_power transport_30"
+        ],
+        "description": "Allocate dedicated energy buffer on transport_30.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "reserve_allocated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "transport_30",
+        "title": "Allocate Reserve transport_30"
+      },
+      {
+        "allowed_actions": [
+          "transfer_cargo cargo_30"
+        ],
+        "description": "Execute loading and transfer of cargo_30.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "transferred": true
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "cargo_30",
+        "title": "Dispatch Cargo Transfer cargo_30"
+      },
+      {
+        "allowed_actions": [
+          "settle_ledger cargo_30"
+        ],
+        "description": "Verify delivery receipt and settle ledger for cargo_30.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "settled": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cargo_30",
+        "title": "Settle Delivery Ledger cargo_30"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Dispatch asset cargo_30 via transport vessel transport_30"
+  },
+  {
+    "case_id": "mn017-case-0031",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_31'. Primary node 'node_31' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_31'. 2. Drain traffic and isolate 'node_31'. 3. Promote standby replica 'standby_31' to primary. 4. Update routing table on 'cluster_31' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_31",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_31",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_31",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_31",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_31",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_31",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_31",
+          "read_metrics node_31"
+        ],
+        "description": "Diagnose degradation on node_31.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_31",
+        "title": "Probe Node node_31"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_31",
+          "isolate_node node_31"
+        ],
+        "description": "Drain active sessions and isolate node_31.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_31",
+        "title": "Drain and Isolate node_31"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_31"
+        ],
+        "description": "Promote standby replica standby_31 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_31",
+        "title": "Promote Standby standby_31"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_31"
+        ],
+        "description": "Switch routing traffic to standby_31.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_31",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_31",
+        "title": "Update Routing cluster_31"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Failover primary node_31 to replica standby_31 in cluster_31"
+  },
+  {
+    "case_id": "mn017-case-0032",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_32'. Primary node 'node_32' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_32'. 2. Drain traffic and isolate 'node_32'. 3. Promote standby replica 'standby_32' to primary. 4. Update routing table on 'cluster_32' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_32",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_32",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_32",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_32",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_32",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_32",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_32",
+          "read_metrics node_32"
+        ],
+        "description": "Diagnose degradation on node_32.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_32",
+        "title": "Probe Node node_32"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_32",
+          "isolate_node node_32"
+        ],
+        "description": "Drain active sessions and isolate node_32.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_32",
+        "title": "Drain and Isolate node_32"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_32"
+        ],
+        "description": "Promote standby replica standby_32 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_32",
+        "title": "Promote Standby standby_32"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_32"
+        ],
+        "description": "Switch routing traffic to standby_32.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_32",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_32",
+        "title": "Update Routing cluster_32"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Failover primary node_32 to replica standby_32 in cluster_32"
+  },
+  {
+    "case_id": "mn017-case-0033",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_33'. Primary node 'node_33' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_33'. 2. Drain traffic and isolate 'node_33'. 3. Promote standby replica 'standby_33' to primary. 4. Update routing table on 'cluster_33' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_33",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_33",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_33",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_33",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_33",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_33",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_33",
+          "read_metrics node_33"
+        ],
+        "description": "Diagnose degradation on node_33.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_33",
+        "title": "Probe Node node_33"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_33",
+          "isolate_node node_33"
+        ],
+        "description": "Drain active sessions and isolate node_33.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_33",
+        "title": "Drain and Isolate node_33"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_33"
+        ],
+        "description": "Promote standby replica standby_33 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_33",
+        "title": "Promote Standby standby_33"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_33"
+        ],
+        "description": "Switch routing traffic to standby_33.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_33",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_33",
+        "title": "Update Routing cluster_33"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Failover primary node_33 to replica standby_33 in cluster_33"
+  },
+  {
+    "case_id": "mn017-case-0034",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_34'. Primary node 'node_34' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_34'. 2. Drain traffic and isolate 'node_34'. 3. Promote standby replica 'standby_34' to primary. 4. Update routing table on 'cluster_34' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_34",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_34",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_34",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_34",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_34",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_34",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_34",
+          "read_metrics node_34"
+        ],
+        "description": "Diagnose degradation on node_34.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_34",
+        "title": "Probe Node node_34"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_34",
+          "isolate_node node_34"
+        ],
+        "description": "Drain active sessions and isolate node_34.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_34",
+        "title": "Drain and Isolate node_34"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_34"
+        ],
+        "description": "Promote standby replica standby_34 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_34",
+        "title": "Promote Standby standby_34"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_34"
+        ],
+        "description": "Switch routing traffic to standby_34.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_34",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_34",
+        "title": "Update Routing cluster_34"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Failover primary node_34 to replica standby_34 in cluster_34"
+  },
+  {
+    "case_id": "mn017-case-0035",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_35'. Primary node 'node_35' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_35'. 2. Drain traffic and isolate 'node_35'. 3. Promote standby replica 'standby_35' to primary. 4. Update routing table on 'cluster_35' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_35",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_35",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_35",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_35",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_35",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_35",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_35",
+          "read_metrics node_35"
+        ],
+        "description": "Diagnose degradation on node_35.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_35",
+        "title": "Probe Node node_35"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_35",
+          "isolate_node node_35"
+        ],
+        "description": "Drain active sessions and isolate node_35.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_35",
+        "title": "Drain and Isolate node_35"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_35"
+        ],
+        "description": "Promote standby replica standby_35 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_35",
+        "title": "Promote Standby standby_35"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_35"
+        ],
+        "description": "Switch routing traffic to standby_35.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_35",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_35",
+        "title": "Update Routing cluster_35"
+      }
+    ],
+    "ticks_per_turn": 1,
+    "title": "Failover primary node_35 to replica standby_35 in cluster_35"
+  },
+  {
+    "case_id": "mn017-case-0036",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_36'. Primary node 'node_36' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_36'. 2. Drain traffic and isolate 'node_36'. 3. Promote standby replica 'standby_36' to primary. 4. Update routing table on 'cluster_36' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_36",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_36",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_36",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_36",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_36",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_36",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_36",
+          "read_metrics node_36"
+        ],
+        "description": "Diagnose degradation on node_36.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_36",
+        "title": "Probe Node node_36"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_36",
+          "isolate_node node_36"
+        ],
+        "description": "Drain active sessions and isolate node_36.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_36",
+        "title": "Drain and Isolate node_36"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_36"
+        ],
+        "description": "Promote standby replica standby_36 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_36",
+        "title": "Promote Standby standby_36"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_36"
+        ],
+        "description": "Switch routing traffic to standby_36.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_36",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_36",
+        "title": "Update Routing cluster_36"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Failover primary node_36 to replica standby_36 in cluster_36"
+  },
+  {
+    "case_id": "mn017-case-0037",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_37'. Primary node 'node_37' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_37'. 2. Drain traffic and isolate 'node_37'. 3. Promote standby replica 'standby_37' to primary. 4. Update routing table on 'cluster_37' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_37",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_37",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_37",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_37",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_37",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_37",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_37",
+          "read_metrics node_37"
+        ],
+        "description": "Diagnose degradation on node_37.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_37",
+        "title": "Probe Node node_37"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_37",
+          "isolate_node node_37"
+        ],
+        "description": "Drain active sessions and isolate node_37.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_37",
+        "title": "Drain and Isolate node_37"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_37"
+        ],
+        "description": "Promote standby replica standby_37 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_37",
+        "title": "Promote Standby standby_37"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_37"
+        ],
+        "description": "Switch routing traffic to standby_37.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_37",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_37",
+        "title": "Update Routing cluster_37"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Failover primary node_37 to replica standby_37 in cluster_37"
+  },
+  {
+    "case_id": "mn017-case-0038",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_38'. Primary node 'node_38' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_38'. 2. Drain traffic and isolate 'node_38'. 3. Promote standby replica 'standby_38' to primary. 4. Update routing table on 'cluster_38' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_38",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_38",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_38",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_38",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_38",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_38",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_38",
+          "read_metrics node_38"
+        ],
+        "description": "Diagnose degradation on node_38.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_38",
+        "title": "Probe Node node_38"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_38",
+          "isolate_node node_38"
+        ],
+        "description": "Drain active sessions and isolate node_38.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_38",
+        "title": "Drain and Isolate node_38"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_38"
+        ],
+        "description": "Promote standby replica standby_38 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_38",
+        "title": "Promote Standby standby_38"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_38"
+        ],
+        "description": "Switch routing traffic to standby_38.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_38",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_38",
+        "title": "Update Routing cluster_38"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Failover primary node_38 to replica standby_38 in cluster_38"
+  },
+  {
+    "case_id": "mn017-case-0039",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_39'. Primary node 'node_39' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_39'. 2. Drain traffic and isolate 'node_39'. 3. Promote standby replica 'standby_39' to primary. 4. Update routing table on 'cluster_39' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_39",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_39",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_39",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_39",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_39",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_39",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_39",
+          "read_metrics node_39"
+        ],
+        "description": "Diagnose degradation on node_39.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_39",
+        "title": "Probe Node node_39"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_39",
+          "isolate_node node_39"
+        ],
+        "description": "Drain active sessions and isolate node_39.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_39",
+        "title": "Drain and Isolate node_39"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_39"
+        ],
+        "description": "Promote standby replica standby_39 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_39",
+        "title": "Promote Standby standby_39"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_39"
+        ],
+        "description": "Switch routing traffic to standby_39.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_39",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_39",
+        "title": "Update Routing cluster_39"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Failover primary node_39 to replica standby_39 in cluster_39"
+  },
+  {
+    "case_id": "mn017-case-0040",
+    "domain": "domain_c",
+    "domain_name": "Concurrent System Registry & Failover",
+    "global_mission": "Mission: Execute automated failover in 'cluster_40'. Primary node 'node_40' is degraded. You must strictly complete 4 phases in order: 1. Probe cluster health and confirm degradation on 'node_40'. 2. Drain traffic and isolate 'node_40'. 3. Promote standby replica 'standby_40' to primary. 4. Update routing table on 'cluster_40' and finalize. Beware: Standby node heartbeat mutates every 3 world ticks!",
+    "initial_entities": [
+      {
+        "entity_id": "node_40",
+        "entity_type": "PrimaryNode",
+        "properties": {
+          "drained": false,
+          "isolated": false,
+          "status": "DEGRADED"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "standby_40",
+        "entity_type": "StandbyReplica",
+        "properties": {
+          "heartbeat": 100,
+          "promoted": false,
+          "status": "STANDBY"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "cluster_40",
+        "entity_type": "RoutingCluster",
+        "properties": {
+          "active_primary": "node_40",
+          "routing_updated": false
+        },
+        "version": 1
+      }
+    ],
+    "scheduled_events": [
+      {
+        "event_name": "heartbeat_update_standby_40",
+        "property_updates": {
+          "heartbeat": 101
+        },
+        "target_entity": "standby_40",
+        "trigger_tick": 4
+      }
+    ],
+    "subgoals": [
+      {
+        "allowed_actions": [
+          "probe_node node_40",
+          "read_metrics node_40"
+        ],
+        "description": "Diagnose degradation on node_40.",
+        "goal_id": "G1",
+        "predicate_updates": {
+          "probed": true
+        },
+        "prerequisites": [],
+        "target_entity": "node_40",
+        "title": "Probe Node node_40"
+      },
+      {
+        "allowed_actions": [
+          "drain_node node_40",
+          "isolate_node node_40"
+        ],
+        "description": "Drain active sessions and isolate node_40.",
+        "goal_id": "G2",
+        "predicate_updates": {
+          "drained": true,
+          "isolated": true
+        },
+        "prerequisites": [
+          "G1"
+        ],
+        "target_entity": "node_40",
+        "title": "Drain and Isolate node_40"
+      },
+      {
+        "allowed_actions": [
+          "promote_replica standby_40"
+        ],
+        "description": "Promote standby replica standby_40 to primary.",
+        "goal_id": "G3",
+        "predicate_updates": {
+          "promoted": true,
+          "status": "PRIMARY"
+        },
+        "prerequisites": [
+          "G2"
+        ],
+        "target_entity": "standby_40",
+        "title": "Promote Standby standby_40"
+      },
+      {
+        "allowed_actions": [
+          "update_routing cluster_40"
+        ],
+        "description": "Switch routing traffic to standby_40.",
+        "goal_id": "G4",
+        "predicate_updates": {
+          "active_primary": "standby_40",
+          "routing_updated": true
+        },
+        "prerequisites": [
+          "G3"
+        ],
+        "target_entity": "cluster_40",
+        "title": "Update Routing cluster_40"
+      }
+    ],
+    "ticks_per_turn": 2,
+    "title": "Failover primary node_40 to replica standby_40 in cluster_40"
+  }
+]

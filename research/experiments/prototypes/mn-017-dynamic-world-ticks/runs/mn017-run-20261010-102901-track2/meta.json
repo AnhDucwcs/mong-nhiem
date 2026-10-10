@@ -1,0 +1,7 @@
+{
+  "run_id": "mn017-run-20261010-102901-track2",
+  "track": 2,
+  "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "timestamp_utc": "2026-10-10T03:29:01.465278+00:00",
+  "cases": 40
+}

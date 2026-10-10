@@ -1,0 +1,63 @@
+{
+  "case_id": "mn017-case-0040",
+  "arm": "arm1",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 3,
+  "final_world_tick": 6,
+  "stale_violations": 0,
+  "horizon_jumping_events": 0,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 193,
+  "mean_prompt_tokens": 173.66666666666666,
+  "mean_turn_latency_ms": 481.15123333324544,
+  "stale_intercepted": 0,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 164,
+      "raw_action": "ACTION: DISPATCH probe_node node_40",
+      "action_type": "DISPATCH",
+      "action_target": "probe_node node_40",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.19080000129179098,
+      "model_latency_ms": 726.0129000005691
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 4,
+      "prompt_tokens": 164,
+      "raw_action": "ACTION: RECALL cluster_40",
+      "action_type": "RECALL",
+      "action_target": "cluster_40",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": false,
+      "host_latency_ms": 0.19560000146157108,
+      "model_latency_ms": 403.5843000001478
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 6,
+      "prompt_tokens": 193,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.13959999887447339,
+      "model_latency_ms": 313.85649999901943
+    }
+  ]
+}

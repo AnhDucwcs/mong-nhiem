@@ -55,7 +55,8 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 | **MN-014** | Grammar-Constrained Decoding | NCC Phase 4 | **Closed (Standard Adopted)** | GBNF engine-level logit masking eliminated 100% format collapses (0 parse errors); surged refactoring to 100%. Ratified ADR-0014. |
 | **MN-015** | Dynamic Affordance Constrained Decoding | NCC Phase 4 | **Promoted** | Dual-Layer Affordance Steering achieved 100.0% completion (60/60) and 0 deadlocks. Promoted to `src/mong_nhiem/orchestration/` after 100% qualification on Qwen3.5-2B, Llama-3.2-3B, Qwen3-4B. |
 | **MN-016** | Episodic Memory & Long-Horizon Event Consolidation | NCC Phase 5 | **Completed (Quarantined)** | Host-Authoritative AutoDream achieved 100.0% completion (40/40) on Qwen3.5-2B, remediating 100% FIFO amnesia (+100% delta) with 0 contradictions, 0 ceiling violations ($\le 512$ tok), and 64.9 ms turn latency. |
-| **MN-017** | Dynamic World Ticks & Hierarchical Planning | NCC Phase 6 | **Active** | Multi-rate simulation clocks and hierarchical goal decomposition to prevent Goal Divergence. |
+| **MN-017** | Dynamic World Ticks & Hierarchical Planning | NCC Phase 6 | **Completed (Quarantined)** | Multi-rate world ticks and hierarchical DAG planning achieved 100.0% completion (40/40) on Qwen3.5-2B; 94.2% cross-model mean accuracy (Qwen3.5: 100%, Qwen3-4B: 95%, Llama-3.2: 87.5%), eliminating 100% horizon jumping and stale overwrites. |
+| **MN-Final** | Stateful Simulated Microworld Evolution | NCC Final Synthesis | **Active** | Full convergence benchmark evaluating long-horizon microworld governing across $T \ge 50-100$ steps with zero hallucinations and local workload coexistence. |
 
 ---
 

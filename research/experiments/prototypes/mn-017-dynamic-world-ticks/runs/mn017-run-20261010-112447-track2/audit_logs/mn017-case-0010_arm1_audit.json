@@ -1,0 +1,63 @@
+{
+  "case_id": "mn017-case-0010",
+  "arm": "arm1",
+  "success": false,
+  "terminal_status": "FAILED",
+  "total_turns": 3,
+  "final_world_tick": 3,
+  "stale_violations": 0,
+  "horizon_jumping_events": 0,
+  "premature_resolutions": 1,
+  "token_ceiling_violations": 0,
+  "max_prompt_tokens": 211,
+  "mean_prompt_tokens": 184.33333333333334,
+  "mean_turn_latency_ms": 460.11606666676624,
+  "stale_intercepted": 0,
+  "turn_history": [
+    {
+      "turn_idx": 4,
+      "world_tick": 1,
+      "prompt_tokens": 155,
+      "raw_action": "ACTION: RECALL lease_10",
+      "action_type": "RECALL",
+      "action_target": "lease_10",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": true,
+      "host_latency_ms": 0.14899999951012433,
+      "model_latency_ms": 457.598599999983
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 2,
+      "prompt_tokens": 187,
+      "raw_action": "ACTION: RECALL res_10",
+      "action_type": "RECALL",
+      "action_target": "res_10",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": false,
+      "phase_advanced": false,
+      "host_latency_ms": 0.173700000232202,
+      "model_latency_ms": 468.9438000004884
+    },
+    {
+      "turn_idx": 4,
+      "world_tick": 3,
+      "prompt_tokens": 211,
+      "raw_action": "ACTION: RESOLVE COMPLETE",
+      "action_type": "RESOLVE",
+      "action_target": "COMPLETE",
+      "is_valid_format": true,
+      "is_stale_mutation": false,
+      "is_horizon_jumping": false,
+      "is_premature_resolution": true,
+      "phase_advanced": false,
+      "host_latency_ms": 0.09929999941959977,
+      "model_latency_ms": 453.8057999998273
+    }
+  ]
+}
