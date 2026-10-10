@@ -2,10 +2,10 @@
 
 ## Context & Navigation
 
-- Canonical Research Base: [00-mong-nhiem](../../../../../00-mong-nhiem.md)
-- System Architecture: [architecture](../../../../../concepts/architecture.md)
-- Current Milestone State: [current-state](../../../../../current-state.md)
-- Parent Milestone Synthesis: [MN-003 Synthesis Report](../../reports/mn-003-synthesis.md)
+- Canonical Research Base: [00-mong-nhiem](../../../../../../00-mong-nhiem.md)
+- System Architecture: [architecture](../../../../../../concepts/architecture.md)
+- Current Milestone State: [current-state](../../../../../../current-state.md)
+- Parent Milestone Synthesis: [MN-003 Synthesis Report](../../../reports/mn-003-synthesis.md)
 - Historical Llama Report: [ECC-006 Llama 3.2 Results](ecc-006-results.md)
 - Canonical Evidence Run: `runs/20261001T140734Z-ecc-006-qwen-qwen3.5-2b-f1593d17/`
 

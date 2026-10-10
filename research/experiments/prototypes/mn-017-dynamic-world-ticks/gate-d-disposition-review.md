@@ -98,7 +98,7 @@ In accordance with Mộng Nhiễm core governance constraints:
 - All milestone artifacts, manifests, benchmark runs, and tests are verified and frozen.
 
 ### Successor Milestone Handoff:
-- **MN-Final (Full Cognitive Host Synthesis)**:
+- **MN-018 (Stateful Simulated Microworld Evolution / Full Cognitive Host Synthesis)**:
   - Unifies all empirically validated milestones:
     - MN-001/MN-002: Formal GBNF Grammar Constraints & Small Model Inference.
     - MN-003/MN-004: Host-Authoritative Verification & Fact Card State Representation.

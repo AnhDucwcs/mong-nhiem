@@ -1,0 +1,21 @@
+{
+  "run_id": "mn018-run-20261010-073500-corpus-v1-track2-Qwen3-4B",
+  "track": 2,
+  "model": "Qwen3-4B-Q4_K_M.gguf",
+  "corpus": "corpus-v1",
+  "total_cases": 30,
+  "results_summary": {
+    "arm1": {
+      "success_rate": "0/30",
+      "accuracy": 0.0
+    },
+    "arm2": {
+      "success_rate": "0/30",
+      "accuracy": 0.0
+    },
+    "arm3": {
+      "success_rate": "30/30",
+      "accuracy": 100.0
+    }
+  }
+}

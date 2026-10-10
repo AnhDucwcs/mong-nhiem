@@ -1,0 +1,32 @@
+{
+  "corpus": "corpus-v1",
+  "files": {
+    "README.md": "8819e27295302b73d86d84c7936467bbde7a0cdf06ef99c2af291157b045bce3",
+    "charter.md": "0b2fbcbf1254229f06307a3d34c851b2043944dd8bdc61969bba7ab4cc7b89e7",
+    "definition/corpus-v1/cases.json": "301609227cb8759e19724ef548a47150e7afd21be5618b619835dd2d8a9adb62",
+    "definition/corpus-v2-stress/cases.json": "f0e14caa10a34802c89356fbe5b6a1de71ee7ee469e64ad42529ea4491323615",
+    "gate-b-contract.md": "040d269b6b602881173cf3ddcdd80bfe7ab3497b3d6d099cdd3a4fa80b6ddccb",
+    "scripts/generate_corpus.py": "044983c57d6d54882a9b7e85996a5590e1ba95ffab1c09a6df95e408b064c00f",
+    "scripts/generate_stress_corpus.py": "39a3868bbbe5b346d3873c5713159e33a3b99ee371bf2b1c4827d2adc88beccc",
+    "scripts/populate_track2_audit_runs.py": "e153ec9bc0736d34d50e05c5176c99738b4a5e164b4b3af50c5f4515a1e12873",
+    "scripts/run_benchmark.py": "d0b966161cd8437a21ea874393802bcd7c3e521b000554cb11cd90c2788aa5ab",
+    "src/__init__.py": "2d8cb1d4729b2f525e897632ddf8b76b7c19d021e1ec2c56b23b2734b0d30e62",
+    "src/autodream_engine.py": "a5de1d74149e24a768101ba0c6613e285ab5700636982c157946a217d9d754b1",
+    "src/concurrency_guard.py": "dec6f70a1edf85e01d56ff0b220cd5a26bfec80c7c41db7bd314d469257e69d3",
+    "src/dynamic_affordance.py": "22e946d865264f34c7a054ea5b7975429fde03f074a1dac158a03a9f1c783456",
+    "src/episodic_memory.py": "beb7a6d48a1e08467778043baf86f891731c8759b991f8e69a2ef8c41ab2d680",
+    "src/hierarchical_planner.py": "1658139fb29f507c25eb867cb4bf1fb396ff0a68f092e0e6a4750eb1946a0038",
+    "src/memento_stack.py": "48d9238cddcc361bce0d85df924cd51f892d5fafc48feebcb72e01cf41d03a6f",
+    "src/microworld_engine.py": "9e799a515165098ceb92866a1fc07d83969989f1b520adc4cb6998f2de998593",
+    "src/orchestrator.py": "5de96dbef9d2a4780c0be13eda76b8835655baeb9ce176fa3bb89d7c82aacade",
+    "tests/test_concurrency_guard.py": "bdfb764d00eb5e355f305b329312e7a229a092dfb443e2db50dcf636f0db5650",
+    "tests/test_dynamic_affordance.py": "866d2c4bd998da0fbc97f73b9ccbf51fd974698a3683202148e31558632c9184",
+    "tests/test_episodic_autodream.py": "7d3e965af60019dabd00ee50839bb581ab43822624f2b65730aaa59ac3895848",
+    "tests/test_hierarchical_planner.py": "6f55ebcfd7c808919c9059128a9d8d098b22a89c807af701679f9c4cfc6338df",
+    "tests/test_microworld_engine.py": "6a9c32cbe34b38fd0a6c9ab2cb66f6eaf50e270f40b9ed995327494d4fc2e9b3",
+    "tests/test_orchestrator.py": "936847791a7db9e3b6563342e257f9d2876ced1acbd071ca7620b2ede94b8015"
+  },
+  "milestone": "MN-018",
+  "stage": "pre",
+  "timestamp_utc": "2026-10-10T09:29:02.667807+00:00"
+}

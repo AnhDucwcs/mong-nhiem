@@ -1,0 +1,21 @@
+{
+  "run_id": "mn018-run-20261010-081200-corpus-v2-stress-track2-Llama-3.2-3B",
+  "track": 2,
+  "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "corpus": "corpus-v2-stress",
+  "total_cases": 30,
+  "results_summary": {
+    "arm1": {
+      "success_rate": "0/30",
+      "accuracy": 0.0
+    },
+    "arm2": {
+      "success_rate": "0/30",
+      "accuracy": 0.0
+    },
+    "arm3": {
+      "success_rate": "30/30",
+      "accuracy": 100.0
+    }
+  }
+}

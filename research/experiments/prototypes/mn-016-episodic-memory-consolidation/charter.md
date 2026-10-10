@@ -52,5 +52,5 @@ Because memory updates and contradiction resolutions are computed deterministica
 ### Explicit Non-Goals
 1. No fine-tuning, LoRA, or weight alterations to language models.
 2. No external runtime dependencies (zero third-party vector databases, embeddings, or heavyweight frameworks; 100% Python Standard Library).
-3. No speculative dynamic microworld physics or autonomous multi-agent simulation (deferred to MN-017 and MN-Final).
+3. No speculative dynamic microworld physics or autonomous multi-agent simulation (deferred to MN-017 and MN-018).
 4. No code promotion to `src/mong_nhiem/` prior to Gate D disposition review.

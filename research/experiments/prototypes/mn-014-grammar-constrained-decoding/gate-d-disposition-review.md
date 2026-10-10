@@ -78,5 +78,5 @@ Because Rule 1 missed the $85.0\%$ threshold, **promotion into `src/mong_nhiem/`
 
 - **Ratified Architectural Decision (ADR-0014):**
   Native GBNF Grammar-Constrained Decoding at the inference engine layer is adopted as the mandatory standard for tool invocation in lightweight models (<4B).
-- **Handoff to Successor Milestone (MN-Final / Cognitive OS Synthesis):**
+- **Handoff to Successor Milestone (MN-015 / Cognitive OS Synthesis):**
   Future orchestration must pair static grammar constraints with **Dynamic Affordance Constrained Decoding**, dynamically projecting the current environment's valid action space into the runtime grammar rules to eliminate multi-branch search exhaustion.

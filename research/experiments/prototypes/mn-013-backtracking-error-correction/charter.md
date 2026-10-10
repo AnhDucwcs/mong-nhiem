@@ -11,7 +11,7 @@
   - [MN-011: Scaffolding-Assisted Context Frontier](../mn-011-scaffolding-context-frontier/README.md)
   - [MN-012: Hierarchical Tool & Memory Integration](../mn-012-hierarchical-tool-memory/README.md)
 - Successors:
-  - [MN-Final: Stateful Simulated Microworld Evolution](../../../roadmap.md#north-star-horizon-mn-final--stateful-simulated-microworld-evolution)
+  - [MN-018: Stateful Simulated Microworld Evolution](../../../roadmap.md#mn-018--stateful-simulated-microworld-evolution)
 
 ---
 
@@ -57,5 +57,5 @@ Maintaining a host-side set of rejected actions $\mathcal{A}_{\text{rejected}}^{
 ### Non-Goals
 1. **No Fine-Tuning or Model Weight Modification:** Model weights remain strictly frozen. The model functions as a stateless transition policy.
 2. **No Combinatorial Tree-Search (MCTS):** MN-013 evaluates bounded linear backtracking ($K \le 3$), not full heuristic game-tree search.
-3. **No Unconstrained Microworld Physics:** Continuous long-horizon simulation ($T \ge 20-50$) is reserved for MN-Final.
+3. **No Unconstrained Microworld Physics:** Continuous long-horizon simulation ($T \ge 20-50$) is reserved for MN-018.
 4. **No Premature Promotion:** Prototype code remains within `research/experiments/prototypes/mn-013-backtracking-error-correction/` until formal Gate D disposition review.

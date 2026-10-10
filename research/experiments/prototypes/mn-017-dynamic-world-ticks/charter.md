@@ -9,7 +9,7 @@ Prior milestones (**MN-009** through **MN-016**) established foundational substr
 - Dual-Layer Dynamic Affordance Steering (MN-015) suppressing deadlock cycles.
 - Host-Authoritative Episodic Memory & AutoDream Consolidation (MN-016) eliminating historical amnesia across extended horizons ($T = 20-50$ steps).
 
-However, in all prior milestones, the environment operated under **passive turn synchrony**: world state mutated *strictly and solely* upon agent action dispatch. In real-world multi-entity simulations (the explicit prerequisite for Mộng Nhiễm's North Star, **MN-Final / MN-018: Stateful Simulated Microworld Evolution**), environments exhibit **independent, multi-rate temporal dynamics**:
+However, in all prior milestones, the environment operated under **passive turn synchrony**: world state mutated *strictly and solely* upon agent action dispatch. In real-world multi-entity simulations (the explicit prerequisite for Milestone **MN-018: Stateful Simulated Microworld Evolution**), environments exhibit **independent, multi-rate temporal dynamics**:
 1. **Asynchronous Environmental Concurrency**: Entities mutate, leases expire, queues process, and resources deplete along an independent simulation clock ($t_{world}$) between agent turns.
 2. **Goal Divergence & Horizon Jumping (Failure Mode 3)**: When small models are presented with a global multi-stage objective ($K = 3-5$ phases) alongside dynamic environmental feedback, attention degrades. Models commit unearned *Horizon Jumping* (attempting final actions before prerequisite completion) or prematurely declare success.
 3. **Context Inflation vs Environmental Concurrency**: Attempting to feed raw chronological event streams of asynchronous world mutations into the prompt causes catastrophic context explosion ($> 512$ tokens), triggering format collapse and severe hallucinations.
@@ -52,5 +52,5 @@ Because the Host delivers only the active sub-goal $G_k$, immediate local entity
 ### Explicit Non-Goals
 1. No fine-tuning, LoRA, or weight alterations to language models.
 2. No external runtime dependencies (zero third-party vector databases, embeddings, or heavyweight frameworks; 100% Python Standard Library).
-3. No speculative continuous multi-agent physics simulations (deferred to MN-Final / MN-018).
+3. No speculative continuous multi-agent physics simulations (deferred to MN-018 and subsequent milestones).
 4. No code promotion to `src/mong_nhiem/` prior to Gate D disposition review.

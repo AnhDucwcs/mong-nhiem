@@ -88,4 +88,4 @@ The evaluation was conducted on **40 deterministic long-horizon cases** ($T = 20
 - **Disposition:** `host_authoritative_autodream_empirically_proven`.
 - **Quarantine Notice:** In accordance with Mộng Nhiễm governance rules, experimental code remains quarantined in `research/experiments/prototypes/mn-016-episodic-memory-consolidation/` until full production integration in subsequent synthesis milestones.
 - **Successor Handoff (MN-017):**
-  - **MN-017 (Dynamic World Ticks & Hierarchical Planning):** Builds on MN-016's episodic substrate to introduce multi-rate simulation clocks and hierarchical goal decomposition, leading to **MN-Final (MN-018: Stateful Simulated Microworld Evolution)**.
+  - **MN-017 (Dynamic World Ticks & Hierarchical Planning):** Builds on MN-016's episodic substrate to introduce multi-rate simulation clocks and hierarchical goal decomposition, leading to **MN-018 (Stateful Simulated Microworld Evolution)**.

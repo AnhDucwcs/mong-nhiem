@@ -12,7 +12,7 @@
   - [MN-011: Scaffolding-Assisted Context Frontier](../mn-011-scaffolding-context-frontier/README.md)
 - Successors:
   - [MN-013: Backtracking & Error Self-Correction](../../../roadmap.md#mn-013--backtracking--error-self-correction)
-  - [MN-Final: Stateful Simulated Microworld Evolution](../../../roadmap.md#north-star-horizon-mn-final--stateful-simulated-microworld-evolution)
+  - [MN-018: Stateful Simulated Microworld Evolution](../../../roadmap.md#mn-018--stateful-simulated-microworld-evolution)
 
 ---
 
@@ -30,7 +30,7 @@ To resolve this dilemma, the cognitive substrate requires a **Dual-Tier Hierarch
 - **L1 (Ephemeral Working Set):** Prompt context strictly bounded to $\le 512$ tokens, containing only the immediate task query, active entity focus, and the latest observation.
 - **L2 (Persistent State Ledger):** Host-managed external store (on disk/memory), maintaining cumulative transaction history, entity state tables, and environment invariants.
 
-Furthermore, MN-012 serves as an explicit **Failure-Isolation Station**: we isolate the challenges of tool calling, argument serialization, and memory synchronization before introducing backtracking algorithms (MN-013) or continuous microworld simulation (MN-Final).
+Furthermore, MN-012 serves as an explicit **Failure-Isolation Station**: we isolate the challenges of tool calling, argument serialization, and memory synchronization before introducing backtracking algorithms (MN-013) or continuous microworld simulation (MN-018).
 
 ---
 
@@ -43,7 +43,7 @@ A deterministic regex-based action grammar (`ACTION: TOOL <tool_name>(<args>)` a
 A dual-tier memory partition—decoupling an L1 prompt working set ($\le 512$ tokens) from an L2 host state ledger—preserves $100\%$ state consistency across 5-turn stateful mutation sequences, resolving the target goal without suffering prompt bloat or attention collapse.
 
 ### Hypothesis 3 ($H_3$): Directional Pivoting Gate & Failure Isolation
-If lightweight models exhibit systematic format collapse or execution hallucination ($> 10\%$ failure rate) under structured tool calling, MN-012 will act as an authoritative failure-isolation boundary to trigger an architectural pivot (e.g., transition to GBNF-constrained decoding or host-directed tool scaffolding) before escalating complexity to MN-013 (Backtracking) or MN-Final (Microworld).
+If lightweight models exhibit systematic format collapse or execution hallucination ($> 10\%$ failure rate) under structured tool calling, MN-012 will act as an authoritative failure-isolation boundary to trigger an architectural pivot (e.g., transition to GBNF-constrained decoding or host-directed tool scaffolding) before escalating complexity to MN-013 (Backtracking) or MN-018 (Microworld).
 
 ---
 
@@ -63,6 +63,6 @@ If lightweight models exhibit systematic format collapse or execution hallucinat
 
 ### Non-Goals
 1. **No Autonomous Backtracking or Rollback:** Handling action failure, backtracking across rejected branches, and heuristic recovery is strictly reserved for MN-013.
-2. **No Unconstrained Open-World Simulation:** Full microworld physics and long-horizon evolution ($T \ge 20-50$) are reserved for MN-Final.
+2. **No Unconstrained Open-World Simulation:** Full microworld physics and long-horizon evolution ($T \ge 20-50$) are reserved for MN-018.
 3. **Zero Model Weight Modification:** No fine-tuning, LoRA adapters, or internal attention modifications. The model remains a frozen black box.
 4. **No Premature Promotion:** Prototype code remains within `research/experiments/prototypes/mn-012-hierarchical-tool-memory/` until formal Gate D disposition review.

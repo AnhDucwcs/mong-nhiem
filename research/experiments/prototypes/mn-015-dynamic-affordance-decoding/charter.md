@@ -10,7 +10,7 @@
   - [MN-013: Backtracking & Error Self-Correction](../mn-013-backtracking-error-correction/README.md)
   - [MN-014: Grammar-Constrained Decoding](../mn-014-grammar-constrained-decoding/README.md)
 - Successors:
-  - [MN-Final: Stateful Simulated Microworld Evolution](../../../roadmap.md#north-star-horizon-mn-final--stateful-simulated-microworld-evolution)
+  - [MN-018: Stateful Simulated Microworld Evolution](../../../roadmap.md#mn-018--stateful-simulated-microworld-evolution)
 
 ---
 

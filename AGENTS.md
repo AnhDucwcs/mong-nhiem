@@ -55,3 +55,29 @@ All research reports, prototypes, manifests, diagrams, and knowledge base files 
 - **Do not silently promote experimental code into `src/mong_nhiem/`:** Prototypes remain quarantined in `research/experiments/prototypes/` until earned promotion under a formal Gate D disposition review.
 - Run the full relevant test suite (`pytest`) and verify zero regressions before finalizing work.
 
+## 5. Mandatory Post-Generation Report Audit & Anti-Falsification Invariants
+
+Automated benchmark runners and report generation scripts are susceptible to generator defects, hardcoded optimistic verdicts, and token calculation drift. To preserve absolute scientific and empirical integrity, agents MUST adhere to these non-negotiable rules:
+
+1. **Independent Post-Generation Verification (Never Trust Script Output Blindly):**
+   - After executing any benchmark script or automated report generator (`generate_academic_report()`, `populate_*.py`, etc.), you MUST NOT blindly accept the generated text or overall verdict.
+   - You MUST view and audit the generated report (`reports/*.md`) line-by-line, verifying each empirical metric directly against the underlying execution logs (`runs/<run_id>/audit_logs/*.json`) and the frozen Gate B contract (`gate-b-contract.md`).
+
+2. **Strict Clause-by-Clause Falsification Invariant:**
+   - If ANY empirical metric fails to meet or breaches the frozen Gate B contract bound (e.g., $58.0\% < 70.0\%$ compression, or $572\text{ tok} > 512\text{ tok}$ ceiling), the corresponding clause row MUST be marked `FAIL` or `NOT MET`.
+   - The overall verdict MUST NOT be marked `PASS` if any mandatory contract clause failed. It MUST be marked `FAIL` or `CONDITIONAL (<CLAUSE> GAP)`.
+   - Strictly prohibited from using asterisks, footnotes, or soft rationalizations (e.g., claiming `PASS*` with an excuse) to mask a failed contract bound.
+
+3. **Zero Retroactive Threshold Alteration:**
+   - Under no circumstances may an agent retroactively lower, relax, or re-baseline a frozen Gate B acceptance threshold simply to force an unearned `PASS`.
+   - A failing or conditional milestone is a valid and valuable scientific finding; retroactively moving goalposts to manufacture artificial success is strictly forbidden.
+
+4. **Cross-Document Provenance Consistency Audit:**
+   - You MUST cross-audit all related documentation for 100% numerical and disposition consistency:
+     * Raw execution traces (`runs/<run_id>/audit_logs/*.json`).
+     * Individual Track 1 / Track 2 reports (`reports/*.md`).
+     * Cross-model comparison reports (`reports/*comparison*.md`).
+     * Gate D disposition review (`gate-d-disposition-review.md`).
+     * Master knowledge base files (`research/current-state.md`, `research/roadmap.md`, `research/00-mong-nhiem.md`).
+   - Any numerical divergence, conflicting arm score (e.g. 0/30 vs 20/30 vs 30/30), or mismatched verdict between documents must be traced back to raw evidence and corrected at the source before concluding work.
+
