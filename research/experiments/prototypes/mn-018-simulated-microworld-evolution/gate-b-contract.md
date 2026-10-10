@@ -29,6 +29,7 @@ To achieve formal Gate B pass, Arm 3 must satisfy all of the following empirical
 | **M8** | Mean Prompt Token Budget | $\mathbb{E}[\text{PromptTokens}]$ | $\le 384\text{ tokens}$ | Track 2 |
 | **M9** | Turn Latency SLA | $\mathbb{E}[\text{TurnLatency}]$ | $< 1000\text{ ms}$ | Track 2 |
 | **M10** | Host Processing Overhead | $\max(\text{HostOverhead})$ | $< 10.0\text{ ms}$ | Track 1 & Track 2 |
+| **M11** | Peak GPU VRAM Footprint | $\max(\text{VRAM}_{\text{GPU}})$ | $\le 3072\text{ MiB}$ ($3.0\text{ GB}$) | Track 2 |
 
 ### 3. Falsification & Termination Protocol
 
