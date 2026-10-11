@@ -1,0 +1,22 @@
+{
+  "experiment_id": "drift-001-parametric-adaptation",
+  "parent_milestone": "mn-019-non-stationary-causal-adaptation",
+  "total_cases": 60,
+  "domains": [
+    "orbital_life_support",
+    "smart_microgrid",
+    "fleet_logistics",
+    "subsea_hydrothermal"
+  ],
+  "cases_per_domain": 15,
+  "in_distribution_cases": 30,
+  "out_of_distribution_cases": 30,
+  "arms": [
+    "arm1_flat",
+    "arm2_static_control",
+    "arm3_dynamic_host"
+  ],
+  "evaluation_models": [
+    "Qwen3.5-2B-Q4_K_M"
+  ]
+}

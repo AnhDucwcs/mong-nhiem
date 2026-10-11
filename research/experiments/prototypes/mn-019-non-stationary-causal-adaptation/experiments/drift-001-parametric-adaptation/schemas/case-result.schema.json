@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Drift001CaseResult",
+  "type": "object",
+  "required": [
+    "case_id",
+    "domain",
+    "difficulty",
+    "arm",
+    "is_success",
+    "turns_executed",
+    "subgoals_completed",
+    "total_subgoals",
+    "committed_conservation_breaches",
+    "intercepted_traps",
+    "compaction_ratio",
+    "max_prompt_tokens",
+    "mean_prompt_tokens",
+    "mean_latency_ms"
+  ],
+  "properties": {
+    "case_id": { "type": "string" },
+    "domain": { "type": "string" },
+    "difficulty": { "type": "string", "enum": ["in_distribution", "out_of_distribution"] },
+    "arm": { "type": "string" },
+    "is_success": { "type": "boolean" },
+    "turns_executed": { "type": "integer" },
+    "subgoals_completed": { "type": "integer" },
+    "total_subgoals": { "type": "integer" },
+    "committed_conservation_breaches": { "type": "integer" },
+    "intercepted_traps": { "type": "integer" },
+    "compaction_ratio": { "type": "number" },
+    "max_prompt_tokens": { "type": "integer" },
+    "mean_prompt_tokens": { "type": "number" },
+    "mean_latency_ms": { "type": "number" },
+    "discrepancies_detected": { "type": "integer" }
+  }
+}

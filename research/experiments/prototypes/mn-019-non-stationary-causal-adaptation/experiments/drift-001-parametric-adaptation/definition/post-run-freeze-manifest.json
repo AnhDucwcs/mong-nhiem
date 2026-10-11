@@ -1,0 +1,23 @@
+{
+  "manifest_version": "1.0.0",
+  "milestone": "mn-019-drift-001-parametric-adaptation",
+  "stage": "post_run_freeze",
+  "file_hashes": {
+    "charter.md": "e19abfe009822b43ea548049c1433dbf406c85e2c369fa4cd28257f89e194033",
+    "gate-b-contract.md": "c8580547bd12baf00d5050d44e5c1abdbd4affab0c1b3a64961fd0082e25c2cc",
+    "definition\\cases.json": "616db03c8aad7954f947554f6f0be1eee32d8c16b91d000e5b1a52eef3865610",
+    "definition\\experiment.json": "f8550b7baffe09fe022ea3608691642cd8d0a355111fffa1020cb627c602782f",
+    "configs\\models.json": "b1a59b8c110c889ca5f8c19d646a95bab8064b829ba3b3af9436eedd78dc2c79",
+    "src\\__init__.py": "3c3ac7f9d8f95f56b70c5e9b96b6fa4a3b6ba2b3d128502d874daa639ce486c7",
+    "src\\autodream_engine.py": "8b46db31d838f483fb594934207a84361aec16a971e837df35642bc1a1b09a40",
+    "src\\discrepancy_monitor.py": "d009a049c84b18063f9e1fe5e230d6470f09a6f64886f5a706461230d0f1fa60",
+    "src\\dynamic_affordance.py": "3ebe638582523dba6d525179730fa89b765aeda0da9346a5c6b63d110900abed",
+    "src\\hierarchical_planner.py": "17f99ca4ee137ab4bbecd52ecba1e5a510274729994b116c99b5f0485aaad491",
+    "src\\memento_stack.py": "bf7a13a108590cfb4cf585e50685ca4475caf504477eee30a0bb6d06c42f0315",
+    "src\\microworld_engine.py": "034f128e2f631fa4bb04baced3b4a294f5910fb08cc4c65cca05e95d763b4d48",
+    "src\\orchestrator.py": "39823464d2baa21c9ce9004493a4c4b0c169646f37b79f339d875c3940837db0",
+    "gate-d-disposition-review.md": "4ca3bff20101f733597074f5cad928c22becb0ce8e1a928252770e11ae329f66",
+    "README.md": "f07e6eddcf8f0fd1cab87337e8aaaeeee57db1054ce6d54f67b628e843147073",
+    "reports\\drift-001-results.md": "db012eb1ea43ff56b16bbf1dd6c86e342ead62ba5be6e59ec7df1876b0571f91"
+  }
+}

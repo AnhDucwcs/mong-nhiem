@@ -1,0 +1,16 @@
+{
+  "run_id": "drift001-run-20261011-034954-track1-Simulator",
+  "track": "track1-Simulator",
+  "model_id": "Deterministic Simulator",
+  "total_cases": 60,
+  "arm1_success_rate": 0.0,
+  "arm2_success_rate": 21.7,
+  "arm3_success_rate": 100.0,
+  "ood_success_rate": 100.0,
+  "committed_breaches": 0,
+  "autodream_compaction": 0.855,
+  "max_prompt_tokens": 68,
+  "mean_prompt_tokens": 58.8,
+  "mean_latency_ms": 0.1,
+  "verdict": "PASS"
+}
