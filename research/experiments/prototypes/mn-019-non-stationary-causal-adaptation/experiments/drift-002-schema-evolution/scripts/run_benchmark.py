@@ -15,12 +15,34 @@ import sys
 import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
+import urllib.request
+import urllib.error
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
 from hierarchical_planner import SubGoal
 from orchestrator import DualEngineOrchestrator
 from schema_evolution_engine import SchemaEvolutionRule
+
+
+def call_llama_server(prompt: str, grammar: Optional[str] = None, port: int = 18502) -> str:
+    url = f"http://127.0.0.1:{port}/completion"
+    payload = {
+        "prompt": prompt,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "n_predict": 48,
+        "stop": ["\n", "User:", "Observation:"],
+        "seed": 42,
+    }
+    if grammar:
+        payload["grammar"] = grammar
+
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        res_json = json.loads(resp.read().decode("utf-8"))
+        return res_json.get("content", "").strip()
 
 
 def load_corpus(corpus_path: str) -> List[Dict[str, Any]]:
@@ -126,7 +148,10 @@ def run_episode(case_data: Dict[str, Any], arm: str, track: int = 1, llama_port:
 
         else:
             # Track 2: Real model inference
-            action_emission = "ACTION: RESOLVE COMPLETE"
+            try:
+                action_emission = call_llama_server(prompt=prompt, grammar=grammar, port=llama_port)
+            except Exception as e:
+                action_emission = f"ERROR: llama_server connection failed: {str(e)}"
 
         ok, msg, meta = orch.execute_turn(action_emission)
         audit_turns.append({

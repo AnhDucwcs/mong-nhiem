@@ -67,17 +67,18 @@ class DualEngineOrchestrator:
         active_eids = {eid for eid, ent in self.world.entities.items() if ent.is_active}
 
         # 1. Grammar compilation
+        neg_actions = list(set(self.banned_actions or []))
         if self.arm == "arm1_flat":
             # Flat: unconstrained grammar
-            grammar = "root ::= [^\\x00]+"
+            grammar = None
         elif self.arm == "arm2_static_schema_control":
             # Static: fixed to t=0 initial entities, blind to emergent ones, unaware of retirement
             grammar = DynamicAffordanceCompiler.compile_grammar(
                 allowed_actions=candidate_actions,
                 known_entity_ids=self.initial_entity_ids,
                 allow_resolve=self.planner.is_all_completed(),
-                allow_recall=True,
-                negative_actions=None,
+                allow_recall=False,
+                negative_actions=neg_actions,
                 discrepancy_monitor=None,
                 active_entities=set(self.initial_entity_ids),  # Fixed static set
             )
@@ -87,8 +88,8 @@ class DualEngineOrchestrator:
                 allowed_actions=candidate_actions,
                 known_entity_ids=list(self.world.entities.keys()),
                 allow_resolve=self.planner.is_all_completed(),
-                allow_recall=True,
-                negative_actions=self.banned_actions,
+                allow_recall=False,
+                negative_actions=neg_actions,
                 discrepancy_monitor=self.monitor,
                 active_entities=active_eids,  # Dynamic active set
             )

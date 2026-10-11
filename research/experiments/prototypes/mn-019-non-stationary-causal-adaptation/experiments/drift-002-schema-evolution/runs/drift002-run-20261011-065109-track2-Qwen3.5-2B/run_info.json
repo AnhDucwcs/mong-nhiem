@@ -1,0 +1,33 @@
+{
+  "run_id": "drift002-run-20261011-065109-track2-Qwen3.5-2B",
+  "track": "track2-Qwen3.5-2B",
+  "timestamp": "20261011-065109",
+  "total_cases": 1,
+  "results_by_arm": {
+    "arm1_flat": {
+      "success_count": 0,
+      "success_rate": 0.0
+    },
+    "arm2_static_schema_control": {
+      "success_count": 0,
+      "success_rate": 0.0
+    },
+    "arm3_dynamic_schema_host": {
+      "success_count": 0,
+      "success_rate": 0.0
+    }
+  },
+  "ood_metrics": {
+    "total_ood": 0,
+    "passed_ood": 0,
+    "success_rate": 0.0
+  },
+  "conservation_metrics": {
+    "committed_violations": 0
+  },
+  "memory_metrics": {
+    "mean_compaction": 0.971,
+    "max_prompt_tokens": 93,
+    "mean_prompt_tokens": 92.2
+  }
+}

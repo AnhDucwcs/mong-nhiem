@@ -423,9 +423,24 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Gate D Disposition:** `causal_synthesis_verified_quarantined`. Code quarantined in `experiments/drift-003-causal-event-synthesis/`. Pre-run and post-run freeze manifests committed.
 
 ### Master Milestone Disposition & Handoff
-- Milestone MN-019 is declared **COMPLETED, FULLY VERIFIED, AND PASSED** across all three sub-stages (180 benchmark evaluations, 100.0% Arm 3 success rate, 0 committed breaches).
-- Final Milestone Disposition: `non_stationary_causal_adaptation_verified_quarantined`. 100% of prototype code remains quarantined in `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`).
-- Master parent synthesis report is frozen at `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/reports/mn-019-synthesis.md`.
+- Milestone MN-019 evaluated small language model resilience under non-stationary environmental dynamics partitioned into three sequential sub-stages:
+  1. `drift-001-parametric-adaptation`: Continuous Parametric Drift and Dynamic Affordance Regeneration
+  2. `drift-002-schema-evolution`: Dynamic Schema Evolution and Structural Entity Emergence
+  3. `drift-003-causal-event-synthesis`: Counterfactual Causal Event Synthesis and Proactive Gating
+- **Dual-Track Empirical Results Summary:**
+  - **Track 1 (Deterministic Host Simulator — 180 runs):**
+    - Arm 3 (Dynamic Dual-Engine Host): **100.0% (180/180 PASS)** across all 3 stages.
+    - Arm 2 (Control): **7.2% (13/180)**.
+    - Arm 1 (Flat Baseline): **0.0% (0/180)**.
+    - Committed Breaches: **Exactly 0 (0.0%)**. Proactive Bypasses: **74**. Compaction: 73.0%–85.5%. Track 1 Verdict: **PASS**.
+  - **Track 2 (Real Model Inference — `Qwen3.5-2B-Q4_K_M.gguf` via `llama-server.exe` — 180 runs):**
+    - Stage 1 (`drift-001`): Arm 3 **68.3% (41/60)** vs Arm 2 **53.3% (32/60)** vs Arm 1 **3.3% (2/60)**. 0 breaches, 84.1% compaction. Max prompt: 94 tokens. Latency: 442.2 ms. Verdict: **CONDITIONAL** ($68.3\% < 85.0\%$).
+    - Stage 2 (`drift-002`): Arm 3 **60.0% (36/60)** vs Arm 2 **0.0% (0/60)** vs Arm 1 **0.0% (0/60)**. 18 committed violations, 80.7% compaction. Max prompt: 119 tokens. Latency: 457.7 ms. Verdict: **CONDITIONAL** ($60.0\% < 85.0\%$).
+    - Stage 3 (`drift-003`): Arm 3 **88.3% (53/60)** vs Arm 2 **88.3% (53/60)** vs Arm 1 **0.0% (0/60)**. 270 proactive bypasses, 203 committed invariant breaches in edge states, 69.7% compaction. Max prompt: 245 tokens. Latency: 468.2 ms. Verdict: **CONDITIONAL** (Committed breaches and $69.7\% < 70.0\%$).
+    - **Cumulative Track 2 Performance:** Arm 3 **72.2% (130/180)** vs Arm 2 **47.2% (85/180)** vs Arm 1 **1.1% (2/180)**. Mean compaction: 78.2%. Hard token ceiling ($\le 512$) and turn latency SLA ($< 1000\text{ ms}$) strictly maintained (100% adherence).
+- **Core Scientific Takeaway & Anti-Falsification Invariant:**
+  - Track 1 proved host symbolic invariants under synthetic execution. Track 2 reveals real SLM reasoning boundaries under multi-variable non-stationary shocks: Dynamic Host steering provides substantial empirical lift (+71.1% absolute over Flat baseline), but falls short of the frozen 85.0% Gate B contract threshold on $N=60$ per stage.
+  - Overall Milestone Verdict: **CONDITIONAL (SLM ADAPTATION GAP)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Comprehensive Track 2 report is frozen at `reports/mn-019-track2-comprehensive-report.md`.
 - Next Milestone: **MN-020: Multi-Agent Symbiosis & Distributed Cognitive Governance**.
 
 

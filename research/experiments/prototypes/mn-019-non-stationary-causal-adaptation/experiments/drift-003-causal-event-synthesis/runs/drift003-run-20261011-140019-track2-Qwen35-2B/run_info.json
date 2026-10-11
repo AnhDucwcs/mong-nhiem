@@ -1,0 +1,28 @@
+{
+  "run_id": "drift003-run-20261011-140019-track2-Qwen35-2B",
+  "milestone": "mn-019-drift-003-causal-event-synthesis",
+  "track": 2,
+  "timestamp": "20261011-140019",
+  "total_cases": 1,
+  "arms_evaluated": {
+    "arm1_flat": {
+      "successes": 0,
+      "success_rate": 0.0
+    },
+    "arm2_reactive_control": {
+      "successes": 1,
+      "success_rate": 100.0
+    },
+    "arm3_counterfactual_causal_host": {
+      "successes": 1,
+      "success_rate": 100.0,
+      "ood_success_rate": 0.0,
+      "committed_violations": 0,
+      "proactive_bypasses": 1,
+      "mean_compaction_ratio": 0.8668,
+      "max_prompt_tokens": 195,
+      "mean_prompt_tokens": 183.4
+    }
+  },
+  "overall_verdict": "PASS"
+}

@@ -216,20 +216,21 @@ Track: **NCC Phase 7 (Stateful World Continuity & Governance).**
 
 ## MN-019 — Continuous Non-Stationary Causal Adaptation
 
-Status: **completed and verified across all three sub-stages (`non_stationary_causal_adaptation_verified_quarantined`).**  
+Status: **completed prototype evaluation across Dual-Track protocol (`non_stationary_causal_adaptation_quarantined_conditional`).**  
 Track: **NCC Phase 8 (Non-Stationary Domain Drift & Dynamic Adaptation).**
 
 1. **Sub-Stage 1: Parametric Adaptation (`drift-001-parametric-adaptation`):**  
-   - Status: **COMPLETED & VERIFIED (Gate D Disposition earned).**
-   - Track 1 Simulator (60 cases across 4 domains, 30 ID / 30 OOD): Arm 3 achieved **100.0% (60/60)** resolution vs 21.7% in Arm 2 (+78.3% margin) and 0.0% in Arm 1 (+100.0% margin). Zero committed conservation breaches, 85.5% AutoDream compaction, prompt ceiling strictly $\le 512$ tokens (max 68, mean 58.8), and sub-millisecond turn latency. Quarantined in `experiments/drift-001-parametric-adaptation/`.
+   - Track 1 Simulator (60 cases, 30 ID / 30 OOD): Arm 3 **100.0% (60/60)** vs Arm 2 21.7% vs Arm 1 0.0%. 0 breaches, 85.5% compaction. Verdict: **PASS**.
+   - Track 2 Real Model (`Qwen3.5-2B`, 60 cases): Arm 3 **68.3% (41/60)** vs Arm 2 53.3% vs Arm 1 3.3%. 0 breaches, 84.1% compaction. Max prompt: 94 tokens, latency: 442.2 ms. Verdict: **CONDITIONAL** ($68.3\% < 85.0\%$).
 2. **Sub-Stage 2: Dynamic Schema Evolution (`drift-002-schema-evolution`):**  
-   - Status: **COMPLETED & VERIFIED (Gate D Disposition earned).**
-   - Track 1 Simulator (60 cases across 4 domains, 30 ID / 30 OOD): Arm 3 achieved **100.0% (60/60)** resolution under dynamic entity emergence and retirement vs 0.0% in Arm 2 (+100.0% margin) and 0.0% in Arm 1 (+100.0% margin). Zero committed schema/conservation violations, 73.0% AutoDream relational compaction, prompt ceiling strictly $\le 512$ tokens (max 109, mean 83.0), and 0.1 ms turn latency. Verified forward-compatibility with Stage 3 via hash-chained `CausalEventLog` DAG, relational Fact Cards, and `simulate_counterfactual_step` sandbox hook. Quarantined in `experiments/drift-002-schema-evolution/`.
+   - Track 1 Simulator (60 cases, 30 ID / 30 OOD): Arm 3 **100.0% (60/60)** vs Arm 2 0.0% vs Arm 1 0.0%. 0 violations, 73.0% compaction. Verdict: **PASS**.
+   - Track 2 Real Model (`Qwen3.5-2B`, 60 cases): Arm 3 **60.0% (36/60)** vs Arm 2 0.0% vs Arm 1 0.0%. 18 violations, 80.7% compaction. Max prompt: 119 tokens, latency: 457.7 ms. Verdict: **CONDITIONAL** ($60.0\% < 85.0\%$).
 3. **Sub-Stage 3: Counterfactual Causal Event Synthesis (`drift-003-causal-event-synthesis`):**  
-   - Status: **COMPLETED & VERIFIED (Gate D Disposition earned).**
-   - Track 1 Simulator (60 cases across 4 domains, 31 ID / 29 OOD): Arm 3 achieved **100.0% (60/60)** resolution under latent non-stationary causal traps vs 0.0% in Arm 2 (+100.0% margin) and 0.0% in Arm 1 (+100.0% margin). Proactively intercepted and bypassed 74 latent causal traps (123.3% proactive interception rate) via isolated forward projection in `CounterfactualSandbox`. Exactly 0 committed schema/conservation violations, 79.2% AutoDream causal compaction, prompt ceiling strictly $\le 512$ tokens (max 245, mean 193.0), and 0.3 ms turn latency. Quarantined in `experiments/drift-003-causal-event-synthesis/`.
+   - Track 1 Simulator (60 cases, 31 ID / 29 OOD): Arm 3 **100.0% (60/60)** vs Arm 2 0.0% vs Arm 1 0.0%. 74 proactive bypasses, 0 violations, 79.2% compaction. Verdict: **PASS**.
+   - Track 2 Real Model (`Qwen3.5-2B`, 60 cases): Arm 3 **88.3% (53/60)** vs Arm 2 88.3% vs Arm 1 0.0%. 270 bypasses, 203 committed breaches, 69.7% compaction. Max prompt: 245 tokens, latency: 468.2 ms. Verdict: **CONDITIONAL** (Committed breaches and compaction gap).
 4. **Master Milestone Verdict & Quarantine:**  
-   - Cumulative milestone completion across all 180 benchmark evaluations reached **100.0%** for Arm 3 with **0 committed breaches**. Milestone verdict is **PASS** (`non_stationary_causal_adaptation_verified_quarantined`). Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`).
+   - Dual-Track Total: Track 1 achieves **100.0% (180/180)** (PASS); Track 2 achieves **72.2% (130/180)** on Arm 3 vs 47.2% on Arm 2 vs 1.1% on Arm 1 (CONDITIONAL, SLM Adaptation Gap).
+   - Milestone verdict: **CONDITIONAL (SLM ADAPTATION GAP)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Full academic report frozen in `reports/mn-019-track2-comprehensive-report.md`.
 
 ## Active Developmental Horizons
 

@@ -122,10 +122,11 @@ def run_episode(
             "throttle_hydrothermal_intake 50.0",
         }
 
+        curr_sg = planner.current_subgoal
+
         # Decide action
         if track == 1:
             # Deterministic simulator policy
-            curr_sg = planner.current_subgoal
             if planner.is_all_completed():
                 action_emission = "ACTION: RESOLVE COMPLETE"
             elif arm == "arm1_flat":

@@ -92,12 +92,13 @@ class DualEngineOrchestrator:
 
         active_eids = {eid for eid, ent in self.world.entities.items() if ent.is_active}
 
+        neg_actions = list(set(self.banned_actions + self.executed_actions))
         return DynamicAffordanceCompiler.compile_grammar(
             allowed_actions=allowed,
             known_entity_ids=list(self.world.entities.keys()),
             allow_resolve=self.planner.is_all_completed(),
             allow_recall=False,
-            negative_actions=self.banned_actions,
+            negative_actions=neg_actions,
             discrepancy_monitor=self.monitor,
             active_entities=active_eids,
             proactive_pruned_actions=proactive_pruned,

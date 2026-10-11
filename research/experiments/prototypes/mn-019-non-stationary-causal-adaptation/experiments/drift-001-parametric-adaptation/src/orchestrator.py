@@ -86,13 +86,17 @@ class DualEngineOrchestrator:
         allow_resolve = self.planner.is_all_completed()
         known_eids = list(self.world.entities.keys())
 
+        # Exclude actions already executed in current episode to prevent argmax token loops
+        neg_actions = list(set(self.banned_actions + self.executed_actions))
+
         if self.arm == "arm2_static_control":
             # Static compile without discrepancy monitor awareness
             return DynamicAffordanceCompiler.compile_grammar(
                 allowed_actions=allowed,
                 known_entity_ids=known_eids,
                 allow_resolve=allow_resolve,
-                negative_actions=self.banned_actions,
+                allow_recall=False,
+                negative_actions=neg_actions,
                 discrepancy_monitor=None,
             )
 
@@ -101,7 +105,8 @@ class DualEngineOrchestrator:
             allowed_actions=allowed,
             known_entity_ids=known_eids,
             allow_resolve=allow_resolve,
-            negative_actions=self.banned_actions,
+            allow_recall=False,
+            negative_actions=neg_actions,
             discrepancy_monitor=self.monitor,
         )
 

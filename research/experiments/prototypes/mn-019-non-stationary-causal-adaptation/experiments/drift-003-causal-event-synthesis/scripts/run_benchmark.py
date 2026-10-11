@@ -11,7 +11,9 @@ import os
 import sys
 import time
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+import urllib.request
+import urllib.error
 
 # Ensure src/ is on sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
@@ -21,7 +23,27 @@ from orchestrator import DualEngineOrchestrator
 from schema_evolution_engine import SchemaEvolutionRule
 
 
-def run_single_case(case_data: Dict[str, Any], arm: str, track: int = 1) -> Dict[str, Any]:
+def call_llama_server(prompt: str, grammar: Optional[str] = None, port: int = 18502) -> str:
+    url = f"http://127.0.0.1:{port}/completion"
+    payload = {
+        "prompt": prompt,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "n_predict": 48,
+        "stop": ["\n", "User:", "Observation:"],
+        "seed": 42,
+    }
+    if grammar:
+        payload["grammar"] = grammar
+
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        res_json = json.loads(resp.read().decode("utf-8"))
+        return res_json.get("content", "").strip()
+
+
+def run_single_case(case_data: Dict[str, Any], arm: str, track: int = 1, llama_port: int = 18502) -> Dict[str, Any]:
     subgoals = [
         SubGoal(
             subgoal_id=g["subgoal_id"],
@@ -63,50 +85,58 @@ def run_single_case(case_data: Dict[str, Any], arm: str, track: int = 1) -> Dict
 
     for turn_idx in range(30):
         prompt = orch.render_prompt()
-        if orch.planner.is_all_completed():
-            action_emission = "ACTION: RESOLVE COMPLETE"
-        else:
-            curr_sg = orch.planner.current_subgoal
-            active_sg_id = curr_sg.subgoal_id if curr_sg else "NONE"
+        curr_sg = orch.planner.current_subgoal
+        active_sg_id = curr_sg.subgoal_id if curr_sg else "NONE"
 
-            if arm == "arm1_flat":
-                if turn_idx == 0:
-                    action_emission = "ACTION: DISPATCH invalid_probe"
-                else:
-                    action_emission = "ACTION: RESOLVE COMPLETE"
-
-            elif arm == "arm2_reactive_control":
-                # Reactive control: dispatches candidate actions blindly without proactive causal simulation
-                if curr_sg and curr_sg.candidate_actions:
-                    # Filter only banned actions
-                    allowed = [a for a in curr_sg.candidate_actions if a not in orch.banned_actions]
-                    if allowed:
-                        action_emission = f"ACTION: DISPATCH {allowed[0]}"
+        if track == 1:
+            if orch.planner.is_all_completed():
+                action_emission = "ACTION: RESOLVE COMPLETE"
+            else:
+                if arm == "arm1_flat":
+                    if turn_idx == 0:
+                        action_emission = "ACTION: DISPATCH invalid_probe"
                     else:
                         action_emission = "ACTION: RESOLVE COMPLETE"
-                else:
-                    action_emission = "ACTION: RESOLVE COMPLETE"
 
-            else:
-                # Arm 3: Counterfactual Causal Synthesis Host
-                viable, pruned = orch.get_active_viable_actions()
-                if viable:
-                    # Pick untried viable candidate
-                    past_actions_in_subgoal = [
-                        t["action"].replace("ACTION: DISPATCH ", "").strip()
-                        for t in audit_turns
-                        if t.get("active_subgoal") == curr_sg.subgoal_id
-                    ]
-                    untried = [a for a in viable if a not in past_actions_in_subgoal and a not in orch.banned_actions]
-                    chosen = untried[0] if untried else viable[0]
-                    action_emission = f"ACTION: DISPATCH {chosen}"
-                elif curr_sg:
-                    # Emergent entity not yet active, dispatch non-emergent action to advance tick
-                    non_emergent = [a for a in curr_sg.candidate_actions if not a.startswith(("activate_secondary_cooler", "connect_secondary_feeder", "engage_booster_trailer", "open_auxiliary_vent_hatch"))]
-                    chosen = non_emergent[0] if non_emergent else curr_sg.candidate_actions[0]
-                    action_emission = f"ACTION: DISPATCH {chosen}"
+                elif arm == "arm2_reactive_control":
+                    # Reactive control: dispatches candidate actions blindly without proactive causal simulation
+                    if curr_sg and curr_sg.candidate_actions:
+                        # Filter only banned actions
+                        allowed = [a for a in curr_sg.candidate_actions if a not in orch.banned_actions]
+                        if allowed:
+                            action_emission = f"ACTION: DISPATCH {allowed[0]}"
+                        else:
+                            action_emission = "ACTION: RESOLVE COMPLETE"
+                    else:
+                        action_emission = "ACTION: RESOLVE COMPLETE"
+
                 else:
-                    action_emission = "ACTION: RESOLVE COMPLETE"
+                    # Arm 3: Counterfactual Causal Synthesis Host
+                    viable, pruned = orch.get_active_viable_actions()
+                    if viable:
+                        # Pick untried viable candidate
+                        past_actions_in_subgoal = [
+                            t["action"].replace("ACTION: DISPATCH ", "").strip()
+                            for t in audit_turns
+                            if t.get("active_subgoal") == curr_sg.subgoal_id
+                        ]
+                        untried = [a for a in viable if a not in past_actions_in_subgoal and a not in orch.banned_actions]
+                        chosen = untried[0] if untried else viable[0]
+                        action_emission = f"ACTION: DISPATCH {chosen}"
+                    elif curr_sg:
+                        # Emergent entity not yet active, dispatch non-emergent action to advance tick
+                        non_emergent = [a for a in curr_sg.candidate_actions if not a.startswith(("activate_secondary_cooler", "connect_secondary_feeder", "engage_booster_trailer", "open_auxiliary_vent_hatch"))]
+                        chosen = non_emergent[0] if non_emergent else curr_sg.candidate_actions[0]
+                        action_emission = f"ACTION: DISPATCH {chosen}"
+                    else:
+                        action_emission = "ACTION: RESOLVE COMPLETE"
+        else:
+            # Track 2: Real LLM inference via llama-server
+            grammar = orch.get_active_grammar()
+            try:
+                action_emission = call_llama_server(prompt=prompt, grammar=grammar, port=llama_port)
+            except Exception as e:
+                action_emission = f"ERROR: llama_server connection failed: {str(e)}"
 
         ok, msg, meta = orch.execute_turn(action_emission)
         audit_turns.append({
@@ -138,6 +168,7 @@ def main():
     parser = argparse.ArgumentParser(description="Run Stage 3 Causal Synthesis Benchmark")
     parser.add_argument("--track", type=int, default=1, choices=[1, 2], help="Track 1 (Sim) or Track 2 (LLM)")
     parser.add_argument("--corpus", type=str, default="definition/cases.json", help="Path to cases.json")
+    parser.add_argument("--port", type=int, default=18502, help="llama-server port for Track 2")
     parser.add_argument("--limit", type=int, default=60, help="Number of cases to evaluate")
     args = parser.parse_args()
 
@@ -169,7 +200,7 @@ def main():
 
         case_arm_status = {}
         for arm in arms:
-            res = run_single_case(case, arm=arm, track=args.track)
+            res = run_single_case(case, arm=arm, track=args.track, llama_port=args.port)
             arm_results[arm].append(res)
             case_arm_status[arm] = "PASS" if res["is_success"] else "FAIL"
 

@@ -58,13 +58,7 @@ class DynamicAffordanceCompiler:
         effective_actions = list(allowed_actions)
         banned = set(negative_actions or [])
 
-        # 1. Expand grammar for active emerged entities
-        if active_entities:
-            for eid in active_entities:
-                if eid in cls.EMERGENT_AFFORDANCES:
-                    for aff in cls.EMERGENT_AFFORDANCES[eid]:
-                        if aff not in effective_actions and aff not in banned:
-                            effective_actions.append(aff)
+        # 1. Grammar base candidates from active sub-goal (inactive entities pruned below)
 
         # 2. Prune actions targeting non-active/retired entities
         if active_entities is not None:
@@ -87,7 +81,7 @@ class DynamicAffordanceCompiler:
         # 4. Construct GBNF rules
         action_alts: List[str] = []
         for act in effective_actions:
-            action_alts.append(f'"ACTION: DISPATCH " "{act}"')
+            action_alts.append(f'"ACTION: DISPATCH {act}"')
 
         if allow_resolve:
             action_alts.append('"ACTION: RESOLVE COMPLETE"')
@@ -105,7 +99,7 @@ class DynamicAffordanceCompiler:
         root_rule = " | ".join(action_alts)
 
         grammar = (
-            "root ::= action_choice \"\\n\"?\n"
-            f"action_choice ::= {root_rule}\n"
+            "root ::= action\n"
+            f"action ::= {root_rule}\n"
         )
         return grammar

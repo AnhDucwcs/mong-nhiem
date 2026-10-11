@@ -1,0 +1,106 @@
+{
+  "timestamp": "2026-10-11T14:45:32.164589",
+  "limit": 60,
+  "port": 18502,
+  "total_duration_minutes": 44.9,
+  "stages": [
+    {
+      "stage_id": "drift-001",
+      "stage_name": "Stage 1: Continuous Parametric Adaptation",
+      "exit_code": 0,
+      "duration_seconds": 503.8,
+      "run_dir": "D:\\Code\\mong-nhiem\\research\\experiments\\prototypes\\mn-019-non-stationary-causal-adaptation\\experiments\\drift-001-parametric-adaptation\\runs\\drift001-run-20261011-070038-track2-Qwen3.5-2B",
+      "run_info": {
+        "run_id": "drift001-run-20261011-070038-track2-Qwen3.5-2B",
+        "track": "track2-Qwen3.5-2B",
+        "model_id": "Qwen3.5-2B-Q4_K_M",
+        "total_cases": 60,
+        "arm1_success_rate": 3.3,
+        "arm2_success_rate": 53.3,
+        "arm3_success_rate": 68.3,
+        "ood_success_rate": 70.0,
+        "committed_breaches": 0,
+        "autodream_compaction": 0.841,
+        "max_prompt_tokens": 94,
+        "mean_prompt_tokens": 60.0,
+        "mean_latency_ms": 0.1,
+        "verdict": "FAIL"
+      }
+    },
+    {
+      "stage_id": "drift-002",
+      "stage_name": "Stage 2: Dynamic Schema Evolution",
+      "exit_code": 0,
+      "duration_seconds": 1672.5,
+      "run_dir": "D:\\Code\\mong-nhiem\\research\\experiments\\prototypes\\mn-019-non-stationary-causal-adaptation\\experiments\\drift-002-schema-evolution\\runs\\drift002-run-20261011-070902-track2-Qwen3.5-2B",
+      "run_info": {
+        "run_id": "drift002-run-20261011-070902-track2-Qwen3.5-2B",
+        "track": "track2-Qwen3.5-2B",
+        "timestamp": "20261011-070902",
+        "total_cases": 60,
+        "results_by_arm": {
+          "arm1_flat": {
+            "success_count": 0,
+            "success_rate": 0.0
+          },
+          "arm2_static_schema_control": {
+            "success_count": 0,
+            "success_rate": 0.0
+          },
+          "arm3_dynamic_schema_host": {
+            "success_count": 36,
+            "success_rate": 60.0
+          }
+        },
+        "ood_metrics": {
+          "total_ood": 30,
+          "passed_ood": 21,
+          "success_rate": 70.0
+        },
+        "conservation_metrics": {
+          "committed_violations": 18
+        },
+        "memory_metrics": {
+          "mean_compaction": 0.807,
+          "max_prompt_tokens": 119,
+          "mean_prompt_tokens": 86.7
+        }
+      }
+    },
+    {
+      "stage_id": "drift-003",
+      "stage_name": "Stage 3: Proactive Causal Event Synthesis",
+      "exit_code": 0,
+      "duration_seconds": 517.5,
+      "run_dir": "D:\\Code\\mong-nhiem\\research\\experiments\\prototypes\\mn-019-non-stationary-causal-adaptation\\experiments\\drift-003-causal-event-synthesis\\runs\\drift003-run-20261011-143654-track2-Qwen35-2B",
+      "run_info": {
+        "run_id": "drift003-run-20261011-143654-track2-Qwen35-2B",
+        "milestone": "mn-019-drift-003-causal-event-synthesis",
+        "track": 2,
+        "timestamp": "20261011-143654",
+        "total_cases": 60,
+        "arms_evaluated": {
+          "arm1_flat": {
+            "successes": 0,
+            "success_rate": 0.0
+          },
+          "arm2_reactive_control": {
+            "successes": 53,
+            "success_rate": 88.3
+          },
+          "arm3_counterfactual_causal_host": {
+            "successes": 53,
+            "success_rate": 88.3,
+            "ood_success_rate": 75.9,
+            "committed_violations": 203,
+            "proactive_bypasses": 270,
+            "mean_compaction_ratio": 0.6967,
+            "max_prompt_tokens": 245,
+            "mean_prompt_tokens": 188.3
+          }
+        },
+        "overall_verdict": "FAIL"
+      }
+    }
+  ]
+}
