@@ -381,6 +381,39 @@ MN-015 is complete and promoted under Gate D disposition review (`gate-d-disposi
 3. **Canonical Evidence Freeze:**
    - Complete architectural and experimental verification artifacts, raw execution traces (`runs/`), and cryptographic manifests are frozen across `research/experiments/prototypes/mn-018-simulated-microworld-evolution/`.
 
+---
+
+## MN-019 — Continuous Non-Stationary Causal Adaptation — Active Sub-Stage Execution
+
+Milestone MN-019 evaluates small language model resilience under non-stationary environmental dynamics partitioned into three sequential sub-stages:
+1. `drift-001-parametric-adaptation`: Continuous Parametric Drift and Dynamic Affordance Regeneration (**COMPLETED & VERIFIED**)
+2. `drift-002-schema-evolution`: Dynamic Schema Evolution and Structural Entity Emergence (**COMPLETED & VERIFIED**)
+3. `drift-003-causal-event-synthesis`: Counterfactual Causal Event Synthesis (Active / Next)
+
+### Stage 1: Parametric Adaptation (`drift-001-parametric-adaptation`) — Verified
+- **Evaluation Corpus & Scale:** 60 standardized benchmark cases ($N=15$ per domain across Orbital Life Support, Smart Microgrid, Fleet Logistics, Subsea Hydrothermal Node), stratified into 30 In-Distribution and 30 Out-of-Distribution scenarios.
+- **Empirical Findings (Track 1 Deterministic Simulator, Qwen3.5-2B contract):**
+  - Arm 3 (Dynamic Dual-Engine Host): **60/60 PASS (100.0%)**, outperforming Arm 2 (Static Memory Control, 21.7%) and Arm 1 (Flat Baseline, 0.0%) by +78.3% and +100.0%.
+  - OOD Sub-Suite ($N=30$): **30/30 PASS (100.0%)**.
+  - Committed Conservation Breaches: **Exactly 0 (0.0%)**.
+  - AutoDream Episodic Compaction: **85.5%** (contract threshold $\ge 70.0\%$).
+  - Prompt Token Ceiling: Max 68 tokens ($\le 512$), Mean 58.8 tokens ($\le 384$). Mean turn latency 0.1 ms ($< 1000\text{ ms}$ SLA).
+- **Gate D Disposition:** `parametric_adaptation_verified_quarantined`. All code quarantined in `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/experiments/drift-001-parametric-adaptation/`. Pre-run and post-run freeze manifests committed.
+
+### Stage 2: Schema Evolution (`drift-002-schema-evolution`) — Verified
+- **Evaluation Corpus & Scale:** 60 standardized benchmark cases ($N=15$ across 4 domains, 30 ID / 30 OOD) incorporating runtime entity emergence (`aux_cooler`, `secondary_feeder`, `booster_trailer`, `aux_vent`), schema attribute mutations, and TTL entity obsolescence.
+- **Empirical Findings (Track 1 Deterministic Simulator, Qwen3.5-2B contract):**
+  - Arm 3 (Dynamic Schema Evolution Host): **60/60 PASS (100.0%)**, outperforming Arm 2 (Static Schema Control, 0.0%) and Arm 1 (Flat Baseline, 0.0%) by **+100.0%**.
+  - OOD Sub-Suite ($N=30$): **30/30 PASS (100.0%)**.
+  - Committed Schema / Conservation Violations: **Exactly 0 (0.0%)**.
+  - AutoDream Relational Compaction: **73.0%** (contract threshold $\ge 70.0\%$).
+  - Prompt Token Ceiling: Max 109 tokens ($\le 512$), Mean 83.0 tokens ($\le 384$). Mean turn latency 0.1 ms ($< 1000\text{ ms}$ SLA).
+  - Stage 3 Forward-Compatibility Verified: Hash-chained `CausalEventLog` DAG, relational Fact Cards, and `simulate_counterfactual_step` non-destructive sandbox hooks verified.
+- **Gate D Disposition:** `schema_evolution_verified_quarantined`. Code quarantined in `experiments/drift-002-schema-evolution/`. Pre-run and post-run freeze manifests committed.
+
+### Active Transition & Handoff
+- Sub-stages 1 and 2 are fully verified and frozen. Progression to **Stage 3: Counterfactual Causal Event Synthesis (`drift-003-causal-event-synthesis`)** is formally unlocked on branch `antigravity/mn-019-non-stationary-causal-adaptation`. Cross-model multi-model evaluation across `Llama-3.2-3B` and `Qwen3-4B` is deferred to post-Stage 3 parent synthesis.
+
 
 
 

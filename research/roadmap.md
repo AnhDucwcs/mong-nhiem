@@ -214,9 +214,22 @@ Track: **NCC Phase 7 (Stateful World Continuity & Governance).**
    - Disposition review: `stateful_microworld_evolution_verified_quarantined`.
    - In adherence to Gate D governance, experimental code remains strictly quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted directly to `src/mong_nhiem/` pending broader multi-milestone progression. Cryptographic manifests (`definition/pre-run-freeze-manifest.json`, `definition/post-run-freeze-manifest.json`) and raw execution traces (`runs/`) are sealed.
 
+## MN-019 — Continuous Non-Stationary Causal Adaptation
+
+Status: **active prototype under sequential sub-stage execution (Stages 1 and 2 verified and quarantined).**  
+Track: **NCC Phase 8 (Non-Stationary Domain Drift & Dynamic Adaptation).**
+
+1. **Sub-Stage 1: Parametric Adaptation (`drift-001-parametric-adaptation`):**  
+   - Status: **COMPLETED & VERIFIED (Gate D Disposition earned).**
+   - Track 1 Simulator (60 cases across 4 domains, 30 ID / 30 OOD): Arm 3 achieved **100.0% (60/60)** resolution vs 21.7% in Arm 2 (+78.3% margin) and 0.0% in Arm 1 (+100.0% margin). Zero committed conservation breaches, 85.5% AutoDream compaction, prompt ceiling strictly $\le 512$ tokens (max 68, mean 58.8), and sub-millisecond turn latency. Quarantined in `experiments/drift-001-parametric-adaptation/`.
+2. **Sub-Stage 2: Dynamic Schema Evolution (`drift-002-schema-evolution`):**  
+   - Status: **COMPLETED & VERIFIED (Gate D Disposition earned).**
+   - Track 1 Simulator (60 cases across 4 domains, 30 ID / 30 OOD): Arm 3 achieved **100.0% (60/60)** resolution under dynamic entity emergence and retirement vs 0.0% in Arm 2 (+100.0% margin) and 0.0% in Arm 1 (+100.0% margin). Zero committed schema/conservation violations, 73.0% AutoDream relational compaction, prompt ceiling strictly $\le 512$ tokens (max 109, mean 83.0), and 0.1 ms turn latency. Verified forward-compatibility with Stage 3 via hash-chained `CausalEventLog` DAG, relational Fact Cards, and `simulate_counterfactual_step` sandbox hook. Quarantined in `experiments/drift-002-schema-evolution/`.
+3. **Sub-Stage 3: Counterfactual Causal Event Synthesis (`drift-003-causal-event-synthesis`):**  
+   - Status: **ACTIVE / NEXT.**
+   - Scope: Host-guided counterfactual causal graph induction, intervention synthesis, and non-stationary rule induction.
+
 ## Active Developmental Horizons
 
-1. **MN-019 — Continuous Non-Stationary Domain Drift & Dynamic Adaptation**
-   - Scope: Evaluating agent resilience and host affordance adaptation when microworld transition dynamics themselves undergo non-stationary drift over extended time.
-2. **MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance**
+1. **MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance**
    - Scope: Extending host-authoritative cognitive governance to multi-agent concurrent interactions and shared resource worlds.

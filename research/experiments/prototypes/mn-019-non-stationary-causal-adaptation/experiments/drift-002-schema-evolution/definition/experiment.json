@@ -1,0 +1,22 @@
+{
+  "milestone": "MN-019",
+  "stage": "drift-002-schema-evolution",
+  "title": "Dynamic Schema Evolution & Structural Entity Emergence",
+  "evaluation_tracks": [1, 2],
+  "total_cases": 60,
+  "domains": [
+    "orbital_life_support",
+    "smart_microgrid",
+    "fleet_logistics",
+    "subsea_hydrothermal"
+  ],
+  "arms": [
+    "arm1_flat",
+    "arm2_static_schema_control",
+    "arm3_dynamic_schema_host"
+  ],
+  "token_ceiling": 512,
+  "mean_token_budget": 384,
+  "latency_sla_ms": 1000.0,
+  "compaction_threshold": 0.70
+}
