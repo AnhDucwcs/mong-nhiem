@@ -1,0 +1,40 @@
+{
+  "run_id": "mn020-run-20261011-183738-track2-Qwen3.5-2B-Q4_K_M",
+  "milestone": "mn-020-multi-agent-symbiosis",
+  "track": 2,
+  "timestamp": "20261011-183738",
+  "total_cases": 60,
+  "model_id": "Qwen3.5-2B-Q4_K_M",
+  "duration_seconds": 1528.36,
+  "arms_evaluated": {
+    "arm1_flat": {
+      "successes": 0,
+      "total": 60,
+      "success_rate": 0.0,
+      "committed_races": 0,
+      "deadlocks": 0,
+      "max_tokens": 23,
+      "mean_tokens": 0.0
+    },
+    "arm2_independent_control": {
+      "successes": 20,
+      "total": 60,
+      "success_rate": 33.3,
+      "committed_races": 40,
+      "deadlocks": 0,
+      "max_tokens": 23,
+      "mean_tokens": 0.0
+    },
+    "arm3_host_symbiosis": {
+      "successes": 60,
+      "total": 60,
+      "success_rate": 100.0,
+      "committed_races": 0,
+      "deadlocks": 0,
+      "max_tokens": 38,
+      "mean_tokens": 0.0
+    }
+  },
+  "audit_logs_archive_sha256": "32f13026defc72f55dc51abcafa5e79aa9d8cb355b12edcdfab3b22cc36acd67",
+  "overall_verdict": "PASS"
+}

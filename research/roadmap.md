@@ -232,7 +232,27 @@ Track: **NCC Phase 8 (Non-Stationary Domain Drift & Dynamic Adaptation).**
    - Dual-Track Total: Track 1 achieves **100.0% (180/180)** (PASS); Track 2 achieves **95.0% (171/180)** on Arm 3 vs 50.0% on Arm 2 vs 1.1% on Arm 1 (PASS, $\ge 85.0\%$ across all stages).
    - Milestone verdict: **PASS (`non_stationary_causal_adaptation_verified_quarantined`)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Full academic report frozen in `reports/mn-019-track2-comprehensive-report.md`.
 
+## MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance
+
+Status: **completed and verified prototype (`multi_agent_symbiosis_verified_quarantined`).**  
+Track: **NCC Phase 9 (Multi-Agent Symbiosis & Distributed Cognitive Governance).**
+
+1. **Strategic Intent & Outcome:**
+   - Extended Host-Authoritative Cognitive Governance from solitary agent execution to concurrent multi-agent microworlds ($M=2$ agents) interacting over shared physical resources.
+   - Designed and evaluated the **Host Concurrency Arbiter & Optimistic Lease Manager**, coupling mutual exclusion entity leases with dynamic Context-Free Grammar (GBNF) affordance masking, scoped AutoDream Fact Card context projections, and discrete non-conversational signalling.
+   - Evaluated across $N = 60$ standardized multi-agent scenarios across 3 physical domains: Collaborative Smart Microgrid Balancing ($N=20$), Concurrent Orbital Maintenance ($N=20$), and Joint Fleet Logistics ($N=20$).
+2. **Dual-Track Empirical Results ($2\times \text{Qwen3.5-2B}$ topology):**
+   - **Track 1 (Host Simulator — 60 cases):** Arm 3 achieved **100.0% (60/60 PASS)** resolution with 0 committed race violations and 0 deadlocks, outperforming Arm 2 (Independent Control, 0.0%) by **+100.0%** and Arm 1 (Flat Baseline, 0.0%) by **+100.0%**.
+   - **Track 2 (Real Model Inference — 60 cases):** Arm 3 achieved **100.0% (60/60 PASS)** resolution with 0 committed race violations and 0 deadlocks, outperforming Arm 2 (33.3%, 20/60) by **+66.7%** (exceeding the $\ge +40.0\%$ contract bound) and Arm 1 (0.0%) by **+100.0%**.
+   - Hard Invariants & Performance: Prompt tokens strictly bounded at $\max = 38\text{ tokens} \le 512\text{ tokens}$, turn latency averaged 715 ms ($< 1000\text{ ms}$ SLA), and AutoDream compaction sustained $75.0\% \ge 70.0\%$.
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - Ratified standard library `.zip` evidence packaging (`audit_logs.zip`), packing all 360 episode traces across both runs and pruning all loose JSON logs from the working tree.
+   - Verifiable SHA-256 fingerprints: Track 1 (`c24a64a3...`), Track 2 (`32f13026...`). Direct inspection verified via `scripts/validate_audit.py`.
+4. **Gate D Disposition & Prototype Quarantine:**
+   - Disposition review: `multi_agent_symbiosis_verified_quarantined`.
+   - All prototype code strictly quarantined in `research/experiments/prototypes/mn-020-multi-agent-symbiosis/` (zero promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-020-track1-report.md` and `reports/mn-020-track2-report.md`. Pre-run and post-run freeze manifests committed.
+
 ## Active Developmental Horizons
 
-1. **MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance**
-   - Scope: Extending host-authoritative cognitive governance to multi-agent concurrent interactions and shared resource worlds.
+1. **MN-021 — Long-Horizon Open-World Episodic Memory & Consolidation Topology**
+   - Scope: Scaling multi-agent episodic consolidation, topological memory federation, and cross-session knowledge continuity.

@@ -29,8 +29,50 @@ The milestone is structured around three comparative arms evaluated across 60 mu
 
 ---
 
-## 3. Governance and Promotion Boundaries
+## 3. Empirical Findings & Verification Summary
+
+| Evaluation Track | Model Topology | Arm 3 Resolution | Arm 2 Resolution | Delta ($\Delta$) | Race Violations (Arm 3) | Gate Verdict |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **Track 1 (Simulator)** | Python Deterministic Host | **100.0% (60/60)** | 0.0% (0/60) | +100.0% | 0 | **PASS** |
+| **Track 2 (Real Inference)** | $2\times \text{Qwen3.5-2B-Q4_K_M}$ | **100.0% (60/60)** | 33.3% (20/60) | +66.7% | 0 | **PASS** |
+
+- **Token Ceilings:** Prompt lengths remained strictly bounded under Arm 3 ($\max = 38\text{ tokens} \le 512\text{ tokens}$).
+- **Compaction Ratio:** AutoDream consolidation achieved $75.0\% \ge 70.0\%$.
+- **Latency SLA:** Host Arbiter turn processing remained at $1.5\text{ ms}$ (Simulator) and $715\text{ ms}$ (Real Inference), comfortably inside the $< 1000\text{ ms}$ SLA.
+
+---
+
+## 4. Reproduction Instructions
+
+### 4.1 Unit Test Suite Verification
+```powershell
+pytest -v
+```
+
+### 4.2 Track 1 Deterministic Benchmark Run
+```powershell
+python scripts/run_benchmark.py --track 1 --limit 60
+python scripts/validate_audit.py runs/mn020-run-20261011-183726-track1-sim
+```
+
+### 4.3 Track 2 Real Model Inference Run
+1. Start local `llama-server.exe`:
+```powershell
+D:\Materials\llama.cpp\build\bin\Release\llama-server.exe -m D:\Code\mong-nhiem\artifacts\models\mn-002\Qwen3.5-2B-Q4_K_M.gguf --port 18502 -ngl 99 -c 4096 --host 127.0.0.1
+```
+2. Execute benchmark runner:
+```powershell
+python scripts/run_benchmark.py --track 2 --limit 60
+python scripts/validate_audit.py runs/mn020-run-20261011-183738-track2-Qwen3.5-2B-Q4_K_M
+```
+
+---
+
+## 5. Governance and Cryptographic Records
 
 - **Quarantine Invariant**: 100% of MN-020 prototype code, schemas, benchmarks, and run traces remain strictly quarantined in `research/experiments/prototypes/mn-020-multi-agent-symbiosis/`.
-- **Zero Silent Promotion**: No code will be promoted to `src/mong_nhiem/` during prototype evaluation.
-- **Evidence Packaging Standard**: All episode audit logs are compressed using Python standard library `zipfile` into `audit_logs.zip` per run, with cryptographic SHA-256 fingerprints recorded in `post-run-freeze-manifest.json`.
+- **Zero Silent Promotion**: No code promoted to `src/mong_nhiem/`.
+- **Pre-Run Freeze Manifest:** `pre-run-freeze-manifest.json` (24 files hashed).
+- **Post-Run Freeze Manifest:** `post-run-freeze-manifest.json` (32 files hashed).
+- **Track 1 Zip Hash:** `c24a64a3e846dddcc30d719123f52b5783995e9e48dbe72c044f3ab88b04a11f`
+- **Track 2 Zip Hash:** `32f13026defc72f55dc51abcafa5e79aa9d8cb355b12edcdfab3b22cc36acd67`

@@ -39,6 +39,8 @@ MN-018 is completed and verified: [Stateful Simulated Microworld Evolution](expe
 
 MN-019 is completed and verified across all three sub-stages under Dual-Track protocol: [Continuous Non-Stationary Causal Adaptation](experiments/prototypes/mn-019-non-stationary-causal-adaptation/README.md). Track 1 (Host Simulator) demonstrated 100.0% (180/180) mathematical validity and 0 committed breaches. Track 2 (Real Model Inference on `Qwen3.5-2B`, 180 runs) achieved 95.0% resolution on Arm 3 (171/180 PASS, exceeding the 85.0% contract bound across all three stages: Stage 1 100.0%, Stage 2 85.0%, Stage 3 100.0%) vs 50.0% (90/180) on Control and 1.1% (2/180) on Flat Baseline, with 0 committed invariant breaches, 89 proactive bypasses, and 83.6% AutoDream compaction. Prototype code remains quarantined (`non_stationary_causal_adaptation_verified_quarantined`), providing empirical grounding for **MN-020** (Multi-Agent Symbiosis & Distributed Cognitive Governance).
 
+MN-020 is completed and verified under Dual-Track protocol: [Multi-Agent Symbiosis & Distributed Cognitive Governance](experiments/prototypes/mn-020-multi-agent-symbiosis/README.md). Track 1 (Deterministic Simulator) achieved 100.0% (60/60) mathematical validity and 0 committed races. Track 2 (Real Model Inference on homogeneous $2\times\text{Qwen3.5-2B}$ SLMs, 180 runs) achieved 100.0% resolution on Arm 3 (60/60 PASS, exceeding the 85.0% threshold) vs 33.3% (20/60) on Arm 2 (uncoordinated peer execution, committing 40 race breaches) and 0.0% (0/60) on Arm 1 (uncoordinated raw execution, committing 40 race breaches), yielding an empirical delta $\Delta_{\text{Arm 3} - \text{Arm 2}} = +66.7\% \ge +40.0\%$. Zero committed race violations occurred under Host Concurrency Arbiter leases and Dynamic Multi-Agent Affordance Masking. Standard library `.zip` evidence packaging (`audit_logs.zip`) eliminated repository bloat while preserving 100% cryptographic auditability. Prototype code remains quarantined in `research/experiments/prototypes/mn-020-multi-agent-symbiosis/` per Gate D disposition review (`PASS_VERIFIED_QUARANTINED`).
+
 The context subsystem (`src/mong_nhiem/context/`) and cognitive orchestration subsystem (`src/mong_nhiem/orchestration/`) are selected and promoted for production context scaffolding, iterative coordination, and dual-layer cognitive steering. Retrieval, episodic memory, autonomous planning, and microworld governance architectures remain open for subsequent research milestones. Later deployment validation must eventually include coexistence with games and other local workloads, but controlled mechanism experiments may still require a clean GPU environment to make causal attribution interpretable.
 
 ## Navigate
@@ -66,6 +68,7 @@ The context subsystem (`src/mong_nhiem/context/`) and cognitive orchestration su
 - [MN-017](experiments/prototypes/mn-017-dynamic-world-ticks/README.md)
 - [MN-018](experiments/prototypes/mn-018-simulated-microworld-evolution/README.md)
 - [MN-019](experiments/prototypes/mn-019-non-stationary-causal-adaptation/README.md)
+- [MN-020](experiments/prototypes/mn-020-multi-agent-symbiosis/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

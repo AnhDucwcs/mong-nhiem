@@ -443,6 +443,34 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Overall Milestone Verdict: **PASS (`non_stationary_causal_adaptation_verified_quarantined`)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Full academic Track 2 report frozen at `reports/mn-019-track2-comprehensive-report.md`.
 - Next Milestone: **MN-020: Multi-Agent Symbiosis & Distributed Cognitive Governance**.
 
+## MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance — completed and verified
+
+- **Evaluation Corpus & Scale:** $N = 60$ standardized multi-agent benchmark scenarios spanning 3 physical domains:
+  1. Domain A: Collaborative Smart Microgrid Balancing ($N=20$)
+  2. Domain B: Concurrent Orbital Maintenance ($N=20$)
+  3. Domain C: Joint Fleet Logistics ($N=20$)
+- **Architecture Under Test:** Host Concurrency Arbiter & Optimistic Lease Manager with dynamic Context-Free Grammar (GBNF) affordance masking, scoped AutoDream Fact Card context projections, and discrete inter-agent signalling.
+- **Model Topology:** Homogeneous pair of $2\times \text{Qwen3.5-2B-Q4_K_M.gguf}$ querying local `llama-server.exe` on Port 18502 (`-ngl 99 -c 4096`, $T=0.0$).
+- **Dual-Track Empirical Results:**
+  - **Track 1 (Host Simulator — 60 cases):**
+    - Arm 3 (Host Symbiotic Governance): **60/60 PASS (100.0%)**, outperforming Arm 2 (Independent Control Baseline, 0.0%) by **+100.0%** and Arm 1 (Flat Baseline, 0.0%) by **+100.0%**.
+    - Committed Race Violations: **0** in Arm 3 (vs 80 in Arm 2). Deadlocks: **0**.
+    - Max Prompt Tokens: 38 tokens ($\le 512$). AutoDream Compaction: 75.0% ($\ge 70.0\%$). Mean Turn Latency: 1.5 ms ($< 1000\text{ ms}$).
+    - Verdict: **PASS**.
+  - **Track 2 (Real Model Inference — $2\times \text{Qwen3.5-2B}$ — 60 cases):**
+    - Arm 3 (Host Symbiotic Governance): **60/60 PASS (100.0%)**, outperforming Arm 2 (Independent Control Baseline, 33.3% / 20/60) by **+66.7%** (contract threshold $\ge +40.0\%$) and Arm 1 (Flat Baseline, 0.0%) by **+100.0%**.
+    - Committed Race Violations: **0** in Arm 3 (vs 40 in Arm 2). Deadlocks: **0**.
+    - Max Prompt Tokens: 38 tokens ($\le 512$). AutoDream Compaction: 75.0% ($\ge 70.0\%$). Mean Turn Latency: 715 ms ($< 1000\text{ ms}$).
+    - Verdict: **PASS**.
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - All 180 episode audit traces per run were packaged into a single standard library `audit_logs.zip` archive using `zipfile` (`ZIP_DEFLATED`).
+  - Working tree contains 0 loose JSON log files.
+  - Track 1 Archive Fingerprint (SHA-256): `c24a64a3e846dddcc30d719123f52b5783995e9e48dbe72c044f3ab88b04a11f`.
+  - Track 2 Archive Fingerprint (SHA-256): `32f13026defc72f55dc51abcafa5e79aa9d8cb355b12edcdfab3b22cc36acd67`.
+  - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
+- **Gate D Disposition:** `multi_agent_symbiosis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-020-multi-agent-symbiosis/` (0 promotion to `src/mong_nhiem/`). Full peer-reviewed academic reports frozen at `reports/mn-020-track1-report.md` and `reports/mn-020-track2-report.md`. Pre-run and post-run freeze manifests committed.
+- **Active Transition / Next Milestone:** Authorizes Milestone **MN-021: Long-Horizon Open-World Episodic Memory & Consolidation Topology**.
+
 
 
 
