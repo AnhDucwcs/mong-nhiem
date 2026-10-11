@@ -1,0 +1,27 @@
+{
+  "manifest_version": "1.0.0",
+  "milestone": "mn-019-drift-002-schema-evolution",
+  "stage": "post_run_freeze",
+  "file_hashes": {
+    "charter.md": "7ca786ff7ae50b31cadcf14737d8f563e91afb88355ccdfd7a7cf15f0fc7ce6a",
+    "gate-b-contract.md": "56d7ae53ef2016ea9c1b07f014d0d704aac0f9271bdde22e0d8101c87f60cc12",
+    "definition\\cases.json": "b70a0f02f03feeaaa7d3b338d2e276c7fff9e74c01d3a4cb3d8f9a6bf4e50b92",
+    "definition\\experiment.json": "86f9f241352e5aa3d7999ab3a6990fdc9669560d11a2f6bff82e7423798b361a",
+    "configs\\models.json": "06756a946b840c09828c505a7240ec4f5d5615ad0c1855635cd89d00b541f447",
+    "schemas\\case-result.schema.json": "0055cc53de185225625577bd153e2d7bf18981d5aa5f83afed76848df2d479f9",
+    "schemas\\run-summary.schema.json": "2de8cc15230f9eeb052238eeb6e0ec6d2163c05355399787fd37c819bdaea085",
+    "src\\__init__.py": "541531605ce5ff964517e57c47291f2e433d36c93fea03dfe2c1051a76ad0465",
+    "src\\causal_event_logger.py": "c7b54f9c062d5d780bf355f2d818b393e9356a193c3cfd2f5ee27f9263f239d0",
+    "src\\schema_evolution_engine.py": "34cb75805f32c039b53ef0aea74369d8bb1680835420aa7e5c69ea5614049a5a",
+    "src\\microworld_engine.py": "ecc9be64140ecec0c62fae58045e3cde2a4956830e28b165c5d4607851dd2150",
+    "src\\discrepancy_monitor.py": "8571cd2117c510cdc12e43b1121061111c5b98796b215666a5e96c023a4f3d71",
+    "src\\dynamic_affordance.py": "252f580990040bf5b10496fc196d66c613915c12ee53dac9b9e7dc30bbcf6103",
+    "src\\autodream_engine.py": "4a4147653ee59c8a5a0e23f9731044be293ff48c4daa1d16c3034e64c0189b44",
+    "src\\hierarchical_planner.py": "96a80fc425446195ef4bdd067ba3ccb7b3f4bc227571e9023c2b6d5e517ab3b7",
+    "src\\memento_stack.py": "9eee5ee547a2f3eca6b5bf2ad7fbb799c9d9fb4d027f315435e799661d2bd16d",
+    "src\\orchestrator.py": "31cdbc94203a096da6c2c602a083bb643bd6b7632e051a4756a5e76ed8d91710",
+    "gate-d-disposition-review.md": "6dc7b3724767fbdad4bd3d27737add04f411510186c293045f47a414a1d07240",
+    "README.md": "7f8041f193a1414e41399eaa302961dd5274aac8e29ea2224e6534058231800a",
+    "reports\\drift-002-results.md": "fcc90d54960d303abc8cc4dc2d241a26613618e3e770d86d59f9a82aeeea5b67"
+  }
+}

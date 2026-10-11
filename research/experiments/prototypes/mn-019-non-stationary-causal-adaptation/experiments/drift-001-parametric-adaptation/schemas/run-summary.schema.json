@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Drift001RunSummary",
+  "type": "object",
+  "required": [
+    "run_id",
+    "track",
+    "model_id",
+    "total_cases",
+    "arm1_success_rate",
+    "arm2_success_rate",
+    "arm3_success_rate",
+    "ood_success_rate",
+    "committed_breaches",
+    "autodream_compaction",
+    "max_prompt_tokens",
+    "mean_prompt_tokens",
+    "mean_latency_ms",
+    "verdict"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "track": { "type": "string" },
+    "model_id": { "type": "string" },
+    "total_cases": { "type": "integer" },
+    "arm1_success_rate": { "type": "number" },
+    "arm2_success_rate": { "type": "number" },
+    "arm3_success_rate": { "type": "number" },
+    "ood_success_rate": { "type": "number" },
+    "committed_breaches": { "type": "integer" },
+    "autodream_compaction": { "type": "number" },
+    "max_prompt_tokens": { "type": "integer" },
+    "mean_prompt_tokens": { "type": "number" },
+    "mean_latency_ms": { "type": "number" },
+    "verdict": { "type": "string" }
+  }
+}

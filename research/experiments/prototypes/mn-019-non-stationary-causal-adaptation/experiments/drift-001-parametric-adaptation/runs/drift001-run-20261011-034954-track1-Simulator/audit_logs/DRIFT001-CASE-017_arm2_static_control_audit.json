@@ -1,0 +1,30 @@
+{
+  "is_success": false,
+  "turns_executed": 1,
+  "subgoals_completed": 0,
+  "total_subgoals": 2,
+  "committed_conservation_breaches": 1,
+  "intercepted_traps": 1,
+  "compaction_ratio": 0.6102,
+  "max_prompt_tokens": 55,
+  "mean_prompt_tokens": 55.0,
+  "mean_latency_ms": 0.1,
+  "discrepancies_detected": 0,
+  "case_id": "DRIFT001-CASE-017",
+  "domain": "smart_microgrid",
+  "difficulty": "in_distribution",
+  "arm": "arm2_static_control",
+  "turns": [
+    {
+      "turn": 1,
+      "action": "ACTION: DISPATCH discharge_battery 30.0",
+      "success": false,
+      "status": "BREACH: Bus voltage bounds breached: 335.8 V not in [342.0, 418.0]",
+      "active_subgoal": "G1_VOLTAGE",
+      "metadata": {
+        "type": "breach",
+        "action": "discharge_battery 30.0"
+      }
+    }
+  ]
+}

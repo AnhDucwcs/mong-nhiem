@@ -1,0 +1,27 @@
+{
+  "manifest_version": "1.0.0",
+  "milestone": "mn-019-drift-003-causal-event-synthesis",
+  "stage": "pre_run_freeze",
+  "file_hashes": {
+    "charter.md": "2abc83d0aea11f35cb802dd62ab558acaa3d38f77a572b83508df4a32fe63c07",
+    "gate-b-contract.md": "a718731925da67e07a80c22de39170aa930a7ee8e439294ff276476d4476ce97",
+    "definition\\cases.json": "6efa8070d9e46961a9796b7405e8fc2a076f9677650f0690b8931f9b8a4b4354",
+    "definition\\experiment.json": "0f02c57cc0126188fb8ef24f5d4fc8e0ac8d9a7f8f17925dca5b69e2c5cf57ce",
+    "configs\\models.json": "a0a1caecfa5e0cdb85cfaf95894aa797e0578c1f2313625e62a798084c2e0cef",
+    "schemas\\case-result.schema.json": "05c8bcbb5092ea2a297c09841e1b2e8784f6e3369de2c325323b5fe12d6b73f3",
+    "schemas\\run-summary.schema.json": "ce90758d0018caa6e316037bff044a18bc447955f86e2272f39e85a2f2e43efd",
+    "src\\__init__.py": "0a1c1b112bce258d13718136328492a7ab1d407cf9aa964def131bbf4eef730d",
+    "src\\causal_event_logger.py": "b642daca34af9d4f834f96b165d32027732dba6ca489e9ab02af750d79c0a5ff",
+    "src\\causal_synthesis_engine.py": "9038090686ee37ca994ef0022de77b93901aec981b768d10203ca8faf28bf451",
+    "src\\counterfactual_sandbox.py": "25cdd53167648faffa9fe44ce4dd078482fc4205549ca3a100c0e0316ab36e8b",
+    "src\\proactive_affordance_gate.py": "c689b7eb3d882e7f85835d924d704f5f3462b1be407f99ae07982415524ff56e",
+    "src\\schema_evolution_engine.py": "9247ebfd2e937ba3e4bc0f5079cc95742b82b6b1b046bb30ca7546e9257cf2f8",
+    "src\\microworld_engine.py": "40e50bc81f883f8dee59f6e251e0cc87b363866c44678137b35c8a4a235f6669",
+    "src\\discrepancy_monitor.py": "1ac94f49bd4a491a4f416ee60034d65bd2c308b43ef32d403e19be75580125e6",
+    "src\\dynamic_affordance.py": "dec16c38555383d9e0b745063ce41e6a68c7b654edadbbcd352267c4deac1152",
+    "src\\autodream_engine.py": "60f161f9c0e493dc20a9391f0e21304d71949246c7e14fff9e468beebf902d43",
+    "src\\hierarchical_planner.py": "51c94c602125740505dd094d0c7e54248bb6c944375ab9eff3815b22fedcccaf",
+    "src\\memento_stack.py": "9c5fa65b4afca763b2e7e131332e6c62a89c240bb5d9116266e74967587db19f",
+    "src\\orchestrator.py": "51d21fca0fad5f968d41c2179a61e837975eb81c1b565d3c8190f049fd26fbc8"
+  }
+}

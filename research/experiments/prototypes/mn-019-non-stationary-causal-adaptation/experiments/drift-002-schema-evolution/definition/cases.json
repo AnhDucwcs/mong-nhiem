@@ -1,0 +1,5814 @@
+[
+  {
+    "case_id": "DRIFT002-CASE-001",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 50.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 20.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 75.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 30.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-002",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 52.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 21.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 75.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.2
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 31.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-003",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 54.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 22.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 76.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.4
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 33.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-004",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 56.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 23.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 76.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.6
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 34.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-005",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 58.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 24.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 77.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.8
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 36.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-006",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 60.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 25.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 77.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 37.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-007",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 62.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 26.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 78.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.2
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 39.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-008",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 64.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 27.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 78.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.4
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 40.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-009",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 66.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 28.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 79.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.6
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 42.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-010",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 68.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 29.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 79.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.8
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 43.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-011",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 70.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 30.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 80.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 45.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-012",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 72.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 31.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 80.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.2
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 46.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-013",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 74.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 32.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 81.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.4
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 48.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-014",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 76.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 33.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 81.5
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.6
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 49.5
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-015",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 78.0
+        },
+        "relations": {
+          "powers": "cryo_battery"
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 34.0
+        },
+        "relations": {
+          "buffers": "thermal_loop"
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 82.0
+        },
+        "relations": {}
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.8
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_COOLER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_cooler",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "cryo_cooler",
+          "properties": {
+            "cooling_kw": 51.0
+          },
+          "relations": {
+            "cools": "thermal_loop"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Thermal overload triggers emergency auxiliary cooler deployment."
+      },
+      {
+        "rule_id": "RULE_MUTATE_THERMAL",
+        "lifecycle_action": "MUTATE_SCHEMA",
+        "target_entity_id": "thermal_loop",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "properties": {
+            "radiative_efficiency": 0.65
+          },
+          "relations": {
+            "coupled_heat_sink": "aux_cooler"
+          }
+        },
+        "causal_hypothesis": "Radiator surface fouling alters relational coupling."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery reserve >= 25.0 kWh",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL_EMERGENT",
+        "description": "Cool thermal loop below 65.0 C via emergent aux cooler",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 65.0,
+        "required_emergent_entity": "aux_cooler",
+        "candidate_actions": [
+          "purge_cabin_heat 10.0",
+          "activate_secondary_cooler"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-016",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 75.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 20.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 365.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 50.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-017",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 76.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 21.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 365.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 52.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-018",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 77.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 23.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 366.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 54.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-019",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 78.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 24.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 366.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 56.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-020",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 79.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 26.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 367.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 58.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-021",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 80.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 27.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 367.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 60.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-022",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 81.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 29.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 368.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 62.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-023",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 82.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 30.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 368.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 64.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-024",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 83.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 32.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 369.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 66.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-025",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 84.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 33.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 369.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 68.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-026",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 85.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 35.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 370.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 70.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-027",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 86.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 36.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 370.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 72.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-028",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 87.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 38.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 371.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 74.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-029",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 88.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 39.5
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 371.5
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 76.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-030",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 89.0
+        },
+        "relations": {
+          "backs_up": "critical_bus"
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 41.0
+        },
+        "relations": {
+          "generates_to": "critical_bus"
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 372.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_FEEDER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "secondary_feeder",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "distribution_line",
+          "properties": {
+            "capacity_kw": 78.0
+          },
+          "relations": {
+            "feeds": "critical_bus"
+          },
+          "ttl": 25
+        },
+        "causal_hypothesis": "Grid voltage sag triggers automatic switchgear feeder connection."
+      },
+      {
+        "rule_id": "RULE_EMERGE_FLYWHEEL",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "flywheel_reserve",
+        "trigger_type": "tick",
+        "trigger_tick": 3,
+        "payload": {
+          "entity_type": "kinetic_storage",
+          "properties": {
+            "rpm": 12000.0
+          },
+          "relations": {
+            "stabilizes": "critical_bus"
+          }
+        },
+        "causal_hypothesis": "Severe harmonic distortion engages kinetic flywheel stabilizer."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE_EMERGENT",
+        "description": "Stabilize critical bus voltage >= 380.0 V via secondary feeder",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "required_emergent_entity": "secondary_feeder",
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "connect_secondary_feeder"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-031",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.0
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 25.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 30.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-032",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.2
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 26.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 31.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-033",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.4
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 27.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 32.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-034",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.6
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 28.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 33.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-035",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.8
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 29.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 34.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-036",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.0
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 30.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 35.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-037",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.2
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 31.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 36.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-038",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.4
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 32.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 37.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-039",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.6
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 33.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 38.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-040",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.8
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 34.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 39.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-041",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.0
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 35.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 40.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-042",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.2
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 36.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 41.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-043",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.4
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 37.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 42.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-044",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.6
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 38.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 43.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-045",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.8
+        },
+        "relations": {}
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 39.0
+        },
+        "relations": {
+          "powers": "traction_motor"
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 44.0
+        },
+        "relations": {}
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_BOOSTER",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "booster_trailer",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "aux_refrigeration",
+          "properties": {
+            "cooling_power_kw": 25.0
+          },
+          "relations": {
+            "couples_to": "reefer_unit"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Highway convoy dock attaches autonomous refrigeration booster."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL_BOOSTER",
+        "description": "Deep freeze cargo <= -22.0 C via booster trailer",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -22.0,
+        "required_emergent_entity": "booster_trailer",
+        "candidate_actions": [
+          "chill_reefer_compartment 2.0",
+          "engage_booster_trailer"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach highway transit speed >= 50.0 km/h",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-046",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 95.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 230.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 50.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-047",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 96.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 231.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 55.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-048",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 98.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 232.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 60.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-049",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 99.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 233.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 65.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-050",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 101.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 234.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 70.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-051",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 102.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 235.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 75.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-052",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 104.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 236.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 80.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 1,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-053",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 105.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 237.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 85.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-054",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 107.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 238.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 90.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-055",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 108.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 239.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 95.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-056",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 110.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 240.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 100.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-057",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 111.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 241.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 105.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-058",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 113.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 242.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 110.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-059",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 114.5
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 243.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 115.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT002-CASE-060",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 116.0
+        },
+        "relations": {}
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 244.0
+        },
+        "relations": {}
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 120.0
+        },
+        "relations": {}
+      }
+    },
+    "schema_rules": [
+      {
+        "rule_id": "RULE_EMERGE_AUX_VENT",
+        "lifecycle_action": "EMERGE",
+        "target_entity_id": "aux_vent",
+        "trigger_type": "tick",
+        "trigger_tick": 2,
+        "payload": {
+          "entity_type": "relief_valve",
+          "properties": {
+            "discharge_flow": 50.0
+          },
+          "relations": {
+            "relieves": "depth_ballast"
+          },
+          "ttl": 20
+        },
+        "causal_hypothesis": "Ballast over-pressurization opens auxiliary pneumatic relief valve."
+      }
+    ],
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool generator core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST_EMERGENT",
+        "description": "Vent ballast pressure <= 200.0 bar via emergent aux vent",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "required_emergent_entity": "aux_vent",
+        "candidate_actions": [
+          "vent_ballast_chamber 10.0",
+          "open_auxiliary_vent_hatch"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  }
+]

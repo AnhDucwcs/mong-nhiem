@@ -1,0 +1,16 @@
+{
+  "primary_model": {
+    "model_id": "Qwen3.5-2B-Q4_K_M",
+    "runtime": "llama-server",
+    "parameter_count": "2B",
+    "quantization": "Q4_K_M",
+    "port": 18502,
+    "temperature": 0.0,
+    "context_window": 4096
+  },
+  "simulator": {
+    "model_id": "deterministic_state_machine",
+    "runtime": "native_python",
+    "track": 1
+  }
+}

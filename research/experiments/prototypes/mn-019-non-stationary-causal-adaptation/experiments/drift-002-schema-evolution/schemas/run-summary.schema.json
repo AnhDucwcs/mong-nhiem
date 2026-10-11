@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stage 2 Run Summary Schema",
+  "type": "object",
+  "required": [
+    "run_id",
+    "track",
+    "timestamp",
+    "total_cases",
+    "results_by_arm",
+    "clauses_evaluated"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "track": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "total_cases": {"type": "integer"},
+    "results_by_arm": {"type": "object"},
+    "clauses_evaluated": {"type": "object"}
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "is_success": true,
+  "turns_executed": 5,
+  "subgoals_completed": 3,
+  "total_subgoals": 3,
+  "committed_conservation_breaches": 0,
+  "intercepted_traps": 0,
+  "compaction_ratio": 0.8919,
+  "max_prompt_tokens": 60,
+  "mean_prompt_tokens": 58.0,
+  "mean_latency_ms": 0.1,
+  "discrepancies_detected": 0,
+  "case_id": "DRIFT001-CASE-054",
+  "domain": "subsea_hydrothermal",
+  "difficulty": "out_of_distribution",
+  "arm": "arm3_dynamic_host",
+  "turns": [
+    {
+      "turn": 1,
+      "action": "ACTION: DISPATCH engage_cryo_heat_sink",
+      "success": true,
+      "status": "ADVANCED_TO_G1_COOL_CORE",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "engage_cryo_heat_sink",
+        "subgoal": "G1_COOL_CORE",
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 2,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 30.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 30.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST"
+      }
+    },
+    {
+      "turn": 3,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 20.0",
+      "success": true,
+      "status": "ADVANCED_TO_G2_BALLAST",
+      "active_subgoal": "G2_BALLAST",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 20.0",
+        "subgoal": "G2_BALLAST",
+        "active_subgoal": "G2_BALLAST"
+      }
+    },
+    {
+      "turn": 4,
+      "action": "ACTION: DISPATCH flush_salinity_sensor",
+      "success": true,
+      "status": "ADVANCED_TO_G3_CALIBRATE",
+      "active_subgoal": "G3_CALIBRATE",
+      "metadata": {
+        "type": "advance",
+        "action": "flush_salinity_sensor",
+        "subgoal": "G3_CALIBRATE",
+        "active_subgoal": "G3_CALIBRATE"
+      }
+    },
+    {
+      "turn": 5,
+      "action": "ACTION: RESOLVE COMPLETE",
+      "success": true,
+      "status": "TASK_RESOLVED_SUCCESSFULLY",
+      "active_subgoal": null,
+      "metadata": {
+        "type": "resolve"
+      }
+    }
+  ]
+}

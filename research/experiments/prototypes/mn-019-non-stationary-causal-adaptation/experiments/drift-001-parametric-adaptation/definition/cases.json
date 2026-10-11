@@ -1,0 +1,5312 @@
+[
+  {
+    "case_id": "DRIFT001-CASE-001",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 50.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 10.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 68.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 19.5
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.04,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 13.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-002",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 52.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 11.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 69.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 19.7
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.045,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 14.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-003",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 54.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 12.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 71.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 19.9
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.05,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 15.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-004",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 56.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 13.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 72.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.1
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.055,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 16.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-005",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 58.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 14.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 74.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.06,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 17.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-006",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 60.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 15.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 75.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.5
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.065,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 18.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-007",
+    "domain": "orbital_life_support",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 62.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 16.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 77.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.7
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "linear_decay",
+        "rate": 0.07,
+        "start_tick": 5,
+        "floor_value": 0.2,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "linear_decay",
+        "rate": 0.7,
+        "start_tick": 6,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 19.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-008",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 64.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 17.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 78.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 20.9
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.07500000000000001,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 20.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-009",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 66.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 18.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 80.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.1
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.08,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-010",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 68.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 19.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 81.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.08499999999999999,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 22.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-011",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 70.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 20.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 83.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.5
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.09,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 23.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-012",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 72.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 21.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 84.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.7
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.095,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 24.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-013",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 74.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 22.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 86.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 21.9
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.1,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 25.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-014",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 76.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 23.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 87.5
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.1
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.10500000000000001,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 26.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-015",
+    "domain": "orbital_life_support",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "solar_array": {
+        "entity_id": "solar_array",
+        "entity_type": "solar_panel",
+        "version": 1,
+        "properties": {
+          "output_kw": 78.0
+        }
+      },
+      "cryo_battery": {
+        "entity_id": "cryo_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "charge_kwh": 24.0
+        }
+      },
+      "thermal_loop": {
+        "entity_id": "thermal_loop",
+        "entity_type": "cooling",
+        "version": 1,
+        "properties": {
+          "temperature": 89.0
+        }
+      },
+      "o2_scrubber": {
+        "entity_id": "o2_scrubber",
+        "entity_type": "life_support",
+        "version": 1,
+        "properties": {
+          "o2_pressure": 22.3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "solar_array",
+        "property_name": "efficiency",
+        "drift_type": "exponential_decay",
+        "rate": 0.11000000000000001,
+        "start_tick": 3,
+        "floor_value": 0.2,
+        "coupled_entities": [
+          "cryo_battery"
+        ]
+      },
+      {
+        "target_entity_id": "thermal_loop",
+        "property_name": "coolant_flow",
+        "drift_type": "step_shock",
+        "rate": 0.5,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHARGE",
+        "description": "Charge cryo battery to safe reserve",
+        "target_entity": "cryo_battery",
+        "target_property": "charge_kwh",
+        "operator": ">=",
+        "target_value": 27.0,
+        "candidate_actions": [
+          "divert_solar_power cryo_battery 60.0",
+          "divert_solar_power cryo_battery 100.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_COOL",
+        "description": "Stabilize thermal loop temperature below 60.0 C",
+        "target_entity": "thermal_loop",
+        "target_property": "temperature",
+        "operator": "<=",
+        "target_value": 60.0,
+        "candidate_actions": [
+          "purge_cabin_heat 40.0",
+          "engage_auxiliary_cryo_pump"
+        ]
+      },
+      {
+        "subgoal_id": "G3_O2",
+        "description": "Maintain cabin O2 pressure >= 21.0 kPa",
+        "target_entity": "o2_scrubber",
+        "target_property": "o2_pressure",
+        "operator": ">=",
+        "target_value": 21.0,
+        "candidate_actions": [
+          "boost_scrubber_oxygen 5.0",
+          "boost_scrubber_oxygen 15.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-016",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 75.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 20.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 370.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.06,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-017",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 76.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 21.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 370.8
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.065,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-018",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 77.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 23.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 371.6
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.06999999999999999,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-019",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 78.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 24.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 372.4
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.075,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-020",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 79.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 26.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 373.2
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.08,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-021",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 80.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 27.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 374.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.08499999999999999,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-022",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 81.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 29.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 374.8
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.09,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-023",
+    "domain": "smart_microgrid",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 82.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 30.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 375.6
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "linear_decay",
+        "rate": 0.095,
+        "start_tick": 4,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "linear_decay",
+        "rate": 0.005,
+        "start_tick": 1,
+        "amplitude": 0.0,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-024",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 83.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 32.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 376.4
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.1,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-025",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 84.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 33.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 377.2
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.105,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-026",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 85.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 35.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 378.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.11,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-027",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 86.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 36.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 378.8
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.11499999999999999,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-028",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 87.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 38.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 379.6
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.12,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-029",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 88.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 39.5
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 380.4
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.125,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-030",
+    "domain": "smart_microgrid",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "battery_bank": {
+        "entity_id": "battery_bank",
+        "entity_type": "storage",
+        "version": 1,
+        "properties": {
+          "soc": 89.0
+        }
+      },
+      "wind_turbine": {
+        "entity_id": "wind_turbine",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "output_kw": 41.0
+        }
+      },
+      "critical_bus": {
+        "entity_id": "critical_bus",
+        "entity_type": "substation",
+        "version": 1,
+        "properties": {
+          "voltage": 381.2
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "battery_bank",
+        "property_name": "internal_resistance",
+        "drift_type": "exponential_decay",
+        "rate": 0.13,
+        "start_tick": 2,
+        "coupled_entities": [
+          "critical_bus"
+        ]
+      },
+      {
+        "target_entity_id": "wind_turbine",
+        "property_name": "shear_stability",
+        "drift_type": "harmonic_oscillation",
+        "rate": 0.03,
+        "start_tick": 1,
+        "amplitude": 0.3,
+        "frequency": 0.2,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_VOLTAGE",
+        "description": "Regulate critical bus voltage to 380.0 V",
+        "target_entity": "critical_bus",
+        "target_property": "voltage",
+        "operator": ">=",
+        "target_value": 380.0,
+        "candidate_actions": [
+          "discharge_battery 30.0",
+          "engage_static_compensator",
+          "regulate_wind_pitch 15.0"
+        ]
+      },
+      {
+        "subgoal_id": "G2_WIND_GEN",
+        "description": "Achieve wind turbine output >= 35.0 kW",
+        "target_entity": "wind_turbine",
+        "target_property": "output_kw",
+        "operator": ">=",
+        "target_value": 35.0,
+        "candidate_actions": [
+          "regulate_wind_pitch 20.0",
+          "regulate_wind_pitch 30.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-031",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.0
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 25.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 30.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.05,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-032",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.2
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 26.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 31.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.054000000000000006,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-033",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.4
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 27.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 32.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.058,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-034",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.6
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 28.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 33.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.062,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-035",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -16.8
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 29.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 34.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.066,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-036",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.0
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 30.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 35.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.07,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-037",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.2
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 31.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 36.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.07400000000000001,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-038",
+    "domain": "fleet_logistics",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.4
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 32.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 37.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "linear_decay",
+        "rate": 0.078,
+        "start_tick": 4,
+        "floor_value": 0.25,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "linear_decay",
+        "rate": 1.3,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-039",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.6
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 33.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 38.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.082,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-040",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -17.8
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 34.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 39.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.08600000000000001,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-041",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.0
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 35.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 40.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.09,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-042",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.2
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 36.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 41.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.094,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-043",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.4
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 37.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 42.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.098,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-044",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.6
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 38.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 43.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.10200000000000001,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-045",
+    "domain": "fleet_logistics",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "reefer_unit": {
+        "entity_id": "reefer_unit",
+        "entity_type": "refrigeration",
+        "version": 1,
+        "properties": {
+          "cargo_temp": -18.8
+        }
+      },
+      "aux_battery": {
+        "entity_id": "aux_battery",
+        "entity_type": "battery",
+        "version": 1,
+        "properties": {
+          "power_kw": 39.0
+        }
+      },
+      "traction_motor": {
+        "entity_id": "traction_motor",
+        "entity_type": "drivetrain",
+        "version": 1,
+        "properties": {
+          "speed_kph": 44.0
+        }
+      },
+      "coolant_pack": {
+        "entity_id": "coolant_pack",
+        "entity_type": "passive_cooling",
+        "version": 1,
+        "properties": {
+          "charges": 3
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "reefer_unit",
+        "property_name": "insulation_r_value",
+        "drift_type": "exponential_decay",
+        "rate": 0.10600000000000001,
+        "start_tick": 2,
+        "floor_value": 0.25,
+        "coupled_entities": [
+          "aux_battery"
+        ]
+      },
+      {
+        "target_entity_id": "traction_motor",
+        "property_name": "bearing_friction",
+        "drift_type": "step_shock",
+        "rate": 1.7,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_CHILL",
+        "description": "Chill reefer cargo temperature <= -20.0 C",
+        "target_entity": "reefer_unit",
+        "target_property": "cargo_temp",
+        "operator": "<=",
+        "target_value": -20.0,
+        "candidate_actions": [
+          "chill_reefer_compartment 5.0",
+          "activate_emergency_cooling_pack"
+        ]
+      },
+      {
+        "subgoal_id": "G2_TRANSIT",
+        "description": "Reach transit speed >= 50.0 km/h without depleting power",
+        "target_entity": "traction_motor",
+        "target_property": "speed_kph",
+        "operator": ">=",
+        "target_value": 50.0,
+        "candidate_actions": [
+          "adjust_traction_drive 50.0",
+          "adjust_traction_drive 80.0"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-046",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 95.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 220.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 50.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.05,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-047",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 96.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 222.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 55.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.055,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-048",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 98.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 224.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 60.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.060000000000000005,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-049",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 99.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 226.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 65.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.065,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-050",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 101.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 228.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 70.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.07,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-051",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 102.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 230.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 75.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.07500000000000001,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-052",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "in_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 104.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 232.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 80.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "linear_decay",
+        "rate": 0.08,
+        "start_tick": 5,
+        "floor_value": 0.3,
+        "coupled_entities": []
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "linear_decay",
+        "rate": 1.2,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-053",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 105.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 234.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 85.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.085,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-054",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 107.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 236.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 90.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.09,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-055",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 108.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 238.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 95.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.095,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-056",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 110.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 240.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 100.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.1,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-057",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 111.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 242.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 105.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.10500000000000001,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-058",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 113.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 244.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 110.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.11,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-059",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 114.5
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 246.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 115.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.115,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DRIFT001-CASE-060",
+    "domain": "subsea_hydrothermal",
+    "difficulty": "out_of_distribution",
+    "initial_entities": {
+      "thermoelectric_gen": {
+        "entity_id": "thermoelectric_gen",
+        "entity_type": "generator",
+        "version": 1,
+        "properties": {
+          "core_temp": 116.0
+        }
+      },
+      "depth_ballast": {
+        "entity_id": "depth_ballast",
+        "entity_type": "ballast",
+        "version": 1,
+        "properties": {
+          "chamber_pressure": 248.0
+        }
+      },
+      "salinity_sensor": {
+        "entity_id": "salinity_sensor",
+        "entity_type": "sensor",
+        "version": 1,
+        "properties": {
+          "bias_ppm": 120.0
+        }
+      }
+    },
+    "drift_rules": [
+      {
+        "target_entity_id": "thermoelectric_gen",
+        "property_name": "heat_sink_fouling",
+        "drift_type": "exponential_decay",
+        "rate": 0.12000000000000001,
+        "start_tick": 2,
+        "floor_value": 0.3,
+        "coupled_entities": [
+          "depth_ballast"
+        ]
+      },
+      {
+        "target_entity_id": "depth_ballast",
+        "property_name": "chamber_pressure",
+        "drift_type": "step_shock",
+        "rate": 1.5,
+        "start_tick": 3,
+        "coupled_entities": []
+      }
+    ],
+    "nominal_constants": {},
+    "subgoals": [
+      {
+        "subgoal_id": "G1_COOL_CORE",
+        "description": "Cool thermoelectric core <= 90.0 C",
+        "target_entity": "thermoelectric_gen",
+        "target_property": "core_temp",
+        "operator": "<=",
+        "target_value": 90.0,
+        "candidate_actions": [
+          "throttle_hydrothermal_intake 50.0",
+          "engage_cryo_heat_sink"
+        ]
+      },
+      {
+        "subgoal_id": "G2_BALLAST",
+        "description": "Vent ballast chamber pressure <= 200.0 bar",
+        "target_entity": "depth_ballast",
+        "target_property": "chamber_pressure",
+        "operator": "<=",
+        "target_value": 200.0,
+        "candidate_actions": [
+          "vent_ballast_chamber 30.0",
+          "vent_ballast_chamber 20.0"
+        ]
+      },
+      {
+        "subgoal_id": "G3_CALIBRATE",
+        "description": "Flush salinity sensor to zero bias",
+        "target_entity": "salinity_sensor",
+        "target_property": "bias_ppm",
+        "operator": "==",
+        "target_value": 0.0,
+        "candidate_actions": [
+          "flush_salinity_sensor"
+        ]
+      }
+    ]
+  }
+]

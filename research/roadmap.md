@@ -214,9 +214,25 @@ Track: **NCC Phase 7 (Stateful World Continuity & Governance).**
    - Disposition review: `stateful_microworld_evolution_verified_quarantined`.
    - In adherence to Gate D governance, experimental code remains strictly quarantined in `research/experiments/prototypes/mn-018-simulated-microworld-evolution/` and is NOT promoted directly to `src/mong_nhiem/` pending broader multi-milestone progression. Cryptographic manifests (`definition/pre-run-freeze-manifest.json`, `definition/post-run-freeze-manifest.json`) and raw execution traces (`runs/`) are sealed.
 
+## MN-019 — Continuous Non-Stationary Causal Adaptation
+
+Status: **completed and verified across Dual-Track protocol (`non_stationary_causal_adaptation_verified_quarantined`).**  
+Track: **NCC Phase 8 (Non-Stationary Domain Drift & Dynamic Adaptation).**
+
+1. **Sub-Stage 1: Parametric Adaptation (`drift-001-parametric-adaptation`):**  
+   - Track 1 Simulator (60 cases, 30 ID / 30 OOD): Arm 3 **100.0% (60/60)** vs Arm 2 21.7% vs Arm 1 0.0%. 0 breaches, 85.5% compaction. Verdict: **PASS**.
+   - Track 2 Real Model (`Qwen3.5-2B`, 60 cases): Arm 3 **100.0% (60/60)** vs Arm 2 50.0% vs Arm 1 3.3%. 0 breaches, 87.1% compaction. Max prompt: 94 tokens. Verdict: **PASS** ($\ge 85.0\%$).
+2. **Sub-Stage 2: Dynamic Schema Evolution (`drift-002-schema-evolution`):**  
+   - Track 1 Simulator (60 cases, 30 ID / 30 OOD): Arm 3 **100.0% (60/60)** vs Arm 2 0.0% vs Arm 1 0.0%. 0 violations, 73.0% compaction. Verdict: **PASS**.
+   - Track 2 Real Model (`Qwen3.5-2B`, 60 cases): Arm 3 **85.0% (51/60)** vs Arm 2 0.0% vs Arm 1 0.0%. Subsea hydrothermal 15/15 (100.0%) under Stagnation Detection. 78.6% compaction. Max prompt: 153 tokens. Verdict: **PASS** ($\ge 85.0\%$).
+3. **Sub-Stage 3: Counterfactual Causal Event Synthesis (`drift-003-causal-event-synthesis`):**  
+   - Track 1 Simulator (60 cases, 31 ID / 29 OOD): Arm 3 **100.0% (60/60)** vs Arm 2 0.0% vs Arm 1 0.0%. 74 proactive bypasses, 0 violations, 79.2% compaction. Verdict: **PASS**.
+   - Track 2 Real Model (`Qwen3.5-2B`, 60 cases): Arm 3 **100.0% (60/60)** vs Arm 2 100.0% vs Arm 1 0.0%. 89 bypasses, 0 committed breaches, 85.0% compaction. Max prompt: 245 tokens. Verdict: **PASS** ($\ge 85.0\%$).
+4. **Master Milestone Verdict & Quarantine:**  
+   - Dual-Track Total: Track 1 achieves **100.0% (180/180)** (PASS); Track 2 achieves **95.0% (171/180)** on Arm 3 vs 50.0% on Arm 2 vs 1.1% on Arm 1 (PASS, $\ge 85.0\%$ across all stages).
+   - Milestone verdict: **PASS (`non_stationary_causal_adaptation_verified_quarantined`)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Full academic report frozen in `reports/mn-019-track2-comprehensive-report.md`.
+
 ## Active Developmental Horizons
 
-1. **MN-019 — Continuous Non-Stationary Domain Drift & Dynamic Adaptation**
-   - Scope: Evaluating agent resilience and host affordance adaptation when microworld transition dynamics themselves undergo non-stationary drift over extended time.
-2. **MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance**
+1. **MN-020 — Multi-Agent Symbiosis & Distributed Cognitive Governance**
    - Scope: Extending host-authoritative cognitive governance to multi-agent concurrent interactions and shared resource worlds.

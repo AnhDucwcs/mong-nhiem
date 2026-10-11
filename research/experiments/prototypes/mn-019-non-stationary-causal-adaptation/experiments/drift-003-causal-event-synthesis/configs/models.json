@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "model_id": "Qwen3.5-2B-Q4_K_M",
+      "architecture": "qwen2",
+      "parameter_count_b": 1.9,
+      "quantization": "Q4_K_M",
+      "context_window": 32768,
+      "role": "primary_evaluation_subject"
+    },
+    {
+      "model_id": "Llama-3.2-3B-Instruct-Q4_K_M",
+      "architecture": "llama",
+      "parameter_count_b": 3.2,
+      "quantization": "Q4_K_M",
+      "context_window": 131072,
+      "role": "secondary_cross_model_baseline"
+    },
+    {
+      "model_id": "Qwen3-4B-Q4_K_M",
+      "architecture": "qwen3",
+      "parameter_count_b": 4.0,
+      "quantization": "Q4_K_M",
+      "context_window": 32768,
+      "role": "secondary_cross_model_baseline"
+    }
+  ]
+}

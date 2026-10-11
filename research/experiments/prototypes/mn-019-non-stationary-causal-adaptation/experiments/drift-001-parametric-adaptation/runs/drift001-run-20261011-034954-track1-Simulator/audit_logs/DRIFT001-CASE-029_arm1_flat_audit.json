@@ -1,0 +1,29 @@
+{
+  "is_success": false,
+  "turns_executed": 1,
+  "subgoals_completed": 0,
+  "total_subgoals": 2,
+  "committed_conservation_breaches": 0,
+  "intercepted_traps": 0,
+  "compaction_ratio": 0.0,
+  "max_prompt_tokens": 55,
+  "mean_prompt_tokens": 55.0,
+  "mean_latency_ms": 0.0,
+  "discrepancies_detected": 0,
+  "case_id": "DRIFT001-CASE-029",
+  "domain": "smart_microgrid",
+  "difficulty": "out_of_distribution",
+  "arm": "arm1_flat",
+  "turns": [
+    {
+      "turn": 1,
+      "action": "ACTION: RESOLVE COMPLETE",
+      "success": false,
+      "status": "PREMATURE_RESOLUTION_ATTEMPTED",
+      "active_subgoal": "G1_VOLTAGE",
+      "metadata": {
+        "type": "premature_resolve"
+      }
+    }
+  ]
+}
