@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stage3RunSummary",
+  "type": "object",
+  "required": [
+    "run_id",
+    "milestone",
+    "track",
+    "timestamp",
+    "total_cases",
+    "arms_evaluated",
+    "overall_verdict",
+    "clauses_evaluated"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "milestone": {"type": "string"},
+    "track": {"type": "integer"},
+    "timestamp": {"type": "string"},
+    "total_cases": {"type": "integer"},
+    "arms_evaluated": {"type": "object"},
+    "overall_verdict": {"type": "string", "enum": ["PASS", "FAIL"]},
+    "clauses_evaluated": {"type": "object"}
+  }
+}

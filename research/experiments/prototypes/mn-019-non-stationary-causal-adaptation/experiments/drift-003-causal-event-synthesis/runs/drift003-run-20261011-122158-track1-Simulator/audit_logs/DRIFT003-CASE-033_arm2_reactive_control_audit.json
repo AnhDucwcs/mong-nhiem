@@ -1,0 +1,31 @@
+{
+  "is_success": false,
+  "turns_executed": 1,
+  "subgoals_completed": 0,
+  "total_subgoals": 2,
+  "committed_violations": 0,
+  "proactive_bypasses": 0,
+  "reactive_traps_hit": 1,
+  "compaction_ratio": 0.4951,
+  "max_prompt_tokens": 145,
+  "mean_prompt_tokens": 145.0,
+  "mean_latency_ms": 0.29,
+  "case_id": "DRIFT003-CASE-033",
+  "domain": "fleet_logistics",
+  "difficulty": "in_distribution",
+  "arm": "arm2_reactive_control",
+  "turns": [
+    {
+      "turn": 1,
+      "action": "ACTION: DISPATCH adjust_traction_drive 90.0",
+      "success": false,
+      "status": "BREACH: Auxiliary battery depleted below zero: -2.0 kW < 0",
+      "active_subgoal": "G1_TRANSIT_SPEED",
+      "metadata": {
+        "type": "breach",
+        "action": "adjust_traction_drive 90.0",
+        "active_subgoal": "G1_TRANSIT_SPEED"
+      }
+    }
+  ]
+}

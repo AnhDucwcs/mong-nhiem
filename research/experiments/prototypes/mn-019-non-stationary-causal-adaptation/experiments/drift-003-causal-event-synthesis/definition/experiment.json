@@ -1,0 +1,31 @@
+{
+  "milestone": "mn-019-drift-003-causal-event-synthesis",
+  "track": 1,
+  "domains": [
+    "orbital_life_support",
+    "smart_microgrid",
+    "fleet_logistics",
+    "subsea_hydrothermal"
+  ],
+  "arms": [
+    "arm1_flat",
+    "arm2_reactive_control",
+    "arm3_counterfactual_causal_host"
+  ],
+  "sample_size": {
+    "total": 60,
+    "per_domain": 15,
+    "in_distribution": 30,
+    "out_of_distribution": 30
+  },
+  "token_budget": {
+    "max_prompt_ceiling": 512,
+    "mean_prompt_ceiling": 384
+  },
+  "compaction_budget": {
+    "min_compaction_ratio": 0.70
+  },
+  "latency_budget": {
+    "max_mean_latency_ms": 1000.0
+  }
+}

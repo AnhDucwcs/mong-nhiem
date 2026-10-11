@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stage3CaseResult",
+  "type": "object",
+  "required": [
+    "case_id",
+    "domain",
+    "difficulty",
+    "arm",
+    "is_success",
+    "turns_executed",
+    "committed_violations",
+    "proactive_bypasses",
+    "compaction_ratio",
+    "max_prompt_tokens",
+    "mean_prompt_tokens",
+    "mean_latency_ms"
+  ],
+  "properties": {
+    "case_id": {"type": "string"},
+    "domain": {"type": "string"},
+    "difficulty": {"type": "string", "enum": ["in_distribution", "out_of_distribution"]},
+    "arm": {"type": "string"},
+    "is_success": {"type": "boolean"},
+    "turns_executed": {"type": "integer"},
+    "committed_violations": {"type": "integer"},
+    "proactive_bypasses": {"type": "integer"},
+    "compaction_ratio": {"type": "number"},
+    "max_prompt_tokens": {"type": "integer"},
+    "mean_prompt_tokens": {"type": "number"},
+    "mean_latency_ms": {"type": "number"}
+  }
+}
