@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MultiAgentRunSummary",
+  "type": "object",
+  "required": [
+    "run_id",
+    "milestone",
+    "track",
+    "timestamp",
+    "total_cases",
+    "arms_evaluated",
+    "audit_logs_archive_sha256",
+    "overall_verdict"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "milestone": { "type": "string" },
+    "track": { "type": "integer", "enum": [1, 2] },
+    "timestamp": { "type": "string" },
+    "total_cases": { "type": "integer", "minimum": 1 },
+    "model_id": { "type": "string" },
+    "arms_evaluated": { "type": "object" },
+    "audit_logs_archive_sha256": { "type": "string" },
+    "overall_verdict": { "type": "string", "enum": ["PASS", "FAIL", "CONDITIONAL"] }
+  },
+  "additionalProperties": false
+}

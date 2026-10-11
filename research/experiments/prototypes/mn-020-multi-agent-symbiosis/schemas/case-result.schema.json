@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MultiAgentCaseResult",
+  "type": "object",
+  "required": [
+    "case_id",
+    "domain",
+    "arm",
+    "status",
+    "turns_executed",
+    "committed_race_violations",
+    "deadlock_cycles_detected",
+    "max_prompt_tokens",
+    "mean_prompt_tokens",
+    "autodream_compaction_ratio"
+  ],
+  "properties": {
+    "case_id": { "type": "string" },
+    "domain": { "type": "string" },
+    "arm": { "type": "string" },
+    "status": { "type": "string", "enum": ["PASS", "FAIL", "DEADLOCK_TRIP", "BUDGET_EXCEEDED"] },
+    "turns_executed": { "type": "integer", "minimum": 0 },
+    "committed_race_violations": { "type": "integer", "minimum": 0 },
+    "deadlock_cycles_detected": { "type": "integer", "minimum": 0 },
+    "leases_granted": { "type": "integer", "minimum": 0 },
+    "contested_leases_blocked": { "type": "integer", "minimum": 0 },
+    "signals_exchanged": { "type": "integer", "minimum": 0 },
+    "max_prompt_tokens": { "type": "integer", "minimum": 0 },
+    "mean_prompt_tokens": { "type": "number", "minimum": 0 },
+    "autodream_compaction_ratio": { "type": "number", "minimum": 0, "maximum": 1.0 },
+    "agent_metrics": { "type": "object" },
+    "execution_trace": { "type": "array" }
+  },
+  "additionalProperties": false
+}

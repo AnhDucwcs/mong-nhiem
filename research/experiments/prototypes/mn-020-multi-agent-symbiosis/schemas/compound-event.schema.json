@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CompoundCausalEvent",
+  "type": "object",
+  "required": [
+    "event_id",
+    "tick",
+    "event_type",
+    "actor_id",
+    "entity_id",
+    "pre_state",
+    "post_state",
+    "event_hash"
+  ],
+  "properties": {
+    "event_id": { "type": "string" },
+    "tick": { "type": "integer", "minimum": 0 },
+    "event_type": {
+      "type": "string",
+      "enum": ["ACTION", "COMPOUND_ACTION", "LEASE_ACQUIRE", "LEASE_RELEASE", "SIGNAL", "CONCURRENCY_BLOCKED", "TICK_DECAY"]
+    },
+    "actor_id": { "type": "string" },
+    "entity_id": { "type": "string" },
+    "pre_state": { "type": "object" },
+    "post_state": { "type": "object" },
+    "delta_signature": { "type": "object" },
+    "triggering_action": { "type": ["string", "null"] },
+    "causal_parent_hashes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "event_hash": { "type": "string" }
+  },
+  "additionalProperties": false
+}
