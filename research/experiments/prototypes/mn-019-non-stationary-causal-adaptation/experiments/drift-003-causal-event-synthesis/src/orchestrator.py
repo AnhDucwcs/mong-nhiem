@@ -56,6 +56,7 @@ class DualEngineOrchestrator:
         # Metrics tracking
         self.banned_actions: List[str] = []
         self.executed_actions: List[str] = []
+        self.stagnant_actions: List[str] = []
         self.committed_violations: int = 0
         self.proactive_bypasses: int = 0
         self.reactive_traps_hit: int = 0
@@ -92,7 +93,7 @@ class DualEngineOrchestrator:
 
         active_eids = {eid for eid, ent in self.world.entities.items() if ent.is_active}
 
-        neg_actions = list(set(self.banned_actions + self.executed_actions))
+        neg_actions = list(set(self.banned_actions + self.stagnant_actions))
         return DynamicAffordanceCompiler.compile_grammar(
             allowed_actions=allowed,
             known_entity_ids=list(self.world.entities.keys()),
@@ -211,6 +212,17 @@ class DualEngineOrchestrator:
         # Progress hierarchical planner
         self.executed_actions.append(raw_action)
         advanced, completed_subgoal_id = self.planner.update_progress(self.world.entities)
+
+        # Detect stagnant action (zero state delta and no subgoal advance)
+        if not advanced:
+            cp = self.memento.peek()
+            if cp:
+                has_delta = any(
+                    cp.entities[k].properties != self.world.entities[k].properties
+                    for k in self.world.entities if k in cp.entities
+                )
+                if not has_delta:
+                    self.stagnant_actions.append(raw_action)
 
         # Ingest schema alerts
         fired_schema = self.world.schema_engine.active_schema_alerts

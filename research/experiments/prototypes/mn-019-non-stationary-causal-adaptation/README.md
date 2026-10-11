@@ -20,8 +20,8 @@ Following the sequential quarantine methodology established in MN-003, MN-019 is
 | Stage ID | Focus Area | Core Research Question | Status |
 | --- | --- | --- | :---: |
 | **`drift-001-parametric-adaptation`** | Continuous Parametric Drift & Affordance Regeneration | Can real-time discrepancy tracking and dynamic GBNF affordance pruning prevent catastrophic invariant breaches under continuous wear/shock? | **VERIFIED / FROZEN** |
-| **`drift-002-schema-evolution`** | Lifelong AutoDream & Dynamic Schema Evolution | How does declarative memory preserve $\ge 70.0\%$ compaction and bounded prompts ($\le 512$ tok) when novel entities and dynamic relational attributes emerge? | **NEXT STAGE** |
-| **`drift-003-causal-event-synthesis`** | Causal Induction & Synthetic Macro-Event Generation | Can the system induce verified empirical causal invariants from history to proactively anticipate state transitions rather than purely reacting? | Pending Stage 2 PASS |
+| **`drift-002-schema-evolution`** | Lifelong AutoDream & Dynamic Schema Evolution | How does declarative memory preserve $\ge 70.0\%$ compaction and bounded prompts ($\le 512$ tok) when novel entities and dynamic relational attributes emerge? | **VERIFIED / FROZEN** |
+| **`drift-003-causal-event-synthesis`** | Causal Induction & Synthetic Macro-Event Generation | Can the system induce verified empirical causal invariants from history to proactively anticipate state transitions rather than purely reacting? | **VERIFIED / FROZEN** |
 
 ---
 

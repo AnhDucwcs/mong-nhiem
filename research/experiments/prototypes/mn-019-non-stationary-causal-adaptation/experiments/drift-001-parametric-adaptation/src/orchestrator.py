@@ -39,6 +39,7 @@ class DualEngineOrchestrator:
         self.current_turn = 0
         self.banned_actions: List[str] = []
         self.executed_actions: List[str] = []
+        self.stagnant_actions: List[str] = []
         self.committed_conservation_breaches = 0
         self.intercepted_traps = 0
         self.turn_latencies: List[float] = []
@@ -86,8 +87,8 @@ class DualEngineOrchestrator:
         allow_resolve = self.planner.is_all_completed()
         known_eids = list(self.world.entities.keys())
 
-        # Exclude actions already executed in current episode to prevent argmax token loops
-        neg_actions = list(set(self.banned_actions + self.executed_actions))
+        # Exclude banned breach actions and stagnant actions that produce zero progress
+        neg_actions = list(set(self.banned_actions + self.stagnant_actions))
 
         if self.arm == "arm2_static_control":
             # Static compile without discrepancy monitor awareness
@@ -186,6 +187,16 @@ class DualEngineOrchestrator:
         active_sg_id = self.planner.current_subgoal.subgoal_id if self.planner.current_subgoal else None
         self.executed_actions.append(raw_action)
         advanced, subgoal_id = self.planner.update_progress(self.world.entities)
+
+        # Detect stagnant action (zero state delta and no subgoal advance)
+        checkpoint = self.memento.peek()
+        if checkpoint:
+            has_delta = any(
+                checkpoint.entities[k].properties != self.world.entities[k].properties
+                for k in self.world.entities if k in checkpoint.entities
+            )
+            if not has_delta and not advanced:
+                self.stagnant_actions.append(raw_action)
 
         latency = (time.perf_counter() - start_time) * 1000.0
         self.turn_latencies.append(latency)

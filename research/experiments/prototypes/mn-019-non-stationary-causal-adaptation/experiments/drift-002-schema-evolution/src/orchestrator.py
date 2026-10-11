@@ -197,6 +197,17 @@ class DualEngineOrchestrator:
         self.executed_actions.append(raw_action)
         advanced, completed_subgoal_id = self.planner.update_progress(self.world.entities)
 
+        # Detect stagnant action (zero state delta and no subgoal advance)
+        if not advanced:
+            checkpoint = self.memento.peek()
+            if checkpoint:
+                has_delta = any(
+                    checkpoint.entities[k].properties != self.world.entities[k].properties
+                    for k in self.world.entities if k in checkpoint.entities
+                )
+                if not has_delta:
+                    self.banned_actions.append(raw_action)
+
         # Check if newly fired schema events occurred
         fired_schema_events = self.world.schema_engine.active_schema_alerts
         self.monitor.ingest_schema_events(fired_schema_events)

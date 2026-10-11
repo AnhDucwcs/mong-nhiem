@@ -1,0 +1,413 @@
+{
+  "is_success": false,
+  "turns_executed": 30,
+  "subgoals_completed": 1,
+  "total_subgoals": 3,
+  "committed_schema_violations": 0,
+  "committed_conservation_breaches": 0,
+  "intercepted_traps": 0,
+  "compaction_ratio": 0.9723,
+  "max_prompt_tokens": 72,
+  "mean_prompt_tokens": 71.5,
+  "mean_latency_ms": 0.2,
+  "emerged_entities": [
+    "aux_vent"
+  ],
+  "retired_entities": [],
+  "case_id": "DRIFT002-CASE-050",
+  "domain": "subsea_hydrothermal",
+  "difficulty": "in_distribution",
+  "arm": "arm2_static_schema_control",
+  "turns": [
+    {
+      "turn": 1,
+      "action": "ACTION: DISPATCH engage_cryo_heat_sink",
+      "success": true,
+      "status": "ADVANCED_TO_G1_COOL_CORE",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "engage_cryo_heat_sink",
+        "subgoal": "G1_COOL_CORE",
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 2,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 3,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 4,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 5,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 6,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 7,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 8,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 9,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 10,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 11,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 12,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 13,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 14,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 15,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 16,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 17,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 18,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 19,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 20,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 21,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 22,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 23,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 24,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 25,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 26,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 27,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 28,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 29,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    },
+    {
+      "turn": 30,
+      "action": "ACTION: DISPATCH vent_ballast_chamber 10.0",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G2_BALLAST_EMERGENT",
+      "metadata": {
+        "type": "advance",
+        "action": "vent_ballast_chamber 10.0",
+        "subgoal": null,
+        "active_subgoal": "G2_BALLAST_EMERGENT"
+      }
+    }
+  ]
+}

@@ -40,5 +40,10 @@ class MementoStack:
             return None
         return self.stack.pop()
 
+    def peek(self) -> Optional[WorldCheckpoint]:
+        if not self.stack:
+            return None
+        return self.stack[-1]
+
     def clear(self) -> None:
         self.stack.clear()

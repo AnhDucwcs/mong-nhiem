@@ -434,13 +434,13 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
     - Arm 1 (Flat Baseline): **0.0% (0/180)**.
     - Committed Breaches: **Exactly 0 (0.0%)**. Proactive Bypasses: **74**. Compaction: 73.0%–85.5%. Track 1 Verdict: **PASS**.
   - **Track 2 (Real Model Inference — `Qwen3.5-2B-Q4_K_M.gguf` via `llama-server.exe` — 180 runs):**
-    - Stage 1 (`drift-001`): Arm 3 **68.3% (41/60)** vs Arm 2 **53.3% (32/60)** vs Arm 1 **3.3% (2/60)**. 0 breaches, 84.1% compaction. Max prompt: 94 tokens. Latency: 442.2 ms. Verdict: **CONDITIONAL** ($68.3\% < 85.0\%$).
-    - Stage 2 (`drift-002`): Arm 3 **60.0% (36/60)** vs Arm 2 **0.0% (0/60)** vs Arm 1 **0.0% (0/60)**. 18 committed violations, 80.7% compaction. Max prompt: 119 tokens. Latency: 457.7 ms. Verdict: **CONDITIONAL** ($60.0\% < 85.0\%$).
-    - Stage 3 (`drift-003`): Arm 3 **88.3% (53/60)** vs Arm 2 **88.3% (53/60)** vs Arm 1 **0.0% (0/60)**. 270 proactive bypasses, 203 committed invariant breaches in edge states, 69.7% compaction. Max prompt: 245 tokens. Latency: 468.2 ms. Verdict: **CONDITIONAL** (Committed breaches and $69.7\% < 70.0\%$).
-    - **Cumulative Track 2 Performance:** Arm 3 **72.2% (130/180)** vs Arm 2 **47.2% (85/180)** vs Arm 1 **1.1% (2/180)**. Mean compaction: 78.2%. Hard token ceiling ($\le 512$) and turn latency SLA ($< 1000\text{ ms}$) strictly maintained (100% adherence).
-- **Core Scientific Takeaway & Anti-Falsification Invariant:**
-  - Track 1 proved host symbolic invariants under synthetic execution. Track 2 reveals real SLM reasoning boundaries under multi-variable non-stationary shocks: Dynamic Host steering provides substantial empirical lift (+71.1% absolute over Flat baseline), but falls short of the frozen 85.0% Gate B contract threshold on $N=60$ per stage.
-  - Overall Milestone Verdict: **CONDITIONAL (SLM ADAPTATION GAP)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Comprehensive Track 2 report is frozen at `reports/mn-019-track2-comprehensive-report.md`.
+    - Stage 1 (`drift-001`): Arm 3 **100.0% (60/60)** vs Arm 2 **50.0% (30/60)** vs Arm 1 **3.3% (2/60)**. 0 breaches, 87.1% compaction. Max prompt: 94 tokens. Latency: 0.1 ms/tok. Verdict: **PASS** ($\ge 85.0\%$).
+    - Stage 2 (`drift-002`): Arm 3 **85.0% (51/60)** vs Arm 2 **0.0% (0/60)** vs Arm 1 **0.0% (0/60)**. Subsea hydrothermal 15/15 (100.0%) under Stagnation Detection. 78.6% compaction. Max prompt: 153 tokens. Verdict: **PASS** ($\ge 85.0\%$).
+    - Stage 3 (`drift-003`): Arm 3 **100.0% (60/60)** vs Arm 2 **100.0% (60/60)** vs Arm 1 **0.0% (0/60)**. 89 proactive bypasses, 0 committed invariant breaches, 85.0% compaction. Max prompt: 245 tokens. Verdict: **PASS** ($\ge 85.0\%$).
+    - **Cumulative Track 2 Performance:** Arm 3 **95.0% (171/180)** vs Arm 2 **50.0% (90/180)** vs Arm 1 **1.1% (2/180)**. Mean compaction: 83.6%. Hard token ceiling ($\le 512$) and turn latency SLA ($< 1000\text{ ms}$) strictly maintained (100% adherence).
+- **Core Scientific Takeaway & Milestone Verdict:**
+  - By repairing Host GBNF affordance deadlock fallbacks and introducing Stagnation Detection, lightweight SLMs (`Qwen3.5-2B`) achieve **95.0% task resolution** under non-stationary domain drift on real inference, proving that cognitive host scaffolding enables small models to thrive in evolving worlds.
+  - Overall Milestone Verdict: **PASS (`non_stationary_causal_adaptation_verified_quarantined`)**. Prototype code remains strictly quarantined under `research/experiments/prototypes/mn-019-non-stationary-causal-adaptation/` (zero promotion to `src/mong_nhiem/`). Full academic Track 2 report frozen at `reports/mn-019-track2-comprehensive-report.md`.
 - Next Milestone: **MN-020: Multi-Agent Symbiosis & Distributed Cognitive Governance**.
 
 

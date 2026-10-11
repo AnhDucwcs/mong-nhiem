@@ -98,7 +98,17 @@ class DynamicAffordanceCompiler:
             branches.append('"ACTION: RESOLVE COMPLETE"')
 
         if not branches:
-            branches.append('"ACTION: RESOLVE COMPLETE"')
+            if allow_resolve:
+                branches.append('"ACTION: RESOLVE COMPLETE"')
+            else:
+                unbanned = [act for act in sorted(candidate_set) if act not in (negative_actions or [])]
+                if not unbanned:
+                    unbanned = sorted(candidate_set) or sorted(allowed_actions)
+                for act in unbanned:
+                    safe_act = act.replace('"', '\\"')
+                    branches.append(f'"ACTION: DISPATCH {safe_act}"')
+                if not branches:
+                    branches.append('"ACTION: RESOLVE COMPLETE"')
 
         branches_str = " | ".join(branches)
 

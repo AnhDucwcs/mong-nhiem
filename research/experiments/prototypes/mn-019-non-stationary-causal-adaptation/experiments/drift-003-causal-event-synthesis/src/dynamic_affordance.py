@@ -100,7 +100,16 @@ class DynamicAffordanceCompiler:
                 action_alts.append(f'"ACTION: RECALL " ({entity_rule})')
 
         if not action_alts:
-            action_alts.append('"ACTION: RESOLVE COMPLETE"')
+            if allow_resolve:
+                action_alts.append('"ACTION: RESOLVE COMPLETE"')
+            else:
+                unbanned = [act for act in allowed_actions if act not in banned]
+                if not unbanned:
+                    unbanned = list(allowed_actions)
+                for act in unbanned:
+                    action_alts.append(f'"ACTION: DISPATCH " "{act}"')
+                if not action_alts:
+                    action_alts.append('"ACTION: RESOLVE COMPLETE"')
 
         alts_str = " | ".join(action_alts)
         return (

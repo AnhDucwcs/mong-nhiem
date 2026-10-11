@@ -1,0 +1,409 @@
+{
+  "is_success": false,
+  "turns_executed": 30,
+  "subgoals_completed": 0,
+  "total_subgoals": 3,
+  "committed_conservation_breaches": 0,
+  "intercepted_traps": 0,
+  "compaction_ratio": 0.9843,
+  "max_prompt_tokens": 59,
+  "mean_prompt_tokens": 59.0,
+  "mean_latency_ms": 0.1,
+  "discrepancies_detected": 0,
+  "case_id": "DRIFT001-CASE-058",
+  "domain": "subsea_hydrothermal",
+  "difficulty": "out_of_distribution",
+  "arm": "arm1_flat",
+  "turns": [
+    {
+      "turn": 1,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 2,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 3,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 4,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 5,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 6,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 7,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 8,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 9,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 10,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 11,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 12,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 13,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 14,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 15,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 16,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 17,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 18,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 19,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 20,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 21,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 22,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 23,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 24,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 25,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 26,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 27,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 28,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 29,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    },
+    {
+      "turn": 30,
+      "action": "",
+      "success": true,
+      "status": "ACTION_COMMITTED",
+      "active_subgoal": "G1_COOL_CORE",
+      "metadata": {
+        "type": "advance",
+        "action": "",
+        "subgoal": null,
+        "active_subgoal": "G1_COOL_CORE"
+      }
+    }
+  ]
+}

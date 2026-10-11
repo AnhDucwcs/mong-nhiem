@@ -116,6 +116,7 @@ def main():
     parser = argparse.ArgumentParser(description="Run Full Track 2 Benchmark Suite")
     parser.add_argument("--limit", type=int, default=60, help="Number of cases per stage")
     parser.add_argument("--port", type=int, default=18502, help="llama-server port")
+    parser.add_argument("--stage", type=str, default="all", choices=["all", "drift-001", "drift-002", "drift-003"], help="Specific stage or all")
     args = parser.parse_args()
 
     print("Checking llama-server health on port", args.port)
@@ -123,12 +124,13 @@ def main():
         print(f"ERROR: llama-server is NOT responding on port {args.port}!")
         sys.exit(1)
 
-    print("llama-server is healthy. Commencing Track 2 Benchmark Suite across all 3 stages...")
+    print(f"llama-server is healthy. Commencing Track 2 Benchmark Suite (Stage={args.stage}) across stages...")
 
     suite_start = time.perf_counter()
     results = []
 
-    for stage_info in STAGES:
+    target_stages = STAGES if args.stage == "all" else [s for s in STAGES if s["id"] == args.stage]
+    for stage_info in target_stages:
         res = run_stage(stage_info, limit=args.limit, port=args.port)
         results.append(res)
 
@@ -150,13 +152,27 @@ def main():
         print(f"  Overall Verdict: {info.get('overall_verdict', 'UNKNOWN')}")
 
     summary_file = PROTOTYPE_ROOT / "track2_master_summary.json"
+    existing_stages = {}
+    if summary_file.exists():
+        try:
+            with open(summary_file, "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                for s in old_data.get("stages", []):
+                    existing_stages[s["stage_id"]] = s
+        except Exception:
+            pass
+
+    for r in results:
+        existing_stages[r["stage_id"]] = r
+
+    merged_stages = [existing_stages[s["id"]] for s in STAGES if s["id"] in existing_stages]
     with open(summary_file, "w", encoding="utf-8") as f:
         json.dump({
             "timestamp": datetime.now().isoformat(),
             "limit": args.limit,
             "port": args.port,
             "total_duration_minutes": round(suite_duration / 60.0, 2),
-            "stages": results,
+            "stages": merged_stages,
         }, f, indent=2)
     print(f"\nSummary saved to: {summary_file}")
 

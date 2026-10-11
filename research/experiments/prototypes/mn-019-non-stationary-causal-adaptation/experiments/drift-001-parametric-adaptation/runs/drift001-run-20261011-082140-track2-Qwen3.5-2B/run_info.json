@@ -1,0 +1,16 @@
+{
+  "run_id": "drift001-run-20261011-082140-track2-Qwen3.5-2B",
+  "track": "track2-Qwen3.5-2B",
+  "model_id": "Qwen3.5-2B-Q4_K_M",
+  "total_cases": 60,
+  "arm1_success_rate": 3.3,
+  "arm2_success_rate": 50.0,
+  "arm3_success_rate": 100.0,
+  "ood_success_rate": 100.0,
+  "committed_breaches": 0,
+  "autodream_compaction": 0.871,
+  "max_prompt_tokens": 94,
+  "mean_prompt_tokens": 60.9,
+  "mean_latency_ms": 0.1,
+  "verdict": "PASS"
+}

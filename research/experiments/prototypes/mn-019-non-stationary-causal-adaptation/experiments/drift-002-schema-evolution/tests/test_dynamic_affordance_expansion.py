@@ -10,7 +10,7 @@ from dynamic_affordance import DynamicAffordanceCompiler
 
 def test_grammar_expansion_on_emergent_entity():
     # Base candidates
-    base_actions = ["divert_solar_power cryo_battery 60.0", "purge_cabin_heat 40.0"]
+    base_actions = ["divert_solar_power cryo_battery 60.0", "purge_cabin_heat 40.0", "activate_secondary_cooler"]
 
     # When aux_cooler is not active: action 'activate_secondary_cooler' is NOT present
     g_before = DynamicAffordanceCompiler.compile_grammar(
