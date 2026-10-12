@@ -279,8 +279,9 @@ Track: **NCC Phase 10 (Federated Causal Graph Synthesis & Epistemic Discrepancy 
 
 ## MN-022 — Asynchronous Multi-Agent Swarm Governance & Consensus Pruning
 
-Status: **completed and verified prototype (`swarm_consensus_pruning_verified_quarantined`).**  
+Status: **completed with conditional disposition (`swarm_consensus_pruning_conditional_quarantined`).**  
 Track: **NCC Phase 11 (Asynchronous Swarm Governance & Consensus Pruning).**
+
 
 1. **Strategic Intent & Outcome:**
    - Scaled multi-agent coordination from pairwise dyads ($M=2$) to asynchronous concurrent swarms ($M=5$ agents) interacting across shared cyber-physical microworlds subjected to stochastic network propagation latency ($\tau_i \in [0, 5]$ discrete ticks) and out-of-order jitter.

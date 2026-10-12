@@ -6,7 +6,7 @@
 - Track 1: Deterministic Host Microworld Simulator ($N = 80$ cases, 240 episodes)
 - Track 2: Real Model Inference on Homogeneous Swarm ($5\times \text{Qwen3.5-2B-Q4_K_M}$, $N = 80$ cases, 240 episodes)
 - Heterogeneous Stress Swarm: Mixed Architecture Swarm ($3\times \text{Qwen3.5-2B} + 2\times \text{Llama-3.2-3B}$, $N = 80$ cases)
-**Final Disposition Verdict:** `PASS_VERIFIED_QUARANTINED`  
+**Final Disposition Verdict:** `CONDITIONAL_QUARANTINED (M2 Contract Bound Gap: Δ_{3-2} = -1.25% vs +40.0% bound)`  
 **Promotion Authorization:** Quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (Zero promotion to `src/mong_nhiem/` during MN-022; cumulative promotion authorized in post-MN-022 consolidation phase).
 
 ---
@@ -28,13 +28,14 @@ The Host Consensus Hub & Topological DAG Pruning substrate established four crit
 | Clause ID | Metric Description | Frozen Acceptance Bound | Track 1 Simulator | Track 2 Real Inference ($5\times \text{Qwen 2B}$) | Compliance Verdict |
 | :---: | :--- | :---: | :---: | :---: | :---: |
 | **M1** | Swarm Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | **100.0% (80/80)** | **90.0% (72/80)** | `PASS` |
-| **M2** | Coordination Superiority Delta | $\ge +40.0\%$ | **+100.0%** (vs Arm 2) | **+90.0%** (vs Arm 1) | `PASS` |
+| **M2** | Coordination Superiority Delta ($\Delta_{\text{Arm 3} - \text{Arm 2}}$) | $\ge +40.0\%$ | **+100.0%** (vs Arm 2) | **-1.25%** (vs Arm 2: 90.0% vs 91.25%) | `FAIL (Track 2)` |
 | **M3** | Committed Physical Law Breaches | $\equiv 0$ | **0** | **0** | `PASS` |
 | **M4** | Committed Race Collisions | $\equiv 0$ | **0** | **0** | `PASS` |
 | **M5** | Per-Agent Prompt Token Ceiling | $\le 512\text{ tokens}$ | **198 tokens** | **298 tokens** | `PASS` |
 | **M6** | AutoDream Swarm Compaction Ratio | $\ge 70.0\%$ | **96.83%** | **98.02%** | `PASS` |
 | **M7** | Mean Turn Latency SLA | $< 1000\text{ ms}$ | **1.50 ms** | **955.58 ms** | `PASS` |
 | **M8** | Cryptographic Manifest & Evidence Archival | 100% Conformance | **Sealed in `audit_logs.zip`** | **Sealed in `audit_logs.zip`** | `PASS` |
+
 
 ---
 

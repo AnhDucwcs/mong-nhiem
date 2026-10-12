@@ -537,16 +537,17 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
     - Max Prompt Tokens: 298 tokens ($\le 512$, $41.8\%$ safety margin). Mean Prompt Tokens: 257.9 tokens.
     - AutoDream Compaction: **98.02%** ($\ge 70.0\%$).
     - Mean Turn Latency: 955.58 ms ($< 1000\text{ ms}$ SLA).
-    - Verdict: **PASS**.
+    - Verdict: **CONDITIONAL (M2 CONTRACT GAP)**: $\Delta_{\text{Arm 3} - \text{Arm 2}} = 90.0\% - 91.25\% = -1.25\%$ vs frozen contract bound $\ge +40.0\%$ (M2 evaluated as FAIL; Arm 2 breached token ceiling at 806 tokens).
   - **Heterogeneous Stress Swarm ($3\times\text{Qwen 2B} + 2\times\text{Llama 3.2 3B}$):**
-    - Dual-engine GPU timesharing within 3.8 GB VRAM confirmed architecture-agnostic consensus: 0 committed physical breaches, 0 race collisions, and strict prompt ceiling adherence ($\le 512$ tokens).
+    - Dual-engine GPU timesharing within 3.8 GB VRAM confirmed architecture-agnostic consensus: 0 committed physical breaches, 0 race collisions, and strict prompt ceiling adherence ($\le 512$ tokens), with mean turn latency 2445.43 ms.
 - **Evidence Packaging & Zero Loose File Bloat Protocol:**
   - All episode execution traces packaged into standard library `audit_logs.zip` archives with zero loose JSON files in Git.
   - Track 1 Archive Fingerprint (SHA-256): `d72fbcc9fc4abf133c6e1a17e7208c5c2eeffc22b6a1e6015bb8bda26aaa1b33`.
   - Track 2 Archive Fingerprint (SHA-256): `f9b1994a3ee95b7940ec885021bd1bf4ffac358f23a3124477e3ba73c5b2a6cd`.
   - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
-- **Gate D Disposition:** `swarm_consensus_pruning_verified_quarantined`. All prototype code strictly quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-022-track1-report.md`, `reports/mn-022-track2-report.md`, and `reports/mn-022-mixed-model-report.md`.
+- **Gate D Disposition:** `swarm_consensus_pruning_conditional_quarantined`. All prototype code strictly quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-022-track1-report.md`, `reports/mn-022-track2-report.md`, and `reports/mn-022-mixed-model-report.md`.
 - **Active Transition / Next Milestone:** Authorizes Post-MN-022 Cumulative Production Promotion and Consolidation (Milestones MN-016 through MN-022 into `src/mong_nhiem/`).
+
 
 ## Post-MN-022 Cumulative Production Promotion & Architectural Consolidation — completed and verified
 

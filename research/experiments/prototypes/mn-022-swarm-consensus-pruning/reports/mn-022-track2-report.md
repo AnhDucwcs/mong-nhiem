@@ -110,7 +110,7 @@ Action packets experienced discrete uniform transmission delay $\tau_i \sim \mat
 | Clause ID | Metric Description | Frozen Contract Bound | Empirical Result (Track 2) | Compliance Verdict |
 | :---: | :--- | :---: | :---: | :---: |
 | **M1** | Swarm Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | **90.0% (72/80)** | `PASS` |
-| **M2** | Coordination Superiority Delta ($\Delta_{\text{Arm 3} - \text{Arm 1}}$) | $\ge +40.0\%$ | **+90.0%** | `PASS` |
+| **M2** | Coordination Superiority Delta ($\Delta_{\text{Arm 3} - \text{Arm 2}}$) | $\ge +40.0\%$ | **-1.25% (90.0% vs 91.25%)** | `FAIL` |
 | **M3** | Committed Physical Law Breaches | $\equiv 0$ | **0** | `PASS` |
 | **M4** | Committed Race Collisions | $\equiv 0$ | **0** | `PASS` |
 | **M5** | Per-Agent Prompt Token Ceiling | $\le 512\text{ tokens}$ | **298 tokens** | `PASS` |
@@ -118,4 +118,6 @@ Action packets experienced discrete uniform transmission delay $\tau_i \sim \mat
 | **M7** | Mean Turn Latency SLA | $< 1000\text{ ms}$ | **955.58 ms** | `PASS` |
 | **M8** | Cryptographic Manifest & Evidence Archive | 100% Conformance | **Sealed in `audit_logs.zip`** | `PASS` |
 
-**Final Disposition for Track 2:** `PASS`
+**Final Disposition for Track 2:** `CONDITIONAL (M2 CONTRACT GAP)`  
+*(Note: While Arm 3 decisively outperformed Arm 1 by +90.0% and Arm 2 breached M5 at 806 tokens, Gate B M2 explicitly froze $\Delta_{\text{Arm 3} - \text{Arm 2}} \ge +40.0\%$. Under strict anti-falsification rules, M2 cannot be shifted post-hoc and is evaluated as FAIL, yielding an overall CONDITIONAL verdict).*
+
