@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SwarmEvent",
+  "type": "object",
+  "properties": {
+    "event_id": { "type": "string" },
+    "tick": { "type": "integer", "minimum": 0 },
+    "agent_id": { "type": "string" },
+    "action_type": { "type": "string" },
+    "target": { "type": "string" },
+    "vector_clock": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "parent_hashes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "payload": { "type": "object" },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "COMMITTED", "REJECTED_STALE", "REJECTED_BYZANTINE", "REJECTED_CONFLICT"]
+    }
+  },
+  "required": ["event_id", "tick", "agent_id", "action_type", "vector_clock", "parent_hashes", "status"]
+}

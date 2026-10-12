@@ -1,0 +1,47 @@
+{
+  "run_id": "mn022-run-20261012-165108-track1-sim",
+  "track": "Track 1",
+  "model_name": "Qwen3.5-2B-Q4_K_M",
+  "total_cases": 80,
+  "swarm_size": 5,
+  "latency_bounds": [
+    0,
+    5
+  ],
+  "arms": {
+    "arm1": {
+      "success_count": 80,
+      "total_count": 80,
+      "success_rate": 100.0,
+      "physical_breaches": 0,
+      "race_collisions": 226,
+      "max_prompt_tokens": 224,
+      "mean_prompt_tokens": 208.0,
+      "mean_latency_ms": 1.5,
+      "compaction_ratio": 0.0
+    },
+    "arm2": {
+      "success_count": 0,
+      "total_count": 80,
+      "success_rate": 0.0,
+      "physical_breaches": 0,
+      "race_collisions": 0,
+      "max_prompt_tokens": 511,
+      "mean_prompt_tokens": 175.2,
+      "mean_latency_ms": 1.5,
+      "compaction_ratio": 0.0
+    },
+    "arm3": {
+      "success_count": 80,
+      "total_count": 80,
+      "success_rate": 100.0,
+      "physical_breaches": 0,
+      "race_collisions": 0,
+      "max_prompt_tokens": 198,
+      "mean_prompt_tokens": 179.2,
+      "mean_latency_ms": 1.5,
+      "compaction_ratio": 0.9683
+    }
+  },
+  "created_at": "20261012-165108"
+}

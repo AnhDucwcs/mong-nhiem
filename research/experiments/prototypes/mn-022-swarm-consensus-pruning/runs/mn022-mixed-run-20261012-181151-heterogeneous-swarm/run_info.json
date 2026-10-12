@@ -1,0 +1,31 @@
+{
+  "run_id": "mn022-mixed-run-20261012-181151-heterogeneous-swarm",
+  "track": "Heterogeneous Mixed Swarm",
+  "model_distribution": {
+    "agent_1": "Qwen3.5-2B-Q4_K_M",
+    "agent_2": "Llama-3.2-3B-Instruct-Q4_K_M",
+    "agent_3": "Qwen3.5-2B-Q4_K_M",
+    "agent_4": "Llama-3.2-3B-Instruct-Q4_K_M",
+    "agent_5": "Qwen3.5-2B-Q4_K_M"
+  },
+  "total_cases": 80,
+  "swarm_size": 5,
+  "latency_bounds": [
+    0,
+    5
+  ],
+  "arms": {
+    "arm3": {
+      "success_count": 78,
+      "total_count": 80,
+      "success_rate": 97.5,
+      "physical_breaches": 0,
+      "race_collisions": 0,
+      "max_prompt_tokens": 297,
+      "mean_prompt_tokens": 254.4,
+      "mean_latency_ms": 2445.43,
+      "compaction_ratio": 0.9792
+    }
+  },
+  "created_at": "20261012-181151"
+}

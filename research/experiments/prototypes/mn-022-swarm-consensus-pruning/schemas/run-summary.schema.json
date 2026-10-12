@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RunSummary",
+  "type": "object",
+  "properties": {
+    "run_id": { "type": "string" },
+    "track": { "type": "string" },
+    "model_name": { "type": "string" },
+    "total_cases": { "type": "integer", "minimum": 1 },
+    "swarm_size": { "type": "integer", "minimum": 1 },
+    "latency_bounds": {
+      "type": "array",
+      "items": { "type": "integer" }
+    },
+    "arms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "success_count": { "type": "integer" },
+          "success_rate": { "type": "number" },
+          "mean_turns": { "type": "number" },
+          "mean_latency_ms": { "type": "number" },
+          "max_prompt_tokens": { "type": "integer" },
+          "mean_prompt_tokens": { "type": "number" },
+          "physical_breaches": { "type": "integer" },
+          "race_collisions": { "type": "integer" },
+          "compaction_ratio": { "type": "number" }
+        },
+        "required": ["success_count", "success_rate", "physical_breaches", "race_collisions"]
+      }
+    }
+  },
+  "required": ["run_id", "track", "model_name", "total_cases", "swarm_size", "arms"]
+}

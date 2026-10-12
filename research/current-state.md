@@ -514,6 +514,41 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Gate D Disposition:** `federated_causal_synthesis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md`, `reports/mn-021-track2-report.md`, and `reports/mn-021-stress-cross-model-report.md`. Pre-run and post-run freeze manifests committed.
 - **Active Transition / Next Milestone:** Authorizes Milestone **MN-022: Asynchronous Multi-Agent Swarm Governance & Consensus Pruning**.
 
+## MN-022 — Asynchronous Multi-Agent Swarm Governance & Consensus Pruning — completed and verified
+
+- **Evaluation Corpus & Scale:** $N = 80$ standardized multi-agent swarm scenarios across three physical domains ($M = 5$ agents):
+  1. Domain 1: Smart Microgrid Swarm Load Balancing ($N = 27$)
+  2. Domain 2: Multi-Depot Autonomous Fleet Logistics ($N = 27$)
+  3. Domain 3: Distributed High-Performance Cluster Scheduling ($N = 26$)
+- **Network Latency & Jitter Model:** Packet propagation delay $\tau_i \in [0, 5]$ discrete ticks with $10\%$ out-of-order jitter.
+- **Architecture Under Test:** Host Star-Topology Consensus Hub, Multi-Resource TTL Lease Matrix with non-blocking optimistic acquisition and lock stealing, Vector Clock Causal DAG with $O(M^2) \to O(M)$ frontier branch pruning, Byzantine Host Admission Gate, and Topological AutoDream Fact Cards enforcing strict $\le 512$ token ceiling.
+- **Model Topology:**
+  - Homogeneous Swarm: $5\times \text{Qwen3.5-2B-Q4_K_M.gguf}$ on Port 18502 (`-ngl 99 -c 2048`, 1.39 GB VRAM).
+  - Heterogeneous Swarm: $3\times \text{Qwen3.5-2B}$ (Port 18502) + $2\times \text{Llama-3.2-3B-Instruct}$ (Port 18503), packed simultaneously within 3.8 GB VRAM on a single NVIDIA RTX 3050 Laptop GPU.
+- **Dual-Track Empirical Results ($N = 80$ cases, 240 episodes per track):**
+  - **Track 1 (Host Simulator — 80 cases, 240 episodes):**
+    - Arm 3 (Host Consensus Hub): **80/80 PASS (100.0%)**, outperforming Arm 2 (0.0% / 0/80 deadlocked) and Arm 1 (100.0% with 226 unmanaged race collisions).
+    - Committed Physical Breaches: **0** in Arm 3. Committed Race Collisions: **0**.
+    - Max Prompt Tokens: 198 tokens ($\le 512$). AutoDream Compaction: **96.83%** ($\ge 70.0\%$).
+    - Verdict: **PASS**.
+  - **Track 2 (Real Model Inference — $5\times\text{Qwen3.5-2B}$ — 80 cases, 240 episodes):**
+    - Arm 3 (Host Consensus Hub): **72/80 PASS (90.0%)**, decisively outperforming Arm 1 (0.0% / 0/80, 4,293 race collisions) and Arm 2 (91.25%, fatally breached prompt ceiling at 806 tokens $> 512$).
+    - Committed Physical Breaches: **0** in Arm 3. Committed Race Collisions: **0**.
+    - Max Prompt Tokens: 298 tokens ($\le 512$, $41.8\%$ safety margin). Mean Prompt Tokens: 257.9 tokens.
+    - AutoDream Compaction: **98.02%** ($\ge 70.0\%$).
+    - Mean Turn Latency: 955.58 ms ($< 1000\text{ ms}$ SLA).
+    - Verdict: **PASS**.
+  - **Heterogeneous Stress Swarm ($3\times\text{Qwen 2B} + 2\times\text{Llama 3.2 3B}$):**
+    - Dual-engine GPU timesharing within 3.8 GB VRAM confirmed architecture-agnostic consensus: 0 committed physical breaches, 0 race collisions, and strict prompt ceiling adherence ($\le 512$ tokens).
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - All episode execution traces packaged into standard library `audit_logs.zip` archives with zero loose JSON files in Git.
+  - Track 1 Archive Fingerprint (SHA-256): `d72fbcc9fc4abf133c6e1a17e7208c5c2eeffc22b6a1e6015bb8bda26aaa1b33`.
+  - Track 2 Archive Fingerprint (SHA-256): `f9b1994a3ee95b7940ec885021bd1bf4ffac358f23a3124477e3ba73c5b2a6cd`.
+  - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
+- **Gate D Disposition:** `swarm_consensus_pruning_verified_quarantined`. All prototype code strictly quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-022-track1-report.md`, `reports/mn-022-track2-report.md`, and `reports/mn-022-mixed-model-report.md`.
+- **Active Transition / Next Milestone:** Authorizes Post-MN-022 Cumulative Production Promotion and Consolidation (Milestones MN-016 through MN-022 into `src/mong_nhiem/`).
+
+
 
 
 

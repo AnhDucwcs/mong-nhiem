@@ -72,6 +72,7 @@ The context subsystem (`src/mong_nhiem/context/`) and cognitive orchestration su
 - [MN-019](experiments/prototypes/mn-019-non-stationary-causal-adaptation/README.md)
 - [MN-020](experiments/prototypes/mn-020-multi-agent-symbiosis/README.md)
 - [MN-021](experiments/prototypes/mn-021-causal-graph-synthesis/README.md)
+- [MN-022](experiments/prototypes/mn-022-swarm-consensus-pruning/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 
