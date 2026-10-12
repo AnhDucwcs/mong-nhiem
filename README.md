@@ -22,14 +22,47 @@ Promoted into production under milestones **MN-009** and **MN-010**:
 
 ### Cognitive Orchestration Subsystem (`mong_nhiem.orchestration`)
 
-Promoted into production under milestone **MN-015**:
+Promoted into production under milestones **MN-015** and **Post-MN-022**:
 
 - **`CognitiveOrchestrator`:** Dual-layer cognitive steering engine. Integrates prompt attention priors with runtime dynamic GBNF logit masking, host memento rollbacks, context rewind, and phase gate interceptors.
+- **`MultiResourceArbiter`:** Host-authoritative resource lease manager with TTL decay, lock stealing, and Goal-Conditioned Affordance Sorting.
+- **`StarConsensusHub` & `ByzantineAdmissionGate`:** Star-topology swarm consensus hub and admission filter sanitizing action proposals against syntax and authorization constraints.
+- **`AsynchronousTransport`:** Network packet queue emulating stochastic propagation latency $\tau \in [0, \tau_{\max}]$ and out-of-order jitter.
+- **`HierarchicalPlanner` & `MissionGraph`:** Multi-phase mission planner with DAG dependency gating and compact scoped prompt rendering.
 - **`DynamicGBNFCompiler`:** Sub-millisecond CFG grammar compiler ($< 0.1\text{ ms}$) compiling state-dependent token masks for `llama.cpp` to eliminate parse collapses and constrain model logits to valid runtime affordances.
 - **`MementoStack`:** Bounded deepcopy state snapshot and rollback engine isolating host state mutations from trial-and-error model explorations.
 - **`ContextRewindManager`:** Prompt working memory manager guaranteeing strict $\le 512$-token context ceilings and managing negative action masks after rollbacks.
 - **`PhaseGate`:** Task completion interceptor evaluating custom predicates before accepting model termination, preventing premature hallucinated resolutions.
 - **`DeclarativeAffordanceEngine`:** Schema-driven, domain-agnostic affordance registry mapping host state models to action specifications without hardcoded domain couplings.
+
+### Core Primitives & Invariants (`mong_nhiem.core`)
+
+Promoted into production under milestone **Post-MN-022**:
+
+- **`ConservationInvariantGuard`:** Physical invariant validator enforcing non-negativity and domain conservation laws (mass, energy, pressure) before host state commit.
+- **`VectorClock`:** Multi-agent discrete vector clock establishing partial causal ordering and detecting concurrent execution branches without wall-clock synchronization.
+- **`CausalEvent`:** Cryptographically hash-chained causal event record with SHA-256 provenance chaining.
+
+### Cognitive Compaction Subsystem (`mong_nhiem.extensions.autodream`)
+
+Promoted into production under milestone **Post-MN-022**:
+
+- **`FactCardProjector`:** Topological Fact Card generator formatting dense state cards strictly bounded by cognitive token capacity ($\le 512$ tokens).
+- **`AutoDreamConsolidator` & `FrontierBranchPruner`:** Compaction engine collapsing $O(M^2)$ interaction history into active $O(M)$ working frontier heads ($\ge 70.0\%$ compaction ratio).
+
+### Causal Knowledge & Epistemics (`mong_nhiem.knowledge`)
+
+Promoted into production under milestone **Post-MN-022**:
+
+- **`CausalEventDAG`:** Multi-parent directed acyclic graph maintaining topological sorting, reachability analysis, and causal anomaly tracing.
+- **`EpistemicReconciler`:** Deterministic reconciler slicing temporal-causal windows $[t_A, t_B]$ between disparate agent perspectives to arbitrate observation discrepancies.
+- **`DynamicSchemaRegistry`:** Dynamic schema engine tracking runtime entity emergence, structural property mutation, and entity retirement.
+
+### Microworld Runtime Subsystem (`mong_nhiem.runtime`)
+
+Promoted into production under milestone **Post-MN-022**:
+
+- **`AuthoritativeMicroworld`:** Discrete simulated environment runtime executing physics transitions, state decay, and Memento rollback interception on invariant violations.
 
 ---
 
@@ -61,6 +94,7 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 | **MN-020** | Multi-Agent Symbiosis & Distributed Cognitive Governance | NCC Phase 9 | **Completed and Verified (Quarantined)** | Evaluated homogeneous multi-agent governance ($2\times\text{Qwen3.5-2B}$) across $N=60$ scenarios under Dual-Track protocol. Track 1 achieved 100.0% (60/60). Track 2 achieved 100.0% resolution on Arm 3 (60/60 PASS) vs 33.3% on Arm 2 (40 committed race breaches) and 0.0% on Arm 1, establishing $\Delta_{\text{Arm 3} - \text{Arm 2}} = +66.7\% \ge +40.0\%$ and 0 committed race violations. Zip evidence protocol eliminated loose file bloat. Prototype code quarantined. |
 | **MN-021** | Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation | NCC Phase 10 | **Completed and Verified (Quarantined)** | Evaluated decentralized multi-agent coordination with partial observation and stochastic shocks ($N=80$ scenarios, 60 nominal + 20 shocks) under Dual-Track protocol. Track 1 (Simulator) achieved 100.0% (80/80) on Arm 3 vs 48.8% on Arm 2 (+51.2% delta) with 0 committed breaches. Track 2 (real inference on $2\times\text{Qwen3.5-2B}$) achieved 100.0% (80/80 PASS) on Arm 3 vs 0.0% on Arm 2 (+100.0% delta $\ge +40.0\%$) and 0.0% on Arm 1 with 0 committed breaches and 0 race collisions (baseline runs preserved frozen at 79/80, 98.8%). Host Multi-Parent Causal Event DAG and 3-step Epistemic Reconciler with dynamic affordance phase gating resolved epistemic discrepancy traps while bounding prompt tokens ($\le 512$) and AutoDream compaction (75.0%). 100% telemetry packaged into `audit_logs.zip` (960 traces, 0 loose JSON logs). Prototype code quarantined. |
 | **MN-022** | Asynchronous Multi-Agent Swarm Governance & Consensus Pruning | NCC Phase 11 | **Completed and Verified (Quarantined)** | Scaled coordination to asynchronous swarms ($M=5$ agents) across $N=80$ scenarios under stochastic latency $\tau_i \in [0, 5]$ ticks. Track 1 (Simulator) achieved 100.0% (80/80 PASS) on Arm 3 with 0 breaches and 0 collisions. Track 2 (real inference on $5\times\text{Qwen3.5-2B}$) achieved 90.0% (72/80 PASS) on Arm 3 vs 0.0% on Arm 1 (4,293 race collisions) and 91.25% on Arm 2 (fatally breached prompt ceiling at 806 tokens $> 512$). Host Consensus Hub and Vector Clock DAG branch pruner maintained prompt ceiling ($\le 512$ tok, max 298 tok), 98.02% compaction, and 955.58 ms mean turn latency. Heterogeneous stress track verified concurrent Qwen-2B + Llama-3.2-3B swarm within 3.8 GB VRAM. 100% telemetry packaged into `audit_logs.zip` (0 loose JSON logs). Prototype code quarantined. |
+| **Post-MN-022** | Cumulative Production Promotion & Architectural Consolidation | Consolidation | **Promoted** | Systematic promotion of verified cognitive architecture modules from MN-016 through MN-022 into `src/mong_nhiem/` (Core, AutoDream, Knowledge, Swarm Orchestration, Microworld Runtime). 100% Python stdlib, 463 passing unit tests, 0 regressions. |
 
 ---
 
@@ -72,7 +106,8 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
   - `research/decisions/`: Architectural Decision Records (ADRs).
   - `research/experiments/`: Sandbox prototypes and frozen empirical evidence.
 - `src/mong_nhiem/`: Production package boundary (pure Python standard library).
-- `tests/unit/`: Comprehensive test suite (441 unit and integration tests passing).
+- `tests/unit/`: Comprehensive test suite (463 unit and integration tests passing).
+
 
 ---
 

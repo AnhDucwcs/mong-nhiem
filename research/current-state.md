@@ -548,6 +548,34 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Gate D Disposition:** `swarm_consensus_pruning_verified_quarantined`. All prototype code strictly quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-022-track1-report.md`, `reports/mn-022-track2-report.md`, and `reports/mn-022-mixed-model-report.md`.
 - **Active Transition / Next Milestone:** Authorizes Post-MN-022 Cumulative Production Promotion and Consolidation (Milestones MN-016 through MN-022 into `src/mong_nhiem/`).
 
+## Post-MN-022 Cumulative Production Promotion & Architectural Consolidation — completed and verified
+
+- **Scope & Objectives:** Cumulative production synthesis of validated cognitive architecture mechanisms across Milestones MN-016 through MN-022 into the canonical reusable library `src/mong_nhiem/`.
+- **Architectural Minimalism (Ponytail Ladder):** 100% Python Standard Library (zero external third-party dependencies introduced).
+- **Subsystem Allocations & Promoted Modules:**
+  1. `src/mong_nhiem/core/`:
+     - `events.py`: `CausalEvent` with SHA-256 hash chaining and multi-parent causal provenance.
+     - `vector_clock.py`: `VectorClock` with partial causal ordering and concurrency detection.
+     - `invariants.py`: `ConservationInvariantGuard` and `InvariantViolationError` enforcing non-negativity and domain conservation laws.
+  2. `src/mong_nhiem/extensions/autodream/`:
+     - `fact_cards.py`: `FactCardProjector` generating token-bounded state projections ($\le 512$ tokens).
+     - `consolidator.py`: `AutoDreamConsolidator` and `FrontierBranchPruner` achieving $\ge 70.0\%$ compaction.
+  3. `src/mong_nhiem/knowledge/`:
+     - `causal_dag.py`: `CausalEventDAG` and `CausalNode` with multi-parent chaining and topological sorting.
+     - `epistemic.py`: `EpistemicReconciler` with $[t_A, t_B]$ temporal slicing and discrepancy arbitration.
+     - `schema_registry.py`: `DynamicSchemaRegistry` for runtime entity emergence, mutation, and retirement.
+  4. `src/mong_nhiem/orchestration/`:
+     - `arbiter.py`: `MultiResourceArbiter` with TTL decay, lock stealing, and goal-conditioned affordance sorting.
+     - `consensus.py`: `StarConsensusHub` and `ByzantineAdmissionGate` filtering syntax and authorization breaches.
+     - `transport.py`: `AsynchronousTransport` simulating packet delay $\tau \in [0, \tau_{\max}]$ and stochastic jitter.
+     - `planner.py`: `HierarchicalPlanner`, `MissionGraph`, and `SubGoal` enforcing multi-phase dependency gating.
+  5. `src/mong_nhiem/runtime/`:
+     - `microworld.py`: `AuthoritativeMicroworld` with discrete-tick clock advances, environmental decay, and Memento rollback interception.
+- **Verification & Test Suite:**
+  - 22 new comprehensive unit tests added across 7 dedicated test files in `tests/unit/`.
+  - Zero test regressions: all 441 baseline unit tests + 22 new unit tests = **463 unit tests passing** (100% PASS).
+  - Bytecode compilation and import smoke tests verified across all packages.
+
 
 
 

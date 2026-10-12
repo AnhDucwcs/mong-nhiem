@@ -297,7 +297,27 @@ Track: **NCC Phase 11 (Asynchronous Swarm Governance & Consensus Pruning).**
    - Disposition review: `swarm_consensus_pruning_verified_quarantined`.
    - All prototype code strictly quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (zero promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-022-track1-report.md`, `reports/mn-022-track2-report.md`, and `reports/mn-022-mixed-model-report.md`.
 
+## Post-MN-022 Cumulative Production Promotion & Architectural Consolidation
+
+Status: **completed and promoted into `src/mong_nhiem/`.**  
+Track: **Core Cognitive Architecture Production Consolidation (MN-016 through MN-022).**
+
+1. **Strategic Intent & Scope:**
+   - Promoted empirically validated cognitive architecture mechanisms from Milestones MN-016 through MN-022 into production packages:
+     - `src/mong_nhiem/core/`: `CausalEvent` with SHA-256 cryptographic hash chaining, `VectorClock` causal dependency checks, and `ConservationInvariantGuard` physical invariant enforcement.
+     - `src/mong_nhiem/extensions/autodream/`: `FactCardProjector` (bounded $\le 512$ token ceiling) and `AutoDreamConsolidator` / `FrontierBranchPruner` ($\ge 70.0\%$ compaction).
+     - `src/mong_nhiem/knowledge/`: `CausalEventDAG`, `EpistemicReconciler` ($[t_A, t_B]$ temporal slicing), and `DynamicSchemaRegistry`.
+     - `src/mong_nhiem/orchestration/`: `MultiResourceArbiter` (TTL leases + goal-conditioned affordance sorting), `StarConsensusHub` + `ByzantineAdmissionGate`, `AsynchronousTransport`, and `HierarchicalPlanner`.
+     - `src/mong_nhiem/runtime/`: `AuthoritativeMicroworld` with discrete-tick clock advances and Memento rollback interception.
+2. **Minimalism & Backward Compatibility:**
+   - 100% Python Standard Library (zero third-party dependencies added).
+   - Zero breaking changes to existing `src/mong_nhiem/context/` and `src/mong_nhiem/orchestration/coordinator.py`.
+3. **Verification & Test Coverage:**
+   - 22 new comprehensive unit tests added in `tests/unit/`.
+   - Full unit test suite verified: **463/463 tests passing** (100% PASS, zero regressions).
+
 ## Active Developmental Horizons
 
-1. **Post-MN-022 Cumulative Production Promotion & Consolidation**
-   - Scope: Systematic synthesis and formal promotion of verified cognitive architecture modules from MN-016 through MN-022 into `src/mong_nhiem/` (Episodic Memory, Dynamic World Ticks, Simulated Microworld Evolution, Non-Stationary Adaptation, Multi-Agent Symbiosis, Causal Graph Synthesis, and Swarm Consensus Pruning).
+1. **MN-023 — Autonomous Tool Synthesis & Dynamic Skill Crystallization:**
+   - Scope: Autonomous emergence of macro-action primitives, dynamic skill crystallization into host registries, and open-world tool evolution under cognitive token budgets.
+
