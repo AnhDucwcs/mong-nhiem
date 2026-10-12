@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CausalNode",
+  "description": "Schema for an event node in the Multi-Parent Causal Event DAG.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "parent_ids",
+    "tick",
+    "actor",
+    "action_name",
+    "target_entity",
+    "state_delta",
+    "parent_hash",
+    "node_hash"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for the causal event node."
+    },
+    "parent_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of parent event IDs representing causal preconditions."
+    },
+    "tick": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Discrete simulation world tick when event occurred."
+    },
+    "actor": {
+      "type": "string",
+      "description": "Actor executing the event (e.g., worker_alpha, worker_beta, host_environment, stochastic_shock)."
+    },
+    "action_name": {
+      "type": "string",
+      "description": "Name of action primitive or event trigger."
+    },
+    "target_entity": {
+      "type": "string",
+      "description": "Primary entity affected."
+    },
+    "state_delta": {
+      "type": "object",
+      "description": "Key-value state mutations produced by this event."
+    },
+    "parent_hash": {
+      "type": "string",
+      "description": "Combined SHA-256 hash of all parent node hashes."
+    },
+    "node_hash": {
+      "type": "string",
+      "description": "Cryptographic SHA-256 hash of this node."
+    }
+  },
+  "additionalProperties": false
+}

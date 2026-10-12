@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EpistemicEvent",
+  "description": "Schema for an agent's private or public belief report and reconciliation telemetry.",
+  "type": "object",
+  "required": [
+    "observation_id",
+    "observer",
+    "target_entity",
+    "observed_tick",
+    "observed_attributes",
+    "reconciliation_status"
+  ],
+  "properties": {
+    "observation_id": {
+      "type": "string"
+    },
+    "observer": {
+      "type": "string"
+    },
+    "target_entity": {
+      "type": "string"
+    },
+    "observed_tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_attributes": {
+      "type": "object"
+    },
+    "reconciliation_status": {
+      "type": "string",
+      "enum": ["NOMINAL_MATCH", "TEMPORAL_EVOLUTION", "CONTESTED_ANOMALY", "RECONCILED_SUCCESS"]
+    },
+    "intervening_event_id": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": false
+}

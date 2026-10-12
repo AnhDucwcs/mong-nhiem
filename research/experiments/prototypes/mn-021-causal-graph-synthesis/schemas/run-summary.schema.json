@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RunSummary",
+  "description": "Benchmark execution summary telemetry schema.",
+  "type": "object",
+  "required": [
+    "run_id",
+    "track",
+    "model_name",
+    "total_cases",
+    "nominal_cases",
+    "shock_cases",
+    "arm_results",
+    "verdict"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "track": { "type": "string" },
+    "model_name": { "type": "string" },
+    "total_cases": { "type": "integer" },
+    "nominal_cases": { "type": "integer" },
+    "shock_cases": { "type": "integer" },
+    "arm_results": { "type": "object" },
+    "verdict": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -252,7 +252,27 @@ Track: **NCC Phase 9 (Multi-Agent Symbiosis & Distributed Cognitive Governance).
    - Disposition review: `multi_agent_symbiosis_verified_quarantined`.
    - All prototype code strictly quarantined in `research/experiments/prototypes/mn-020-multi-agent-symbiosis/` (zero promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-020-track1-report.md` and `reports/mn-020-track2-report.md`. Pre-run and post-run freeze manifests committed.
 
+## MN-021 — Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation
+
+Status: **completed and verified prototype (`federated_causal_synthesis_verified_quarantined`).**  
+Track: **NCC Phase 10 (Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation).**
+
+1. **Strategic Intent & Outcome:**
+   - Extended multi-agent governance to handle partial epistemic visibility, information asymmetry, and stochastic physical shocks in decentralized cyber-physical microworlds.
+   - Implemented a **Host Multi-Parent Causal Event DAG** with cryptographic hash chaining, a deterministic **Epistemic Discrepancy Reconciler** ($[t_A, t_B]$ temporal-causal window slicing), and **Dynamic Multi-Affordance Phase Gating** (`PROBE` $\to$ `CROSS_INSPECT` $\to$ `DISPATCH` $\to$ `RESOLVE`), eliminating epistemic amnesia and degenerate probing loops.
+   - Evaluated across $N = 80$ standardized multi-agent scenarios across three heterogeneous physical domains: Martian Biosphere Colony Life Support ($N=27$), Subsea Hydrothermal Energy Grid ($N=27$), and Orbital Constellation Satellite Relay ($N=26$). Corpus composed of 60 nominal cases (75.0%) and 20 stochastic physical shocks (25.0%).
+2. **Dual-Track Empirical Results ($2\times \text{Qwen3.5-2B}$ topology):**
+   - **Track 1 (Host Simulator — 80 cases):** Arm 3 achieved **98.8% (79/80 PASS)** resolution with 0 committed physical breaches and 0 race collisions, outperforming Arm 2 (Reactive Control, 48.8% / 39/80) by **+50.0%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 22.5% / 18/80) by **+76.3%**.
+   - **Track 2 (Real Model Inference — 80 cases):** Arm 3 achieved **98.8% (79/80 PASS)** resolution with 0 committed physical breaches and 0 race collisions, outperforming Arm 2 (0.0% / 0/80) by **+98.8%** and Arm 1 (0.0% / 0/80) by **+98.8%**.
+   - Hard Invariants & Performance: Prompt tokens strictly bounded at $\max = 405\text{ tokens} \le 512\text{ tokens}$ (mean: 231.0), turn latency averaged 342.9 ms ($< 1000\text{ ms}$ SLA), AutoDream compaction sustained $75.0\% \ge 70.0\%$, and reconciliation accuracy reached 100.0% ($\ge 95.0\%$).
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All 480 episode audit traces across both tracks packaged into `audit_logs.zip` archives with zero loose JSON files in Git.
+   - Verifiable SHA-256 fingerprints: Track 1 (`1a0c215a...`), Track 2 (`25d0b456...`). Direct non-destructive inspection verified via `scripts/validate_audit.py`.
+4. **Gate D Disposition & Prototype Quarantine:**
+   - Disposition review: `federated_causal_synthesis_verified_quarantined`.
+   - All prototype code strictly quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (zero promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md` and `reports/mn-021-track2-report.md`. Pre-run and post-run freeze manifests committed.
+
 ## Active Developmental Horizons
 
-1. **MN-021 — Long-Horizon Open-World Episodic Memory & Consolidation Topology**
-   - Scope: Scaling multi-agent episodic consolidation, topological memory federation, and cross-session knowledge continuity.
+1. **MN-022 — Asynchronous Multi-Agent Swarm Governance & Consensus Pruning**
+   - Scope: Scaling multi-agent coordination from pairwise dyads ($M=2$) to asynchronous swarms ($M \ge 5$) under network latency, partial Byzantine node faults, and topological consensus pruning.
