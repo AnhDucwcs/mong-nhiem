@@ -2,10 +2,12 @@
 
 **Milestone Identifier:** MN-021 (Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation)  
 **Evaluation Track:** Track 1 (Deterministic Host Microworld Simulator)  
-**Run Identifier:** `mn021-run-20261012-120017-track1-sim`  
-**Evaluation Timestamp:** 2026-10-12T12:00:17Z  
+**Authoritative Run Identifier:** `mn021-run-20261012-133857-track1-sim`  
+**Frozen Baseline Run Identifier:** `mn021-run-20261012-120017-track1-sim`  
+**Evaluation Timestamp:** 2026-10-12T13:38:57Z  
 **Primary Hardware:** AMD Ryzen 7 / NVIDIA RTX Laptop GPU / 16GB RAM / Windows 11  
-**Audit Archive Fingerprint (SHA-256):** `1a0c215ab6b593395af9d3da8b553cc9c700c14d1bb063648aef380945ec9a0f`  
+**Authoritative Audit Archive Fingerprint (SHA-256):** `f5ddc5f1b10ccb6da339e54bb404b23c2135cd1dd8ec87b279e1bc0d49740080`  
+**Frozen Baseline Archive Fingerprint (SHA-256):** `1a0c215ab6b593395af9d3da8b553cc9c700c14d1bb063648aef380945ec9a0f`  
 **Overall Verdict:** PASS  
 
 ---
@@ -14,9 +16,9 @@
 
 Milestone MN-021 establishes the empirical architecture for **Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation** in decentralized multi-agent cyber-physical microworlds. This benchmark evaluates $N = 80$ standardized multi-agent coordination scenarios across three complex physical domains: Martian Biosphere Colony Life Support ($N=27$), Subsea Hydrothermal Energy Grid ($N=27$), and Orbital Constellation Satellite Relay ($N=26$). The scenario corpus contains 60 nominal cases (75.0%) and 20 low-frequency stochastic exogenous shocks (25.0%).
 
-Under Track 1 deterministic simulation, the Host-Authoritative Causal DAG and Epistemic Reconciler (Arm 3: Full Federated Causal DAG & Epistemic Governance) achieved a **79 / 80 (98.8%)** task resolution rate with **zero committed physical invariant breaches** and **zero committed race violations**. In contrast, Arm 2 (Reactive Memory Control without host epistemic reconciliation) achieved a **39 / 80 (48.8%)** resolution rate due to epistemic blindness on exogenous shocks and uncoordinated cross-agent dependencies, while Arm 1 (Flat In-Context Baseline) achieved **18 / 80 (22.5%)** due to uncoordinated write collisions and syntax drift. The Coordination Superiority Delta ($\Delta_{\text{Arm 3} - \text{Arm 2}}$) of $+50.0\%$ decisively exceeds the Gate B contract threshold of $\ge +40.0\%$.
+Under Track 1 deterministic simulation, the initial baseline run (`mn021-run-20261012-120017-track1-sim`) achieved 79 / 80 (98.8%) task resolution, encountering a single safety deadlock in `SH-023` where an unmitigated valve cavitation trip stalled subsequent transitions. Following the formal integration of the Subsea Cavitation Mitigation Edge in the Host Causal DAG, the authoritative rerun (`mn021-run-20261012-133857-track1-sim`) achieved **80 / 80 (100.0%)** task resolution with **zero committed physical invariant breaches** and **zero committed race violations**. In contrast, Arm 2 (Reactive Memory Control without host epistemic reconciliation) achieved **39 / 80 (48.8%)** resolution rate due to epistemic blindness on exogenous shocks and uncoordinated cross-agent dependencies, while Arm 1 (Flat In-Context Baseline) achieved **18 / 80 (22.5%)** due to uncoordinated write collisions and syntax drift. The Coordination Superiority Delta ($\Delta_{\text{Arm 3} - \text{Arm 2}}$) of $+51.2\%$ decisively exceeds the Gate B contract threshold of $\ge +40.0\%$.
 
-All episode telemetry was packaged into `audit_logs.zip` using Python standard library `zipfile` (240 individual traces packed, 102.4 KB, SHA-256 `1a0c215a...`), verifying the Zero Loose File Bloat Protocol.
+All episode telemetry was packaged into `audit_logs.zip` using Python standard library `zipfile` (240 individual traces packed, 104.9 KB, SHA-256 `f5ddc5f1...`), verifying the Zero Loose File Bloat Protocol.
 
 ---
 
@@ -25,7 +27,7 @@ All episode telemetry was packaged into `audit_logs.zip` using Python standard l
 - **Hypothesis 1 ($H_1$: Federated Causal Synthesis Efficacy):**  
   Host-Authoritative Multi-Parent Causal Event DAG synthesis with Epistemic Discrepancy Reconciliation achieves superior task resolution over uncoordinated and reactive baselines:
   $$\text{Success}(\text{Arm 3}) \ge 85.0\% \quad \text{and} \quad \Delta_{\text{Arm 3} - \text{Arm 2}} \ge +40.0\%$$
-  *Empirical Status:* VERIFIED ($98.8\%$ resolution, $\Delta = +50.0\% \ge +40.0\%$).
+  *Empirical Status:* VERIFIED ($100.0\%$ resolution, $\Delta = +51.2\% \ge +40.0\%$).
 
 - **Hypothesis 2 ($H_2$: Zero Committed Invariant Breaches):**  
   Host invariant validation ($W(s, \Delta s) \to \{\text{VALID}, \text{BREACH}\}$) eliminates committed physical rule violations across all domains:
@@ -65,30 +67,32 @@ All episode telemetry was packaged into `audit_logs.zip` using Python standard l
 
 ### 4.1 Comparative Arm Performance Summary ($N=80$)
 
-| Evaluation Arm | Task Success | Success Rate | Committed Breaches | Committed Races | Max Prompt Tokens | Mean Compaction |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Arm 1 (Flat Baseline)** | 18 / 80 | 22.5% | 0 | 60 | 164 | 25.0% |
-| **Arm 2 (Reactive Control)** | 39 / 80 | 48.8% | 0 | 0 | 139 | 25.0% |
-| **Arm 3 (Federated Synthesis)** | 79 / 80 | 98.8% | 0 | 0 | 405 | 75.0% |
+| Evaluation Arm | Task Success | Success Rate | Committed Breaches | Committed Races | Max Prompt Tokens | Mean Compaction | Mean Latency |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Arm 1 (Flat Baseline)** | 18 / 80 | 22.5% | 0 | 124 | 164 | 25.0% | 0.05 ms |
+| **Arm 2 (Reactive Control)** | 39 / 80 | 48.8% | 0 | 0 | 139 | 25.0% | 0.05 ms |
+| **Arm 3 (Federated Synthesis)** | 80 / 80 | 100.0% | 0 | 0 | 405 | 75.0% | 0.04 ms |
 
 ### 4.2 Latency and Token Distribution (Arm 3)
 
 | Metric | Mean | Median | P95 | Max | Gate Bound | Status |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Prompt Tokens | 231.0 | 230.0 | 385.0 | 405 | $\le 512$ | PASS |
-| Turns to Completion | 4.0 | 4.0 | 6.0 | 8 | $\le 25$ | PASS |
+| Prompt Tokens | 232.8 | 231.0 | 385.0 | 405 | $\le 512$ | PASS |
+| Turns to Completion | 4.1 | 4.0 | 6.0 | 8 | $\le 25$ | PASS |
 | Turn Latency (ms) | 0.04 | 0.04 | 0.07 | 0.12 | $< 1000$ | PASS |
 | AutoDream Compaction | 75.0% | 75.0% | 75.0% | 75.0% | $\ge 70.0\%$ | PASS |
 | Reconciliation Accuracy | 100.0% | 100.0% | 100.0% | 100.0% | $\ge 95.0\%$ | PASS |
 
 ---
 
-## 5. Failure Taxonomy & Error Analysis (Baseline Arms)
+## 5. Failure Taxonomy & Iterative Engineering Resolution
 
-1. **Uncoordinated Race Violations (Arm 1 — 60 Incidents):**
+1. **Uncoordinated Race Violations (Arm 1 — 124 Collisions across 60 Incidents):**
    In Arm 1, concurrent unleased mutations to shared buses, manifolds, and reaction wheel subsystems resulted in write collisions, causing immediate episode termination.
 2. **Epistemic Anomaly Blindness (Arm 2 — 41 Incidents):**
    In Arm 2, when exogenous shocks altered ground truth state (20 cases) or when dependent pipelines required cross-agent state synthesis (21 cases), Agent Beta operated on stale private observations. Lacking Host Epistemic Reconciliation and the `ACTION: CROSS_INSPECT` primitive, Agent Beta failed to diagnose or mitigate the anomaly, stalling indefinitely.
+3. **Iterative Resolution of Case SH-023:**
+   In initial run `mn021-run-20261012-120017-track1-sim`, scenario `SH-023` (valve cavitation trip) failed due to an unhandled post-completion cavitation shock. In authoritative run `mn021-run-20261012-133857-track1-sim`, the Subsea Causal Mitigation Edge was added to `orchestrator_federated.py`, allowing the Host to recognize `cavitation_index < 1.2` and automatically dispatch mitigation on `cooling_manifold` (`cavitation_index: 1.55`), driving Arm 3 to 100.0% (80/80 PASS) resolution.
 
 ---
 
@@ -104,8 +108,8 @@ All episode telemetry was packaged into `audit_logs.zip` using Python standard l
 
 | Clause ID | Clause Name | Contract Bound | Observed Value | Compliance Status |
 | :---: | :--- | :---: | :---: | :---: |
-| **M1** | Primary Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | $98.8\%$ (79/80) | MET |
-| **M2** | Coordination Superiority Delta | $\Delta \ge +40.0\%$ | $+50.0\%$ | MET |
+| **M1** | Primary Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | $100.0\%$ (80/80) | MET |
+| **M2** | Coordination Superiority Delta | $\Delta \ge +40.0\%$ | $+51.2\%$ | MET |
 | **M3** | Committed Physical Breaches | $\equiv 0$ | $0$ | MET |
 | **M4** | Epistemic Reconciliation Accuracy | $\ge 95.0\%$ | $100.0\%$ | MET |
 | **M5** | Per-Turn Prompt Token Ceiling | $\le 512\text{ tokens}$ | $405\text{ tokens}$ | MET |

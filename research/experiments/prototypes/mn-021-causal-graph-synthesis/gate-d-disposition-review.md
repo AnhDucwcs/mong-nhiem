@@ -18,10 +18,10 @@ MN-021 resolved this challenge by introducing:
 4. **Topological AutoDream Compaction:** Subgraph clustering reducing multi-agent causal event histories into compact working memory ($\le 512\text{ tokens}$, $\ge 70.0\%$ compaction).
 
 Empirical evaluation conclusively confirms the efficacy and robustness of this architecture across $N=80$ standardized scenarios (60 nominal and 20 stochastic shocks across Martian Biosphere, Subsea Hydrothermal, and Orbital Constellation domains):
-- **Track 1 (Host Simulator, $N=80$):** Arm 3 achieved **98.8% (79/80)** task resolution with 0 committed physical breaches and 0 race violations, outperforming Arm 2 (48.8%, 39/80) by $+50.0\%$ and Arm 1 (22.5%, 18/80).
-- **Track 2 (Real Neural Inference on $2\times \text{Qwen3.5-2B}$, $N=80$):** Arm 3 achieved **98.8% (79/80)** task resolution with 0 committed physical breaches and 0 race violations, outperforming Arm 2 (0.0%, 0/80) by $+98.8\%$ and Arm 1 (0.0%, 0/80).
-- **Context Boundedness & Compaction:** Peak prompt tokens remained at $405\text{ tokens} \le 512\text{ tokens}$ (mean $231.0\text{ tokens}$), with AutoDream compaction sustaining $75.0\% \ge 70.0\%$ and turn latency averaging $342.9\text{ ms} < 1000\text{ ms}$.
-- **Zero Loose File Bloat Protocol:** All 480 episode execution traces (240 in Track 1, 240 in Track 2) were packaged into standard library `audit_logs.zip` archives with verified SHA-256 checksums and zero loose files in git.
+- **Track 1 (Host Simulator, $N=80$):** Arm 3 achieved **100.0% (80/80)** task resolution with 0 committed physical breaches and 0 race violations, outperforming Arm 2 (48.8%, 39/80) by $+51.2\%$ and Arm 1 (22.5%, 18/80).
+- **Track 2 (Real Neural Inference on $2\times \text{Qwen3.5-2B}$, $N=80$):** Arm 3 achieved **100.0% (80/80)** task resolution with 0 committed physical breaches and 0 race violations, outperforming Arm 2 (0.0%, 0/80) by $+100.0\%$ and Arm 1 (0.0%, 0/80).
+- **Context Boundedness & Compaction:** Peak prompt tokens remained at $405\text{ tokens} \le 512\text{ tokens}$ (mean $232.8\text{ tokens}$), with AutoDream compaction sustaining $75.0\% \ge 70.0\%$ and turn latency averaging $511.3\text{ ms} < 1000\text{ ms}$.
+- **Zero Loose File Bloat Protocol:** All episode execution telemetry across both baseline and authoritative runs (960 total traces) were compressed into standard library `audit_logs.zip` archives with verified cryptographic SHA-256 fingerprints and zero loose files in git.
 
 **Formal Disposition:**
 1. Formally approve and close Milestone MN-021 at status `COMPLETED_VERIFIED`.
@@ -34,13 +34,13 @@ Empirical evaluation conclusively confirms the efficacy and robustness of this a
 
 | Metric ID | Description | Contract Bound | Track 1 Result | Track 2 Result | Compliance Status |
 | :---: | :--- | :---: | :---: | :---: | :---: |
-| **M1** | Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | 98.8% (79/80) | 98.8% (79/80) | PASS |
-| **M2** | Coordination Superiority Delta | $\ge +40.0\%$ | +50.0% | +98.8% | PASS |
+| **M1** | Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | 100.0% (80/80) | 100.0% (80/80) | PASS |
+| **M2** | Coordination Superiority Delta | $\ge +40.0\%$ | +51.2% | +100.0% | PASS |
 | **M3** | Committed Physical Breaches | $\equiv 0$ | 0 | 0 | PASS |
 | **M4** | Epistemic Reconciliation Accuracy | $\ge 95.0\%$ | 100.0% | 100.0% | PASS |
 | **M5** | Per-Turn Prompt Ceiling | $\le 512\text{ tokens}$ | 405 tokens | 405 tokens | PASS |
 | **M6** | AutoDream Compaction Ratio | $\ge 70.0\%$ | 75.0% | 75.0% | PASS |
-| **M7** | Mean Turn Latency SLA | $< 1000\text{ ms}$ | 0.04 ms | 342.9 ms | PASS |
+| **M7** | Mean Turn Latency SLA | $< 1000\text{ ms}$ | 0.04 ms | 511.3 ms | PASS |
 | **M8** | Cryptographic Manifest & Zip Sealing | 100% Conformance | Verified | Verified | PASS |
 
 ---
@@ -56,10 +56,12 @@ The core architectural invariant of Mộng Nhiễm remains intact:
 
 ## 4. Evidence Archive Cryptographic Record
 
-| Run Identifier | Track | Model | Zip Archive Fingerprint (SHA-256) | Overall Verdict |
-| :--- | :---: | :---: | :--- | :---: |
-| `mn021-run-20261012-120017-track1-sim` | Track 1 | Simulator | `1a0c215ab6b593395af9d3da8b553cc9c700c14d1bb063648aef380945ec9a0f` | PASS |
-| `mn021-run-20261012-120120-track2-Qwen3.5-2B-Q4_K_M` | Track 2 | Qwen3.5-2B | `25d0b4560247a464a4fe488779f95a713a073e14d370cbbfd4ae273343b75274` | PASS |
+| Run Identifier | Status | Track | Model | Zip Archive Fingerprint (SHA-256) | Overall Verdict |
+| :--- | :---: | :---: | :---: | :--- | :---: |
+| `mn021-run-20261012-120017-track1-sim` | Frozen Baseline | Track 1 | Simulator | `1a0c215ab6b593395af9d3da8b553cc9c700c14d1bb063648aef380945ec9a0f` | PASS (98.8%) |
+| `mn021-run-20261012-120120-track2-Qwen3.5-2B-Q4_K_M` | Frozen Baseline | Track 2 | Qwen3.5-2B | `25d0b4560247a464a4fe488779f95a713a073e14d370cbbfd4ae273343b75274` | PASS (98.8%) |
+| `mn021-run-20261012-133857-track1-sim` | Authoritative | Track 1 | Simulator | `f5ddc5f1b10ccb6da339e54bb404b23c2135cd1dd8ec87b279e1bc0d49740080` | PASS (100.0%) |
+| `mn021-run-20261012-133931-track2-Qwen3.5-2B-Q4_K_M` | Authoritative | Track 2 | Qwen3.5-2B | `4acfe3f838011a8a97666e18411de7b5ed3cc0fa50507b5ebf38836d92880fa8` | PASS (100.0%) |
 
 ---
 

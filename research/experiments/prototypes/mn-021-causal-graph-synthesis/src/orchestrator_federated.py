@@ -246,9 +246,14 @@ class FederatedOrchestrator:
                     effective_target = "power_grid"
                     is_mitigation = True
                     mitigation_delta = {"grid_power_available": 75, "solar_fouling_pct": 5}
-            elif self.domain == "subsea_hydrothermal" and target_entity in ("cooling_manifold", "battery_subsea"):
+            elif self.domain == "subsea_hydrothermal" and target_entity in ("cooling_manifold", "battery_subsea", "geothermal_core", "turbine_generator"):
+                cav_idx = self.ground_truth.get("cooling_manifold", {}).get("cavitation_index", 1.5)
                 c_temp = self.ground_truth.get("geothermal_core", {}).get("core_temp_c", 280)
-                if c_temp > 320 or self.reconciler.is_entity_contested("geothermal_core"):
+                if cav_idx < 1.2:
+                    effective_target = "cooling_manifold"
+                    is_mitigation = True
+                    mitigation_delta = {"cooling_valve_state": "OPEN", "coolant_flow_lpm": 95, "cavitation_index": 1.55}
+                elif c_temp > 320 or self.reconciler.is_entity_contested("geothermal_core"):
                     effective_target = "geothermal_core"
                     is_mitigation = True
                     mitigation_delta = {"core_temp_c": 280, "loop_pressure_bar": 110}

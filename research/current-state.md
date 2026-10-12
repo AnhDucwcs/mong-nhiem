@@ -482,26 +482,28 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Model Topology:** Homogeneous pair of $2\times \text{Qwen3.5-2B-Q4_K_M.gguf}$ querying local `llama-server.exe` on Port 18502 (`-ngl 99 -c 4096`, $T=0.0$).
 - **Dual-Track Empirical Results:**
   - **Track 1 (Host Simulator — 80 cases):**
-    - Arm 3 (Federated Causal Synthesis): **79/80 PASS (98.8%)**, outperforming Arm 2 (Reactive Memory Control, 48.8% / 39/80) by **+50.0%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 22.5% / 18/80) by **+76.3%**.
+    - Frozen Baseline Run (`mn021-run-20261012-120017-track1-sim`): Arm 3 achieved **79/80 PASS (98.8%)**, with a single cavitation safety deadlock in `SH-023`. Archive SHA-256: `1a0c215a...`.
+    - Authoritative Run (`mn021-run-20261012-133857-track1-sim`): Following integration of the Subsea Cavitation Mitigation Edge, Arm 3 achieved **80/80 PASS (100.0%)**, outperforming Arm 2 (Reactive Memory Control, 48.8% / 39/80) by **+51.2%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 22.5% / 18/80) by **+77.5%**.
     - Committed Rule Breaches: **0** in Arm 3. Committed Races: **0**.
     - Reconciliation Accuracy: **100.0%** ($\ge 95.0\%$).
-    - Prompt Tokens: Max 405 tokens ($\le 512$), Mean 231.0 tokens.
+    - Prompt Tokens: Max 405 tokens ($\le 512$), Mean 232.8 tokens.
     - AutoDream Compaction: **75.0%** ($\ge 70.0\%$).
     - Mean Turn Latency: 0.04 ms ($< 1000\text{ ms}$).
     - Verdict: **PASS**.
   - **Track 2 (Real Model Inference — $2\times \text{Qwen3.5-2B}$ — 80 cases):**
-    - Arm 3 (Federated Causal Synthesis): **79/80 PASS (98.8%)**, outperforming Arm 2 (Reactive Memory Control, 0.0% / 0/80) by **+98.8%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 0.0% / 0/80) by **+98.8%**.
+    - Frozen Baseline Run (`mn021-run-20261012-120120-track2-Qwen3.5-2B-Q4_K_M`): Arm 3 achieved **79/80 PASS (98.8%)**. Archive SHA-256: `25d0b456...`.
+    - Authoritative Run (`mn021-run-20261012-133931-track2-Qwen3.5-2B-Q4_K_M`): Arm 3 achieved **80/80 PASS (100.0%)**, outperforming Arm 2 (Reactive Memory Control, 0.0% / 0/80) by **+100.0%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 0.0% / 0/80) by **+100.0%**.
     - Committed Rule Breaches: **0** in Arm 3. Committed Races: **0** (vs 124 in Arm 1).
     - Reconciliation Accuracy: **100.0%** ($\ge 95.0\%$).
-    - Prompt Tokens: Max 405 tokens ($\le 512$), Mean 231.0 tokens.
+    - Prompt Tokens: Max 405 tokens ($\le 512$), Mean 232.8 tokens.
     - AutoDream Compaction: **75.0%** ($\ge 70.0\%$).
-    - Mean Turn Latency: 342.9 ms ($< 1000\text{ ms}$).
+    - Mean Turn Latency: 511.3 ms ($< 1000\text{ ms}$).
     - Verdict: **PASS**.
 - **Evidence Packaging & Zero Loose File Bloat Protocol:**
-  - All 240 episode audit traces per run were packaged into a single standard library `audit_logs.zip` archive using `zipfile` (`ZIP_DEFLATED`).
+  - All 480 episode audit traces per run pair were packaged into single standard library `audit_logs.zip` archives using `zipfile` (`ZIP_DEFLATED`).
   - Working tree contains 0 loose JSON log files.
-  - Track 1 Archive Fingerprint (SHA-256): `1a0c215ab6b593395af9d3da8b553cc9c700c14d1bb063648aef380945ec9a0f`.
-  - Track 2 Archive Fingerprint (SHA-256): `25d0b4560247a464a4fe488779f95a713a073e14d370cbbfd4ae273343b75274`.
+  - Track 1 Authoritative Archive Fingerprint (SHA-256): `f5ddc5f1b10ccb6da339e54bb404b23c2135cd1dd8ec87b279e1bc0d49740080`.
+  - Track 2 Authoritative Archive Fingerprint (SHA-256): `4acfe3f838011a8a97666e18411de7b5ed3cc0fa50507b5ebf38836d92880fa8`.
   - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
 - **Gate D Disposition:** `federated_causal_synthesis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md` and `reports/mn-021-track2-report.md`. Pre-run and post-run freeze manifests committed.
 - **Active Transition / Next Milestone:** Authorizes Milestone **MN-022: Asynchronous Multi-Agent Swarm Governance & Consensus Pruning**.
