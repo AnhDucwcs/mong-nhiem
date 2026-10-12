@@ -1,0 +1,95 @@
+{
+  "run_id": "mn021-run-20261012-120017-track1-sim",
+  "milestone": "mn-021-causal-graph-synthesis",
+  "track": 1,
+  "timestamp": "20261012-120017",
+  "total_cases": 80,
+  "model_id": "Qwen3.5-2B-Q4_K_M",
+  "duration_seconds": 0.13,
+  "arms_evaluated": {
+    "arm1_flat": {
+      "successes": 18,
+      "total": 80,
+      "success_rate": 22.5,
+      "committed_breaches": 0,
+      "committed_races": 124,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 164,
+      "mean_tokens": 154.8,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 0.06
+    },
+    "arm2_reactive": {
+      "successes": 39,
+      "total": 80,
+      "success_rate": 48.8,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 139,
+      "mean_tokens": 130.9,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 0.04
+    },
+    "arm3_federated_synthesis": {
+      "successes": 79,
+      "total": 80,
+      "success_rate": 98.8,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 6,
+      "contested_anomalies": 2,
+      "cross_inspections": 2,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 405,
+      "mean_tokens": 231.0,
+      "compaction_ratio": 0.75,
+      "mean_latency_ms": 0.04
+    }
+  },
+  "audit_logs_archive_sha256": "1a0c215ab6b593395af9d3da8b553cc9c700c14d1bb063648aef380945ec9a0f",
+  "gate_b_clauses": {
+    "M1_resolution_rate": {
+      "value": "98.8%",
+      "bound": ">= 85.0%",
+      "passed": true
+    },
+    "M2_superiority_delta": {
+      "value": "+50.0%",
+      "bound": ">= +40.0%",
+      "passed": true
+    },
+    "M3_committed_breaches": {
+      "value": 0,
+      "bound": "== 0",
+      "passed": true
+    },
+    "M4_reconciliation_acc": {
+      "value": "100.0%",
+      "bound": ">= 95.0%",
+      "passed": true
+    },
+    "M5_max_prompt_tokens": {
+      "value": 405,
+      "bound": "<= 512",
+      "passed": true
+    },
+    "M6_compaction_ratio": {
+      "value": "75.0%",
+      "bound": ">= 70.0%",
+      "passed": true
+    },
+    "M7_mean_latency_ms": {
+      "value": "0.04 ms",
+      "bound": "< 1000 ms",
+      "passed": true
+    }
+  },
+  "overall_verdict": "PASS"
+}

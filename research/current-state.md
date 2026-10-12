@@ -469,7 +469,50 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Track 2 Archive Fingerprint (SHA-256): `32f13026defc72f55dc51abcafa5e79aa9d8cb355b12edcdfab3b22cc36acd67`.
   - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
 - **Gate D Disposition:** `multi_agent_symbiosis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-020-multi-agent-symbiosis/` (0 promotion to `src/mong_nhiem/`). Full peer-reviewed academic reports frozen at `reports/mn-020-track1-report.md` and `reports/mn-020-track2-report.md`. Pre-run and post-run freeze manifests committed.
-- **Active Transition / Next Milestone:** Authorizes Milestone **MN-021: Long-Horizon Open-World Episodic Memory & Consolidation Topology**.
+- **Active Transition / Next Milestone:** Authorizes Milestone **MN-021: Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation**.
+
+## MN-021 — Federated Causal Graph Synthesis & Epistemic Discrepancy Reconciliation — completed and verified
+
+- **Evaluation Corpus & Scale:** $N = 80$ standardized multi-agent coordination scenarios across three heterogeneous cyber-physical domains:
+  1. Domain A: Martian Biosphere Colony Life Support ($N=27$, 7 stochastic shocks)
+  2. Domain B: Subsea Hydrothermal Energy Grid ($N=27$, 7 stochastic shocks)
+  3. Domain C: Orbital Constellation Satellite Relay ($N=26$, 6 stochastic shocks)
+  - Corpus Composition: 60 nominal cases (75.0%) and 20 low-frequency stochastic physical shocks (25.0%).
+- **Architecture Under Test:** Multi-Parent Causal Event DAG with cryptographic hash chaining, Host Epistemic Discrepancy Reconciler ($[t_A, t_B]$ temporal-causal window slicing), Dynamic Multi-Affordance Phase Gating (GBNF logit pruning: `PROBE` $\to$ `CROSS_INSPECT` $\to$ `DISPATCH` $\to$ `RESOLVE`), Topological AutoDream Compaction, and Host Concurrency Arbiter leasing.
+- **Model Topology:** Homogeneous pair of $2\times \text{Qwen3.5-2B-Q4_K_M.gguf}$ querying local `llama-server.exe` on Port 18502 (`-ngl 99 -c 4096`, $T=0.0$).
+- **Dual-Track Empirical Results:**
+  - **Track 1 (Host Simulator — 80 cases):**
+    - Frozen Baseline Run (`mn021-run-20261012-120017-track1-sim`): Arm 3 achieved **79/80 PASS (98.8%)**, with a single cavitation safety deadlock in `SH-023`. Archive SHA-256: `1a0c215a...`.
+    - Authoritative Run (`mn021-run-20261012-133857-track1-sim`): Following integration of the Subsea Cavitation Mitigation Edge, Arm 3 achieved **80/80 PASS (100.0%)**, outperforming Arm 2 (Reactive Memory Control, 48.8% / 39/80) by **+51.2%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 22.5% / 18/80) by **+77.5%**.
+    - Committed Rule Breaches: **0** in Arm 3. Committed Races: **0**.
+    - Reconciliation Accuracy: **100.0%** ($\ge 95.0\%$).
+    - Prompt Tokens: Max 405 tokens ($\le 512$), Mean 232.8 tokens.
+    - AutoDream Compaction: **75.0%** ($\ge 70.0\%$).
+    - Mean Turn Latency: 0.04 ms ($< 1000\text{ ms}$).
+    - Verdict: **PASS**.
+  - **Track 2 (Real Model Inference — $2\times \text{Qwen3.5-2B}$ — 80 cases):**
+    - Frozen Baseline Run (`mn021-run-20261012-120120-track2-Qwen3.5-2B-Q4_K_M`): Arm 3 achieved **79/80 PASS (98.8%)**. Archive SHA-256: `25d0b456...`.
+    - Authoritative Run (`mn021-run-20261012-133931-track2-Qwen3.5-2B-Q4_K_M`): Arm 3 achieved **80/80 PASS (100.0%)**, outperforming Arm 2 (Reactive Memory Control, 0.0% / 0/80) by **+100.0%** (contract bound $\ge +40.0\%$) and Arm 1 (Flat Baseline, 0.0% / 0/80) by **+100.0%**.
+    - Committed Rule Breaches: **0** in Arm 3. Committed Races: **0** (vs 124 in Arm 1).
+    - Reconciliation Accuracy: **100.0%** ($\ge 95.0\%$).
+    - Prompt Tokens: Max 405 tokens ($\le 512$), Mean 232.8 tokens.
+    - AutoDream Compaction: **75.0%** ($\ge 70.0\%$).
+    - Mean Turn Latency: 511.3 ms ($< 1000\text{ ms}$).
+    - Verdict: **PASS**.
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - All 480 episode audit traces per run pair were packaged into single standard library `audit_logs.zip` archives using `zipfile` (`ZIP_DEFLATED`).
+  - Working tree contains 0 loose JSON log files.
+  - Track 1 Authoritative Archive Fingerprint (SHA-256): `f5ddc5f1b10ccb6da339e54bb404b23c2135cd1dd8ec87b279e1bc0d49740080`.
+  - Track 2 Authoritative Archive Fingerprint (SHA-256): `4acfe3f838011a8a97666e18411de7b5ed3cc0fa50507b5ebf38836d92880fa8`.
+  - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
+- **High-Difficulty Compound Stress & Cross-Model Generalization Suite:**
+  - Evaluated across $N=15$ compound shock scenarios (100% anomaly load, 2 cascading shocks per episode) across all three qualified local models (`Qwen3.5-2B`, `Qwen3-4B`, and `Llama-3.2-3B`).
+  - Arm 3 achieved **100.0% (45/45 PASS)** cross-model task resolution (15/15 per subject) vs 0.0% on Arm 2 and 0.0% on Arm 1.
+  - Zero committed physical breaches and zero race collisions across all subjects.
+  - Prompt tokens strictly bounded at peak 356 tokens ($\le 512$ ceiling) across all subjects, AutoDream compaction sustained $75.0\% \ge 70.0\%$, and mean turn latency was $605\text{–}815\text{ ms} < 1000\text{ ms}$.
+  - Frozen at `reports/mn-021-stress-cross-model-report.md` with 180 audit traces sealed into 4 `.zip` archives.
+- **Gate D Disposition:** `federated_causal_synthesis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md`, `reports/mn-021-track2-report.md`, and `reports/mn-021-stress-cross-model-report.md`. Pre-run and post-run freeze manifests committed.
+- **Active Transition / Next Milestone:** Authorizes Milestone **MN-022: Asynchronous Multi-Agent Swarm Governance & Consensus Pruning**.
 
 
 
