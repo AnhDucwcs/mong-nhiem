@@ -56,16 +56,32 @@ class AsyncWorldEngine:
 
         # Priority 1: Action and release affordances for held resources
         for res in held_leases:
-            if domain == "smart_microgrid":
-                affordances.append(f"ACTION: ACT {res} STABILIZE")
-            elif domain == "fleet_logistics":
-                affordances.append(f"ACTION: ACT {res} TRANSFER")
-            elif domain == "cluster_scheduling":
-                affordances.append(f"ACTION: ACT {res} SCHEDULE")
-            affordances.append(f"ACTION: RELEASE {res}")
+            is_done = False
+            if domain == "smart_microgrid" and self.state.get(res) == 0:
+                is_done = True
+            elif domain == "fleet_logistics" and self.state.get(res) == "DELIVERED":
+                is_done = True
+            elif domain == "cluster_scheduling" and self.state.get(res) == "COMPLETED":
+                is_done = True
 
-        # Priority 2: Lease affordances for unheld resources
-        for res in self.scenario.resources:
+            if is_done:
+                affordances.append(f"ACTION: RELEASE {res}")
+            else:
+                if domain == "smart_microgrid":
+                    affordances.append(f"ACTION: ACT {res} STABILIZE")
+                elif domain == "fleet_logistics":
+                    affordances.append(f"ACTION: ACT {res} TRANSFER")
+                elif domain == "cluster_scheduling":
+                    affordances.append(f"ACTION: ACT {res} SCHEDULE")
+                affordances.append(f"ACTION: RELEASE {res}")
+
+        # Priority 2: Lease affordances for unheld resources (Goal-Conditioned Sorting)
+        goal_str = self.scenario.agent_goals.get(agent_id, "")
+        target_res = [res for res in self.scenario.resources if res in goal_str]
+        other_res = [res for res in self.scenario.resources if res not in goal_str]
+        ordered_resources = target_res + other_res
+
+        for res in ordered_resources:
             if res not in held_leases:
                 affordances.append(f"ACTION: LEASE {res}")
                 if allow_unleased_act:

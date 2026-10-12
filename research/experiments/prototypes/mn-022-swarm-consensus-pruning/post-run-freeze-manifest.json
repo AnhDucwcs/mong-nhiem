@@ -1,7 +1,7 @@
 {
   "prototype": "mn-022-swarm-consensus-pruning",
   "status": "FROZEN_POST_RUN",
-  "total_files": 43,
+  "total_files": 44,
   "files": {
     "benchmarks/__init__.py": "5450e999d08c3eb7878da3cf0209c332f3cec31a3eeed45a02c2c4a33b77ceb7",
     "benchmarks/corpus_v1_swarm.py": "f61870e6942882ca40d5e8eee93783d8fb5d294e40fefed52c286f453a67ffbf",
@@ -27,11 +27,12 @@
     "scripts/generate_mixed_report.py": "212b4d531699c4b9e7c6d0c055436f63bc70dcdaabf20379891535421b6856c1",
     "scripts/run_benchmark.py": "d8008687eef51b2df864ab37df953aa7d134f43c21fee7b635d6e698b8f01d96",
     "scripts/run_mixed_benchmark.py": "9af5742b1accc1cce9fccbeb2dfca42a962721545e6ec70cfefca5a4a7ce504e",
+    "scripts/run_targeted_patch_benchmark.py": "41061d06d91876768d9a8d34c508c8c93958fd893283294bc27f50c8c91bdc6e",
     "scripts/seal_post_run_manifest.py": "176ec15886218bcff08aee60940e7a78e30b430c26348d275168aba16136b0b7",
     "scripts/validate_audit.py": "722e0071eec25573778edb14bde991ade1c14f8af38684d6e7798b6bc042de56",
     "src/__init__.py": "792a7dd50f98ede81d0d2c9a4105fcc7ced82cfba0b9fc18cf2bbbc04e08014b",
     "src/agent_worker.py": "50014eee4ca0e59739c775e256ceb9fdce793d019536617c3949baf7e0962446",
-    "src/async_world_engine.py": "bcde36d6901434ccbeeb2d7e876049f23602055637b5b97d5935afbcfce859ca",
+    "src/async_world_engine.py": "2cd9198250f58b9b6e1132cb0fdf01e06da40ab6238d81e615dfce43f84271ce",
     "src/autodream_swarm.py": "197dbe5370c7153d792b893020399547db0dca96bf20e3a22714250ff4f8a1f6",
     "src/byzantine_filter.py": "1e82a8c36c7990afd6e5c4b5e5def60af349abe25d711af62e99255cb0780522",
     "src/consensus_pruner.py": "e80e34e2eaaddecb8d029fee3115de96bc0d1aa5223b4b80f48e826d93a2f81b",
