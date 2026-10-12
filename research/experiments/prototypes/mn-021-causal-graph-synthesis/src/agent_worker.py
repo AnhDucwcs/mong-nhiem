@@ -38,12 +38,28 @@ class AgentWorker:
 
         # Track 2: Real Model Inference via local llama-server HTTP API
         url = f"http://127.0.0.1:{self.port}/completion"
+        if "Llama-3.2" in self.model_id:
+            formatted_prompt = (
+                f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n"
+                f"You are {self.agent_id}, an autonomous cyber-physical agent in a federated environment.<|eot_id|>"
+                f"<|start_header_id|>user<|end_header_id|>\n{prompt}<|eot_id|>"
+                f"<|start_header_id|>assistant<|end_header_id|>\n"
+            )
+            stop_tokens = ["\n", "<|eot_id|>", "<|end_of_text|>"]
+        else:
+            formatted_prompt = (
+                f"<|im_start|>system\nYou are {self.agent_id}, an autonomous cyber-physical agent in a federated environment.<|im_end|>\n"
+                f"<|im_start|>user\n{prompt}<|im_end|>\n"
+                f"<|im_start|>assistant\n"
+            )
+            stop_tokens = ["\n", "<|im_end|>"]
+
         payload = {
-            "prompt": f"<|im_start|>system\nYou are {self.agent_id}, an autonomous cyber-physical agent in a federated environment.<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+            "prompt": formatted_prompt,
             "temperature": 0.0,
             "grammar": grammar,
             "n_predict": 32,
-            "stop": ["\n", "<|im_end|>"],
+            "stop": stop_tokens,
             "cache_prompt": True,
         }
 

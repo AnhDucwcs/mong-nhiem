@@ -62,6 +62,10 @@ The core architectural invariant of Mộng Nhiễm remains intact:
 | `mn021-run-20261012-120120-track2-Qwen3.5-2B-Q4_K_M` | Frozen Baseline | Track 2 | Qwen3.5-2B | `25d0b4560247a464a4fe488779f95a713a073e14d370cbbfd4ae273343b75274` | PASS (98.8%) |
 | `mn021-run-20261012-133857-track1-sim` | Authoritative | Track 1 | Simulator | `f5ddc5f1b10ccb6da339e54bb404b23c2135cd1dd8ec87b279e1bc0d49740080` | PASS (100.0%) |
 | `mn021-run-20261012-133931-track2-Qwen3.5-2B-Q4_K_M` | Authoritative | Track 2 | Qwen3.5-2B | `4acfe3f838011a8a97666e18411de7b5ed3cc0fa50507b5ebf38836d92880fa8` | PASS (100.0%) |
+| `mn021-stress-run-20261012-142950-track1-sim` | Stress Suite | Track 1 | Simulator | `c02d4ae4116f8d26b959e46f39413953bdb61f6e4ea14593da0d4241c31fe1ec` | PASS (100.0%) |
+| `mn021-stress-run-20261012-143016-track2-Qwen3.5-2B-Q4_K_M` | Stress Suite | Track 2 | Qwen3.5-2B | `a78e77b8dfc3f8a0171f13aa96e561aa6cea538f1fb35312a22ddb88a975db55` | PASS (100.0%) |
+| `mn021-stress-run-20261012-143259-track2-Qwen3-4B-Q4_K_M` | Stress Suite | Track 2 | Qwen3-4B | `425c1d57da07a0c60519e91129be31d443ad70a214193258d40ed28e95d14c7c` | PASS (100.0%) |
+| `mn021-stress-run-20261012-143614-track2-Llama-3.2-3B-Instruct-Q4_K_M` | Stress Suite | Track 2 | Llama-3.2-3B | `779c4a4c06d14542c138f5a73c2da63cfe1c11bc131c8c1ba5b3a97bad8e99d3` | PASS (100.0%) |
 
 ---
 

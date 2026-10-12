@@ -33,7 +33,7 @@ class StochasticShockInjector:
 
     def __init__(self, seed: int = 42):
         self.seed = seed
-        self._scheduled_shocks: Dict[str, ShockEvent] = {}
+        self._scheduled_shocks: Dict[str, List[ShockEvent]] = {}
 
     def register_case_shock(
         self,
@@ -44,7 +44,7 @@ class StochasticShockInjector:
         shock_type: str,
     ) -> ShockEvent:
         """Register a deterministic shock for a specific benchmark case."""
-        shock_id = f"shock_{case_id}_{trigger_tick}"
+        shock_id = f"shock_{case_id}_{trigger_tick}_{shock_type}"
         delta, name, desc = self._generate_shock_content(domain, target_entity, shock_type)
         event = ShockEvent(
             shock_id=shock_id,
@@ -55,7 +55,9 @@ class StochasticShockInjector:
             description=desc,
             state_delta=delta,
         )
-        self._scheduled_shocks[case_id] = event
+        if case_id not in self._scheduled_shocks:
+            self._scheduled_shocks[case_id] = []
+        self._scheduled_shocks[case_id].append(event)
         return event
 
     def _generate_shock_content(
@@ -112,26 +114,31 @@ class StochasticShockInjector:
         case_id: str,
         current_tick: int,
         world_state: Dict[str, Any],
-        event_dag: CausalEventDAG,
-    ) -> Optional[ShockEvent]:
-        """Check and commit scheduled exogenous shock at the current tick."""
-        shock = self._scheduled_shocks.get(case_id)
-        if not shock or shock.trigger_tick != current_tick:
-            return None
+        event_dag: Optional[CausalEventDAG] = None,
+    ) -> List[ShockEvent]:
+        """Check and commit scheduled exogenous shocks at the current tick."""
+        shocks = self._scheduled_shocks.get(case_id, [])
+        triggered: List[ShockEvent] = []
+        for shock in shocks:
+            if shock.trigger_tick == current_tick:
+                # Apply mutations directly to physical ground truth entity state
+                target = shock.target_entity
+                if target in world_state and isinstance(world_state[target], dict):
+                    world_state[target].update(shock.state_delta)
+                else:
+                    for k, v in shock.state_delta.items():
+                        world_state[k] = v
 
-        # Apply mutations directly to physical ground truth world state
-        for k, v in shock.state_delta.items():
-            world_state[k] = v
-
-        # Log into DAG as an immutable exogenous event
-        event_dag.add_event(
-            actor="stochastic_shock",
-            action_name=shock.name,
-            target_entity=shock.target_entity,
-            state_delta=shock.state_delta,
-            parent_ids=[],
-            tick=current_tick,
-            custom_id=shock.shock_id,
-        )
-
-        return shock
+                # Log into DAG as an immutable exogenous event if DAG provided
+                if event_dag is not None:
+                    event_dag.add_event(
+                        actor="stochastic_shock",
+                        action_name=shock.name,
+                        target_entity=shock.target_entity,
+                        state_delta=shock.state_delta,
+                        parent_ids=[],
+                        tick=current_tick,
+                        custom_id=shock.shock_id,
+                    )
+                triggered.append(shock)
+        return triggered

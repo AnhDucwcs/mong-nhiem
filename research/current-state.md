@@ -505,7 +505,13 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Track 1 Authoritative Archive Fingerprint (SHA-256): `f5ddc5f1b10ccb6da339e54bb404b23c2135cd1dd8ec87b279e1bc0d49740080`.
   - Track 2 Authoritative Archive Fingerprint (SHA-256): `4acfe3f838011a8a97666e18411de7b5ed3cc0fa50507b5ebf38836d92880fa8`.
   - Direct non-destructive audit inspection verified via `scripts/validate_audit.py`.
-- **Gate D Disposition:** `federated_causal_synthesis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md` and `reports/mn-021-track2-report.md`. Pre-run and post-run freeze manifests committed.
+- **High-Difficulty Compound Stress & Cross-Model Generalization Suite:**
+  - Evaluated across $N=15$ compound shock scenarios (100% anomaly load, 2 cascading shocks per episode) across all three qualified local models (`Qwen3.5-2B`, `Qwen3-4B`, and `Llama-3.2-3B`).
+  - Arm 3 achieved **100.0% (45/45 PASS)** cross-model task resolution (15/15 per subject) vs 0.0% on Arm 2 and 0.0% on Arm 1.
+  - Zero committed physical breaches and zero race collisions across all subjects.
+  - Prompt tokens strictly bounded at peak 356 tokens ($\le 512$ ceiling) across all subjects, AutoDream compaction sustained $75.0\% \ge 70.0\%$, and mean turn latency was $605\text{–}815\text{ ms} < 1000\text{ ms}$.
+  - Frozen at `reports/mn-021-stress-cross-model-report.md` with 180 audit traces sealed into 4 `.zip` archives.
+- **Gate D Disposition:** `federated_causal_synthesis_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (0 promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md`, `reports/mn-021-track2-report.md`, and `reports/mn-021-stress-cross-model-report.md`. Pre-run and post-run freeze manifests committed.
 - **Active Transition / Next Milestone:** Authorizes Milestone **MN-022: Asynchronous Multi-Agent Swarm Governance & Consensus Pruning**.
 
 

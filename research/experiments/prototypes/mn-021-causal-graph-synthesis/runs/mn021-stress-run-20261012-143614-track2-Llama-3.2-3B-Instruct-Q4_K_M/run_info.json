@@ -1,0 +1,57 @@
+{
+  "run_id": "mn021-stress-run-20261012-143614-track2-Llama-3.2-3B-Instruct-Q4_K_M",
+  "timestamp": "20261012-143614",
+  "track": 2,
+  "model_id": "Llama-3.2-3B-Instruct-Q4_K_M",
+  "benchmark_type": "high_difficulty_compound_stress",
+  "total_cases": 15,
+  "duration_seconds": 113.22,
+  "results": {
+    "arm1_flat": {
+      "successes": 0,
+      "total": 15,
+      "success_rate": 0.0,
+      "committed_breaches": 0,
+      "committed_races": 24,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 172,
+      "mean_tokens": 157.9,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 487.48
+    },
+    "arm2_reactive": {
+      "successes": 0,
+      "total": 15,
+      "success_rate": 0.0,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 139,
+      "mean_tokens": 133.6,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 446.59
+    },
+    "arm3_federated_synthesis": {
+      "successes": 15,
+      "total": 15,
+      "success_rate": 100.0,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 5,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 356,
+      "mean_tokens": 236.2,
+      "compaction_ratio": 0.75,
+      "mean_latency_ms": 605.3
+    }
+  },
+  "audit_logs_archive_sha256": "779c4a4c06d14542c138f5a73c2da63cfe1c11bc131c8c1ba5b3a97bad8e99d3"
+}

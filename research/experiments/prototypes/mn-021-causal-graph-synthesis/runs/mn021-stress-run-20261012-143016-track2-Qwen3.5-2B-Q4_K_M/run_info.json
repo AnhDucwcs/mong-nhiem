@@ -1,0 +1,57 @@
+{
+  "run_id": "mn021-stress-run-20261012-143016-track2-Qwen3.5-2B-Q4_K_M",
+  "timestamp": "20261012-143016",
+  "track": 2,
+  "model_id": "Qwen3.5-2B-Q4_K_M",
+  "benchmark_type": "high_difficulty_compound_stress",
+  "total_cases": 15,
+  "duration_seconds": 124.2,
+  "results": {
+    "arm1_flat": {
+      "successes": 0,
+      "total": 15,
+      "success_rate": 0.0,
+      "committed_breaches": 0,
+      "committed_races": 24,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 172,
+      "mean_tokens": 157.9,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 690.54
+    },
+    "arm2_reactive": {
+      "successes": 0,
+      "total": 15,
+      "success_rate": 0.0,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 139,
+      "mean_tokens": 133.6,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 508.11
+    },
+    "arm3_federated_synthesis": {
+      "successes": 15,
+      "total": 15,
+      "success_rate": 100.0,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 5,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 356,
+      "mean_tokens": 236.2,
+      "compaction_ratio": 0.75,
+      "mean_latency_ms": 621.15
+    }
+  },
+  "audit_logs_archive_sha256": "a78e77b8dfc3f8a0171f13aa96e561aa6cea538f1fb35312a22ddb88a975db55"
+}

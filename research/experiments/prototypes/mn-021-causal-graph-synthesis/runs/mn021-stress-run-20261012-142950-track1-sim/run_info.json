@@ -1,0 +1,57 @@
+{
+  "run_id": "mn021-stress-run-20261012-142950-track1-sim",
+  "timestamp": "20261012-142950",
+  "track": 1,
+  "model_id": "simulator",
+  "benchmark_type": "high_difficulty_compound_stress",
+  "total_cases": 15,
+  "duration_seconds": 0.03,
+  "results": {
+    "arm1_flat": {
+      "successes": 3,
+      "total": 15,
+      "success_rate": 20.0,
+      "committed_breaches": 3,
+      "committed_races": 24,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 171,
+      "mean_tokens": 157.6,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 0.05
+    },
+    "arm2_reactive": {
+      "successes": 0,
+      "total": 15,
+      "success_rate": 0.0,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 0,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 139,
+      "mean_tokens": 133.6,
+      "compaction_ratio": 0.25,
+      "mean_latency_ms": 0.05
+    },
+    "arm3_federated_synthesis": {
+      "successes": 15,
+      "total": 15,
+      "success_rate": 100.0,
+      "committed_breaches": 0,
+      "committed_races": 0,
+      "temporal_evolutions": 5,
+      "contested_anomalies": 0,
+      "cross_inspections": 0,
+      "reconciliation_acc": 100.0,
+      "max_tokens": 356,
+      "mean_tokens": 236.2,
+      "compaction_ratio": 0.75,
+      "mean_latency_ms": 0.05
+    }
+  },
+  "audit_logs_archive_sha256": "c02d4ae4116f8d26b959e46f39413953bdb61f6e4ea14593da0d4241c31fe1ec"
+}

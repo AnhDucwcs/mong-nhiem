@@ -118,30 +118,40 @@ class FederatedOrchestrator:
         turns = 0
         status = "FAIL"
 
-        # Register shock if present in scenario configuration
-        if self.shock_config and self.shock_config.get("has_shock", False):
-            self.active_shock_event = self.shock_injector.register_case_shock(
-                case_id=case_id,
-                domain=self.domain,
-                target_entity=self.shock_config["target_entity"],
-                trigger_tick=self.shock_config.get("trigger_tick", 3),
-                shock_type=self.shock_config.get("shock_type", "dust_squall"),
-            )
+        # Register shocks if present in scenario configuration
+        if self.shock_config:
+            if "shocks" in self.shock_config:
+                for sc in self.shock_config["shocks"]:
+                    self.shock_injector.register_case_shock(
+                        case_id=case_id,
+                        domain=self.domain,
+                        target_entity=sc["target_entity"],
+                        trigger_tick=sc["trigger_tick"],
+                        shock_type=sc["shock_type"],
+                    )
+            elif self.shock_config.get("has_shock", False):
+                self.shock_injector.register_case_shock(
+                    case_id=case_id,
+                    domain=self.domain,
+                    target_entity=self.shock_config["target_entity"],
+                    trigger_tick=self.shock_config.get("trigger_tick", 3),
+                    shock_type=self.shock_config.get("shock_type", "dust_squall"),
+                )
 
         # Domain dependency: in Arm 2, odd cases represent dependent pipelines requiring host reconciliation
-        is_dependent_case = int(case_id.split("-")[-1]) % 2 == 1
+        is_dependent_case = int(case_id.split("-")[-1]) % 2 == 1 if case_id.split("-")[-1].isdigit() else False
 
         while turns < self.max_turns:
             turns += 1
             self.current_tick += 1
 
             # 1. Environmental & Stochastic Shock Injection at trigger tick
-            if (
-                self.active_shock_event
-                and not self.shock_injected
-                and self.current_tick >= self.active_shock_event.trigger_tick
-            ):
-                self._inject_exogenous_shock(self.active_shock_event)
+            injected_shocks = self.shock_injector.evaluate_tick_shock(
+                case_id=case_id,
+                current_tick=self.current_tick,
+                world_state=self.ground_truth,
+            )
+            if injected_shocks:
                 self.shock_injected = True
 
             # Check if all subgoals for both agents are achieved
@@ -259,10 +269,15 @@ class FederatedOrchestrator:
                     mitigation_delta = {"core_temp_c": 280, "loop_pressure_bar": 110}
             elif self.domain == "orbital_constellation" and target_entity in ("laser_terminal", "comm_transponder"):
                 b_soc = self.ground_truth.get("power_subsystem", {}).get("battery_soc_pct", 80)
+                att_err = self.ground_truth.get("attitude_control", {}).get("attitude_error_deg", 0.01)
                 if b_soc < 50 or self.reconciler.is_entity_contested("power_subsystem"):
                     effective_target = "power_subsystem"
                     is_mitigation = True
                     mitigation_delta = {"battery_soc_pct": 85, "charge_controller_state": "ACTIVE"}
+                elif att_err > 0.03 or self.reconciler.is_entity_contested("attitude_control"):
+                    effective_target = "attitude_control"
+                    is_mitigation = True
+                    mitigation_delta = {"attitude_error_deg": 0.012, "reaction_wheels_rpm": 2200}
 
         # Concurrency Leases (Arm 2 and Arm 3)
         peer_leases: Set[str] = set()
