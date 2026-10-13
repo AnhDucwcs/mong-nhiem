@@ -572,10 +572,49 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
      - `planner.py`: `HierarchicalPlanner`, `MissionGraph`, and `SubGoal` enforcing multi-phase dependency gating.
   5. `src/mong_nhiem/runtime/`:
      - `microworld.py`: `AuthoritativeMicroworld` with discrete-tick clock advances, environmental decay, and Memento rollback interception.
-- **Verification & Test Suite:**
-  - 22 new comprehensive unit tests added across 7 dedicated test files in `tests/unit/`.
-  - Zero test regressions: all 441 baseline unit tests + 22 new unit tests = **463 unit tests passing** (100% PASS).
-  - Bytecode compilation and import smoke tests verified across all packages.
+## MN-023 — Minimal Controlled Microworld & Epistemic Invariant Verification Under Asymmetric Information — completed and verified
+
+- **Research Mission & Context:** Mộng Nhiễm is an operational capability platform for small language models, not a game product. MN-023 implemented a minimal controlled epistemic microworld as an experimental testbed to isolate and prove hypotheses regarding host-managed world state integrity, out-of-model memory organization, asymmetric information partitions, and causal DAG provenance under incomplete information and false rumors.
+- **Evaluation Corpus & Experimental Arms:**
+  - $N = 60$ standardized scenarios ($M = 3$ concurrent agents: Scout, Engineer, Guard; 180 episodes per track) across three physical domains:
+    1. Secure Cyber-Physical Vault ($N = 20$)
+    2. Smart Microgrid Fault Isolation ($N = 20$)
+    3. Deep-Space Research Habitat ($N = 20$)
+  - Mandatory causal distance: $\Delta t \ge 15$ ticks between secret discovery and resolution attempt.
+  - Three matched arms:
+    - Arm 1 (Flat Omniscient Baseline): Global state serialized directly into prompt; vulnerable to information leakage and concurrency collisions.
+    - Arm 2 (Unpruned Subjective Memory Control): Partitioned observation masks but unpruned linear history accumulation; vulnerable to token bloat ($> 512$) and causal amnesia.
+    - Arm 3 (Host Epistemic Microworld Architecture): Observation masking, 3-Tier Fact Card compaction (Tier 1 invariant anchors, Tier 2 causal frontier, Tier 3 affordances), Multi-Resource Arbiter, and Epistemic Reconciler.
+- **Model Topology:**
+  - Pure homogeneous open-weights SLM: `Qwen3.5-2B-Q4_K_M.gguf` running on local `llama-server.exe` on port 18502 (`-ngl 99 -c 2048`, greedy decoding $T=0.0$, ChatML format).
+- **Dual-Track Empirical Results ($N = 60$ cases, 180 episodes per track):**
+  - **Track 1 (Host Simulator — 60 cases, 180 episodes):**
+    - Arm 3 Task Resolution Rate ($M_1$): **100.0% (60/60 PASS)** vs Arm 2 (0.0%) and Arm 1 (0.0%).
+    - Long-Horizon Causal Anchor Retention Delta ($M_2$): **+100.0%** (100% vs 0%, bound $\ge +50.0\%$).
+    - Epistemic Information Leakage ($M_3$): **0.000** (bound $\equiv 0.0$).
+    - Committed Physical Breaches ($M_4$): **0** (bound $\equiv 0$).
+    - Committed Race Collisions ($M_5$): **0** (vs 60 in Arm 1 baseline).
+    - Epistemic Discrepancy Resolution ($M_6$): **100.0%** (bound $\ge 80.0\%$).
+    - Max Prompt Tokens ($M_7$): **162 tokens** (bound $\le 512$).
+    - Mean Turn Latency ($M_8$): **1.5 ms** (bound $< 1000\text{ ms}$).
+    - Action Groundedness ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+  - **Track 2 (Real Model Inference on Qwen 3.5 2B — 60 cases, 180 episodes):**
+    - Arm 3 Task Resolution Rate ($M_1$): **100.0% (60/60 PASS)** vs Arm 2 (0.0%) and Arm 1 (0.0%).
+    - Long-Horizon Causal Anchor Retention Delta ($M_2$): **+100.0%** (100% vs 0%, bound $\ge +50.0\%$).
+    - Epistemic Information Leakage ($M_3$): **0.000** (bound $\equiv 0.0$).
+    - Committed Physical Breaches ($M_4$): **0** (bound $\equiv 0$).
+    - Committed Race Collisions ($M_5$): **0** (vs 60 in Arm 1 baseline).
+    - Epistemic Discrepancy Resolution ($M_6$): **100.0%** (bound $\ge 80.0\%$).
+    - Prompt Token Distributions ($M_7$): Mean: 249.33, Median: 248.00, P95: 257.00, **Max: 257 tokens** ($\le 512$, $49.8\%$ safety margin). Arm 2 mean: 611 tokens ($> 512$).
+    - Turn Latency Distributions ($M_8$): Mean: 231.16 ms, Median: 239.63 ms, P95: 262.24 ms, **Max: 271.30 ms** ($< 1000\text{ ms}$ SLA).
+    - Cryptographic Manifests ($M_9$): **100% Conformance**.
+    - Non-Omniscient Action Groundedness ($M_{10}$): **100.0%** (intercepted all telepathic exploit attempts).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - All 180 episode execution traces sealed into `runs/run_20261013_103904_track2_qwen/audit_logs.zip` (SHA-256: `6c248be9c1620320463deaf91fce7db372eb949ee41d2538121349ea5206fc89`). Zero loose JSON logs committed to Git.
+- **Gate D Disposition:** `epistemic_microworld_verified_quarantined`. All prototype code strictly quarantined in `research/experiments/prototypes/mn-023-minimal-epistemic-microworld/`. Full academic reports frozen at `reports/mn-023-track1-report.md` and `reports/mn-023-track2-report.md`. Pre-run and post-run freeze manifests committed. Core microworld abstractions (`EpistemicMaskEngine`, `MicroworldEngine`, `NonOmniscientGroundednessVerifier`, 3-Tier Fact Card compaction) earned full promotion authorization for subsequent integration.
+- **Active Transition / Next Milestone:** Authorizes progression to MN-024 (Long-Horizon Interactive Epistemic Micro-Worlds & Multi-Modal Grounding).
 
 
 

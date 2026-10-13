@@ -1,0 +1,69 @@
+{
+  "total_scenarios": 60,
+  "overall_verdict": "PASS",
+  "clauses": {
+    "M1": {
+      "bound": ">= 85.0%",
+      "actual": "100.00%",
+      "passed": true
+    },
+    "M2": {
+      "bound": ">= +50.0%",
+      "actual": "+100.00%",
+      "passed": true
+    },
+    "M3": {
+      "bound": "== 0.0",
+      "actual": "0.0",
+      "passed": true
+    },
+    "M4": {
+      "bound": "== 0",
+      "actual": "0",
+      "passed": true
+    },
+    "M5": {
+      "bound": "== 0",
+      "actual": "0",
+      "passed": true
+    },
+    "M6": {
+      "bound": ">= 80.0%",
+      "actual": "100.00%",
+      "passed": true
+    },
+    "M7": {
+      "bound": "<= 512",
+      "actual": "257",
+      "passed": true
+    },
+    "M8": {
+      "bound": "< 1000 ms",
+      "actual": "231.16 ms",
+      "passed": true
+    },
+    "M9": {
+      "bound": "100%",
+      "actual": "100%",
+      "passed": true
+    },
+    "M10": {
+      "bound": "== 100.0%",
+      "actual": "100.00%",
+      "passed": true
+    }
+  },
+  "summary_metrics": {
+    "m1_task_resolution_arm3": 100.0,
+    "m2_causal_retention_delta": 100.0,
+    "arm3_retention_rate": 100.0,
+    "arm2_retention_rate": 0.0,
+    "m3_leakage_score": 0.0,
+    "m4_physical_breaches": 0,
+    "m5_race_collisions": 0,
+    "m6_discrepancy_resolution_rate": 100.0,
+    "m7_max_tokens": 257,
+    "m8_mean_latency_ms": 231.1585633333228,
+    "m10_groundedness_percent": 100.0
+  }
+}
