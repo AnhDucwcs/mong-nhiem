@@ -11,6 +11,7 @@ class FrontierBranchPruner:
     def __init__(self, frontier_window: int = 4):
         self.frontier_window = frontier_window
         self.frontier_hashes: Set[str] = set()
+        self.agent_heads: Dict[str, str] = {}
         self.total_raw_events: int = 0
         self.pruned_events_count: int = 0
 
@@ -23,6 +24,24 @@ class FrontierBranchPruner:
         self.total_raw_events += 1
         self.frontier_hashes.difference_update(parent_hashes)
         self.frontier_hashes.add(new_event_hash)
+
+    def record_agent_event(
+        self,
+        agent_id: str,
+        new_event_hash: str,
+        external_parent_hashes: Optional[List[str]] = None,
+    ) -> List[str]:
+        """Records an agent's event, advancing its causal head while preserving concurrent branches."""
+        parents: List[str] = []
+        if agent_id in self.agent_heads:
+            parents.append(self.agent_heads[agent_id])
+        if external_parent_hashes:
+            for h in external_parent_hashes:
+                if h not in parents:
+                    parents.append(h)
+        self.update_frontier(new_event_hash, parents)
+        self.agent_heads[agent_id] = new_event_hash
+        return parents
 
     def prune_frontier(
         self,

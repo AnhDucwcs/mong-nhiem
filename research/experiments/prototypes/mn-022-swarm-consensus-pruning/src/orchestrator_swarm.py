@@ -40,7 +40,8 @@ class SwarmOrchestrator:
         for res in scenario.resources:
             self.arbiter.register_resource(res)
 
-        self.pruner = ConsensusPruner(self.agent_ids, frontier_window=4)
+        self.pruner = ConsensusPruner(self.agent_ids + ["HOST"], frontier_window=4)
+        self.last_resource_event: Dict[str, str] = {}
         self.byzantine_filter = ByzantineFilter(set(scenario.resources))
         self.autodream = AutoDreamSwarm(token_ceiling=512)
         self.workers = workers or {
@@ -142,10 +143,13 @@ class SwarmOrchestrator:
                 tick_tokens.append(tok_count)
 
                 # Send action packet across async network transport
+                pkt_payload = {"action": raw_act, "target_res": target_res}
+                if self.arm == "arm3":
+                    pkt_payload["clock"] = dict(self.pruner.vector_clocks.get(aid, {}))
                 self.transport.send(
                     sender_id=aid,
                     recipient_id="HOST",
-                    payload={"action": raw_act, "target_res": target_res},
+                    payload=pkt_payload,
                     current_tick=t,
                 )
 
@@ -156,6 +160,9 @@ class SwarmOrchestrator:
             for pkt in delivered_pkts:
                 aid = pkt.sender_id
                 raw_act = pkt.payload.get("action", "ACTION: WAIT")
+                if self.arm == "arm3" and "clock" in pkt.payload:
+                    self.pruner.merge_clock("HOST", pkt.payload["clock"])
+
                 held_leases = {
                     res for res, l in self.arbiter.leases.items()
                     if l.holder_id == aid and l.state == "HELD"
@@ -191,10 +198,11 @@ class SwarmOrchestrator:
                         self.raw_gossip_history.append({"tick": t, "agent_id": aid, "action": f"RELEASE {target}"})
 
                 elif self.arm == "arm3":
-                    # Arm 3: Consensus Hub & Pruned DAG
+                    # Arm 3: Consensus Hub & Pruned DAG with true causal parents
+                    ext_parents = [self.last_resource_event[target]] if target in self.last_resource_event else None
                     if act_type == "LEASE" and target:
                         ok, status = self.arbiter.acquire(target, aid, t)
-                        self.pruner.record_event(
+                        node = self.pruner.record_event(
                             event_id=f"evt-{t}-{aid}-lease",
                             tick=t,
                             agent_id=aid,
@@ -202,10 +210,13 @@ class SwarmOrchestrator:
                             target=target,
                             payload={"status": status},
                             status="COMMITTED" if ok else "REJECTED_CONFLICT",
+                            external_parent_hashes=ext_parents,
                         )
+                        if ok:
+                            self.last_resource_event[target] = node.node_hash
                     elif act_type == "ACT" and target:
                         self.engine.step_action(aid, act_type, target, f_res.param)
-                        self.pruner.record_event(
+                        node = self.pruner.record_event(
                             event_id=f"evt-{t}-{aid}-act",
                             tick=t,
                             agent_id=aid,
@@ -213,10 +224,12 @@ class SwarmOrchestrator:
                             target=target,
                             payload={"result": "OK"},
                             status="COMMITTED",
+                            external_parent_hashes=ext_parents,
                         )
+                        self.last_resource_event[target] = node.node_hash
                     elif act_type == "RELEASE" and target:
                         self.arbiter.release(target, aid)
-                        self.pruner.record_event(
+                        node = self.pruner.record_event(
                             event_id=f"evt-{t}-{aid}-release",
                             tick=t,
                             agent_id=aid,
@@ -224,7 +237,9 @@ class SwarmOrchestrator:
                             target=target,
                             payload={},
                             status="COMMITTED",
+                            external_parent_hashes=ext_parents,
                         )
+                        self.last_resource_event[target] = node.node_hash
 
             # 4. Check early resolution
             if self.engine.is_resolved():

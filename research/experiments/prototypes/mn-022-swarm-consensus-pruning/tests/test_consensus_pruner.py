@@ -26,17 +26,45 @@ def test_record_and_hash():
     assert node1.vector_clock["agent_2"] == 0
     assert pruner.frontier_hashes == {node1.node_hash}
 
+    # Concurrent event by agent_2 without observing node1
     node2 = pruner.record_event(
         event_id="evt-2",
         tick=1,
         agent_id="agent_2",
         action_type="ACT",
-        target="res_1",
+        target="res_2",
         payload={},
     )
     assert node2.node_hash != ""
-    assert node2.parent_hashes == [node1.node_hash]
-    assert pruner.frontier_hashes == {node2.node_hash}
+    assert node2.parent_hashes == []
+    # Both concurrent branches remain in the frontier
+    assert pruner.frontier_hashes == {node1.node_hash, node2.node_hash}
+
+    # Causal join event observing both node1 and node2
+    node3 = pruner.record_event(
+        event_id="evt-3",
+        tick=2,
+        agent_id="agent_1",
+        action_type="SYNC",
+        target="res_1",
+        payload={},
+        external_parent_hashes=[node2.node_hash],
+    )
+    assert set(node3.parent_hashes) == {node1.node_hash, node2.node_hash}
+    # Both parents collapsed into join node
+    assert pruner.frontier_hashes == {node3.node_hash}
+
+
+def test_vector_clock_merge():
+    agents = ["agent_1", "agent_2"]
+    pruner = ConsensusPruner(agents)
+    pruner.tick_agent_clock("agent_1")  # agent_1: 1
+    pruner.tick_agent_clock("agent_2")
+    pruner.tick_agent_clock("agent_2")  # agent_2: 2
+
+    # Merge agent_2 clock into agent_1
+    pruner.merge_clock("agent_1", pruner.vector_clocks["agent_2"])
+    assert pruner.vector_clocks["agent_1"] == {"agent_1": 1, "agent_2": 2}
 
 
 def test_pruning_and_compaction():

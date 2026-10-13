@@ -41,6 +41,8 @@ class ConsensusPruner:
         self.frontier_window = frontier_window
         self.nodes: Dict[str, SwarmEventNode] = {}
         self.frontier_hashes: Set[str] = set()
+        self.agent_heads: Dict[str, str] = {}
+        self.observed_external: Dict[str, Set[str]] = {aid: set() for aid in agent_ids}
         self.vector_clocks: Dict[str, Dict[str, int]] = {
             aid: {a: 0 for a in agent_ids} for aid in agent_ids
         }
@@ -62,6 +64,11 @@ class ConsensusPruner:
         for aid, val in incoming_clock.items():
             rec[aid] = max(rec.get(aid, 0), val)
 
+    def observe_event(self, agent_id: str, event_hash: str) -> None:
+        """Records an external event observed by an agent prior to its next action."""
+        if agent_id in self.observed_external:
+            self.observed_external[agent_id].add(event_hash)
+
     def record_event(
         self,
         event_id: str,
@@ -71,11 +78,25 @@ class ConsensusPruner:
         target: str,
         payload: Dict[str, Any],
         status: str = "COMMITTED",
+        external_parent_hashes: Optional[List[str]] = None,
     ) -> SwarmEventNode:
         """Records a committed event into the causal DAG and updates frontier."""
         self.total_raw_events += 1
         clock = self.tick_agent_clock(agent_id)
-        parent_hashes = list(self.frontier_hashes)
+
+        # Causal parents: agent's own previous head + observed external events
+        parent_hashes: List[str] = []
+        if agent_id in self.agent_heads:
+            parent_hashes.append(self.agent_heads[agent_id])
+        if external_parent_hashes:
+            for h in external_parent_hashes:
+                if h not in parent_hashes:
+                    parent_hashes.append(h)
+        elif self.observed_external.get(agent_id):
+            for h in sorted(self.observed_external[agent_id]):
+                if h not in parent_hashes:
+                    parent_hashes.append(h)
+            self.observed_external[agent_id].clear()
 
         node = SwarmEventNode(
             event_id=event_id,
@@ -91,9 +112,10 @@ class ConsensusPruner:
         node.node_hash = node.compute_hash()
         self.nodes[node.node_hash] = node
 
-        # Update frontier: new node replaces its direct parents in frontier
+        # Update frontier: new node replaces only its direct causal parents
         self.frontier_hashes.difference_update(parent_hashes)
         self.frontier_hashes.add(node.node_hash)
+        self.agent_heads[agent_id] = node.node_hash
         return node
 
     def prune_frontier(self, current_tick: int) -> List[SwarmEventNode]:

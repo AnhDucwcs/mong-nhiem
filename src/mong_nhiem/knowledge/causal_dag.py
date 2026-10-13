@@ -163,6 +163,15 @@ class CausalEventDAG:
 
         return [self._nodes[eid] for eid in topo_ids]
 
+    def get_frontier(self) -> List[CausalNode]:
+        """Returns all active un-merged leaf nodes (nodes with 0 children) in the causal DAG."""
+        frontier_ids = [eid for eid, children in self._children.items() if not children]
+        return sorted([self._nodes[eid] for eid in frontier_ids], key=lambda x: (x.tick, x.event_id))
+
+    def get_frontier_hashes(self) -> Set[str]:
+        """Returns cryptographic hashes of all active frontier leaves."""
+        return {node.node_hash for node in self.get_frontier()}
+
     def to_dict(self) -> Dict[str, Any]:
         """Serializes the entire DAG for audit logging and provenance verification."""
         return {

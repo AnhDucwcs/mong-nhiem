@@ -89,6 +89,24 @@ def test_asynchronous_transport():
     assert delivered[0].payload == {"cmd": "ping"}
 
 
+def test_asynchronous_transport_vector_clock_and_merge():
+    transport = AsynchronousTransport(min_latency=0, max_latency=0, seed=42)
+    # Send packet carrying vector clock
+    transport.send(
+        sender_id="agent_1",
+        recipient_id="hub",
+        payload={"msg": "update"},
+        current_tick=0,
+        vector_clock={"agent_1": 5, "agent_2": 2},
+    )
+
+    hub_clock = {"agent_1": 1, "agent_2": 4, "hub": 3}
+    delivered = transport.poll_and_merge(current_tick=0, recipient_id="hub", recipient_clock=hub_clock)
+    assert len(delivered) == 1
+    # hub_clock should now be merged with max component values: agent_1: max(1, 5)=5, agent_2: max(4, 2)=4, hub: 3
+    assert hub_clock == {"agent_1": 5, "agent_2": 4, "hub": 3}
+
+
 def test_hierarchical_planner():
     mission = MissionGraph("test_mission")
     sg1 = SubGoal("sg1", "Phase 1", completion_predicate=lambda s: s.get("phase1_done", False))

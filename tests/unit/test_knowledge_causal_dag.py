@@ -65,3 +65,39 @@ def test_dynamic_schema_registry_lifecycle():
     registry.retire_entity("bat_1", reason="decommissioned")
     assert registry.is_active("bat_1") is False
     assert registry.get_entity("bat_1") is None
+
+
+def test_causal_dag_frontier_preservation_and_join():
+    dag = CausalEventDAG()
+    # Two independent concurrent events by different agents
+    e1 = dag.add_event(actor="agent_1", action_name="MINE", target_entity="ore_1", tick=1)
+    e2 = dag.add_event(actor="agent_2", action_name="CHOP", target_entity="tree_1", tick=1)
+
+    # Both must be present on the frontier (|F| == 2)
+    frontier = dag.get_frontier()
+    assert len(frontier) == 2
+    frontier_ids = {n.event_id for n in frontier}
+    assert e1.event_id in frontier_ids
+    assert e2.event_id in frontier_ids
+    assert len(dag.get_frontier_hashes()) == 2
+
+    # Agent 1 continues independently
+    e3 = dag.add_event(actor="agent_1", action_name="REFINE", target_entity="ore_1", parent_ids=[e1.event_id], tick=2)
+    frontier_ids2 = {n.event_id for n in dag.get_frontier()}
+    # Frontier now contains e3 and e2 (e1 was consumed by e3, e2 is untouched)
+    assert len(frontier_ids2) == 2
+    assert e3.event_id in frontier_ids2
+    assert e2.event_id in frontier_ids2
+
+    # A join/consensus event merges e3 and e2
+    e4 = dag.add_event(
+        actor="arbiter",
+        action_name="SYNCHRONIZE",
+        target_entity="system",
+        parent_ids=[e3.event_id, e2.event_id],
+        tick=3,
+    )
+    frontier_ids3 = {n.event_id for n in dag.get_frontier()}
+    # Frontier collapses to exactly {e4}
+    assert len(frontier_ids3) == 1
+    assert e4.event_id in frontier_ids3

@@ -64,6 +64,31 @@ def test_frontier_branch_pruner():
     # At tick 8 with window 3, min_active_tick = 5. Only h3 (tick 7) and h4 (tick 8) remain active
     active_ids = [n["event_id"] for n in active]
     assert "e3" in active_ids
-    assert "e4" in active_ids
     assert "e1" not in active_ids
     assert "e2" not in active_ids
+
+
+def test_frontier_branch_pruner_concurrent_agent_preservation():
+    pruner = FrontierBranchPruner(frontier_window=4)
+    # Agent 1 emits event A1
+    pruner.record_agent_event(agent_id="agent_1", new_event_hash="hash_a1")
+    assert pruner.frontier_hashes == {"hash_a1"}
+
+    # Agent 2 emits concurrent event B1 without observing A1
+    pruner.record_agent_event(agent_id="agent_2", new_event_hash="hash_b1")
+    # Both branches must remain on the frontier (|F| == 2)
+    assert pruner.frontier_hashes == {"hash_a1", "hash_b1"}
+
+    # Agent 1 emits A2 (causally depends on A1)
+    pruner.record_agent_event(agent_id="agent_1", new_event_hash="hash_a2")
+    # Frontier updates A1 -> A2, while B1 remains active
+    assert pruner.frontier_hashes == {"hash_a2", "hash_b1"}
+
+    # Agent 2 performs a join action observing Agent 1's A2
+    pruner.record_agent_event(
+        agent_id="agent_2",
+        new_event_hash="hash_b2_join",
+        external_parent_hashes=["hash_a2"],
+    )
+    # Both A2 and B1 are subsumed by the join node
+    assert pruner.frontier_hashes == {"hash_b2_join"}

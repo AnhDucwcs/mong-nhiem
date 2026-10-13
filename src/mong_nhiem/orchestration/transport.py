@@ -17,6 +17,7 @@ class NetworkPacket:
     payload: Dict[str, Any]
     send_tick: int
     arrival_tick: int
+    vector_clock: Optional[Dict[str, int]] = None
     delivered: bool = False
 
 
@@ -45,8 +46,9 @@ class AsynchronousTransport:
         recipient_id: str,
         payload: Dict[str, Any],
         current_tick: int,
+        vector_clock: Optional[Dict[str, int]] = None,
     ) -> Optional[NetworkPacket]:
-        """Enqueues a packet with stochastic propagation delay."""
+        """Enqueues a packet with stochastic propagation delay and optional vector clock."""
         if self.drop_prob > 0.0 and self._rng.random() < self.drop_prob:
             return None  # Dropped packet
 
@@ -63,6 +65,7 @@ class AsynchronousTransport:
             payload=payload,
             send_tick=current_tick,
             arrival_tick=arrival_tick,
+            vector_clock=dict(vector_clock) if vector_clock else None,
             delivered=False,
         )
         self._queue.append(packet)
@@ -76,6 +79,24 @@ class AsynchronousTransport:
                 pkt.delivered = True
                 due_packets.append(pkt)
         return due_packets
+
+    def poll_and_merge(
+        self,
+        current_tick: int,
+        recipient_id: str,
+        recipient_clock: Any = None,
+    ) -> List[NetworkPacket]:
+        """Polls packets and merges delivered vector clocks into recipient's vector clock."""
+        packets = self.poll(current_tick, recipient_id)
+        if recipient_clock is not None:
+            for pkt in packets:
+                if pkt.vector_clock:
+                    if hasattr(recipient_clock, "merge"):
+                        recipient_clock.merge(pkt.vector_clock)
+                    elif isinstance(recipient_clock, dict):
+                        for k, v in pkt.vector_clock.items():
+                            recipient_clock[k] = max(recipient_clock.get(k, 0), v)
+        return packets
 
     def get_in_flight(self, current_tick: int) -> int:
         """Returns the number of undelivered packets still in flight."""
