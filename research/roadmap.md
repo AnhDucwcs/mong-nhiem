@@ -319,6 +319,8 @@ Track: **Core Cognitive Architecture Production Consolidation (MN-016 through MN
 
 ## Active Developmental Horizons
 
-1. **MN-023 — Autonomous Tool Synthesis & Dynamic Skill Crystallization:**
-   - Scope: Autonomous emergence of macro-action primitives, dynamic skill crystallization into host registries, and open-world tool evolution under cognitive token budgets.
+1. **MN-023 — Minimal Controlled Microworld & Epistemic Invariant Verification Under Asymmetric Information:**
+   - Status: **Active (Gate A ratified, Gate B contract frozen).**
+   - Core Mission: Proving the mathematical and behavioral correctness of out-of-model authoritative state tracking, multi-agent coordination, bounded memory organization, and causal DAG integrity when autonomous SLMs operate under partial observation, hidden secrets, and asymmetric or conflicting information.
+   - Controlled Testbed: Minimal Controlled Microworld ($M = 3$ agents) with strict information horizons, private masks, and causal pivot events. Success evaluated strictly by formal research hypotheses ($H_1$ through $H_5$) and quantitative Gate B acceptance clauses (zero epistemic leakage, zero physical breaches, zero race collisions, epistemic recall $\ge 90.0\%$, tokens $\le 512$, turn latency $< 1000\text{ ms}$).
 
