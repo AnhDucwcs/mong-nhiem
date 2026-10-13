@@ -19,14 +19,13 @@ class VectorClock:
         """Returns the clock value for an agent."""
         return self.clock.get(agent_id, 0)
 
-    def merge(self, other: VectorClock) -> VectorClock:
-        """Returns a new VectorClock with element-wise maximum across both clocks."""
-        all_keys = set(self.clock.keys()).union(other.clock.keys())
-        new_clock = {
-            k: max(self.clock.get(k, 0), other.clock.get(k, 0))
-            for k in all_keys
-        }
-        return VectorClock(new_clock)
+    def merge(self, other: VectorClock | Dict[str, int]) -> VectorClock:
+        """Merges element-wise maximum across both clocks in-place and returns self."""
+        other_clock = other.clock if isinstance(other, VectorClock) else other
+        all_keys = set(self.clock.keys()).union(other_clock.keys())
+        for k in all_keys:
+            self.clock[k] = max(self.clock.get(k, 0), other_clock.get(k, 0))
+        return self
 
     def is_causally_dependent(self, other: VectorClock) -> bool:
         """Returns True if self happened strictly before or concurrent with other.
