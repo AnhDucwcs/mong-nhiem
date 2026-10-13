@@ -21,14 +21,15 @@
 | Clause ID | Metric Description | Frozen Acceptance Bound | Mandatory / Optional | Falsification Trigger |
 | :---: | :--- | :---: | :---: | :--- |
 | **M1** | Task Resolution Rate (Arm 3) | $\ge 85.0\%$ | Mandatory | Score $< 85.0\%$ on Track 1 or Track 2 |
-| **M2** | Coordination Superiority Margin ($\Delta_{\text{Arm 3} - \text{Arm 2}}$) | $\ge +40.0\%$ | Mandatory | Resolution margin $< +40.0\%$ |
-| **M3** | Epistemic Information Leakage Score | $\equiv 0.0$ | Mandatory | Any private secret/fact leaked to unauthorized agent |
+| **M2** | Long-Horizon Causal Anchor Retention Delta ($\Delta R_{\text{causal}}$ with $\Delta t \ge 15$) | $\ge +50.0\%$ | Mandatory | Margin $< +50.0\%$ between Arm 3 and Arm 2 |
+| **M3** | Epistemic Information Leakage Score | $\equiv 0.0$ | Mandatory | Any private secret/fact leaked into unauthorized prompt |
 | **M4** | Committed Physical Invariant Breaches | $\equiv 0$ | Mandatory | Any invalid mutation committed to world state |
 | **M5** | Committed Concurrency Race Collisions | $\equiv 0$ | Mandatory | Any unmanaged concurrent conflict committed |
-| **M6** | Causal Anchor Epistemic Recall | $\ge 90.0\%$ | Mandatory | Recall of decision-critical anchor facts $< 90.0\%$ |
+| **M6** | Epistemic Discrepancy Resolution Rate | $\ge 80.0\%$ | Mandatory | Causal reconciliation of conflicting beliefs $< 80.0\%$ |
 | **M7** | Per-Agent Prompt Token Ceiling | $\le 512\text{ tokens}$ | Mandatory | Any prompt exceeding $512$ tokens |
 | **M8** | Mean Turn Latency SLA | $< 1000\text{ ms}$ | Mandatory | Average turn time $\ge 1000\text{ ms}$ on SLM |
 | **M9** | Cryptographic Manifest & Evidence Archival | $100\%$ Conformance | Mandatory | Any unhashed file or loose JSON log |
+| **M10** | Non-Omniscient Action Groundedness ($F_{\text{grounded}}$) | $\equiv 100.0\%$ | Mandatory | Any action exploiting unobserved secrets or un-reconciled facts |
 
 ---
 

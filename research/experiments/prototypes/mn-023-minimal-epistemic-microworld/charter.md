@@ -38,9 +38,10 @@ Milestone MN-023 establishes a **Minimal Controlled Epistemic Microworld** to ri
   $$K_i(t) \subseteq \text{Observed}_i(t) \cup \text{Inferred}_i(t) \subsetneq \mathcal{W}(t)$$
   with an Epistemic Leakage Score $\equiv 0.0$ (Zero leakage of private facts/secrets belonging to other entities).
 - **$H_2$ (World State Invariant & Concurrency Safety):** Under concurrent agent execution with contradictory subjective beliefs ($B_i \neq B_j$), committed world-state mutations exhibit zero physical conservation breaches ($B = 0$) and zero unmanaged race collisions ($C = 0$).
-- **$H_3$ (Epistemic Recall Under Context Compression):** The 3-Tier Causal Memory & AutoDream Pruning engine achieves an Epistemic Recall $\ge 90.0\%$ for all ground-truth causal anchor facts while maintaining maximum prompt token count $\max(T_{\text{prompt}}) \le 512\text{ tokens}$.
-- **$H_4$ (Task Resolution Superiority):** Arm 3 (Host Epistemic Governance & Multi-Parent DAG) achieves a Task Resolution Rate $\ge 85.0\%$, exceeding the uncoordinated baseline (Arm 1) and unpruned flat memory (Arm 2) by $\Delta \ge +40.0\%$.
-- **$H_5$ (Turn Latency SLA):** Mean turn inference latency across all local open-weights SLM evaluations (`Qwen3.5-2B`) remains $< 1000\text{ ms}$.
+- **$H_3$ (Long-Horizon Causal Anchor Retention Superiority):** Arm 3 achieves an Anchor Retention Rate exceeding Arm 2 by $\Delta R_{\text{causal}} \ge +50.0\%$ across extended temporal separation ($\Delta t \ge 15$ ticks) under strict prompt bounds ($\le 512\text{ tokens}$).
+- **$H_4$ (Epistemic Discrepancy Reconciliation Efficacy):** Arm 3 successfully resolves $\ge 80.0\%$ of conflicting multi-agent belief discrepancies using causal provenance temporal graphs ($[t_A, t_B]$), while Arm 2 deadlocks or generates amnesia loops ($\le 20.0\%$).
+- **$H_5$ (Non-Omniscient Action Groundedness):** Across all evaluated episodes, $100.0\%$ of agent actions are strictly grounded in that agent's prior subjective observations and causal message receipts ($F_{\text{grounded}} \equiv 100.0\%$), with zero telepathic exploitation of unobserved hidden secrets.
+- **$H_6$ (Cognitive Token Budget & Sub-Second Latency):** Mean turn inference latency across all local open-weights SLM evaluations (`Qwen3.5-2B`) remains $< 1000\text{ ms}$, with maximum prompt token count $\max(T_{\text{prompt}}) \le 512\text{ tokens}$.
 
 ---
 
