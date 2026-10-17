@@ -614,7 +614,51 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Evidence Packaging & Zero Loose File Bloat Protocol:**
   - All 180 episode execution traces sealed into `runs/run_20261013_103904_track2_qwen/audit_logs.zip` (SHA-256: `6c248be9c1620320463deaf91fce7db372eb949ee41d2538121349ea5206fc89`). Zero loose JSON logs committed to Git.
 - **Gate D Disposition:** `epistemic_microworld_verified_quarantined`. All prototype code strictly quarantined in `research/experiments/prototypes/mn-023-minimal-epistemic-microworld/`. Full academic reports frozen at `reports/mn-023-track1-report.md` and `reports/mn-023-track2-report.md`. Pre-run and post-run freeze manifests committed. Core microworld abstractions (`EpistemicMaskEngine`, `MicroworldEngine`, `NonOmniscientGroundednessVerifier`, 3-Tier Fact Card compaction) earned full promotion authorization for subsequent integration.
-- **Active Transition / Next Milestone:** Authorizes progression to MN-024 (Long-Horizon Interactive Epistemic Micro-Worlds & Multi-Modal Grounding).
+- **Active Transition / Next Milestone:** Authorizes progression to MN-024 (Long-Horizon Physical Microworld Scaling & Multi-Hop Causal Maintenance).
+
+## MN-024 — Long-Horizon Physical Microworld Scaling & Multi-Hop Causal Maintenance Under Continuous Entropy Decay — completed and verified
+
+- **Research Mission & Context:** Mộng Nhiễm is an operational capability platform for small language models, not a game product. MN-024 empirically evaluated multi-agent physical microworld scaling across extended temporal horizons under continuous passive thermodynamic and electrical decay, multi-hop causal cascade resolution (4-hop sequential chains), and 3-tier fact-card context compaction.
+- **Dual-Horizon Evaluation Corpus ($N = 60$ Scenarios, 360 Episodes Per Track):**
+  - **Horizon Tier A (Nominal):** $T = 60$ discrete ticks, causal distance $\Delta t \ge 40$ ticks between secret discovery and resolution. Maintenance interval = 8 ticks.
+  - **Horizon Tier B (Stress):** $T = 100$ discrete ticks, causal distance $\Delta t \ge 80$ ticks between secret discovery and resolution. Maintenance interval = 12 ticks.
+  - Three physical domains ($N = 20$ each): Fission Reactor Core Cooling, Orbital Habitat Atmospheric Recycling, and Regional Smart Microgrid Fault Isolation.
+  - Three matched experimental arms:
+    - Arm 1 (Flat Omniscient Baseline): Global state serialized directly into prompt; vulnerable to passive decay neglect, race collisions, and epistemic leakage.
+    - Arm 2 (Unpruned Subjective Memory Control): Partitioned observation masks but raw linear history accumulation; vulnerable to token bloat ($> 1400$ tokens) and attention amnesia.
+    - Arm 3 (Host Epistemic Microworld Architecture): Observation masking, 3-Tier Fact Card compaction (Tier 1 invariant anchors, Tier 2 causal frontier, Tier 3 affordances), MultiResourceArbiter, and continuous entropy mitigation.
+- **Model Topology:**
+  - Pure homogeneous open-weights SLM: `Qwen3.5-2B-Q4_K_M.gguf` running on local `llama-server.exe` on port 18502 (`-ngl 99 -c 2048`, greedy decoding $T=0.0$, ChatML format with prefix continuation).
+- **Dual-Track Empirical Results (360 Episodes Per Track):**
+  - **Track 1 (Host Simulator — 360 episodes across Tier A and Tier B):**
+    - Task Resolution Rate ($M_1$): **100.00% (60/60)** on both $T=60$ and $T=100$ (target $\ge 85.0\%$).
+    - Causal Anchor Retention Delta ($M_2$): **+100.00%** (100% vs 0%, target $\ge +50.0\%$).
+    - Epistemic Information Leakage ($M_3$): **0.000** (target $\equiv 0.0$).
+    - Committed Physical Breaches ($M_4$): **0** (target $\equiv 0$).
+    - Committed Race Collisions ($M_5$): **0** (target $\equiv 0$).
+    - Multi-Hop Cascade Completion Rate ($M_6$): **100.00%** on both tiers (target $\ge 80.0\%$).
+    - Max Working Prompt Tokens ($M_7$): **55 tokens** (target $\le 512$).
+    - Mean Turn Latency ($M_8$): **0.51 ms** (target $< 1000\text{ ms}$).
+    - Long-Horizon Compaction Ratio ($M_9$): **91.73%** on $T=60$, **91.76%** on $T=100$ (target $\ge 70.0\%$).
+    - Action Groundedness ($M_{10}$): **100.00%** (target $\equiv 100.0\%$).
+    - Verdict: **PASS (10/10 Clauses Met on Both Tiers)**.
+  - **Track 2 (Real Model Inference on Qwen 3.5 2B — 360 episodes across Tier A and Tier B):**
+    - Task Resolution Rate ($M_1$): **100.00% (60/60)** on both $T=60$ and $T=100$ (target $\ge 85.0\%$).
+    - Causal Anchor Retention Delta ($M_2$): **+100.00%** (100% vs 0%, target $\ge +50.0\%$).
+    - Epistemic Information Leakage ($M_3$): **0.000** (target $\equiv 0.0$).
+    - Committed Physical Breaches ($M_4$): **0** (target $\equiv 0$).
+    - Committed Race Collisions ($M_5$): **0** (target $\equiv 0$).
+    - Multi-Hop Cascade Completion Rate ($M_6$): **100.00%** on both tiers (target $\ge 80.0\%$).
+    - Max Working Prompt Tokens ($M_7$): **55 tokens** (target $\le 512$, $89.3\%$ safety margin). Arm 2 peaked at $880$ tokens on $T=60$ and $1400$ tokens on $T=100$.
+    - Mean Turn Latency ($M_8$): **145.23 ms** on $T=60$, **144.68 ms** on $T=100$ (target $< 1000\text{ ms}$).
+    - Long-Horizon Compaction Ratio ($M_9$): **91.73%** on $T=60$, **91.76%** on $T=100$ (target $\ge 70.0\%$).
+    - Action Groundedness ($M_{10}$): **100.00%** (target $\equiv 100.0\%$).
+    - Extended Horizon Stability: Degradation $|S_{T=100} - S_{T=60}| = 0.00\% \le 5.0\%$.
+    - Verdict: **PASS (10/10 Clauses Met on Both Tiers)**.
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - All 360 episode execution traces sealed into `runs/run_1792212290/audit_logs.zip` (SHA-256: `989A574832B3DEDA334D6BE1C845402F01A4DCAD7075797AB996EBDCD8207F93`). Summary manifest at `runs/run_1792212290/summary.json` (SHA-256: `E8332497C054ECCAE9E88088A75AA52418BEF6A341059FECABB1DB4AECF1EFE2`). Zero loose JSON logs committed to Git.
+- **Gate D Disposition:** `long_horizon_microworld_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-024-long-horizon-epistemic-microworld/`. Full academic reports frozen at `reports/mn-024-track1-report.md` and `reports/mn-024-track2-report.md`. Pre-run and post-run freeze manifests committed. Core microworld scaling components (`EnvironmentalEntropyEngine`, `LongHorizonMicroworldEngine`) earned full promotion authorization for subsequent integration.
+- **Active Transition / Next Milestone:** Authorizes progression to MN-025 (Cross-Domain Epistemic Knowledge Transfer & Multi-Agent Specialization).
 
 
 
