@@ -335,9 +335,27 @@ Track: **NCC Phase 12 (Minimal Controlled Epistemic Microworld & Causal Invarian
    - Disposition review: `epistemic_microworld_verified_quarantined`.
    - Prototype code remains quarantined in `research/experiments/prototypes/mn-023-minimal-epistemic-microworld/`. Full academic reports frozen at `reports/mn-023-track1-report.md` and `reports/mn-023-track2-report.md`. Pre-run and post-run freeze manifests committed. Core microworld abstractions earned promotion readiness for subsequent integration.
 
+## MN-024 — Long-Horizon Physical Microworld Scaling & Multi-Hop Causal Maintenance Under Continuous Entropy Decay
+
+Status: **completed and verified prototype (`long_horizon_microworld_verified_quarantined`).**  
+Track: **NCC Phase 13 (Long-Horizon Microworld Scaling & Multi-Hop Causal Maintenance).**
+
+1. **Strategic Intent & Outcome:**
+   - Proved the scalability of Mộng Nhiễm's host-authoritative microworld architecture across extended temporal horizons under continuous passive thermodynamic and electrical decay, multi-hop causal cascades (4-hop sequential chains), and constant-space 3-tier fact-card context compaction.
+   - Evaluated dual horizons: Tier A ($T=60$ ticks, causal distance $\Delta t \ge 40$ ticks) and Tier B ($T=100$ ticks, causal distance $\Delta t \ge 80$ ticks) across 3 physical domains ($N=60$ scenarios $\times 2$ horizons $\times 3$ arms $= 360$ episodes per track): Fission Reactor Core Cooling, Orbital Habitat Atmospheric Recycling, and Regional Smart Microgrid Fault Isolation.
+   - Validated that lightweight open-weights models (`Qwen3.5-2B-Q4_K_M.gguf`) achieve perfect cascade execution, zero physical boundary breaches, and zero race collisions when assisted by host admission guards and lease arbitration.
+2. **Dual-Track Empirical Results (360 Episodes Per Track):**
+   - **Track 1 (Host Simulator — 360 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** task resolution and cascade completion across both $T=60$ and $T=100$, with 0 physical breaches, 0 race collisions, 0.000 leakage, and 91.7% compaction ratio. 10/10 Gate B clauses met.
+   - **Track 2 (Real Model Inference on Qwen 3.5 2B — 360 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** task resolution and cascade completion across both $T=60$ and $T=100$ on local `llama-server.exe` (port 18502). Passed all 10 Gate B acceptance clauses (10/10 PASS). Peak prompt tokens remained at $55\text{ tokens} \le 512\text{ tokens}$ ($91.73\%$ compaction on $T=60$, $91.76\%$ on $T=100$), whereas Arm 2 unpruned memory bloated to $880$ and $1400$ tokens, suffering complete attention amnesia ($\Delta R_{\text{causal}} = +100.0\% \ge +50.0\%$). Turn latency averaged $145.23\text{ ms}$ on $T=60$ and $144.68\text{ ms}$ on $T=100$ ($< 1000\text{ ms}$ SLA). Extended horizon stability degradation was $0.00\% \le 5.0\%$.
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All 360 episode execution traces sealed into `runs/run_1792212290/audit_logs.zip` (SHA-256: `989A574832B3DEDA334D6BE1C845402F01A4DCAD7075797AB996EBDCD8207F93`). Summary manifest at `runs/run_1792212290/summary.json` (SHA-256: `E8332497C054ECCAE9E88088A75AA52418BEF6A341059FECABB1DB4AECF1EFE2`). Zero loose JSON files in Git.
+4. **Gate D Disposition & Promotion Readiness:**
+   - Disposition review: `long_horizon_microworld_verified_quarantined`.
+   - Prototype code remains quarantined in `research/experiments/prototypes/mn-024-long-horizon-epistemic-microworld/`. Full academic reports frozen at `reports/mn-024-track1-report.md` and `reports/mn-024-track2-report.md`. Pre-run and post-run freeze manifests committed. `EnvironmentalEntropyEngine` and `LongHorizonMicroworldEngine` earned promotion readiness for subsequent integration.
+
 ## Active Developmental Horizons
 
-1. **MN-024 — Long-Horizon Interactive Epistemic Micro-Worlds & Multi-Modal Grounding:**
+1. **MN-025 — Cross-Domain Epistemic Knowledge Transfer & Multi-Agent Specialization:**
    - Status: **Active (Gate A chartering underway).**
-   - Core Mission: Scaling epistemic microworld governance to multi-agent environments with extended horizons ($T \ge 100$ ticks), continuous observation streaming, and interactive non-verbal multi-modal grounding while preserving host-authoritative invariant verification and strict token/latency SLAs.
+   - Core Mission: Evaluating cross-domain transfer of causal graph topologies and specialized agent role policies across heterogeneous microworld domains while maintaining host-authoritative invariant verification and bounded memory footprints.
 

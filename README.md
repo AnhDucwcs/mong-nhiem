@@ -97,6 +97,7 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
 
 | **Post-MN-022** | Cumulative Production Promotion & Architectural Consolidation | Consolidation | **Promoted** | Systematic promotion of verified cognitive architecture modules from MN-016 through MN-022 into `src/mong_nhiem/` (Core, AutoDream, Knowledge, Swarm Orchestration, Microworld Runtime). 100% Python stdlib, 463 passing unit tests, 0 regressions. |
 | **MN-023** | Minimal Controlled Microworld & Epistemic Invariant Verification | NCC Phase 12 | **Completed and Verified (Quarantined)** | Evaluated host-authoritative microworld state tracking, asymmetric observation masks, and causal DAG integrity across $N=60$ scenarios ($M=3$ agents, 180 episodes) on pure `Qwen3.5-2B` on `llama-server.exe`. Track 1 and Track 2 achieved 100.0% (60/60 PASS) on Arm 3 vs 0.0% on Arm 2 (which breached token ceiling at 611 tokens and suffered amnesia, $\Delta R_{\text{causal}} = +100.0\% \ge +50.0\%$) and 0.0% on Arm 1 (60 race collisions), meeting all 10 Gate B acceptance clauses (10/10 PASS). Zero epistemic leakage ($\Lambda \equiv 0.0$), 100% action groundedness, max prompt tokens 257 $\le 512$, and mean turn latency 231.16 ms ($< 1000\text{ ms}$ SLA). 100% telemetry sealed into `audit_logs.zip` (0 loose JSON logs). Prototype code quarantined. |
+| **MN-024** | Long-Horizon Physical Microworld Scaling & Multi-Hop Causal Maintenance | NCC Phase 13 | **Completed and Verified (Quarantined)** | Scaled microworld governance across dual horizons (Tier A: $T=60$ ticks, $\Delta t \ge 40$; Tier B: $T=100$ ticks, $\Delta t \ge 80$) under continuous passive entropy decay and 4-hop causal cascades across 3 physical domains ($N=60$ scenarios $\times 2$ horizons $\times 3$ arms $= 360$ episodes per track) on pure `Qwen3.5-2B`. Track 1 and Track 2 achieved 100.0% (60/60 PASS) on Arm 3, meeting all 10 Gate B clauses on both tiers (10/10 PASS). Zero physical breaches occurred under continuous entropy decay, 0 race collisions, 0 epistemic leakage, 100% groundedness, constant-space prompt ceiling bounded to 55 tokens $\le 512$ ($91.7\%$ compaction vs $>1400$ in Arm 2), and 145 ms mean turn latency ($< 1000\text{ ms}$ SLA). Degradation across extended horizons was $0.00\% \le 5.0\%$. 100% telemetry sealed into `audit_logs.zip` (0 loose JSON logs). Prototype code quarantined. |
 
 ---
 
@@ -108,7 +109,7 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
   - `research/decisions/`: Architectural Decision Records (ADRs).
   - `research/experiments/`: Sandbox prototypes and frozen empirical evidence.
 - `src/mong_nhiem/`: Production package boundary (pure Python standard library).
-- `tests/unit/`: Comprehensive test suite (463 unit and integration tests passing).
+- `tests/unit/`: Comprehensive test suite (475 unit and integration tests passing).
 
 
 ---
