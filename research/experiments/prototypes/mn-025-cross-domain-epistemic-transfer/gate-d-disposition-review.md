@@ -31,7 +31,9 @@ Milestone MN-025 has successfully completed its dual-track empirical evaluation 
    Host-authoritative latent state derivative tracking successfully neutralized all 15 delayed-onset time-bomb traps (cavitation micro-erosion, harmonic resonance drift, unexpressed assumption deadlock, deferred maintenance debt, trojan energy runaway, and post-shock structural fatigue), achieving **0 physical breaches**.
 3. **Non-Monotonic Epistemic Revision:**
    Purging falsified Tier 1 anchors, marking tombstones in Tier 2, and applying negative masking in Tier 3 eliminates cognitive inertia, allowing small models to adapt immediately to sudden regime shifts.
-4. **Promotion Readiness:**
+4. **Emergent Cognitive Restraint (Rational Abstention):**
+   When presented with ungrounded decoy components under Typed Affordance Signatures (`[role:DECOY, effect:NONE]`), small models (<4B) demonstrate deliberate restraint: inspecting and actively abstaining from taking futile or hazardous actions. Future evaluation contracts (MN-026+) must formalize Dual-Objective Evaluation separating Physical Target Resolution ($M_{\text{phys}}$) from Decision Safety / Rational Abstention ($M_{\text{safe}}$) to properly credit defensive non-action in unwinnable trap environments.
+5. **Promotion Readiness:**
    The following components have earned promotion readiness for subsequent integration into `src/mong_nhiem/`:
    - `IsomorphismEngine` (Topological schema projection & negative transfer validation) $\to$ `src/mong_nhiem/knowledge/`
    - `ConflictEngine` (Epistemic divergence tracking & dialectic reconciliation) $\to$ `src/mong_nhiem/orchestration/`

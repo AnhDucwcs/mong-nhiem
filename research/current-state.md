@@ -702,6 +702,7 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Track 2 Archive: `runs/run_1792242199_track2_qwen/audit_logs.zip`.
   - Zero loose JSON files committed to Git.
 - **Gate D Disposition:** `cross_domain_epistemic_transfer_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`. Full academic reports frozen at `reports/mn-025-track1-report.md` and `reports/mn-025-track2-report.md`. Pre-run and post-run freeze manifests committed. `IsomorphismEngine`, `ConflictEngine`, and `StochasticEngine` earned promotion readiness for subsequent integration.
+- **Key Empirical Discovery (Emergent Cognitive Restraint & Rational Abstention):** Small models (<4B) provided with Typed Affordance Signatures exhibited deliberate refusal to manipulate inert decoy components (`[role:DECOY, effect:NONE]`), choosing safe timeouts over risking physical breaches. This discovery establishes a core architectural requirement for subsequent milestones (MN-026+): formalizing a Dual-Objective Evaluation framework that separates Physical State Completion ($M_{\text{phys}}$) from Epistemic Decision Safety / Rational Abstention ($M_{\text{safe}}$).
 - **Active Transition / Next Milestone:** Authorizes progression to MN-026 (Multi-Agent Heterogeneous Swarm Governance & Dynamic Consensus Under Deep Asymmetric Information).
 
 
