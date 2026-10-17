@@ -1,0 +1,69 @@
+{
+  "overall_verdict": "PASS",
+  "clauses": {
+    "M1_resolution_rate": {
+      "value": 100.0,
+      "bound": ">= 85.0%",
+      "pass": true
+    },
+    "M2_speedup_delta": {
+      "value": 50.0,
+      "bound": ">= +40.0%",
+      "pass": true
+    },
+    "M3_negative_transfer_breaches": {
+      "value": 0,
+      "bound": "== 0",
+      "pass": true
+    },
+    "M4_dialectic_convergence": {
+      "value": 100.0,
+      "bound": ">= 90.0%",
+      "pass": true
+    },
+    "M5_stochastic_recovery_sla": {
+      "value": 3.0,
+      "bound": "<= 6 ticks",
+      "pass": true
+    },
+    "M6_physical_breaches": {
+      "value": 0,
+      "bound": "== 0",
+      "pass": true
+    },
+    "M7_concurrency_collisions": {
+      "value": 0,
+      "bound": "== 0",
+      "pass": true
+    },
+    "M8_max_prompt_tokens": {
+      "value": 148,
+      "bound": "<= 512",
+      "pass": true
+    },
+    "M9_mean_turn_latency_ms": {
+      "value": 0.5012791666752795,
+      "bound": "< 1000 ms",
+      "pass": true
+    },
+    "M10_anchor_demotion_fidelity": {
+      "value": 100.0,
+      "bound": "== 100.0%",
+      "pass": true
+    }
+  },
+  "metrics": {
+    "m1_resolution_rate": 100.0,
+    "m2_speedup_delta": 50.0,
+    "m3_negative_transfer_breaches": 0,
+    "m4_dialectic_convergence": 100.0,
+    "m5_stochastic_recovery_sla": 3.0,
+    "m6_physical_breaches": 0,
+    "m7_concurrency_collisions": 0,
+    "m8_max_tokens": 148,
+    "m8_mean_tokens": 114.68,
+    "m9_mean_latency_ms": 0.5,
+    "m10_demotion_fidelity": 100.0
+  },
+  "total_episodes_evaluated": 180
+}

@@ -1,0 +1,21 @@
+{
+  "prototype": "mn-025-cross-domain-epistemic-transfer",
+  "status": "FROZEN_PRE_RUN",
+  "files": {
+    "README.md": "d8ec21bbffb7b6781a4da949eb3173cec52e9a9026e7d2188aa411a8d585e17d",
+    "charter.md": "69907ab350717fdb2ba243cc6a3f40c15eee44d3b299a62b48424ae2f5e56c5d",
+    "gate-b-contract.md": "3d580650c23768ec25f9650176f7130679c187b32206b346a97386493df6c352",
+    "src\\agent_worker.py": "4ddc64a09626be0aee25d1a1189b33d59b13bea76ada53ab1851247a7adcac06",
+    "src\\benchmark_scenarios.py": "f4042eeb341d3fbe6d74092d643f203b79dcbac11e6647a51dbaec281a5b602b",
+    "src\\conflict_engine.py": "137ff0c8eadb8188f45536c0fd14bfaba846e119622ec771e80ccd50970f938c",
+    "src\\evaluator.py": "40d133ab77f436ed735d75d3d08c8d3a0bfa95e589041796a2ca70115b4f456d",
+    "src\\isomorphism_engine.py": "0538f2c116b09efcf1b0ccffbbbbece732f4d89143588eca8bf78b2b0732b62c",
+    "src\\microworld_engine.py": "7d9991bc50ead0859e3e0663cf876cd8d0131923696173fce7abf58278103d34",
+    "src\\runner_track1.py": "3d873be6a788715824d9078e64364dc75b34147e2eb441d1a3e93f7482176c7a",
+    "src\\runner_track2.py": "82929f70967ad566f8f93af777e95128ee7b30bb4f4b1fafe9d1cbdf06524154",
+    "src\\stochastic_engine.py": "27b40f87cc4a5e5671ab1190cc53d1ff3eed219f61d4e3e778e719b3b18c55ea",
+    "tests\\test_conflict_resolution.py": "987925ecbf347999edb996abf74c6eee6f512c035a78b91cd3567e384a2e7c50",
+    "tests\\test_isomorphism.py": "3321974fa1e79c00304d5a7118937042f65a52ee46c38100da301cfcccecb193",
+    "tests\\test_stochastic_invariants.py": "b0e6868503570469f7983727c888be01847af3a6b828bc6c6f724a9d479a53a8"
+  }
+}
