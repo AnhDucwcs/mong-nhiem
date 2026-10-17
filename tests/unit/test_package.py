@@ -60,3 +60,63 @@ def test_orchestration_subsystem_imports() -> None:
     assert stack.pop().state == {"status": "init"}
 
 
+def test_core_subsystem_imports() -> None:
+    from mong_nhiem.core import (
+        CausalEvent,
+        ConservationInvariantGuard,
+        InvariantViolationError,
+        VectorClock,
+    )
+
+    evt = CausalEvent("e1", 0, "a1", "ACT", "res1")
+    assert evt.verify_integrity() is True
+    vc = VectorClock({"a1": 1})
+    assert vc.get("a1") == 1
+    guard = ConservationInvariantGuard()
+    guard.enforce({"mass": 10.0})
+
+
+def test_autodream_subsystem_imports() -> None:
+    from mong_nhiem.extensions.autodream import (
+        AutoDreamConsolidator,
+        FactCardProjector,
+        FrontierBranchPruner,
+    )
+
+    proj = FactCardProjector(default_token_ceiling=512)
+    card = proj.render_card("res1", version=1)
+    assert "[res1 v1]" in card
+
+    consolidator = AutoDreamConsolidator()
+    assert consolidator.target_compaction_ratio == 0.70
+
+
+def test_knowledge_subsystem_imports() -> None:
+    from mong_nhiem.knowledge import (
+        CausalEventDAG,
+        CausalNode,
+        DynamicSchemaRegistry,
+        EntitySchema,
+        EpistemicObservation,
+        EpistemicReconciler,
+        ReconciliationResult,
+    )
+
+    dag = CausalEventDAG()
+    node = dag.add_event("a1", "ACT", "target1")
+    assert node.event_id in dag._nodes
+
+    registry = DynamicSchemaRegistry()
+    registry.emerge_entity("ent1", "type1", {"val": 1})
+    assert registry.is_active("ent1") is True
+
+
+def test_runtime_subsystem_imports() -> None:
+    from mong_nhiem.runtime import AuthoritativeMicroworld
+
+    world = AuthoritativeMicroworld(initial_state={"battery": 50.0})
+    world.advance_tick()
+    assert world.current_tick == 1
+
+
+

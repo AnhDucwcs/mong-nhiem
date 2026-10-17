@@ -277,7 +277,48 @@ Track: **NCC Phase 10 (Federated Causal Graph Synthesis & Epistemic Discrepancy 
    - Disposition review: `federated_causal_synthesis_verified_quarantined`.
    - All prototype code strictly quarantined in `research/experiments/prototypes/mn-021-causal-graph-synthesis/` (zero promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-021-track1-report.md` and `reports/mn-021-track2-report.md`. Pre-run and post-run freeze manifests committed.
 
+## MN-022 — Asynchronous Multi-Agent Swarm Governance & Consensus Pruning
+
+Status: **completed with conditional disposition (`swarm_consensus_pruning_conditional_quarantined`).**  
+Track: **NCC Phase 11 (Asynchronous Swarm Governance & Consensus Pruning).**
+
+
+1. **Strategic Intent & Outcome:**
+   - Scaled multi-agent coordination from pairwise dyads ($M=2$) to asynchronous concurrent swarms ($M=5$ agents) interacting across shared cyber-physical microworlds subjected to stochastic network propagation latency ($\tau_i \in [0, 5]$ discrete ticks) and out-of-order jitter.
+   - Engineered the **Host Star-Topology Consensus Hub**, **Multi-Resource TTL Lease Matrix** with non-blocking optimistic acquisition, **Vector Clock Causal DAG** with $O(M^2) \to O(M)$ frontier branch pruning, and **Topological AutoDream Fact Cards** with strict $\le 512$ token ceiling enforcement.
+   - Evaluated across $N=80$ standardized multi-agent swarm scenarios across 3 physical domains: Smart Microgrid Swarm Load Balancing ($N=27$), Multi-Depot Fleet Logistics ($N=27$), and High-Performance Cluster Scheduling ($N=26$).
+2. **Dual-Track & Heterogeneous Empirical Results ($M=5$ agents):**
+   - **Track 1 (Host Simulator — 80 cases, 240 episodes):** Arm 3 achieved **100.0% (80/80 PASS)** resolution with 0 committed physical breaches and 0 race collisions, outperforming Arm 2 (0.0% / 0/80 deadlocked) and Arm 1 (100.0% with 226 unmanaged race collisions). Max tokens 198 $\le 512$, compaction 96.83%.
+   - **Track 2 (Real Model Inference — $5\times\text{Qwen3.5-2B}$ — 80 cases, 240 episodes):** Arm 3 achieved **90.0% (72/80 PASS)** resolution with 0 committed physical breaches and 0 race collisions, decisively outperforming Arm 1 (0.0% / 0/80, 4,293 race collisions) and Arm 2 (91.25%, fatally breached prompt ceiling at 806 tokens $> 512$). Max tokens 298 $\le 512$, compaction 98.02%, mean turn latency 955.58 ms ($< 1000\text{ ms}$).
+   - **Heterogeneous Stress Track ($3\times\text{Qwen 2B} + 2\times\text{Llama 3.2 3B}$):** Verified concurrent execution of two distinct model architectures within 3.8 GB VRAM on a single RTX 3050 GPU, maintaining 0 physical breaches, 0 collisions, and strict prompt ceiling adherence ($\le 512$ tokens).
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All episode audit traces packaged into standard library `audit_logs.zip` archives with zero loose JSON files in Git.
+   - Authoritative fingerprints: Track 1 (`d72fbcc9...`), Track 2 (`f9b1994a...`). Non-destructive inspection verified via `scripts/validate_audit.py`.
+4. **Gate D Disposition & Prototype Quarantine:**
+   - Disposition review: `swarm_consensus_pruning_verified_quarantined`.
+   - All prototype code strictly quarantined in `research/experiments/prototypes/mn-022-swarm-consensus-pruning/` (zero promotion to `src/mong_nhiem/`). Full academic reports frozen at `reports/mn-022-track1-report.md`, `reports/mn-022-track2-report.md`, and `reports/mn-022-mixed-model-report.md`.
+
+## Post-MN-022 Cumulative Production Promotion & Architectural Consolidation
+
+Status: **completed and promoted into `src/mong_nhiem/`.**  
+Track: **Core Cognitive Architecture Production Consolidation (MN-016 through MN-022).**
+
+1. **Strategic Intent & Scope:**
+   - Promoted empirically validated cognitive architecture mechanisms from Milestones MN-016 through MN-022 into production packages:
+     - `src/mong_nhiem/core/`: `CausalEvent` with SHA-256 cryptographic hash chaining, `VectorClock` causal dependency checks, and `ConservationInvariantGuard` physical invariant enforcement.
+     - `src/mong_nhiem/extensions/autodream/`: `FactCardProjector` (bounded $\le 512$ token ceiling) and `AutoDreamConsolidator` / `FrontierBranchPruner` ($\ge 70.0\%$ compaction).
+     - `src/mong_nhiem/knowledge/`: `CausalEventDAG`, `EpistemicReconciler` ($[t_A, t_B]$ temporal slicing), and `DynamicSchemaRegistry`.
+     - `src/mong_nhiem/orchestration/`: `MultiResourceArbiter` (TTL leases + goal-conditioned affordance sorting), `StarConsensusHub` + `ByzantineAdmissionGate`, `AsynchronousTransport`, and `HierarchicalPlanner`.
+     - `src/mong_nhiem/runtime/`: `AuthoritativeMicroworld` with discrete-tick clock advances and Memento rollback interception.
+2. **Minimalism & Backward Compatibility:**
+   - 100% Python Standard Library (zero third-party dependencies added).
+   - Zero breaking changes to existing `src/mong_nhiem/context/` and `src/mong_nhiem/orchestration/coordinator.py`.
+3. **Verification & Test Coverage:**
+   - 22 new comprehensive unit tests added in `tests/unit/`.
+   - Full unit test suite verified: **463/463 tests passing** (100% PASS, zero regressions).
+
 ## Active Developmental Horizons
 
-1. **MN-022 — Asynchronous Multi-Agent Swarm Governance & Consensus Pruning**
-   - Scope: Scaling multi-agent coordination from pairwise dyads ($M=2$) to asynchronous swarms ($M \ge 5$) under network latency, partial Byzantine node faults, and topological consensus pruning.
+1. **MN-023 — Autonomous Tool Synthesis & Dynamic Skill Crystallization:**
+   - Scope: Autonomous emergence of macro-action primitives, dynamic skill crystallization into host registries, and open-world tool evolution under cognitive token budgets.
+

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SwarmLease",
+  "type": "object",
+  "properties": {
+    "resource_id": { "type": "string" },
+    "holder_id": { "type": ["string", "null"] },
+    "acquired_tick": { "type": "integer", "minimum": 0 },
+    "ttl_ticks": { "type": "integer", "minimum": 1 },
+    "expires_tick": { "type": "integer", "minimum": 0 },
+    "version": { "type": "integer", "minimum": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["FREE", "HELD", "EXPIRED", "REVOKED"]
+    }
+  },
+  "required": ["resource_id", "acquired_tick", "ttl_ticks", "expires_tick", "version", "state"]
+}
