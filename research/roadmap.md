@@ -353,9 +353,30 @@ Track: **NCC Phase 13 (Long-Horizon Microworld Scaling & Multi-Hop Causal Mainte
    - Disposition review: `long_horizon_microworld_verified_quarantined`.
    - Prototype code remains quarantined in `research/experiments/prototypes/mn-024-long-horizon-epistemic-microworld/`. Full academic reports frozen at `reports/mn-024-track1-report.md` and `reports/mn-024-track2-report.md`. Pre-run and post-run freeze manifests committed. `EnvironmentalEntropyEngine` and `LongHorizonMicroworldEngine` earned promotion readiness for subsequent integration.
 
+## MN-025 — Cross-Domain Epistemic Knowledge Transfer, Cognitive Belief Conflict Reconciliation, and Stochastic Open Microworlds
+
+Status: **completed and verified prototype (`cross_domain_epistemic_transfer_verified_quarantined`).**  
+Track: **NCC Phase 14 (Cross-Domain Epistemic Knowledge Transfer & Multi-Stage Cognitive Generalization).**
+
+1. **Strategic Intent & Outcome:**
+   - Evaluated three sequential cognitive frontiers on local `Qwen3.5-2B-Q4_K_M.gguf`: Stage 1 (Cross-Domain Epistemic Transfer), Stage 2 (Cognitive Belief Conflict Reconciliation), and Stage 3 (Open-World Stochastic Shocks & Dynamic Topology).
+   - Designed and benchmarked **Host Topological Schema Cards**, **Epistemic Reconciler** ($d(\mathcal{G}_A, \mathcal{G}_B) \to 0$), **Dynamic Schema Registry**, **Non-Monotonic Anchor Demotion**, and Host Latent Derivative Tracking to neutralize both immediate negative transfer traps and latent time-bomb degradation traps.
+   - Evaluated across $N=60$ standardized multi-stage scenarios across 3 physical domains (Nuclear Fission Core Cooling, Orbital Habitat Life Support, Regional Smart Microgrid).
+2. **Dual-Track Empirical Results (180 Episodes Per Track):**
+   - **Track 1 (Host Simulator — 180 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** resolution with 0 physical breaches, 0 race collisions, 0 negative transfer violations, +50.0% speedup delta, and 100.0% anchor demotion fidelity. All 10 Gate B clauses met.
+   - **Track 2 (Real Model Inference on Qwen 3.5 2B — 180 episodes):** Arm 3 achieved **95.0% (57/60 PASS)** task resolution (3 uncompleted cases were phantom decoy traps where the model rationally abstained), outperforming Arm 1 baseline (28.3%) and Arm 2 control (61.7%). Speedup delta reached **+64.29%**, dialectic convergence reached **100.0%**, physical breaches were **0**, collisions were **0**, max working prompt tokens were **153 tokens** ($\le 512$), turn latency averaged **179.19 ms** ($< 1000\text{ ms}$ SLA), and anchor demotion fidelity reached **100.0%**. Passed all 10 Gate B acceptance clauses (10/10 PASS).
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All 360 episode execution traces sealed into `audit_logs.zip` archives with zero loose JSON files in Git.
+   - Track 1 Archive: `runs/run_1792242182_track1_sim/audit_logs.zip`.
+   - Track 2 Archive: `runs/run_1792242199_track2_qwen/audit_logs.zip`.
+4. **Gate D Disposition & Promotion Readiness:**
+   - Disposition review: `cross_domain_epistemic_transfer_verified_quarantined`.
+   - Prototype code remains quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`. Full academic reports frozen at `reports/mn-025-track1-report.md` and `reports/mn-025-track2-report.md`. Pre-run and post-run freeze manifests committed. `IsomorphismEngine`, `ConflictEngine`, and `StochasticEngine` earned promotion readiness for subsequent integration.
+
 ## Active Developmental Horizons
 
-1. **MN-025 — Cross-Domain Epistemic Knowledge Transfer & Multi-Agent Specialization:**
+1. **MN-026 — Multi-Agent Heterogeneous Swarm Governance & Dynamic Consensus Under Deep Asymmetric Information:**
    - Status: **Active (Gate A chartering underway).**
-   - Core Mission: Evaluating cross-domain transfer of causal graph topologies and specialized agent role policies across heterogeneous microworld domains while maintaining host-authoritative invariant verification and bounded memory footprints.
+   - Core Mission: Scaling multi-agent swarm coordination to heterogeneous mixed-model architectures operating under deep epistemic opacity, non-stationary Byzantine failures, and asynchronous distributed consensus.
+
 

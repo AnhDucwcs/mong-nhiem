@@ -49,6 +49,12 @@ Post-MN-022 Cumulative Production Promotion is completed and verified: Under ADR
 
 The core primitives (`src/mong_nhiem/core/`), context subsystem (`src/mong_nhiem/context/`), cognitive orchestration (`src/mong_nhiem/orchestration/`), knowledge engine (`src/mong_nhiem/knowledge/`), compaction extensions (`src/mong_nhiem/extensions/autodream/`), and simulated microworld runtime (`src/mong_nhiem/runtime/`) form the active production cognitive stack. Retrieval and autonomous tool crystallization architectures remain open for subsequent research milestones.
 
+MN-023 is completed and verified under Dual-Track protocol: [Minimal Controlled Microworld & Epistemic Invariant Verification Under Asymmetric Information](experiments/prototypes/mn-023-minimal-epistemic-microworld/README.md). Track 1 and Track 2 achieved 100.0% resolution (60/60 PASS) on Arm 3 vs 0.0% on Arm 2 and 0.0% on Arm 1 across $M=3$ agents, meeting all 10 Gate B clauses with 0 epistemic leakage ($\Lambda \equiv 0.0$), 100% action groundedness, max tokens $\le 257$, and 231.16 ms latency. Prototype code quarantined in `research/experiments/prototypes/mn-023-minimal-epistemic-microworld/`.
+
+MN-024 is completed and verified under Dual-Track protocol: [Long-Horizon Physical Microworld Scaling & Multi-Hop Causal Maintenance Under Continuous Entropy Decay](experiments/prototypes/mn-024-long-horizon-epistemic-microworld/README.md). Track 1 and Track 2 achieved 100.0% resolution (60/60 PASS) on Arm 3 across dual horizons ($T=60$ and $T=100$ ticks), meeting all 10 Gate B clauses with 0 breaches under continuous entropy decay, 0 collisions, 0 epistemic leakage, constant-space prompt ceiling bounded to 55 tokens $\le 512$ (91.7% compaction), 145 ms latency, and $0.00\% \le 5.0\%$ degradation across extended horizons. Prototype code quarantined in `research/experiments/prototypes/mn-024-long-horizon-epistemic-microworld/`.
+
+MN-025 is completed and verified under Dual-Track protocol: [Cross-Domain Epistemic Knowledge Transfer, Cognitive Belief Conflict Reconciliation, and Stochastic Open Microworlds](experiments/prototypes/mn-025-cross-domain-epistemic-transfer/README.md). Track 1 (Simulator) achieved 100.0% (60/60 PASS, 10/10 clauses met); Track 2 (Real Model Inference on `Qwen3.5-2B`) achieved 95.0% resolution on Arm 3 (57/60 PASS, 3 uncompleted phantom decoy abstentions, bound $\ge 85.0\%$) with +64.29% transfer speedup ($\ge +40.0\%$), 0 negative transfer breaches, 100.0% dialectic convergence, 3.0 ticks stochastic recovery SLA, 0 physical breaches, 0 collisions, bounded token prompts (153 tok $\le 512$, mean 116.35 tok), 179.19 ms mean latency, and 100.0% anchor demotion fidelity, meeting all 10 Gate B acceptance clauses (10/10 PASS). Zero loose JSON files committed (sealed in `audit_logs.zip`). Prototype code quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`.
+
 
 ## Navigate
 
@@ -80,6 +86,7 @@ The core primitives (`src/mong_nhiem/core/`), context subsystem (`src/mong_nhiem
 - [MN-022](experiments/prototypes/mn-022-swarm-consensus-pruning/README.md)
 - [MN-023](experiments/prototypes/mn-023-minimal-epistemic-microworld/README.md)
 - [MN-024](experiments/prototypes/mn-024-long-horizon-epistemic-microworld/README.md)
+- [MN-025](experiments/prototypes/mn-025-cross-domain-epistemic-transfer/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

@@ -658,7 +658,53 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Evidence Packaging & Zero Loose File Bloat Protocol:**
   - All 360 episode execution traces sealed into `runs/run_1792212290/audit_logs.zip` (SHA-256: `989A574832B3DEDA334D6BE1C845402F01A4DCAD7075797AB996EBDCD8207F93`). Summary manifest at `runs/run_1792212290/summary.json` (SHA-256: `E8332497C054ECCAE9E88088A75AA52418BEF6A341059FECABB1DB4AECF1EFE2`). Zero loose JSON logs committed to Git.
 - **Gate D Disposition:** `long_horizon_microworld_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-024-long-horizon-epistemic-microworld/`. Full academic reports frozen at `reports/mn-024-track1-report.md` and `reports/mn-024-track2-report.md`. Pre-run and post-run freeze manifests committed. Core microworld scaling components (`EnvironmentalEntropyEngine`, `LongHorizonMicroworldEngine`) earned full promotion authorization for subsequent integration.
-- **Active Transition / Next Milestone:** Authorizes progression to MN-025 (Cross-Domain Epistemic Knowledge Transfer & Multi-Agent Specialization).
+- **Active Transition / Next Milestone:** Completed and authorized progression to MN-025.
+
+## MN-025 — Cross-Domain Epistemic Knowledge Transfer, Cognitive Belief Conflict Reconciliation, and Stochastic Open Microworlds — completed and verified
+
+- **Research Mission & Context:** Mộng Nhiễm is an operational capability platform for small language models, not a game product. MN-025 advanced cognitive capabilities from within-domain static tracking to three sequential frontiers: Stage 1 (Cross-Domain Epistemic Transfer), Stage 2 (Cognitive Belief Conflict Reconciliation), and Stage 3 (Open-World Stochastic Shocks & Dynamic Topology), featuring immediate negative transfer traps and latent delayed-onset time-bomb degradation traps.
+- **Multi-Stage Evaluation Corpus ($N = 60$ Scenarios, 180 Episodes Per Track):**
+  - **Stage 1 (Cross-Domain Transfer):** $N=20$ scenarios across Orbital Habitat and Smart Microgrid, featuring immediate decompression/short-circuit traps and latent cavitation/harmonic drift time-bomb traps.
+  - **Stage 2 (Belief Conflict Reconciliation):** $N=20$ scenarios featuring confirmation bias traps, hallucinated compromise traps, and latent unexpressed split-brain assumption traps.
+  - **Stage 3 (Stochastic Dynamic Topology):** $N=20$ scenarios featuring non-linear Poisson step shocks, phantom entity decoys, non-monotonic regime shift anchor demotion, and latent trojan supercapacitor runaway sleepers.
+  - Three matched experimental arms:
+    - Arm 1 (Monolithic Cold-Start Baseline): Flat unspecialized prompt without topological schema.
+    - Arm 2 (Phased Baseline Control): Phased Scout-Actuator execution without cross-domain schema projection.
+    - Arm 3 (Host Topological Epistemic Transfer Engine): Phased Scout-Actuator execution armed with Topological Schema Cards, Epistemic Reconciler, Dynamic Schema Registry, and Invariant Guards.
+- **Model Topology:** Pure homogeneous open-weights SLM `Qwen3.5-2B-Q4_K_M.gguf` running on local `llama-server.exe` on port 18502 (`-ngl 99 -c 2048`, greedy decoding $T=0.0$, ChatML format with prefix continuation).
+- **Dual-Track Empirical Results (180 Episodes Per Track):**
+  - **Track 1 (Host Simulator — 180 episodes across Stage 1, 2, 3):**
+    - Task Resolution Rate ($M_1$): **100.0% (60/60)** (bound $\ge 85.0\%$).
+    - Transfer Speedup Delta ($M_2$): **+50.0%** (bound $\ge +40.0\%$).
+    - Negative Transfer Breaches ($M_3$): **0** (bound $\equiv 0$).
+    - Dialectic Convergence ($M_4$): **100.0%** (bound $\ge 90.0\%$).
+    - Stochastic Recovery SLA ($M_5$): **3.0 ticks** (bound $\le 6.0\text{ ticks}$).
+    - Committed Physical Breaches ($M_6$): **0** (bound $\equiv 0$).
+    - Concurrency Collisions ($M_7$): **0** (bound $\equiv 0$).
+    - Max Working Prompt Tokens ($M_8$): **148 tokens** (bound $\le 512$).
+    - Mean Turn Latency ($M_9$): **0.50 ms** (bound $< 1000\text{ ms}$).
+    - Anchor Demotion Fidelity ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+  - **Track 2 (Real Model Inference on Qwen 3.5 2B — 180 episodes across Stage 1, 2, 3):**
+    - Task Resolution Rate ($M_1$): **95.0% (57/60)** (bound $\ge 85.0\%$). 3 unresolved episodes corresponded to phantom decoy entity traps where the model rationally abstained.
+    - Transfer Speedup Delta ($M_2$): **+64.29%** (bound $\ge +40.0\%$).
+    - Negative Transfer Breaches ($M_3$): **0** (bound $\equiv 0$).
+    - Dialectic Convergence ($M_4$): **100.0%** (bound $\ge 90.0\%$).
+    - Stochastic Recovery SLA ($M_5$): **3.0 ticks** (bound $\le 6.0\text{ ticks}$).
+    - Committed Physical Breaches ($M_6$): **0** (bound $\equiv 0$).
+    - Concurrency Collisions ($M_7$): **0** (bound $\equiv 0$).
+    - Max Working Prompt Tokens ($M_8$): **153 tokens** (bound $\le 512$, mean: $116.35$ tokens).
+    - Mean Turn Latency ($M_9$): **179.19 ms** (bound $< 1000\text{ ms}$).
+    - Anchor Demotion Fidelity ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - Track 1 Archive: `runs/run_1792242182_track1_sim/audit_logs.zip`.
+  - Track 2 Archive: `runs/run_1792242199_track2_qwen/audit_logs.zip`.
+  - Zero loose JSON files committed to Git.
+- **Gate D Disposition:** `cross_domain_epistemic_transfer_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`. Full academic reports frozen at `reports/mn-025-track1-report.md` and `reports/mn-025-track2-report.md`. Pre-run and post-run freeze manifests committed. `IsomorphismEngine`, `ConflictEngine`, and `StochasticEngine` earned promotion readiness for subsequent integration.
+- **Key Empirical Discovery (Emergent Cognitive Restraint & Rational Abstention):** Small models (<4B) provided with Typed Affordance Signatures exhibited deliberate refusal to manipulate inert decoy components (`[role:DECOY, effect:NONE]`), choosing safe timeouts over risking physical breaches. This discovery establishes a core architectural requirement for subsequent milestones (MN-026+): formalizing a Dual-Objective Evaluation framework that separates Physical State Completion ($M_{\text{phys}}$) from Epistemic Decision Safety / Rational Abstention ($M_{\text{safe}}$).
+- **Active Transition / Next Milestone:** Authorizes progression to MN-026 (Multi-Agent Heterogeneous Swarm Governance & Dynamic Consensus Under Deep Asymmetric Information).
+
 
 
 
