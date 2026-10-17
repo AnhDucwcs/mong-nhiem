@@ -1,0 +1,21 @@
+{
+  "prototype": "mn-023-minimal-epistemic-microworld",
+  "status": "FROZEN_PRE_RUN",
+  "files": {
+    "README.md": "931f6a65f3afe534a4fbf45b6a38a61c9fbb84b6996a11c6ee0a2a303af3b3c7",
+    "charter.md": "e0eb54e5ab40ac0613764487c9244a153b1d36c594bfb545348a8ce10fee5242",
+    "gate-b-contract.md": "825f60455797b1ae85360401904178a8cec105819ab873d537eb583abf732e0f",
+    "reports\\mn-023-track1-report.md": "4aa04e105634b22e886980830844b9e9eb1ae0c8057a952616d0350e54901d98",
+    "reports\\mn-023-track2-report.md": "09e7957a8c137b19927e2cf185626a393aaed5f3a35400844385c1e34e53e1b2",
+    "runs\\run_20261013_103904_track2_qwen\\audit_logs.zip": "6c248be9c1620320463deaf91fce7db372eb949ee41d2538121349ea5206fc89",
+    "runs\\run_20261013_103904_track2_qwen\\run_summary.json": "4d2eb76f726aed426735f8368c4b34e4d5cfae8f59478366c99c910fcd32b08b",
+    "src\\agent_worker.py": "eb0897dce19fff5343f4c63775aeb2081669893b1baaa73f4c2abf9502d3ec03",
+    "src\\benchmark_scenarios.py": "ebc33364c4a8f13766a8de1c84eff2209206e011561de42666eb21a72d28d492",
+    "src\\epistemic_mask.py": "ddca3e6aea2250986bad6fff36322b7896633dc27437a0cdff343688b59d3b40",
+    "src\\evaluator.py": "aa25eba47f104f25f3c36497a26a24abcbc1517e73acab79c5cc1638b4487200",
+    "src\\microworld_engine.py": "a03576a6264a98cba9e91d43b3da31318cb739ef98f6f896f189a24596488ad0",
+    "src\\runner_track1.py": "f947b84d04043462ef0afe07db293fa3f1b69210628fb3bdf6d61d66adf53ca4",
+    "src\\runner_track2.py": "8168816f0b8b2ee45c6b405111dd7a47da073e2434c86f8aa17e1775c0290050",
+    "tests\\test_microworld_invariants.py": "fafe4ece1618bfe43ae130d92b8306ef2722ff7783d25c87dce47f064c48ac36"
+  }
+}

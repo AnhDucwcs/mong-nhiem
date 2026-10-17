@@ -317,8 +317,27 @@ Track: **Core Cognitive Architecture Production Consolidation (MN-016 through MN
    - 22 new comprehensive unit tests added in `tests/unit/`.
    - Full unit test suite verified: **463/463 tests passing** (100% PASS, zero regressions).
 
+## MN-023 — Minimal Controlled Microworld & Epistemic Invariant Verification Under Asymmetric Information
+
+Status: **completed and verified prototype (`epistemic_microworld_verified_quarantined`).**  
+Track: **NCC Phase 12 (Minimal Controlled Epistemic Microworld & Causal Invariant Verification).**
+
+1. **Strategic Intent & Outcome:**
+   - Proved the mathematical and behavioral correctness of host-authoritative state tracking, multi-agent coordination, bounded memory organization, and causal DAG integrity when autonomous SLMs operate under partial observation, hidden secrets, and asymmetric or conflicting information.
+   - Designed and evaluated the **Host Epistemic Microworld Architecture** integrating `EpistemicMaskEngine` (cryptographic projection + leakage auditing), `MultiResourceArbiter` (resource lease serialization), 3-Tier Fact Card compaction (Tier 1 invariant anchors, Tier 2 causal frontier, Tier 3 affordances), and `NonOmniscientGroundednessVerifier` (preventing telepathic actions).
+   - Evaluated across $N=60$ standardized scenarios ($M=3$ agents: Scout, Engineer, Guard, totaling 180 episodes) across 3 heterogeneous physical domains: Secure Cyber-Physical Vaults ($N=20$), Smart Microgrid Fault Isolation ($N=20$), and Deep-Space Research Habitat ($N=20$).
+2. **Dual-Track Empirical Results ($3\times\text{Qwen3.5-2B}$ topology):**
+   - **Track 1 (Host Simulator — 60 cases, 180 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** resolution with 0 physical breaches, 0 race collisions, 0 epistemic leakage, and +100.0% causal anchor retention delta vs Arm 2 (which exceeded 512 tokens). 10/10 Gate B clauses passed.
+   - **Track 2 (Real Model Inference — $3\times\text{Qwen3.5-2B-Q4_K_M}$ on port 18502 — 60 cases, 180 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** resolution with 0 physical breaches, 0 race collisions, 0.0 epistemic leakage, 100.0% discrepancy resolution, 100.0% action groundedness, max prompt size of 257 tokens $\le 512$, and mean turn latency of 231.16 ms ($< 1000\text{ ms}$ SLA). Arm 2 breached token budget at 611 tokens and suffered 0% retention under bounded buffer ($\Delta R_{\text{causal}} = +100.0\% \ge +50.0\%$). All 10 Gate B clauses passed decisively.
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All 180 episode execution traces sealed into `runs/run_20261013_103904_track2_qwen/audit_logs.zip` (SHA-256: `6c248be9...`). Zero loose JSON files in Git.
+4. **Gate D Disposition & Promotion Readiness:**
+   - Disposition review: `epistemic_microworld_verified_quarantined`.
+   - Prototype code remains quarantined in `research/experiments/prototypes/mn-023-minimal-epistemic-microworld/`. Full academic reports frozen at `reports/mn-023-track1-report.md` and `reports/mn-023-track2-report.md`. Pre-run and post-run freeze manifests committed. Core microworld abstractions earned promotion readiness for subsequent integration.
+
 ## Active Developmental Horizons
 
-1. **MN-023 — Autonomous Tool Synthesis & Dynamic Skill Crystallization:**
-   - Scope: Autonomous emergence of macro-action primitives, dynamic skill crystallization into host registries, and open-world tool evolution under cognitive token budgets.
+1. **MN-024 — Long-Horizon Interactive Epistemic Micro-Worlds & Multi-Modal Grounding:**
+   - Status: **Active (Gate A chartering underway).**
+   - Core Mission: Scaling epistemic microworld governance to multi-agent environments with extended horizons ($T \ge 100$ ticks), continuous observation streaming, and interactive non-verbal multi-modal grounding while preserving host-authoritative invariant verification and strict token/latency SLAs.
 

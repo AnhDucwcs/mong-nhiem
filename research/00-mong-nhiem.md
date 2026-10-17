@@ -78,6 +78,7 @@ The core primitives (`src/mong_nhiem/core/`), context subsystem (`src/mong_nhiem
 - [MN-020](experiments/prototypes/mn-020-multi-agent-symbiosis/README.md)
 - [MN-021](experiments/prototypes/mn-021-causal-graph-synthesis/README.md)
 - [MN-022](experiments/prototypes/mn-022-swarm-consensus-pruning/README.md)
+- [MN-023](experiments/prototypes/mn-023-minimal-epistemic-microworld/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 
