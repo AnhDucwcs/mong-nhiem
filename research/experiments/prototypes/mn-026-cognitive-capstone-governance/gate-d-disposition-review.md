@@ -43,10 +43,25 @@ Both evaluation tracks (Track 1: Host Simulator, Track 2: Physical Neural Infere
 5. **Cognitive Preemption Invariant:** In-flight LLM reasoning cannot safely assume a static physical state. The `PreemptiveInterruptGate` maintains authoritative epoch management; any action proposal stamped with an obsolete epoch is dropped safely at dispatch time without physical mutation, while emergency directives trigger immediate mitigation.
 6. **Long-Horizon Plan Resumption Under Thermodynamic Decay:** In extended 50-tick horizons with continuous entropy drift ($+0.5\text{K/tick}$), Arm 3 successfully resolves emergencies and resumes suspended multi-hop causal execution without memory bloat ($\le 169$ tokens) or thermal runaway.
 
-## 5. Promotion Conditions & Next Steps
+## 5. Phase 2 (Post-MN-026) Cross-Model Generalization Results
 
-1. **Phase Quarantine:** In accordance with `AGENTS.md` Rule 4, prototype code remains quarantined within `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`.
-2. **Phase 2 (Post-MN-026) Trigger:**
-   - Execute cross-model generalization testing across additional open-weights architectures (`Llama-3.2-1B`, `Gemma-2-2B`).
-   - Validate invariant robustness against out-of-distribution physical topologies.
-   - Upon successful Phase 2 completion, execute formal production promotion of `SemanticInvariantGate`, `AbductiveCausalTracer`, `VirtualJitterArbiter`, and `PreemptiveInterruptGate` into `src/mong_nhiem/`.
+Following completion of Phase 1, Phase 2 subjected the prototype to cross-model evaluation across secondary qualified open-weights models (`Llama-3.2-3B-Instruct` and `Qwen3-4B`) across all $N = 120$ scenarios ($360$ physical neural episodes per model, $720$ episodes total) on `llama-server.exe`:
+
+| Model | Track 2 Physical Resolution ($M_1$) | Decision Safety / Abstention ($M_2$) | Semantic Breaches ($M_3$) | Abductive Resolution ($M_4$) | Committed Breaches ($M_6$) | Mean Latency ($M_9$) | Overall Disposition |
+|---|---|---|---|---|---|---|---|
+| **Qwen3.5-2B** | $100.0\%$ (PASS) | $100.0\%$ (PASS) | $0$ (PASS) | $100.0\%$ (PASS) | $0$ (PASS) | $195.70\text{ ms}$ | **PASS (10/10)** |
+| **Llama-3.2-3B** | $70.0\%$ (FAIL) | $100.0\%$ (PASS) | $0$ (PASS) | $100.0\%$ (PASS) | $0$ (PASS) | $140.44\text{ ms}$ | **FAIL (M1 GAP)** |
+| **Qwen3-4B** | $100.0\%$ (PASS) | $92.5\%$ (FAIL) | $0$ (PASS) | $100.0\%$ (PASS) | $0$ (PASS) | $224.55\text{ ms}$ | **FAIL (M2 GAP)** |
+
+### Cross-Model Cryptographic Provenance
+- `Llama-3.2-3B` Audit Archive: `runs/run_1792296475_track2_llama3_2_3b/audit_logs.zip` (SHA-256: `e07a1309f390abc24c3e9d320416c6075fe8f24c3849d608c034656b47132843`)
+- `Qwen3-4B` Audit Archive: `runs/run_1792297010_track2_qwen3_4b/audit_logs.zip` (SHA-256: `7d6e5aab7ce6da01cef4dc1b340f99d4394cea6398d89ec0c53f0f246616539b`)
+
+## 6. Promotion Conditions & Production Architecture Prerequisites
+
+While Host invariant protection and interrupt preemption operate deterministically across all models (0 physical breaches, 0 semantic breaches, 0 collisions across all 1,080 neural episodes), cross-model evaluation revealed two inductive biases that dictate production scaffolding:
+
+1. **Active Frontier Pruning (`AutoDreamConsolidator`):** AutoDream must prune resolved warning clauses from working frontier projections upon state transition to eliminate Llama's passive warning stagnation.
+2. **Decoy Affordance Suppression (`DeclarativeAffordanceEngine`):** On confirmed decoy entities, the Host affordance engine must mask procedural emergency verbs (`ENGAGE emergency_scram`) to eliminate Qwen 4B's urgency hallucination reflex.
+
+Prototype code remains quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/` pending user review of production promotion strategy into `src/mong_nhiem/`.

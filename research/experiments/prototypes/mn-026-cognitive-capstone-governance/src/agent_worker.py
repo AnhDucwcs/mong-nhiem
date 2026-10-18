@@ -11,32 +11,44 @@ from typing import Any, Dict, List, Optional, Tuple
 class AgentWorker:
     """Agent worker emitting structured actions via heuristic policy or local llama-server."""
 
-    def __init__(self, endpoint_url: Optional[str] = None, timeout_seconds: float = 10.0):
+    def __init__(self, endpoint_url: Optional[str] = None, timeout_seconds: float = 10.0, model_family: str = "qwen"):
         self.endpoint_url = endpoint_url
         self.timeout_seconds = timeout_seconds
+        self.model_family = model_family.lower()
 
-    def format_chatml_prompt(self, fact_card: str, role_name: str = "operational_agent") -> str:
-        """Formats the working prompt into standard ChatML for Qwen3.5-2B."""
+    def format_prompt(self, fact_card: str, role_name: str = "operational_agent") -> str:
+        """Formats the working prompt into standard ChatML (Qwen) or Llama 3 prompt format."""
         sys_prompt = (
             f"You are {role_name}, an operational agent. You must analyze the system status "
             "and select exactly one valid action from the available options. Output strictly: 'ACTION: <VERB> <TARGET>'."
         )
+        if "llama" in self.model_family:
+            return (
+                f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{sys_prompt}<|eot_id|>"
+                f"<|start_header_id|>user<|end_header_id|>\n\n{fact_card}<|eot_id|>"
+                f"<|start_header_id|>assistant<|end_header_id|>\n\nACTION:"
+            )
         return (
             f"<|im_start|>system\n{sys_prompt}<|im_end|>\n"
             f"<|im_start|>user\n{fact_card}<|im_end|>\n"
             f"<|im_start|>assistant\nACTION:"
         )
 
+    def format_chatml_prompt(self, fact_card: str, role_name: str = "operational_agent") -> str:
+        """Alias for format_prompt for backwards compatibility."""
+        return self.format_prompt(fact_card, role_name=role_name)
+
     def query_local_model(self, prompt: str) -> Tuple[str, float]:
         """Queries local llama-server.exe endpoint via standard library HTTP."""
         if not self.endpoint_url:
             return "ACTION: WAIT", 0.0
 
+        stop_tokens = ["\n", "<|eot_id|>", "<|end_of_text|>"] if "llama" in self.model_family else ["\n", "<|im_end|>", "<|im_start|>"]
         payload = {
             "prompt": prompt,
             "temperature": 0.0,
             "max_tokens": 16,
-            "stop": ["\n", "<|im_end|>", "<|im_start|>"],
+            "stop": stop_tokens,
         }
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(

@@ -19,15 +19,19 @@ from src.evaluator import MilestoneEvaluator
 from src.microworld_engine import MicroworldEngine
 
 
-def run_track2_benchmark(endpoint_url: str = "http://127.0.0.1:18502") -> Dict[str, Any]:
-    """Executes the full 240-episode Track 2 real model inference benchmark."""
+def run_track2_benchmark(
+    endpoint_url: str = "http://127.0.0.1:18502",
+    model_tag: str = "qwen",
+    model_family: str = "qwen",
+) -> Dict[str, Any]:
+    """Executes the full 360-episode Track 2 real model inference benchmark."""
     scenarios = generate_benchmark_scenarios()
-    worker = AgentWorker(endpoint_url=endpoint_url)
+    worker = AgentWorker(endpoint_url=endpoint_url, model_family=model_family)
     run_timestamp = int(time.time())
     run_dir = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         "runs",
-        f"run_{run_timestamp}_track2_qwen",
+        f"run_{run_timestamp}_track2_{model_tag}",
     )
     os.makedirs(run_dir, exist_ok=True)
     temp_logs_dir = os.path.join(run_dir, "audit_logs_temp")
@@ -35,7 +39,7 @@ def run_track2_benchmark(endpoint_url: str = "http://127.0.0.1:18502") -> Dict[s
 
     episodes: List[Dict[str, Any]] = []
 
-    print(f"=== Starting Track 2 (Real Model Inference on Qwen 3.5 2B): {len(scenarios)} scenarios x 3 arms = {len(scenarios) * 3} episodes ===")
+    print(f"=== Starting Track 2 (Real Model Inference on {model_tag}): {len(scenarios)} scenarios x 3 arms = {len(scenarios) * 3} episodes ===")
 
     for arm in [1, 2, 3]:
         print(f"Executing Arm {arm}...")
@@ -61,10 +65,10 @@ def run_track2_benchmark(endpoint_url: str = "http://127.0.0.1:18502") -> Dict[s
                 prompt_tokens_record.append(tokens)
 
                 valid_affordances = engine.get_valid_affordances(target_arm=arm)
-                chatml_prompt = worker.format_chatml_prompt(fact_card, role_name="operational_agent")
+                model_prompt = worker.format_prompt(fact_card, role_name="operational_agent")
 
                 # Real neural forward pass on local llama-server
-                raw_action, latency_ms = worker.query_local_model(chatml_prompt)
+                raw_action, latency_ms = worker.query_local_model(model_prompt)
                 latencies_record.append(latency_ms)
 
                 # Action parsing & normalization
@@ -89,7 +93,7 @@ def run_track2_benchmark(endpoint_url: str = "http://127.0.0.1:18502") -> Dict[s
                 step_res = engine.step(matched_action, target_arm=arm)
                 episode_history.append({
                     "turn": turn,
-                    "prompt": chatml_prompt,
+                    "prompt": model_prompt,
                     "raw_action": raw_action,
                     "parsed_action": matched_action,
                     "tokens": tokens,
@@ -151,6 +155,8 @@ def run_track2_benchmark(endpoint_url: str = "http://127.0.0.1:18502") -> Dict[s
     evaluator = MilestoneEvaluator(episodes)
     results = evaluator.evaluate_contract()
     results["run_timestamp"] = run_timestamp
+    results["model_tag"] = model_tag
+    results["model_family"] = model_family
     results["audit_logs_zip_sha256"] = zip_sha256
     results["total_episodes"] = len(episodes)
 
@@ -167,4 +173,15 @@ def run_track2_benchmark(endpoint_url: str = "http://127.0.0.1:18502") -> Dict[s
 
 
 if __name__ == "__main__":
-    run_track2_benchmark()
+    import argparse
+    parser = argparse.ArgumentParser(description="Run MN-026 Track 2 Benchmark")
+    parser.add_argument("--endpoint", default="http://127.0.0.1:18502", help="llama-server endpoint")
+    parser.add_argument("--model-tag", default="qwen", help="Identifier for run folder e.g. llama3_2_3b, qwen3_4b")
+    parser.add_argument("--model-family", default="qwen", choices=["qwen", "llama"], help="Model prompt family")
+    args = parser.parse_args()
+
+    run_track2_benchmark(
+        endpoint_url=args.endpoint,
+        model_tag=args.model_tag,
+        model_family=args.model_family,
+    )
