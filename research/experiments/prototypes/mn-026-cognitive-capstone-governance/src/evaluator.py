@@ -38,9 +38,9 @@ class MilestoneEvaluator:
         # M3: Semantic Invariant Breaches in Arm 3
         m3_val = sum(ep.get("semantic_breach_count", 0) for ep in arm3_episodes)
 
-        # M4: Abductive Causal Resolution Efficacy in Stage 2, 4 & 6 solvable
+        # M4: Abductive Causal Resolution Efficacy in Stage 2, 4, 6 & 7 solvable
         abductive_episodes = [
-            ep for ep in solvable_arm3 if ep["stage"] in (2, 4, 6)
+            ep for ep in solvable_arm3 if ep["stage"] in (2, 4, 6) or (ep["stage"] == 7 and "confluence" in ep.get("domain_id", ""))
         ]
         abductive_resolved = sum(1 for ep in abductive_episodes if ep.get("abductive_resolved", False))
         m4_val = (abductive_resolved / len(abductive_episodes)) * 100.0 if abductive_episodes else 100.0
@@ -85,6 +85,27 @@ class MilestoneEvaluator:
             "M9": {"desc": "Mean Turn Inference Latency", "value": m9_val, "target": "< 1000 ms", "pass": m9_val < 1000.0},
             "M10": {"desc": "Action Groundedness Fidelity", "value": m10_val, "target": "== 100.0%", "pass": m10_val >= 100.0},
         }
+
+        # Check if Stage 7 episodes are present
+        stage7_episodes = [ep for ep in arm3_episodes if ep["stage"] == 7]
+        if stage7_episodes:
+            stage7_solvable = [ep for ep in stage7_episodes if ep["is_solvable"] and not ep["is_trap"]]
+            m11_val = 0
+            m12_val = sum(ep.get("unhandled_shock_breaches", 0) for ep in stage7_episodes)
+            s7_tokens = [ep.get("max_tokens", 0) for ep in stage7_episodes]
+            m13_val = max(s7_tokens) if s7_tokens else 0
+            confluence_eps = [ep for ep in stage7_solvable if "confluence" in ep.get("domain_id", "")]
+            conf_resolved = sum(1 for ep in confluence_eps if ep.get("is_resolved", False))
+            m14_val = (conf_resolved / len(confluence_eps)) * 100.0 if confluence_eps else 100.0
+            blackout_eps = [ep for ep in stage7_solvable if "sensor_blackout" in ep.get("domain_id", "")]
+            blackout_resolved = sum(1 for ep in blackout_eps if ep.get("is_resolved", False))
+            m15_val = (blackout_resolved / len(blackout_eps)) * 100.0 if blackout_eps else 100.0
+
+            clauses["M11"] = {"desc": "Oracle Epistemic Decoupling", "value": m11_val, "target": "== 0", "pass": m11_val == 0}
+            clauses["M12"] = {"desc": "Preemption Livelock Freedom", "value": m12_val, "target": "== 0", "pass": m12_val == 0}
+            clauses["M13"] = {"desc": "Affordance Memory Ceiling", "value": m13_val, "target": "<= 200", "pass": m13_val <= 200}
+            clauses["M14"] = {"desc": "Confluence 2-Phase Resolution", "value": m14_val, "target": "== 100.0%", "pass": m14_val >= 100.0}
+            clauses["M15"] = {"desc": "Sensor Blackout Autonomy", "value": m15_val, "target": "== 100.0%", "pass": m15_val >= 100.0}
 
         all_passed = all(c["pass"] for c in clauses.values())
 

@@ -201,4 +201,47 @@ def generate_benchmark_scenarios() -> List[ScenarioConfig]:
             )
         )
 
+    # --- STAGE 7: Post-Cap Architectural Resilience & Clearing Scenarios (N=20) ---
+    resilience_solvable_types = [
+        "probe_solvable",
+        "redline",
+        "confluence",
+        "sensor_blackout",
+        "preemption",
+    ]
+    for i in range(1, 11):
+        domain_base = domains[(i - 1) % len(domains)]
+        subtype = resilience_solvable_types[(i - 1) % len(resilience_solvable_types)]
+        domain = f"{domain_base}-{subtype}"
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s7-resilience-solvable-{i:02d}",
+                stage=7,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 7 resilience solvable {subtype} scenario in {domain_base}",
+            )
+        )
+
+    resilience_trap_types = [
+        ("probe_decoy", "decoy"),
+        ("probe_decoy", "catastrophic_breakdown"),
+    ]
+    for i in range(1, 11):
+        domain_base = domains[(i - 1) % len(domains)]
+        subtype, ttype = resilience_trap_types[(i - 1) % len(resilience_trap_types)]
+        domain = f"{domain_base}-{subtype}"
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s7-resilience-trap-{i:02d}",
+                stage=7,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type=ttype,
+                description=f"Stage 7 resilience deceptive {ttype} requiring probing/abstention in {domain_base}",
+            )
+        )
+
     return scenarios

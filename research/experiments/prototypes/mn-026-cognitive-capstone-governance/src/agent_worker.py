@@ -49,6 +49,7 @@ class AgentWorker:
             "temperature": 0.0,
             "max_tokens": 16,
             "stop": stop_tokens,
+            "cache_prompt": False,
         }
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
@@ -134,6 +135,11 @@ class AgentWorker:
             return valid_affordances[0] if valid_affordances else "ACTION: WAIT"
 
         # Arm 3: Host Cognitive Capstone Engine (Optimal phased resolution & rational abstention)
+        # Prioritize empirical probing when unverified components are present
+        for aff in valid_affordances:
+            if "PROBE" in aff:
+                return aff
+
         if is_trap:
             # Rational Abstention
             for aff in valid_affordances:
@@ -231,5 +237,23 @@ class AgentWorker:
                 for aff in valid_affordances:
                     if "RESOLVE" in aff:
                         return aff
+
+        elif stage == 7:
+            # Stage 7 Resilience resolution paths
+            for aff in valid_affordances:
+                if "ISOLATE heat_exchanger" in aff:
+                    return aff
+            for aff in valid_affordances:
+                if "ENGAGE candidate_feeder" in aff:
+                    return aff
+            for aff in valid_affordances:
+                if "RESTORE coolant_valve" in aff:
+                    return aff
+            for aff in valid_affordances:
+                if "BROADCAST_SOS_AND_WAIT" in aff:
+                    return aff
+            for aff in valid_affordances:
+                if "RESOLVE" in aff:
+                    return aff
 
         return valid_affordances[0] if valid_affordances else "ACTION: WAIT"

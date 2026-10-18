@@ -65,10 +65,20 @@ class AbductiveCausalTracer:
         })
 
     def trace_symptom(
-        self, symptom: str, reporting_partition: str
+        self, symptom: str, reporting_partition: str, visited: Optional[Set[str]] = None
     ) -> Optional[Tuple[str, str, str]]:
-        """Given a reported symptom in reporting_partition, returns (source_partition, root_action, mitigation_action)."""
+        """Given a reported symptom in reporting_partition, returns (source_partition, root_action, mitigation_action).
+        Includes cycle detection to terminate feedback loops (A -> B -> A) cleanly.
+        """
+        if visited is None:
+            visited = set()
+
         clean_symptom = symptom.replace("ANOMALY:", "").strip()
+        state_key = f"{reporting_partition}:{clean_symptom}"
+        if state_key in visited:
+            # Feedback loop cycle detected: break recursion and retain earliest observed cause
+            return None
+        visited.add(state_key)
 
         for rule in self.dependency_rules:
             if (
@@ -91,3 +101,36 @@ class AbductiveCausalTracer:
     def render_abductive_hint(self, source_partition: str, root_action: str, mitigation: str) -> str:
         """Renders compact Tier 2 hint for the responsible agent."""
         return f"[ABDUCTIVE_HINT: {root_action} in {source_partition} -> EXECUTE {mitigation}]"
+
+    def compute_confluence_attribution(
+        self, factors: Dict[str, Tuple[float, float]]
+    ) -> Dict[str, float]:
+        """Computes marginal contribution weights for multi-parent confluence symptoms.
+        
+        factors: Dict mapping factor_name -> (marginal_derivative dY/dXi, delta_Xi)
+        Returns: Dict mapping factor_name -> normalized contribution in [0.0, 1.0]
+        """
+        raw_contributions: Dict[str, float] = {}
+        for factor, (d_y, delta_x) in factors.items():
+            raw_contributions[factor] = abs(d_y * delta_x)
+        
+        total_contrib = sum(raw_contributions.values())
+        if total_contrib == 0.0:
+            return {k: 0.0 for k in factors}
+        
+        return {k: round(v / total_contrib, 4) for k, v in raw_contributions.items()}
+
+    def render_confluence_hint(
+        self,
+        dominant_factor: str,
+        trigger_factor: str,
+        containment_action: str,
+        root_fix_action: str,
+    ) -> List[str]:
+        """Renders 2-phase Tier 2 directive separating immediate containment from root fix."""
+        return [
+            f"[CONFLUENCE_DETECTED: DOMINANT={dominant_factor}, TRIGGER={trigger_factor}]",
+            f"[PHASE 1 - CONTAINMENT: EXECUTE {containment_action}]",
+            f"[PHASE 2 - ROOT_FIX: EXECUTE {root_fix_action}]",
+        ]
+

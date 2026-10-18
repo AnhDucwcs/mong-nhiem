@@ -8,7 +8,7 @@ import os
 import sys
 import time
 import zipfile
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 # Ensure prototype root is in sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -23,15 +23,19 @@ def run_track2_benchmark(
     endpoint_url: str = "http://127.0.0.1:18502",
     model_tag: str = "qwen",
     model_family: str = "qwen",
+    stage_filter: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Executes the full 360-episode Track 2 real model inference benchmark."""
+    """Executes Track 2 real model inference benchmark (optionally filtered by stage)."""
     scenarios = generate_benchmark_scenarios()
+    if stage_filter is not None:
+        scenarios = [s for s in scenarios if s.stage == stage_filter]
     worker = AgentWorker(endpoint_url=endpoint_url, model_family=model_family)
     run_timestamp = int(time.time())
+    suffix = f"_stage{stage_filter}" if stage_filter is not None else ""
     run_dir = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         "runs",
-        f"run_{run_timestamp}_track2_{model_tag}",
+        f"run_{run_timestamp}_track2_{model_tag}{suffix}",
     )
     os.makedirs(run_dir, exist_ok=True)
     temp_logs_dir = os.path.join(run_dir, "audit_logs_temp")
@@ -39,7 +43,7 @@ def run_track2_benchmark(
 
     episodes: List[Dict[str, Any]] = []
 
-    print(f"=== Starting Track 2 (Real Model Inference on {model_tag}): {len(scenarios)} scenarios x 3 arms = {len(scenarios) * 3} episodes ===")
+    print(f"=== Starting Track 2 (Real Model Inference on {model_tag}{suffix}): {len(scenarios)} scenarios x 3 arms = {len(scenarios) * 3} episodes ===")
 
     for arm in [1, 2, 3]:
         print(f"Executing Arm {arm}...")
@@ -178,10 +182,12 @@ if __name__ == "__main__":
     parser.add_argument("--endpoint", default="http://127.0.0.1:18502", help="llama-server endpoint")
     parser.add_argument("--model-tag", default="qwen", help="Identifier for run folder e.g. llama3_2_3b, qwen3_4b")
     parser.add_argument("--model-family", default="qwen", choices=["qwen", "llama"], help="Model prompt family")
+    parser.add_argument("--stage", type=int, default=None, help="Filter by specific stage (e.g. 7)")
     args = parser.parse_args()
 
     run_track2_benchmark(
         endpoint_url=args.endpoint,
         model_tag=args.model_tag,
         model_family=args.model_family,
+        stage_filter=args.stage,
     )

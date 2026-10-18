@@ -20,6 +20,7 @@ Milestone **MN-026** constitutes the **Grand Capstone & Hardening Milestone** of
 4. **Stage 4 (Composite Capstone Stress-Test):** Synthesizes all mechanisms into a unified, high-stress cyber-physical microworld to stress-test multi-hop causal chains.
 5. **Stage 5 (Preemptive Cognitive Interrupt & Mid-Trajectory Shocks):** Evaluates Host epoch management and cognitive preemption when unexpected physical shocks abruptly emerge at $t+1$ during in-flight LLM reasoning.
 6. **Stage 6 (Long-Horizon Composite Capstone Microworld with Passive Decay):** Evaluates extended-horizon ($T=50$ ticks) multi-hop causal execution under passive thermodynamic decay, mid-trajectory pipe rupture shocks, deceptive traps, and plan resumption.
+7. **Stage 7 (Post-Cap Architectural Resilience & Real-World Clearing Phase):** Rectifies prototype-microworld vulnerabilities prior to production promotion: eliminates Oracle Epistemic Leakage via empirical probing (`PROBE`), prevents Preemption Livelocks via a 3-class action taxonomy, bounds affordance combinatorial explosion via Goal-Conditioned Ranking, resolves abductive causal confluence via marginal sensitivity attribution, and establishes Dual-Mode sensor blackout resilience (Autonomous Improvise vs Supervised Standby).
 
 ---
 
@@ -31,6 +32,11 @@ Milestone **MN-026** constitutes the **Grand Capstone & Hardening Milestone** of
 - **RQ3 (Abductive Cross-Partition Resolution):** When an unobserved root action in Partition A generates secondary physical distress in Partition B, can Host Abductive Causal Tracing synthesize symptom signals into actionable mitigation directives without cross-partition context pollution?
 - **RQ4 (Dual-Objective Rational Restraint):** Under a balanced corpus of 50% solvable crises and 50% deceptive decoy/unsolvable traps, does the SLM achieve high physical task resolution while maintaining zero reckless actions on deceptive traps?
 - **RQ5 (Cognitive Preemption & Stale Action Invalidation):** When an asynchronous physical shock emerges at $t+1$, can the Host `PreemptiveInterruptGate` invalidate stale proposals ($action\_epoch < world\_epoch$) and drop them safely without physical breach?
+- **RQ6 (Oracle Epistemic Decoupling):** Can the system achieve safe abstention on deceptive decoys without relying on god-mode oracle flags (`is_trap`) in affordances, instead relying on active empirical probing (`PROBE`)?
+- **RQ7 (Preemption Livelock Freedom):** Does an orthogonal 3-class action taxonomy (`READ_ONLY`, `FAILSAFE`, `MUTATION`) eliminate preemption livelocks under high-frequency shocks while maintaining absolute physical integrity?
+- **RQ8 (Combinatorial Affordance Bounding):** Does Goal-Conditioned Top-4 Ranking guarantee prompt working memory $\le 200\text{ tokens}$ even when the ecosystem scales to dozens of controllable devices?
+- **RQ9 (Abductive Causal Confluence Attribution):** In multi-parent failure modes where a minor trigger causes catastrophic spillover, can Host marginal attribution separate immediate containment from root-cause repair?
+- **RQ10 (Sensor Blackout Dual-Mode Autonomy):** When all direct physical telemetry fails, can the system sustain safe operation via secondary physics proxy observers (`AUTONOMOUS_IMPROVISE`) without human ground intervention?
 
 ### Formal Mathematical Hypotheses
 
@@ -52,6 +58,16 @@ Milestone **MN-026** constitutes the **Grand Capstone & Hardening Milestone** of
 - **$H_6$ (Cognitive Token Budget & Sub-Second Latency SLA):**
   Working prompt memory stays bounded at or below 512 tokens with sub-second mean turn inference latency:
   $$\max \text{Tokens}_t(\text{Arm 3}) \le 512\text{ tokens}, \quad \bar{T}_{\text{turn}}(\text{Arm 3}) < 1000\text{ ms}$$
+- **$H_7$ (Oracle Epistemic Decoupling & Probe Fidelity):**
+  Across all unverified component scenarios, empirical discovery via `PROBE` operates with zero leaked oracle flags in affordance generation ($L_{\text{oracle}} \equiv 0$).
+- **$H_8$ (Preemption Livelock Freedom):**
+  Under mid-trajectory shocks, failsafe defensive proposals tolerate 1-epoch delay without causing unhandled shock breaches ($L_{\text{livelock}} \equiv 0$).
+- **$H_9$ (Affordance Bounding & Prompt Economy):**
+  Across all Stage 7 turns, Top-4 ranking keeps prompt working memory bounded: $\max \text{Tokens}_t \le 200\text{ tokens} \ll 512\text{ tokens}$.
+- **$H_{10}$ (Causal Confluence 2-Phase Resolution):**
+  In multi-parent crises, Phase 1 containment precedes Phase 2 root fix with $100\%$ task resolution and zero premature mutation breaches.
+- **$H_{11}$ (Sensor Blackout Autonomous Survival):**
+  Under complete sensor blackout, the Autonomous Improvise policy successfully reconstructs state proxies and achieves task resolution ($M_{\text{blackout}} \equiv 100\%$).
 
 ---
 
@@ -69,17 +85,20 @@ Milestone **MN-026** constitutes the **Grand Capstone & Hardening Milestone** of
 3. **Arm 3 (Host Cognitive Capstone Engine):**
    - Full host cognitive governance on 1 SLM instance:
      - `SemanticInvariantGate`: Vector-clock and causal DAG precondition validation.
-     - `AbductiveCausalTracer`: Backward reachability mapping symptoms to concealed root causes.
+     - `AbductiveCausalTracer`: Backward reachability mapping symptoms to concealed root causes and confluence attribution.
      - `VirtualAsymmetricJitterArbiter`: Optimistic lease arbitration with variable cognitive latency.
      - `DualObjectiveAffordanceEngine`: Explicit `ABSTAIN` / `REFUSE` affordances with Typed Fact Cards.
+     - `PreemptiveInterruptGate`: 3-class action taxonomy (`READ_ONLY`, `FAILSAFE`, `MUTATION`) with epoch tolerance.
+     - `GoalConditionedRanker`: Top-4 affordance bounding for $O(1)$ token scaling.
+     - `ReflexCircuitBreaker`: Immediate physical cutoff when $T_{\text{ttc}} < T_{\text{infer}}$.
 
 ### Evaluation Tracks
 
 - **Track 1 (Host Simulator — Mathematical & Topological Verification):**
-  - Exhaustive state-space simulation across all $N = 120$ standardized scenarios ($360$ total episodes).
+  - Exhaustive state-space simulation across all $N = 140$ standardized scenarios ($420$ total episodes).
   - Verifies reachability, lease safety, preemption gate, and abductive inference mechanics.
 - **Track 2 (Real Model Inference — Pure Open-Weights `Qwen3.5-2B` on `llama-server.exe`):**
-  - Full neural inference runs on local hardware (port 18502) across all $N = 120$ scenarios ($360$ total episodes).
+  - Full neural inference runs on local hardware (port 18502) across all $N = 140$ scenarios ($420$ total episodes).
   - Verifies real inductive biases, token budget compliance ($\le 512$ tokens), preemption resilience, and latency SLA ($< 1000\text{ ms}$).
 
 ---
@@ -89,7 +108,7 @@ Milestone **MN-026** constitutes the **Grand Capstone & Hardening Milestone** of
 ### In Scope
 - Single open-weights language model (`Qwen3.5-2B-Q4_K_M.gguf`) hosted on local `llama-server.exe`.
 - Virtual multi-role heterogeneity (Scout, Operator, Arbiter) executed via stateless forward passes.
-- Standardized $N = 120$ scenarios across Nuclear Core Cooling, Orbital Life Support, and Regional Smart Microgrid across 6 stages.
+- Standardized $N = 140$ scenarios across Nuclear Core Cooling, Orbital Life Support, and Regional Smart Microgrid across 7 stages.
 - Dual-Objective quantitative evaluation ($M_{\text{phys}}$ and $M_{\text{safe}}$) and cognitive preemption ($M_{\text{preempt}}$).
 - Standard library `.zip` evidence packaging under the Zero Loose File Bloat Protocol.
 

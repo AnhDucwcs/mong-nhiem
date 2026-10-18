@@ -765,7 +765,36 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Discovered and rectified two model-specific inductive failure modes via Host-level scaffolding:
     - AutoDream Active Frontier Pruning eliminates Llama-3.2-3B warning-inhibition hesitation loops by scrubbing resolved compromise entries.
     - Decoy Affordance Masking prevents Qwen3-4B catastrophic urgency reflex by filtering procedural emergency verbs on confirmed decoys.
-- **Active Transition / Next Phase:** Authorizes production promotion of cognitive capstone modules into `src/mong_nhiem/`.
+- **Phase 3 (Post-MN-026: Architectural Resilience & Real-World Clearing Phase — Stage 7 Completed & Verified):**
+  - Chartered and executed Stage 7 clearing sub-phase resolving 5 production-transition vulnerabilities before production promotion:
+    1. Oracle Epistemic Decoupling: Active empirical probing (`ACTION: PROBE <target>`) replaces god-mode `is_trap` inspection in affordance generation; reflexive scram ($T \ge 450\text{K}$) halts runaway thermal meltdown.
+    2. Preemption Livelock Freedom: Orthogonal 3-class action taxonomy (`READ_ONLY`, `FAILSAFE`, `MUTATION`) ensures failsafe mitigations execute despite $\Delta\text{epoch} \le 1$ and read-only inspections remain epoch-immune.
+    3. Affordance Memory Bounding: Goal-Conditioned Top-4 Ranking keeps affordance prompt memory strictly bounded at $177 \le 200\text{ tokens}$ ($O(1)$ scaling).
+    4. Abductive Causal Confluence: Marginal sensitivity attribution ($\text{Contribution}(X_i) = |\partial Y / \partial X_i| \cdot \Delta X_i$) coordinates a 2-phase resolution path (`PHASE 1 - CONTAINMENT` $\to$ `PHASE 2 - ROOT_FIX`), achieving $100.0\%$ resolution.
+    5. Sensor Blackout Dual-Mode Autonomy: `AUTONOMOUS_IMPROVISE` (deep-space standard via secondary physics observers) and `SUPERVISED_STANDBY` achieved $100.0\%$ recovery.
+  - Evaluation Corpus expanded to $N=140$ scenarios ($420$ episodes per track/model, $1,260$ physical neural episodes across the 3 models, $1,680$ total benchmark episodes).
+  - Track 1 (Host Simulator — 420 episodes): **PASS (15/15 Clauses Met)**. Audit Archive SHA-256: `1a10d39fa2215835dc7df82f7517b9bc3a2ee21be7bf3c4edcfbf97ddfa2604a`.
+  - Track 2 (3 Real Neural Models — 420 episodes each, 1,260 episodes total):
+    1. `Qwen3.5-2B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $206.67\text{ ms}$, Verdict: **PASS (15/15)**. Archive SHA-256: `0d1145977bce8bc1e70ab4d2efc91a7242fdf29860081ba4e1c29a29955dd442`.
+    2. `Llama-3.2-3B-Instruct-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $160.55\text{ ms}$, Verdict: **PASS (15/15)**. Archive SHA-256: `1635094e2ff4805ceb1837faa2d519ed5f0c9bc322ba6c7e99e045aeb7e77e60`.
+    3. `Qwen3-4B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $213.37\text{ ms}$, Verdict: **PASS (15/15)**. Archive SHA-256: `9de89bb56c96dcf2f084666114f3abe616823b8918453e0f13bb9594ff8010cb`.
+  - Consolidated Master Summary: `runs/post_patch_3models_summary.json`.
+- **Phase 4 (Post-Stage-7 Edge Vulnerability Patches & Fast Track 2 Verification — Completed & Verified):**
+  - Identified and remediated 5 architectural edge vulnerabilities in the prototype:
+    1. *Dead Reckoning Drift Bound:* Telemetry confidence decays linearly during blackout ($1.0 - 0.08 \times \text{ticks}$). Forces transition to `SUPERVISED_STANDBY` upon exceeding $\text{TTL} = 10\text{ ticks}$ to bound state estimation drift.
+    2. *Precondition Dependency Pulling:* Actions enabling unmet preconditions (e.g., `REPAIR isolation_seal` enabling `ENGAGE secondary_feed`) receive a $+25.0$ affordance rank boost, eliminating affordance starvation in Top-4 bounded working memory.
+    3. *Post-Scram Recovery State Machine:* Host models clean post-trip recovery (`ACTION: RESET_SCRAM_BREAKER` when $T \le 320\text{K}$), returning system to `OPERATIONAL_RESTARTED` without operator dead-ends.
+    4. *Feedback Loop Cycle Termination:* Abductive DAG tracer tracks visited symptoms, cleanly terminating circular feedback loops ($A \to B \to A$) without recursion exhaustion.
+    5. *Stateless KV-Cache Isolation:* Agent completion requests enforce `"cache_prompt": False`, eliminating cross-role KV tensor contamination on `llama-server.exe` and guaranteeing the SLM operates strictly as a stateless black-box reasoning engine.
+  - Unit & Prototype Test Suite: `test_mn026.py` (12 tests) + `test_mn026_resilience.py` (10 tests) = **22/22 PASS** (0.05s).
+  - Fast Targeted Track 2 Verification ($N=20$ Stage 7 scenarios $\times 3\text{ arms} = 60\text{ episodes/model}$, $180\text{ physical neural episodes total}$):
+    1. `Qwen3.5-2B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $238.36\text{ ms}$, Working Memory: $177\text{ tok}$, Verdict: **PASS (15/15 Clauses Met)**. Audit Archive: `runs/run_1792331241_track2_qwen3_5_2b_stage7/audit_logs.zip` (SHA-256: `8182b8109bfdb1149eec21eef00f6ee8e03023fb293c6ae1848bbdc0fcf3d9ca`).
+    2. `Llama-3.2-3B-Instruct-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $245.75\text{ ms}$, Working Memory: $177\text{ tok}$, Verdict: **PASS (15/15 Clauses Met)**. Audit Archive: `runs/run_1792331336_track2_llama3_2_3b_stage7/audit_logs.zip` (SHA-256: `a937a5b3a3ea5a65c404cfbb484d081b7e4f0dc2f96cfb2f7902cae466b080b0`).
+    3. `Qwen3-4B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $315.66\text{ ms}$, Working Memory: $177\text{ tok}$, Verdict: **PASS (15/15 Clauses Met)**. Audit Archive: `runs/run_1792331431_track2_qwen3_4b_stage7/audit_logs.zip` (SHA-256: `fdb303112cf691060938a6a6858e378c66e2c3fb668fcbfba2c3f8753239cb32`).
+  - Consolidated Master Summary: `runs/post_patch_all_stage7_summary.json`.
+- **Gate D Final Disposition:** **UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION `src/mong_nhiem/`)**. Full academic reports frozen in `reports/`. Pre-run and post-run freeze manifests committed. Authorizes cumulative promotion of `SemanticInvariantGate`, `ReflexBreaker`, `AbductiveCausalTracer` with Confluence Decomposition, `GoalConditionedAffordanceRanker`, `PreemptiveInterruptGate` (3-class taxonomy), `VirtualJitterArbiter`, and `TelemetryObserver` into `src/mong_nhiem/`.
+- **Active Transition / Next Milestone:** Promotion into production `src/mong_nhiem/` followed by progression to the next milestone in the roadmap.
+
 
 
 

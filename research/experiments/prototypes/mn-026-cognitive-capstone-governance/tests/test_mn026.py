@@ -187,11 +187,12 @@ def test_microworld_stage4_composite_solvable():
 
 def test_benchmark_scenarios_count():
     scenarios = generate_benchmark_scenarios()
-    assert len(scenarios) == 120
+    assert len(scenarios) == 140
     stage_counts = {}
     for sc in scenarios:
         stage_counts[sc.stage] = stage_counts.get(sc.stage, 0) + 1
-    assert stage_counts == {1: 20, 2: 20, 3: 20, 4: 20, 5: 20, 6: 20}
+    assert stage_counts == {1: 20, 2: 20, 3: 20, 4: 20, 5: 20, 6: 20, 7: 20}
+
 
 
 def test_preemptive_interrupt_gate():
