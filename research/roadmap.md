@@ -373,10 +373,31 @@ Track: **NCC Phase 14 (Cross-Domain Epistemic Knowledge Transfer & Multi-Stage C
    - Disposition review: `cross_domain_epistemic_transfer_verified_quarantined`.
    - Prototype code remains quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`. Full academic reports frozen at `reports/mn-025-track1-report.md` and `reports/mn-025-track2-report.md`. Pre-run and post-run freeze manifests committed. `IsomorphismEngine`, `ConflictEngine`, and `StochasticEngine` earned promotion readiness for subsequent integration.
 
+## MN-026 — Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis
+
+Status: **Phase 1 (Pre-MN-026) completed and verified prototype (`cognitive_capstone_governance_phase1_verified_quarantined`). Phase 2 (Post-MN-026) active.**  
+Track: **NCC Phase 15 (Cognitive Capstone Governance & Abductive Cross-Partition Synthesis).**
+
+1. **Strategic Intent & Outcome:**
+   - Evaluated four sequential cognitive remediation stages on local open-weights `Qwen3.5-2B-Q4_K_M.gguf` under a strict $\le 4\text{GB}$ VRAM ceiling: Stage 1 (Semantic Invariant Hardening & Virtual Jitter), Stage 2 (Hidden Inter-Partition Coupling & Abductive Tracing), Stage 3 (Dual-Objective Decoupled Evaluation), and Stage 4 (Composite Stress-Test Microworld).
+   - Designed and benchmarked **Host Semantic Invariant Gate**, **Abductive Causal Tracer** (backward DAG reachability), **Virtual Jitter Arbiter** ($100\text{ ms} \leftrightarrow 800\text{ ms}$ optimistic concurrency leases), and **Decoupled Dual-Objective Evaluator** ($M_{\text{phys}}$ vs $M_{\text{safe}}$).
+   - Evaluated across $N=80$ standardized multi-stage scenarios across 3 physical domains (Nuclear Fission Cooling, Orbital Life Support, Smart Microgrid) across 3 experimental arms ($240$ episodes per track).
+2. **Dual-Track Empirical Results (240 Episodes Per Track):**
+   - **Track 1 (Host Simulator — 240 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** physical resolution on solvable cases and **100.0% (20/20 PASS)** safe rational abstention on deceptive traps, with 0 semantic breaches, 0 physical breaches, 0 collisions under jitter, 100.0% abductive resolution, +66.67% delta over control, 134 max tokens ($\le 512$), and 121.32 ms latency. All 10 Gate B clauses met (10/10 PASS).
+   - **Track 2 (Real Model Physical Inference on Qwen 3.5 2B — 240 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** physical resolution on solvable cases and **100.0% (20/20 PASS)** safe rational abstention on deceptive traps on local `llama-server.exe` (port 18502), outperforming Arm 1 baseline (16.7%) and Arm 2 control (28.3%). Delta over control reached **+71.67%**, abductive resolution was **100.0%**, physical breaches were **0**, collisions were **0**, max working prompt tokens were **134 tokens** ($\le 512$), turn latency averaged **204.65 ms** ($< 1000\text{ ms}$ SLA), and action groundedness was **100.0%**. Passed all 10 Gate B acceptance clauses (10/10 PASS).
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All 480 episode execution traces sealed into `audit_logs.zip` archives with zero loose JSON files committed to Git.
+   - Track 1 Archive: `runs/run_1792291160_track1_sim/audit_logs.zip` (SHA-256: `28bb10cbb2dcbf5e935d864ddc07a9471f59f925fd6e789734cc10cacab845ec`).
+   - Track 2 Archive: `runs/run_1792291246_track2_qwen/audit_logs.zip` (SHA-256: `028f7b7887e48501caf7615fef6d5cb9893d1c028119109bf6a2e0ac369916fc`).
+4. **Gate D Disposition & Promotion Readiness:**
+   - Disposition review: `RECOMMEND PASS (EARNED PROMOTION TO PHASE 2: POST-MN-026)`.
+   - Prototype code quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`. Full academic reports frozen at `reports/mn-026-track1-report.md` and `reports/mn-026-track2-report.md`. Pre-run and post-run freeze manifests committed. `SemanticInvariantGate`, `AbductiveCausalTracer`, and `VirtualJitterArbiter` earned promotion readiness for subsequent integration.
+
 ## Active Developmental Horizons
 
-1. **MN-026 — Multi-Agent Heterogeneous Swarm Governance & Dynamic Consensus Under Deep Asymmetric Information:**
-   - Status: **Active (Gate A chartering underway).**
-   - Core Mission: Scaling multi-agent swarm coordination to heterogeneous mixed-model architectures operating under deep epistemic opacity, non-stationary Byzantine failures, and asynchronous distributed consensus.
+1. **MN-026 Phase 2 (Post-MN-026: Cross-Model Generalization & Production Promotion):**
+   - Status: **Active.**
+   - Core Mission: Cross-model generalization validation on secondary open-weights SLMs (`Llama-3.2-1B`, `Gemma-2-2B`), empirical variance logging, followed by formal Gate D production promotion into `src/mong_nhiem/`.
+
 
 
