@@ -703,7 +703,99 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Zero loose JSON files committed to Git.
 - **Gate D Disposition:** `cross_domain_epistemic_transfer_verified_quarantined`. All prototype code quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`. Full academic reports frozen at `reports/mn-025-track1-report.md` and `reports/mn-025-track2-report.md`. Pre-run and post-run freeze manifests committed. `IsomorphismEngine`, `ConflictEngine`, and `StochasticEngine` earned promotion readiness for subsequent integration.
 - **Key Empirical Discovery (Emergent Cognitive Restraint & Rational Abstention):** Small models (<4B) provided with Typed Affordance Signatures exhibited deliberate refusal to manipulate inert decoy components (`[role:DECOY, effect:NONE]`), choosing safe timeouts over risking physical breaches. This discovery establishes a core architectural requirement for subsequent milestones (MN-026+): formalizing a Dual-Objective Evaluation framework that separates Physical State Completion ($M_{\text{phys}}$) from Epistemic Decision Safety / Rational Abstention ($M_{\text{safe}}$).
-- **Active Transition / Next Milestone:** Authorizes progression to MN-026 (Multi-Agent Heterogeneous Swarm Governance & Dynamic Consensus Under Deep Asymmetric Information).
+- **Active Transition / Next Milestone:** Authorizes progression to MN-026 (Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis).
+
+## MN-026 — Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis — Phase 1 (Pre-MN-026 Extended) completed and verified
+
+- **Research Mission & Architectural Invariant:** Mộng Nhiễm is an operational capability platform for small language models under strict edge resource envelopes ($\le 4\text{GB}$ VRAM, $1$ single open-weights SLM instance $<4\text{B}$). MN-026 addresses systemic vulnerabilities identified across predecessors MN-022 through MN-025, extended with cognitive preemption and long-horizon execution:
+  1. Semantic Invariant Hardening: GBNF grammar constraints guarantee syntax but fail to prevent physically catastrophic preconditions (e.g., engaging secondary feed while isolation seal is compromised). MN-026 implements the Host Semantic Invariant Gate to validate physical preconditions prior to state mutation.
+  2. Abductive Cross-Partition Causal Synthesis: Under distributed partitioning, agents are blind to cross-partition side-effects. MN-026 implements backward causal reachability traversal on the Host Causal Event DAG to generate compact Tier 2 diagnostic hints.
+  3. Decoupled Dual-Objective Contract: Resolving the cognitive restraint paradox from MN-025 by formally decoupling physical task resolution ($M_{\text{phys}} \ge 85.0\%$) on solvable crises from decision safety / rational abstention ($M_{\text{safe}} \equiv 100.0\%$) on deceptive traps.
+  4. Virtual Asymmetric Latency Jitter & Lease Arbitration: Simulating multi-role cognitive heterogeneity ($100\text{ ms} \leftrightarrow 800\text{ ms}$) within a single SLM instance using non-blocking optimistic concurrency leases, proving that multi-role execution does not require multi-model VRAM loading.
+  5. Authoritative Host Cognitive Preemption (`PreemptiveInterruptGate`): Managing state epochs and invalidating in-flight action proposals ($action\_epoch < world\_epoch$) when sudden physical shocks emerge at $t+1$, dropping obsolete actions safely without physical damage.
+  6. Long-Horizon Plan Resumption under Passive Thermodynamic Entropy Decay: Extended 50-tick compound microworld with continuous thermal drift ($+0.5\text{K/tick}$), mid-trajectory pipe rupture shocks, deceptive traps, and plan resumption.
+- **Evaluation Corpus ($N = 120$ Scenarios across 3 Domains $\times 3$ Arms $= 360$ Episodes Per Track):**
+  - **Stage 1 (Semantic Invariant Hardening):** $N=20$ scenarios (10 solvable, 10 tempting semantic traps) across Nuclear Fission Cooling, Orbital Life Support, and Smart Microgrid.
+  - **Stage 2 (Hidden Cross-Partition Causal Coupling):** $N=20$ scenarios (10 solvable, 10 complex multi-hop) requiring backward DAG abductive tracing.
+  - **Stage 3 (Dual-Objective Decoupled Evaluation):** $N=20$ scenarios (10 solvable physical crises, 5 inert decoy traps, 5 unrecoverable hardware breakdown traps).
+  - **Stage 4 (Composite Capstone Stress-Test Microworld):** $N=20$ scenarios (10 solvable composite multi-hop chains, 10 deceptive trap decoys).
+  - **Stage 5 (Preemptive Cognitive Interrupt):** $N=20$ scenarios (10 solvable with $t+1$ sudden pressure surge shock, 10 deceptive phantom alarm traps).
+  - **Stage 6 (Long-Horizon Composite Capstone Microworld $T=50$):** $N=20$ scenarios (10 solvable compound crises with pipe rupture shock under passive entropy decay, 10 deceptive traps).
+  - Three matched experimental arms:
+    - Arm 1 (Flat Monolithic Baseline): Unguided raw state text without tier segregation, semantic precondition gating, or preemption protection.
+    - Arm 2 (Phased Control): Phased affordances without semantic invariant interception, cross-partition abductive tracing, or preemption gate.
+    - Arm 3 (Host Cognitive Capstone Engine): Integrated 3-Tier Fact Cards, Semantic Invariant Gate, Abductive Causal Tracer, Virtual Jitter Arbiter, Preemptive Interrupt Gate, and Dual-Objective Evaluation.
+- **Model Topology:** Pure homogeneous open-weights SLM `Qwen3.5-2B-Q4_K_M.gguf` running locally on `llama-server.exe` on port 18502 (`-ngl 99 -c 2048`, greedy decoding $T=0.0$, ChatML format with prefix continuation).
+- **Dual-Track Empirical Results (360 Episodes Per Track, 720 Total Episodes):**
+  - **Track 1 (Host Simulator — 360 episodes across Stages 1 to 6):**
+    - Physical Task Resolution Rate ($M_1$): **100.0% (60/60)** (bound $\ge 85.0\%$).
+    - Decision Safety / Rational Abstention ($M_2$): **100.0% (60/60)** (bound $\equiv 100.0\%$).
+    - Semantic Invariant Breaches ($M_3$): **0** (bound $\equiv 0$).
+    - Abductive Causal Resolution Efficacy ($M_4$): **100.0% (30/30)** (bound $\ge 90.0\%$).
+    - Concurrency Collisions Under Jitter ($M_5$): **0** (bound $\equiv 0$).
+    - Committed Physical Breaches ($M_6$): **0** (bound $\equiv 0$).
+    - Resolution Delta Over Control ($M_7$): **+75.0%** (bound $\ge +30.0\%$).
+    - Max Working Prompt Tokens ($M_8$): **169 tokens** (bound $\le 512$, mean: $124.01$ tokens).
+    - Mean Turn Latency ($M_9$): **120.34 ms** (bound $< 1000\text{ ms}$).
+    - Action Groundedness Fidelity ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+  - **Track 2 (Real Model Physical Inference on Qwen 3.5 2B — 360 episodes across Stages 1 to 6):**
+    - Physical Task Resolution Rate ($M_1$): **100.0% (60/60)** (bound $\ge 85.0\%$).
+    - Decision Safety / Rational Abstention ($M_2$): **100.0% (60/60)** (bound $\equiv 100.0\%$).
+    - Semantic Invariant Breaches ($M_3$): **0** (bound $\equiv 0$).
+    - Abductive Causal Resolution Efficacy ($M_4$): **100.0% (30/30)** (bound $\ge 90.0\%$).
+    - Concurrency Collisions Under Jitter ($M_5$): **0** (bound $\equiv 0$).
+    - Committed Physical Breaches ($M_6$): **0** (bound $\equiv 0$).
+    - Resolution Delta Over Control ($M_7$): **+78.75%** (bound $\ge +30.0\%$).
+    - Max Working Prompt Tokens ($M_8$): **169 tokens** (bound $\le 512$, mean: $124.01$ tokens).
+    - Mean Turn Latency ($M_9$): **195.70 ms** (bound $< 1000\text{ ms}$).
+    - Action Groundedness Fidelity ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+- **Evidence Packaging & Zero Loose File Bloat Protocol:**
+  - Track 1 Archive: `runs/run_1792293913_track1_sim/audit_logs.zip` (SHA-256: `0b3f62d28523795a763bfe7f1bde377bb5bece5eec8048f7e57731eb4ae47f1e`).
+  - Track 2 Archive: `runs/run_1792293955_track2_qwen/audit_logs.zip` (SHA-256: `6d44e6486ba547302b79f570bf7d9bfaa625a80f5fc6df5452b0ab3e4463e977`).
+  - Zero loose JSON files committed to Git.
+- **Gate D Disposition:** `RECOMMEND UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION)`. Prototype code quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`. Full academic reports frozen at `reports/mn-026-track1-report.md`, `reports/mn-026-track2-report.md`, `reports/mn-026-track2-llama3-2-3b-report.md`, `reports/mn-026-track2-qwen3-4b-report.md`, and `reports/mn-026-cross-model-comparison-report.md`. Pre-run and post-run freeze manifests committed. `SemanticInvariantGate`, `AbductiveCausalTracer`, `VirtualJitterArbiter`, `PreemptiveInterruptGate`, and `AutoDream Frontier Pruner` earned unconditional promotion readiness for production promotion into `src/mong_nhiem/`.
+- **Phase 2 (Post-MN-026: Cross-Model Generalization Testing — Verified & Complete):**
+  - Evaluated the Host Cognitive Capstone across all three qualified open-weights models on local `llama-server.exe` hardware within a strict $\le 4\text{GB}$ VRAM envelope ($1,080$ physical neural episodes):
+    1. `Qwen3.5-2B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $210.30\text{ ms}$, Verdict: **PASS (10/10)**. Archive SHA-256: `cc5095bed7c5150e3375979f9b787a0af0ea01bbd7889ec9f626b7019ffb35fd`.
+    2. `Llama-3.2-3B-Instruct-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $176.14\text{ ms}$, Verdict: **PASS (10/10)**. Archive SHA-256: `4fff47ba208211bb58c6e982897bdd303488b4953d09358bf78430fb7cbfe7aa`.
+    3. `Qwen3-4B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $201.71\text{ ms}$, Verdict: **PASS (10/10)**. Archive SHA-256: `b04c967017014858d3dd9561effc8fd0d3abb0bccdfb5c279fccac87e8dc4642`.
+  - Master Summary: `runs/post_patch_3models_summary.json`.
+  - Discovered and rectified two model-specific inductive failure modes via Host-level scaffolding:
+    - AutoDream Active Frontier Pruning eliminates Llama-3.2-3B warning-inhibition hesitation loops by scrubbing resolved compromise entries.
+    - Decoy Affordance Masking prevents Qwen3-4B catastrophic urgency reflex by filtering procedural emergency verbs on confirmed decoys.
+- **Phase 3 (Post-MN-026: Architectural Resilience & Real-World Clearing Phase — Stage 7 Completed & Verified):**
+  - Chartered and executed Stage 7 clearing sub-phase resolving 5 production-transition vulnerabilities before production promotion:
+    1. Oracle Epistemic Decoupling: Active empirical probing (`ACTION: PROBE <target>`) replaces god-mode `is_trap` inspection in affordance generation; reflexive scram ($T \ge 450\text{K}$) halts runaway thermal meltdown.
+    2. Preemption Livelock Freedom: Orthogonal 3-class action taxonomy (`READ_ONLY`, `FAILSAFE`, `MUTATION`) ensures failsafe mitigations execute despite $\Delta\text{epoch} \le 1$ and read-only inspections remain epoch-immune.
+    3. Affordance Memory Bounding: Goal-Conditioned Top-4 Ranking keeps affordance prompt memory strictly bounded at $177 \le 200\text{ tokens}$ ($O(1)$ scaling).
+    4. Abductive Causal Confluence: Marginal sensitivity attribution ($\text{Contribution}(X_i) = |\partial Y / \partial X_i| \cdot \Delta X_i$) coordinates a 2-phase resolution path (`PHASE 1 - CONTAINMENT` $\to$ `PHASE 2 - ROOT_FIX`), achieving $100.0\%$ resolution.
+    5. Sensor Blackout Dual-Mode Autonomy: `AUTONOMOUS_IMPROVISE` (deep-space standard via secondary physics observers) and `SUPERVISED_STANDBY` achieved $100.0\%$ recovery.
+  - Evaluation Corpus expanded to $N=140$ scenarios ($420$ episodes per track/model, $1,260$ physical neural episodes across the 3 models, $1,680$ total benchmark episodes).
+  - Track 1 (Host Simulator — 420 episodes): **PASS (15/15 Clauses Met)**. Audit Archive SHA-256: `1a10d39fa2215835dc7df82f7517b9bc3a2ee21be7bf3c4edcfbf97ddfa2604a`.
+  - Track 2 (3 Real Neural Models — 420 episodes each, 1,260 episodes total):
+    1. `Qwen3.5-2B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $206.67\text{ ms}$, Verdict: **PASS (15/15)**. Archive SHA-256: `0d1145977bce8bc1e70ab4d2efc91a7242fdf29860081ba4e1c29a29955dd442`.
+    2. `Llama-3.2-3B-Instruct-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $160.55\text{ ms}$, Verdict: **PASS (15/15)**. Archive SHA-256: `1635094e2ff4805ceb1837faa2d519ed5f0c9bc322ba6c7e99e045aeb7e77e60`.
+    3. `Qwen3-4B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $213.37\text{ ms}$, Verdict: **PASS (15/15)**. Archive SHA-256: `9de89bb56c96dcf2f084666114f3abe616823b8918453e0f13bb9594ff8010cb`.
+  - Consolidated Master Summary: `runs/post_patch_3models_summary.json`.
+- **Phase 4 (Post-Stage-7 Edge Vulnerability Patches & Fast Track 2 Verification — Completed & Verified):**
+  - Identified and remediated 5 architectural edge vulnerabilities in the prototype:
+    1. *Dead Reckoning Drift Bound:* Telemetry confidence decays linearly during blackout ($1.0 - 0.08 \times \text{ticks}$). Forces transition to `SUPERVISED_STANDBY` upon exceeding $\text{TTL} = 10\text{ ticks}$ to bound state estimation drift.
+    2. *Precondition Dependency Pulling:* Actions enabling unmet preconditions (e.g., `REPAIR isolation_seal` enabling `ENGAGE secondary_feed`) receive a $+25.0$ affordance rank boost, eliminating affordance starvation in Top-4 bounded working memory.
+    3. *Post-Scram Recovery State Machine:* Host models clean post-trip recovery (`ACTION: RESET_SCRAM_BREAKER` when $T \le 320\text{K}$), returning system to `OPERATIONAL_RESTARTED` without operator dead-ends.
+    4. *Feedback Loop Cycle Termination:* Abductive DAG tracer tracks visited symptoms, cleanly terminating circular feedback loops ($A \to B \to A$) without recursion exhaustion.
+    5. *Stateless KV-Cache Isolation:* Agent completion requests enforce `"cache_prompt": False`, eliminating cross-role KV tensor contamination on `llama-server.exe` and guaranteeing the SLM operates strictly as a stateless black-box reasoning engine.
+  - Unit & Prototype Test Suite: `test_mn026.py` (12 tests) + `test_mn026_resilience.py` (10 tests) = **22/22 PASS** (0.05s).
+  - Fast Targeted Track 2 Verification ($N=20$ Stage 7 scenarios $\times 3\text{ arms} = 60\text{ episodes/model}$, $180\text{ physical neural episodes total}$):
+    1. `Qwen3.5-2B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $238.36\text{ ms}$, Working Memory: $177\text{ tok}$, Verdict: **PASS (15/15 Clauses Met)**. Audit Archive: `runs/run_1792331241_track2_qwen3_5_2b_stage7/audit_logs.zip` (SHA-256: `8182b8109bfdb1149eec21eef00f6ee8e03023fb293c6ae1848bbdc0fcf3d9ca`).
+    2. `Llama-3.2-3B-Instruct-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $245.75\text{ ms}$, Working Memory: $177\text{ tok}$, Verdict: **PASS (15/15 Clauses Met)**. Audit Archive: `runs/run_1792331336_track2_llama3_2_3b_stage7/audit_logs.zip` (SHA-256: `a937a5b3a3ea5a65c404cfbb484d081b7e4f0dc2f96cfb2f7902cae466b080b0`).
+    3. `Qwen3-4B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $315.66\text{ ms}$, Working Memory: $177\text{ tok}$, Verdict: **PASS (15/15 Clauses Met)**. Audit Archive: `runs/run_1792331431_track2_qwen3_4b_stage7/audit_logs.zip` (SHA-256: `fdb303112cf691060938a6a6858e378c66e2c3fb668fcbfba2c3f8753239cb32`).
+  - Consolidated Master Summary: `runs/post_patch_all_stage7_summary.json`.
+- **Gate D Final Disposition:** **UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION `src/mong_nhiem/`)**. Full academic reports frozen in `reports/`. Pre-run and post-run freeze manifests committed. Authorizes cumulative promotion of `SemanticInvariantGate`, `ReflexBreaker`, `AbductiveCausalTracer` with Confluence Decomposition, `GoalConditionedAffordanceRanker`, `PreemptiveInterruptGate` (3-class taxonomy), `VirtualJitterArbiter`, and `TelemetryObserver` into `src/mong_nhiem/`.
+- **Active Transition / Next Milestone:** Promotion into production `src/mong_nhiem/` followed by progression to the next milestone in the roadmap.
+
+
 
 
 

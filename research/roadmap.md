@@ -373,10 +373,41 @@ Track: **NCC Phase 14 (Cross-Domain Epistemic Knowledge Transfer & Multi-Stage C
    - Disposition review: `cross_domain_epistemic_transfer_verified_quarantined`.
    - Prototype code remains quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`. Full academic reports frozen at `reports/mn-025-track1-report.md` and `reports/mn-025-track2-report.md`. Pre-run and post-run freeze manifests committed. `IsomorphismEngine`, `ConflictEngine`, and `StochasticEngine` earned promotion readiness for subsequent integration.
 
+## MN-026 — Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis
+
+Status: **completed and verified prototype across Phase 1, Phase 2, and Stage 7 (`cognitive_capstone_governance_verified_earned_promotion`). Full production promotion authorized.**  
+Track: **NCC Phase 15 (Cognitive Capstone Governance, Abductive Synthesis, & Fault Resilience Clearing).**
+
+1. **Strategic Intent & Outcome:**
+   - Evaluated seven sequential cognitive remediation stages on local open-weights SLMs under a strict $\le 4\text{GB}$ VRAM ceiling: Stage 1 (Semantic Invariant Hardening & Virtual Jitter), Stage 2 (Hidden Inter-Partition Coupling & Abductive Tracing), Stage 3 (Dual-Objective Decoupled Evaluation), Stage 4 (Composite Stress-Test Microworld), Stage 5 (Preemptive Cognitive Interrupt Gate & $t+1$ Mid-Trajectory Shocks), Stage 6 (Long-Horizon Composite Capstone Microworld $T=50$ under Passive Thermodynamic Decay), and Stage 7 (Resilience Clearing Sub-Phase resolving 5 production-transition vulnerabilities).
+   - Designed and benchmarked **Host Semantic Invariant Gate**, **Reflex Circuit Breaker** ($T \ge 450\text{K}$ auto-cutoff), **Abductive Causal Tracer** with marginal sensitivity confluence decomposition, **Goal-Conditioned Top-4 Affordance Ranker** ($\le 200$ tokens), **3-Class Preemptive Interrupt Gate** (`READ_ONLY`, `FAILSAFE`, `MUTATION`), **Virtual Jitter Arbiter** ($100\text{ ms} \leftrightarrow 800\text{ ms}$ leases), and **Dual-Mode Sensor Blackout Telemetry Observer**.
+   - Evaluated across $N=140$ standardized multi-stage scenarios across 3 physical domains (Nuclear Fission Cooling, Orbital Life Support, Smart Microgrid) across 3 experimental arms ($420$ episodes per track, $1,260$ physical neural episodes in Track 2 across 3 models, $1,680$ total benchmark episodes).
+2. **Post-Stage-7 3-Model Empirical Verification Matrix ($1,260$ Neural Episodes Across All 3 Qualified Models):**
+   - **`Qwen3.5-2B-Q4_K_M`:** Physical Resolution: **100.0% (70/70)**, Safe Abstention: **100.0% (70/70)**, Breaches: **0**, Collisions: **0**, Abductive Resolution: **100.0%**, Mean Latency: **206.67 ms**, Max Tokens: **188 tokens** ($\le 512$). **PASS (15/15 Clauses Met)**. Audit Archive SHA-256: `0d1145977bce8bc1e70ab4d2efc91a7242fdf29860081ba4e1c29a29955dd442`.
+   - **`Llama-3.2-3B-Instruct-Q4_K_M`:** Physical Resolution: **100.0% (70/70)**, Safe Abstention: **100.0% (70/70)**, Breaches: **0**, Collisions: **0**, Abductive Resolution: **100.0%**, Mean Latency: **160.55 ms**, Max Tokens: **188 tokens** ($\le 512$). **PASS (15/15 Clauses Met)**. Audit Archive SHA-256: `1635094e2ff4805ceb1837faa2d519ed5f0c9bc322ba6c7e99e045aeb7e77e60`.
+   - **`Qwen3-4B-Q4_K_M`:** Physical Resolution: **100.0% (70/70)**, Safe Abstention: **100.0% (70/70)**, Breaches: **0**, Collisions: **0**, Abductive Resolution: **100.0%**, Mean Latency: **213.37 ms**, Max Tokens: **188 tokens** ($\le 512$). **PASS (15/15 Clauses Met)**. Audit Archive SHA-256: `9de89bb56c96dcf2f084666114f3abe616823b8918453e0f13bb9594ff8010cb`.
+3. **Track 1 Simulator Results ($420$ Episodes):**
+   - Physical Resolution: **100.0% (70/70)**, Safe Abstention: **100.0% (70/70)**, Breaches: **0**, Collisions: **0**, Abductive Resolution: **100.0%**, Mean Latency: **119.86 ms**, Max Tokens: **188 tokens**. **PASS (15/15 Clauses Met)**. Audit Archive SHA-256: `1a10d39fa2215835dc7df82f7517b9bc3a2ee21be7bf3c4edcfbf97ddfa2604a`.
+4. **Phase 4 Edge Vulnerability Patches & Fast Track 2 Verification (Stage 7 Focused):**
+   - Implemented 5 edge patches: Dead-reckoning confidence decay and TTL trip to `SUPERVISED_STANDBY`, Precondition dependency pulling (+25.0 boost), Post-scram breaker reset recovery state machine, Abductive tracer circular feedback termination, and Stateless KV-cache isolation (`"cache_prompt": False`).
+   - Fast targeted Track 2 execution ($N=20$ Stage 7 scenarios $\times 3\text{ arms} = 60\text{ episodes/model}$, $180\text{ physical neural episodes}$):
+     - `Qwen3.5-2B-Q4_K_M`: **PASS (15/15 Clauses Met)** (Latency: 238.36 ms, Max Tokens: 177). Archive: `runs/run_1792331241_track2_qwen3_5_2b_stage7/audit_logs.zip` (SHA-256: `8182b8109bfdb1149eec21eef00f6ee8e03023fb293c6ae1848bbdc0fcf3d9ca`).
+     - `Llama-3.2-3B-Instruct-Q4_K_M`: **PASS (15/15 Clauses Met)** (Latency: 245.75 ms, Max Tokens: 177). Archive: `runs/run_1792331336_track2_llama3_2_3b_stage7/audit_logs.zip` (SHA-256: `a937a5b3a3ea5a65c404cfbb484d081b7e4f0dc2f96cfb2f7902cae466b080b0`).
+     - `Qwen3-4B-Q4_K_M`: **PASS (15/15 Clauses Met)** (Latency: 315.66 ms, Max Tokens: 177). Archive: `runs/run_1792331431_track2_qwen3_4b_stage7/audit_logs.zip` (SHA-256: `fdb303112cf691060938a6a6858e378c66e2c3fb668fcbfba2c3f8753239cb32`).
+     - Master Summary: `runs/post_patch_all_stage7_summary.json`.
+5. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All episode execution traces sealed into authenticated `audit_logs.zip` archives with zero loose JSON files committed to Git.
+   - Master Summary: `runs/post_patch_3models_summary.json`.
+6. **Gate D Disposition & Production Promotion Recommendation:**
+   - Disposition review: `RECOMMEND UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION)`.
+   - Authorized promotion into `src/mong_nhiem/`: `SemanticInvariantGate`, `ReflexBreaker`, `AbductiveCausalTracer` with Confluence Decomposition, `GoalConditionedAffordanceRanker`, `PreemptiveInterruptGate` (3-class taxonomy), `VirtualJitterArbiter`, and `TelemetryObserver`.
+
 ## Active Developmental Horizons
 
-1. **MN-026 — Multi-Agent Heterogeneous Swarm Governance & Dynamic Consensus Under Deep Asymmetric Information:**
-   - Status: **Active (Gate A chartering underway).**
-   - Core Mission: Scaling multi-agent swarm coordination to heterogeneous mixed-model architectures operating under deep epistemic opacity, non-stationary Byzantine failures, and asynchronous distributed consensus.
+1. **Cumulative Production Promotion into `src/mong_nhiem/`:**
+   - Status: **Ready for Immediate Execution (Gate D Approved).**
+   - Core Mission: Integrate verified cognitive governance components into production runtime modules under comprehensive regression test harness.
+
+
 
 

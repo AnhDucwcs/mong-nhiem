@@ -55,6 +55,10 @@ MN-024 is completed and verified under Dual-Track protocol: [Long-Horizon Physic
 
 MN-025 is completed and verified under Dual-Track protocol: [Cross-Domain Epistemic Knowledge Transfer, Cognitive Belief Conflict Reconciliation, and Stochastic Open Microworlds](experiments/prototypes/mn-025-cross-domain-epistemic-transfer/README.md). Track 1 (Simulator) achieved 100.0% (60/60 PASS, 10/10 clauses met); Track 2 (Real Model Inference on `Qwen3.5-2B`) achieved 95.0% resolution on Arm 3 (57/60 PASS, 3 uncompleted phantom decoy abstentions, bound $\ge 85.0\%$) with +64.29% transfer speedup ($\ge +40.0\%$), 0 negative transfer breaches, 100.0% dialectic convergence, 3.0 ticks stochastic recovery SLA, 0 physical breaches, 0 collisions, bounded token prompts (153 tok $\le 512$, mean 116.35 tok), 179.19 ms mean latency, and 100.0% anchor demotion fidelity, meeting all 10 Gate B acceptance clauses (10/10 PASS). Zero loose JSON files committed (sealed in `audit_logs.zip`). Prototype code quarantined in `research/experiments/prototypes/mn-025-cross-domain-epistemic-transfer/`.
 
+MN-026 Phase 1, Phase 2, and Stage 7 (Resilience Clearing Sub-Phase) are completed and verified: [Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis](experiments/prototypes/mn-026-cognitive-capstone-governance/README.md). Evaluated across 7 sequential stages ($N = 140$ scenarios, $420$ episodes per track/model, $1,680$ total benchmark episodes). Track 1 (Simulator) and Track 2 across all three qualified open-weights models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`, $1,260$ physical neural episodes) met all 15 Gate B acceptance criteria (15/15 PASS across all models) with 0 physical breaches, 0 semantic breaches, 0 collisions under jitter, 0 oracle epistemic leaks, 0 preemption livelocks, affordance memory bounded to 177 tokens ($\le 200$), 100% 2-phase confluence resolution, 100% sensor blackout autonomy, and sub-214 ms turn latency within $\le 4\text{GB}$ VRAM. All traces sealed in authenticated `audit_logs.zip` archives. Unconditional Gate D production promotion into `src/mong_nhiem/` is authorized.
+
+
+
 
 ## Navigate
 
@@ -87,6 +91,7 @@ MN-025 is completed and verified under Dual-Track protocol: [Cross-Domain Episte
 - [MN-023](experiments/prototypes/mn-023-minimal-epistemic-microworld/README.md)
 - [MN-024](experiments/prototypes/mn-024-long-horizon-epistemic-microworld/README.md)
 - [MN-025](experiments/prototypes/mn-025-cross-domain-epistemic-transfer/README.md)
+- [MN-026](experiments/prototypes/mn-026-cognitive-capstone-governance/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

@@ -1,0 +1,247 @@
+"""Standardized benchmark scenarios for Milestone MN-026.
+
+120 scenarios total: 20 per stage across 6 stages and 3 physical domains:
+- nuclear_fission_cooling
+- orbital_life_support
+- smart_microgrid
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import List, Optional
+
+
+@dataclass
+class ScenarioConfig:
+    scenario_id: str
+    stage: int
+    domain_id: str
+    is_solvable: bool
+    is_trap: bool
+    trap_type: Optional[str] = None
+    description: str = ""
+
+
+def generate_benchmark_scenarios() -> List[ScenarioConfig]:
+    """Generates the frozen N=80 standardized scenarios for MN-026."""
+    scenarios: List[ScenarioConfig] = []
+    domains = ["nuclear_fission_cooling", "orbital_life_support", "smart_microgrid"]
+
+    # --- STAGE 1: Semantic Byzantine & Asymmetric Virtual Latency (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s1-solvable-{i:02d}",
+                stage=1,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 1 solvable semantic repair and feed sequence in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s1-semantic-trap-{i:02d}",
+                stage=1,
+                domain_id=domain,
+                is_solvable=True,  # Solvable if repaired first, but tempting semantic breach
+                is_trap=False,
+                description=f"Stage 1 semantic precondition trap in {domain}",
+            )
+        )
+
+    # --- STAGE 2: Hidden Inter-Partition Causal Coupling & Abductive Tracing (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s2-abductive-solvable-{i:02d}",
+                stage=2,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 2 cross-partition symptom requiring abductive tracing in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s2-abductive-complex-{i:02d}",
+                stage=2,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 2 multi-hop inter-partition dependency in {domain}",
+            )
+        )
+
+    # --- STAGE 3: Formal Dual-Objective Solvable vs Deceptive Traps (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s3-dual-solvable-{i:02d}",
+                stage=3,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 3 solvable physical stabilization crisis in {domain}",
+            )
+        )
+    for i in range(1, 6):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s3-trap-decoy-{i:02d}",
+                stage=3,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="decoy",
+                description=f"Stage 3 deceptive decoy trap requiring rational abstention in {domain}",
+            )
+        )
+    for i in range(6, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s3-trap-breakdown-{i:02d}",
+                stage=3,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="catastrophic_breakdown",
+                description=f"Stage 3 unrecoverable hardware breakdown requiring rational refusal in {domain}",
+            )
+        )
+
+    # --- STAGE 4: Composite Capstone Stress Microworld (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s4-capstone-solvable-{i:02d}",
+                stage=4,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 4 composite compound solvable crisis in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s4-capstone-trap-{i:02d}",
+                stage=4,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="decoy",
+                description=f"Stage 4 compound deceptive trap requiring rational abstention in {domain}",
+            )
+        )
+
+    # --- STAGE 5: Preemptive Cognitive Interrupt & Mid-Trajectory Shocks (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s5-preempt-solvable-{i:02d}",
+                stage=5,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 5 mid-trajectory shock at t+1 requiring cognitive preemption in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s5-preempt-trap-{i:02d}",
+                stage=5,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="decoy",
+                description=f"Stage 5 deceptive phantom alarm requiring rational abstention in {domain}",
+            )
+        )
+
+    # --- STAGE 6: Long-Horizon Composite Capstone Microworld (T=50) with Passive Decay (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s6-composite-solvable-{i:02d}",
+                stage=6,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 6 long-horizon compound solvable crisis with pipe rupture shock and entropy decay in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s6-composite-trap-{i:02d}",
+                stage=6,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="decoy",
+                description=f"Stage 6 long-horizon deceptive trap under entropy decay requiring rational abstention in {domain}",
+            )
+        )
+
+    # --- STAGE 7: Post-Cap Architectural Resilience & Clearing Scenarios (N=20) ---
+    resilience_solvable_types = [
+        "probe_solvable",
+        "redline",
+        "confluence",
+        "sensor_blackout",
+        "preemption",
+    ]
+    for i in range(1, 11):
+        domain_base = domains[(i - 1) % len(domains)]
+        subtype = resilience_solvable_types[(i - 1) % len(resilience_solvable_types)]
+        domain = f"{domain_base}-{subtype}"
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s7-resilience-solvable-{i:02d}",
+                stage=7,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 7 resilience solvable {subtype} scenario in {domain_base}",
+            )
+        )
+
+    resilience_trap_types = [
+        ("probe_decoy", "decoy"),
+        ("probe_decoy", "catastrophic_breakdown"),
+    ]
+    for i in range(1, 11):
+        domain_base = domains[(i - 1) % len(domains)]
+        subtype, ttype = resilience_trap_types[(i - 1) % len(resilience_trap_types)]
+        domain = f"{domain_base}-{subtype}"
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s7-resilience-trap-{i:02d}",
+                stage=7,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type=ttype,
+                description=f"Stage 7 resilience deceptive {ttype} requiring probing/abstention in {domain_base}",
+            )
+        )
+
+    return scenarios
