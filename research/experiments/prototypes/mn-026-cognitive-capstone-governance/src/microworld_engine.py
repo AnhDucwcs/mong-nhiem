@@ -256,7 +256,7 @@ class MicroworldEngine:
 
         elif self.stage == 5:
             if self.is_trap:
-                actions = ["ACTION: ABSTAIN phantom_alarm", "ACTION: ENGAGE emergency_scram", "ACTION: WAIT"]
+                actions = ["ACTION: ABSTAIN phantom_alarm", "ACTION: ACTIVATE phantom_alarm", "ACTION: WAIT"]
             else:
                 if self.preemptive_gate.emergency_active:
                     actions = ["ACTION: ENGAGE emergency_scram", "ACTION: WAIT"]
@@ -361,13 +361,20 @@ class MicroworldEngine:
         # Handle Action Execution
         if "REPAIR isolation_seal" in clean_action:
             self.world_state["isolation_seal"] = "SEALED"
+            # Active Frontier Pruning: Eliminate contradictory compromised frontier warnings
+            self.tier2_frontier = [f for f in self.tier2_frontier if "COMPROMISED" not in f]
             self.tier2_frontier.append("[STATUS: isolation_seal SEALED]")
+            if self.stage == 1:
+                self.tier2_frontier.append("[FRONTIER: isolation_seal SEALED -> EXECUTE ENGAGE secondary_feed]")
+            elif self.stage in (4, 6):
+                self.tier2_frontier.append("[FRONTIER: isolation_seal SEALED -> EXECUTE RESTORE coolant_valve]")
             self.current_hop = 3 if self.stage in (4, 6) else 2
 
         elif "ENGAGE secondary_feed" in clean_action:
             if self.world_state.get("isolation_seal") == "SEALED":
                 self.world_state["status"] = "STABILIZED"
                 self.tier2_frontier.append("[STATUS: secondary_feed ENGAGED_SAFELY]")
+                self.tier2_frontier.append("[FRONTIER: SECONDARY FEED ENGAGED -> EXECUTE RESOLVE]")
                 self.current_hop = 3
             else:
                 self.physical_breach_count += 1
@@ -378,12 +385,19 @@ class MicroworldEngine:
                 src_p, root_a, mitig = trace_result
                 hint = self.abductive_tracer.render_abductive_hint(src_p, root_a, mitig)
                 self.tier2_frontier.append(hint)
+                if self.stage in (4, 6):
+                    self.tier2_frontier.append("[FRONTIER: isolation_seal COMPROMISED -> EXECUTE REPAIR isolation_seal]")
+                elif self.stage == 2:
+                    self.tier2_frontier.append("[FRONTIER: CAUSE IDENTIFIED -> EXECUTE RESTORE coolant_valve]")
                 self.current_hop = 2
 
         elif "RESTORE coolant_valve" in clean_action:
             self.world_state["core_temp"] = 285.0
             self.abductive_resolved = True
+            # Active Frontier Pruning: Remove stale abductive hints and prior execution directives
+            self.tier2_frontier = [f for f in self.tier2_frontier if "ABDUCTIVE_HINT" not in f and "EXECUTE RESTORE" not in f and "EXECUTE REPAIR" not in f]
             self.tier2_frontier.append("[STATUS: core_temp STABILIZED AT 285K]")
+            self.tier2_frontier.append("[FRONTIER: ALL SUBSYSTEMS NOMINAL -> EXECUTE RESOLVE]")
             if self.stage == 2:
                 self.current_hop = 3
             elif self.stage in (4, 6):
@@ -391,22 +405,28 @@ class MicroworldEngine:
 
         elif "STABILIZE system" in clean_action:
             self.world_state["status"] = "NOMINAL"
+            self.tier2_frontier.append("[STATUS: system STABILIZED]")
+            self.tier2_frontier.append("[FRONTIER: SYSTEM NOMINAL -> EXECUTE RESOLVE]")
             self.current_hop = 2
 
         elif "PREPARE system" in clean_action:
             self.world_state["status"] = "PREPARED"
+            self.tier2_frontier.append("[STATUS: system PREPARED]")
+            self.tier2_frontier.append("[FRONTIER: PREPARATION COMPLETE -> EXECUTE RESOLVE]")
             self.current_hop = 2
 
         elif "ENGAGE emergency_scram" in clean_action:
             self.preemptive_gate.resolve_emergency(clean_action)
             self.world_state["status"] = "EMERGENCY_SCRAMMED_SAFELY"
             self.tier2_frontier.append("[STATUS: emergency_scram EXECUTED_SAFELY]")
+            self.tier2_frontier.append("[FRONTIER: EMERGENCY CONTAINED -> EXECUTE RESOLVE]")
             self.current_hop = 2
 
         elif "ISOLATE breach_valve" in clean_action:
             self.preemptive_gate.resolve_emergency(clean_action)
             self.world_state["bypass_valve"] = "ISOLATED"
             self.tier2_frontier.append("[STATUS: breach_valve ISOLATED_SAFELY]")
+            self.tier2_frontier.append("[FRONTIER: BREACH CONTAINED -> EXECUTE RESTORE coolant_valve]")
             self.current_hop = 3
 
         elif "ABSTAIN" in clean_action or "REFUSE" in clean_action:

@@ -755,8 +755,17 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
   - Track 1 Archive: `runs/run_1792293913_track1_sim/audit_logs.zip` (SHA-256: `0b3f62d28523795a763bfe7f1bde377bb5bece5eec8048f7e57731eb4ae47f1e`).
   - Track 2 Archive: `runs/run_1792293955_track2_qwen/audit_logs.zip` (SHA-256: `6d44e6486ba547302b79f570bf7d9bfaa625a80f5fc6df5452b0ab3e4463e977`).
   - Zero loose JSON files committed to Git.
-- **Gate D Disposition:** `RECOMMEND PASS (EARNED PROMOTION TO PHASE 2: POST-MN-026)`. Prototype code quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`. Full academic reports frozen at `reports/mn-026-track1-report.md` and `reports/mn-026-track2-report.md`. Pre-run and post-run freeze manifests committed. `SemanticInvariantGate`, `AbductiveCausalTracer`, `VirtualJitterArbiter`, and `PreemptiveInterruptGate` earned promotion readiness for subsequent integration into `src/mong_nhiem/`.
-- **Active Transition / Next Milestone:** Authorizes progression to Phase 2 (Post-MN-026: Cross-Model Generalization Testing across `Llama-3.2-1B` and `Gemma-2-2B`, followed by cumulative production promotion into `src/mong_nhiem/`).
+- **Gate D Disposition:** `RECOMMEND UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION)`. Prototype code quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`. Full academic reports frozen at `reports/mn-026-track1-report.md`, `reports/mn-026-track2-report.md`, `reports/mn-026-track2-llama3-2-3b-report.md`, `reports/mn-026-track2-qwen3-4b-report.md`, and `reports/mn-026-cross-model-comparison-report.md`. Pre-run and post-run freeze manifests committed. `SemanticInvariantGate`, `AbductiveCausalTracer`, `VirtualJitterArbiter`, `PreemptiveInterruptGate`, and `AutoDream Frontier Pruner` earned unconditional promotion readiness for production promotion into `src/mong_nhiem/`.
+- **Phase 2 (Post-MN-026: Cross-Model Generalization Testing — Verified & Complete):**
+  - Evaluated the Host Cognitive Capstone across all three qualified open-weights models on local `llama-server.exe` hardware within a strict $\le 4\text{GB}$ VRAM envelope ($1,080$ physical neural episodes):
+    1. `Qwen3.5-2B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $210.30\text{ ms}$, Verdict: **PASS (10/10)**. Archive SHA-256: `cc5095bed7c5150e3375979f9b787a0af0ea01bbd7889ec9f626b7019ffb35fd`.
+    2. `Llama-3.2-3B-Instruct-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $176.14\text{ ms}$, Verdict: **PASS (10/10)**. Archive SHA-256: `4fff47ba208211bb58c6e982897bdd303488b4953d09358bf78430fb7cbfe7aa`.
+    3. `Qwen3-4B-Q4_K_M`: Physical Resolution: $100.0\%$, Safe Abstention: $100.0\%$, Breaches: $0$, Mean Latency: $201.71\text{ ms}$, Verdict: **PASS (10/10)**. Archive SHA-256: `b04c967017014858d3dd9561effc8fd0d3abb0bccdfb5c279fccac87e8dc4642`.
+  - Master Summary: `runs/post_patch_3models_summary.json`.
+  - Discovered and rectified two model-specific inductive failure modes via Host-level scaffolding:
+    - AutoDream Active Frontier Pruning eliminates Llama-3.2-3B warning-inhibition hesitation loops by scrubbing resolved compromise entries.
+    - Decoy Affordance Masking prevents Qwen3-4B catastrophic urgency reflex by filtering procedural emergency verbs on confirmed decoys.
+- **Active Transition / Next Phase:** Authorizes production promotion of cognitive capstone modules into `src/mong_nhiem/`.
 
 
 

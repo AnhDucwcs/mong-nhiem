@@ -20,7 +20,7 @@ class AgentWorker:
         """Formats the working prompt into standard ChatML (Qwen) or Llama 3 prompt format."""
         sys_prompt = (
             f"You are {role_name}, an operational agent. You must analyze the system status "
-            "and select exactly one valid action from the available options. Output strictly: 'ACTION: <VERB> <TARGET>'."
+            "and select exactly one valid action from the available options. Output strictly: 'ACTION: <ACTION>' matching one of the available options."
         )
         if "llama" in self.model_family:
             return (
