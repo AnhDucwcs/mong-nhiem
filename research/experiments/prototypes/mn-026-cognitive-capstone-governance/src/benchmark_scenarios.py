@@ -1,6 +1,6 @@
 """Standardized benchmark scenarios for Milestone MN-026.
 
-80 scenarios total: 20 per stage across 3 physical domains:
+120 scenarios total: 20 per stage across 6 stages and 3 physical domains:
 - nuclear_fission_cooling
 - orbital_life_support
 - smart_microgrid
@@ -144,6 +144,60 @@ def generate_benchmark_scenarios() -> List[ScenarioConfig]:
                 is_trap=True,
                 trap_type="decoy",
                 description=f"Stage 4 compound deceptive trap requiring rational abstention in {domain}",
+            )
+        )
+
+    # --- STAGE 5: Preemptive Cognitive Interrupt & Mid-Trajectory Shocks (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s5-preempt-solvable-{i:02d}",
+                stage=5,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 5 mid-trajectory shock at t+1 requiring cognitive preemption in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s5-preempt-trap-{i:02d}",
+                stage=5,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="decoy",
+                description=f"Stage 5 deceptive phantom alarm requiring rational abstention in {domain}",
+            )
+        )
+
+    # --- STAGE 6: Long-Horizon Composite Capstone Microworld (T=50) with Passive Decay (N=20) ---
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s6-composite-solvable-{i:02d}",
+                stage=6,
+                domain_id=domain,
+                is_solvable=True,
+                is_trap=False,
+                description=f"Stage 6 long-horizon compound solvable crisis with pipe rupture shock and entropy decay in {domain}",
+            )
+        )
+    for i in range(1, 11):
+        domain = domains[(i - 1) % len(domains)]
+        scenarios.append(
+            ScenarioConfig(
+                scenario_id=f"mn026-s6-composite-trap-{i:02d}",
+                stage=6,
+                domain_id=domain,
+                is_solvable=False,
+                is_trap=True,
+                trap_type="decoy",
+                description=f"Stage 6 long-horizon deceptive trap under entropy decay requiring rational abstention in {domain}",
             )
         )
 

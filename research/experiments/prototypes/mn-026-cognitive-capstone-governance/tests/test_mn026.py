@@ -2,10 +2,17 @@
 
 from __future__ import annotations
 
+import os
+import sys
+
+# Ensure prototype root is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import pytest
 from src.semantic_gate import SemanticInvariantGate
 from src.abductive_tracer import AbductiveCausalTracer
 from src.virtual_jitter import VirtualJitterArbiter
+from src.preemptive_gate import PreemptiveInterruptGate
 from src.microworld_engine import MicroworldEngine
 from src.evaluator import MilestoneEvaluator
 from src.benchmark_scenarios import generate_benchmark_scenarios
@@ -180,8 +187,103 @@ def test_microworld_stage4_composite_solvable():
 
 def test_benchmark_scenarios_count():
     scenarios = generate_benchmark_scenarios()
-    assert len(scenarios) == 80
+    assert len(scenarios) == 120
     stage_counts = {}
     for sc in scenarios:
         stage_counts[sc.stage] = stage_counts.get(sc.stage, 0) + 1
-    assert stage_counts == {1: 20, 2: 20, 3: 20, 4: 20}
+    assert stage_counts == {1: 20, 2: 20, 3: 20, 4: 20, 5: 20, 6: 20}
+
+
+def test_preemptive_interrupt_gate():
+    gate = PreemptiveInterruptGate()
+    assert gate.world_epoch == 1
+    assert gate.emergency_active is False
+
+    # Stale action rejection before shock
+    valid, reason = gate.validate_action_epoch("ACTION: PREPARE system", action_epoch=0)
+    assert not valid
+    assert "Stale proposal epoch" in reason
+    assert gate.preempted_stale_count == 1
+
+    # Trigger emergency shock at t+1
+    shock = gate.trigger_shock("shock_1", "pipe_1", "PRESSURE_SPIKE", trigger_tick=2, required_mitigation="ENGAGE emergency_scram")
+    assert gate.world_epoch == 2
+    assert gate.emergency_active is True
+    assert shock.required_mitigation == "ENGAGE emergency_scram"
+
+    # Action planned on epoch 1 during epoch 2 is preempted and safely dropped
+    valid, reason = gate.validate_action_epoch("ACTION: PREPARE system", action_epoch=1)
+    assert not valid
+    assert "PREEMPTED" in reason
+    assert gate.preempted_stale_count == 2
+    assert gate.unhandled_shock_breaches == 0
+
+    # Emergency mitigation on current epoch succeeds
+    valid_mitig, reason_mitig = gate.validate_action_epoch("ACTION: ENGAGE emergency_scram", action_epoch=2)
+    assert valid_mitig is True
+    assert reason_mitig is None
+
+    resolved = gate.resolve_emergency("ACTION: ENGAGE emergency_scram")
+    assert resolved is True
+    assert gate.emergency_active is False
+    assert gate.emergency_mitigations_count == 1
+
+
+def test_microworld_stage5_preemptive_interrupt():
+    # Solvable case: at tick 1, shock triggers at t+1
+    engine = MicroworldEngine(stage=5, domain_id="nuclear_fission_cooling", is_solvable=True)
+    
+    # Tick 1: Prepare system
+    engine.step("ACTION: PREPARE system", target_arm=3)
+    assert engine.preemptive_gate.emergency_active is True
+    assert engine.preemptive_gate.world_epoch == 2
+
+    # Tick 2: If an action is submitted with stale epoch 1, it is safely dropped
+    res_stale = engine.step("ACTION: PREPARE system", target_arm=3, action_epoch=1)
+    assert res_stale["status"] == "PREEMPTED"
+    assert engine.is_failed is False
+    assert engine.physical_breach_count == 0
+
+    # Tick 3: Mitigate emergency shock with scram on valid epoch
+    res_mitig = engine.step("ACTION: ENGAGE emergency_scram", target_arm=3, action_epoch=2)
+    assert engine.preemptive_gate.emergency_active is False
+    assert engine.world_state["status"] == "EMERGENCY_SCRAMMED_SAFELY"
+
+    # Tick 4: Resolve
+    engine.step("ACTION: RESOLVE", target_arm=3)
+    assert engine.is_resolved is True
+    assert engine.physical_breach_count == 0
+
+
+def test_microworld_stage6_long_horizon_composite():
+    # Solvable case: long horizon T=50 with passive entropy decay and pipe rupture shock
+    engine = MicroworldEngine(stage=6, domain_id="nuclear_fission_cooling", is_solvable=True, max_ticks=50)
+    assert engine.world_state["core_temp"] == 398.0
+
+    # Hop 1: Report anomaly
+    engine.step("ACTION: REPORT_ANOMALY OVERHEAT_CORE_B", target_arm=3)
+    assert engine.current_hop == 2
+    # Verify passive decay
+    assert engine.world_state["core_temp"] > 398.0
+
+    # Hop 2: Repair isolation seal (at end of tick 2, shock triggers!)
+    engine.step("ACTION: REPAIR isolation_seal", target_arm=3)
+    assert engine.current_hop == 3
+    assert engine.preemptive_gate.emergency_active is True
+    assert engine.preemptive_gate.active_shock.shock_type == "PIPE_RUPTURE"
+
+    # Hop 3: Emergency mitigation
+    engine.step("ACTION: ISOLATE breach_valve", target_arm=3)
+    assert engine.preemptive_gate.emergency_active is False
+    assert engine.world_state["bypass_valve"] == "ISOLATED"
+
+    # Hop 4: Resume plan: Restore coolant valve (abductive mitigation)
+    engine.step("ACTION: RESTORE coolant_valve", target_arm=3)
+    assert engine.world_state["core_temp"] == 285.0
+    assert engine.abductive_resolved is True
+
+    # Hop 5: Resolve
+    engine.step("ACTION: RESOLVE", target_arm=3)
+    assert engine.is_resolved is True
+    assert engine.physical_breach_count == 0
+    assert engine.semantic_breach_count == 0

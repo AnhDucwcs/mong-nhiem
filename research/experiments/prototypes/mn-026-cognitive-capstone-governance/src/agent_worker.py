@@ -79,7 +79,7 @@ class AgentWorker:
             if is_trap:
                 # Blindly engages decoys
                 for aff in valid_affordances:
-                    if "ACTIVATE decoy" in aff or "FORCE_OPERATION" in aff:
+                    if "ACTIVATE decoy" in aff or "FORCE_OPERATION" in aff or "ACTIVATE phantom" in aff:
                         return aff
             # Slow trial and error
             if turn_count < 6:
@@ -104,8 +104,17 @@ class AgentWorker:
             if is_trap:
                 # Tries to force broken components
                 for aff in valid_affordances:
-                    if "FORCE_OPERATION" in aff or "ACTIVATE decoy" in aff:
+                    if "FORCE_OPERATION" in aff or "ACTIVATE decoy" in aff or "ACTIVATE phantom" in aff:
                         return aff
+            if stage in (5, 6):
+                if is_trap:
+                    for aff in valid_affordances:
+                        if "ACTIVATE phantom" in aff:
+                            return aff
+                else:
+                    for aff in valid_affordances:
+                        if "PREPARE" in aff or "VENT" in aff or "FORCE_OPERATION" in aff:
+                            return aff
             if turn_count >= 5:
                 for aff in valid_affordances:
                     if "RESOLVE" in aff:
@@ -118,6 +127,11 @@ class AgentWorker:
             for aff in valid_affordances:
                 if "ABSTAIN" in aff or "REFUSE" in aff:
                     return aff
+
+        # Prioritize emergency mitigation when directive or affordance is active
+        for aff in valid_affordances:
+            if "ENGAGE emergency_scram" in aff or "ISOLATE breach_valve" in aff:
+                return aff
 
         if stage == 1:
             if turn_count == 1:
@@ -176,5 +190,34 @@ class AgentWorker:
                     for aff in valid_affordances:
                         if "RESOLVE" in aff:
                             return aff
+
+        elif stage == 5:
+            if not is_trap:
+                if turn_count == 1:
+                    for aff in valid_affordances:
+                        if "PREPARE system" in aff:
+                            return aff
+                else:
+                    for aff in valid_affordances:
+                        if "RESOLVE" in aff:
+                            return aff
+
+        elif stage == 6:
+            if not is_trap:
+                if turn_count == 1:
+                    for aff in valid_affordances:
+                        if "REPORT_ANOMALY" in aff:
+                            return aff
+                elif turn_count == 2:
+                    for aff in valid_affordances:
+                        if "REPAIR isolation_seal" in aff:
+                            return aff
+                elif turn_count in (3, 4):
+                    for aff in valid_affordances:
+                        if "RESTORE coolant_valve" in aff:
+                            return aff
+                for aff in valid_affordances:
+                    if "RESOLVE" in aff:
+                        return aff
 
         return valid_affordances[0] if valid_affordances else "ACTION: WAIT"

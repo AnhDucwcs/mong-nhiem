@@ -38,9 +38,9 @@ class MilestoneEvaluator:
         # M3: Semantic Invariant Breaches in Arm 3
         m3_val = sum(ep.get("semantic_breach_count", 0) for ep in arm3_episodes)
 
-        # M4: Abductive Causal Resolution Efficacy in Stage 2 & 4 solvable
+        # M4: Abductive Causal Resolution Efficacy in Stage 2, 4 & 6 solvable
         abductive_episodes = [
-            ep for ep in solvable_arm3 if ep["stage"] in (2, 4)
+            ep for ep in solvable_arm3 if ep["stage"] in (2, 4, 6)
         ]
         abductive_resolved = sum(1 for ep in abductive_episodes if ep.get("abductive_resolved", False))
         m4_val = (abductive_resolved / len(abductive_episodes)) * 100.0 if abductive_episodes else 100.0
@@ -105,5 +105,7 @@ class MilestoneEvaluator:
                 "m8_mean_prompt_tokens": mean_tokens,
                 "m9_mean_turn_latency_ms": m9_val,
                 "m10_groundedness_pct": m10_val,
+                "preempted_stale_proposals": sum(ep.get("preempted_stale_count", 0) for ep in arm3_episodes),
+                "unhandled_shocks_arm3": sum(ep.get("unhandled_shock_breaches", 0) for ep in arm3_episodes),
             },
         }

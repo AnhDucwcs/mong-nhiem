@@ -705,53 +705,57 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Key Empirical Discovery (Emergent Cognitive Restraint & Rational Abstention):** Small models (<4B) provided with Typed Affordance Signatures exhibited deliberate refusal to manipulate inert decoy components (`[role:DECOY, effect:NONE]`), choosing safe timeouts over risking physical breaches. This discovery establishes a core architectural requirement for subsequent milestones (MN-026+): formalizing a Dual-Objective Evaluation framework that separates Physical State Completion ($M_{\text{phys}}$) from Epistemic Decision Safety / Rational Abstention ($M_{\text{safe}}$).
 - **Active Transition / Next Milestone:** Authorizes progression to MN-026 (Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis).
 
-## MN-026 — Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis — Phase 1 (Pre-MN-026) completed and verified
+## MN-026 — Multi-Stage Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis — Phase 1 (Pre-MN-026 Extended) completed and verified
 
-- **Research Mission & Architectural Invariant:** Mộng Nhiễm is an operational capability platform for small language models under strict edge resource envelopes ($\le 4\text{GB}$ VRAM, $1$ single open-weights SLM instance $<4\text{B}$). MN-026 addresses systemic vulnerabilities identified across predecessors MN-022 through MN-025:
+- **Research Mission & Architectural Invariant:** Mộng Nhiễm is an operational capability platform for small language models under strict edge resource envelopes ($\le 4\text{GB}$ VRAM, $1$ single open-weights SLM instance $<4\text{B}$). MN-026 addresses systemic vulnerabilities identified across predecessors MN-022 through MN-025, extended with cognitive preemption and long-horizon execution:
   1. Semantic Invariant Hardening: GBNF grammar constraints guarantee syntax but fail to prevent physically catastrophic preconditions (e.g., engaging secondary feed while isolation seal is compromised). MN-026 implements the Host Semantic Invariant Gate to validate physical preconditions prior to state mutation.
   2. Abductive Cross-Partition Causal Synthesis: Under distributed partitioning, agents are blind to cross-partition side-effects. MN-026 implements backward causal reachability traversal on the Host Causal Event DAG to generate compact Tier 2 diagnostic hints.
   3. Decoupled Dual-Objective Contract: Resolving the cognitive restraint paradox from MN-025 by formally decoupling physical task resolution ($M_{\text{phys}} \ge 85.0\%$) on solvable crises from decision safety / rational abstention ($M_{\text{safe}} \equiv 100.0\%$) on deceptive traps.
   4. Virtual Asymmetric Latency Jitter & Lease Arbitration: Simulating multi-role cognitive heterogeneity ($100\text{ ms} \leftrightarrow 800\text{ ms}$) within a single SLM instance using non-blocking optimistic concurrency leases, proving that multi-role execution does not require multi-model VRAM loading.
-- **Evaluation Corpus ($N = 80$ Scenarios across 3 Domains $\times 3$ Arms $= 240$ Episodes Per Track):**
+  5. Authoritative Host Cognitive Preemption (`PreemptiveInterruptGate`): Managing state epochs and invalidating in-flight action proposals ($action\_epoch < world\_epoch$) when sudden physical shocks emerge at $t+1$, dropping obsolete actions safely without physical damage.
+  6. Long-Horizon Plan Resumption under Passive Thermodynamic Entropy Decay: Extended 50-tick compound microworld with continuous thermal drift ($+0.5\text{K/tick}$), mid-trajectory pipe rupture shocks, deceptive traps, and plan resumption.
+- **Evaluation Corpus ($N = 120$ Scenarios across 3 Domains $\times 3$ Arms $= 360$ Episodes Per Track):**
   - **Stage 1 (Semantic Invariant Hardening):** $N=20$ scenarios (10 solvable, 10 tempting semantic traps) across Nuclear Fission Cooling, Orbital Life Support, and Smart Microgrid.
   - **Stage 2 (Hidden Cross-Partition Causal Coupling):** $N=20$ scenarios (10 solvable, 10 complex multi-hop) requiring backward DAG abductive tracing.
   - **Stage 3 (Dual-Objective Decoupled Evaluation):** $N=20$ scenarios (10 solvable physical crises, 5 inert decoy traps, 5 unrecoverable hardware breakdown traps).
   - **Stage 4 (Composite Capstone Stress-Test Microworld):** $N=20$ scenarios (10 solvable composite multi-hop chains, 10 deceptive trap decoys).
+  - **Stage 5 (Preemptive Cognitive Interrupt):** $N=20$ scenarios (10 solvable with $t+1$ sudden pressure surge shock, 10 deceptive phantom alarm traps).
+  - **Stage 6 (Long-Horizon Composite Capstone Microworld $T=50$):** $N=20$ scenarios (10 solvable compound crises with pipe rupture shock under passive entropy decay, 10 deceptive traps).
   - Three matched experimental arms:
-    - Arm 1 (Flat Monolithic Baseline): Unguided raw state text without tier segregation or semantic precondition gating.
-    - Arm 2 (Phased Control): Phased affordances without semantic invariant interception or cross-partition abductive tracing.
-    - Arm 3 (Host Cognitive Capstone Engine): Integrated 3-Tier Fact Cards, Semantic Invariant Gate, Abductive Causal Tracer, Virtual Jitter Arbiter, and Dual-Objective Evaluation.
+    - Arm 1 (Flat Monolithic Baseline): Unguided raw state text without tier segregation, semantic precondition gating, or preemption protection.
+    - Arm 2 (Phased Control): Phased affordances without semantic invariant interception, cross-partition abductive tracing, or preemption gate.
+    - Arm 3 (Host Cognitive Capstone Engine): Integrated 3-Tier Fact Cards, Semantic Invariant Gate, Abductive Causal Tracer, Virtual Jitter Arbiter, Preemptive Interrupt Gate, and Dual-Objective Evaluation.
 - **Model Topology:** Pure homogeneous open-weights SLM `Qwen3.5-2B-Q4_K_M.gguf` running locally on `llama-server.exe` on port 18502 (`-ngl 99 -c 2048`, greedy decoding $T=0.0$, ChatML format with prefix continuation).
-- **Dual-Track Empirical Results (240 Episodes Per Track):**
-  - **Track 1 (Host Simulator — 240 episodes across Stages 1 to 4):**
+- **Dual-Track Empirical Results (360 Episodes Per Track, 720 Total Episodes):**
+  - **Track 1 (Host Simulator — 360 episodes across Stages 1 to 6):**
     - Physical Task Resolution Rate ($M_1$): **100.0% (60/60)** (bound $\ge 85.0\%$).
-    - Decision Safety / Rational Abstention ($M_2$): **100.0% (20/20)** (bound $\equiv 100.0\%$).
+    - Decision Safety / Rational Abstention ($M_2$): **100.0% (60/60)** (bound $\equiv 100.0\%$).
     - Semantic Invariant Breaches ($M_3$): **0** (bound $\equiv 0$).
     - Abductive Causal Resolution Efficacy ($M_4$): **100.0% (30/30)** (bound $\ge 90.0\%$).
     - Concurrency Collisions Under Jitter ($M_5$): **0** (bound $\equiv 0$).
     - Committed Physical Breaches ($M_6$): **0** (bound $\equiv 0$).
-    - Resolution Delta Over Control ($M_7$): **+66.67%** (bound $\ge +30.0\%$).
-    - Max Working Prompt Tokens ($M_8$): **134 tokens** (bound $\le 512$, mean: $114.80$ tokens).
-    - Mean Turn Latency ($M_9$): **121.32 ms** (bound $< 1000\text{ ms}$).
+    - Resolution Delta Over Control ($M_7$): **+75.0%** (bound $\ge +30.0\%$).
+    - Max Working Prompt Tokens ($M_8$): **169 tokens** (bound $\le 512$, mean: $124.01$ tokens).
+    - Mean Turn Latency ($M_9$): **120.34 ms** (bound $< 1000\text{ ms}$).
     - Action Groundedness Fidelity ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
     - Verdict: **PASS (10/10 Clauses Met)**.
-  - **Track 2 (Real Model Physical Inference on Qwen 3.5 2B — 240 episodes across Stages 1 to 4):**
+  - **Track 2 (Real Model Physical Inference on Qwen 3.5 2B — 360 episodes across Stages 1 to 6):**
     - Physical Task Resolution Rate ($M_1$): **100.0% (60/60)** (bound $\ge 85.0\%$).
-    - Decision Safety / Rational Abstention ($M_2$): **100.0% (20/20)** (bound $\equiv 100.0\%$).
+    - Decision Safety / Rational Abstention ($M_2$): **100.0% (60/60)** (bound $\equiv 100.0\%$).
     - Semantic Invariant Breaches ($M_3$): **0** (bound $\equiv 0$).
     - Abductive Causal Resolution Efficacy ($M_4$): **100.0% (30/30)** (bound $\ge 90.0\%$).
     - Concurrency Collisions Under Jitter ($M_5$): **0** (bound $\equiv 0$).
     - Committed Physical Breaches ($M_6$): **0** (bound $\equiv 0$).
-    - Resolution Delta Over Control ($M_7$): **+71.67%** (bound $\ge +30.0\%$).
-    - Max Working Prompt Tokens ($M_8$): **134 tokens** (bound $\le 512$, mean: $114.80$ tokens).
-    - Mean Turn Latency ($M_9$): **204.65 ms** (bound $< 1000\text{ ms}$).
+    - Resolution Delta Over Control ($M_7$): **+78.75%** (bound $\ge +30.0\%$).
+    - Max Working Prompt Tokens ($M_8$): **169 tokens** (bound $\le 512$, mean: $124.01$ tokens).
+    - Mean Turn Latency ($M_9$): **195.70 ms** (bound $< 1000\text{ ms}$).
     - Action Groundedness Fidelity ($M_{10}$): **100.0%** (bound $\equiv 100.0\%$).
     - Verdict: **PASS (10/10 Clauses Met)**.
 - **Evidence Packaging & Zero Loose File Bloat Protocol:**
-  - Track 1 Archive: `runs/run_1792291160_track1_sim/audit_logs.zip` (SHA-256: `28bb10cbb2dcbf5e935d864ddc07a9471f59f925fd6e789734cc10cacab845ec`).
-  - Track 2 Archive: `runs/run_1792291246_track2_qwen/audit_logs.zip` (SHA-256: `028f7b7887e48501caf7615fef6d5cb9893d1c028119109bf6a2e0ac369916fc`).
+  - Track 1 Archive: `runs/run_1792293913_track1_sim/audit_logs.zip` (SHA-256: `0b3f62d28523795a763bfe7f1bde377bb5bece5eec8048f7e57731eb4ae47f1e`).
+  - Track 2 Archive: `runs/run_1792293955_track2_qwen/audit_logs.zip` (SHA-256: `6d44e6486ba547302b79f570bf7d9bfaa625a80f5fc6df5452b0ab3e4463e977`).
   - Zero loose JSON files committed to Git.
-- **Gate D Disposition:** `RECOMMEND PASS (EARNED PROMOTION TO PHASE 2: POST-MN-026)`. Prototype code quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`. Full academic reports frozen at `reports/mn-026-track1-report.md` and `reports/mn-026-track2-report.md`. Pre-run and post-run freeze manifests committed. `SemanticInvariantGate`, `AbductiveCausalTracer`, and `VirtualJitterArbiter` earned promotion readiness for subsequent integration into `src/mong_nhiem/`.
+- **Gate D Disposition:** `RECOMMEND PASS (EARNED PROMOTION TO PHASE 2: POST-MN-026)`. Prototype code quarantined in `research/experiments/prototypes/mn-026-cognitive-capstone-governance/`. Full academic reports frozen at `reports/mn-026-track1-report.md` and `reports/mn-026-track2-report.md`. Pre-run and post-run freeze manifests committed. `SemanticInvariantGate`, `AbductiveCausalTracer`, `VirtualJitterArbiter`, and `PreemptiveInterruptGate` earned promotion readiness for subsequent integration into `src/mong_nhiem/`.
 - **Active Transition / Next Milestone:** Authorizes progression to Phase 2 (Post-MN-026: Cross-Model Generalization Testing across `Llama-3.2-1B` and `Gemma-2-2B`, followed by cumulative production promotion into `src/mong_nhiem/`).
 
 

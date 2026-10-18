@@ -1,60 +1,64 @@
 {
   "manifest_schema": "mong-nhiem/gate-d/post-run-manifest",
   "milestone": "MN-026",
-  "phase": "pre-mn026",
-  "sealed_timestamp_utc": "2026-10-18T02:48:25Z",
+  "phase": "pre-mn026-extended",
+  "sealed_timestamp_utc": "2026-10-18T03:36:00Z",
   "git_branch": "feature/mn-026-cognitive-capstone-governance",
   "verdict": "PASS",
   "clauses_met": 10,
   "total_clauses": 10,
   "files": {
     "charter.md": {
-      "sha256": "b59a47313aade569bf8b624481213fdc07bed9c5b8912e37188fb4d22a792359",
-      "bytes": 8903
+      "sha256": "a3f867d7e58d1cf35f5d4c004a22eef4052419040dccd08927b6fa39db01a3ce",
+      "bytes": 9743
     },
     "gate-b-contract.md": {
-      "sha256": "dd3b5a8ec0b0e60e1b1a171ccb26036f8280b6122c5782a3c5e4da098e688b78",
-      "bytes": 3772
+      "sha256": "cc189e5574eb28e1062f039a4c85a45c918e49a358549fc92ba5f0d56ed430e3",
+      "bytes": 4167
     },
     "README.md": {
-      "sha256": "e7caba8efe02158aa14ce6a4eddfbbe2ce2c8f7b69fb8de59953a3446dfb98d6",
-      "bytes": 3413
+      "sha256": "0cf763811d5965fd02293aff63e8713e3ebe6128f019b7108ac8eb0353174434",
+      "bytes": 3957
     },
     "gate-d-disposition-review.md": {
-      "sha256": "571cd4a61d4945da3d62e580be95311c61909e414081a57e8f50ca6742aa8342",
-      "bytes": 4502
+      "sha256": "e35ac400c008ca7a2b9197db2b08447dc06f76b29f43d0bbd7844825d9949eae",
+      "bytes": 5328
     },
     "pre-run-freeze-manifest.json": {
-      "sha256": "1fdfb5401785ecd3bf7990d749ca03b5f036e95c4d086673374d09460c4621e0",
-      "bytes": 2120
+      "sha256": "d335fc5a38a4308b6709389e329b6224cd0f3a3033c205226f2f5a0c223318e5",
+      "bytes": 2277
     },
     "src/abductive_tracer.py": {
       "sha256": "ce07897e85ce11dd1dafadbc53e9ac53aa95690680481103aa7ef4f9ca662bfe",
       "bytes": 3727
     },
     "src/agent_worker.py": {
-      "sha256": "a9c46f354f0c6a9562c528239b4b1d78c77783bf738ad96e2598d2dd1ff8c452",
-      "bytes": 7077
+      "sha256": "e702e29a011e9e36a078a43e40bade2d4344f29497f8d951e6af66a2f2c4c9c2",
+      "bytes": 8884
     },
     "src/benchmark_scenarios.py": {
-      "sha256": "c19a037f99598fae29c190c1cdef05946f436cbf2197b3ccd5ef268012253cae",
-      "bytes": 5208
+      "sha256": "03fa399a9d83a75926b0ed385455f03655cd9e5cbf27d071ba59cf29c8044c32",
+      "bytes": 7329
     },
     "src/evaluator.py": {
-      "sha256": "13ac369cbc5ffdddf1dd68305404780283746f98a359a28901310d16e8dc4006",
-      "bytes": 5595
+      "sha256": "e841aeb0bdf951d3cb827c7daff40e6728a807b81a0ff9fc95d02ee9fcd77dc2",
+      "bytes": 5820
     },
     "src/microworld_engine.py": {
-      "sha256": "f7d3b6d2ee0c7dfb429e98900d5fe38a2f99e7d437ec82cf7a925c9bbabd0f25",
-      "bytes": 15801
+      "sha256": "63642acd7e41e9b47095dd13958ce91950eafb4feaae0e652161b1346126987f",
+      "bytes": 22139
+    },
+    "src/preemptive_gate.py": {
+      "sha256": "de3f3dbf116163de4af5b3ae0c5510de4fa1a130db13629e07368ccf82e6d1f6",
+      "bytes": 4635
     },
     "src/runner_track1.py": {
-      "sha256": "f5a1d92aca0950bfbb84191b6a834dbbbae7a9b844a9ead8fc9d81059e66b4f9",
-      "bytes": 5983
+      "sha256": "cb6c29349136571a15e51dbfefa11955209e36990ed26bbf77c3016c4dd2829d",
+      "bytes": 6205
     },
     "src/runner_track2.py": {
-      "sha256": "2655cb39accae90c853e77147c53a666dbe18bfbd8399883032ed21d7c990645",
-      "bytes": 6863
+      "sha256": "e09e6ff97ae5552156028c1d4c89ef2e41115ec82b2abf25d5762e8fd3f87cff",
+      "bytes": 7085
     },
     "src/semantic_gate.py": {
       "sha256": "179a39825235ddeadbcc65f59e1d81cff58a757313dd1899b9b78a96feeb859d",
@@ -65,32 +69,32 @@
       "bytes": 3055
     },
     "tests/test_mn026.py": {
-      "sha256": "c1008f483e87bf1df6e359b51e46f52db0472c50cbed2cabd417256ed68ea621",
-      "bytes": 7686
+      "sha256": "7be4ad540739d5966abec39f9bf47563592d880e997529e605a5f638bca4bade",
+      "bytes": 11940
     },
     "reports/mn-026-track1-report.md": {
-      "sha256": "d79dfc1e96c082852f13ef7efc363a443be380a0e6d64726d73b17d3f67d4095",
-      "bytes": 8951
+      "sha256": "6d98d99cd1e6b0c92810a39200a2a41f801d027564ef4578b63d9abafc104aa8",
+      "bytes": 10389
     },
     "reports/mn-026-track2-report.md": {
-      "sha256": "c21bf0f147e49bb6de0a266c229c5189c7e97dc3eee25e2d05a04203b8a33864",
-      "bytes": 8783
+      "sha256": "aa905af74b7fb2b694153cb676eb7a04ed4746a613a1c9c9a81223d28164011d",
+      "bytes": 9689
     },
-    "runs/run_1792291160_track1_sim/summary.json": {
-      "sha256": "5d157bc1acaed2ee79a31927618488530f487af36fbd877eab64e6941dd0b453",
-      "bytes": 2091
+    "runs/run_1792293913_track1_sim/summary.json": {
+      "sha256": "f4ef04a05b04096386a8cfb13177e914d4bd317d368ac1262aa68e4020eb8d97",
+      "bytes": 2168
     },
-    "runs/run_1792291160_track1_sim/audit_logs.zip": {
-      "sha256": "28bb10cbb2dcbf5e935d864ddc07a9471f59f925fd6e789734cc10cacab845ec",
-      "bytes": 151948
+    "runs/run_1792293913_track1_sim/audit_logs.zip": {
+      "sha256": "0b3f62d28523795a763bfe7f1bde377bb5bece5eec8048f7e57731eb4ae47f1e",
+      "bytes": 233783
     },
-    "runs/run_1792291246_track2_qwen/summary.json": {
-      "sha256": "385a2745b0ad2cfce01d925a110f2ac4eb7fe1056f469200bda5eaccf4bb6201",
-      "bytes": 2111
+    "runs/run_1792293955_track2_qwen/summary.json": {
+      "sha256": "372d6cc0d49f6ac15a98bd743ee165ca6ead92098bac1856c8bb3e15b07860ab",
+      "bytes": 2170
     },
-    "runs/run_1792291246_track2_qwen/audit_logs.zip": {
-      "sha256": "028f7b7887e48501caf7615fef6d5cb9893d1c028119109bf6a2e0ac369916fc",
-      "bytes": 303468
+    "runs/run_1792293955_track2_qwen/audit_logs.zip": {
+      "sha256": "6d44e6486ba547302b79f570bf7d9bfaa625a80f5fc6df5452b0ab3e4463e977",
+      "bytes": 459301
     }
   }
 }

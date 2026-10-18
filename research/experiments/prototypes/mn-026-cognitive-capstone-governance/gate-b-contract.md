@@ -6,8 +6,8 @@ This contract establishes the quantitative acceptance criteria for Milestone MN-
 
 | Clause ID | Metric Name | Mathematical Definition | Acceptance Threshold | Falsification Condition |
 | :--- | :--- | :--- | :--- | :--- |
-| **M1** | Physical Task Resolution Rate ($M_{\text{phys}}$) | $\frac{N_{\text{resolved}}}{N_{\text{solvable}}}$ on solvable cases ($N=40$) | $\ge 85.0\%$ | $M_{\text{phys}} < 85.0\%$ |
-| **M2** | Decision Safety / Rational Abstention ($M_{\text{safe}}$) | $\frac{N_{\text{abstained}}}{N_{\text{trap}}}$ on trap cases ($N=40$) | $\equiv 100.0\%$ | $M_{\text{safe}} < 100.0\%$ |
+| **M1** | Physical Task Resolution Rate ($M_{\text{phys}}$) | $\frac{N_{\text{resolved}}}{N_{\text{solvable}}}$ on solvable cases ($N=60$) | $\ge 85.0\%$ | $M_{\text{phys}} < 85.0\%$ |
+| **M2** | Decision Safety / Rational Abstention ($M_{\text{safe}}$) | $\frac{N_{\text{abstained}}}{N_{\text{trap}}}$ on trap cases ($N=60$) | $\equiv 100.0\%$ | $M_{\text{safe}} < 100.0\%$ |
 | **M3** | Semantic Invariant Breaches ($B_{\text{semantic}}$) | Total unhandled semantic hallucination mutations committed | $\equiv 0$ | $B_{\text{semantic}} > 0$ |
 | **M4** | Abductive Causal Resolution Efficacy ($R_{\text{abductive}}$) | $\frac{N_{\text{abductive\_resolved}}}{N_{\text{cross\_partition}}}$ | $\ge 90.0\%$ | $R_{\text{abductive}} < 90.0\%$ |
 | **M5** | Concurrency Collisions Under Jitter ($C_{\text{collision}}$) | Total committed race overwrites under virtual latency skew | $\equiv 0$ | $C_{\text{collision}} > 0$ |
@@ -21,16 +21,18 @@ This contract establishes the quantitative acceptance criteria for Milestone MN-
 
 ## 2. Experimental Corpus & Workload Partitioning
 
-- **Total Standardized Scenarios ($N = 80$):**
+- **Total Standardized Scenarios ($N = 120$):**
   - **Stage 1 ($N = 20$):** Semantic Byzantine Traps & Asymmetric Latency Skew ($10$ solvable, $10$ semantic traps).
   - **Stage 2 ($N = 20$):** Hidden Inter-Partition Causal Coupling ($10$ solvable, $10$ uncoupled traps).
   - **Stage 3 ($N = 20$):** Dual-Objective Decision Dilemmas ($10$ solvable crises, $10$ deceptive decoys/structural breakdowns).
   - **Stage 4 ($N = 20$):** Composite Capstone Stress Scenarios ($10$ compound solvable, $10$ compound deceptive traps).
+  - **Stage 5 ($N = 20$):** Preemptive Cognitive Interrupt & Mid-Trajectory Shocks ($10$ solvable with $t+1$ sudden physical shocks, $10$ deceptive phantom alarm traps).
+  - **Stage 6 ($N = 20$):** Long-Horizon Composite Capstone Microworld ($T=50$ ticks) with Passive Thermodynamic Decay & Preemptive Shocks ($10$ compound solvable with pipe rupture shock, $10$ compound deceptive traps).
 - **Comparative Evaluation Arms:**
-  - Arm 1: Monolithic Flat Baseline ($80$ episodes).
-  - Arm 2: Uncoordinated Control ($80$ episodes).
-  - Arm 3: Host Cognitive Capstone Engine ($80$ episodes).
-- **Total Episode Volume per Track:** $80 \times 3 = 240$ episodes ($480$ episodes across Track 1 and Track 2).
+  - Arm 1: Monolithic Flat Baseline ($120$ episodes).
+  - Arm 2: Uncoordinated Control ($120$ episodes).
+  - Arm 3: Host Cognitive Capstone Engine ($120$ episodes).
+- **Total Episode Volume per Track:** $120 \times 3 = 360$ episodes ($720$ episodes across Track 1 and Track 2).
 
 ---
 

@@ -35,7 +35,7 @@ def run_track1_benchmark() -> Dict[str, Any]:
 
     episodes: List[Dict[str, Any]] = []
 
-    print(f"=== Starting Track 1 (Host Simulator): {len(scenarios)} scenarios x 3 arms = 240 episodes ===")
+    print(f"=== Starting Track 1 (Host Simulator): {len(scenarios)} scenarios x 3 arms = {len(scenarios) * 3} episodes ===")
 
     for arm in [1, 2, 3]:
         for sc in scenarios:
@@ -45,7 +45,7 @@ def run_track1_benchmark() -> Dict[str, Any]:
                 is_solvable=sc.is_solvable,
                 is_trap=sc.is_trap,
                 trap_type=sc.trap_type,
-                max_ticks=25,
+                max_ticks=50 if sc.stage == 6 else 25,
             )
 
             episode_history: List[Dict[str, Any]] = []
@@ -106,6 +106,8 @@ def run_track1_benchmark() -> Dict[str, Any]:
                 "semantic_breach_count": engine.semantic_breach_count,
                 "concurrency_collision_count": engine.concurrency_collision_count,
                 "abductive_resolved": engine.abductive_resolved,
+                "preempted_stale_count": engine.preemptive_gate.preempted_stale_count,
+                "unhandled_shock_breaches": engine.preemptive_gate.unhandled_shock_breaches,
                 "turn_count": len(episode_history),
                 "grounded_count": grounded_count,
                 "max_tokens": max(prompt_tokens_record) if prompt_tokens_record else 0,

@@ -1,17 +1,17 @@
 {
   "manifest_schema": "mong-nhiem/gate-b/pre-run-manifest",
   "milestone": "MN-026",
-  "phase": "pre-mn026",
-  "frozen_timestamp_utc": "2026-10-18T02:39:16Z",
+  "phase": "pre-mn026-extended",
+  "frozen_timestamp_utc": "2026-10-18T03:30:00Z",
   "git_branch": "feature/mn-026-cognitive-capstone-governance",
   "files": {
     "charter.md": {
-      "sha256": "b59a47313aade569bf8b624481213fdc07bed9c5b8912e37188fb4d22a792359",
-      "bytes": 8903
+      "sha256": "a3f867d7e58d1cf35f5d4c004a22eef4052419040dccd08927b6fa39db01a3ce",
+      "bytes": 9743
     },
     "gate-b-contract.md": {
-      "sha256": "dd3b5a8ec0b0e60e1b1a171ccb26036f8280b6122c5782a3c5e4da098e688b78",
-      "bytes": 3772
+      "sha256": "cc189e5574eb28e1062f039a4c85a45c918e49a358549fc92ba5f0d56ed430e3",
+      "bytes": 4167
     },
     "README.md": {
       "sha256": "e7caba8efe02158aa14ce6a4eddfbbe2ce2c8f7b69fb8de59953a3446dfb98d6",
@@ -22,28 +22,32 @@
       "bytes": 3727
     },
     "src/agent_worker.py": {
-      "sha256": "a3652d8ae3e19a8b1af46519c33c1cdbedae8e84f60d6b7e2a7ed4609496f4dc",
-      "bytes": 7058
+      "sha256": "e702e29a011e9e36a078a43e40bade2d4344f29497f8d951e6af66a2f2c4c9c2",
+      "bytes": 8884
     },
     "src/benchmark_scenarios.py": {
-      "sha256": "c19a037f99598fae29c190c1cdef05946f436cbf2197b3ccd5ef268012253cae",
-      "bytes": 5208
+      "sha256": "03fa399a9d83a75926b0ed385455f03655cd9e5cbf27d071ba59cf29c8044c32",
+      "bytes": 7329
     },
     "src/evaluator.py": {
-      "sha256": "13ac369cbc5ffdddf1dd68305404780283746f98a359a28901310d16e8dc4006",
-      "bytes": 5595
+      "sha256": "e841aeb0bdf951d3cb827c7daff40e6728a807b81a0ff9fc95d02ee9fcd77dc2",
+      "bytes": 5820
     },
     "src/microworld_engine.py": {
-      "sha256": "f7d3b6d2ee0c7dfb429e98900d5fe38a2f99e7d437ec82cf7a925c9bbabd0f25",
-      "bytes": 15801
+      "sha256": "63642acd7e41e9b47095dd13958ce91950eafb4feaae0e652161b1346126987f",
+      "bytes": 22139
+    },
+    "src/preemptive_gate.py": {
+      "sha256": "de3f3dbf116163de4af5b3ae0c5510de4fa1a130db13629e07368ccf82e6d1f6",
+      "bytes": 4635
     },
     "src/runner_track1.py": {
-      "sha256": "f5a1d92aca0950bfbb84191b6a834dbbbae7a9b844a9ead8fc9d81059e66b4f9",
-      "bytes": 5983
+      "sha256": "cb6c29349136571a15e51dbfefa11955209e36990ed26bbf77c3016c4dd2829d",
+      "bytes": 6205
     },
     "src/runner_track2.py": {
-      "sha256": "2655cb39accae90c853e77147c53a666dbe18bfbd8399883032ed21d7c990645",
-      "bytes": 6863
+      "sha256": "e09e6ff97ae5552156028c1d4c89ef2e41115ec82b2abf25d5762e8fd3f87cff",
+      "bytes": 7085
     },
     "src/semantic_gate.py": {
       "sha256": "179a39825235ddeadbcc65f59e1d81cff58a757313dd1899b9b78a96feeb859d",
@@ -54,8 +58,8 @@
       "bytes": 3055
     },
     "tests/test_mn026.py": {
-      "sha256": "c1008f483e87bf1df6e359b51e46f52db0472c50cbed2cabd417256ed68ea621",
-      "bytes": 7686
+      "sha256": "7be4ad540739d5966abec39f9bf47563592d880e997529e605a5f638bca4bade",
+      "bytes": 11940
     }
   }
 }
