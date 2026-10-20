@@ -155,3 +155,19 @@ def test_kernel_auto_backend_from_schema():
     kernel_ollama = MongNhiemKernel(schema=schema_ollama)
     assert isinstance(kernel_ollama.backend, OpenAICompatBackend)
     assert kernel_ollama.backend.model_name == "qwen3.5:2b"
+
+
+def test_kernel_context_manager():
+    closed = False
+
+    class ClosableBackend(MockBackend):
+        def close(self) -> None:
+            nonlocal closed
+            closed = True
+
+    schema = {"schema_name": "ctx_test"}
+    with MongNhiemKernel(schema=schema, backend=ClosableBackend()) as kernel:
+        assert kernel.backend is not None
+        assert closed is False
+
+    assert closed is True

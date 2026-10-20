@@ -119,4 +119,39 @@ def test_runtime_subsystem_imports() -> None:
     assert world.current_tick == 1
 
 
+def test_root_package_cognitive_kernel_exports() -> None:
+    import mong_nhiem
+
+    expected_exports = [
+        "BaseInferenceBackend",
+        "BimodalEmission",
+        "BimodalParser",
+        "ClockMode",
+        "CommClass",
+        "CompiledWorldSchema",
+        "ContinuousStateEngine",
+        "DeclarativeSchemaLoader",
+        "HumanCommandRecord",
+        "HumanSupervisoryBridge",
+        "LlamaServerBackend",
+        "MockBackend",
+        "MongNhiemKernel",
+        "OpenAICompatBackend",
+        "SlotCacheManager",
+        "SlotExecutionMode",
+        "StepResult",
+        "SubprocessLlamaBackend",
+        "TemporalBridge",
+        "compile_bimodal_gbnf_grammar",
+        "find_free_port",
+        "is_port_in_use",
+    ]
+
+    for sym in expected_exports:
+        assert hasattr(mong_nhiem, sym), f"Symbol {sym} missing from root mong_nhiem namespace"
+
+    assert mong_nhiem.is_port_in_use(mong_nhiem.find_free_port()) is False
+
+
+
 

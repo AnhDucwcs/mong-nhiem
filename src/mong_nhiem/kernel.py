@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Self
 
 from mong_nhiem.bimodal import (
     BimodalEmission,
@@ -322,3 +322,14 @@ class MongNhiemKernel:
         if self.state_file:
             self.state_engine.save_to_disk_atomic(self.state_file)
         self.backend.close()
+
+    def __enter__(self) -> Self:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: object,
+    ) -> None:
+        self.close()

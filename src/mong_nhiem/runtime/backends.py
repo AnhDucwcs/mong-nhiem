@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import socket
 import subprocess
 import time
 import urllib.error
@@ -22,6 +23,20 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable
 
 from mong_nhiem.runtime.slot_cache import SlotCacheManager, SlotExecutionMode
+
+
+def find_free_port() -> int:
+    """Asks the operating system for an available ephemeral port to prevent collisions."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        return int(s.getsockname()[1])
+
+
+def is_port_in_use(port: int, host: str = "127.0.0.1") -> bool:
+    """Checks if a network port is currently occupied by another process."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.2)
+        return s.connect_ex((host, port)) == 0
 
 
 class BaseInferenceBackend(ABC):
@@ -165,10 +180,17 @@ class SubprocessLlamaBackend(LlamaServerBackend):
 
         self.weights_path = os.path.abspath(weights_path)
         self.server_binary = server_binary
-        self.port = port
+
+        # Auto-Port Hunting: if port=0 or port is currently occupied by DB/server, auto-bind free port
+        if port == 0 or is_port_in_use(port):
+            allocated_port = find_free_port()
+        else:
+            allocated_port = port
+
+        self.port = allocated_port
         self.process: subprocess.Popen | None = None
 
-        endpoint = f"http://127.0.0.1:{port}"
+        endpoint = f"http://127.0.0.1:{allocated_port}"
         self._spawn_process(n_gpu_layers, ctx_size, threads, startup_timeout)
 
         super().__init__(
