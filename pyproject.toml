@@ -1,11 +1,14 @@
 [build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "mong-nhiem"
-version = "0.0.0"
-description = "Research engine/library scaffold for large knowledge and context spaces"
+version = "0.2.0"
+description = "Authoritative cognitive governance kernel for real-time cyber-physical interaction"
+authors = [
+    {name = "AnhDucwcs"}
+]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
@@ -17,8 +20,8 @@ dev = [
     "ruff>=0.6",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/mong_nhiem"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

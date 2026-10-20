@@ -1,0 +1,15 @@
+[package]
+name = "mong-nhiem-core"
+version = "0.2.0"
+edition = "2021"
+description = "Authoritative cognitive governance kernel for real-time cyber-physical & game interaction"
+authors = ["AnhDucwcs"]
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "mong_nhiem"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
