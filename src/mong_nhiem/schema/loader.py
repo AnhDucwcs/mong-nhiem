@@ -63,6 +63,7 @@ class CompiledWorldSchema:
     invariants: list[DeclarativeInvariantDef] = field(default_factory=list)
     preconditions: list[DeclarativePreconditionDef] = field(default_factory=list)
     continuous_traits: list[DeclarativeContinuousTraitDef] = field(default_factory=list)
+    model_config: dict[str, Any] = field(default_factory=dict)
 
 
 class DeclarativeSchemaLoader:
@@ -72,6 +73,7 @@ class DeclarativeSchemaLoader:
     def load_from_dict(cls, data: dict[str, Any]) -> CompiledWorldSchema:
         """Compiles a dictionary specification into a CompiledWorldSchema."""
         schema_name = data.get("schema_name", "unnamed_schema")
+        model_config = dict(data.get("model", {}))
 
         entities: list[DeclarativeEntityDef] = []
         for ent in data.get("entities", []):
@@ -119,12 +121,14 @@ class DeclarativeSchemaLoader:
 
         continuous_traits: list[DeclarativeContinuousTraitDef] = []
         for tr in data.get("continuous_traits", []):
+            init_val = float(tr.get("initial_value", 50.0))
+            def_max = max(100.0, init_val * 2.0 if init_val > 0 else 100.0)
             continuous_traits.append(
                 DeclarativeContinuousTraitDef(
                     name=tr["name"],
-                    initial_value=float(tr.get("initial_value", 50.0)),
+                    initial_value=init_val,
                     min_val=float(tr.get("min_val", 0.0)),
-                    max_val=float(tr.get("max_val", 100.0)),
+                    max_val=float(tr.get("max_val", def_max)),
                     rate_per_sec=float(tr.get("rate_per_sec", 0.0)),
                     is_decay=tr.get("is_decay", True),
                 )
@@ -136,6 +140,7 @@ class DeclarativeSchemaLoader:
             invariants=invariants,
             preconditions=preconditions,
             continuous_traits=continuous_traits,
+            model_config=model_config,
         )
 
     @classmethod

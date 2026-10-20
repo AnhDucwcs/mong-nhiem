@@ -112,7 +112,7 @@ Research is organized under strict Gate criteria (Gate A Charter $\rightarrow$ G
   - `research/decisions/`: Architectural Decision Records (ADRs).
   - `research/experiments/`: Sandbox prototypes and frozen empirical evidence.
 - `src/mong_nhiem/`: Production package boundary (pure Python standard library).
-- `tests/unit/`: Comprehensive test suite (503 unit and integration tests passing).
+- `tests/unit/`: Comprehensive test suite (511 unit and integration tests passing).
 
 
 ---
