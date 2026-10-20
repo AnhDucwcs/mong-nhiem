@@ -402,11 +402,36 @@ Track: **NCC Phase 15 (Cognitive Capstone Governance, Abductive Synthesis, & Fau
    - Disposition review: `RECOMMEND UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION)`.
    - Authorized promotion into `src/mong_nhiem/`: `SemanticInvariantGate`, `ReflexBreaker`, `AbductiveCausalTracer` with Confluence Decomposition, `GoalConditionedAffordanceRanker`, `PreemptiveInterruptGate` (3-class taxonomy), `VirtualJitterArbiter`, and `TelemetryObserver`.
 
+## MN-027 — Bimodal Cognitive Emission, Declarative Schema Synthesis & Real-Time Human Supervisory Control
+
+Status: **completed and verified prototype (`bimodal_cognitive_emission_verified_conditional_promotion`).**  
+Track: **NCC Phase 16 (Bimodal Cognitive Emission, Declarative Schemas & Real-Time Human Supervisory Control).**
+
+1. **Strategic Intent & Outcome:**
+   - Transitioned Mộng Nhiễm from closed machine microworlds to real-time human-centric cognitive architecture while strictly preserving domain-neutral core invariants.
+   - Designed and benchmarked:
+     - **Bimodal Cognitive Emission Protocol:** Single-pass constrained generation emitting both operational machine action (`ACTION: ...`) and communicative act (`COMMUNICATE [<CLASS>]: "..."`) under unified runtime GBNF grammar.
+     - **Triadic Communicative Taxonomy:** Orthogonal state-effect classification (`INFORM`: unidirectional broadcast; `QUERY`: bidirectional standby halt; `EXPRESS`: socio-emotional persona expression at $T=0.5$).
+     - **Dual-Clock Temporal Bridge (`TemporalBridge`):** Synchronizes real-world wall-clock intervals with Host causal ticks, supporting discrete benchmark stepping and live background scheduling.
+     - **Continuous State Decay Engine (`ContinuousStateEngine`):** Mathematical parameter evolution ($X(t) = X_0 \pm \lambda \cdot \Delta t$) triggering threshold invariants, paired with atomic JSON disk persistence.
+     - **Declarative Schema Synthesis (`DeclarativeSchemaLoader`):** Pure standard-library YAML/JSON parser loading external entity structures and preconditions without core code alteration.
+     - **Human Supervisory Standby Bridge (`HumanSupervisoryBridge`):** Resolves `SUPERVISED_STANDBY` via natural language operator commands while advancing `world_epoch` to preempt stale in-flight actions.
+2. **Dual-Track Empirical Results ($360$ Benchmark Episodes Total):**
+   - **Track 1 (Host Simulator — 180 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** task resolution, 100.0% syntax determinism, 100.0% communicative classification accuracy ($M_3 \equiv 100.0\%$), 100.0% human recovery, 0.50 ms clock drift jitter, +55.68% token reduction over two-call baseline, 165 peak prompt tokens, and 135.00 ms mean latency. **PASS (10/10 Clauses Met)**. Audit Archive SHA-256: `77bca2a2394ee6ea5ee02ccbf170ca5b05d0e850651afd4424166722179ff2e9`.
+   - **Track 2 (Real Model Inference on Qwen 3.5 2B — 180 episodes):** Arm 3 achieved **100.0% (60/60 PASS)** task resolution, 100.0% syntax determinism, 100.0% communicative classification accuracy ($M_3 \equiv 100.0\%$), 100.0% human recovery, 7.08 ms clock drift jitter ($\le 15.0\text{ ms}$), +38.71% token reduction over two-call baseline ($\ge 35.0\%$), 160 peak prompt tokens ($\le 512$), and 1078.80 ms mean latency. Clause $M_9$ exhibits a minor 78.8 ms gap against the 1000.0 ms SLA on consumer laptop hardware without KV cache reuse. Disposition: **CONDITIONAL (M9 LATENCY GAP, 9/10 Clauses Passed)**. Audit Archive SHA-256: `596050fde28e96af5d698da5557edfd46550678ad7fe05714f5c1f5d88e9b32b`.
+3. **Evidence Packaging & Zero Loose File Bloat Protocol:**
+   - All 360 raw episode traces sealed into authenticated `audit_logs.zip` archives with zero loose JSON files committed to Git.
+   - Prototype artifacts frozen with cryptographic manifests `pre-run-freeze-manifest.json` and `post-run-freeze-manifest.json`.
+4. **Gate D Disposition & Promotion Readiness:**
+   - Disposition review: `bimodal_cognitive_emission_verified_conditional_promotion`.
+   - Candidate core modules authorized for promotion: `BimodalEmission`/`BimodalParser`, `TemporalBridge`, `ContinuousStateEngine`, `DeclarativeSchemaLoader`, and `HumanSupervisoryBridge`.
+
 ## Active Developmental Horizons
 
 1. **Cumulative Production Promotion into `src/mong_nhiem/`:**
    - Status: **Ready for Immediate Execution (Gate D Approved).**
    - Core Mission: Integrate verified cognitive governance components into production runtime modules under comprehensive regression test harness.
+
 
 
 

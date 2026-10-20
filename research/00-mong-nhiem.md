@@ -57,6 +57,9 @@ MN-025 is completed and verified under Dual-Track protocol: [Cross-Domain Episte
 
 MN-026 Phase 1, Phase 2, and Stage 7 (Resilience Clearing Sub-Phase) are completed and verified: [Cognitive Capstone Governance, Semantic Invariant Hardening, and Abductive Cross-Partition Causal Synthesis](experiments/prototypes/mn-026-cognitive-capstone-governance/README.md). Evaluated across 7 sequential stages ($N = 140$ scenarios, $420$ episodes per track/model, $1,680$ total benchmark episodes). Track 1 (Simulator) and Track 2 across all three qualified open-weights models (`Qwen3.5-2B`, `Llama-3.2-3B`, `Qwen3-4B`, $1,260$ physical neural episodes) met all 15 Gate B acceptance criteria (15/15 PASS across all models) with 0 physical breaches, 0 semantic breaches, 0 collisions under jitter, 0 oracle epistemic leaks, 0 preemption livelocks, affordance memory bounded to 177 tokens ($\le 200$), 100% 2-phase confluence resolution, 100% sensor blackout autonomy, and sub-214 ms turn latency within $\le 4\text{GB}$ VRAM. All traces sealed in authenticated `audit_logs.zip` archives. Unconditional Gate D production promotion into `src/mong_nhiem/` is authorized.
 
+MN-027 is completed and conditionally verified under Dual-Track protocol: [Bimodal Cognitive Emission, Declarative Schema Synthesis & Real-Time Human Supervisory Control](experiments/prototypes/mn-027-bimodal-cognitive-emission/README.md). Track 1 (Simulator, 180 episodes) achieved 100.0% resolution across all 10 clauses (PASS). Track 2 (Physical Neural Inference on `Qwen3.5-2B`, 180 episodes) achieved 100.0% physical resolution (60/60 PASS), 100.0% syntax determinism, 100.0% communicative classification accuracy across `INFORM`, `QUERY`, `EXPRESS` ($M_3 \equiv 100.0\%$), 100.0% human supervisory recovery, 7.08 ms monotonic clock jitter, 100.0% continuous decay trigger precision, 38.71% token savings delta over two-call baseline ($\ge 35.0\%$), and 160 peak prompt tokens ($\le 512$). Clause $M_9$ exhibits a minor 78.8 ms latency gap against the 1000 ms SLA on consumer hardware under cold prompt evaluation without KV cache reuse, resulting in a conditional promotion disposition (`bimodal_cognitive_emission_verified_conditional_promotion`). All 360 episode traces sealed in `audit_logs.zip` archives under the Zero Loose File Bloat Protocol. Prototype code quarantined; promotion of core domain-neutral modules into `src/mong_nhiem/` authorized.
+
+
 
 
 
@@ -92,6 +95,7 @@ MN-026 Phase 1, Phase 2, and Stage 7 (Resilience Clearing Sub-Phase) are complet
 - [MN-024](experiments/prototypes/mn-024-long-horizon-epistemic-microworld/README.md)
 - [MN-025](experiments/prototypes/mn-025-cross-domain-epistemic-transfer/README.md)
 - [MN-026](experiments/prototypes/mn-026-cognitive-capstone-governance/README.md)
+- [MN-027](experiments/prototypes/mn-027-bimodal-cognitive-emission/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

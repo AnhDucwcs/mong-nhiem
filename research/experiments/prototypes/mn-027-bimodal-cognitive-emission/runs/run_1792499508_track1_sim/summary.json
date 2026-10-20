@@ -1,0 +1,59 @@
+{
+  "milestone": "MN-027",
+  "track": "Track 1 (Host Simulator)",
+  "timestamp": 1792499508,
+  "run_id": "run_1792499508_track1_sim",
+  "audit_logs_archive": "audit_logs.zip",
+  "audit_logs_sha256": "77bca2a2394ee6ea5ee02ccbf170ca5b05d0e850651afd4424166722179ff2e9",
+  "token_savings_delta_percent": 55.68,
+  "arms": {
+    "arm1_flat": {
+      "total_episodes": 60,
+      "physical_resolution_rate": 0.0,
+      "syntax_determinism_rate": 0.0,
+      "comm_classification_accuracy": 0.0,
+      "human_recovery_rate": 0.6667,
+      "semantic_breaches_total": 0,
+      "mean_prompt_tokens": 240.0,
+      "max_prompt_tokens": 240,
+      "mean_completion_tokens": 45.0,
+      "mean_total_tokens": 285.0,
+      "mean_latency_ms": 120.0,
+      "max_latency_ms": 120.0,
+      "mean_jitter_ms": 5.0,
+      "max_jitter_ms": 5.0
+    },
+    "arm2_twocall": {
+      "total_episodes": 60,
+      "physical_resolution_rate": 1.0,
+      "syntax_determinism_rate": 1.0,
+      "comm_classification_accuracy": 1.0,
+      "human_recovery_rate": 0.6667,
+      "semantic_breaches_total": 0,
+      "mean_prompt_tokens": 400.0,
+      "max_prompt_tokens": 400,
+      "mean_completion_tokens": 40.0,
+      "mean_total_tokens": 440.0,
+      "mean_latency_ms": 260.0,
+      "max_latency_ms": 260.0,
+      "mean_jitter_ms": 5.0,
+      "max_jitter_ms": 5.0
+    },
+    "arm3_bimodal": {
+      "total_episodes": 60,
+      "physical_resolution_rate": 1.0,
+      "syntax_determinism_rate": 1.0,
+      "comm_classification_accuracy": 1.0,
+      "human_recovery_rate": 1.0,
+      "semantic_breaches_total": 0,
+      "mean_prompt_tokens": 165.0,
+      "max_prompt_tokens": 165,
+      "mean_completion_tokens": 30.0,
+      "mean_total_tokens": 195.0,
+      "mean_latency_ms": 135.0,
+      "max_latency_ms": 135.0,
+      "mean_jitter_ms": 0.5,
+      "max_jitter_ms": 0.5
+    }
+  }
+}

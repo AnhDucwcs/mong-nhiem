@@ -1,0 +1,10 @@
+{
+  "milestone": "MN-027",
+  "phase": "pre-run-authority",
+  "files": {
+    "charter.md": "664a05c89f8ffb56fbc3e0b3d8e056a4b8ca1f8f8f4bb98a5f2e8a7bfed3247e",
+    "gate-b-contract.md": "f7b4b4a4660c2a62a3d5d6f22eade1aee97178a1c14916be0148bc1436554958",
+    "README.md": "5d5ab3fa5f07d7cc050d7cfe1cdba69ce4eab606078b9ed7c910073f71e7550c",
+    "definition/corpus-v1/cases.jsonl": "be76146adb09319dee5e3b43bb6675039c920d04cded6c8d622bdae630840e68"
+  }
+}

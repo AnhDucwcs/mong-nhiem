@@ -1,0 +1,61 @@
+{
+  "milestone": "MN-027",
+  "track": "Track 2 (Real Model Inference Qwen 3.5 2B)",
+  "timestamp": 1792500650,
+  "run_id": "run_1792500650_track2_qwen",
+  "model": "Qwen3.5-2B-Q4_K_M.gguf",
+  "endpoint_url": "http://127.0.0.1:18502",
+  "audit_logs_archive": "audit_logs.zip",
+  "audit_logs_sha256": "596050fde28e96af5d698da5557edfd46550678ad7fe05714f5c1f5d88e9b32b",
+  "token_savings_delta_percent": 38.71,
+  "arms": {
+    "arm1_flat": {
+      "total_episodes": 60,
+      "physical_resolution_rate": 0.0,
+      "syntax_determinism_rate": 0.0,
+      "comm_classification_accuracy": 0.0,
+      "human_recovery_rate": 0.6667,
+      "semantic_breaches_total": 0,
+      "mean_prompt_tokens": 85.2,
+      "max_prompt_tokens": 118,
+      "mean_completion_tokens": 50.0,
+      "mean_total_tokens": 135.2,
+      "mean_latency_ms": 686.26,
+      "max_latency_ms": 954.08,
+      "mean_jitter_ms": 7.25,
+      "max_jitter_ms": 10.0
+    },
+    "arm2_twocall": {
+      "total_episodes": 60,
+      "physical_resolution_rate": 1.0,
+      "syntax_determinism_rate": 1.0,
+      "comm_classification_accuracy": 1.0,
+      "human_recovery_rate": 0.6667,
+      "semantic_breaches_total": 0,
+      "mean_prompt_tokens": 226.2,
+      "max_prompt_tokens": 293,
+      "mean_completion_tokens": 47.2,
+      "mean_total_tokens": 273.3,
+      "mean_latency_ms": 1479.58,
+      "max_latency_ms": 2075.68,
+      "mean_jitter_ms": 6.8,
+      "max_jitter_ms": 10.0
+    },
+    "arm3_bimodal": {
+      "total_episodes": 60,
+      "physical_resolution_rate": 1.0,
+      "syntax_determinism_rate": 1.0,
+      "comm_classification_accuracy": 1.0,
+      "human_recovery_rate": 1.0,
+      "semantic_breaches_total": 0,
+      "mean_prompt_tokens": 127.2,
+      "max_prompt_tokens": 160,
+      "mean_completion_tokens": 40.3,
+      "mean_total_tokens": 167.5,
+      "mean_latency_ms": 1078.8,
+      "max_latency_ms": 1692.06,
+      "mean_jitter_ms": 7.083,
+      "max_jitter_ms": 10.0
+    }
+  }
+}

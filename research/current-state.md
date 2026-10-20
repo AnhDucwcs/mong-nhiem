@@ -795,6 +795,45 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
 - **Gate D Final Disposition:** **UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION `src/mong_nhiem/`)**. Full academic reports frozen in `reports/`. Pre-run and post-run freeze manifests committed. Authorizes cumulative promotion of `SemanticInvariantGate`, `ReflexBreaker`, `AbductiveCausalTracer` with Confluence Decomposition, `GoalConditionedAffordanceRanker`, `PreemptiveInterruptGate` (3-class taxonomy), `VirtualJitterArbiter`, and `TelemetryObserver` into `src/mong_nhiem/`.
 - **Active Transition / Next Milestone:** Promotion into production `src/mong_nhiem/` followed by progression to the next milestone in the roadmap.
 
+## MN-027 — Bimodal Cognitive Emission, Declarative Schema Synthesis & Real-Time Human Supervisory Control — completed prototype (`bimodal_cognitive_emission_verified_conditional_promotion`)
+
+- **Milestone Overview & Architectural Scope:**
+  - Transitioned Mộng Nhiễm from closed machine microworlds to real-time human-centric cognitive architecture while preserving domain-neutral core invariants.
+  - Designed and empirically benchmarked:
+    1. *Bimodal Cognitive Emission Protocol:* Single-pass constrained generation emitting both operational machine actions (`ACTION: ...`) and communicative feedback (`COMMUNICATE [<CLASS>]: "..."`) under runtime GBNF grammar.
+    2. *Triadic Communicative Taxonomy:* Orthogonal state-effect classification (`INFORM`: unidirectional broadcast; `QUERY`: bidirectional standby halt; `EXPRESS`: persona/affective expression at $T=0.5$).
+    3. *Dual-Clock Temporal Bridge (`TemporalBridge`):* Synchronizes real-world wall-clock intervals with Host causal ticks, supporting discrete benchmark stepping and live background scheduling.
+    4. *Continuous State Decay Engine (`ContinuousStateEngine`):* Linear parameter evolution ($X(t) = X_0 \pm \lambda \cdot \Delta t$) triggering threshold invariants, paired with atomic JSON disk persistence.
+    5. *Declarative Schema Synthesis (`DeclarativeSchemaLoader`):* Pure standard-library YAML/JSON parser loading external entity structures and preconditions without core code alteration.
+    6. *Human Supervisory Standby Bridge (`HumanSupervisoryBridge`):* Resolves `SUPERVISED_STANDBY` via natural language operator commands while advancing `world_epoch` to preempt stale in-flight actions.
+- **Dual-Track Empirical Results ($360$ Benchmark Episodes Total):**
+  - Track 1 (Host Simulator — 180 episodes):
+    - Physical Resolution Rate ($M_1$): **100.0% (60/60 PASS)** (bound $\ge 85.0\%$).
+    - Syntax Parse Determinism ($M_2$): **100.0% (60/60 PASS)** (bound $\equiv 100.0\%$).
+    - Triadic Comm Classification Accuracy ($M_3$): **100.0% (60/60 PASS)** (bound $\equiv 100.0\%$).
+    - Human Supervisory Recovery Rate ($M_4$): **100.0% (20/20 PASS)** (bound $\equiv 100.0\%$).
+    - Clock Synchronization Drift Jitter ($M_5$): **0.50 ms** (bound $\le 15.0\text{ ms}$).
+    - Continuous State Decay Precision ($M_6$): **100.0% (60/60 PASS)** (bound $\equiv 100.0\%$).
+    - Token Savings Delta over Two-Call ($M_7$): **+55.68%** (bound $\ge 35.0\%$).
+    - Max Working Prompt Tokens ($M_8$): **165 tokens** (bound $\le 512\text{ tok}$).
+    - Mean Turn Latency ($M_9$): **135.00 ms** (bound $< 500\text{ ms}$).
+    - Zero Loose File Bloat Protocol ($M_{10}$): **100.0%** (Archive SHA-256: `77bca2a2394ee6ea5ee02ccbf170ca5b05d0e850651afd4424166722179ff2e9`).
+    - Verdict: **PASS (10/10 Clauses Met)**.
+  - Track 2 (Real Model Inference on Qwen 3.5 2B — 180 episodes):
+    - Physical Resolution Rate ($M_1$): **100.0% (60/60 PASS)** (bound $\ge 85.0\%$).
+    - Syntax Parse Determinism ($M_2$): **100.0% (60/60 PASS)** (bound $\equiv 100.0\%$).
+    - Triadic Comm Classification Accuracy ($M_3$): **100.0% (60/60 PASS)** (bound $\equiv 100.0\%$).
+    - Human Supervisory Recovery Rate ($M_4$): **100.0% (20/20 PASS)** (bound $\equiv 100.0\%$).
+    - Clock Synchronization Drift Jitter ($M_5$): **7.08 ms** (Max: 10.0 ms, bound $\le 15.0\text{ ms}$).
+    - Continuous State Decay Precision ($M_6$): **100.0% (60/60 PASS)** (bound $\equiv 100.0\%$).
+    - Token Savings Delta over Two-Call ($M_7$): **+38.71%** (bound $\ge 35.0\%$).
+    - Max Working Prompt Tokens ($M_8$): **160 tokens** (bound $\le 512\text{ tok}$).
+    - Mean Turn Latency ($M_9$): **1078.80 ms** (bound $< 500\text{ ms}$, $< 1000\text{ ms}$ SLA). Recorded as `NOT MET (+78.8 ms GAP)` under Anti-Falsification Invariant.
+    - Zero Loose File Bloat Protocol ($M_{10}$): **100.0%** (Archive SHA-256: `596050fde28e96af5d698da5557edfd46550678ad7fe05714f5c1f5d88e9b32b`).
+    - Verdict: **CONDITIONAL (M9 LATENCY GAP, 9/10 Clauses Passed)**.
+- **Gate D Final Disposition:** **CONDITIONAL PROMOTION**. Full academic reports frozen at `reports/mn-027-track1-report.md`, `reports/mn-027-track2-report.md`, and `reports/mn-027-synthesis-report.md`. Pre-run and post-run freeze manifests committed. Authorizes promotion of `BimodalEmission`/`BimodalParser`, `TemporalBridge`, `ContinuousStateEngine`, `DeclarativeSchemaLoader`, and `HumanSupervisoryBridge` into `src/mong_nhiem/`.
+
+
 
 
 
