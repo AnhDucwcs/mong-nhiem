@@ -1,0 +1,17 @@
+{
+  "milestone": "MN-027",
+  "phase": "post-run-authority",
+  "files": {
+    "charter.md": "664a05c89f8ffb56fbc3e0b3d8e056a4b8ca1f8f8f4bb98a5f2e8a7bfed3247e",
+    "gate-b-contract.md": "f7b4b4a4660c2a62a3d5d6f22eade1aee97178a1c14916be0148bc1436554958",
+    "README.md": "5d5ab3fa5f07d7cc050d7cfe1cdba69ce4eab606078b9ed7c910073f71e7550c",
+    "gate-d-disposition-review.md": "152ea6eea8727df2ebac33e861398ef775dc2de890d56d54dc529bc8ae2a7b63",
+    "reports/mn-027-track1-report.md": "cc6c5e37f9a7363bc18625177e3ed509afda52de5e55569d611fde13134396f5",
+    "reports/mn-027-track2-report.md": "fc11ca2d6aad5e77c7a962fab5ea49b39d6db2d2733383aad74164ab105479c1",
+    "reports/mn-027-synthesis-report.md": "82bcff13fac199a8ea518cdec17b9b36720f5ca30dda692be0066acb144ead28",
+    "runs/run_1792499508_track1_sim/summary.json": "806130abd1b03e27b870d99ba5a13a4bf4b99fbe57ea0fc50787986500915e5b",
+    "runs/run_1792499508_track1_sim/audit_logs.zip": "77bca2a2394ee6ea5ee02ccbf170ca5b05d0e850651afd4424166722179ff2e9",
+    "runs/run_1792500650_track2_qwen/summary.json": "10fb41607cfd3aa282e5d51525a0c16103cee4e83379ed08a23c5a7caeed8a77",
+    "runs/run_1792500650_track2_qwen/audit_logs.zip": "596050fde28e96af5d698da5557edfd46550678ad7fe05714f5c1f5d88e9b32b"
+  }
+}
