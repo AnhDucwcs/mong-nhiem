@@ -2,29 +2,29 @@
 
 [English](README.md) | [Tiếng Việt](README_vi.md)
 
-**Hạt nhân Điều phối Nhận thức Tối thượng cho Tương tác Vật lý - Không gian mạng và Thực thể Game Tự chủ.**
+**Hạt nhân điều phối nhận thức và theo dõi trạng thái tất định cho các mô hình ngôn ngữ nhỏ trong môi trường động.**
 
 ---
 
 ## 1. Nền tảng Kiến trúc (Architectural Foundations)
 
-Mộng Nhiễm cung cấp một hạ tầng điều phối nhận thức hình thức (formal cognitive governance substrate) cho các tác nhân tương tác thời gian thực, thực thể game (NPC), và hệ thống điều khiển vật lý-không gian mạng (cyber-physical systems).
+Mộng Nhiễm cung cấp hạ tầng điều phối nhận thức hình thức (formal cognitive governance substrate) cho các mô hình ngôn ngữ mở cỡ nhỏ (< 4B tham số) vận hành trong môi trường tương tác thời gian thực và hệ thống vật lý-không gian mạng (cyber-physical systems).
 
 ### 1.1 Nguyên lý Bất biến Host-Arbiter (Raison d'Être)
-Các kiến trúc tác tử AI truyền thống thường trao cho mô hình ngôn ngữ lớn quyền ghi trực tiếp và tùy tiện vào bộ nhớ, trạng thái mô phỏng thế giới, cũng như quyền gọi công cụ. Đối với các mô hình trọng số mở cỡ nhỏ ($< 4\text{B}$ tham số), cách tiếp cận này thường xuyên dẫn đến hiện tượng trôi dạt trạng thái (state drift), nhảy cóc mục tiêu (horizon jumping), và sụp đổ cú pháp.
+Các kiến trúc tác tử AI truyền thống thường trao cho mô hình ngôn ngữ quyền ghi trực tiếp vào bộ nhớ, trạng thái mô phỏng thế giới, cũng như quyền gọi công cụ. Đối với các mô hình ngôn ngữ nhỏ (< 4B tham số), cách tiếp cận này thường xuyên dẫn đến hiện tượng trôi dạt trạng thái (state drift), sai lệch mục tiêu (horizon jumping), và lỗi cú pháp đầu ra.
 
-Mộng Nhiễm thiết lập một ranh giới kiến trúc phân tách tuyệt đối:
-1. **Mô hình suy luận (LLM) là một khối tính toán hộp đen biệt lập, không đáng tin cậy.** Mô hình chỉ tiếp nhận ngữ cảnh bị chặn biên giới hạn ($\le 512$ tokens) và phát ra các đề xuất hành động. Trọng số mô hình được giữ nguyên vẹn tuyệt đối (zero fine-tuning, không can thiệp trọng số).
-2. **Hạt nhân Host nắm quyền phán quyết trạng thái tối thượng (Host-Authoritative State Arbiter).** Host kiểm soát toàn bộ tiến trình biến đổi trạng thái vật lý, các định luật bảo toàn, dòng chảy thời gian ($\Delta t$), cơ chế quay lui trạng thái tất định (Mementos), và cơ chế ngắt mạch can thiệp khẩn cấp.
+Mộng Nhiễm thiết lập ranh giới phân tách rõ ràng:
+1. **Mô hình suy luận (LLM) là khối tính toán hộp đen biệt lập.** Mô hình chỉ tiếp nhận ngữ cảnh có giới hạn ($\le 512$ tokens) và phát ra các đề xuất hành động. Trọng số mô hình được giữ nguyên (zero fine-tuning, không can thiệp trọng số).
+2. **Hạt nhân Host đóng vai trò trọng tài trạng thái có thẩm quyền (Host-Authoritative State Arbiter).** Host kiểm soát toàn bộ tiến trình biến đổi trạng thái vật lý, các định luật bảo toàn, dòng chảy thời gian ($\Delta t$), cơ chế lưu và hoàn tác trạng thái (Mementos), cùng rào chắn can thiệp khẩn cấp.
 
 ### 1.2 Các Nguyên lý Kiến trúc Cốt lõi
 - **Phát xạ Nhị thức Bất biến (Bimodal Emission Invariant):** Mỗi lượt suy luận của mô hình bắt buộc phải đồng thời phát sinh hai kênh song song (`ACTION: <verb> [params]` và `COMMUNICATE [<CLASS>]: "<message>"`). Cấu trúc ngữ pháp được ràng buộc trực tiếp ở cấp độ logits thông qua văn phạm phi ngữ cảnh GBNF, loại bỏ 100% lỗi cú pháp và ảo giác.
-- **Trạng thái Liên tục & Rào chắn Ngắt mạch Phản xạ (Continuous State & Reflex Breakers):** Các chỉ số thực thể liên tục (pin, độ đói, nhiệt độ, năng lượng) tự động suy hao theo các phương trình vi phân biến thiên theo thời gian thực ($\Delta t$). Khi một chỉ số vi phạm ngưỡng an toàn, cơ chế ngắt mạch phản xạ của Host lập tức can thiệp và thực thi hành động phòng hộ khẩn cấp mà không cần chờ độ trễ phản hồi của LLM.
+- **Trạng thái Liên tục & Rào chắn Ngắt mạch Phản xạ (Continuous State & Reflex Breakers):** Các chỉ số thực thể liên tục (pin, độ đói, nhiệt độ, áp suất) tự động suy hao theo các phương trình vi phân biến thiên theo thời gian thực ($\Delta t$). Khi một chỉ số vi phạm ngưỡng an toàn, cơ chế ngắt mạch phản xạ của Host lập tức can thiệp và thực thi hành động phòng hộ khẩn cấp mà không cần chờ độ trễ phản hồi của LLM.
 - **Quyền Can thiệp Giám sát của Con người (Human Supervisory Preemption):** Cầu nối giám sát tất định cho phép người vận hành can thiệp ngay lập tức (Standby, Pause, Override) giữa chu kỳ hoạt động.
 - **Dò tìm Cổng Mạng Ngẫu nhiên Khả dụng (Zero-Conflict Ephemeral Port Hunting):** Cơ chế quản lý tiến trình con tự động kiểm tra socket hệ điều hành và cấp phát cổng trống ngẫu nhiên, triệt tiêu nguy cơ xung đột mạng với các dịch vụ khác (Database, Web server).
 - **Chiến lược Đóng gói Kép:** 
   - Bản phân phối Python thuần chuẩn (100% Python Standard Library, không phụ thuộc bất kỳ thư viện ngoài nào).
-  - Bản phân phối Native Rust hiệu năng cao xuất chuẩn C-ABI (`mong_nhiem.dll` / `libmong_nhiem.so`) cho các Game Engine (Godot, Unity, Unreal) và hệ thống nhúng.
+  - Bản phân phối Native Rust hiệu năng cao xuất chuẩn C-ABI (`mong_nhiem.dll` / `libmong_nhiem.so`) cho các hệ thống đa ngôn ngữ (C#, C++, Rust) và daemon nhúng.
 
 ---
 
@@ -32,34 +32,49 @@ Mộng Nhiễm thiết lập một ranh giới kiến trúc phân tách tuyệt 
 
 ### 2.1 Bản phân phối Python (Dành cho AI Agents & Hệ thống Tự động hóa)
 
-Bản Python yêu cầu môi trường Python 3.11+ và chỉ sử dụng thư viện chuẩn của hệ điều hành:
+Yêu cầu môi trường Python 3.11+. Người dùng có 2 cách cài đặt:
 
+#### Cách 1: Cài đặt trực tiếp qua mạng (Khuyến nghị — Không cần tải file thủ công)
+Pip sẽ tự động clone mã nguồn từ GitHub và biên dịch cài đặt vào môi trường của bạn:
 ```powershell
-# Cài đặt trực tiếp từ file wheel đã đóng gói (zero external dependencies)
-pip install dist/mong_nhiem-0.2.0-py3-none-any.whl
-
-# Hoặc cài đặt ở chế độ editable phục vụ phát triển
-pip install -e ".[dev]"
+pip install git+https://github.com/AnhDucwcs/mong-nhiem.git
 ```
+
+#### Cách 2: Cài đặt từ file Wheel (`.whl`) đã đóng gói sẵn
+1. Truy cập mục **[Releases trên GitHub](https://github.com/AnhDucwcs/mong-nhiem/releases)** và tải file `mong_nhiem-0.2.0-py3-none-any.whl` về máy.
+2. Mở terminal tại thư mục chứa file vừa tải và chạy lệnh:
+   ```powershell
+   pip install mong_nhiem-0.2.0-py3-none-any.whl
+   ```
 
 Kiểm tra cài đặt:
 ```bash
 python -c "import mong_nhiem; print(mong_nhiem.__name__, mong_nhiem.__version__)"
 ```
 
-### 2.2 Bản phân phối Native Rust & C-ABI (Dành cho Game Engines & Runtimes Nhúng)
+---
 
-Mã nguồn Rust nằm tại `crates/mong_nhiem_core/`, biên dịch trực tiếp ra thư viện động C-ABI (`.dll`, `.so`, `.dylib`) và file header C để nhúng đa ngôn ngữ:
+### 2.2 Bản phân phối Native Rust & C-ABI (Dành cho Runtimes Native: C#, C++, Rust)
 
+#### Cách 1: Tải thư viện biên dịch sẵn (Không cần cài đặt công cụ Rust)
+1. Truy cập mục **[Releases trên GitHub](https://github.com/AnhDucwcs/mong-nhiem/releases)** và tải 2 file:
+   - `mong_nhiem.dll` (Windows) hoặc `libmong_nhiem.so` (Linux)
+   - `mong_nhiem.h` (file header chứa khai báo hàm C-ABI)
+2. Copy các file này vào thư mục dự án của bạn:
+   - **C# / .NET**: Đặt file `mong_nhiem.dll` vào thư mục nhị phân và gọi qua `[DllImport]`.
+   - **C / C++**: Include file `mong_nhiem.h` và link tới `mong_nhiem.dll`.
+
+#### Cách 2: Tự biên dịch từ mã nguồn
+Nếu bạn muốn tự chỉnh sửa hoặc tối ưu hóa cho hệ điều hành riêng:
 ```powershell
-# Biên dịch thư viện tối ưu hóa release và các artifact C-ABI
+git clone https://github.com/AnhDucwcs/mong-nhiem.git
+cd mong-nhiem
 cargo build --release
 ```
-
-Các artifact được sinh ra:
-- **Thư viện liên kết động:** `target/release/mong_nhiem.dll` (Windows) hoặc `target/release/libmong_nhiem.so` (Linux).
-- **File C Header:** `crates/mong_nhiem_core/include/mong_nhiem.h`.
-- **Rust Crate:** Có thể đưa trực tiếp vào không gian làm việc Cargo:
+Artifacts sau khi build sẽ nằm tại:
+- `target/release/mong_nhiem.dll` (hoặc `.so`)
+- `crates/mong_nhiem_core/include/mong_nhiem.h`
+- Rust Crate nội bộ: khai báo trong `Cargo.toml`:
   ```toml
   [dependencies]
   mong-nhiem-core = { path = "crates/mong_nhiem_core" }
@@ -128,9 +143,9 @@ assert result.action_verb == "STANDBY"
 kernel.close()
 ```
 
-### 3.3 Nhúng vào Game Engine qua C# / C-ABI (Unity & Godot)
+### 3.3 Tích hợp Đa ngôn ngữ Native qua C# / C-ABI
 
-Tích hợp trực tiếp file native `mong_nhiem.dll` vào vòng lặp của Game Engine (`Update` trong Unity hoặc `_Process` trong Godot).
+Minh họa việc tích hợp trực tiếp file native `mong_nhiem.dll` vào vòng lặp ứng dụng máy khách (như C#, C++, hoặc môi trường mô phỏng).
 
 ```csharp
 using System;
@@ -184,7 +199,7 @@ public class NpcCognitiveController : IDisposable
         string action = Marshal.PtrToStringAnsi(res.ActionVerb);
         string message = Marshal.PtrToStringAnsi(res.CommMessage);
 
-        // Điều khiển chuyển động và hoạt cảnh trong game dựa trên quyết định từ kernel
+        // Điều khiển logic ứng dụng dựa trên quyết định từ kernel
         Console.WriteLine($"[Tick {res.Tick}] Hành động: {action} | Lời thoại: {message}");
 
         mong_nhiem_free_step_result(ref res);
