@@ -1,0 +1,25 @@
+{
+  "milestone": "MN-029",
+  "title": "Adversarial Cognitive Frontier & Stress-Test Suite",
+  "timestamp": 1792996362,
+  "overall_verdict": "UNCONDITIONAL PASS (12/12 Clauses Met)",
+  "clauses_passed": 12,
+  "clauses_total": 12,
+  "audit_archive": "audit_logs.zip",
+  "audit_sha256": "9ce2b2038bd0216cef33a03fbab3998d1f6aa39bf3e936cf18bdb0327bb1f08c",
+  "metrics": {
+    "lookahead_survival_rate": 1.0,
+    "commit_time_breaches": 0,
+    "diagnostic_probe_enforced": 1.0,
+    "operator_intent_accuracy": 1.0,
+    "cumulative_drift_retained": 1.0,
+    "bimodal_coherence_accuracy": 1.0,
+    "bimodal_false_positive_rate": 0.0,
+    "livelock_preempted_rate": 1.0,
+    "ffi_soak_delta_rss_mb": 0.0,
+    "ffi_throughput_ticks_per_sec": 707463,
+    "crash_recovery_determinism": 1.0,
+    "max_working_tokens": 165,
+    "mean_turn_latency_ms": 185.0
+  }
+}

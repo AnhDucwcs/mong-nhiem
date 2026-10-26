@@ -22,63 +22,31 @@ Mộng Nhiễm establishes a clear architectural separation:
 - **Continuous State & Invariant Reflex Breakers:** Continuous physical and cognitive traits (battery, hunger, temperature, pressure) decay deterministically according to differential rate equations. When traits breach safety bounds, the Host reflex breaker immediately intercepts and executes failsafe actions without model latency.
 - **Human Supervisory Preemption:** Deterministic preemption bridges allow external human supervisors to enforce immediate standby, pause, or state override conditions mid-cycle.
 - **Zero-Conflict Ephemeral Port Hunting:** Autonomous subprocess management inspects system sockets and dynamically binds free ports, preventing network collisions with concurrent services.
-- **Dual Packaging Strategy:** 
-  - Pure Python distribution (100% Python Standard Library, zero external runtime dependencies).
-  - High-performance native Rust core exporting a standardized C-ABI (`mong_nhiem.dll` / `libmong_nhiem.so`) for multi-language systems (C#, C++, Rust) and embedded daemons.
+- **100% Pure Python Standard Library Distribution:** Zero external runtime dependencies. Requires only Python 3.11+ standard library, eliminating native C-ABI compilation overhead, FFI memory corruption, and cross-platform binary distribution barriers.
 
 ---
 
 ## 2. Installation & Distribution
 
-### 2.1 Python Distribution (AI Agents & Systems Automation)
-
 Requires Python 3.11+. Developers have two options:
 
-#### Option 1: Direct Network Installation (Recommended - Zero Manual Downloads)
+### Option 1: Direct Network Installation (Recommended - Zero Manual Downloads)
 Pip autonomously clones and installs the package directly from GitHub:
 ```powershell
 pip install git+https://github.com/AnhDucwcs/mong-nhiem.git
 ```
 
-#### Option 2: Pre-built Wheel Archive Installation
-1. Navigate to **[GitHub Releases](https://github.com/AnhDucwcs/mong-nhiem/releases)** and download `mong_nhiem-0.2.0-py3-none-any.whl`.
+### Option 2: Pre-built Wheel Archive Installation
+1. Navigate to **[GitHub Releases](https://github.com/AnhDucwcs/mong-nhiem/releases)** and download `mong_nhiem-0.3.0-py3-none-any.whl`.
 2. Open a terminal in the download folder and execute:
    ```powershell
-   pip install mong_nhiem-0.2.0-py3-none-any.whl
+   pip install mong_nhiem-0.3.0-py3-none-any.whl
    ```
 
 Verify installation:
 ```bash
 python -c "import mong_nhiem; print(mong_nhiem.__name__, mong_nhiem.__version__)"
 ```
-
----
-
-### 2.2 Native Rust & C-ABI Distribution (Native Runtimes: C#, C++, Rust)
-
-#### Option 1: Pre-compiled Shared Libraries (Zero Rust Toolchain Setup)
-1. Navigate to **[GitHub Releases](https://github.com/AnhDucwcs/mong-nhiem/releases)** and download:
-   - `mong_nhiem.dll` (Windows) or `libmong_nhiem.so` (Linux)
-   - `mong_nhiem.h` (C-ABI header definitions)
-2. Copy artifacts directly into your native project structure:
-   - **C# / .NET:** Place `mong_nhiem.dll` in your binary output folder and load via `[DllImport]`.
-   - **C / C++:** Include `mong_nhiem.h` and link against `mong_nhiem.dll`.
-
-#### Option 2: Source Compilation
-If customizing or targeting specialized hardware architectures:
-```powershell
-git clone https://github.com/AnhDucwcs/mong-nhiem.git
-cd mong-nhiem
-cargo build --release
-```
-Compiled artifacts are emitted to:
-- `target/release/mong_nhiem.dll` (or `.so`)
-- `crates/mong_nhiem_core/include/mong_nhiem.h`
-- Rust Crate workspace reference:
-  ```toml
-  [dependencies]
-  mong-nhiem-core = { path = "crates/mong_nhiem_core" }
-  ```
 
 ---
 
@@ -143,77 +111,28 @@ assert result.action_verb == "STANDBY"
 kernel.close()
 ```
 
-### 3.3 Native Multi-Language Embedding (C# via C-ABI)
+### 3.3 End-to-End Unified Cognitive Pipeline Execution
 
-Demonstrates direct integration of `mong_nhiem.dll` into host application loops (such as C#, C++, or simulation runtimes).
+Demonstrates the unified pipeline coordinating diagnostic probes, trajectory lookahead deadlock prevention, commit-time state re-verification, and starvation-free livelock arbitration.
 
-```csharp
-using System;
-using System.Runtime.InteropServices;
+```python
+from mong_nhiem import MongNhiemKernel
+from mong_nhiem.runtime.backends import MockBackend
 
-public class NpcCognitiveController : IDisposable
-{
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FfiStepResult
-    {
-        public IntPtr ActionVerb;
-        public IntPtr CommClass;
-        public IntPtr CommMessage;
-        public ulong Tick;
-        public double DeltaTime;
-        public IntPtr StateJson;
-        public int HasFiredInvariants;
-    }
+# Step 1: Initialize authoritative kernel with declarative physical schema
+kernel = MongNhiemKernel(
+    schema="configs/reactor_core_schema.yaml",
+    backend=MockBackend(),
+)
 
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr mong_nhiem_kernel_new();
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void mong_nhiem_kernel_free(IntPtr kernel);
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int mong_nhiem_register_variable(
-        IntPtr kernel, string name, double initial, double min, double max, double rate, int isDecay);
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int mong_nhiem_tick(
-        IntPtr kernel, string stimulus, double deltaTime, ref FfiStepResult outResult);
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void mong_nhiem_free_step_result(ref FfiStepResult result);
-
-    private IntPtr _kernel;
-
-    public NpcCognitiveController()
-    {
-        _kernel = mong_nhiem_kernel_new();
-        // Register mana decaying at 2.5 units per second
-        mong_nhiem_register_variable(_kernel, "mana", 100.0, 0.0, 100.0, 2.5, 1);
-    }
-
-    public void UpdateNpc(float delta)
-    {
-        FfiStepResult res = new FfiStepResult();
-        mong_nhiem_tick(_kernel, "ACTION: PATROL\nCOMMUNICATE [INFORM]: \"Patrolling\"", delta, ref res);
-
-        string action = Marshal.PtrToStringAnsi(res.ActionVerb);
-        string message = Marshal.PtrToStringAnsi(res.CommMessage);
-
-        // Execute application logic based on authoritative kernel decisions
-        Console.WriteLine($"[Tick {res.Tick}] Action: {action} | Message: {message}");
-
-        mong_nhiem_free_step_result(ref res);
-    }
-
-    public void Dispose()
-    {
-        if (_kernel != IntPtr.Zero)
-        {
-            mong_nhiem_kernel_free(_kernel);
-            _kernel = IntPtr.Zero;
-        }
-    }
-}
+# Step 2: Single tick automatically runs all cognitive safeguards:
+# - Cumulative drift integration (AutoDream FactCards)
+# - Diagnostic probe enforcement under Byzantine sensor equifinality
+# - 4-step forward trajectory lookahead deadlock avoidance
+# - Commit-time physical state double-check
+# - Starvation-free livelock resolution
+result = kernel.tick(stimulus="Sensor variance anomaly detected", delta_time=1.0)
+print(f"Authoritative Action: {result.action_verb} | FactCards: {len(result.fact_cards)}")
 ```
 
 ---
@@ -230,17 +149,10 @@ mong-nhiem/
 │   ├── runtime/slot_cache.py    # SlotCacheManager: KV prefix cache optimization and slot isolation
 │   ├── runtime/backends.py      # Inference backends (llama-server, Ollama, Mock, auto-port hunting)
 │   ├── preemption/supervisory.py# HumanSupervisoryBridge: Supervisory intervention and standby gates
-│   ├── orchestration/           # Resource arbiters, Memento snapshot rollback, reflex circuit breakers
+│   ├── orchestration/           # LivelockDetector, resource arbiters, Memento rollback, reflex breakers
 │   ├── context/                 # Context Packer and AST Codebase Slicer bounded to <= 512 tokens
-│   └── knowledge/               # Causal Event DAG and Dynamic Schema Registry
-│
-├── crates/mong_nhiem_core/      # Production Native Rust Kernel & C-ABI
-│   ├── src/lib.rs               # Rust public API and automated test harnesses
-│   ├── src/ffi.rs               # C-ABI export symbols for Godot, Unity, and C++ runtimes
-│   ├── src/state.rs             # Native differential state engine
-│   ├── src/bimodal.rs           # Native bimodal grammar parser
-│   ├── src/kernel.rs            # Native cognitive tick coordination loop
-│   └── include/mong_nhiem.h     # Standard C header file
+│   ├── knowledge/               # Causal Event DAG, Abductive Tracer, Diagnostic Probe Enforcer
+│   └── extensions/autodream/    # Cumulative Telemetry Residual Tracker & Persistent FactCards
 │
 └── research/                    # Formal Research Knowledge Base (Obsidian Vault)
     ├── 00-mong-nhiem.md         # Master knowledge base entrypoint
@@ -256,13 +168,19 @@ mong-nhiem/
 Mộng Nhiễm maintains zero tolerance for unverified regression.
 
 ```powershell
-# 1. Execute full Python unit and integration test suite
+# 1. Execute full Python unit test suite (515 tests)
 python -m pytest tests/unit/ -v
 
-# 2. Execute native Rust core test harness
-cargo test
+# 2. Execute adversarial stress test suite (11 tests)
+python -m pytest tests/stress/ -v
 
-# 3. Verify PEP 8 / Ruff compliance
+# 3. Execute unified end-to-end integration test
+python -m pytest tests/integration/ -v
+
+# 4. Optional: Run live SLM stress test against llama-server (Qwen3.5-2B)
+python -m pytest tests/stress/test_live_slm_multilingual_operator.py --live-slm -v
+
+# 5. Verify PEP 8 / Ruff compliance
 ruff check src/ tests/
 ```
 

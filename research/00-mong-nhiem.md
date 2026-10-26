@@ -59,9 +59,7 @@ MN-026 Phase 1, Phase 2, and Stage 7 (Resilience Clearing Sub-Phase) are complet
 
 MN-027 is completed and conditionally verified under Dual-Track protocol: [Bimodal Cognitive Emission, Declarative Schema Synthesis & Real-Time Human Supervisory Control](experiments/prototypes/mn-027-bimodal-cognitive-emission/README.md). Track 1 (Simulator, 180 episodes) achieved 100.0% resolution across all 10 clauses (PASS). Track 2 (Physical Neural Inference on `Qwen3.5-2B`, 180 episodes) achieved 100.0% physical resolution (60/60 PASS), 100.0% syntax determinism, 100.0% communicative classification accuracy across `INFORM`, `QUERY`, `EXPRESS` ($M_3 \equiv 100.0\%$), 100.0% human supervisory recovery, 7.08 ms monotonic clock jitter, 100.0% continuous decay trigger precision, 38.71% token savings delta over two-call baseline ($\ge 35.0\%$), and 160 peak prompt tokens ($\le 512$). Clause $M_9$ exhibits a minor 78.8 ms latency gap against the 1000 ms SLA on consumer hardware under cold prompt evaluation without KV cache reuse, resulting in a conditional promotion disposition (`bimodal_cognitive_emission_verified_conditional_promotion`). All 360 episode traces sealed in `audit_logs.zip` archives under the Zero Loose File Bloat Protocol. Prototype code quarantined; promotion of core domain-neutral modules into `src/mong_nhiem/` authorized.
 
-
-
-
+MN-029 is completed, verified, and promoted into production: [Adversarial Cognitive Frontier & Stress-Test Suite](experiments/prototypes/mn-029-adversarial-stress-frontier/README.md). Evaluated across 9 adversarial failure frontier scenarios targeting critical failure boundaries: 4-step lookahead traps, mid-inference physical shocks during 150ms SLM latency, byzantine stuck-at sensors under causal equifinality, chaotic self-negating operator speech, sub-threshold slow-burn memory poisoning, bimodal semantic desynchronization, multi-agent circular livelocks, 100,000-tick soak drift, and three-way transactional crash recovery. All 9 scenarios were initially confirmed as failing baselines (`XFAIL`), then systematically hardened to green status, meeting all 12 Gate B acceptance clauses (12/12 PASS). Zero commit-time invariant breaches occurred (100% safety), 100% lookahead deadlock avoidance, 0.0% bimodal false positives on contrastive natural language, 100% livelock preemption at tick $T=3$, and 100% 3-way transactional crash recovery. All telemetry sealed into `audit_logs.zip` (SHA-256: `9ce2b2038bd0216cef33a03fbab3998d1f6aa39bf3e936cf18bdb0327bb1f08c`). Earned unconditional Gate D production promotion into `src/mong_nhiem/`. Under ADR Decision 2026-10-26, Rust C-ABI was decoupled from the runtime, consolidating the entire active kernel into 100% Python Standard Library verified across 527 passing tests.
 
 ## Navigate
 
@@ -96,6 +94,7 @@ MN-027 is completed and conditionally verified under Dual-Track protocol: [Bimod
 - [MN-025](experiments/prototypes/mn-025-cross-domain-epistemic-transfer/README.md)
 - [MN-026](experiments/prototypes/mn-026-cognitive-capstone-governance/README.md)
 - [MN-027](experiments/prototypes/mn-027-bimodal-cognitive-emission/README.md)
+- [MN-029](experiments/prototypes/mn-029-adversarial-stress-frontier/README.md)
 - [Decisions](decisions/decisions.md)
 - [Roadmap](roadmap.md)
 

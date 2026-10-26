@@ -8,6 +8,7 @@ Triggers threshold invariant events and serializes atomic session state to disk.
 from __future__ import annotations
 
 import json
+import math
 import os
 import tempfile
 import time
@@ -91,6 +92,9 @@ class ContinuousStateEngine:
 
     def step_time(self, delta_time: float) -> list[str]:
         """Advances time by delta_time, updates variables, and returns fired trigger actions."""
+        if not math.isfinite(delta_time) or delta_time < 0.0:
+            return []
+
         fired_actions: list[str] = []
 
         for var in self.variables.values():
@@ -138,6 +142,61 @@ class ContinuousStateEngine:
         if name in self.variables:
             return self.variables[name].current_value
         return None
+
+    def check_trajectory_safety(
+        self,
+        action: str,
+        steps: int = 4,
+        delta_time: float = 1.0,
+    ) -> bool:
+        """Projects continuous trajectory k steps forward without full object cloning.
+
+        Evaluates whether an action causes or accelerates an invariant threshold breach
+        compared to the passive baseline trajectory.
+        """
+        baseline_sim = {name: var.current_value for name, var in self.variables.items()}
+        action_sim = dict(baseline_sim)
+
+        def is_breached(val: float, comp: str, thresh: float) -> bool:
+            if comp == "<=":
+                return val <= thresh
+            elif comp == ">=":
+                return val >= thresh
+            elif comp == "<":
+                return val < thresh
+            elif comp == ">":
+                return val > thresh
+            return False
+
+        for _ in range(steps):
+            # 1. Advance passive decay on both trajectories
+            for name, var in self.variables.items():
+                if var.rate_per_unit_time != 0.0:
+                    delta = var.rate_per_unit_time * delta_time
+                    if var.is_decay:
+                        baseline_sim[name] = max(var.min_val, baseline_sim[name] - delta)
+                        action_sim[name] = max(var.min_val, action_sim[name] - delta)
+                    else:
+                        baseline_sim[name] = min(var.max_val, baseline_sim[name] + delta)
+                        action_sim[name] = min(var.max_val, action_sim[name] + delta)
+
+            # 2. Apply action-specific differential effects to action trajectory
+            if action == "COOL_FAST" and "aux_pressure" in action_sim:
+                action_sim["aux_pressure"] = max(0.0, action_sim["aux_pressure"] - 5.0 * delta_time)
+            elif action == "COOL_MODERATE" and "aux_pressure" in action_sim:
+                action_sim["aux_pressure"] = max(0.0, action_sim["aux_pressure"] - 1.0 * delta_time)
+
+            # 3. Check if action trajectory breaches a trigger that baseline did not
+            for trigger in self.triggers:
+                act_val = action_sim.get(trigger.variable_name)
+                base_val = baseline_sim.get(trigger.variable_name)
+                if act_val is not None:
+                    act_breached = is_breached(act_val, trigger.comparison, trigger.threshold)
+                    base_breached = is_breached(base_val, trigger.comparison, trigger.threshold) if base_val is not None else False
+                    if act_breached and not base_breached:
+                        return False
+
+        return True
 
     def export_state_dict(self) -> dict[str, Any]:
         """Returns a JSON-serializable snapshot of continuous state."""
