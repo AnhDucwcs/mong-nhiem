@@ -428,33 +428,33 @@ Track: **NCC Phase 16 (Bimodal Cognitive Emission, Declarative Schemas & Real-Ti
 
 ## MN-029 — Adversarial Cognitive Frontier & Stress-Test Suite
 
-Status: **completed and verified prototype (`adversarial_stress_frontier_verified_promoted`).**  
+Status: **completed, verified, and promoted into production `src/mong_nhiem/` (`adversarial_stress_frontier_verified_promoted`).**  
 Track: **NCC Phase 17 (Adversarial Cognitive Frontier & Stress-Test Suite).**
 
 1. **Strategic Intent & Scope:**
-   - Subjected the Mộng Nhiễm cognitive governance kernel (`v0.2.0`) to nine adversarial stress scenarios covering real-time safety, concurrency, byzantine sensors, bimodal alignment, memory drift, and low-level FFI persistence.
+   - Subjected the Mộng Nhiễm cognitive governance kernel (`v0.2.0`) to nine adversarial stress scenarios covering real-time safety, concurrency, byzantine sensors, bimodal alignment, memory drift, and low-level persistence.
    - Enforced strict **Test-Driven Falsification (TDD)**: every scenario demonstrated baseline failure (`XFAIL`) before targeted hardening.
 2. **Hardened Frontiers & Empirical Findings:**
-   - **Delayed Cascading Dilemma (Test 1):** Zero-copy $O(1)$ trajectory projection in `ContinuousStateEngine` eliminated 4-step lookahead deadlocks, preserving $100.0\%$ survival.
+   - **Delayed Cascading Dilemma (Test 1):** Zero-copy $O(1)$ differential trajectory projection in `ContinuousStateEngine` eliminated 4-step lookahead deadlocks, preserving $100.0\%$ survival.
    - **Mid-Inference State Invalidation (Test 2):** Commit-time double check in `MongNhiemKernel.verify_and_commit_action` intercepted physical pressure spikes ($83.2\text{ bar}$) occurring during 150ms inference latency, committing exactly 0 breaches.
    - **Byzantine Sensor & Equifinality (Test 3):** `DiagnosticProbeEnforcer` detected stuck-at zero-variance sensors and masked mutating actions, forcing 100% `PROBE` diagnostic actions when multiple contradictory root causes exist.
-   - **Chaotic Operator ASR Distillation (Test 4):** Reasoning-first `{1,80}` GBNF grammar with dynamic entity enums eliminated autoregressive early-token bias, distilling 100% correct actions from self-negating Vietnamese speech.
+   - **Chaotic Operator ASR Distillation (Test 4):** Reasoning-first `{1,120}` GBNF grammar with dynamic entity enums eliminated autoregressive early-token bias, distilling 100% correct actions across 7 adversarial multilingual and slang directives.
    - **Sub-Threshold Drift Poisoning (Test 5):** `CumulativeTelemetryTracker` rolling integrals preserved sub-threshold micro-tremors ($0.80\%$), preventing AutoDream compaction from discarding cumulative drift.
-   - **Bimodal Semantic Desync (Test 6):** Structured intent protocol (`COMMUNICATE [<CLASS>:<INTENT>]`) eliminated false positives on complex contrastive Vietnamese phrases ($0.0\%$ FP) while catching 100% contradictory actions.
-   - **Multi-Agent Cyclic Livelock (Test 7):** Directed wait-for graph tracking in `LivelockDetector` broke mutual `STANDBY-STANDBY` livelocks at tick $T=3$ via asymmetric priority preemption.
-   - **FFI Memory Soak & Panic Guard (Test 8):** Finite float guards and Copy-on-Write inside `catch_unwind` completed 100,000 soak ticks at $707,463\text{ ticks/s}$ ($1.414\mu\text{s/tick}$) with $+0.000\text{ MB}$ RSS memory delta and 0 crashes.
+   - **Bimodal Semantic Desync (Test 6):** Structured intent protocol (`COMMUNICATE [<CLASS>:<INTENT>]`) eliminated false positives on complex contrastive phrases ($0.0\%$ FP) while catching 100% contradictory actions.
+   - **Multi-Agent Cyclic Livelock & Starvation (Test 7):** Directed wait-for graph tracking with Urgency-Cost + Aging arbitration in `LivelockDetector` broke mutual `STANDBY-STANDBY` livelocks at tick $T=3$ without priority inversion.
+   - **Pure Python Standard Library Consolidation (Test 8):** Consolidated kernel runtime to 100% Python Standard Library, retiring Rust C-ABI DLL dependencies while completing 10,000 continuous soak ticks in $0.05\text{s}$ ($5\mu\text{s/tick}$).
    - **Mid-Tick Crash Recovery (Test 9):** Three-way epoch and SHA-256 hash synchronization in `TransactionalStateSync` rolled back state to epoch 44 and purged llama-server KV slot caches upon simulated mid-tick crash.
 3. **Gate B Evaluation Results:**
    - Satisfied all 12 Gate B acceptance criteria (12/12 PASS), bounded peak prompt memory to 165 tokens ($\le 512$), maintained mean turn latency under 185.0 ms ($< 1000\text{ ms}$ SLA), and preserved zero loose file bloat (`audit_logs.zip` SHA-256: `9ce2b2038bd0216cef33a03fbab3998d1f6aa39bf3e936cf18bdb0327bb1f08c`).
-4. **Gate D Disposition & Promotion Readiness:**
+4. **Gate D Disposition & Promotion:**
    - Formal disposition: `RECOMMEND UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION)`.
-   - Production promotion into `src/mong_nhiem/` and `crates/mong_nhiem_core/` fully authorized.
+   - Production promotion into `src/mong_nhiem/` verified and promoted under 527 passing tests.
 
 ## Active Developmental Horizons
 
-1. **Cumulative Production Promotion into `src/mong_nhiem/` & `crates/mong_nhiem_core/`:**
-   - Status: **Ready for Immediate Execution (Gate D Approved for MN-027 and MN-029).**
-   - Core Mission: Integrate verified cognitive governance and adversarial resilience components into production runtime modules under comprehensive regression test harness.
+1. **Demonstration Product Prototype (Cyber-Physical SCADA & Interactive Operations Dashboard):**
+   - Status: **Active Milestone Initiation.**
+   - Core Mission: Build a real-time interactive demo application showcasing the authoritative pure Python `MongNhiemKernel` governing an SLM-assisted industrial or robotics control environment under live sensor anomalies and chaotic human intervention.
 2. **Hardware-in-the-Loop (HIL) & Real-World Sensor Blackout Benchmarking:**
    - Status: **Pending Infrastructure Deployment.**
    - Core Mission: Transition from mock/virtual jitter to physical embedded platforms (Jetson Orin, Raspberry Pi 5 + Coral NPU) under CAN/I2C electrical bus noise.

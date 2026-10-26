@@ -22,63 +22,31 @@ Mộng Nhiễm thiết lập ranh giới phân tách rõ ràng:
 - **Trạng thái Liên tục & Rào chắn Ngắt mạch Phản xạ (Continuous State & Reflex Breakers):** Các chỉ số thực thể liên tục (pin, độ đói, nhiệt độ, áp suất) tự động suy hao theo các phương trình vi phân biến thiên theo thời gian thực ($\Delta t$). Khi một chỉ số vi phạm ngưỡng an toàn, cơ chế ngắt mạch phản xạ của Host lập tức can thiệp và thực thi hành động phòng hộ khẩn cấp mà không cần chờ độ trễ phản hồi của LLM.
 - **Quyền Can thiệp Giám sát của Con người (Human Supervisory Preemption):** Cầu nối giám sát tất định cho phép người vận hành can thiệp ngay lập tức (Standby, Pause, Override) giữa chu kỳ hoạt động.
 - **Dò tìm Cổng Mạng Ngẫu nhiên Khả dụng (Zero-Conflict Ephemeral Port Hunting):** Cơ chế quản lý tiến trình con tự động kiểm tra socket hệ điều hành và cấp phát cổng trống ngẫu nhiên, triệt tiêu nguy cơ xung đột mạng với các dịch vụ khác (Database, Web server).
-- **Chiến lược Đóng gói Kép:** 
-  - Bản phân phối Python thuần chuẩn (100% Python Standard Library, không phụ thuộc bất kỳ thư viện ngoài nào).
-  - Bản phân phối Native Rust hiệu năng cao xuất chuẩn C-ABI (`mong_nhiem.dll` / `libmong_nhiem.so`) cho các hệ thống đa ngôn ngữ (C#, C++, Rust) và daemon nhúng.
+- **Phân phối Thuần Python Chuẩn 100% (Pure Python Standard Library):** Không phụ thuộc bất kỳ thư viện ngoài nào (Zero external dependencies). Chỉ yêu cầu thư viện chuẩn của Python 3.11+, triệt tiêu hoàn toàn rào cản biên dịch C-ABI, rủi ro hỏng bộ nhớ FFI, và sự phân mảnh nhị phân trên các hệ điều hành khác nhau.
 
 ---
 
 ## 2. Cài đặt & Phân phối (Installation & Distribution)
 
-### 2.1 Bản phân phối Python (Dành cho AI Agents & Hệ thống Tự động hóa)
-
 Yêu cầu môi trường Python 3.11+. Người dùng có 2 cách cài đặt:
 
-#### Cách 1: Cài đặt trực tiếp qua mạng (Khuyến nghị — Không cần tải file thủ công)
-Pip sẽ tự động clone mã nguồn từ GitHub và biên dịch cài đặt vào môi trường của bạn:
+### Cách 1: Cài đặt trực tiếp qua mạng (Khuyến nghị — Không cần tải file thủ công)
+Pip sẽ tự động clone mã nguồn từ GitHub và cài đặt vào môi trường của bạn:
 ```powershell
 pip install git+https://github.com/AnhDucwcs/mong-nhiem.git
 ```
 
-#### Cách 2: Cài đặt từ file Wheel (`.whl`) đã đóng gói sẵn
-1. Truy cập mục **[Releases trên GitHub](https://github.com/AnhDucwcs/mong-nhiem/releases)** và tải file `mong_nhiem-0.2.0-py3-none-any.whl` về máy.
+### Cách 2: Cài đặt từ file Wheel (`.whl`) đã đóng gói sẵn
+1. Truy cập mục **[Releases trên GitHub](https://github.com/AnhDucwcs/mong-nhiem/releases)** và tải file `mong_nhiem-0.3.0-py3-none-any.whl` về máy.
 2. Mở terminal tại thư mục chứa file vừa tải và chạy lệnh:
    ```powershell
-   pip install mong_nhiem-0.2.0-py3-none-any.whl
+   pip install mong_nhiem-0.3.0-py3-none-any.whl
    ```
 
 Kiểm tra cài đặt:
 ```bash
 python -c "import mong_nhiem; print(mong_nhiem.__name__, mong_nhiem.__version__)"
 ```
-
----
-
-### 2.2 Bản phân phối Native Rust & C-ABI (Dành cho Runtimes Native: C#, C++, Rust)
-
-#### Cách 1: Tải thư viện biên dịch sẵn (Không cần cài đặt công cụ Rust)
-1. Truy cập mục **[Releases trên GitHub](https://github.com/AnhDucwcs/mong-nhiem/releases)** và tải 2 file:
-   - `mong_nhiem.dll` (Windows) hoặc `libmong_nhiem.so` (Linux)
-   - `mong_nhiem.h` (file header chứa khai báo hàm C-ABI)
-2. Copy các file này vào thư mục dự án của bạn:
-   - **C# / .NET**: Đặt file `mong_nhiem.dll` vào thư mục nhị phân và gọi qua `[DllImport]`.
-   - **C / C++**: Include file `mong_nhiem.h` và link tới `mong_nhiem.dll`.
-
-#### Cách 2: Tự biên dịch từ mã nguồn
-Nếu bạn muốn tự chỉnh sửa hoặc tối ưu hóa cho hệ điều hành riêng:
-```powershell
-git clone https://github.com/AnhDucwcs/mong-nhiem.git
-cd mong-nhiem
-cargo build --release
-```
-Artifacts sau khi build sẽ nằm tại:
-- `target/release/mong_nhiem.dll` (hoặc `.so`)
-- `crates/mong_nhiem_core/include/mong_nhiem.h`
-- Rust Crate nội bộ: khai báo trong `Cargo.toml`:
-  ```toml
-  [dependencies]
-  mong-nhiem-core = { path = "crates/mong_nhiem_core" }
-  ```
 
 ---
 
@@ -103,28 +71,28 @@ schema = {
     ],
 }
 
-# Bước 2: Khởi tạo hạt nhân trong khối ngữ cảnh chuẩn (Context Manager)
+# Bước 2: Khởi tạo kernel trong context manager tiêu chuẩn
 with MongNhiemKernel(schema=schema, backend=MockBackend()) as kernel:
-    # Chu kỳ định chuẩn: dt = 10s (hunger: 30 -> 50)
-    step_1 = kernel.tick(stimulus="Kích thích đầu vào", delta_time=10.0)
-    print(f"Tick 1 Action: {step_1.action_verb} | State: {step_1.state_snapshot}")
+    # Chu kỳ danh định: dt = 10s (hunger: 30 -> 50)
+    step_1 = kernel.tick(stimulus="Kích thích môi trường", delta_time=10.0)
+    print(f"Hành động chu kỳ 1: {step_1.action_verb} | Trạng thái: {step_1.state_snapshot}")
 
-    # Chu kỳ vi phạm: dt = 20s (hunger: 50 -> 90 >= 80.0 -> Kích hoạt ngắt mạch Invariant)
-    step_2 = kernel.tick(stimulus="Hoạt động thường", delta_time=20.0)
-    print(f"Tick 2 Hành động ngắt mạch: {step_2.action_verb} | Invariant vi phạm: {step_2.fired_invariants}")
+    # Chu kỳ chạm ngưỡng: dt = 20s (hunger: 50 -> 90 >= 80.0 -> Kích hoạt Rào chắn Phản xạ)
+    step_2 = kernel.tick(stimulus="Vận hành danh định", delta_time=20.0)
+    print(f"Hành động can thiệp: {step_2.action_verb} | Invariant: {step_2.fired_invariants}")
 ```
 
-### 3.2 Quyền Can thiệp Giám sát của Con người & Dò Cổng Ngẫu nhiên
+### 3.2 Quyền Giám sát của Con người & Tự động Cấp phát Cổng Mạng
 
-Mô phỏng việc tự động quản lý tiến trình con của backend suy luận, tự động cấp phát cổng tránh xung đột, và xử lý lệnh dừng khẩn cấp từ người giám sát.
+Khởi động backend cục bộ an toàn, tự động dò cổng trống và cho phép người vận hành ép trạng thái Standby khẩn cấp.
 
 ```python
 from mong_nhiem import MongNhiemKernel, SubprocessLlamaBackend
 
-# Bước 1: Khởi tạo backend nội bộ với port=0 để tự động dò cổng trống
+# Bước 1: Khởi tạo backend suy luận cục bộ với port=0 để hệ điều hành cấp cổng ngẫu nhiên
 backend = SubprocessLlamaBackend(
     weights_path="./models/qwen2.5-3b-instruct.gguf",
-    port=0,  # Hệ điều hành tự động cấp phát một cổng ngẫu nhiên khả dụng
+    port=0,
 )
 
 kernel = MongNhiemKernel(
@@ -132,137 +100,87 @@ kernel = MongNhiemKernel(
     backend=backend,
 )
 
-# Bước 2: Người giám sát phát tín hiệu tạm dừng khẩn cấp
-kernel.human_bridge.enter_standby(reason="Người giám sát yêu cầu tạm dừng chu trình")
+# Bước 2: Người vận hành gửi tín hiệu dừng khẩn cấp
+kernel.human_bridge.enter_standby(reason="Người giám sát tạm dừng hệ thống")
 
-# Bước 3: Chu kỳ tick lập tức hủy yêu cầu gửi đến mô hình, duy trì chế độ an toàn
-result = kernel.tick(stimulus="Yêu cầu thực thi lệnh", delta_time=1.0)
+# Bước 3: Chu kỳ tick lập tức hủy yêu cầu gọi LLM và duy trì trạng thái an toàn
+result = kernel.tick(stimulus="Yêu cầu lệnh đặc quyền", delta_time=1.0)
 assert result.in_standby is True
 assert result.action_verb == "STANDBY"
 
 kernel.close()
 ```
 
-### 3.3 Tích hợp Đa ngôn ngữ Native qua C# / C-ABI
+### 3.3 Vận Hành Pipeline Hợp Nhất Toàn Diện (Unified End-to-End Pipeline)
 
-Minh họa việc tích hợp trực tiếp file native `mong_nhiem.dll` vào vòng lặp ứng dụng máy khách (như C#, C++, hoặc môi trường mô phỏng).
+Minh họa việc vận hành `MongNhiemKernel` tự động điều phối các chốt chặn chẩn đoán, chiếu trước quỹ đạo phòng ngừa deadlock, kiểm tra kép trạng thái thực tế tại thời điểm commit, và phân xử chống đói tài nguyên livelock.
 
-```csharp
-using System;
-using System.Runtime.InteropServices;
+```python
+from mong_nhiem import MongNhiemKernel
+from mong_nhiem.runtime.backends import MockBackend
 
-public class NpcCognitiveController : IDisposable
-{
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FfiStepResult
-    {
-        public IntPtr ActionVerb;
-        public IntPtr CommClass;
-        public IntPtr CommMessage;
-        public ulong Tick;
-        public double DeltaTime;
-        public IntPtr StateJson;
-        public int HasFiredInvariants;
-    }
+# Bước 1: Khởi tạo kernel thẩm quyền với schema vật lý khai báo
+kernel = MongNhiemKernel(
+    schema="configs/reactor_core_schema.yaml",
+    backend=MockBackend(),
+)
 
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr mong_nhiem_kernel_new();
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void mong_nhiem_kernel_free(IntPtr kernel);
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int mong_nhiem_register_variable(
-        IntPtr kernel, string name, double initial, double min, double max, double rate, int isDecay);
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int mong_nhiem_tick(
-        IntPtr kernel, string stimulus, double deltaTime, ref FfiStepResult outResult);
-
-    [DllImport("mong_nhiem.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void mong_nhiem_free_step_result(ref FfiStepResult result);
-
-    private IntPtr _kernel;
-
-    public NpcCognitiveController()
-    {
-        _kernel = mong_nhiem_kernel_new();
-        // Đăng ký chỉ số mana suy hao 2.5 đơn vị mỗi giây
-        mong_nhiem_register_variable(_kernel, "mana", 100.0, 0.0, 100.0, 2.5, 1);
-    }
-
-    public void UpdateNpc(float delta)
-    {
-        FfiStepResult res = new FfiStepResult();
-        mong_nhiem_tick(_kernel, "ACTION: PATROL\nCOMMUNICATE [INFORM]: \"Đang tuần tra.\"", delta, ref res);
-
-        string action = Marshal.PtrToStringAnsi(res.ActionVerb);
-        string message = Marshal.PtrToStringAnsi(res.CommMessage);
-
-        // Điều khiển logic ứng dụng dựa trên quyết định từ kernel
-        Console.WriteLine($"[Tick {res.Tick}] Hành động: {action} | Lời thoại: {message}");
-
-        mong_nhiem_free_step_result(ref res);
-    }
-
-    public void Dispose()
-    {
-        if (_kernel != IntPtr.Zero)
-        {
-            mong_nhiem_kernel_free(_kernel);
-            _kernel = IntPtr.Zero;
-        }
-    }
-}
+# Bước 2: Một lệnh kernel.tick() duy nhất tự động kích hoạt đồng bộ các lớp bảo vệ:
+# - Tích hợp trôi dạt vi mô sinh FactCard bền vững (AutoDream)
+# - Ép phát lệnh PROBE khi gặp cảm biến kẹt gây mù nhận thức (Byzantine Equifinality)
+# - Chiếu trước quỹ đạo 4 bước để chặn trước bẫy bế tắc (Lookahead Deadlock Avoidance)
+# - Kiểm tra kép trạng thái vật lý tại thời điểm commit (Commit-Time Double-Check)
+# - Phân xử chống đói tài nguyên livelock giữa các tác tử (Starvation-Free Arbitration)
+result = kernel.tick(stimulus="Phát hiện dị thường phương sai cảm biến", delta_time=1.0)
+print(f"Hành động thẩm quyền: {result.action_verb} | FactCards: {len(result.fact_cards)}")
 ```
 
 ---
 
-## 4. Cấu trúc Các Phân hệ Thư viện (Subsystem Topology)
+## 4. Cấu trúc Hệ thống (Subsystem Topology)
 
 ```
 mong-nhiem/
-├── src/mong_nhiem/              # Lõi sản xuất Python (100% Python Standard Library)
-│   ├── kernel.py                # MongNhiemKernel: Façade hợp nhất điều phối toàn bộ phân hệ
-│   ├── state/continuous.py      # ContinuousStateEngine: Suy hao vi phân & Ngắt mạch ngưỡng
-│   ├── bimodal/                 # Bimodal parser & Trình biên dịch ngữ pháp động GBNF
-│   ├── temporal/bridge.py       # TemporalBridge: Trọng tài đồng hồ thời gian thực và mô phỏng
-│   ├── runtime/slot_cache.py    # SlotCacheManager: Tối ưu tiền tố bộ nhớ đệm KV và cách ly slot
-│   ├── runtime/backends.py      # Các backend suy luận (llama-server, Ollama, Mock, auto-port)
+├── src/mong_nhiem/              # Hạt nhân Python Production (100% Python Standard Library)
+│   ├── kernel.py                # MongNhiemKernel: Mặt tiền hợp nhất điều phối toàn bộ hệ thống con
+│   ├── state/continuous.py      # ContinuousStateEngine: Suy hao vi phân & bộ kích hoạt ngưỡng an toàn
+│   ├── bimodal/                 # Bộ phân tích phát xạ nhị thức & bộ sinh văn phạm GBNF động
+│   ├── temporal/bridge.py       # TemporalBridge: Trọng tài thời gian thực và đồng hồ mô phỏng
+│   ├── runtime/slot_cache.py    # SlotCacheManager: Tối ưu prefix KV cache và cô lập ngữ cảnh
+│   ├── runtime/backends.py      # Backends suy luận (llama-server, Ollama, Mock, auto-port hunting)
 │   ├── preemption/supervisory.py# HumanSupervisoryBridge: Can thiệp giám sát và cổng dừng khẩn cấp
-│   ├── orchestration/           # Trọng tài tài nguyên, quay lui Memento, ngắt mạch phản xạ
-│   ├── context/                 # Đóng gói ngữ cảnh & Phân tách AST mã nguồn giới hạn <= 512 tokens
-│   └── knowledge/               # Đồ thị quan hệ nhân quả (DAG) & Đăng ký lược đồ động
+│   ├── orchestration/           # LivelockDetector, phân xử tài nguyên, Memento rollback, rào chắn phản xạ
+│   ├── context/                 # Context Packer & Bộ trích xuất AST giới hạn <= 512 tokens
+│   ├── knowledge/               # Đồ thị Nhân quả Causal DAG, Abductive Tracer, Diagnostic Probe Enforcer
+│   └── extensions/autodream/    # Theo dõi sai số vi mô tích lũy & sinh FactCard bền vững
 │
-├── crates/mong_nhiem_core/      # Lõi sản xuất Native Rust & Giao diện C-ABI
-│   ├── src/lib.rs               # API công khai của Rust & Hệ thống kiểm thử tự động
-│   ├── src/ffi.rs               # Các ký hiệu xuất C-ABI cho Godot, Unity, và môi trường C++
-│   ├── src/state.rs             # Động cơ trạng thái vi phân native
-│   ├── src/bimodal.rs           # Trình phân tích ngữ pháp nhị thức native
-│   ├── src/kernel.rs            # Vòng lặp điều phối chu kỳ nhận thức native
-│   └── include/mong_nhiem.h     # File C header tiêu chuẩn
-│
-└── research/                    # Kho tri thức Nghiên cứu Hình thức (Obsidian Vault)
-    ├── 00-mong-nhiem.md         # Điểm truy cập trung tâm của kho tri thức
-    ├── roadmap.md               # Sổ cái tiến trình thực nghiệm qua 27 mốc nghiên cứu
-    ├── current-state.md         # Báo cáo hợp đồng đánh giá và phán quyết Gate B
-    └── decisions/decisions.md   # Danh mục Quyết định Kiến trúc (ADRs)
+└── research/                    # Kho Tri thức Nghiên cứu Hình thức (Obsidian Vault)
+    ├── 00-mong-nhiem.md         # Điểm truy cập trung tâm kho tri thức
+    ├── roadmap.md               # Sổ cái tiến trình kiểm chứng qua các mốc nghiên cứu
+    ├── current-state.md         # Các trạng thái nghiệm thu hợp đồng Gate B/D có thẩm quyền
+    └── decisions/decisions.md   # Bản ghi Quyết định Kiến trúc (ADRs)
 ```
 
 ---
 
-## 5. Kiểm thử & Đảm bảo Chất lượng (Verification & Quality Assurance)
+## 5. Kiểm thử & Đảm bảo Chất lượng (Quality Assurance)
 
-Mộng Nhiễm tuân thủ nguyên tắc không chấp nhận hồi quy (zero tolerance for unverified regression).
+Mộng Nhiễm duy trì chính sách không khoan nhượng với bất kỳ lỗi hồi quy nào.
 
 ```powershell
-# 1. Chạy toàn bộ bộ kiểm thử đơn vị và tích hợp của Python
+# 1. Chạy toàn bộ 515 bài test đơn vị (Unit Tests)
 python -m pytest tests/unit/ -v
 
-# 2. Chạy bộ kiểm thử tự động của lõi native Rust
-cargo test
+# 2. Chạy 11 bài test đối kháng sức bền (Adversarial Stress Tests)
+python -m pytest tests/stress/ -v
 
-# 3. Kiểm tra tính tuân thủ quy chuẩn mã nguồn PEP 8 / Ruff
+# 3. Chạy bài test tích hợp đường ống hợp nhất End-to-End
+python -m pytest tests/integration/ -v
+
+# 4. Tùy chọn: Chạy kiểm thử trực tiếp SLM với llama-server (Qwen3.5-2B)
+python -m pytest tests/stress/test_live_slm_multilingual_operator.py --live-slm -v
+
+# 5. Kiểm tra định dạng chuẩn PEP 8 với Ruff
 ruff check src/ tests/
 ```
 
@@ -270,4 +188,4 @@ ruff check src/ tests/
 
 ## 6. Giấy phép (License)
 
-Dự án được phân phối dưới hình thức giấy phép kép: **Giấy phép MIT** và **Giấy phép Apache 2.0**.
+Dự án được phát hành theo giấy phép kép: **MIT License** và **Apache License 2.0**.

@@ -1,5 +1,0 @@
-[workspace]
-members = [
-    "crates/mong_nhiem_core",
-]
-resolver = "2"
