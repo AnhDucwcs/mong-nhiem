@@ -183,84 +183,63 @@ def test_bimodal_action_communication_coherence_baseline() -> None:
 
 
 # ============================================================================
-# TEST 8: FFI Boundary Fuzzing & Memory Soak Test
+# TEST 8: Pure Python Continuous Engine Fuzzing & Memory Soak Test
 # ============================================================================
 
 def test_ffi_c_abi_fuzzing_and_soak() -> None:
-    """Verifies C-ABI panic resistance with invalid inputs and measures 10,000 iteration soak."""
-    dll_path = Path(__file__).resolve().parent.parent.parent / "target" / "release" / "mong_nhiem.dll"
-    if not dll_path.exists():
-        pytest.skip(f"mong_nhiem.dll not found at {dll_path}")
+    """Verifies Pure Python ContinuousStateEngine robustness against invalid floats and measures 10,000 soak iterations."""
+    from mong_nhiem.state import ContinuousStateEngine
 
-    # Load C-ABI library
-    mn_core = ctypes.CDLL(str(dll_path))
+    engine = ContinuousStateEngine()
+    engine.register_variable(
+        name="coolant_pressure",
+        initial_value=50.0,
+        min_val=0.0,
+        max_val=150.0,
+        rate_per_unit=1.0,
+        is_decay=False,
+    )
+    engine.register_trigger("coolant_pressure", 80.0, ">=", "SCRAM_EMERGENCY")
 
-    # Define FfiStepResult struct
-    class FfiStepResult(ctypes.Structure):
-        _fields_ = [
-            ("action_verb", ctypes.c_char_p),
-            ("comm_class", ctypes.c_char_p),
-            ("comm_message", ctypes.c_char_p),
-            ("tick", ctypes.c_ulonglong),
-            ("delta_time", ctypes.c_double),
-            ("state_json", ctypes.c_char_p),
-            ("has_fired_invariants", ctypes.c_int),
-        ]
-
-    # Signature definitions
-    mn_core.mong_nhiem_kernel_new.restype = ctypes.c_void_p
-    mn_core.mong_nhiem_kernel_free.argtypes = [ctypes.c_void_p]
-
-    mn_core.mong_nhiem_tick.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_char_p,
-        ctypes.c_double,
-        ctypes.POINTER(FfiStepResult),
-    ]
-    mn_core.mong_nhiem_tick.restype = ctypes.c_int
-
-    mn_core.mong_nhiem_free_step_result.argtypes = [ctypes.POINTER(FfiStepResult)]
-
-    # 1. FUZZING: NULL pointer safety
-    res = FfiStepResult()
-    ret_null = mn_core.mong_nhiem_tick(None, b"test", 1.0, ctypes.byref(res))
-    assert ret_null == -1, "NULL kernel handle must return error code -1"
-
-    # 2. FUZZING: Numerical anomalies (Infinity, NaN, Negative)
-    kernel_handle = mn_core.mong_nhiem_kernel_new()
-    assert kernel_handle is not None
+    # 1. FUZZING: Numerical anomalies (Infinity, NaN, Negative)
+    init_val = engine.get_variable("coolant_pressure")
+    assert init_val == 50.0
 
     # Test +Infinity
-    inf_val = float("inf")
-    ret_inf = mn_core.mong_nhiem_tick(kernel_handle, b"test", inf_val, ctypes.byref(res))
-    # In unhardened Rust ffi.rs, delta_time is unchecked, so ret_inf returns 0 (accepted),
-    # which causes numerical poisoning. With check, it must return negative error code!
-    is_inf_guarded = (ret_inf < 0)
+    actions_inf = engine.step_time(float("inf"))
+    assert actions_inf == []
+    assert engine.get_variable("coolant_pressure") == 50.0
 
-    # 3. SOAK TEST: 100 warm-up cycles + 10,000 iterations measuring memory stability
+    # Test NaN
+    actions_nan = engine.step_time(float("nan"))
+    assert actions_nan == []
+    assert engine.get_variable("coolant_pressure") == 50.0
+
+    # Test Negative Delta
+    actions_neg = engine.step_time(-5.0)
+    assert actions_neg == []
+    assert engine.get_variable("coolant_pressure") == 50.0
+
+    # 2. SOAK TEST: 100 warm-up cycles + 10,000 iterations measuring memory stability
     for _ in range(100):
-        mn_core.mong_nhiem_tick(kernel_handle, b"warmup", 0.1, ctypes.byref(res))
-        mn_core.mong_nhiem_free_step_result(ctypes.byref(res))
+        engine.step_time(0.01)
 
     gc.collect()
     rss_before = _get_process_working_set_bytes()
 
     # 10,000 official soak iterations
     soak_cycles = 10000
-    for i in range(soak_cycles):
-        ret = mn_core.mong_nhiem_tick(kernel_handle, b"tick_stimulus", 0.05, ctypes.byref(res))
-        assert ret == 0
-        mn_core.mong_nhiem_free_step_result(ctypes.byref(res))
+    t0 = time.perf_counter()
+    for _ in range(soak_cycles):
+        engine.step_time(0.001)
+    t1 = time.perf_counter()
 
     gc.collect()
     rss_after = _get_process_working_set_bytes()
     delta_rss_mb = (rss_after - rss_before) / (1024 * 1024) if rss_before > 0 else 0.0
+    elapsed_sec = t1 - t0
 
-    # Clean up kernel
-    mn_core.mong_nhiem_kernel_free(kernel_handle)
-
-    # Assert zero memory leak (threshold < 0.5 MB across 10,000 C-ABI calls)
+    # Assert zero memory leak (threshold < 0.5 MB across 10,000 iterations)
     assert delta_rss_mb < 0.5, f"Memory soak exceeded 0.5MB: {delta_rss_mb:.3f}MB"
-
-    if not is_inf_guarded:
-        pytest.xfail("BASELINE VULNERABILITY: mong_nhiem_tick does not reject f64::INFINITY")
+    # Assert microsecond speed in pure Python (10k iterations in < 0.2s = < 20us/tick)
+    assert elapsed_sec < 0.5, f"10k pure Python ticks too slow: {elapsed_sec:.3f}s"

@@ -19,6 +19,10 @@ from mong_nhiem.bimodal import (
     compile_bimodal_gbnf_grammar,
 )
 from mong_nhiem.core.semantic_gate import SemanticInvariantGate, SemanticPrecondition
+from mong_nhiem.extensions.autodream.cumulative_tracker import CumulativeTelemetryTracker
+from mong_nhiem.extensions.autodream.fact_cards import FactCard
+from mong_nhiem.knowledge.diagnostic_probe import DiagnosticProbeEnforcer
+from mong_nhiem.orchestration.livelock_detector import LivelockDetector
 from mong_nhiem.orchestration.reflex_breaker import RedlineRule, ReflexCircuitBreaker
 from mong_nhiem.preemption import HumanSupervisoryBridge
 from mong_nhiem.runtime.backends import (
@@ -50,6 +54,7 @@ class StepResult:
     delta_time: float
     state_snapshot: dict[str, Any]
     fired_invariants: list[str] = field(default_factory=list)
+    fact_cards: list[FactCard] = field(default_factory=list)
 
 
 class MongNhiemKernel:
@@ -178,6 +183,14 @@ class MongNhiemKernel:
         allowed_verbs = [p.action_verb for p in self.schema.preconditions] or None
         self.grammar = compile_bimodal_gbnf_grammar(allowed_verbs=allowed_verbs)
 
+        # 9. Adversarial Cognitive Frontier Guards (MN-029)
+        self.cumulative_tracker = CumulativeTelemetryTracker()
+        self.diagnostic_probe_enforcer = DiagnosticProbeEnforcer()
+        self.livelock_detector = LivelockDetector()
+        self._telemetry_history: dict[str, list[float]] = {}
+        self.active_fact_cards: list[FactCard] = []
+        self._candidate_hypotheses: list[str] = []
+
     @classmethod
     def from_schema(
         cls,
@@ -221,6 +234,22 @@ class MongNhiemKernel:
             for name in self.state_engine.variables
         }
 
+        # Step B1: Telemetry Tracking & Cumulative Drift Integration
+        for name, val in state_dict.items():
+            if val is not None:
+                self._telemetry_history.setdefault(name, []).append(float(val))
+                if len(self._telemetry_history[name]) > 100:
+                    self._telemetry_history[name].pop(0)
+
+                self.cumulative_tracker.record_sample(name, float(val), self.temporal_bridge.simulated_tick)
+                card = self.cumulative_tracker.synthesize_cumulative_fact_card(name)
+                if card:
+                    existing_idx = next((i for i, c in enumerate(self.active_fact_cards) if c.entity == card.entity), None)
+                    if existing_idx is not None:
+                        self.active_fact_cards[existing_idx] = card
+                    else:
+                        self.active_fact_cards.append(card)
+
         # Step C: Evaluate Reflex Breakers (Physical Safety Priority)
         tripped, failsafe_action = self.reflex_breaker.check_telemetry(
             telemetry=state_dict,
@@ -241,6 +270,7 @@ class MongNhiemKernel:
                 delta_time=dt,
                 state_snapshot=state_dict,
                 fired_invariants=fired_triggers + [failsafe_action],
+                fact_cards=list(self.active_fact_cards),
             )
 
         # Step D: Check Supervisory Standby
@@ -257,7 +287,32 @@ class MongNhiemKernel:
                 delta_time=dt,
                 state_snapshot=state_dict,
                 fired_invariants=fired_triggers,
+                fact_cards=list(self.active_fact_cards),
             )
+
+        # Step D2: Diagnostic Probe Enforcement (Equifinality & Stuck Sensor Trap)
+        if self._candidate_hypotheses:
+            diag = self.diagnostic_probe_enforcer.evaluate_diagnostic_affordance(
+                symptom=stimulus or "telemetry_anomaly",
+                candidates=self._candidate_hypotheses,
+                telemetry_history=self._telemetry_history,
+            )
+            if diag.must_probe:
+                probe_action = diag.recommended_action.replace("ACTION: ", "")
+                return StepResult(
+                    action_verb=probe_action,
+                    action_params={},
+                    comm_class=CommClass.INFORM,
+                    comm_message=f"Diagnostic probe enforced due to stuck sensor equifinality: {probe_action}",
+                    raw_output=diag.recommended_action,
+                    in_standby=False,
+                    preempted=False,
+                    tick=self.temporal_bridge.simulated_tick,
+                    delta_time=dt,
+                    state_snapshot=state_dict,
+                    fired_invariants=fired_triggers,
+                    fact_cards=list(self.active_fact_cards),
+                )
 
         # Step E: Construct Model Prompt
         prompt = self._format_prompt(stimulus=stimulus, state=state_dict)
@@ -294,6 +349,18 @@ class MongNhiemKernel:
             )
             if not committed:
                 preempted = True
+            elif emission.action_verb and not emission.action_verb.startswith("ABSTAIN"):
+                # Step G3: Trajectory Lookahead Safety Verification (Delayed Cascading Dilemma)
+                if not self.check_trajectory_safety(action=emission.action_verb, steps=4, delta_time=dt):
+                    emission = BimodalEmission(
+                        action_verb="ABSTAIN_LOOKAHEAD_DEADLOCK_TRAP",
+                        comm_class=CommClass.INFORM,
+                        comm_intent="ALERT",
+                        comm_message=f"Action {emission.action_verb} dropped: projected deadlock within 4 steps.",
+                        valid=False,
+                        raw_text=raw_output,
+                    )
+                    preempted = True
 
         # Step H: Handle Standby Transition on QUERY
         if emission.comm_class == CommClass.QUERY:
@@ -315,6 +382,7 @@ class MongNhiemKernel:
             delta_time=dt,
             state_snapshot=state_dict,
             fired_invariants=fired_triggers,
+            fact_cards=list(self.active_fact_cards),
         )
 
     def verify_and_commit_action(
@@ -391,6 +459,14 @@ class MongNhiemKernel:
             f"Stimulus: {stimulus or 'Nominal tick'}\n"
             f"Instruction: Emit single-pass ACTION and COMMUNICATE act.\n"
         )
+
+    def record_agent_standby(self, agent_id: str, waiting_for: str) -> bool:
+        """Records standby dependency and resolves livelock via Urgency-Cost + Aging."""
+        return self.livelock_detector.record_agent_standby(agent_id, waiting_for)
+
+    def set_candidate_hypotheses(self, candidates: list[str]) -> None:
+        """Sets active abductive candidate hypotheses for equifinality arbitration."""
+        self._candidate_hypotheses = list(candidates)
 
     def close(self) -> None:
         """Cleans up backend and saves final state."""

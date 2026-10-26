@@ -119,11 +119,17 @@ def test_multi_agent_livelock_detection_baseline() -> None:
     detector.record_agent_standby("Agent_Power", waiting_for="Agent_Thermal")
 
     # Tick 3: Threshold met -> Livelock broken!
+    # Update telemetry: Agent_Power has a dangerous margin to scram (margin = 1.2) while Agent_Thermal has margin = 25.0
+    detector.update_agent_telemetry("Agent_Thermal", margin_to_scram=25.0)
+    detector.update_agent_telemetry("Agent_Power", margin_to_scram=1.2)
+
     is_livelock_a = detector.record_agent_standby("Agent_Thermal", waiting_for="Agent_Power")
     is_livelock_b = detector.record_agent_standby("Agent_Power", waiting_for="Agent_Thermal")
 
     assert (is_livelock_a or is_livelock_b) is True, "Livelock detector must trigger preemption at tick >= 3"
     assert detector.get_preemption_resolution() == "FORCE_DECOUPLED_DISPATCH"
+    # Verify Priority Inversion is eliminated: Agent_Power wins despite alphabetical order because of scram urgency!
+    assert detector.get_elected_agent() == "Agent_Power", "Agent_Power must be elected due to urgent scram margin"
 
 
 # ============================================================================

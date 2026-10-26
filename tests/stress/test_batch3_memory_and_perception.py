@@ -100,7 +100,7 @@ def test_chaotic_human_operator_distillation_baseline() -> None:
 
     # 1. Grammar validation
     assert 'entity ::= "valve_1" | "valve_2" | "aux_valve"' in gbnf_grammar
-    assert "[^\\n]{1,80}" in gbnf_grammar
+    assert "[^\\n]{1,120}" in gbnf_grammar
 
     distiller = OperatorIntentDistiller(valid_entities=valid_entities)
 
