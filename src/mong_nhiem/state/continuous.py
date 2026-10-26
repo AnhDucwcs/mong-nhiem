@@ -139,6 +139,49 @@ class ContinuousStateEngine:
             return self.variables[name].current_value
         return None
 
+    def check_trajectory_safety(
+        self,
+        action: str,
+        steps: int = 4,
+        delta_time: float = 1.0,
+    ) -> bool:
+        """Projects continuous trajectory k steps forward without full object cloning.
+
+        Evaluates physical action differential impact against registered invariant triggers.
+        """
+        sim_values = {name: var.current_value for name, var in self.variables.items()}
+
+        for _ in range(steps):
+            # Apply passive decay
+            for name, var in self.variables.items():
+                if var.rate_per_unit_time != 0.0:
+                    delta = var.rate_per_unit_time * delta_time
+                    if var.is_decay:
+                        sim_values[name] = max(var.min_val, sim_values[name] - delta)
+                    else:
+                        sim_values[name] = min(var.max_val, sim_values[name] + delta)
+
+            # Apply action-specific differential effects
+            if action == "COOL_FAST" and "aux_pressure" in sim_values:
+                sim_values["aux_pressure"] = max(0.0, sim_values["aux_pressure"] - 5.0 * delta_time)
+            elif action == "COOL_MODERATE" and "aux_pressure" in sim_values:
+                sim_values["aux_pressure"] = max(0.0, sim_values["aux_pressure"] - 1.0 * delta_time)
+
+            # Check threshold breaches
+            for trigger in self.triggers:
+                val = sim_values.get(trigger.variable_name)
+                if val is not None:
+                    if trigger.comparison == "<=" and val <= trigger.threshold:
+                        return False
+                    elif trigger.comparison == ">=" and val >= trigger.threshold:
+                        return False
+                    elif trigger.comparison == "<" and val < trigger.threshold:
+                        return False
+                    elif trigger.comparison == ">" and val > trigger.threshold:
+                        return False
+
+        return True
+
     def export_state_dict(self) -> dict[str, Any]:
         """Returns a JSON-serializable snapshot of continuous state."""
         return {

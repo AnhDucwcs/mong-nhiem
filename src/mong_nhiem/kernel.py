@@ -369,6 +369,19 @@ class MongNhiemKernel:
 
         return emission, True
 
+    def check_trajectory_safety(
+        self,
+        action: str,
+        steps: int = 4,
+        delta_time: float = 1.0,
+    ) -> bool:
+        """Evaluates whether an action leads to physical deadlocks within k steps."""
+        return self.state_engine.check_trajectory_safety(
+            action=action,
+            steps=steps,
+            delta_time=delta_time,
+        )
+
     def _format_prompt(self, stimulus: str, state: dict[str, Any]) -> str:
         """Formats bounded prompt strictly adhering to <= 512 token envelope."""
         state_repr = ", ".join(f"{k}={v}" for k, v in state.items())
