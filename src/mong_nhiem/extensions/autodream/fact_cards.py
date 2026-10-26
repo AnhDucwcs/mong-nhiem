@@ -2,7 +2,20 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
+
+
+@dataclass
+class FactCard:
+    """Discrete structured atomic knowledge card."""
+
+    entity: str
+    value: Any
+    priority: str = "NORMAL"
+    version: int = 1
+    properties: Dict[str, Any] = field(default_factory=dict)
+
 
 
 class FactCardProjector:
