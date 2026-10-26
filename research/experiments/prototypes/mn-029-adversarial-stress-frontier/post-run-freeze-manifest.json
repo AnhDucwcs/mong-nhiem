@@ -1,0 +1,15 @@
+{
+  "milestone": "MN-029",
+  "phase": "post-run-authority",
+  "files": {
+    "charter.md": "0f02e00585dd4224b6382a778541d99e9cdda5b1c0c7134be0c081b5f0a82643",
+    "gate-b-contract.md": "0fc24c281628a4cf6e7320b83b43ca6b658c9a1503ca7ff736954a8baa0fc3cd",
+    "README.md": "411963c8d8d29e78c4958d1626ce3a466ae2475ee45d03047e57e33210757fac",
+    "gate-d-disposition-review.md": "9e957fabd70a0ba2295a2e799a3e4e892560ac8612a6f3689485c5d87db7ff20",
+    "reports/mn-029-adversarial-stress-report.md": "83ee253ee3ef2b7ebfe92f092cd9382f30efdfb361699c3be551d980727c5453",
+    "reports/bao-cao-thuc-nghiem-mn029.md": "813d7071e067ea648931094d6a63021b8fd88b1730953404647760583f303aaf",
+    "reports/phan-tich-ket-qua-sat-hach.md": "2217c8758c7820ae36f9f6727cbb17e64fe0292ea6ec7df4af43580283c2d85e",
+    "runs/run_1792332000_adversarial_suite/summary.json": "7e5abd5f4683f143ee74a587248e71152a22311e055dcaebeab065c3c775e749",
+    "runs/run_1792332000_adversarial_suite/audit_logs.zip": "9ce2b2038bd0216cef33a03fbab3998d1f6aa39bf3e936cf18bdb0327bb1f08c"
+  }
+}

@@ -833,6 +833,38 @@ Milestone MN-019 evaluated small language model resilience under non-stationary 
     - Verdict: **CONDITIONAL (M9 LATENCY GAP, 9/10 Clauses Passed)**.
 - **Gate D Final Disposition:** **CONDITIONAL PROMOTION**. Full academic reports frozen at `reports/mn-027-track1-report.md`, `reports/mn-027-track2-report.md`, and `reports/mn-027-synthesis-report.md`. Pre-run and post-run freeze manifests committed. Authorizes promotion of `BimodalEmission`/`BimodalParser`, `TemporalBridge`, `ContinuousStateEngine`, `DeclarativeSchemaLoader`, and `HumanSupervisoryBridge` into `src/mong_nhiem/`.
 
+## MN-029 — Adversarial Cognitive Frontier & Stress-Test Suite — completed and verified
+
+Status: **completed and verified prototype (`adversarial_stress_frontier_verified_promoted`).**  
+Track: **NCC Phase 17 (Adversarial Cognitive Frontier & Stress-Test Suite).**
+
+- **Milestone Overview & Hardened Frontiers:**
+  - Evaluated Mộng Nhiễm cognitive governance kernel (`v0.2.0`) across nine adversarial failure frontier scenarios targeting critical physical and cognitive vulnerabilities:
+    1. *Lookahead Trajectory Projection ($M_1$):* Evaluates $\bigwedge_{i=1}^4 \mathcal{I}(\Phi(S_t, a, i))$ in $O(1)$ primitive dict arithmetic without recursive deepcopy, disqualifying delayed trap actions (`COOL_FAST` auxiliary pressure depletion at $T+4$).
+    2. *Commit-Time Live State Double Check ($M_2$):* Re-inspects live continuous state immediately before committing generated action at $t_{\text{ret}}$, intercepting mid-inference physical shocks ($83.2\text{ bar}$) during SLM reasoning latency.
+    3. *Diagnostic Probe Forcing under Equifinality ($M_3$):* Detects zero-variance stuck-at sensors during differential dynamics and masks mutating actions, mandating `PROBE` diagnostic actions when multiple contradictory root causes exist.
+    4. *Reasoning-First Dynamic Enum Grammar ($M_4$):* Bounds GBNF reasoning to `[^\n]{1,80}` and locks entity targets to active domain enums, resolving self-negating and chaotic operator ASR transcripts without autoregressive early-token collapse.
+    5. *Cumulative Telemetry Residual Tracking ($M_5$):* Computes rolling window integrals of sub-threshold continuous parameter drift across 100 ticks, retaining subtle tremors ($4 \times 0.2\% = 0.80\%$) as persistent `CRITICAL_PERSISTENT` FactCards.
+    6. *Bimodal Structured Intent Coherence ($M_6$):* Matches operational machine action verbs against communicative intent tags (`COMMUNICATE [<CLASS>:<INTENT>]`), achieving $0.0\%$ false positives on contrastive natural language while intercepting malicious/erroneous desynchronizations.
+    7. *Multi-Agent Cyclic Livelock Preemption ($M_7$):* Tracks directed wait-for graphs across concurrent agents, breaking mutual `STANDBY-STANDBY` livelocks at tick $T=3$ via asymmetric priority preemption.
+    8. *Panic-Safe Transactional C-ABI Boundary ($M_8$):* Validates float inputs with `!is_finite()` and implements Copy-on-Write state isolation within Rust `catch_unwind`, executing 100,000 soak ticks at $707,463\text{ ticks/s}$ ($1.414\mu\text{s/tick}$) with $+0.000\text{ MB}$ RSS delta and 0 crashes.
+    9. *Three-Way Transactional Crash Recovery ($M_9$):* Synchronizes state epochs and SHA-256 hashes between Rust continuous state, Python causal DAG, and llama-server KV slot cache, recovering state to epoch 44 and erasing stale KV slots after simulated mid-tick crash.
+- **Empirical Gate B Contract Verification ($12/12$ Clauses Satisfied):**
+  - Lookahead Deadlock Avoidance ($M_1$): **100.0% (10/10 PASS)** (bound $\ge 95.0\%$).
+  - Commit-Time Invariant Violations ($M_2$): **0 breaches** (bound $\equiv 0$).
+  - Diagnostic Probe Forcing ($M_3$): **100.0%** (bound $\equiv 100.0\%$).
+  - Chaotic Operator Intent Distillation ($M_4$): **100.0% (3/3 PASS)** (bound $\ge 95.0\%$).
+  - Cumulative Drift Retention ($M_5$): **100.0%** (bound $\equiv 100.0\%$).
+  - Bimodal Action-Comm Accuracy & FP ($M_6$): **100.0% Acc, 0.0% FP** (bound $\ge 98.0\%$ Acc, $0.0\%$ FP).
+  - Cyclic Livelock Preemption ($M_7$): **100.0% at T=3** (bound $\equiv 100.0\%$).
+  - 100k FFI Soak Drift & Crashes ($M_8$): **+0.000 MB RSS, 0 crashes** (bound $< 0.5\text{ MB}$, $0$ crashes).
+  - 3-Way Transactional Crash Recovery ($M_9$): **100.0%** (bound $\equiv 100.0\%$).
+  - Max Working Prompt Memory ($M_{10}$): **165 tokens** (bound $\le 512\text{ tokens}$).
+  - Mean Turn Latency ($M_{11}$): **185.0 ms** (bound $< 1000\text{ ms}$ SLA).
+  - Zero Loose File Bloat Protocol ($M_{12}$): **100.0%** (Archive SHA-256: `9ce2b2038bd0216cef33a03fbab3998d1f6aa39bf3e936cf18bdb0327bb1f08c`).
+  - Overall Verdict: **UNCONDITIONAL PASS (12/12 Clauses Met)**.
+- **Gate D Final Disposition:** **RECOMMEND UNCONDITIONAL PASS (EARNED PROMOTION TO PRODUCTION)**. Prototype artifacts frozen at `research/experiments/prototypes/mn-029-adversarial-stress-frontier/`. Authorizes cumulative promotion of hardened modules (`check_trajectory_safety`, `verify_and_commit_action`, `BimodalCoherenceArbiter`, `DiagnosticProbeEnforcer`, `CumulativeTelemetryTracker`, `LivelockDetector`, `TransactionalStateSync`, and Rust `crates/mong_nhiem_core/src/ffi.rs` guards) into `src/mong_nhiem/` and `crates/mong_nhiem_core/`.
+
 
 
 

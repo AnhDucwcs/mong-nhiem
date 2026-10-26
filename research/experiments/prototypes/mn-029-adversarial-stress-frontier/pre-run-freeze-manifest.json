@@ -1,0 +1,9 @@
+{
+  "milestone": "MN-029",
+  "phase": "pre-run-baseline",
+  "files": {
+    "charter.md": "0f02e00585dd4224b6382a778541d99e9cdda5b1c0c7134be0c081b5f0a82643",
+    "gate-b-contract.md": "0fc24c281628a4cf6e7320b83b43ca6b658c9a1503ca7ff736954a8baa0fc3cd",
+    "README.md": "411963c8d8d29e78c4958d1626ce3a466ae2475ee45d03047e57e33210757fac"
+  }
+}
