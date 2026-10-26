@@ -49,3 +49,18 @@ def _hermetic_test_fixtures(monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr(mn004, "sha256_file", patched_sha)
     except (ImportError, AttributeError):
         pass  # pragma: no cover
+
+
+def pytest_addoption(parser: pytest.Parser) -> None:
+    parser.addoption(
+        "--live-slm",
+        action="store_true",
+        default=False,
+        help="Run tests against live llama-server.exe SLM",
+    )
+
+
+@pytest.fixture
+def live_slm(request: pytest.FixtureRequest) -> bool:
+    return bool(request.config.getoption("--live-slm", default=False))
+

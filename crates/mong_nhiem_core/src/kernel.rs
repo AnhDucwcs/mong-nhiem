@@ -18,7 +18,7 @@ pub struct StepResult {
     pub fired_invariants: Vec<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct MongNhiemKernel {
     pub state_engine: ContinuousStateEngine,
     pub current_tick: u64,

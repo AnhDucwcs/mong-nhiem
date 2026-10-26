@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from typing import Any, Self
 
 from mong_nhiem.bimodal import (
+    BimodalCoherenceArbiter,
     BimodalEmission,
     BimodalParser,
     CommClass,
@@ -164,8 +165,9 @@ class MongNhiemKernel:
                 )
             )
 
-        # 6. Initialize Human Preemption Bridge
+        # 6. Initialize Human Preemption Bridge & Coherence Arbiter
         self.human_bridge = HumanSupervisoryBridge()
+        self.coherence_arbiter = BimodalCoherenceArbiter()
 
         # 7. Persistence file
         self.state_file = state_file
@@ -284,6 +286,14 @@ class MongNhiemKernel:
                 raw_text=raw_output,
             )
             preempted = True
+        else:
+            # Step G2: Commit-Time Double-Check Gate (Physical Invariant & Coherence Verification)
+            emission, committed = self.verify_and_commit_action(
+                emission=emission,
+                pre_inference_snapshot=state_dict,
+            )
+            if not committed:
+                preempted = True
 
         # Step H: Handle Standby Transition on QUERY
         if emission.comm_class == CommClass.QUERY:
@@ -306,6 +316,58 @@ class MongNhiemKernel:
             state_snapshot=state_dict,
             fired_invariants=fired_triggers,
         )
+
+    def verify_and_commit_action(
+        self,
+        emission: BimodalEmission,
+        pre_inference_snapshot: dict[str, Any],
+    ) -> tuple[BimodalEmission, bool]:
+        """Commit-time Double-Check Gate validating live physical state and bimodal coherence."""
+        # 1. Bimodal semantic coherence check
+        if hasattr(self, "coherence_arbiter") and not self.coherence_arbiter.is_coherent(emission):
+            return (
+                BimodalEmission(
+                    action_verb="ABSTAIN_DESYNC_BLOCKED",
+                    comm_class=CommClass.INFORM,
+                    comm_intent="ALERT",
+                    comm_message=(
+                        f"Emission blocked: ACTION {emission.action_verb} "
+                        f"contradicts intent tag [{emission.comm_intent}]."
+                    ),
+                    valid=False,
+                    raw_text=emission.raw_text,
+                ),
+                False,
+            )
+
+        # 2. Live telemetry re-read at commit time
+        live_state = {
+            name: self.state_engine.get_variable(name)
+            for name in self.state_engine.variables
+        }
+
+        # 3. Reflex redline check at commit time
+        tripped, failsafe_action = self.reflex_breaker.check_telemetry(
+            telemetry=live_state,
+            current_tick=self.temporal_bridge.simulated_tick,
+        )
+        if tripped and failsafe_action:
+            return (
+                BimodalEmission(
+                    action_verb=f"ABSTAIN_INFERENCE_INVALIDATED_{failsafe_action}",
+                    comm_class=CommClass.INFORM,
+                    comm_intent="SCRAM",
+                    comm_message=(
+                        f"Proposal invalidated by live telemetry spike "
+                        f"({failsafe_action} triggered)."
+                    ),
+                    valid=False,
+                    raw_text=emission.raw_text,
+                ),
+                False,
+            )
+
+        return emission, True
 
     def _format_prompt(self, stimulus: str, state: dict[str, Any]) -> str:
         """Formats bounded prompt strictly adhering to <= 512 token envelope."""

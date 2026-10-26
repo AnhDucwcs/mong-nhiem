@@ -27,6 +27,7 @@ class BimodalEmission:
     action_verb: str
     action_params: dict[str, str] = field(default_factory=dict)
     comm_class: CommClass = CommClass.INFORM
+    comm_intent: str | None = None
     comm_message: str = ""
     raw_text: str = ""
     valid: bool = True
@@ -46,7 +47,7 @@ class BimodalParser:
 
     _ACTION_RE = re.compile(r"^ACTION:\s*([A-Za-z_]+)(?:[ \t]+([^\r\n]*))?$", re.MULTILINE)
     _COMM_RE = re.compile(
-        r"^COMMUNICATE\s*\[\s*(INFORM|QUERY|EXPRESS)\s*\]\s*:\s*[\"']?([^\r\n]*?)[\"']?$",
+        r"^COMMUNICATE\s*\[\s*(INFORM|QUERY|EXPRESS)(?::([A-Za-z0-9_]+))?\s*\]\s*:\s*[\"']?([^\r\n]*?)[\"']?$",
         re.MULTILINE,
     )
 
@@ -92,12 +93,14 @@ class BimodalParser:
                 params[token.strip()] = "true"
 
         comm_class_str = comm_match.group(1).strip()
-        comm_message = comm_match.group(2).strip()
+        comm_intent = comm_match.group(2).strip() if comm_match.group(2) else None
+        comm_message = comm_match.group(3).strip()
 
         return BimodalEmission(
             action_verb=verb,
             action_params=params,
             comm_class=CommClass(comm_class_str),
+            comm_intent=comm_intent,
             comm_message=comm_message,
             raw_text=cleaned,
             valid=True,

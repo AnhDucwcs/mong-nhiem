@@ -45,7 +45,13 @@ pub unsafe extern "C" fn mong_nhiem_register_variable(
     rate_per_sec: c_double,
     is_decay: c_int,
 ) -> c_int {
-    if kernel.is_null() || name.is_null() {
+    if kernel.is_null()
+        || name.is_null()
+        || !initial_value.is_finite()
+        || !min_val.is_finite()
+        || !max_val.is_finite()
+        || !rate_per_sec.is_finite()
+    {
         return -1;
     }
     let k = &mut *kernel;
@@ -72,7 +78,12 @@ pub unsafe extern "C" fn mong_nhiem_register_invariant(
     comparison: *const c_char,
     trigger_action: *const c_char,
 ) -> c_int {
-    if kernel.is_null() || variable_name.is_null() || comparison.is_null() || trigger_action.is_null() {
+    if kernel.is_null()
+        || variable_name.is_null()
+        || comparison.is_null()
+        || trigger_action.is_null()
+        || !threshold.is_finite()
+    {
         return -1;
     }
     let k = &mut *kernel;
@@ -117,7 +128,7 @@ pub unsafe extern "C" fn mong_nhiem_set_variable(
     name: *const c_char,
     value: c_double,
 ) -> c_int {
-    if kernel.is_null() || name.is_null() {
+    if kernel.is_null() || name.is_null() || !value.is_finite() {
         return -1;
     }
     let k = &mut *kernel;
@@ -139,33 +150,44 @@ pub unsafe extern "C" fn mong_nhiem_tick(
     delta_time: c_double,
     out_result: *mut FfiStepResult,
 ) -> c_int {
-    if kernel.is_null() || out_result.is_null() {
+    if kernel.is_null() || out_result.is_null() || !delta_time.is_finite() || delta_time < 0.0 {
         return -1;
     }
-    let k = &mut *kernel;
+    let k_ptr = kernel;
     let stim_str = if stimulus.is_null() {
         ""
     } else {
         CStr::from_ptr(stimulus).to_str().unwrap_or("")
     };
 
-    let step = k.tick(stim_str, delta_time);
+    let unwind_res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        let k = &mut *k_ptr;
+        let mut scratch = k.clone(); // Copy-on-Write
+        let step = scratch.tick(stim_str, delta_time);
+        *k = scratch; // Commit only on successful tick without panics
+        step
+    }));
 
-    let verb_c = CString::new(step.action_verb).unwrap_or_default();
-    let class_c = CString::new(step.comm_class).unwrap_or_default();
-    let msg_c = CString::new(step.comm_message).unwrap_or_default();
-    let json_c = CString::new(serde_json::to_string(&step.state_snapshot).unwrap_or_default()).unwrap_or_default();
+    match unwind_res {
+        Ok(step) => {
+            let verb_c = CString::new(step.action_verb).unwrap_or_default();
+            let class_c = CString::new(step.comm_class).unwrap_or_default();
+            let msg_c = CString::new(step.comm_message).unwrap_or_default();
+            let json_c = CString::new(serde_json::to_string(&step.state_snapshot).unwrap_or_default())
+                .unwrap_or_default();
 
-    let res = &mut *out_result;
-    res.action_verb = verb_c.into_raw();
-    res.comm_class = class_c.into_raw();
-    res.comm_message = msg_c.into_raw();
-    res.tick = step.tick;
-    res.delta_time = step.delta_time;
-    res.state_json = json_c.into_raw();
-    res.has_fired_invariants = if step.fired_invariants.is_empty() { 0 } else { 1 };
-
-    0
+            let res = &mut *out_result;
+            res.action_verb = verb_c.into_raw();
+            res.comm_class = class_c.into_raw();
+            res.comm_message = msg_c.into_raw();
+            res.tick = step.tick;
+            res.delta_time = step.delta_time;
+            res.state_json = json_c.into_raw();
+            res.has_fired_invariants = if step.fired_invariants.is_empty() { 0 } else { 1 };
+            0
+        }
+        Err(_) => -99, // Safely caught panic, engine state pristine
+    }
 }
 
 #[no_mangle]
