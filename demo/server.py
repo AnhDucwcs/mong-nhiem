@@ -31,8 +31,8 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def run_server() -> None:
     """Launches the demo web server and prints access URL."""
-    socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("", PORT), QuietHandler) as httpd:
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    with socketserver.ThreadingTCPServer(("", PORT), QuietHandler) as httpd:
         url = f"http://localhost:{PORT}/index.html"
         print(f"\n========================================================")
         print(f" Mong Nhiem Living World Observability Dashboard Running")

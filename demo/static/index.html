@@ -739,7 +739,8 @@
       <button class="btn" id="btn-speed">1x Tốc độ</button>
       <button class="btn" id="btn-shift-wind" title="Xoay hướng luồng gió 90°, biến đổi tán xạ mùi">Đổi Hướng Gió</button>
       <button class="btn" id="btn-toggle-rain" title="Kích hoạt mưa phùn, hồi sinh nước & dâu">Mưa Phùn</button>
-      <button class="btn danger" id="btn-shock-drought">Cắt Lương (Hạn Hán)</button>
+      <button class="btn danger" id="btn-shock-kill" title="Shock Injection: Cưỡng chế đặt tài nguyên về 0u để test phản ứng">Shock: Ép Cạn Lương (0u)</button>
+      <button class="btn danger" id="btn-shock-drought" title="Environmental Simulation: Hạn hán vi phân làm suy giảm tài nguyên theo Delta t">Khí Hậu: Hạn Hán Vi Phân</button>
       <button class="btn danger" id="btn-shock-wolf">Thả Sói Săn</button>
       <button class="btn primary" id="btn-standby">Can Thiệp Standby</button>
       <button class="btn theme-toggle" id="btn-theme-toggle" title="Chuyển đổi giao diện Sáng / Tối">Chế Độ Sáng</button>
@@ -768,7 +769,8 @@
       <!-- Bottom HUD Status Readout -->
       <div class="canvas-hud-bottom">
         <div>MỤC TIÊU: <strong id="hud-name" style="color:var(--amber);">Rabbit #01 (Alpha Scout)</strong></div>
-        <div>TỌA ĐỘ: <strong id="hud-pos" style="color:var(--primary);">X: 520.0 | Y: 360.0</strong></div>
+        <div>TỌA ĐỘ: <strong id="hud-pos" style="color:var(--primary);">X: 520.0 px | Y: 360.0 px</strong></div>
+        <div>PHYSICS: <strong id="hud-dt" style="color:var(--primary);">&Delta;t = 0.05s (20 ticks/s)</strong></div>
         <div>KHÍ HẬU: <strong id="hud-weather" style="color:var(--emerald);">Nắng ráo (Gió Đông Bắc 14 km/h)</strong></div>
         <div>ĐỊA HÌNH: <strong id="hud-stealth" style="color:var(--text-muted);">Địa hình quang đãng</strong></div>
       </div>
@@ -842,11 +844,11 @@
             <div id="factcard-list-container" style="display:flex; flex-direction:column; gap:6px;">
               <div class="factcard-item hazard">
                 <div class="factcard-head hazard"><span>[FACT-01 // HAZARD]</span><span>PRIORITY: HIGH</span></div>
-                <div>Phát hiện dấu chân sói gần Hố Sụt phía Đông. Cần né tránh cự ly &le; 100px.</div>
+                <div>Phát hiện dấu chân sói gần Hố Sụt phía Đông. Cần né tránh cự ly &ge; 100px.</div>
               </div>
               <div class="factcard-item">
-                <div class="factcard-head"><span>[FACT-02 // FORAGE]</span><span>PRIORITY: NORMAL</span></div>
-                <div>Bụi dâu Nam đạt độ chín tối đa, tốc độ hồi phục 0.8u/giây.</div>
+                <div class="factcard-head"><span>[FACT-02 // FORAGE]</span><span>CONF: 0.78 (STALE)</span></div>
+                <div>Trữ lượng quan sát: 80u (tại Tick 0, cự ly nhìn 140px). Scout di chuyển xa (&gt;250px) nên chưa quét lại!</div>
               </div>
               <div class="factcard-item" style="border-left-color:var(--amber);">
                 <div class="factcard-head" style="color:var(--amber);"><span>[FACT-03 // BOTANICAL]</span><span>PRIORITY: NORMAL</span></div>
@@ -1262,29 +1264,63 @@
       });
     });
 
-    document.getElementById('btn-shock-drought').addEventListener('click', () => {
+    // Shock Injection: Hard Resource Depletion Override
+    document.getElementById('btn-shock-kill').addEventListener('click', () => {
       const northBerry = resources.find(r => r.id === 'berry_north');
       if (northBerry) northBerry.amount = 0;
       addTimelineEvent({
-        badge: 'BIẾN CỐ MÔI TRƯỜNG',
+        badge: 'SHOCK INJECTION',
         badgeClass: 'shock',
-        title: 'Hạn hán cục bộ: Bụi dâu Bắc cạn kiệt!',
-        body: 'Thực tế khách quan: Lượng dâu = 0. Thỏ đầu đàn chưa biết, vẫn giữ niềm tin cũ.'
+        title: 'Thử nghiệm sốc: Ép Bụi dâu Bắc về 0u!',
+        body: 'Can thiệp cưỡng chế: Ground Truth = 0u tức thì. Kiểm tra độ lệch với ký ức cũ (80u) của Scout.',
+        reason: 'Operator state override: SET bush_north.amount = 0u'
       });
       updateInspectorUI();
     });
 
+    // Environmental Simulation: Differential Drought Process
+    let isDroughtActive = false;
+    const btnDrought = document.getElementById('btn-shock-drought');
+    btnDrought.addEventListener('click', () => {
+      isDroughtActive = !isDroughtActive;
+      btnDrought.classList.toggle('primary', isDroughtActive);
+      btnDrought.textContent = isDroughtActive ? 'Dừng Hạn Hán' : 'Khí Hậu: Hạn Hán Vi Phân';
+      addTimelineEvent({
+        badge: 'ENVIRONMENTAL SIMULATION',
+        badgeClass: 'shock',
+        title: isDroughtActive ? 'Khí hậu: Hạn hán vi phân bắt đầu!' : 'Khí hậu: Hạn hán kết thúc.',
+        body: isDroughtActive
+          ? 'Hạn hán tự nhiên: Tốc độ hồi phục = 0u/s. Trữ lượng bốc hơi -0.6u/s theo Delta t = 0.05s.'
+          : 'Hệ sinh thái hồi phục danh định (Tốc độ hồi 0.5u/s).',
+        reason: isDroughtActive ? 'DifferentialLaw: dr/dt = -0.6u/s, regen = 0' : 'DifferentialLaw: dr/dt = +0.5u/s'
+      });
+    });
+
+    // Wolf Intrusion & Evacuation Allocation (16 Burrow / 8 Thickets)
     document.getElementById('btn-shock-wolf').addEventListener('click', () => {
       const wolf = entities.find(e => e.type === 'wolf');
       if (wolf) {
         wolf.x = 620;
         wolf.y = 280;
+
+        // Shelter allocation algorithm: 16 closest to burrow, 8 to nearest thickets
+        const rabbits = entities.filter(e => e.type === 'rabbit');
+        rabbits.sort((a, b) => Math.hypot(a.x - burrow.x, a.y - burrow.y) - Math.hypot(b.x - burrow.x, b.y - burrow.y));
+        rabbits.forEach((r, idx) => {
+          if (idx < burrow.capacity) {
+            r.evacTarget = 'burrow';
+          } else {
+            r.evacTarget = 'thicket';
+          }
+        });
+        burrow.occupants = Math.min(burrow.capacity, rabbits.length);
+
         addTimelineEvent({
           badge: 'MỘNG NHIỄM GATED',
           badgeClass: 'gated',
-          title: 'Cảnh báo nguy hiểm: Sói áp sát bầy đàn!',
-          body: 'Reflex Breaker kích hoạt: Ngắt lệnh hái dâu, phát lệnh khẩn cấp di tản an toàn về Hang Trú Ẩn.',
-          reason: 'ReflexBreaker: Invariant proximity breached threshold'
+          title: 'Cảnh báo nguy hiểm: Sói phục kích tại [620, 280]!',
+          body: 'ReflexBreaker kích hoạt: Ngắt lệnh hái dâu. Phân quyền sơ tán: 16 cá thể gần nhất vào Hang (Đạt sức chứa 16/16), 8 cá thể còn lại tản vào Lùm Cây che phủ gần nhất!',
+          reason: 'ReflexBreaker: TrajectoryLookahead (4 action steps) breached d_safety (measured 23.6px < 35.0px)'
         });
       }
     });
@@ -1587,6 +1623,15 @@
         }
       }
 
+      // Environmental Drought Depletion Dynamics (dr/dt = -0.6u/s, regen = 0)
+      if (isDroughtActive && worldTick % 2 === 0) {
+        for (const res of resources) {
+          if (res.type === 'berry' && res.amount > 0) {
+            res.amount = Math.max(0, res.amount - 0.03);
+          }
+        }
+      }
+
       // 4. Update Living Entities
       for (const ent of entities) {
         ent.hunger = Math.min(100, ent.hunger + 0.035);
@@ -1600,6 +1645,31 @@
             if (Math.hypot(ent.x - th.x, ent.y - th.y) <= th.radius) {
               ent.inCover = true;
               break;
+            }
+          }
+
+          // Evacuation Steering (Burrow 16 capacity vs Thickets 8 overflow)
+          if (ent.evacTarget === 'burrow') {
+            const toBx = burrow.x - ent.x;
+            const toBy = burrow.y - ent.y;
+            const distB = Math.hypot(toBx, toBy);
+            if (distB > 12) {
+              ent.vx += (toBx / distB) * 0.16;
+              ent.vy += (toBy / distB) * 0.16;
+            }
+          } else if (ent.evacTarget === 'thicket') {
+            let nearestTh = thickets[0];
+            let minD = 9999;
+            for (const th of thickets) {
+              const d = Math.hypot(th.x - ent.x, th.y - ent.y);
+              if (d < minD) { minD = d; nearestTh = th; }
+            }
+            const toTx = nearestTh.x - ent.x;
+            const toTy = nearestTh.y - ent.y;
+            const distT = Math.hypot(toTx, toTy);
+            if (distT > 10) {
+              ent.vx += (toTx / distT) * 0.15;
+              ent.vy += (toTy / distT) * 0.15;
             }
           }
 
@@ -1979,8 +2049,30 @@
         ctx.restore();
       }
 
-      // 8. Scent / Pheromone Particle Trails
+      // 8. Simplified Directional Scent Cone (Downwind Sector from Wolf)
       if (layers.scent) {
+        const wolf = entities.find(e => e.type === 'wolf');
+        if (wolf) {
+          ctx.save();
+          const scentL = 60 + environment.windSpeed * 4.0; // Cone length downwind (px)
+          const scentAngle = environment.windAngle;
+          const halfSpread = 0.61; // 35 degrees
+
+          ctx.beginPath();
+          ctx.moveTo(wolf.x, wolf.y);
+          ctx.arc(wolf.x, wolf.y, scentL, scentAngle - halfSpread, scentAngle + halfSpread);
+          ctx.closePath();
+
+          ctx.fillStyle = isDark ? 'rgba(244, 63, 94, 0.10)' : 'rgba(225, 29, 72, 0.08)';
+          ctx.fill();
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = isDark ? 'rgba(244, 63, 94, 0.45)' : 'rgba(225, 29, 72, 0.35)';
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Particle stream inside cone
         for (const p of scentParticles) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.type === 'wolf' ? 2.2 : 1.6, 0, Math.PI * 2);
