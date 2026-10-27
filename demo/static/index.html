@@ -42,6 +42,18 @@
       --indigo: #4f46e5;
       --indigo-soft: #e0e7ff;
       --indigo-border: #c7d2fe;
+      --rock: #94a3b8;
+      --rock-fill: rgba(148, 163, 184, 0.25);
+      --burrow: #b45309;
+      --burrow-soft: rgba(245, 158, 11, 0.15);
+      --thicket: #15803d;
+      --thicket-soft: rgba(34, 197, 94, 0.16);
+      --stream: #0284c7;
+      --stream-soft: rgba(56, 189, 248, 0.18);
+      --herb: #b45309;
+      --herb-soft: rgba(234, 179, 8, 0.18);
+      --landmark: #be123c;
+      --landmark-soft: rgba(225, 29, 72, 0.15);
     }
 
     :root[data-theme="dark"] {
@@ -77,6 +89,18 @@
       --indigo: #818cf8;
       --indigo-soft: rgba(129, 140, 248, 0.15);
       --indigo-border: rgba(129, 140, 248, 0.3);
+      --rock: #64748b;
+      --rock-fill: rgba(100, 116, 139, 0.3);
+      --burrow: #f59e0b;
+      --burrow-soft: rgba(245, 158, 11, 0.2);
+      --thicket: #22c55e;
+      --thicket-soft: rgba(34, 197, 94, 0.22);
+      --stream: #38bdf8;
+      --stream-soft: rgba(56, 189, 248, 0.22);
+      --herb: #facc15;
+      --herb-soft: rgba(250, 204, 21, 0.22);
+      --landmark: #f43f5e;
+      --landmark-soft: rgba(244, 63, 94, 0.22);
     }
 
     * {
@@ -149,7 +173,7 @@
       font-weight: 500;
     }
 
-    /* Telemetry KPI Pills */
+    /* Telemetry KPI Strip */
     .telemetry-strip {
       display: flex;
       gap: 8px;
@@ -163,7 +187,7 @@
       padding: 4px 10px;
       display: flex;
       flex-direction: column;
-      min-width: 82px;
+      min-width: 80px;
       box-shadow: var(--shadow-sm);
       transition: all 0.15s ease;
     }
@@ -249,7 +273,7 @@
     main {
       flex: 1;
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 390px;
       overflow: hidden;
       position: relative;
     }
@@ -274,6 +298,7 @@
       top: 14px;
       left: 14px;
       display: flex;
+      flex-wrap: wrap;
       gap: 6px;
       z-index: 10;
     }
@@ -412,6 +437,46 @@
       border-color: var(--rose);
       color: var(--rose);
       box-shadow: 0 2px 8px rgba(225, 29, 72, 0.2);
+    }
+    .identity-avatar.rock {
+      background: var(--rock-fill);
+      border-color: var(--rock);
+      color: var(--text-main);
+    }
+    .identity-avatar.burrow {
+      background: var(--burrow-soft);
+      border-color: var(--burrow);
+      color: var(--burrow);
+    }
+    .identity-avatar.water {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .identity-avatar.berry {
+      background: var(--emerald-soft);
+      border-color: var(--emerald);
+      color: var(--emerald);
+    }
+    .identity-avatar.thicket {
+      background: var(--thicket-soft);
+      border-color: var(--thicket);
+      color: var(--thicket);
+    }
+    .identity-avatar.stream {
+      background: var(--stream-soft);
+      border-color: var(--stream);
+      color: var(--stream);
+    }
+    .identity-avatar.herb {
+      background: var(--herb-soft);
+      border-color: var(--herb);
+      color: var(--herb);
+    }
+    .identity-avatar.landmark {
+      background: var(--landmark-soft);
+      border-color: var(--landmark);
+      color: var(--landmark);
     }
     .identity-info {
       flex: 1;
@@ -643,6 +708,14 @@
         <span class="kpi-val cyan" id="kpi-tick">142</span>
       </div>
       <div class="kpi-pill">
+        <span class="kpi-label">Thời Khắc</span>
+        <span class="kpi-val amber" id="kpi-daytime">☀️ BAN NGÀY</span>
+      </div>
+      <div class="kpi-pill">
+        <span class="kpi-label">Khí Quyển & Gió</span>
+        <span class="kpi-val cyan" id="kpi-wind"><span id="wind-arrow" style="display:inline-block; transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">🧭</span> <span id="wind-speed-text">14</span> km/h</span>
+      </div>
+      <div class="kpi-pill">
         <span class="kpi-label">Quần Thể Thỏ</span>
         <span class="kpi-val amber" id="kpi-rabbits">24 con</span>
       </div>
@@ -664,6 +737,8 @@
     <div class="sim-actions">
       <button class="btn" id="btn-play-pause">⏸ Tạm dừng</button>
       <button class="btn" id="btn-speed">1x Tốc độ</button>
+      <button class="btn" id="btn-shift-wind" title="Xoay hướng luồng gió 90°, biến đổi tán xạ mùi">💨 Đổi Chiều Gió</button>
+      <button class="btn" id="btn-toggle-rain" title="Kích hoạt mưa phùn, hồi sinh nước & dâu">🌧️ Mưa Phùn</button>
       <button class="btn danger" id="btn-shock-drought">🍂 Cắt Lương (Hạn Hán)</button>
       <button class="btn danger" id="btn-shock-wolf">🐺 Thả Sói Săn</button>
       <button class="btn primary" id="btn-standby">⚡ Can Thiệp Standby</button>
@@ -677,11 +752,16 @@
     <section class="viewport" id="canvas-container">
       <!-- Floating Layer Toggle Chips -->
       <div class="canvas-chips-bar">
-        <div class="chip active" data-layer="entities">🔘 Cá Thể / Quần Thể</div>
-        <div class="chip active" data-layer="resources">🌿 Tài Nguyên & Nước</div>
+        <div class="chip active" data-layer="entities">🔘 Cá Thể / Bầy Đàn</div>
+        <div class="chip active" data-layer="resources">🌿 Tài Nguyên Dâu</div>
+        <div class="chip active" data-layer="stream">🌊 Suối & Bãi Cạn</div>
+        <div class="chip active" data-layer="terrain">⛰️ Rặng Đá & Hang Thỏ</div>
+        <div class="chip active" data-layer="thickets">🌲 Lùm Cây Che Phủ</div>
+        <div class="chip active" data-layer="meadows">🌱 Bãi Cỏ & Thảo Dược</div>
         <div class="chip active" data-layer="fog">👁️ Tầm Nhìn (Fog of War)</div>
-        <div class="chip active" data-layer="vectors">🧭 Vectơ Vận Tốc</div>
-        <div class="chip active" data-layer="hazards">⚠️ Vùng Bẫy / Hiểm Họa</div>
+        <div class="chip active" data-layer="scent">🐾 Dấu Vết Pheromone</div>
+        <div class="chip active" data-layer="wind">💨 Khí Quyển & Bụi Khí</div>
+        <div class="chip active" data-layer="hazards">⚠️ Mối Nguy & Cột Mốc</div>
       </div>
 
       <canvas id="world-canvas"></canvas>
@@ -690,7 +770,8 @@
       <div class="canvas-hud-bottom">
         <div>MỤC TIÊU: <strong id="hud-name" style="color:var(--amber);">Rabbit #01 (Alpha Scout)</strong></div>
         <div>TỌA ĐỘ: <strong id="hud-pos" style="color:var(--primary);">X: 380.2 | Y: 260.4</strong></div>
-        <div>GBNF PROTOCOL: <strong id="hud-gbnf" style="color:var(--emerald);">REASONING &le; 120 chars | DYNAMIC ENUMS</strong></div>
+        <div>KHÍ HẬU: <strong id="hud-weather" style="color:var(--emerald);">☀️ Nắng ráo (Gió Đông Bắc 14 km/h)</strong></div>
+        <div>ĐỊA HÌNH: <strong id="hud-stealth" style="color:var(--text-muted);">Địa hình quang đãng</strong></div>
       </div>
     </section>
 
@@ -717,7 +798,7 @@
           </div>
 
           <!-- Physiological Gauges -->
-          <div class="vitals-grid">
+          <div class="vitals-grid" id="vitals-container">
             <div class="vital-tile">
               <div class="vital-meta"><span>NĂNG LƯỢNG</span><span id="vital-val-energy">86%</span></div>
               <div class="vital-track"><div class="vital-fill energy" id="vital-bar-energy" style="width: 86%;"></div></div>
@@ -737,7 +818,7 @@
           </div>
 
           <!-- CORE: Ground Truth vs Agent Belief -->
-          <div class="epistemic-card">
+          <div class="epistemic-card" id="epistemic-card">
             <div class="epistemic-bar">
               <span>BẤT ĐỐI XỨNG NHẬN THỨC</span>
               <span class="skew-pill" id="skew-badge">EPISTEMIC SKEW</span>
@@ -749,7 +830,7 @@
               </div>
               <div class="ep-item">
                 <span class="ep-tag">NIỀM TIN CHỦ QUAN (Agent Belief - SLM)</span>
-                <span class="ep-value agent-belief" id="belief-desc">Tin rằng Bụi dâu Bắc còn ~80u dựa trên ký ức cũ. Chưa quét lại!</span>
+                <span class="ep-value agent-belief" id="belief-desc">Tin rằng Bụi dâu Bắc còn ~80u theo quan sát cũ. Chưa quét lại!</span>
               </div>
             </div>
           </div>
@@ -767,6 +848,10 @@
               <div class="factcard-item">
                 <div class="factcard-head"><span>[FACT-02 // FORAGE]</span><span>PRIORITY: NORMAL</span></div>
                 <div>Bụi dâu Nam đạt độ chín tối đa, tốc độ hồi phục 0.8u/giây.</div>
+              </div>
+              <div class="factcard-item" style="border-left-color:var(--amber);">
+                <div class="factcard-head" style="color:var(--amber);"><span>[FACT-03 // BOTANICAL]</span><span>PRIORITY: NORMAL</span></div>
+                <div>Phát hiện Vạt Bồ Công Anh Dược Liệu. Cung cấp năng lượng x2.4 khi bầy đàn suy kiệt.</div>
               </div>
             </div>
           </div>
@@ -790,7 +875,7 @@
               <span>Tick 140</span>
             </div>
             <div class="card-body">
-              <strong>Chặn quyết định tự sát (Lookahead Deadlock):</strong> SLM đề xuất <code>ACTION: MOVE_TO [590, 310]</code>. Mộng Nhiễm chiếu quỹ đạo 4 bước phát hiện Sói mai phục, cưỡng chế chuyển hướng an toàn.
+              <strong>Chặn quyết định tự sát (Lookahead Deadlock):</strong> SLM đề xuất <code>ACTION: MOVE_TO [590, 310]</code>. Mộng Nhiễm chiếu quỹ đạo 4 bước phát hiện Sói mai phục sau rặng đá, cưỡng chế chuyển hướng an toàn.
             </div>
             <div class="card-reason">&Delta;Safety: TrajectoryLookahead breached margin &le; 35px</div>
           </div>
@@ -847,12 +932,17 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // --- State & World Objects ---
+    // --- Layer Toggles ---
     const layers = {
       entities: true,
       resources: true,
+      stream: true,
+      terrain: true,
+      thickets: true,
+      meadows: true,
       fog: true,
-      vectors: true,
+      scent: true,
+      wind: true,
       hazards: true
     };
 
@@ -860,23 +950,116 @@
     let simSpeed = 1;
     let worldTick = 142;
 
-    // Resources
+    // --- World Elements Data ---
+
+    // 1. Terrain: Rock Formations (Chướng ngại vật tự nhiên)
+    const rocks = [
+      { id: 'rock_ridge_nw', type: 'rock', x: 170, y: 220, rx: 38, ry: 26, angle: 0.35, label: 'Rặng Đá Tây Bắc' },
+      { id: 'rock_ridge_e', type: 'rock', x: 530, y: 160, rx: 42, ry: 30, angle: -0.25, label: 'Bãi Đá Đông Bắc' }
+    ];
+
+    // 2. Terrain: Rabbit Burrow Sanctuary (Hang thỏ trú ẩn)
+    const burrow = {
+      id: 'burrow_sanctuary',
+      type: 'burrow',
+      x: 180,
+      y: 470,
+      radius: 38,
+      entranceRadius: 14,
+      capacity: 12,
+      occupants: 4,
+      foodStored: 32,
+      label: 'Hang Thỏ Trú Ẩn'
+    };
+
+    // 3. Terrain: Grazing Meadows (Đồng cỏ non)
+    const meadows = [
+      { id: 'meadow_south', x: 340, y: 440, radius: 68, grassLevel: 85, label: 'Đồng Cỏ Phía Nam' },
+      { id: 'meadow_central', x: 480, y: 250, radius: 55, grassLevel: 70, label: 'Bãi Cỏ Ven Hồ' }
+    ];
+
+    // 4. Resources: Food & Water
     const resources = [
-      { id: 'berry_north', type: 'berry', x: 260, y: 160, radius: 38, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
-      { id: 'berry_south', type: 'berry', x: 590, y: 470, radius: 44, amount: 95, max: 100, label: 'Bụi Dâu Nam' },
-      { id: 'water_pond', type: 'water', x: 400, y: 330, radius: 55, amount: 100, max: 100, label: 'Hồ Nước Trung Tâm' }
+      { id: 'berry_north', type: 'berry', x: 260, y: 140, radius: 38, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
+      { id: 'berry_south', type: 'berry', x: 600, y: 480, radius: 44, amount: 95, max: 100, label: 'Bụi Dâu Nam' },
+      { id: 'water_pond', type: 'water', x: 390, y: 320, radius: 54, amount: 100, max: 100, label: 'Hồ Nước Trung Tâm' }
     ];
 
-    // Hazards
+    // 5. Stream: Flowing Brook & Shallow Ford Crossing
+    const stream = {
+      id: 'stream_brook',
+      type: 'stream',
+      label: 'Dòng Suối Tự Nhiên',
+      path: [
+        { x: 50, y: 35 },
+        { x: 120, y: 105 },
+        { x: 195, y: 165 },
+        { x: 275, y: 225 }, // Ford location
+        { x: 345, y: 285 }  // Joins water pond
+      ],
+      ford: { id: 'stream_ford', type: 'ford', x: 275, y: 225, radius: 24, label: 'Bãi Đá Cạn Lội Nước (Ford)' }
+    };
+
+    // 6. Thickets: Dense Forest Canopy & Bush Cover (Vùng ẩn nấp giảm phát hiện)
+    const thickets = [
+      { id: 'thicket_northwest', type: 'thicket', x: 130, y: 340, radius: 46, label: 'Lùm Cây Tây Bắc (Cover)', stealthBonus: 0.8 },
+      { id: 'thicket_southeast', type: 'thicket', x: 505, y: 490, radius: 42, label: 'Bụi Rậm Đông Nam', stealthBonus: 0.8 }
+    ];
+
+    // 7. Herbs: Wild Dandelion & Medicinal Flora (Hồi phục năng lượng cao tốc)
+    const herbs = [
+      { id: 'herb_grove', type: 'herb', x: 410, y: 440, radius: 34, amount: 65, max: 70, label: 'Vạt Bồ Công Anh Dược Liệu' }
+    ];
+
+    // 8. Landmarks: Wolf Territorial Landmark (Cột mốc cảnh báo nguy hiểm)
+    const landmarks = [
+      { id: 'landmark_wolf_den', type: 'landmark', x: 710, y: 130, radius: 24, label: 'Dấu Tích Lãnh Thổ Dã Thú' }
+    ];
+
+    // 9. Hazards (Vùng hiểm họa)
     const hazards = [
-      { id: 'hazard_sinkhole', x: 630, y: 220, radius: 68, label: 'Hố Sụt Địa Chất' }
+      { id: 'hazard_sinkhole', type: 'hazard', x: 640, y: 210, radius: 65, label: 'Hố Sụt Sụt Lở' }
     ];
 
-    // Entities
+    // 10. Dynamic Environment & Microclimate
+    const environment = {
+      windAngle: 0.75 * Math.PI, // 135 deg: blowing south-west
+      windSpeed: 14,             // km/h
+      windDirLabel: 'Đông Bắc',
+      weather: 'clear',          // 'clear' or 'rain'
+      temperature: 24.5
+    };
+
+    // 11. Airborne Wind Motes (Bụi phấn hoa trôi dạt)
+    const windMotes = [];
+    for (let i = 0; i < 28; i++) {
+      windMotes.push({
+        x: Math.random() * 1000,
+        y: Math.random() * 700,
+        speed: 0.5 + Math.random() * 0.9,
+        size: 1.2 + Math.random() * 1.6,
+        alpha: 0.2 + Math.random() * 0.4
+      });
+    }
+
+    // 12. Falling Rain Drops (Mưa phùn vi khí hậu)
+    const rainParticles = [];
+    for (let i = 0; i < 60; i++) {
+      rainParticles.push({
+        x: Math.random() * 1000,
+        y: Math.random() * 700,
+        len: 12 + Math.random() * 10,
+        speed: 13 + Math.random() * 7
+      });
+    }
+
+    // 13. Scent / Pheromone Particle Trail
+    const scentParticles = [];
+
+    // 14. Entities (Rabbits & Predators)
     const entities = [];
     const NUM_RABBITS = 24;
 
-    // Create Rabbits
     for (let i = 0; i < NUM_RABBITS; i++) {
       const isLeader = (i === 0);
       entities.push({
@@ -884,8 +1067,8 @@
         name: isLeader ? 'Rabbit #01 (Alpha Scout)' : `Rabbit #${String(i + 1).padStart(2, '0')}`,
         type: 'rabbit',
         role: isLeader ? 'Alpha Scout' : (i % 3 === 0 ? 'Thỏ Trinh Sát' : 'Thỏ Hái Lượm'),
-        x: 340 + (Math.random() - 0.5) * 180,
-        y: 290 + (Math.random() - 0.5) * 150,
+        x: 340 + (Math.random() - 0.5) * 160,
+        y: 300 + (Math.random() - 0.5) * 140,
         vx: (Math.random() - 0.5) * 1.4,
         vy: (Math.random() - 0.5) * 1.4,
         radius: isLeader ? 7.5 : 5,
@@ -895,18 +1078,20 @@
         health: 100,
         perceptionRadius: isLeader ? 115 : 75,
         isLeader: isLeader,
-        wanderAngle: Math.random() * Math.PI * 2
+        wanderAngle: Math.random() * Math.PI * 2,
+        isSheltered: false,
+        inCover: false
       });
     }
 
-    // Create Predator (Wolf)
+    // Wolf Predator
     entities.push({
       id: 'wolf_1',
       name: 'Wolf #01 (Dã Thú)',
       type: 'wolf',
       role: 'Apex Predator',
       x: 690,
-      y: 190,
+      y: 180,
       vx: -0.6,
       vy: 0.4,
       radius: 9.5,
@@ -918,7 +1103,7 @@
       patrolAngle: 0
     });
 
-    let selectedEntity = entities[0];
+    let selectedObject = entities[0]; // Can be entity, burrow, rock, bush, pond
 
     // --- Layer Chips Interaction ---
     document.querySelectorAll('.chip').forEach(chip => {
@@ -929,24 +1114,92 @@
       });
     });
 
-    // --- Entity Selection via Canvas Click ---
+    // --- Universal Object Selection via Canvas Click ---
     canvas.addEventListener('click', (e) => {
       const rect = canvas.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
 
       let found = null;
+
+      // 1. Check Entities
       for (const ent of entities) {
-        const dx = ent.x - clickX;
-        const dy = ent.y - clickY;
-        if (Math.hypot(dx, dy) <= ent.radius + 9) {
+        if (Math.hypot(ent.x - clickX, ent.y - clickY) <= ent.radius + 9) {
           found = ent;
           break;
         }
       }
 
+      // 2. Check Burrow
+      if (!found && Math.hypot(burrow.x - clickX, burrow.y - clickY) <= burrow.radius + 5) {
+        found = burrow;
+      }
+
+      // 3. Check Resources
+      if (!found) {
+        for (const res of resources) {
+          if (Math.hypot(res.x - clickX, res.y - clickY) <= res.radius + 5) {
+            found = res;
+            break;
+          }
+        }
+      }
+
+      // 4. Check Rocks
+      if (!found) {
+        for (const rk of rocks) {
+          if (Math.hypot(rk.x - clickX, rk.y - clickY) <= rk.rx + 5) {
+            found = rk;
+            break;
+          }
+        }
+      }
+
+      // 5. Check Thickets
+      if (!found) {
+        for (const th of thickets) {
+          if (Math.hypot(th.x - clickX, th.y - clickY) <= th.radius + 6) {
+            found = th;
+            break;
+          }
+        }
+      }
+
+      // 6. Check Stream & Ford
+      if (!found && Math.hypot(stream.ford.x - clickX, stream.ford.y - clickY) <= stream.ford.radius + 8) {
+        found = stream.ford;
+      }
+      if (!found) {
+        for (const pt of stream.path) {
+          if (Math.hypot(pt.x - clickX, pt.y - clickY) <= 18) {
+            found = stream;
+            break;
+          }
+        }
+      }
+
+      // 7. Check Herbs
+      if (!found) {
+        for (const hb of herbs) {
+          if (Math.hypot(hb.x - clickX, hb.y - clickY) <= hb.radius + 6) {
+            found = hb;
+            break;
+          }
+        }
+      }
+
+      // 8. Check Landmarks
+      if (!found) {
+        for (const lm of landmarks) {
+          if (Math.hypot(lm.x - clickX, lm.y - clickY) <= lm.radius + 8) {
+            found = lm;
+            break;
+          }
+        }
+      }
+
       if (found) {
-        selectedEntity = found;
+        selectedObject = found;
         updateInspectorUI();
       }
     });
@@ -962,6 +1215,44 @@
     btnSpeed.addEventListener('click', () => {
       simSpeed = simSpeed === 1 ? 2 : (simSpeed === 2 ? 5 : 1);
       btnSpeed.textContent = `${simSpeed}x Tốc độ`;
+    });
+
+    // Atmospheric Shift: Wind Direction & Velocity
+    document.getElementById('btn-shift-wind').addEventListener('click', () => {
+      environment.windAngle = (environment.windAngle + Math.PI * 0.45) % (Math.PI * 2);
+      const dirs = ['Đông', 'Đông Nam', 'Nam', 'Tây Nam', 'Tây', 'Tây Bắc', 'Bắc', 'Đông Bắc'];
+      const idx = Math.round((environment.windAngle / (Math.PI * 2)) * 8) % 8;
+      environment.windDirLabel = dirs[idx];
+      environment.windSpeed = 10 + Math.floor(Math.random() * 18);
+      document.getElementById('wind-speed-text').textContent = environment.windSpeed;
+      document.getElementById('hud-weather').textContent = `☀️ Nắng ráo (Gió ${environment.windDirLabel} ${environment.windSpeed} km/h)`;
+      const windArrow = document.getElementById('wind-arrow');
+      if (windArrow) windArrow.style.transform = `rotate(${environment.windAngle}rad)`;
+      addTimelineEvent({
+        badge: 'BIẾN ĐỔI KHÍ QUYỂN',
+        badgeClass: 'shock',
+        title: `Gió đổi chiều sang ${environment.windDirLabel} (${environment.windSpeed} km/h)!`,
+        body: 'Luồng tán xạ mùi pheromone chuyển hướng. Thỏ và thú săn đối mặt bất đối xứng nhận thức mới theo hướng gió.'
+      });
+    });
+
+    // Weather Shock: Rain Shower
+    const btnRain = document.getElementById('btn-toggle-rain');
+    btnRain.addEventListener('click', () => {
+      environment.weather = environment.weather === 'clear' ? 'rain' : 'clear';
+      btnRain.classList.toggle('primary', environment.weather === 'rain');
+      btnRain.textContent = environment.weather === 'rain' ? '🌧️ Tạnh Mưa' : '🌧️ Mưa Phùn';
+      document.getElementById('hud-weather').textContent = environment.weather === 'rain' 
+        ? `🌧️ Mưa phùn vi khí hậu (Gió ${environment.windDirLabel})` 
+        : `☀️ Nắng ráo (Gió ${environment.windDirLabel} ${environment.windSpeed} km/h)`;
+      addTimelineEvent({
+        badge: 'BIẾN CỐ MÔI TRƯỜNG',
+        badgeClass: 'shock',
+        title: environment.weather === 'rain' ? 'Mưa phùn bắt đầu rơi trên quần thể!' : 'Mưa tạnh, bầu trời hửng sáng.',
+        body: environment.weather === 'rain' 
+          ? 'Nước mưa vi sinh: Mực nước hồ và độ chín bụi dâu tự nhiên tăng tốc hồi sinh.'
+          : 'Hệ sinh thái trở lại trạng thái quang đãng danh định.'
+      });
     });
 
     document.getElementById('btn-shock-drought').addEventListener('click', () => {
@@ -984,7 +1275,7 @@
           badge: 'MỘNG NHIỄM GATED',
           badgeClass: 'gated',
           title: 'Cảnh báo nguy hiểm: Sói áp sát bầy đàn!',
-          body: 'Reflex Breaker kích hoạt: Ngắt lệnh hái dâu, phát lệnh khẩn cấp di tản an toàn.',
+          body: 'Reflex Breaker kích hoạt: Ngắt lệnh hái dâu, phát lệnh khẩn cấp di tản an toàn về Hang Trú Ẩn.',
           reason: 'ReflexBreaker: Invariant proximity breached threshold'
         });
       }
@@ -1018,46 +1309,165 @@
       feed.prepend(card);
     }
 
+    // --- Dynamic Inspector Panel UI ---
     function updateInspectorUI() {
-      if (!selectedEntity) return;
+      if (!selectedObject) return;
 
-      document.getElementById('inspector-badge').textContent = selectedEntity.id.toUpperCase();
-      document.getElementById('ent-name').textContent = selectedEntity.name;
-      document.getElementById('ent-role').textContent = `Vai trò: ${selectedEntity.role}`;
-      document.getElementById('avatar-icon').textContent = selectedEntity.type === 'wolf' ? 'W' : (selectedEntity.isLeader ? 'α' : 'R');
-      document.getElementById('avatar-icon').className = `identity-avatar ${selectedEntity.type}`;
+      const obj = selectedObject;
+      const avatar = document.getElementById('avatar-icon');
+      const vitalsContainer = document.getElementById('vitals-container');
+      const epistemicCard = document.getElementById('epistemic-card');
 
-      document.getElementById('vital-val-energy').textContent = `${Math.round(selectedEntity.energy)}%`;
-      document.getElementById('vital-bar-energy').style.width = `${Math.max(0, Math.min(100, selectedEntity.energy))}%`;
+      if (obj.type === 'rabbit' || obj.type === 'wolf') {
+        // Living Entity Inspector
+        vitalsContainer.style.display = 'grid';
+        epistemicCard.style.display = 'block';
 
-      document.getElementById('vital-val-hunger').textContent = `${Math.round(selectedEntity.hunger)}%`;
-      document.getElementById('vital-bar-hunger').style.width = `${Math.max(0, Math.min(100, selectedEntity.hunger))}%`;
+        document.getElementById('inspector-badge').textContent = obj.id.toUpperCase();
+        document.getElementById('ent-name').textContent = obj.name;
+        document.getElementById('ent-role').textContent = `Vai trò: ${obj.role}`;
+        avatar.textContent = obj.type === 'wolf' ? 'W' : (obj.isLeader ? 'α' : 'R');
+        avatar.className = `identity-avatar ${obj.type}`;
 
-      document.getElementById('vital-val-thirst').textContent = `${Math.round(selectedEntity.thirst)}%`;
-      document.getElementById('vital-bar-thirst').style.width = `${Math.max(0, Math.min(100, selectedEntity.thirst))}%`;
+        document.getElementById('vital-val-energy').textContent = `${Math.round(obj.energy)}%`;
+        document.getElementById('vital-bar-energy').style.width = `${Math.max(0, Math.min(100, obj.energy))}%`;
 
-      document.getElementById('vital-val-health').textContent = `${Math.round(selectedEntity.health)}%`;
-      document.getElementById('vital-bar-health').style.width = `${Math.max(0, Math.min(100, selectedEntity.health))}%`;
+        document.getElementById('vital-val-hunger').textContent = `${Math.round(obj.hunger)}%`;
+        document.getElementById('vital-bar-hunger').style.width = `${Math.max(0, Math.min(100, obj.hunger))}%`;
 
-      document.getElementById('hud-name').textContent = selectedEntity.name;
-      document.getElementById('hud-pos').textContent = `X: ${selectedEntity.x.toFixed(1)} | Y: ${selectedEntity.y.toFixed(1)}`;
+        document.getElementById('vital-val-thirst').textContent = `${Math.round(obj.thirst)}%`;
+        document.getElementById('vital-bar-thirst').style.width = `${Math.max(0, Math.min(100, obj.thirst))}%`;
 
-      // Epistemic Comparison
-      if (selectedEntity.isLeader) {
-        const northAmount = resources[0].amount;
-        document.getElementById('gt-desc').textContent = northAmount === 0
-          ? 'Bụi dâu Bắc đã CẠN KIỆT (0u). Sói đang tuần tra ở phía Đông.'
-          : `Bụi dâu Bắc còn ${northAmount}u. Hồ nước trung tâm an toàn.`;
+        document.getElementById('vital-val-health').textContent = `${Math.round(obj.health)}%`;
+        document.getElementById('vital-bar-health').style.width = `${Math.max(0, Math.min(100, obj.health))}%`;
 
-        document.getElementById('belief-desc').textContent = northAmount === 0
-          ? 'Tin rằng Bụi dâu Bắc còn dồi dào (~80u) theo quan sát cũ. Chưa quét lại!'
-          : 'Nắm rõ vị trí nguồn thức ăn dồi dào và lộ trình an toàn cho bầy đàn.';
+        document.getElementById('hud-name').textContent = obj.name;
+        document.getElementById('hud-pos').textContent = `X: ${obj.x.toFixed(1)} | Y: ${obj.y.toFixed(1)}`;
 
-        document.getElementById('skew-badge').style.display = northAmount === 0 ? 'inline-block' : 'none';
-      } else {
-        const distToLeader = Math.round(Math.hypot(selectedEntity.x - entities[0].x, selectedEntity.y - entities[0].y));
-        document.getElementById('gt-desc').textContent = `Cá thể duy trì cự ly bầy đàn (Cách thỏ đầu đàn: ${distToLeader} px).`;
-        document.getElementById('belief-desc').textContent = 'Chưa có quyền gọi SLM độc lập. Hành vi do Host quy định.';
+        // Epistemic Comparison
+        if (obj.isLeader) {
+          const northAmount = resources[0].amount;
+          document.getElementById('gt-desc').textContent = northAmount === 0
+            ? 'Bụi dâu Bắc đã CẠN KIỆT (0u). Sói đang tuần tra ở phía Đông.'
+            : `Bụi dâu Bắc còn ${northAmount}u. Hồ nước trung tâm an toàn.`;
+
+          document.getElementById('belief-desc').textContent = northAmount === 0
+            ? 'Tin rằng Bụi dâu Bắc còn dồi dào (~80u) theo quan sát cũ. Chưa quét lại!'
+            : 'Nắm rõ vị trí nguồn thức ăn dồi dào và lộ trình an toàn cho bầy đàn.';
+
+          document.getElementById('skew-badge').style.display = northAmount === 0 ? 'inline-block' : 'none';
+        } else {
+          const distToLeader = Math.round(Math.hypot(obj.x - entities[0].x, obj.y - entities[0].y));
+          document.getElementById('gt-desc').textContent = `Cá thể duy trì cự ly bầy đàn (Cách thỏ đầu đàn: ${distToLeader} px).`;
+          document.getElementById('belief-desc').textContent = 'Chưa có quyền gọi SLM độc lập. Hành vi tuân theo bầy Host.';
+          document.getElementById('skew-badge').style.display = 'none';
+        }
+
+      } else if (obj.type === 'burrow') {
+        // Burrow Sanctuary Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = 'SHELTER';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = `Nơi Trú Ẩn An Toàn Của Bầy Đàn`;
+        avatar.textContent = '🏡';
+        avatar.className = `identity-avatar burrow`;
+
+        document.getElementById('gt-desc').textContent = `Sức chứa: ${obj.occupants}/${obj.capacity} thỏ | Lương thực cất giữ: ${obj.foodStored}u`;
+        document.getElementById('belief-desc').textContent = 'Khu vực an toàn tuyệt đối. Sói không thể xâm nhập.';
+        document.getElementById('skew-badge').style.display = 'none';
+
+      } else if (obj.type === 'rock') {
+        // Rock Ridge Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = 'OBSTACLE';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = `Rặng Đá Hoa Cương Tự Nhiên`;
+        avatar.textContent = '⛰️';
+        avatar.className = `identity-avatar rock`;
+
+        document.getElementById('gt-desc').textContent = 'Cản trở 100% di chuyển và tầm nhìn trực diện.';
+        document.getElementById('belief-desc').textContent = 'Địa hình che chắn. Có thể dùng làm điểm mai phục hoặc nấp tránh sói.';
+        document.getElementById('skew-badge').style.display = 'none';
+
+      } else if (obj.type === 'berry' || obj.type === 'water') {
+        // Resource Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = 'RESOURCE';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = obj.type === 'berry' ? 'Bụi Cây Lương Thực' : 'Hồ Nước Ngọt Trung Tâm';
+        avatar.textContent = obj.type === 'berry' ? '🌿' : '💧';
+        avatar.className = `identity-avatar ${obj.type}`;
+
+        document.getElementById('gt-desc').textContent = `Trữ lượng hiện tại: ${obj.amount}/${obj.max}u (Tốc độ hồi: 0.5u/giây).`;
+        document.getElementById('belief-desc').textContent = obj.amount === 0 ? 'Thỏ chưa biết đã cạn nếu chưa tiến vào cự ly nhìn.' : 'Điểm đến ưu tiên của bầy đàn.';
+        document.getElementById('skew-badge').style.display = obj.amount === 0 ? 'inline-block' : 'none';
+
+      } else if (obj.type === 'thicket') {
+        // Thicket Cover Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = 'COVER ZONE';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = 'Địa Hình Che Khuất & Ẩn Nấp Tự Nhiên';
+        avatar.textContent = '🌲';
+        avatar.className = 'identity-avatar thicket';
+
+        document.getElementById('gt-desc').textContent = 'Hệ số ẩn nấp: 80%. Sói mất dấu thỏ nếu cự ly > 45px. Che chắn tầm nhìn trực tiếp.';
+        document.getElementById('belief-desc').textContent = 'Điểm trú ẩn khẩn cấp chiến lược khi chưa kịp chạy về Hang Chính.';
+        document.getElementById('skew-badge').style.display = 'none';
+
+      } else if (obj.type === 'stream' || obj.type === 'ford') {
+        // Stream & Ford Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = obj.type === 'ford' ? 'CROSSING' : 'WATERWAY';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = obj.type === 'ford' ? 'Bãi Đá Cạn Lội Nước An Toàn' : 'Dòng Chảy Thủy Văn Tự Nhiên';
+        avatar.textContent = obj.type === 'ford' ? '🪨' : '🌊';
+        avatar.className = 'identity-avatar stream';
+
+        document.getElementById('gt-desc').textContent = obj.type === 'ford' 
+          ? 'Bãi đá cuội nông: Duy trì 100% tốc độ di chuyển của thỏ khi băng qua suối.'
+          : 'Dòng nước chảy: Cung cấp nước uống; bơi/lội cắt ngang làm chậm 35% tốc độ.';
+        document.getElementById('belief-desc').textContent = 'Thỏ trinh sát ưu tiên điều hướng bầy qua Bãi Đá Cạn để tránh tụt hậu trước dã thú.';
+        document.getElementById('skew-badge').style.display = 'none';
+
+      } else if (obj.type === 'herb') {
+        // Herb Grove Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = 'HERBAL NUTRITION';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = 'Vạt Dược Liệu Hồi Phục Cao Cấp';
+        avatar.textContent = '🌼';
+        avatar.className = 'identity-avatar herb';
+
+        document.getElementById('gt-desc').textContent = `Trữ lượng: ${obj.amount}/${obj.max}u. Tốc độ hồi phục thể lực & no bụng x2.4 cỏ thường.`;
+        document.getElementById('belief-desc').textContent = 'Ghi nhận trong AutoDream FactCard-03: Ưu tiên dẫn bầy khi chỉ số năng lượng < 50%.';
+        document.getElementById('skew-badge').style.display = 'none';
+
+      } else if (obj.type === 'landmark') {
+        // Territorial Landmark Inspector
+        vitalsContainer.style.display = 'none';
+        epistemicCard.style.display = 'block';
+
+        document.getElementById('inspector-badge').textContent = 'TERRITORY MARK';
+        document.getElementById('ent-name').textContent = obj.label;
+        document.getElementById('ent-role').textContent = 'Cột Mốc Lãnh Thổ Dã Thú Cảnh Báo';
+        avatar.textContent = '💀';
+        avatar.className = 'identity-avatar landmark';
+
+        document.getElementById('gt-desc').textContent = 'Tần suất sói tuần tra: 85%. Bán kính báo động tử thần: 100px.';
+        document.getElementById('belief-desc').textContent = 'Mộng Nhiễm Invariant Guard: Tự động ngắt (ReflexBreaker) mọi kế hoạch tiến sâu vào vùng này.';
         document.getElementById('skew-badge').style.display = 'none';
       }
     }
@@ -1070,25 +1480,114 @@
       document.getElementById('kpi-tick').textContent = worldTick;
       document.getElementById('inspector-tick').textContent = `TICK ${worldTick}`;
 
+      // Day / Dusk / Night Cycle (500 ticks total cycle)
+      const dayCycle = worldTick % 500;
+      let daytimeStr = '☀️ BAN NGÀY';
+      if (dayCycle > 250 && dayCycle <= 360) {
+        daytimeStr = '🌇 HOÀNG HÔN';
+      } else if (dayCycle > 360) {
+        daytimeStr = '🌙 BAN ĐÊM';
+      }
+      document.getElementById('kpi-daytime').textContent = daytimeStr;
+
       const rect = container.getBoundingClientRect();
       const W = rect.width;
       const H = rect.height;
 
-      // Update Entities
+      // 1. Update Scent / Pheromone Particles (Drifting Downwind)
+      if (layers.scent) {
+        if (worldTick % 3 === 0) {
+          // Drop rabbit scents
+          for (let i = 0; i < 3; i++) {
+            const r = entities[Math.floor(Math.random() * (entities.length - 1))];
+            scentParticles.push({ x: r.x, y: r.y, alpha: 0.65, type: 'rabbit' });
+          }
+          // Drop wolf scent
+          const wolf = entities.find(e => e.type === 'wolf');
+          if (wolf) {
+            scentParticles.push({ x: wolf.x, y: wolf.y, alpha: 0.85, type: 'wolf' });
+          }
+        }
+
+        const windDriftX = Math.cos(environment.windAngle) * (environment.windSpeed * 0.035);
+        const windDriftY = Math.sin(environment.windAngle) * (environment.windSpeed * 0.035);
+
+        for (let i = scentParticles.length - 1; i >= 0; i--) {
+          const p = scentParticles[i];
+          p.x += windDriftX;
+          p.y += windDriftY;
+          p.alpha -= 0.014;
+          if (p.alpha <= 0 || p.x < 0 || p.x > W || p.y < 0 || p.y > H) {
+            scentParticles.splice(i, 1);
+          }
+        }
+      }
+
+      // 2. Update Airborne Wind Motes
+      if (layers.wind) {
+        const moteDriftX = Math.cos(environment.windAngle) * (environment.windSpeed * 0.045);
+        const moteDriftY = Math.sin(environment.windAngle) * (environment.windSpeed * 0.045);
+        for (const m of windMotes) {
+          m.x += moteDriftX * m.speed;
+          m.y += moteDriftY * m.speed;
+          if (m.x < 0) m.x = W;
+          if (m.x > W) m.x = 0;
+          if (m.y < 0) m.y = H;
+          if (m.y > H) m.y = 0;
+        }
+      }
+
+      // 3. Rain Shower Simulation & Resource Replenishment
+      if (environment.weather === 'rain') {
+        const rainDx = Math.cos(environment.windAngle) * 3;
+        for (const rp of rainParticles) {
+          rp.x += rainDx;
+          rp.y += rp.speed;
+          if (rp.y > H) {
+            rp.y = -15;
+            rp.x = Math.random() * W;
+          }
+        }
+
+        // Rain replenishes resources
+        if (worldTick % 4 === 0) {
+          for (const res of resources) {
+            if (res.type === 'berry' && res.amount < res.max) {
+              res.amount = Math.min(res.max, res.amount + 0.35);
+            }
+            if (res.type === 'water' && res.amount < res.max) {
+              res.amount = Math.min(res.max, res.amount + 0.25);
+            }
+          }
+          if (herbs[0].amount < herbs[0].max) {
+            herbs[0].amount = Math.min(herbs[0].max, herbs[0].amount + 0.2);
+          }
+        }
+      }
+
+      // 4. Update Living Entities
       for (const ent of entities) {
-        // Natural biological rate equations
-        ent.hunger = Math.min(100, ent.hunger + 0.04);
-        ent.thirst = Math.min(100, ent.thirst + 0.035);
-        ent.energy = Math.max(0, ent.energy - 0.025);
+        ent.hunger = Math.min(100, ent.hunger + 0.035);
+        ent.thirst = Math.min(100, ent.thirst + 0.03);
+        ent.energy = Math.max(0, ent.energy - 0.02);
 
         if (ent.type === 'rabbit') {
-          // Smooth wandering steer
+          // Check Thicket Stealth Cover
+          ent.inCover = false;
+          for (const th of thickets) {
+            if (Math.hypot(ent.x - th.x, ent.y - th.y) <= th.radius) {
+              ent.inCover = true;
+              break;
+            }
+          }
+
+          // Steer wander
           ent.wanderAngle += (Math.random() - 0.5) * 0.4;
           ent.vx += Math.cos(ent.wanderAngle) * 0.12;
           ent.vy += Math.sin(ent.wanderAngle) * 0.12;
 
           if (!ent.isLeader) {
-            // Flocking pull towards Alpha Leader
+            // Flocking pull towards Alpha Scout
             const leader = entities[0];
             const toLx = leader.x - ent.x;
             const toLy = leader.y - ent.y;
@@ -1109,16 +1608,44 @@
             }
           }
 
-          // Flee from Predator
+          // Flee from Predator (Detection radius reduced if in thicket cover!)
           const wolf = entities.find(e => e.type === 'wolf');
           if (wolf) {
             const dx = ent.x - wolf.x;
             const dy = ent.y - wolf.y;
             const dist = Math.hypot(dx, dy);
-            if (dist < 130) {
-              ent.vx += (dx / dist) * 0.6;
-              ent.vy += (dy / dist) * 0.6;
+            const fleeDist = ent.inCover ? 48 : 130;
+            if (dist < fleeDist) {
+              ent.vx += (dx / dist) * 0.68;
+              ent.vy += (dy / dist) * 0.68;
             }
+          }
+
+          // Obstacle Avoidance: Steer around Granite Rocks
+          for (const rk of rocks) {
+            const dx = ent.x - rk.x;
+            const dy = ent.y - rk.y;
+            const dist = Math.hypot(dx, dy);
+            const avoidDist = rk.rx + ent.radius + 10;
+            if (dist < avoidDist) {
+              ent.vx += (dx / dist) * 0.35;
+              ent.vy += (dy / dist) * 0.35;
+            }
+          }
+
+          // Stream Water Drag (Slowdown unless crossing at shallow ford)
+          const nearStream = stream.path.some(pt => Math.hypot(ent.x - pt.x, ent.y - pt.y) <= 15);
+          const atFord = Math.hypot(ent.x - stream.ford.x, ent.y - stream.ford.y) <= stream.ford.radius;
+          if (nearStream && !atFord) {
+            ent.vx *= 0.65;
+            ent.vy *= 0.65;
+            ent.thirst = Math.max(0, ent.thirst - 0.05); // Hydrate while wading
+          }
+
+          // Herb Grove Nutrition Boost
+          if (Math.hypot(ent.x - herbs[0].x, ent.y - herbs[0].y) <= herbs[0].radius) {
+            ent.energy = Math.min(100, ent.energy + 0.06);
+            ent.hunger = Math.min(100, ent.hunger + 0.04);
           }
 
           // Damping & speed cap
@@ -1133,6 +1660,15 @@
           if (ent.y < 35) { ent.y = 35; ent.vy *= -1; }
           if (ent.y > H - 35) { ent.y = H - 35; ent.vy *= -1; }
 
+          // Update HUD for selected rabbit
+          if (ent === selectedObject) {
+            const stealthElem = document.getElementById('hud-stealth');
+            if (stealthElem) {
+              stealthElem.textContent = ent.inCover ? '🛡️ Đang ẩn nấp (Lùm cây)' : 'Địa hình quang đãng';
+              stealthElem.style.color = ent.inCover ? 'var(--emerald)' : 'var(--text-muted)';
+            }
+          }
+
         } else if (ent.type === 'wolf') {
           // Wolf circular territorial prowl
           ent.patrolAngle += 0.014 * simSpeed;
@@ -1142,7 +1678,7 @@
       }
 
       // Update Resource Counts
-      const totalBerries = resources.reduce((acc, r) => acc + (r.type === 'berry' ? r.amount : 0), 0);
+      const totalBerries = Math.round(resources.reduce((acc, r) => acc + (r.type === 'berry' ? r.amount : 0), 0));
       document.getElementById('kpi-berries').textContent = `${totalBerries} u`;
 
       if (worldTick % 10 === 0) {
@@ -1177,7 +1713,211 @@
         ctx.stroke();
       }
 
-      // 2. Hazards (Danger Perimeter)
+      // 2. Meadows (Grazing Grassland Zones)
+      if (layers.meadows) {
+        for (const md of meadows) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(md.x, md.y, md.radius, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(16, 185, 129, 0.06)' : 'rgba(5, 150, 105, 0.05)';
+          ctx.fill();
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = isDark ? 'rgba(16, 185, 129, 0.3)' : 'rgba(5, 150, 105, 0.25)';
+          ctx.stroke();
+
+          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.fillStyle = isDark ? '#34d399' : '#059669';
+          ctx.textAlign = 'center';
+          ctx.fillText(`🌱 ${md.label}`, md.x, md.y + 3);
+          ctx.restore();
+        }
+
+        // Wild Herb & Dandelion Grove
+        for (const hb of herbs) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(hb.x, hb.y, hb.radius, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(250, 204, 21, 0.15)' : 'rgba(234, 179, 8, 0.12)';
+          ctx.fill();
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([3, 3]);
+          ctx.strokeStyle = isDark ? '#facc15' : '#d97706';
+          ctx.stroke();
+
+          // Blooming dandelion petal dots
+          const flowerDots = [
+            { dx: -10, dy: -8 }, { dx: 12, dy: -6 }, { dx: 0, dy: 8 }, { dx: -7, dy: 9 }, { dx: 8, dy: 4 }, { dx: 0, dy: -2 }
+          ];
+          for (const fd of flowerDots) {
+            ctx.beginPath();
+            ctx.arc(hb.x + fd.dx, hb.y + fd.dy, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? '#fef08a' : '#f59e0b';
+            ctx.fill();
+          }
+
+          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.fillStyle = isDark ? '#fde047' : '#b45309';
+          ctx.textAlign = 'center';
+          ctx.fillText(`🌼 ${hb.label}`, hb.x, hb.y - hb.radius - 5);
+          ctx.restore();
+        }
+      }
+
+      // 3. Natural Flowing Stream & Shallow Ford Crossing
+      if (layers.stream) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(stream.path[0].x, stream.path[0].y);
+        for (let i = 1; i < stream.path.length; i++) {
+          const prev = stream.path[i - 1];
+          const curr = stream.path[i];
+          const midX = (prev.x + curr.x) / 2;
+          const midY = (prev.y + curr.y) / 2;
+          ctx.quadraticCurveTo(prev.x, prev.y, midX, midY);
+        }
+        const last = stream.path[stream.path.length - 1];
+        ctx.lineTo(last.x, last.y);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = 18;
+        ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.22)' : 'rgba(14, 165, 233, 0.18)';
+        ctx.stroke();
+
+        // Inner animated water flow dashes
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 8]);
+        ctx.lineDashOffset = -worldTick * 1.2;
+        ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.55)' : 'rgba(2, 132, 199, 0.45)';
+        ctx.stroke();
+        ctx.restore();
+
+        // Shallow Ford Stepping Stones
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(stream.ford.x, stream.ford.y, stream.ford.radius, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.2)';
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.strokeStyle = isDark ? '#94a3b8' : '#64748b';
+        ctx.stroke();
+
+        // 3 Stepping Stones
+        const stones = [
+          { dx: -7, dy: -5, r: 4 },
+          { dx: 1, dy: 1, r: 5 },
+          { dx: 8, dy: 6, r: 4 }
+        ];
+        for (const st of stones) {
+          ctx.beginPath();
+          ctx.arc(stream.ford.x + st.dx, stream.ford.y + st.dy, st.r, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? '#64748b' : '#94a3b8';
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#94a3b8' : '#475569';
+          ctx.stroke();
+        }
+
+        ctx.font = '600 9px Plus Jakarta Sans, sans-serif';
+        ctx.fillStyle = isDark ? '#38bdf8' : '#0284c7';
+        ctx.textAlign = 'center';
+        ctx.fillText('🌊 Suối Tự Nhiên', 110, 85);
+        ctx.fillText('🪨 Bãi Đá Cạn (Ford)', stream.ford.x, stream.ford.y - stream.ford.radius - 4);
+        ctx.restore();
+      }
+
+      // 4. Dense Forest Canopy Thickets (Cover Zones)
+      if (layers.thickets) {
+        for (const th of thickets) {
+          ctx.save();
+          const lobes = [
+            { dx: 0, dy: 0, r: th.radius },
+            { dx: -14, dy: -10, r: th.radius * 0.65 },
+            { dx: 14, dy: -8, r: th.radius * 0.7 },
+            { dx: 4, dy: 14, r: th.radius * 0.68 }
+          ];
+          ctx.beginPath();
+          for (const lb of lobes) {
+            ctx.arc(th.x + lb.dx, th.y + lb.dy, lb.r, 0, Math.PI * 2);
+          }
+          ctx.fillStyle = isDark ? 'rgba(34, 197, 94, 0.2)' : 'rgba(21, 128, 61, 0.16)';
+          ctx.fill();
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = isDark ? '#22c55e' : '#15803d';
+          ctx.stroke();
+
+          // Inner foliage rings
+          ctx.beginPath();
+          ctx.arc(th.x - 5, th.y - 4, 12, 0, Math.PI);
+          ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
+          ctx.stroke();
+
+          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.fillStyle = isDark ? '#4ade80' : '#15803d';
+          ctx.textAlign = 'center';
+          ctx.fillText(`🌲 ${th.label}`, th.x, th.y - th.radius - 8);
+          ctx.restore();
+        }
+      }
+
+      // 5. Terrain: Natural Rock Outcrops & Burrow Sanctuary
+      if (layers.terrain) {
+        for (const rk of rocks) {
+          ctx.save();
+          ctx.translate(rk.x, rk.y);
+          ctx.rotate(rk.angle);
+
+          // Draw Rounded Polygon Boulder
+          ctx.beginPath();
+          ctx.ellipse(0, 0, rk.rx, rk.ry, 0, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(100, 116, 139, 0.35)' : 'rgba(148, 163, 184, 0.28)';
+          ctx.fill();
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = isDark ? '#64748b' : '#94a3b8';
+          ctx.stroke();
+
+          // Inner rock texture lines
+          ctx.beginPath();
+          ctx.arc(-8, -4, 10, 0, Math.PI);
+          ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+          ctx.stroke();
+
+          ctx.restore();
+
+          // Label
+          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.textAlign = 'center';
+          ctx.fillText(`⛰️ ${rk.label}`, rk.x, rk.y - rk.ry - 5);
+        }
+
+        // Rabbit Burrow Sanctuary (Hang thỏ)
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(burrow.x, burrow.y, burrow.radius, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(217, 119, 6, 0.1)';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = isDark ? '#f59e0b' : '#d97706';
+        ctx.stroke();
+
+        // Burrow entrance
+        ctx.beginPath();
+        ctx.arc(burrow.x, burrow.y, burrow.entranceRadius, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? '#1e293b' : '#334155';
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = isDark ? '#d97706' : '#b45309';
+        ctx.stroke();
+
+        ctx.font = '700 10.5px Plus Jakarta Sans, sans-serif';
+        ctx.fillStyle = isDark ? '#fbbf24' : '#b45309';
+        ctx.textAlign = 'center';
+        ctx.fillText(`🏡 ${burrow.label}`, burrow.x, burrow.y - burrow.radius - 6);
+        ctx.restore();
+      }
+
+      // 6. Hazards & Wolf Den Landmark
       if (layers.hazards) {
         for (const hz of hazards) {
           ctx.save();
@@ -1197,9 +1937,35 @@
           ctx.fillText(`⚠️ ${hz.label}`, hz.x, hz.y - hz.radius - 6);
           ctx.restore();
         }
+
+        // Wolf Den Territorial Landmark
+        for (const lm of landmarks) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(lm.x, lm.y, lm.radius, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(244, 63, 94, 0.15)' : 'rgba(225, 29, 72, 0.1)';
+          ctx.fill();
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = isDark ? '#f43f5e' : '#be123c';
+          ctx.stroke();
+
+          // Crossed scratch mark
+          ctx.beginPath();
+          ctx.moveTo(lm.x - 7, lm.y - 7); ctx.lineTo(lm.x + 7, lm.y + 7);
+          ctx.moveTo(lm.x + 7, lm.y - 7); ctx.lineTo(lm.x - 7, lm.y + 7);
+          ctx.strokeStyle = isDark ? '#f43f5e' : '#be123c';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.fillStyle = isDark ? '#f87171' : '#9f1239';
+          ctx.textAlign = 'center';
+          ctx.fillText(`💀 ${lm.label}`, lm.x, lm.y - lm.radius - 5);
+          ctx.restore();
+        }
       }
 
-      // 3. Resources (Water Pond & Berry Bushes)
+      // 7. Resources (Water Pond & Berry Bushes)
       if (layers.resources) {
         for (const res of resources) {
           if (res.type === 'water') {
@@ -1258,20 +2024,44 @@
             ctx.font = '600 10.5px Plus Jakarta Sans, sans-serif';
             ctx.fillStyle = isFull ? (isDark ? '#34d399' : '#047857') : '#64748b';
             ctx.textAlign = 'center';
-            ctx.fillText(`${res.label} (${res.amount}u)`, res.x, res.y - res.radius - 6);
+            ctx.fillText(`${res.label} (${Math.round(res.amount)}u)`, res.x, res.y - res.radius - 6);
             ctx.restore();
           }
         }
       }
 
-      // 4. Fog of War / Perception Field
-      if (layers.fog && selectedEntity) {
+      // 8. Scent / Pheromone Particle Trails
+      if (layers.scent) {
+        for (const p of scentParticles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.type === 'wolf' ? 2.2 : 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = p.type === 'wolf' 
+            ? `rgba(239, 68, 68, ${p.alpha * 0.55})`
+            : `rgba(245, 158, 11, ${p.alpha * 0.45})`;
+          ctx.fill();
+        }
+      }
+
+      // 9. Airborne Wind Motes (Pollen / Dust)
+      if (layers.wind) {
+        for (const m of windMotes) {
+          ctx.beginPath();
+          ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+          ctx.fillStyle = isDark 
+            ? `rgba(148, 163, 184, ${m.alpha * 0.5})` 
+            : `rgba(100, 116, 139, ${m.alpha * 0.4})`;
+          ctx.fill();
+        }
+      }
+
+      // 10. Fog of War / Perception Field
+      if (layers.fog && selectedObject && (selectedObject.type === 'rabbit' || selectedObject.type === 'wolf')) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(selectedEntity.x, selectedEntity.y, selectedEntity.perceptionRadius, 0, Math.PI * 2);
+        ctx.arc(selectedObject.x, selectedObject.y, selectedObject.perceptionRadius, 0, Math.PI * 2);
         const grad = ctx.createRadialGradient(
-          selectedEntity.x, selectedEntity.y, selectedEntity.perceptionRadius * 0.15,
-          selectedEntity.x, selectedEntity.y, selectedEntity.perceptionRadius
+          selectedObject.x, selectedObject.y, selectedObject.perceptionRadius * 0.15,
+          selectedObject.x, selectedObject.y, selectedObject.perceptionRadius
         );
         grad.addColorStop(0, isDark ? 'rgba(56, 189, 248, 0.15)' : 'rgba(2, 132, 199, 0.08)');
         grad.addColorStop(1, 'rgba(2, 132, 199, 0.0)');
@@ -1284,13 +2074,23 @@
         ctx.restore();
       }
 
-      // 5. Entities (Rabbits & Wolves)
+      // 11. Entities (Rabbits & Wolves)
       if (layers.entities) {
         for (const ent of entities) {
           ctx.save();
 
+          // In-Cover Stealth Halo
+          if (ent.type === 'rabbit' && ent.inCover) {
+            ctx.beginPath();
+            ctx.arc(ent.x, ent.y, ent.radius + 3, 0, Math.PI * 2);
+            ctx.strokeStyle = isDark ? 'rgba(74, 222, 128, 0.65)' : 'rgba(21, 128, 61, 0.55)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            ctx.stroke();
+          }
+
           // Selection Halo
-          if (ent === selectedEntity) {
+          if (ent === selectedObject) {
             ctx.beginPath();
             ctx.arc(ent.x, ent.y, ent.radius + 6, 0, Math.PI * 2);
             ctx.strokeStyle = isDark ? '#38bdf8' : '#0284c7';
@@ -1313,9 +2113,13 @@
           if (ent.type === 'wolf') {
             ctx.fillStyle = isDark ? '#ef4444' : '#dc2626';
           } else {
-            ctx.fillStyle = ent.isLeader 
-              ? (isDark ? '#f59e0b' : '#b45309')
-              : (isDark ? '#d97706' : '#d97706');
+            if (ent.inCover) {
+              ctx.fillStyle = isDark ? 'rgba(245, 158, 11, 0.5)' : 'rgba(217, 119, 6, 0.55)';
+            } else {
+              ctx.fillStyle = ent.isLeader 
+                ? (isDark ? '#f59e0b' : '#b45309')
+                : (isDark ? '#d97706' : '#d97706');
+            }
           }
           ctx.fill();
 
@@ -1328,20 +2132,35 @@
             ctx.stroke();
           }
 
-          // Direction / Velocity Vectors
-          if (layers.vectors && (Math.abs(ent.vx) > 0.08 || Math.abs(ent.vy) > 0.08)) {
-            ctx.beginPath();
-            ctx.moveTo(ent.x, ent.y);
-            ctx.lineTo(ent.x + ent.vx * 12, ent.y + ent.vy * 12);
-            ctx.strokeStyle = ent.type === 'wolf' 
-              ? (isDark ? 'rgba(239, 68, 68, 0.7)' : 'rgba(220, 38, 38, 0.7)')
-              : (isDark ? 'rgba(245, 158, 11, 0.7)' : 'rgba(180, 83, 9, 0.6)');
-            ctx.lineWidth = 1.4;
-            ctx.stroke();
-          }
-
           ctx.restore();
         }
+      }
+
+      // 12. Rain Precipitation Streaks
+      if (environment.weather === 'rain') {
+        ctx.save();
+        ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.42)' : 'rgba(2, 132, 199, 0.38)';
+        ctx.lineWidth = 1.2;
+        const rainDx = Math.cos(environment.windAngle) * 4;
+        for (const rp of rainParticles) {
+          ctx.beginPath();
+          ctx.moveTo(rp.x, rp.y);
+          ctx.lineTo(rp.x + rainDx, rp.y + rp.len);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // 13. Ambient Day/Night Lighting Overlay
+      const dayProgress = worldTick % 500;
+      if (dayProgress > 250 && dayProgress <= 360) {
+        // Sunset / Twilight amber tint
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.04)';
+        ctx.fillRect(0, 0, W, H);
+      } else if (dayProgress > 360) {
+        // Night deep blue tint
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.12)';
+        ctx.fillRect(0, 0, W, H);
       }
 
       // Next tick step
