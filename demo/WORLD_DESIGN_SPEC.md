@@ -129,98 +129,139 @@ Spec giải thích chính xác vì sao ký ức của Scout có giá trị $80\t
 
 ---
 
-## 6. Mô Hình Mùi Hương Tối Giản: Nón Mùi Hướng Gió (Directional Scent Cone)
+## 6. Cơ Chế Mùi Hương & Giác Quan Sinh Học Thực Tế
 
-Loại bỏ hoàn toàn các phương trình đạo hàm riêng $2\text{D}$ phức tạp (YAGNI). Hệ thống sử dụng mô hình hình học nón tán xạ theo hướng gió:
+Khác với các hệ thống đồ chơi gán quyền "siêu cảm xạ" cho thỏ, Mộng Nhiễm tuân thủ nghiêm ngặt sinh thái học thực tế:
 
 ```
-                       Gió thổi hướng theta_wind
-                             =============>
-                 
-                     \   VÙNG PHÁT TÁN MÙI DÃ THÚ   /
-                      \  (Directional Scent Cone)  /
-                       \                          /
-                        \       (Downwind)       /
-                         \                      /
-                          +--------------------+
-                          |  SÓI (Nguồn Mùi)   |
-                          +--------------------+
-                                   ||
-                               (Upwind)  <- Vùng ngược gió KHÔNG có mùi
+                  Gió thổi hướng theta_wind
+                         =============>
+             
+  [THỎ (Con Mồi)] ----> (Vệt Hạt Mùi Phát Tán Xuôi Gió) ----> [SÓI (Kẻ Săn)]
+  - Phát tán mùi tự nhiên                                      - Khứu giác vượt trội (R = 240px)
+  - Chỉ nhìn bằng MẮT (R <= 110px)                            - Lần theo vệt mùi xuôi gió
+  - KHÔNG ngửi được mùi dã thú                                 - Mắt hẹp hơn mũi (R = 150px)
 ```
 
-### 6.1 Công Thức Hình Học Của Nón Mùi
-1. **Nguồn mùi:** Vị trí Sói $\mathbf{p}_{\text{wolf}} = [x_w, y_w]$.
-2. **Bán kính khuếch tán cơ sở:** $R_{\text{base}} = 60\text{ px}$.
-3. **Chiều dài nón xuôi gió:**
-   $$L_{\text{cone}} = R_{\text{base}} + \gamma_w \cdot v_{\text{wind}} = 60 + 4.0 \times 14 = 116\text{ px}$$
-4. **Góc mở của nón:** $\alpha_{\text{half}} = 35^\circ$ ($0.61\text{ rad}$) quanh trục hướng gió $\theta_{\text{wind}}$.
+### 6.1 Phát Tán Mùi Của Thỏ (Prey Scent Emission)
+1. **Nguồn phát tán:** Mỗi cá thể thỏ vận động liên tục phát tán các hạt mùi sinh học (`scentParticles`) vào không khí theo chu kỳ ($3\text{ ticks/lần}$).
+2. **Khuếch tán theo gió:** Hạt mùi dịch chuyển xuôi theo vector vận tốc gió:
+   $$\mathbf{x}_{\text{scent}}(t + \Delta t) = \mathbf{x}_{\text{scent}}(t) + \mathbf{v}_{\text{wind}} \cdot \Delta t$$
+3. **Triệt tiêu mùi trong Lùm Cây Che Phủ (Thicket Suppression):**
+   - Khi thỏ ở ngoài đồng cỏ: Độ đậm đặc hạt mùi danh định $\alpha_0 = 0.65$.
+   - Khi thỏ ẩn nấp trong lùm cây: Lớp tán lá dày hấp phụ mùi, độ phát tán giảm $75\%$ xuống $\alpha = 0.18$.
+   - Tốc độ phân rã hạt mùi trong lùm cây tăng gấp đôi, làm vệt mùi đứt gãy nhanh chóng.
 
-### 6.2 Điều Kiện Thỏ Phát Hiện Mùi (Host Invariant Check - $O(1)$)
-Thỏ $i$ tại $\mathbf{p}_i$ phát hiện mùi sói khi và chỉ khi:
-$$\|\mathbf{p}_i - \mathbf{p}_{\text{wolf}}\| \le L_{\text{cone}} \quad \land \quad |\text{atan2}(y_i - y_w, x_i - x_w) - \theta_{\text{wind}}| \le \alpha_{\text{half}}$$
-- **Ngược gió (Upwind):** Thỏ đứng ngược chiều gió so với sói sẽ hoàn toàn không ngửi thấy mùi, tạo điều kiện cho sói áp sát nếu thỏ bị che khuất tầm nhìn.
-- **Xuôi gió (Downwind):** Thỏ ngửi thấy mùi từ cự ly $116\text{ px}$, tự động cảnh báo sớm bầy đàn mà chưa cần nhìn thấy sói.
+### 6.2 Khứu Giác Săn Mồi Của Sói (Wolf Olfactory Tracking)
+Sói là loài săn mồi chuyên biệt khứu giác:
+$$\text{Bán kính đánh hơi } R_{\text{olfactory}} = 240\text{ px} \quad > \quad \text{Bán kính thị giác } R_{\text{vision}} = 150\text{ px}$$
+1. **Điều kiện ngửi thấy con mồi:**
+   $$\|\mathbf{p}_{\text{rabbit}} - \mathbf{p}_{\text{wolf}}\| \le R_{\text{scent\_eff}} \quad \land \quad \cos(\theta_{\text{wolf}\to\text{rabbit}} - \theta_{\text{wind}}) < -0.30$$
+   *(Sói phải đứng ở vị trí xuôi gió hứng luồng khí từ con mồi thổi tới).*
+2. **Khắc chế khứu giác bằng lùm cây (Thicket Camouflage):**
+   - Nếu thỏ đang ẩn nấp trong lùm cây, phạm vi đánh hơi hiệu dụng $R_{\text{scent\_eff}}$ bị bóp nghẹt xuống còn **$1/3$ tầm nhìn của sói**:
+     $$R_{\text{scent\_eff}}^{\text{cover}} \approx \frac{1}{3} R_{\text{vision}} \approx 50.0\text{ px}$$
+   - Điều này buộc sói phải tiếp cận cực gần mép bụi rậm mới phát hiện được con mồi ẩn nấp.
 
----
-
-## 7. Phân Định Thực Thể: Quần Thể Thỏ vs Thực Thể Độc Lập Sói
-
-1. **Quần Thể Thỏ (Rabbit Colony - `colony_01`):**
-   - Gồm chính xác **24 cá thể sinh học**:
-     - 1 Alpha Scout (Thỏ đầu đàn trinh sát & giữ quyền giao tiếp SLM).
-     - 7 Foragers (Thỏ hái lượm kiếm ăn).
-     - 16 Flock members (Thành viên đàn thông thường).
-   - Chia sẻ chung một không gian tín hiệu và mục tiêu sinh tồn bầy đàn.
-2. **Thực Thể Sói (Apex Predator - `wolf_01`):**
-   - Là **Thực thể ngoại lai độc lập**, KHÔNG thuộc quần thể thỏ.
-   - Vận hành bằng máy trạng thái hữu hạn riêng biệt (Host FSM):
-     - `PATROL`: Tuần tra vòng tròn kiểm soát lãnh thổ phía Đông hồ ($[810, 270]$).
-     - `STALK`: Khi phát hiện thỏ ngoài lùm cây ở cự ly $\le 160\text{ px}$, sói giảm tốc ($v = 40\text{ px/s}$) tiếp cận lén lút.
-     - `CHASE`: Khi cự ly $\le 90\text{ px}$, sói tăng tốc tối đa ($v = 110\text{ px/s}$) đuổi bắt con mồi gần nhất.
+### 6.3 Giác Quan Của Thỏ (Prey Visual Detection)
+- Thỏ là loài ăn thực vật, **hoàn toàn không có năng lực ngửi mùi dã thú từ xa**.
+- Thỏ chỉ phát hiện sói thuần túy qua **Thị Giác Trực Tiếp**:
+  $$d_{\text{rabbit}\to\text{wolf}} \le R_{\text{rabbit\_vision}} = 110\text{ px}$$
+- Khi sói ở ngoài $110\text{ px}$, thỏ hoàn toàn không biết sự hiện diện của thú săn và tiếp tục gặm cỏ bình thản.
 
 ---
 
-## 8. Quy Chuẩn Sức Chứa Hang Thỏ ($C_{\text{burrow}} = 16$ vs $N = 24$)
+## 7. Động Lực Học Săn Bắt & Lẩn Tránh (Locomotion & Predation Dynamics)
 
-Hang trú ẩn có sức chứa $C_{\text{burrow}} = 16$, trong khi bầy đàn có $24$ cá thể $\to$ Khi có biến cố báo động khẩn cấp, **8 cá thể chắc chắn không thể vào hang**.
+### 7.1 Trạng Thái Săn Mồi Của Sói (Wolf Hunting FSM)
+Sói vận hành với 3 trạng thái hành vi tự nhiên:
 
-### 8.1 Thuật Toán Xếp Hàng Ưu Tiên Vào Hang
-Khi báo động `ALARM_EVACUATE` được kích hoạt:
-1. **Tiêu chí ưu tiên 1 (Khoảng cách tiếp cận):** Cá thể nào tiếp cận miệng hang trước ($d_i \le R_{\text{entrance}} = 11\text{ px}$) sẽ được Host xác nhận vào hang trước (FIFO).
-2. **Tiêu chí ưu tiên 2 (Cứu trợ cá thể kiệt sức):** Cá thể có năng lượng thấp ($E_i < 40\%$) được bầy đàn nhường lối vào cửa hang nhanh hơn.
-3. **Đóng cửa hang:** Khi số lượng trong hang đạt $16/16$, cờ trạng thái hang chuyển thành `STATUS: FULL`.
+1. **`PATROL` (Tuần Tra Lãnh Thổ):**
+   - Di chuyển đều ($v \approx 50\text{ px/s}$) quanh các điểm nóng sinh thái (phía Đông hồ và rặng đá).
+   - Duy trì thể lực nước rút: $\text{Stamina} = 100\%$.
+2. **`STALK` (Rình Rập & Phục Kích):**
+   - Kích hoạt khi: Sói ngửi thấy hoặc nhìn thấy thỏ, **nhưng thỏ chưa nhìn thấy sói** ($d > 60\text{ px}$ và thỏ chưa hoảng loạn).
+   - Hành vi: Sói hạ thấp trọng tâm, di chuyển chậm rãi và lén lút ($v \approx 25\text{ px/s}$), tận dụng các lùm cây che phủ để rút ngắn cự ly mà không gây tiếng động. Hồi phục thể lực nước rút ($+0.15\%/\text{tick}$).
+3. **`CHASE / LUNGE` (Truy Đuổi Bứt Tốc & Vồ Mồi):**
+   - Kích hoạt khi: Thỏ phát hiện sói bỏ chạy HOẶC cự ly áp sát đã vào tầm vồ mồi ($d \le 60\text{ px}$).
+   - Vận tốc chạy thẳng: $v_{\text{wolf}} \approx 125\text{ px/s}$ (vượt trội thỏ).
+   - **Cú vồ bứt tốc (Pounce Lunge):** Khi cự ly $d \le 42\text{ px}$ và $\text{Stamina} > 20\%$, sói tung cú vồ với gia tốc cực đại (hệ số bứt phá $\times 1.45$).
+   - Nhược điểm vật lý: Quán tính khối lượng lớn, bán kính quay đầu rộng, khó bẻ lái đột ngột.
 
-### 8.2 Giao Thức Phân Tán Cho 8 Cá Thể Còn Lại
-- Cá thể nào tiếp cận hang sau khi hang đã đầy hoặc nhận thấy cự ly tới hang quá xa ($> 200\text{ px}$) sẽ **tự động kích hoạt hành vi phân tán vào Lùm Cây Che Phủ (`Thickets`)**:
-  - Tìm lùm cây gần nhất trong 6 lùm cây trên bản đồ.
-  - Khi tiến vào lùm cây ($d \le R_{\text{thicket}}$), cờ $\kappa_i = 1$ kích hoạt hệ số ẩn nấp $80\% - 85\%$.
-  - Tầm nhìn của sói đối với cá thể trong lùm cây bị bóp nghẹt từ $160\text{ px} \to 48\text{ px}$, giúp 8 cá thể còn lại sống sót an toàn mà không bị dồn ứ chết chùm trước cửa hang.
-
----
-
-## 9. Phân Quyền & Vai Trò Của Alpha Scout
-
-Alpha Scout **không phải là bộ điều khiển tập trung vĩ mô (Centralized Omniscient Controller)**. Phạm vi quyền hạn được phân tầng rõ rệt:
-
-1. **Cấp Cá Thể (Self-Cognition):**
-   - Scout có nhận thức giác quan riêng ($R_{\text{vision}} = 140\text{ px}$, nón khứu giác).
-   - Là cá thể DUY NHẤT trong đàn được liên kết phiên suy luận SLM khi gặp biến cố bất thường (Surprise trigger).
-   - SLM đưa ra quyết định có cấu trúc: `INTENT: EXPLORE_WEST` hoặc `INTENT: RETREAT`.
-2. **Cấp Truyền Tin (Directive Signal Broadcast):**
-   - Scout không trực tiếp điều khiển toạ độ $(x_j, y_j)$ của 23 con thỏ khác.
-   - Scout chỉ có quyền phát **Tín Hiệu Chỉ Thị (Directive Signal)** trong bán kính truyền thanh/mùi pheromone:
-     $$R_{\text{broadcast}} = 200\text{ px}$$
-   - Nội dung tín hiệu là các token mục tiêu vĩ mô: `DIRECTIVE_FORAGE [point]` hoặc `DIRECTIVE_EVACUATE`.
-3. **Cấp Tự Trị Bầy Đàn (Flock Local Autonomy):**
-   - Mỗi con thỏ trong 23 con còn lại tự vận hành bộ boids vi phân của riêng nó:
-     $$\mathbf{a}_i = w_1 \mathbf{a}_{\text{directive}} + w_2 \mathbf{a}_{\text{cohesion}} + w_3 \mathbf{a}_{\text{separation}} + w_4 \mathbf{a}_{\text{obstacle\_avoid}}$$
-   - Nếu một con thỏ ở ngoài bán kính $R_{\text{broadcast}}$, nó hoàn toàn KHÔNG biết chỉ thị mới của Scout và tiếp tục gặm cỏ theo quán tính cục bộ.
-   - Nếu một con thỏ bị Sói chặn đầu, luật sinh tồn cá thể (`flee_predator`) sẽ ghi đè $100\%$ lên directive của Scout.
+### 7.2 Động Lực Học Lẩn Tránh Của Thỏ (Rabbit Agility & Jinking)
+1. **Vận tốc cơ sở:** $v_{\text{rabbit}} \approx 95\text{ px/s}$ (chạy thẳng chậm hơn sói).
+2. **Kỹ thuật đổi hướng zig-zag liên tục (Rapid Jinking Agility):**
+   - Mỗi chu kỳ $16 \sim 28\text{ ticks}$ khi bị truy đuổi, thỏ thực hiện một cú bẻ góc đột ngột $60^\circ \sim 80^\circ$ vuông góc với vector chạy trốn.
+   - Nhờ quán tính nhỏ, thỏ đổi hướng tức thì, khiến cú vồ mồi thẳng của sói bị trượt qua mục tiêu (overshoot).
+3. **Hành vi ẩn nấp đóng băng (Freeze in Cover):**
+   - Khi thỏ chạy thoát vào lùm cây, nó tự động giảm tốc độ $55\%$, chuyển sang trạng thái bất động ép sát mặt đất (`Freeze Stealth`), triệt tiêu âm thanh và luồng khí phát tán.
+4. **Ngưỡng săn bắt thành công (Predation Catch Threshold):**
+   $$d \le R_{\text{catch}} = 16.0\text{ px}$$
+   Khi chạm ngưỡng $16\text{ px}$, cú vồ mồi thành công: thỏ tử vong, sói reset cơn đói về $0\%$, nạp đầy năng lượng $100\%$ và tăng chỉ số chiến tích `killCount`.
 
 ---
 
-## 10. Kịch Bản Kiểm Chứng Định Lượng
+## 8. Cân Bằng Sinh Thái Quần Thể (Lotka-Volterra Population Lifecycle)
+
+Mô phỏng tích hợp mô hình động lực học quần thể phân hóa rõ rệt giữa loài $r$-strategist (thỏ) và loài $K$-strategist (sói):
+
+### 8.1 Quần Thể Thỏ ($r$-strategist: Tăng Trưởng Nhanh, Tử Vong Nhanh)
+- **Tử vong do đói khát (Starvation Mortality):**
+  - Trao đổi chất cao: Nếu mức đói $H_i \ge 100\%$, sinh lực bắt đầu suy giảm nhanh ($-0.25\%/\text{tick}$). Khi $\Omega_i = 0$, cá thể tử vong và bị đào thải khỏi đàn.
+- **Sinh sản nhanh (Rapid Reproduction):**
+  - Điều kiện: Cứ mỗi $320\text{ ticks}$ ($\approx 16\text{ s}$), nếu:
+    $$\bar{H}_{\text{colony}} < 45\% \quad \land \quad \sum \text{Berry}_{\text{available}} > 25\text{ u} \quad \land \quad N_{\text{rabbits}} < 30$$
+  - Thỏ mẹ tại Hang Trú Ẩn sẽ sinh thêm 1 thỏ con mới ($E = 90\%, H = 20\%, \Omega = 100\%$).
+  - Ghi nhận viễn thám: `LotkaVolterra: r-strategist population growth`.
+
+### 8.2 Quần Thể Sói ($K$-strategist: Bền Bỉ, Tái Cấu Trúc Chậm)
+- **Sức chịu đựng cao:** Tốc độ tiêu hóa của sói chậm gấp $4$ lần thỏ, có thể nhịn đói qua hàng ngàn tick mà không tử vong.
+- **Sinh sản dựa trên năng lượng tích lũy:**
+  - Sói chỉ sinh sản khi tích lũy đủ calo từ $3$ lần săn mồi thành công (`killCount >= 3`).
+  - Khi thỏa mãn điều kiện và đàn sói $< 2$ con: Một cá thể sói con trưởng thành (`Wolf #02`) sẽ gia nhập bản đồ tại vùng rừng phía Đông.
+
+---
+
+## 9. Phân Định Sức Chứa Hang Trú Ẩn & Vai Trò Alpha Scout
+
+### 9.1 Sức Chứa Hang ($C_{\text{burrow}} = 16$) & Giao Thức Tràn Sang Lùm Cây
+- Hang chỉ chứa tối đa $16$ cá thể thỏ.
+- Với quy mô đàn khởi điểm $24$ cá thể (hoặc khi tăng đàn), $8$ cá thể ngoài định mức không thể vào hang khi có chuông báo động.
+- **Giao thức điều phối tràn (Overflow Protocol):**
+  1. $16$ cá thể gần hang nhất được cấp quyền trú ẩn an toàn tuyệt đối bên trong hang.
+  2. Các cá thể còn lại tự động tính toán khoảng cách tới $6$ lùm cây che phủ gần nhất và chạy tản mác vào lùm cây, kích hoạt ẩn nấp $85\%$.
+  3. Phân tán rải rác triệt tiêu rủi ro bị sói gom bắt cả bầy tại cửa hang.
+
+### 9.2 Phân Quyền Hữu Hạn Của Alpha Scout
+- **Không phải điều khiển tập trung:** Scout là một cá thể thỏ có trí khôn và giác quan định hướng, không sở hữu quyền năng điều khiển toạ độ vật lý của các cá thể khác.
+- **Cơ chế phát tín hiệu dẫn đường (Directive Stigmergy):**
+  - Scout dẫn đầu đường đi bằng cách di chuyển và phát pheromone/tiếng kêu trong bán kính $R_{\text{broadcast}} = 200\text{ px}$.
+  - Các cá thể xung quanh phản hồi theo quy tắc boids đàn (Flock alignment & cohesion).
+  - Bản năng sinh tồn cá thể (`flee_predator`) luôn được ưu tiên cao nhất: nếu sói áp sát một con thỏ, con thỏ đó sẽ lập tức bỏ chạy zig-zag, bất chấp chỉ thị của Scout.
+
+---
+
+## 10. Kiến Trúc Giao Diện Công Thái Học & HMI Bảng Điều Khiển
+
+Tuân thủ triết lý tối giản và công thái học nhận thức (Cognitive Ergonomics):
+
+1. **Menu Dropdown `Can Thiệp ▾` (Operator Interventions):**
+   - Đóng gói toàn bộ 6 tác vụ can thiệp vào một trình đơn thả xuống có kiểm soát:
+     - `Đổi Hướng Gió (90°)`: Thay đổi vector khuếch tán mùi tức thời.
+     - `Bật/Tắt Mưa Rào`: Giảm tầm nhìn và xóa sạch vệt mùi trên mặt đất.
+     - `Shock: Ép Cạn Lương (0u)`: Cưỡng bức tài nguyên về 0 để thử thách SLM.
+     - `Shock: Thả Thêm Sói`: Kiểm tra phản ứng đa mối đe dọa.
+     - `Shock: Xóa Sổ Đàn Sói`: Đưa hệ sinh thái về trạng thái an toàn.
+     - `Standby (Chờ Can Thiệp)`: Reset trạng thái can thiệp.
+2. **Menu Dropdown `Lớp Bản Đồ ▾` (Viewport Layer Filtering):**
+   - Đóng gói 9 công tắc hiển thị lớp vào dropdown dạng checkbox: Bãi Cỏ, Tầm Nhìn, Vệt Mùi, Khí Quyển, Mối Nguy, Trục Toạ Độ, Lưới Kiến Trúc, Hang & Lùm Cây, Rặng Đá.
+   - Giải phóng hoàn toàn thanh chip nổi phía trên canvas, tạo không gian quan sát chuẩn học thuật.
+3. **Telemetry Strip Đa Quần Thể:**
+   - Bổ sung bộ đếm `Đàn Sói` trực quan cạnh `Đàn Thỏ` và `Trữ Lượng Dâu` để theo dõi cân bằng Lotka-Volterra theo thời gian thực.
+
+---
+
+## 11. Kịch Bản Kiểm Chứng Định Lượng
 
 ### Kịch Bản A: Shock Injection vs Phát Hiện Lệch Nhận Thức
 1. **T0 ($t = 0.0\text{ s}$, Tick 0):** Quần thể thỏ tại Bãi Cỏ Ven Hồ $[520, 360]$. Bụi dâu Bắc có trữ lượng $80\text{ u}$. Scout trinh sát ghi nhận `FACT-02: bush_north = 80u`.

@@ -269,6 +269,82 @@
       font-size: 13px;
     }
 
+    /* Dropdown Menus for Interventions & Map Layers */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 0;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      padding: 6px;
+      min-width: 195px;
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .dropdown.active .dropdown-menu {
+      display: flex;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-main);
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s ease;
+    }
+    .dropdown-item:hover {
+      background: var(--bg-card-hover);
+    }
+    .dropdown-item input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+    .menu-action-btn {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 7px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-main);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.1s ease;
+    }
+    .menu-action-btn:hover {
+      background: var(--bg-card-hover);
+    }
+    .menu-action-btn.danger {
+      color: var(--rose);
+    }
+    .menu-action-btn.danger:hover {
+      background: var(--rose-soft);
+    }
+    .menu-divider {
+      border: 0;
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 4px 0;
+    }
+
     /* --- Main Split Workspace --- */
     main {
       flex: 1;
@@ -290,42 +366,6 @@
       display: block;
       width: 100%;
       height: 100%;
-    }
-
-    /* Layer Chips Bar (Over Canvas) */
-    .canvas-chips-bar {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 10;
-    }
-
-    .chip {
-      background: var(--bg-panel);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.15s ease;
-    }
-    .chip:hover {
-      border-color: var(--border-highlight);
-      color: var(--text-main);
-    }
-    .chip.active {
-      background: var(--primary-soft);
-      border-color: var(--primary-border);
-      color: var(--primary);
     }
 
     /* Canvas Bottom HUD Readout */
@@ -720,6 +760,10 @@
         <span class="kpi-val amber" id="kpi-rabbits">24 con</span>
       </div>
       <div class="kpi-pill">
+        <span class="kpi-label">Đàn Sói</span>
+        <span class="kpi-val rose" id="kpi-wolves">1 con</span>
+      </div>
+      <div class="kpi-pill">
         <span class="kpi-label">Trữ Lượng Dâu</span>
         <span class="kpi-val emerald" id="kpi-berries">200 u</span>
       </div>
@@ -733,37 +777,50 @@
       </div>
     </div>
 
-    <!-- Simulation Controls & Shocks -->
+    <!-- Simulation Controls & Menus -->
     <div class="sim-actions">
       <button class="btn" id="btn-play-pause">Tạm dừng</button>
       <button class="btn" id="btn-speed">1x Tốc độ</button>
-      <button class="btn" id="btn-shift-wind" title="Xoay hướng luồng gió 90°, biến đổi tán xạ mùi">Đổi Hướng Gió</button>
-      <button class="btn" id="btn-toggle-rain" title="Kích hoạt mưa phùn, hồi sinh nước & dâu">Mưa Phùn</button>
-      <button class="btn danger" id="btn-shock-kill" title="Shock Injection: Cưỡng chế đặt tài nguyên về 0u để test phản ứng">Shock: Ép Cạn Lương (0u)</button>
-      <button class="btn danger" id="btn-shock-drought" title="Environmental Simulation: Hạn hán vi phân làm suy giảm tài nguyên theo Delta t">Khí Hậu: Hạn Hán Vi Phân</button>
-      <button class="btn danger" id="btn-shock-wolf">Thả Sói Săn</button>
-      <button class="btn primary" id="btn-standby">Can Thiệp Standby</button>
+
+      <!-- Dropdown 1: Map Layers -->
+      <div class="dropdown" id="dropdown-layers">
+        <button class="btn" id="btn-toggle-layers">Lớp Bản Đồ ▾</button>
+        <div class="dropdown-menu" id="menu-layers">
+          <label class="dropdown-item"><input type="checkbox" data-layer="entities" checked> Cá Thể / Bầy Đàn</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="resources" checked> Tài Nguyên Dâu</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="terrain" checked> Rặng Đá & Hang Thỏ</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="thickets" checked> Lùm Cây Che Phủ</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="meadows" checked> Bãi Cỏ & Thảo Dược</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="fog" checked> Tầm Nhìn (Perception)</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="scent" checked> Vệt Mùi Săn Mồi (Scent)</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="wind" checked> Khí Quyển & Gió</label>
+          <label class="dropdown-item"><input type="checkbox" data-layer="hazards" checked> Mối Nguy & Cột Mốc</label>
+        </div>
+      </div>
+
+      <!-- Dropdown 2: Operator Interventions -->
+      <div class="dropdown" id="dropdown-actions">
+        <button class="btn primary" id="btn-toggle-actions">Can Thiệp ▾</button>
+        <div class="dropdown-menu" id="menu-actions">
+          <button class="menu-action-btn" id="btn-shift-wind">Đổi Hướng Gió (90°)</button>
+          <button class="menu-action-btn" id="btn-toggle-rain">Bật/Tắt Mưa Phùn</button>
+          <hr class="menu-divider">
+          <button class="menu-action-btn danger" id="btn-shock-kill">Shock: Ép Cạn Lương (0u)</button>
+          <button class="menu-action-btn danger" id="btn-shock-drought">Khí Hậu: Hạn Hán Vi Phân</button>
+          <button class="menu-action-btn danger" id="btn-shock-wolf">Thả Sói Phục Kích</button>
+          <hr class="menu-divider">
+          <button class="menu-action-btn" id="btn-standby">Can Thiệp Standby (Khẩn Cấp)</button>
+        </div>
+      </div>
+
       <button class="btn theme-toggle" id="btn-theme-toggle" title="Chuyển đổi giao diện Sáng / Tối">Chế Độ Sáng</button>
     </div>
   </header>
 
   <!-- Main Split Layout -->
   <main>
-    <!-- Left / Center Canvas Viewport -->
+    <!-- Left / Center Canvas Viewport (Uncluttered) -->
     <section class="viewport" id="canvas-container">
-      <!-- Floating Layer Toggle Chips -->
-      <div class="canvas-chips-bar">
-        <div class="chip active" data-layer="entities">Cá Thể / Bầy Đàn</div>
-        <div class="chip active" data-layer="resources">Tài Nguyên Dâu</div>
-        <div class="chip active" data-layer="terrain">Rặng Đá & Hang Thỏ</div>
-        <div class="chip active" data-layer="thickets">Lùm Cây Che Phủ</div>
-        <div class="chip active" data-layer="meadows">Bãi Cỏ & Thảo Dược</div>
-        <div class="chip active" data-layer="fog">Tầm Nhìn (Perception)</div>
-        <div class="chip active" data-layer="scent">Dấu Vết Pheromone</div>
-        <div class="chip active" data-layer="wind">Khí Quyển & Gió</div>
-        <div class="chip active" data-layer="hazards">Mối Nguy & Cột Mốc</div>
-      </div>
-
       <canvas id="world-canvas"></canvas>
 
       <!-- Bottom HUD Status Readout -->
@@ -1074,15 +1131,17 @@
         hunger: 55 + Math.random() * 25,
         thirst: 65 + Math.random() * 25,
         health: 100,
-        perceptionRadius: isLeader ? 140 : 95,
+        perceptionRadius: isLeader ? 130 : 95,
         isLeader: isLeader,
         wanderAngle: Math.random() * Math.PI * 2,
         isSheltered: false,
-        inCover: false
+        inCover: false,
+        jinkCooldown: Math.floor(Math.random() * 20),
+        jinkAngle: 0
       });
     }
 
-    // Wolf Predator
+    // Wolf Predator (Apex Tracker)
     entities.push({
       id: 'wolf_1',
       name: 'Wolf #01 (Dã Thú)',
@@ -1094,21 +1153,46 @@
       vy: 0.4,
       radius: 8.5,
       energy: 95,
-      hunger: 40,
+      hunger: 35,
       thirst: 80,
       health: 100,
-      perceptionRadius: 160,
-      patrolAngle: 0
+      perceptionRadius: 150,
+      scentDetectionRadius: 240,
+      patrolAngle: 0,
+      state: 'PATROL',
+      sprintStamina: 100,
+      killCount: 0,
+      targetRabbit: null
     });
 
     let selectedObject = entities[0]; // Can be entity, burrow, rock, bush, pond, thicket, etc.
 
-    // --- Layer Chips Interaction ---
-    document.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const layer = chip.dataset.layer;
-        layers[layer] = !layers[layer];
-        chip.classList.toggle('active', layers[layer]);
+    // --- Dropdown Management & Map Layer Checkboxes ---
+    function setupDropdown(triggerId, menuId, containerId) {
+      const btn = document.getElementById(triggerId);
+      const container = document.getElementById(containerId);
+      if (!btn || !container) return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.dropdown').forEach(d => {
+          if (d !== container) d.classList.remove('active');
+        });
+        container.classList.toggle('active');
+      });
+    }
+    setupDropdown('btn-toggle-layers', 'menu-layers', 'dropdown-layers');
+    setupDropdown('btn-toggle-actions', 'menu-actions', 'dropdown-actions');
+
+    // Close dropdowns when clicking anywhere outside
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+    });
+
+    // Layer Checkboxes Toggle
+    document.querySelectorAll('#menu-layers input[type="checkbox"]').forEach(chk => {
+      chk.addEventListener('change', () => {
+        const layer = chk.dataset.layer;
+        layers[layer] = chk.checked;
       });
     });
 
@@ -1552,29 +1636,28 @@
       const W = rect.width;
       const H = rect.height;
 
-      // 1. Update Scent / Pheromone Particles (Drifting Downwind)
+      // 1. Update Prey Scent Emission (Rabbits emit scent drifting downwind)
       if (layers.scent) {
         if (worldTick % 3 === 0) {
-          // Drop rabbit scents
-          for (let i = 0; i < 3; i++) {
-            const r = entities[Math.floor(Math.random() * (entities.length - 1))];
-            scentParticles.push({ x: r.x, y: r.y, alpha: 0.65, type: 'rabbit' });
-          }
-          // Drop wolf scent
-          const wolf = entities.find(e => e.type === 'wolf');
-          if (wolf) {
-            scentParticles.push({ x: wolf.x, y: wolf.y, alpha: 0.85, type: 'wolf' });
+          const aliveRabbits = entities.filter(e => e.type === 'rabbit');
+          if (aliveRabbits.length > 0) {
+            for (let i = 0; i < 4; i++) {
+              const r = aliveRabbits[Math.floor(Math.random() * aliveRabbits.length)];
+              // In thicket cover, scent is suppressed by 75%
+              const alpha = r.inCover ? 0.18 : 0.65;
+              scentParticles.push({ x: r.x, y: r.y, alpha: alpha, inCover: r.inCover });
+            }
           }
         }
 
-        const windDriftX = Math.cos(environment.windAngle) * (environment.windSpeed * 0.035);
-        const windDriftY = Math.sin(environment.windAngle) * (environment.windSpeed * 0.035);
+        const windDriftX = Math.cos(environment.windAngle) * (environment.windSpeed * 0.045);
+        const windDriftY = Math.sin(environment.windAngle) * (environment.windSpeed * 0.045);
 
         for (let i = scentParticles.length - 1; i >= 0; i--) {
           const p = scentParticles[i];
           p.x += windDriftX;
           p.y += windDriftY;
-          p.alpha -= 0.014;
+          p.alpha -= p.inCover ? 0.025 : 0.012; // In thicket scent dissipates much faster
           if (p.alpha <= 0 || p.x < 0 || p.x > W || p.y < 0 || p.y > H) {
             scentParticles.splice(i, 1);
           }
@@ -1632,64 +1715,295 @@
         }
       }
 
-      // 4. Update Living Entities
-      for (const ent of entities) {
+      // 4. Update Living Entities & Realistic Biological AI
+      const currentRabbits = entities.filter(e => e.type === 'rabbit');
+      const currentWolves = entities.filter(e => e.type === 'wolf');
+
+      // --- 4A. Wolf Predator Processing (Tracking by Scent & Ambush Mechanics) ---
+      for (const wolf of currentWolves) {
+        // Slow starvation (K-strategist: durable predator)
+        wolf.hunger = Math.min(100, wolf.hunger + 0.012);
+        if (wolf.hunger >= 100) {
+          wolf.health = Math.max(0, wolf.health - 0.08);
+        }
+
+        // Check environmental thicket cover for wolf
+        wolf.inCover = false;
+        for (const th of thickets) {
+          if (Math.hypot(wolf.x - th.x, wolf.y - th.y) <= th.radius) {
+            wolf.inCover = true;
+            break;
+          }
+        }
+
+        // Olfactory & Visual Target Evaluation
+        let bestTarget = null;
+        let bestScore = -9999;
+
+        for (const r of currentRabbits) {
+          const dx = r.x - wolf.x;
+          const dy = r.y - wolf.y;
+          const dist = Math.hypot(dx, dy);
+
+          // In thicket: rabbit scent and vision footprint heavily suppressed
+          // (Down to 1/3 of wolf vision! Sói must be very close ~50px to sniff out hidden rabbit)
+          const maxVisionDist = r.inCover ? 48 : wolf.perceptionRadius;
+          const maxScentDist = r.inCover ? 50 : wolf.scentDetectionRadius;
+
+          const canSee = (dist <= maxVisionDist);
+
+          // Check if rabbit is upwind of wolf (wind blows rabbit scent toward wolf)
+          const angleToRabbit = Math.atan2(dy, dx);
+          let windAngleDiff = Math.abs(angleToRabbit - environment.windAngle);
+          if (windAngleDiff > Math.PI) windAngleDiff = 2 * Math.PI - windAngleDiff;
+          const isDownwindFromRabbit = (windAngleDiff > Math.PI * 0.40);
+          const canSmell = (dist <= maxScentDist && isDownwindFromRabbit);
+
+          if (canSee || canSmell) {
+            const score = 1000 - dist + (canSee ? 250 : 0);
+            if (score > bestScore) {
+              bestScore = score;
+              bestTarget = r;
+            }
+          }
+        }
+
+        wolf.targetRabbit = bestTarget;
+
+        if (!bestTarget) {
+          // No prey sensed -> Normal territorial patrol
+          wolf.state = 'PATROL';
+          wolf.sprintStamina = Math.min(100, wolf.sprintStamina + 0.35);
+          wolf.patrolAngle += 0.011 * simSpeed;
+          const targetX = 810 + Math.cos(wolf.patrolAngle) * 115;
+          const targetY = 270 + Math.sin(wolf.patrolAngle) * 80;
+          wolf.vx += ((targetX - wolf.x) * 0.015);
+          wolf.vy += ((targetY - wolf.y) * 0.015);
+
+        } else {
+          const dx = bestTarget.x - wolf.x;
+          const dy = bestTarget.y - wolf.y;
+          const dist = Math.hypot(dx, dy);
+
+          // Rabbit detects wolf: strictly vision-based (dist <= 110px) and not blocked by thicket
+          const rabbitSeesWolf = (dist <= 110 && !wolf.inCover);
+
+          if (!rabbitSeesWolf && dist > 60) {
+            // STALK / AMBUSH: Rabbit hasn't seen wolf yet -> Stalk slowly, use cover
+            wolf.state = 'STALK';
+            wolf.sprintStamina = Math.min(100, wolf.sprintStamina + 0.15);
+            const speed = 0.50; // Slow, stealthy approach
+            wolf.vx += (dx / dist) * speed;
+            wolf.vy += (dy / dist) * speed;
+
+          } else {
+            // CHASE / LUNGE: Rabbit fleeing OR within pouncing range (<= 60px)
+            wolf.state = 'CHASE';
+            // Pounce lunge: sudden acceleration boost when close
+            const sprintMult = (dist < 42 && wolf.sprintStamina > 20) ? 1.45 : 1.10;
+            wolf.vx += (dx / dist) * sprintMult;
+            wolf.vy += (dy / dist) * sprintMult;
+            wolf.sprintStamina = Math.max(0, wolf.sprintStamina - 0.30);
+
+            // Catch Predation Event (d <= 16px)
+            if (dist <= 16) {
+              const victimIdx = entities.indexOf(bestTarget);
+              if (victimIdx !== -1) {
+                const victimName = bestTarget.name;
+                entities.splice(victimIdx, 1);
+                wolf.hunger = 0;
+                wolf.energy = 100;
+                wolf.killCount = (wolf.killCount || 0) + 1;
+                wolf.targetRabbit = null;
+                wolf.state = 'PATROL';
+
+                const remainingRabbits = entities.filter(e => e.type === 'rabbit').length;
+                document.getElementById('kpi-rabbits').textContent = `${remainingRabbits} con`;
+
+                addTimelineEvent({
+                  badge: 'MỘNG NHIỄM TELEMETRY',
+                  badgeClass: 'gated',
+                  title: `Sói vồ bắt thành công ${victimName}!`,
+                  body: `Khu vực: [${bestTarget.x.toFixed(0)}, ${bestTarget.y.toFixed(0)}]. Thỏ đổi hướng né tránh không kịp do cự ly vồ mồi quá gần. Quần thể thỏ còn ${remainingRabbits} con.`,
+                  reason: `PredationEvent: distance ${dist.toFixed(1)}px <= 16.0px (Lunge Catch)`
+                });
+
+                // Wolf Reproduction Check (K-strategist: after 3 successful hunts)
+                if (wolf.killCount >= 3 && entities.filter(e => e.type === 'wolf').length < 2) {
+                  wolf.killCount = 0;
+                  entities.push({
+                    id: 'wolf_2',
+                    name: 'Wolf #02 (Sói Đàn Mới)',
+                    type: 'wolf',
+                    role: 'Apex Predator',
+                    x: 880,
+                    y: 160,
+                    vx: 0,
+                    vy: 0,
+                    radius: 8.0,
+                    energy: 100,
+                    hunger: 20,
+                    thirst: 90,
+                    health: 100,
+                    perceptionRadius: 150,
+                    scentDetectionRadius: 240,
+                    patrolAngle: Math.PI,
+                    state: 'PATROL',
+                    sprintStamina: 100,
+                    killCount: 0
+                  });
+                  document.getElementById('kpi-wolves').textContent = `2 con`;
+                  addTimelineEvent({
+                    badge: 'SINH THÁI TỰ NHIÊN',
+                    badgeClass: 'shock',
+                    title: 'Đàn sói sinh sôi thêm 1 sói con trưởng thành!',
+                    body: 'Thú săn tích lũy đủ calo từ 3 lần săn bắt thành công. Đàn sói tăng lên 2 con.',
+                    reason: 'PredatorReproduction: K-strategist threshold reached (killCount >= 3)'
+                  });
+                }
+              }
+            }
+          }
+        }
+
+        // Rock obstacle avoidance for wolf
+        for (const rk of rocks) {
+          const dx = wolf.x - rk.x;
+          const dy = wolf.y - rk.y;
+          const dist = Math.hypot(dx, dy);
+          const avoidDist = rk.rx + wolf.radius + 8;
+          if (dist < avoidDist) {
+            wolf.vx += (dx / dist) * 0.40;
+            wolf.vy += (dy / dist) * 0.40;
+          }
+        }
+
+        // Higher inertia for wolf (wider turn radius than agile rabbit)
+        wolf.vx *= 0.94;
+        wolf.vy *= 0.94;
+        wolf.x += wolf.vx * simSpeed;
+        wolf.y += wolf.vy * simSpeed;
+
+        if (wolf.x < 35) { wolf.x = 35; wolf.vx *= -1; }
+        if (wolf.x > W - 35) { wolf.x = W - 35; wolf.vx *= -1; }
+        if (wolf.y < 35) { wolf.y = 35; wolf.vy *= -1; }
+        if (wolf.y > H - 35) { wolf.y = H - 35; wolf.vy *= -1; }
+      }
+
+      // --- 4B. Rabbit Colony Processing (Agility, Jinking & Starvation) ---
+      for (let i = currentRabbits.length - 1; i >= 0; i--) {
+        const ent = currentRabbits[i];
         ent.hunger = Math.min(100, ent.hunger + 0.035);
         ent.thirst = Math.min(100, ent.thirst + 0.03);
         ent.energy = Math.max(0, ent.energy - 0.02);
 
-        if (ent.type === 'rabbit') {
-          // Check Thicket Stealth Cover
-          ent.inCover = false;
+        // Starvation mortality check (r-strategist rapid mortality)
+        if (ent.hunger >= 100) {
+          ent.health = Math.max(0, ent.health - 0.25);
+          if (ent.health <= 0) {
+            const deadIdx = entities.indexOf(ent);
+            if (deadIdx !== -1) {
+              entities.splice(deadIdx, 1);
+              const rem = entities.filter(e => e.type === 'rabbit').length;
+              document.getElementById('kpi-rabbits').textContent = `${rem} con`;
+              addTimelineEvent({
+                badge: 'SINH HỌC QUẦN THỂ',
+                badgeClass: 'shock',
+                title: `${ent.name} tử vong vì đói kiệt sức!`,
+                body: `Trao đổi chất cao: Thỏ nhịn đói vượt ngưỡng sinh tồn 100%. Quần thể giảm còn ${rem} con.`
+              });
+              continue;
+            }
+          }
+        }
+
+        // Check Thicket Stealth Cover
+        ent.inCover = false;
+        for (const th of thickets) {
+          if (Math.hypot(ent.x - th.x, ent.y - th.y) <= th.radius) {
+            ent.inCover = true;
+            break;
+          }
+        }
+
+        // Check if rabbit sees any wolf (strictly visual, <= 110px)
+        let nearestWolf = null;
+        let minWolfDist = 9999;
+        for (const w of currentWolves) {
+          const d = Math.hypot(ent.x - w.x, ent.y - w.y);
+          if (d < minWolfDist) {
+            minWolfDist = d;
+            nearestWolf = w;
+          }
+        }
+
+        const seesWolf = (nearestWolf && minWolfDist <= 110);
+
+        if (seesWolf) {
+          // FLEEING WITH RAPID ZIG-ZAG JINKING AGILITY
+          const dx = ent.x - nearestWolf.x;
+          const dy = ent.y - nearestWolf.y;
+
+          // Agility jink: every 16-26 ticks, sudden perpendicular jink
+          ent.jinkCooldown = (ent.jinkCooldown || 0) - 1;
+          if (ent.jinkCooldown <= 0) {
+            ent.jinkCooldown = 16 + Math.floor(Math.random() * 12);
+            ent.jinkAngle = (Math.random() > 0.5 ? 1 : -1) * (0.85 + Math.random() * 0.4);
+          }
+
+          const fleeAngle = Math.atan2(dy, dx) + (ent.jinkAngle || 0);
+          ent.vx += Math.cos(fleeAngle) * 0.82;
+          ent.vy += Math.sin(fleeAngle) * 0.82;
+
+          // Inside thicket: freeze/stealth behavior
+          if (ent.inCover) {
+            ent.vx *= 0.55;
+            ent.vy *= 0.55;
+          }
+
+        } else if (ent.evacTarget === 'burrow') {
+          // Evacuation to burrow
+          const toBx = burrow.x - ent.x;
+          const toBy = burrow.y - ent.y;
+          const distB = Math.hypot(toBx, toBy);
+          if (distB > 12) {
+            ent.vx += (toBx / distB) * 0.16;
+            ent.vy += (toBy / distB) * 0.16;
+          }
+        } else if (ent.evacTarget === 'thicket') {
+          // Evacuation overflow to nearest thicket
+          let nearestTh = thickets[0];
+          let minD = 9999;
           for (const th of thickets) {
-            if (Math.hypot(ent.x - th.x, ent.y - th.y) <= th.radius) {
-              ent.inCover = true;
-              break;
-            }
+            const d = Math.hypot(th.x - ent.x, th.y - ent.y);
+            if (d < minD) { minD = d; nearestTh = th; }
           }
-
-          // Evacuation Steering (Burrow 16 capacity vs Thickets 8 overflow)
-          if (ent.evacTarget === 'burrow') {
-            const toBx = burrow.x - ent.x;
-            const toBy = burrow.y - ent.y;
-            const distB = Math.hypot(toBx, toBy);
-            if (distB > 12) {
-              ent.vx += (toBx / distB) * 0.16;
-              ent.vy += (toBy / distB) * 0.16;
-            }
-          } else if (ent.evacTarget === 'thicket') {
-            let nearestTh = thickets[0];
-            let minD = 9999;
-            for (const th of thickets) {
-              const d = Math.hypot(th.x - ent.x, th.y - ent.y);
-              if (d < minD) { minD = d; nearestTh = th; }
-            }
-            const toTx = nearestTh.x - ent.x;
-            const toTy = nearestTh.y - ent.y;
-            const distT = Math.hypot(toTx, toTy);
-            if (distT > 10) {
-              ent.vx += (toTx / distT) * 0.15;
-              ent.vy += (toTy / distT) * 0.15;
-            }
+          const toTx = nearestTh.x - ent.x;
+          const toTy = nearestTh.y - ent.y;
+          const distT = Math.hypot(toTx, toTy);
+          if (distT > 10) {
+            ent.vx += (toTx / distT) * 0.15;
+            ent.vy += (toTy / distT) * 0.15;
           }
-
-          // Steer wander
+        } else {
+          // Normal grazing & flocking
           ent.wanderAngle += (Math.random() - 0.5) * 0.4;
           ent.vx += Math.cos(ent.wanderAngle) * 0.12;
           ent.vy += Math.sin(ent.wanderAngle) * 0.12;
 
           if (!ent.isLeader) {
-            // Flocking pull towards Alpha Scout
-            const leader = entities[0];
-            const toLx = leader.x - ent.x;
-            const toLy = leader.y - ent.y;
-            const dist = Math.hypot(toLx, toLy);
-            if (dist > 160) {
-              ent.vx += (toLx / dist) * 0.08;
-              ent.vy += (toLy / dist) * 0.08;
+            const leader = entities.find(e => e.isLeader);
+            if (leader) {
+              const toLx = leader.x - ent.x;
+              const toLy = leader.y - ent.y;
+              const dist = Math.hypot(toLx, toLy);
+              if (dist > 150) {
+                ent.vx += (toLx / dist) * 0.07;
+                ent.vy += (toLy / dist) * 0.07;
+              }
             }
           } else {
-            // Leader steers towards available food or lake
+            // Leader steers towards food or pond
             const target = resources.find(r => r.type === 'berry' && r.amount > 0) || resources.find(r => r.type === 'water');
             if (target) {
               const toTx = target.x - ent.x;
@@ -1701,64 +2015,84 @@
               }
             }
           }
+        }
 
-          // Flee from Predator (Detection radius reduced if in thicket cover!)
-          const wolf = entities.find(e => e.type === 'wolf');
-          if (wolf) {
-            const dx = ent.x - wolf.x;
-            const dy = ent.y - wolf.y;
-            const dist = Math.hypot(dx, dy);
-            const fleeDist = ent.inCover ? 48 : 130;
-            if (dist < fleeDist) {
-              ent.vx += (dx / dist) * 0.68;
-              ent.vy += (dy / dist) * 0.68;
-            }
+        // Steer around Granite Rocks
+        for (const rk of rocks) {
+          const dx = ent.x - rk.x;
+          const dy = ent.y - rk.y;
+          const dist = Math.hypot(dx, dy);
+          const avoidDist = rk.rx + ent.radius + 10;
+          if (dist < avoidDist) {
+            ent.vx += (dx / dist) * 0.35;
+            ent.vy += (dy / dist) * 0.35;
           }
+        }
 
-          // Obstacle Avoidance: Steer around Granite Rocks
-          for (const rk of rocks) {
-            const dx = ent.x - rk.x;
-            const dy = ent.y - rk.y;
-            const dist = Math.hypot(dx, dy);
-            const avoidDist = rk.rx + ent.radius + 10;
-            if (dist < avoidDist) {
-              ent.vx += (dx / dist) * 0.35;
-              ent.vy += (dy / dist) * 0.35;
-            }
+        // Herb Grove Nutrition Boost
+        if (Math.hypot(ent.x - herbs[0].x, ent.y - herbs[0].y) <= herbs[0].radius) {
+          ent.energy = Math.min(100, ent.energy + 0.06);
+          ent.hunger = Math.max(0, ent.hunger - 0.05);
+        }
+
+        // Rapid agility damping
+        ent.vx *= 0.91;
+        ent.vy *= 0.91;
+        ent.x += ent.vx * simSpeed;
+        ent.y += ent.vy * simSpeed;
+
+        if (ent.x < 35) { ent.x = 35; ent.vx *= -1; }
+        if (ent.x > W - 35) { ent.x = W - 35; ent.vx *= -1; }
+        if (ent.y < 35) { ent.y = 35; ent.vy *= -1; }
+        if (ent.y > H - 35) { ent.y = H - 35; ent.vy *= -1; }
+
+        if (ent === selectedObject) {
+          const stealthElem = document.getElementById('hud-stealth');
+          if (stealthElem) {
+            stealthElem.textContent = ent.inCover ? '[COVER] Đang ẩn nấp (Lùm cây)' : 'Địa hình quang đãng';
+            stealthElem.style.color = ent.inCover ? 'var(--emerald)' : 'var(--text-muted)';
           }
+        }
+      }
 
-          // Herb Grove Nutrition Boost
-          if (Math.hypot(ent.x - herbs[0].x, ent.y - herbs[0].y) <= herbs[0].radius) {
-            ent.energy = Math.min(100, ent.energy + 0.06);
-            ent.hunger = Math.min(100, ent.hunger + 0.04);
-          }
-
-          // Damping & speed cap
-          ent.vx *= 0.93;
-          ent.vy *= 0.93;
-          ent.x += ent.vx * simSpeed;
-          ent.y += ent.vy * simSpeed;
-
-          // Boundary bounds
-          if (ent.x < 35) { ent.x = 35; ent.vx *= -1; }
-          if (ent.x > W - 35) { ent.x = W - 35; ent.vx *= -1; }
-          if (ent.y < 35) { ent.y = 35; ent.vy *= -1; }
-          if (ent.y > H - 35) { ent.y = H - 35; ent.vy *= -1; }
-
-          // Update HUD for selected rabbit
-          if (ent === selectedObject) {
-            const stealthElem = document.getElementById('hud-stealth');
-            if (stealthElem) {
-              stealthElem.textContent = ent.inCover ? '[COVER] Đang ẩn nấp (Lùm cây)' : 'Địa hình quang đãng';
-              stealthElem.style.color = ent.inCover ? 'var(--emerald)' : 'var(--text-muted)';
-            }
-          }
-
-        } else if (ent.type === 'wolf') {
-          // Wolf circular territorial prowl (Phía Đông)
-          ent.patrolAngle += 0.014 * simSpeed;
-          ent.x = 810 + Math.cos(ent.patrolAngle) * 120;
-          ent.y = 270 + Math.sin(ent.patrolAngle) * 85;
+      // --- 4C. Rabbit Population Dynamics (Reproduction Loop) ---
+      const activeRabbits = entities.filter(e => e.type === 'rabbit');
+      if (worldTick % 320 === 0 && activeRabbits.length < 30 && activeRabbits.length >= 2) {
+        const avgHunger = activeRabbits.reduce((sum, r) => sum + r.hunger, 0) / activeRabbits.length;
+        const hasFood = resources.some(r => r.type === 'berry' && r.amount > 25);
+        if (avgHunger < 45 && hasFood) {
+          const newId = `r_${entities.length + 1}`;
+          entities.push({
+            id: newId,
+            name: `Rabbit #${String(entities.length + 1).padStart(2, '0')}`,
+            type: 'rabbit',
+            role: 'Thỏ Hái Lượm (Mới Sinh)',
+            x: burrow.x + (Math.random() - 0.5) * 20,
+            y: burrow.y + (Math.random() - 0.5) * 20,
+            vx: 0,
+            vy: 0,
+            radius: 4.5,
+            energy: 90,
+            hunger: 20,
+            thirst: 20,
+            health: 100,
+            perceptionRadius: 95,
+            isLeader: false,
+            wanderAngle: Math.random() * Math.PI * 2,
+            isSheltered: false,
+            inCover: false,
+            jinkCooldown: 20,
+            jinkAngle: 0
+          });
+          const totalRabbits = entities.filter(e => e.type === 'rabbit').length;
+          document.getElementById('kpi-rabbits').textContent = `${totalRabbits} con`;
+          addTimelineEvent({
+            badge: 'SINH SẢN TỰ NHIÊN',
+            badgeClass: 'slm',
+            title: 'Quần thể thỏ sinh thêm 1 thỏ con tại Hang Trú Ẩn!',
+            body: `Mức đói trung bình thấp (${avgHunger.toFixed(0)}%) và thức ăn dư giả. Đàn thỏ phát triển lên ${totalRabbits} con.`,
+            reason: 'LotkaVolterra: r-strategist population growth (H_avg < 45%, food > 25u)'
+          });
         }
       }
 
