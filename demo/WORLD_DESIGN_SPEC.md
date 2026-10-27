@@ -235,23 +235,41 @@ Thỏ không chỉ bỏ chạy hỗn loạn ra khoảng trống vô định mà 
 
 Mô phỏng tích hợp mô hình động lực học quần thể phân hóa rõ rệt giữa loài $r$-strategist (thỏ) và loài $K$-strategist (sói):
 
-### 8.1 Quần Thể Thỏ ($r$-strategist: Tăng Trưởng Nhanh, Tử Vong Nhanh)
+### 8.1 Quần Thể Thỏ ($r$-strategist: Tăng Trưởng Nhanh, Chủ Động Kiếm Ăn)
 - **Tử vong do đói khát (Starvation Mortality):**
-  - Trao đổi chất cao: Nếu mức đói $H_i \ge 100\%$, sinh lực bắt đầu suy giảm nhanh ($-0.25\%/\text{tick}$). Khi $\Omega_i = 0$, cá thể tử vong và bị đào thải khỏi đàn.
-- **Sinh sản nhanh (Rapid Reproduction):**
-  - Điều kiện: Cứ mỗi $320\text{ ticks}$ ($\approx 16\text{ s}$), nếu:
-    $$\bar{H}_{\text{colony}} < 45\% \quad \land \quad \sum \text{Berry}_{\text{available}} > 25\text{ u} \quad \land \quad N_{\text{rabbits}} < 30$$
-  - Thỏ mẹ tại Hang Trú Ẩn sẽ sinh thêm 1 thỏ con mới ($E = 90\%, H = 20\%, \Omega = 100\%$).
-  - Ghi nhận viễn thám: `LotkaVolterra: r-strategist population growth`.
+  - Trao đổi chất cao: Nếu mức đói $H_i \ge 100\%$, sinh lực bắt đầu suy giảm nhanh ($-0.20\%/\text{tick}$). Khi $\Omega_i = 0$, cá thể tử vong và bị đào thải khỏi đàn.
+- **Hành vi chủ động kiếm ăn (Active Foraging Hierarchy):**
+  - Thỏ không di chuyển ngẫu nhiên vô định; mục tiêu sinh tồn cốt lõi là duy trì độ no để giao phối và phát triển bầy đàn:
+    1. *Khát nước ($T_i > 45\%$):* Điều hướng trực tiếp tới bờ nông hồ nước trung tâm.
+    2. *Đói / Hái lượm ($H_i > 18\%$):* Quét tìm bụi dâu chưa cạn kiệt hoặc vạt bồ công anh. Khi đói ($H_i > 35\%$), mở rộng phạm vi dò xét trên toàn bộ bản đồ.
+    3. *No nê & Tụ đàn sinh sản ($H_i \le 18\% \land T_i \le 45\%$):* Tụ đàn về Hang Trú Ẩn $[320, 520]$ hoặc đồng cỏ ven hồ để chải lông, duy trì cự ly bầy đàn và ghép đôi.
+- **Sinh sản tăng tốc (Accelerated Reproduction):**
+  - Chu kỳ kiểm tra: Mỗi $140\text{ ticks}$ ($\approx 7\text{ s}$).
+  - Điều kiện sinh sản:
+    $$\bar{H}_{\text{colony}} < 50\% \quad \land \quad (\sum \text{Berry}_{\text{available}} \ge 15\text{ u} \lor \text{Herbs} \ge 20\text{ u}) \quad \land \quad N_{\text{rabbits}} < 36$$
+  - Kích thước lứa sinh (Litter Size): Sinh $2$ thỏ con nếu đàn rất no ($\bar{H} < 30\%$) và tài nguyên dồi dào ($> 80\text{ u}$); sinh $1$ thỏ con nếu mức no trung bình.
+  - Ghi nhận viễn thám: `LotkaVolterra: r-strategist accelerated reproduction`.
 
-### 8.2 Quần Thể Sói ($K$-strategist: Bền Bỉ, Tái Cấu Trúc Chậm)
-- **Sức chịu đựng cao:** Tốc độ tiêu hóa của sói chậm hơn thỏ ($0.012\%/\text{tick}$ vs $0.018\%/\text{tick}$), có thể nhịn đói qua hàng ngàn tick mà không tử vong.
+### 8.2 Quần Thể Sói ($K$-strategist: Bền Bỉ, Săn Mồi & Tái Cấu Trúc Đàn)
+- **Sức chịu đựng cao:** Tốc độ trao đổi chất của sói bền hơn thỏ ($0.012\%/\text{tick}$ vs $0.018\%/\text{tick}$), có thể nhịn đói qua hàng ngàn tick mà không tử vong.
 - **Tử vong do tuyệt diệt con mồi (Predator Starvation Extinction):**
   - Khi đàn thỏ bị tuyệt diệt hoàn toàn, sói không còn con mồi để săn bắt. Mức đói $H_{\text{wolf}}$ tăng chạm $100\%$ ($\text{Satiety} = 0\%$).
   - Sinh lực tụt dốc ($-0.08\%/\text{tick}$). Khi $\Omega_{\text{wolf}} = 0$, sói chết vì kiệt sức và bị loại khỏi bản đồ. Sói **tuyệt đối không thể tự tăng độ no khi không có thức ăn**.
-- **Sinh sản dựa trên năng lượng tích lũy:**
-  - Sói chỉ sinh sản khi tích lũy đủ calo từ $3$ lần săn mồi thành công (`killCount >= 3`).
-  - Khi thỏa mãn điều kiện và đàn sói $< 2$ con: Một cá thể sói con trưởng thành (`Wolf #02`) sẽ gia nhập bản đồ tại vùng rừng phía Đông.
+- **Sinh sản tăng tốc & Quy mô đàn:**
+  - Ngưỡng tích lũy calo giảm xuống $2$ lần săn bắt thành công (`killCount >= 2`).
+  - Hạn mức tối đa đàn sói mở rộng lên tới $4$ con ($N_{\text{wolves}} \le 4$).
+  - Cá thể sói con trưởng thành (`Wolf #02`, `Wolf #03`, `Wolf #04`) xuất hiện tại Cột Mốc Hang Sói $[910, 130]$, tuần tra và săn mồi độc lập.
+
+### 8.3 Cơ Chế Mở Rộng Phạm Vi Dò Xét Khi Độ No Giảm Sút (Dynamic Sensory Expansion)
+- **Sói (Predator):**
+  - Khi no nê ($H \le 35\%$, độ no $\ge 65\%$): Tầm nhìn cơ sở $150\text{ px}$, bán kính ngửi mùi $240\text{ px}$, tuần tra bán kính hẹp quanh lãnh thổ.
+  - Khi đói bụng ($H > 35\%$): Giác quan khứu giác và thị giác tăng cường độ nhạy bén tỷ lệ thuận với cơn đói:
+    $$R_{\text{vision, effective}} = R_{\text{vision, base}} \times \left(1.0 + \min\left(0.50, \frac{H - 35}{65} \times 0.50\right) \times 0.80\right) \le 210\text{ px}$$
+    $$R_{\text{scent, effective}} = R_{\text{scent, base}} \times \left(1.0 + \min\left(0.50, \frac{H - 35}{65} \times 0.50\right)\right) \le 360\text{ px}$$
+  - Khi đói kiệt sức ($H > 50\%$): Quỹ đạo tuần tra mở rộng từ góc Đông Bắc quét sâu qua trung tâm đồng cỏ ven hồ ($[560 \pm 260, 340 \pm 170]$) để tích cực tầm soát con mồi.
+- **Thỏ (Prey):**
+  - Khi đói ($H > 25\%$): Cảnh giác thị giác mở rộng từ $95\text{ px}$ lên tới $138\text{ px}$ (Scout từ $130\text{ px}$ lên $188\text{ px}$).
+  - Khi $H > 35\%$: Vùng quét tìm thức ăn mở rộng không giới hạn ($250\text{ px} \to \text{Toàn bản đồ}$), chủ động tìm tới các bụi dâu hoặc bồ công anh còn trữ lượng.
 
 ---
 

@@ -985,6 +985,7 @@
             <div class="vital-tile">
               <div class="vital-meta"><span>ĐỘ NO (SATIETY)</span><span id="vital-val-hunger">100%</span></div>
               <div class="vital-track"><div class="vital-fill hunger" id="vital-bar-hunger" style="width: 100%;"></div></div>
+              <div style="font-size:9px; color:var(--text-muted); font-family:'Fira Code',monospace; margin-top:3px;" id="vital-sensory-info">Dò xét: Chuẩn</div>
             </div>
             <div class="vital-tile">
               <div class="vital-meta"><span>ĐỘ ẨM NƯỚC</span><span id="vital-val-thirst">100%</span></div>
@@ -1743,9 +1744,25 @@
               stateBadge.style.borderColor = 'var(--amber)';
             }
           } else {
-            stateBadge.textContent = 'HOẠT ĐỘNG';
-            stateBadge.style.color = 'var(--text-main)';
-            stateBadge.style.borderColor = 'var(--border-subtle)';
+            if (obj.type === 'rabbit') {
+              if (obj.thirst > 45) {
+                stateBadge.textContent = '💧 TÌM NGUỒN NƯỚC';
+                stateBadge.style.color = 'var(--primary)';
+                stateBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+              } else if (obj.hunger > 18) {
+                stateBadge.textContent = '🌿 CHỦ ĐỘNG KIẾM ĂN';
+                stateBadge.style.color = 'var(--emerald)';
+                stateBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+              } else {
+                stateBadge.textContent = '💕 TỤ ĐÀN SINH SẢN';
+                stateBadge.style.color = '#c084fc';
+                stateBadge.style.borderColor = 'rgba(192, 132, 252, 0.4)';
+              }
+            } else {
+              stateBadge.textContent = 'HOẠT ĐỘNG';
+              stateBadge.style.color = 'var(--text-main)';
+              stateBadge.style.borderColor = 'var(--border-subtle)';
+            }
           }
         }
         if (btnToggleRest) {
@@ -1759,6 +1776,33 @@
         const hungerBarElem = document.getElementById('vital-bar-hunger');
         hungerValElem.textContent = `${satiety}%`;
         hungerBarElem.style.width = `${satiety}%`;
+
+        // Dynamic Sensory Expansion Indicator
+        const sensoryElem = document.getElementById('vital-sensory-info');
+        if (sensoryElem) {
+          if (obj.type === 'wolf') {
+            const hFactor = (obj.hunger > 35) ? Math.min(0.50, (obj.hunger - 35) / 65 * 0.50) : 0;
+            const effVis = Math.round(obj.perceptionRadius * (1.0 + hFactor * 0.80));
+            const effScent = Math.round(obj.scentDetectionRadius * (1.0 + hFactor));
+            if (obj.hunger > 35) {
+              sensoryElem.textContent = `Dò: 👁️ ${effVis}px | 👃 ${effScent}px (Mở rộng do đói)`;
+              sensoryElem.style.color = 'var(--amber)';
+            } else {
+              sensoryElem.textContent = `Dò: 👁️ ${effVis}px | 👃 ${effScent}px (Chuẩn)`;
+              sensoryElem.style.color = 'var(--text-muted)';
+            }
+          } else if (obj.type === 'rabbit') {
+            const hFactor = (obj.hunger > 25) ? Math.min(0.45, (obj.hunger - 25) / 75 * 0.45) : 0;
+            const effVis = Math.round(obj.perceptionRadius * (1.0 + hFactor));
+            if (obj.hunger > 25) {
+              sensoryElem.textContent = `Dò: 👁️ ${effVis}px (Mở rộng tìm thức ăn)`;
+              sensoryElem.style.color = 'var(--amber)';
+            } else {
+              sensoryElem.textContent = `Dò: 👁️ ${effVis}px (Chuẩn - Tụ đàn)`;
+              sensoryElem.style.color = 'var(--text-muted)';
+            }
+          }
+        }
 
         if (satiety > 50) {
           hungerBarElem.style.background = 'var(--emerald)';
@@ -2130,9 +2174,14 @@
           }
         }
 
-        // Olfactory & Visual Target Evaluation
+        // Olfactory & Visual Target Evaluation with Dynamic Sensory Expansion when Hungry
         let bestTarget = null;
         let bestScore = -9999;
+
+        // Dynamic Sensory Expansion: when hunger > 35 (satiety < 65%), sensory awareness sharpens
+        const wolfHungerFactor = (wolf.hunger > 35) ? Math.min(0.50, (wolf.hunger - 35) / 65 * 0.50) : 0;
+        const effVisionDist = wolf.perceptionRadius * (1.0 + wolfHungerFactor * 0.80); // 150px -> up to 210px
+        const effScentDist = wolf.scentDetectionRadius * (1.0 + wolfHungerFactor);     // 240px -> up to 360px
 
         for (const r of currentRabbits) {
           const dx = r.x - wolf.x;
@@ -2140,8 +2189,8 @@
           const dist = Math.hypot(dx, dy);
 
           // In thicket: rabbit scent and vision footprint heavily suppressed
-          const maxVisionDist = r.inCover ? 48 : wolf.perceptionRadius;
-          const maxScentDist = r.inCover ? 50 : wolf.scentDetectionRadius;
+          const maxVisionDist = r.inCover ? 48 : effVisionDist;
+          const maxScentDist = r.inCover ? 50 : effScentDist;
 
           const canSee = (dist <= maxVisionDist);
 
@@ -2185,7 +2234,7 @@
             wolf.state = 'STALK';
           }
         } else if (!bestTarget) {
-          // No prey sensed -> Normal territorial patrol
+          // No prey sensed -> Territorial patrol with hunger-based exploration sweep
           wolf.state = 'PATROL';
           wolf.energy = Math.max(0, wolf.energy - 0.005);
           if (wolf.hunger < 50 && wolf.energy < 100) {
@@ -2198,11 +2247,21 @@
           if (wolf.energy < 25 && wolf.hunger < 60) {
             wolf.state = 'REST';
           }
-          wolf.patrolAngle += 0.011;
-          const targetX = 760 + Math.cos(wolf.patrolAngle) * 75;
-          const targetY = 230 + Math.sin(wolf.patrolAngle) * 55;
-          wolf.vx += ((targetX - wolf.x) * 0.015);
-          wolf.vy += ((targetY - wolf.y) * 0.015);
+          wolf.patrolAngle += 0.010;
+          let targetX, targetY;
+          if (wolf.hunger > 50) {
+            // Hungry predator dynamically sweeps across grasslands & lake perimeter
+            targetX = 560 + Math.cos(wolf.patrolAngle) * 260;
+            targetY = 340 + Math.sin(wolf.patrolAngle * 0.8) * 170;
+          } else {
+            // Satiated wolf stays near its territorial rock ridge/den
+            const homeX = 760 + ((i % 2) * 50);
+            const homeY = 220 + ((i % 2) * 60);
+            targetX = homeX + Math.cos(wolf.patrolAngle) * 75;
+            targetY = homeY + Math.sin(wolf.patrolAngle) * 55;
+          }
+          wolf.vx += ((targetX - wolf.x) * 0.014);
+          wolf.vy += ((targetY - wolf.y) * 0.014);
 
         } else {
           const dx = bestTarget.x - wolf.x;
@@ -2290,39 +2349,45 @@
                   reason: `PredationEvent: distance ${dist.toFixed(1)}px <= 16.0px (Lunge Catch)`
                 });
 
-                // Wolf Reproduction Check (K-strategist: after 3 successful hunts)
-                if (wolf.killCount >= 3 && entities.filter(e => e.type === 'wolf').length < 2) {
+                // Wolf Reproduction Check (K-strategist: after 2 successful hunts, pack cap up to 4)
+                const totalWolves = entities.filter(e => e.type === 'wolf').length;
+                if (wolf.killCount >= 2 && totalWolves < 4) {
                   wolf.killCount = 0;
+                  const newWolfIdx = totalWolves + 1;
+                  const spawnX = (typeof landmarks !== 'undefined' && landmarks[0]) ? landmarks[0].x : 910;
+                  const spawnY = (typeof landmarks !== 'undefined' && landmarks[0]) ? landmarks[0].y : 130;
                   entities.push({
-                    id: 'wolf_2',
-                    name: 'Wolf #02 (Sói Đàn Mới)',
+                    id: `wolf_${newWolfIdx}`,
+                    name: `Wolf #${String(newWolfIdx).padStart(2, '0')} (Sói Đàn Mới)`,
                     type: 'wolf',
                     role: 'Apex Predator',
-                    x: 880,
-                    y: 160,
-                    vx: 0,
-                    vy: 0,
-                    radius: 8.0,
+                    x: spawnX + (Math.random() - 0.5) * 32,
+                    y: spawnY + (Math.random() - 0.5) * 32,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    radius: 8.2,
                     energy: 100,
                     hunger: 20,
                     thirst: 20,
                     health: 100,
                     perceptionRadius: 150,
                     scentDetectionRadius: 240,
-                    patrolAngle: Math.PI,
+                    patrolAngle: Math.random() * Math.PI * 2,
                     state: 'PATROL',
                     sprintsRemaining: 3,
                     sprintDuration: 0,
                     isExhausted: false,
-                    killCount: 0
+                    killCount: 0,
+                    targetRabbit: null
                   });
-                  document.getElementById('kpi-wolves').textContent = `2 con`;
+                  const updatedWolves = entities.filter(e => e.type === 'wolf').length;
+                  document.getElementById('kpi-wolves').textContent = `${updatedWolves} con`;
                   addTimelineEvent({
                     badge: 'SINH THÁI TỰ NHIÊN',
                     badgeClass: 'shock',
-                    title: 'Đàn sói sinh sôi thêm 1 sói con trưởng thành!',
-                    body: 'Thú săn tích lũy đủ calo từ 3 lần săn bắt thành công. Đàn sói tăng lên 2 con.',
-                    reason: 'PredatorReproduction: K-strategist threshold reached (killCount >= 3)'
+                    title: `Đàn sói sinh sôi thêm Sói #${String(newWolfIdx).padStart(2, '0')} tại Hang Sói!`,
+                    body: `Thú săn tích lũy đủ calo từ 2 lần săn mồi thành công. Đàn sói mở rộng lên ${updatedWolves} con.`,
+                    reason: 'PredatorReproduction: K-strategist threshold reached (killCount >= 2, cap <= 4)'
                   });
                 }
               }
@@ -2415,15 +2480,15 @@
         // Grazing at berry bushes & drinking at pond
         for (const res of resources) {
           const distToRes = Math.hypot(ent.x - res.x, ent.y - res.y);
-          if (res.type === 'berry' && res.amount > 0 && distToRes <= res.radius + 10) {
-            const eatRate = Math.min(res.amount, 0.08);
+          if (res.type === 'berry' && res.amount > 0 && distToRes <= res.radius + 12) {
+            const eatRate = Math.min(res.amount, 0.09);
             res.amount = Math.max(0, res.amount - eatRate);
-            ent.hunger = Math.max(0, ent.hunger - 0.22);
-            ent.energy = Math.min(100, ent.energy + 0.06);
+            ent.hunger = Math.max(0, ent.hunger - 0.28);
+            ent.energy = Math.min(100, ent.energy + 0.08);
             if (ent.health < 100) ent.health = Math.min(100, ent.health + 0.15);
             break;
-          } else if (res.type === 'water' && distToRes <= res.radius + 10) {
-            ent.thirst = Math.max(0, ent.thirst - 0.30);
+          } else if (res.type === 'water' && distToRes <= res.radius + 12) {
+            ent.thirst = Math.max(0, ent.thirst - 0.35);
             ent.energy = Math.min(100, ent.energy + 0.04);
             break;
           }
@@ -2635,55 +2700,105 @@
             ent.vy += (toTy / distT) * 0.15;
           }
         } else {
-          // Normal grazing & flocking
-          ent.wanderAngle += (Math.random() - 0.5) * 0.4;
-          ent.vx += Math.cos(ent.wanderAngle) * 0.12;
-          ent.vy += Math.sin(ent.wanderAngle) * 0.12;
+          // --- Normal State: Active Foraging, Dynamic Sensory Awareness & Breeding Cohesion ---
+          
+          // 1. Dynamic Sensory Perception (Increases as satiety drops)
+          const rabbitHungerFactor = (ent.hunger > 25) ? Math.min(0.45, (ent.hunger - 25) / 75 * 0.45) : 0;
+          const effRabbitPerception = ent.perceptionRadius * (1.0 + rabbitHungerFactor);
 
-          // Foragers & members seek food/water when hungry or thirsty
+          // 2. Goal Selection (Survival: Eating, Drinking, Socializing/Breeding)
           let forageTarget = null;
-          if (ent.thirst > 60) {
+          let socialTarget = null;
+
+          if (ent.thirst > 45) {
+            // Priority 1: Thirst -> Find pond shoreline
             const pond = resources.find(r => r.type === 'water');
             if (pond) forageTarget = pond;
-          } else if (ent.hunger > 35) {
-            let minBDist = 9999;
+          } else if (ent.hunger > 18) {
+            // Priority 2: Active Foraging -> Find un-depleted berry bushes or dandelion grove
+            // When hungry (hunger > 35 / satiety < 65%), search range dynamically expands across the entire biome!
+            const maxForageScanDist = (ent.hunger > 35) ? 9999 : 250;
+            let bestForageScore = -9999;
+
             for (const r of resources) {
               if (r.type === 'berry' && r.amount > 0) {
                 const d = Math.hypot(r.x - ent.x, r.y - ent.y);
-                if (d < minBDist) { minBDist = d; forageTarget = r; }
+                if (d <= maxForageScanDist) {
+                  const score = 1000 - d + (r.amount * 1.5);
+                  if (score > bestForageScore) {
+                    bestForageScore = score;
+                    forageTarget = r;
+                  }
+                }
               }
             }
+
+            // Also consider medicinal dandelion herb grove if closer or bushes depleted
+            if (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount > 5) {
+              const dHerb = Math.hypot(herbs[0].x - ent.x, herbs[0].y - ent.y);
+              if (dHerb <= maxForageScanDist) {
+                const scoreHerb = 950 - dHerb + (herbs[0].amount * 1.5);
+                if (scoreHerb > bestForageScore) {
+                  bestForageScore = scoreHerb;
+                  forageTarget = herbs[0];
+                }
+              }
+            }
+          } else {
+            // Priority 3: Satiated -> Congregate near burrow sanctuary or meadow for breeding & grooming
+            socialTarget = burrow;
           }
 
+          // 3. Steering & Flocking Execution
           if (forageTarget) {
             const toTx = forageTarget.x - ent.x;
             const toTy = forageTarget.y - ent.y;
             const dist = Math.hypot(toTx, toTy);
-            if (dist > 25) {
-              ent.vx += (toTx / dist) * 0.08;
-              ent.vy += (toTy / dist) * 0.08;
+            const targetRadius = forageTarget.radius || 35;
+            if (dist > targetRadius * 0.70) {
+              ent.vx += (toTx / dist) * 0.13;
+              ent.vy += (toTy / dist) * 0.13;
+            } else {
+              // Browsing around food patch
+              ent.wanderAngle += (Math.random() - 0.5) * 0.5;
+              ent.vx += Math.cos(ent.wanderAngle) * 0.05;
+              ent.vy += Math.sin(ent.wanderAngle) * 0.05;
+            }
+          } else if (socialTarget) {
+            // Gather near burrow / meadow
+            const toSx = socialTarget.x - ent.x;
+            const toSy = socialTarget.y - ent.y;
+            const distS = Math.hypot(toSx, toSy);
+            if (distS > 45) {
+              ent.vx += (toSx / distS) * 0.08;
+              ent.vy += (toSy / distS) * 0.08;
+            } else {
+              ent.wanderAngle += (Math.random() - 0.5) * 0.3;
+              ent.vx += Math.cos(ent.wanderAngle) * 0.05;
+              ent.vy += Math.sin(ent.wanderAngle) * 0.05;
             }
           } else if (!ent.isLeader) {
+            // Follow flock leader if far
             const leader = entities.find(e => e.isLeader);
             if (leader) {
               const toLx = leader.x - ent.x;
               const toLy = leader.y - ent.y;
               const dist = Math.hypot(toLx, toLy);
-              if (dist > 150) {
-                ent.vx += (toLx / dist) * 0.07;
-                ent.vy += (toLy / dist) * 0.07;
+              if (dist > 140) {
+                ent.vx += (toLx / dist) * 0.08;
+                ent.vy += (toLy / dist) * 0.08;
               }
             }
           } else {
-            // Leader steers towards food or pond
-            const target = resources.find(r => r.type === 'berry' && r.amount > 0) || resources.find(r => r.type === 'water');
-            if (target) {
-              const toTx = target.x - ent.x;
-              const toTy = target.y - ent.y;
+            // Alpha Scout leads toward active food patches or patrols colony
+            const bestFood = resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
+            if (bestFood) {
+              const toTx = bestFood.x - ent.x;
+              const toTy = bestFood.y - ent.y;
               const dist = Math.hypot(toTx, toTy);
               if (dist > 35) {
-                ent.vx += (toTx / dist) * 0.05;
-                ent.vy += (toTy / dist) * 0.05;
+                ent.vx += (toTx / dist) * 0.06;
+                ent.vy += (toTy / dist) * 0.06;
               }
             }
           }
@@ -2716,9 +2831,12 @@
         }
 
         // Herb Grove Nutrition Boost
-        if (Math.hypot(ent.x - herbs[0].x, ent.y - herbs[0].y) <= herbs[0].radius) {
-          ent.energy = Math.min(100, ent.energy + 0.08);
-          ent.hunger = Math.max(0, ent.hunger - 0.10);
+        if (typeof herbs !== 'undefined' && herbs[0] && Math.hypot(ent.x - herbs[0].x, ent.y - herbs[0].y) <= herbs[0].radius + 8 && herbs[0].amount > 0) {
+          const herbEatRate = Math.min(herbs[0].amount, 0.06);
+          herbs[0].amount = Math.max(0, herbs[0].amount - herbEatRate);
+          ent.energy = Math.min(100, ent.energy + 0.10);
+          ent.hunger = Math.max(0, ent.hunger - 0.24);
+          if (ent.health < 100) ent.health = Math.min(100, ent.health + 0.15);
         }
 
         // Rapid agility damping
@@ -2755,47 +2873,53 @@
         }
       }
 
-      // --- 4C. Rabbit Population Dynamics (Reproduction Loop) ---
+      // --- 4C. Rabbit Population Dynamics (Accelerated Reproduction Loop) ---
       const activeRabbits = entities.filter(e => e.type === 'rabbit');
-      if (worldTick % 320 === 0 && activeRabbits.length < 30 && activeRabbits.length >= 2) {
+      if (worldTick % 140 === 0 && activeRabbits.length < 36 && activeRabbits.length >= 2) {
         const avgHunger = activeRabbits.reduce((sum, r) => sum + r.hunger, 0) / activeRabbits.length;
-        const hasFood = resources.some(r => r.type === 'berry' && r.amount > 25);
-        if (avgHunger < 45 && hasFood) {
-          const newId = `r_${entities.length + 1}`;
-          entities.push({
-            id: newId,
-            name: `Rabbit #${String(entities.length + 1).padStart(2, '0')}`,
-            type: 'rabbit',
-            role: 'Thỏ Hái Lượm (Mới Sinh)',
-            x: burrow.x + (Math.random() - 0.5) * 20,
-            y: burrow.y + (Math.random() - 0.5) * 20,
-            vx: 0,
-            vy: 0,
-            radius: 4.5,
-            energy: 90,
-            hunger: 20,
-            thirst: 20,
-            health: 100,
-            perceptionRadius: 95,
-            isLeader: false,
-            wanderAngle: Math.random() * Math.PI * 2,
-            isSheltered: false,
-            inCover: false,
-            state: 'NORMAL',
-            sprintsRemaining: 3,
-            sprintDuration: 0,
-            isExhausted: false,
-            jinkCooldown: 20,
-            jinkAngle: 0
-          });
+        const totalBerries = resources.reduce((acc, r) => acc + (r.type === 'berry' ? r.amount : 0), 0);
+        const hasFood = (totalBerries >= 15 || (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount >= 20));
+
+        if (avgHunger < 50 && hasFood) {
+          // Food surplus enables litter of 1-2 rabbits
+          const litterSize = (avgHunger < 30 && totalBerries > 80 && activeRabbits.length <= 34) ? 2 : 1;
+          for (let k = 0; k < litterSize; k++) {
+            const newId = `r_${entities.length + 1}`;
+            entities.push({
+              id: newId,
+              name: `Rabbit #${String(entities.length + 1).padStart(2, '0')}`,
+              type: 'rabbit',
+              role: 'Thỏ Hái Lượm (Mới Sinh)',
+              x: burrow.x + (Math.random() - 0.5) * 26,
+              y: burrow.y + (Math.random() - 0.5) * 26,
+              vx: (Math.random() - 0.5) * 0.8,
+              vy: (Math.random() - 0.5) * 0.8,
+              radius: 4.5,
+              energy: 90,
+              hunger: 15,
+              thirst: 15,
+              health: 100,
+              perceptionRadius: 95,
+              isLeader: false,
+              wanderAngle: Math.random() * Math.PI * 2,
+              isSheltered: false,
+              inCover: false,
+              state: 'NORMAL',
+              sprintsRemaining: 3,
+              sprintDuration: 0,
+              isExhausted: false,
+              jinkCooldown: 20,
+              jinkAngle: 0
+            });
+          }
           const totalRabbits = entities.filter(e => e.type === 'rabbit').length;
           document.getElementById('kpi-rabbits').textContent = `${totalRabbits} con`;
           addTimelineEvent({
             badge: 'SINH SẢN TỰ NHIÊN',
             badgeClass: 'slm',
-            title: 'Quần thể thỏ sinh thêm 1 thỏ con tại Hang Trú Ẩn!',
-            body: `Mức đói trung bình thấp (${avgHunger.toFixed(0)}%) và thức ăn dư giả. Đàn thỏ phát triển lên ${totalRabbits} con.`,
-            reason: 'LotkaVolterra: r-strategist population growth (H_avg < 45%, food > 25u)'
+            title: `Quần thể thỏ sinh thêm ${litterSize} thỏ con tại Hang Trú Ẩn!`,
+            body: `Đàn thỏ tích cực ăn no (${(100 - avgHunger).toFixed(0)}% độ no) và thức ăn dồi dào (${Math.round(totalBerries)}u). Tổng đàn tăng lên ${totalRabbits} con.`,
+            reason: `LotkaVolterra: r-strategist accelerated reproduction (avgSatiety > 50%, litterSize = ${litterSize})`
           });
         }
       }
@@ -3096,14 +3220,23 @@
         }
       }
 
-      // 10. Fog of War / Perception Field
+      // 10. Fog of War / Perception Field (Dynamic Sensory Expansion)
       if (layers.fog && selectedObject && (selectedObject.type === 'rabbit' || selectedObject.type === 'wolf')) {
+        let effPerception = selectedObject.perceptionRadius || 95;
+        if (selectedObject.type === 'wolf') {
+          const hFactor = (selectedObject.hunger > 35) ? Math.min(0.50, (selectedObject.hunger - 35) / 65 * 0.50) : 0;
+          effPerception *= (1.0 + hFactor * 0.80);
+        } else if (selectedObject.type === 'rabbit') {
+          const hFactor = (selectedObject.hunger > 25) ? Math.min(0.45, (selectedObject.hunger - 25) / 75 * 0.45) : 0;
+          effPerception *= (1.0 + hFactor);
+        }
+
         ctx.save();
         ctx.beginPath();
-        ctx.arc(selectedObject.x, selectedObject.y, selectedObject.perceptionRadius, 0, Math.PI * 2);
+        ctx.arc(selectedObject.x, selectedObject.y, effPerception, 0, Math.PI * 2);
         const grad = ctx.createRadialGradient(
-          selectedObject.x, selectedObject.y, selectedObject.perceptionRadius * 0.15,
-          selectedObject.x, selectedObject.y, selectedObject.perceptionRadius
+          selectedObject.x, selectedObject.y, effPerception * 0.15,
+          selectedObject.x, selectedObject.y, effPerception
         );
         grad.addColorStop(0, isDark ? 'rgba(56, 189, 248, 0.15)' : 'rgba(2, 132, 199, 0.08)');
         grad.addColorStop(1, 'rgba(2, 132, 199, 0.0)');
@@ -3114,6 +3247,20 @@
         ctx.setLineDash([3, 3]);
         ctx.stroke();
         ctx.restore();
+
+        // Dynamic Scent Sensing Boundary for Wolf
+        if (selectedObject.type === 'wolf' && layers.scent) {
+          const hFactor = (selectedObject.hunger > 35) ? Math.min(0.50, (selectedObject.hunger - 35) / 65 * 0.50) : 0;
+          const effScentRadius = (selectedObject.scentDetectionRadius || 240) * (1.0 + hFactor);
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(selectedObject.x, selectedObject.y, effScentRadius, 0, Math.PI * 2);
+          ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.40)' : 'rgba(217, 119, 6, 0.35)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.restore();
+        }
       }
 
       // 11. Entities (Rabbits & Wolves)
