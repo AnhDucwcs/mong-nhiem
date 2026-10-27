@@ -1733,9 +1733,15 @@
             stateBadge.style.color = 'var(--rose)';
             stateBadge.style.borderColor = 'var(--rose)';
           } else if (obj.state === 'CHASE' || obj.state === 'FLEE') {
-            stateBadge.textContent = obj.state === 'CHASE' ? '⚡ RƯỢT ĐUỔI' : '⚡ BỎ CHẠY';
-            stateBadge.style.color = 'var(--amber)';
-            stateBadge.style.borderColor = 'var(--amber)';
+            if (obj.type === 'rabbit' && obj.inCover) {
+              stateBadge.textContent = '🌿 ẨN NẤP KÍN';
+              stateBadge.style.color = 'var(--emerald)';
+              stateBadge.style.borderColor = 'var(--emerald)';
+            } else {
+              stateBadge.textContent = obj.state === 'CHASE' ? '⚡ RƯỢT ĐUỔI' : '⚡ CHẠY TÌM CHỖ TRỐN';
+              stateBadge.style.color = 'var(--amber)';
+              stateBadge.style.borderColor = 'var(--amber)';
+            }
           } else {
             stateBadge.textContent = 'HOẠT ĐỘNG';
             stateBadge.style.color = 'var(--text-main)';
@@ -2432,7 +2438,8 @@
           }
         }
 
-        // Check if rabbit sees any wolf (strictly visual, <= 110px)
+        // Check if rabbit sees any wolf (strictly visual: alert distance is 110px in open field, but in thicket cover flight threshold is 42px)
+        const alertDist = ent.inCover ? 42 : 110;
         let nearestWolf = null;
         let minWolfDist = 9999;
         for (const w of currentWolves) {
@@ -2443,7 +2450,7 @@
           }
         }
 
-        const seesWolf = (nearestWolf && minWolfDist <= 110);
+        const seesWolf = (nearestWolf && minWolfDist <= alertDist);
 
         if (ent.state === 'REST') {
           // RESTING STATE: Damped movement, rapid energy recharge if fed
@@ -2462,12 +2469,12 @@
           if (ent.energy >= 90) {
             ent.state = 'NORMAL';
           }
-          // Wake up in alarm if wolf approaches within sight!
+          // Wake up in alarm if wolf approaches within flight threshold!
           if (seesWolf) {
             ent.state = 'FLEE';
           }
         } else if (seesWolf) {
-          // FLEEING WITH RAPID ZIG-ZAG JINKING AGILITY
+          // FLEEING: Prioritize finding shelter (Burrow or Nearest Safe Thicket Cover)
           ent.state = 'FLEE';
 
           // Energy & Sprint burst constraints (<40% energy allows at most 1 burst)
@@ -2475,17 +2482,72 @@
             ent.sprintsRemaining = Math.min(ent.sprintsRemaining !== undefined ? ent.sprintsRemaining : 1, 1);
           }
 
-          const dx = ent.x - nearestWolf.x;
-          const dy = ent.y - nearestWolf.y;
+          // Evaluate Nearest Safe Cover (Hang thỏ hoặc lùm cây gần nhất không bị sói chặn đường)
+          let bestCover = null;
+          let bestCoverScore = -9999;
+          const shelters = [burrow, ...thickets];
+
+          for (const sh of shelters) {
+            const toShX = sh.x - ent.x;
+            const toShY = sh.y - ent.y;
+            const distToSh = Math.hypot(toShX, toShY);
+
+            // Vector from rabbit to shelter
+            const uShX = toShX / (distToSh || 1);
+            const uShY = toShY / (distToSh || 1);
+
+            // Vector from wolf to rabbit
+            const awayWolfX = (ent.x - nearestWolf.x) / (minWolfDist || 1);
+            const awayWolfY = (ent.y - nearestWolf.y) / (minWolfDist || 1);
+
+            // Directional alignment: Is heading to this shelter moving away from or toward wolf?
+            const alignment = uShX * awayWolfX + uShY * awayWolfY;
+
+            // Distance from wolf to shelter
+            const distWolfToSh = Math.hypot(sh.x - nearestWolf.x, sh.y - nearestWolf.y);
+
+            // Valid safe shelter: not behind wolf and wolf isn't already camped inside it
+            if (alignment > -0.35 && distWolfToSh > 45) {
+              const score = 1000 - distToSh + (alignment * 160) + (sh === burrow ? 120 : 0);
+              if (score > bestCoverScore) {
+                bestCoverScore = score;
+                bestCover = sh;
+              }
+            }
+          }
 
           // Agility jink: every 16-26 ticks, sudden perpendicular jink
           ent.jinkCooldown = (ent.jinkCooldown || 0) - 1;
           if (ent.jinkCooldown <= 0) {
             ent.jinkCooldown = 16 + Math.floor(Math.random() * 12);
-            ent.jinkAngle = (Math.random() > 0.5 ? 1 : -1) * (0.85 + Math.random() * 0.4);
+            ent.jinkAngle = (Math.random() > 0.5 ? 1 : -1) * (0.80 + Math.random() * 0.35);
           }
 
-          const fleeAngle = Math.atan2(dy, dx) + (ent.jinkAngle || 0);
+          // Blend repulsion from predator + attraction to safe cover
+          let fleeDirX, fleeDirY;
+          const awayX = (ent.x - nearestWolf.x) / (minWolfDist || 1);
+          const awayY = (ent.y - nearestWolf.y) / (minWolfDist || 1);
+
+          if (bestCover && !ent.inCover) {
+            const toCoverX = (bestCover.x - ent.x);
+            const toCoverY = (bestCover.y - ent.y);
+            const distCover = Math.hypot(toCoverX, toCoverY);
+            const uCoverX = toCoverX / (distCover || 1);
+            const uCoverY = toCoverY / (distCover || 1);
+
+            // When wolf is very close (panic lunge <= 42px), evasion takes 65%; otherwise cover seeking takes 70%
+            const coverWeight = (minWolfDist < 42) ? 0.35 : 0.70;
+            const awayWeight = 1.0 - coverWeight;
+
+            fleeDirX = awayX * awayWeight + uCoverX * coverWeight;
+            fleeDirY = awayY * awayWeight + uCoverY * coverWeight;
+          } else {
+            fleeDirX = awayX;
+            fleeDirY = awayY;
+          }
+
+          const baseFleeAngle = Math.atan2(fleeDirY, fleeDirX);
+          const fleeAngle = baseFleeAngle + (ent.jinkAngle || 0);
 
           const canSprint = (ent.sprintsRemaining > 0 && !ent.isExhausted && ent.energy >= 15);
 
@@ -2512,10 +2574,10 @@
             }
           }
 
-          // Inside thicket: freeze/stealth behavior
+          // Inside thicket: activate freeze/stealth behavior (stay low to suppress silhouette and scent)
           if (ent.inCover) {
-            ent.vx *= 0.55;
-            ent.vy *= 0.55;
+            ent.vx *= 0.45;
+            ent.vy *= 0.45;
           }
 
         } else {
@@ -2523,6 +2585,15 @@
           if (ent.state === 'FLEE') {
             ent.state = 'NORMAL';
             ent.sprintDuration = 0;
+            if (ent.inCover) {
+              // Successfully escaped into cover!
+              addTimelineEvent({
+                badge: 'BẢN NĂNG SINH TỒN',
+                badgeClass: 'slm',
+                title: `${ent.name} đã lẩn trốn an toàn vào lùm cây!`,
+                body: `Cá thể nhanh trí chạy thoát vào nơi ẩn nấp [${ent.x.toFixed(0)}, ${ent.y.toFixed(0)}]. Sói mất dấu vết khứu giác & tầm nhìn.`
+              });
+            }
           }
 
           // Gentle energy baseline consumption & recovery

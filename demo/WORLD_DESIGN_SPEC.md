@@ -211,6 +211,24 @@ Sói vận hành với 3 trạng thái hành vi tự nhiên:
    $$d \le R_{\text{catch}} = 16.0\text{ px}$$
    Khi chạm ngưỡng $16\text{ px}$, cú vồ mồi thành công: thỏ tử vong, sói reset cơn đói về $0\%$, nạp đầy năng lượng $100\%$ và tăng chỉ số chiến tích `killCount`.
 
+### 7.3 Cơ Chế Chạy Trốn & Ưu Tiên Tìm Chỗ Trốn (Cover-Seeking Evasion & Escape Protocol)
+Thỏ không chỉ bỏ chạy hỗn loạn ra khoảng trống vô định mà tuân thủ tập tính sinh tồn tự nhiên **chạy tìm nơi ẩn nấp**:
+1. **Ngưỡng Báo Động Phân Hóa Theo Địa Hình:**
+   - Khi ở địa hình quang đãng: thỏ phát hiện sói ở cự ly thị giác $110\text{ px}$ và lập tức kích hoạt bỏ chạy.
+   - Khi đã nấp trong lùm cây (`inCover = true`): thỏ giữ trạng thái bất động (`Freeze Stealth`), ngưỡng bay trốn (flight threshold) rút ngắn xuống còn $42\text{ px}$. Thỏ sẽ không tự động phóng ra ngoài nếu sói chưa thực sự bước vào bụi rậm.
+2. **Thuật Toán Tìm Nơi Trú Ẩn An Toàn Tối Ưu (Optimal Safe Cover Evaluation):**
+   - Khi bị phát hiện, thỏ quét toàn bộ $7$ vị trí trú ẩn trên bản đồ (Hang Thỏ và $6$ lùm cây che phủ).
+   - **Tiêu chí an toàn:** Nơi trú ẩn phải có góc hướng dạt xa sói ($\mathbf{u}_{\text{cover}} \cdot \mathbf{u}_{\text{away}} > -0.35$) và sói không đứng chặn đường ($d_{\text{wolf}\to\text{cover}} > 45\text{ px}$).
+   - **Chấm điểm:** Ưu tiên khoảng cách gần, độ thẳng hàng với vector thoát hiểm và điểm thưởng cho Hang Thỏ ($+120\text{ pts}$).
+3. **Tổng Hợp Vector Chạy Trốn (Combined Escape Steering):**
+   - Hướng thoát hiểm $\mathbf{F}_{\text{flee}}$ kết hợp giữa lực đẩy xa dã thú ($\mathbf{u}_{\text{away}}$) và lực hút hướng tâm về lùm cây an toàn ($\mathbf{u}_{\text{cover}}$):
+     $$\mathbf{F}_{\text{flee}} = w_{\text{away}} \cdot \mathbf{u}_{\text{away}} + w_{\text{cover}} \cdot \mathbf{u}_{\text{cover}}$$
+     Trong đó, khi sói áp sát nguy cấp ($d \le 42\text{ px}$): $w_{\text{away}} = 0.65$ (ưu tiên né đòn vồ); khi ngoài cự ly vồ: $w_{\text{cover}} = 0.70$ (lao thẳng về lùm cây).
+   - Cộng hưởng cú bẻ góc zig-zag ngẫu nhiên $60^\circ \sim 80^\circ$ trên từng nhịp $16 \sim 28\text{ ticks}$.
+4. **Cắt Đuôi & Thoát Hiểm Thành Công (Predation Loss In Cover):**
+   - Khi thỏ lặn vào phạm vi lùm cây ($d \le R_{\text{thicket}}$), vết mùi và hình ảnh bị triệt tiêu $75\%$.
+   - Sói chỉ ngửi/nhìn thấy thỏ trong lùm cây ở cự ly $\le 48\text{ px}$. Nếu sói cách xa $> 50\text{ px}$, sói mất hoàn toàn tín hiệu con mồi, hủy trạng thái `CHASE` và quay về `PATROL`. Thỏ trốn thoát thành công và ghi nhận telemetry `[BẢN NĂNG SINH TỒN]`.
+
 ---
 
 ## 8. Cân Bằng Sinh Thái Quần Thể (Lotka-Volterra Population Lifecycle)
