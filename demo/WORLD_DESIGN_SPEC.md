@@ -362,33 +362,29 @@ Triệt tiêu hoàn toàn hiện tượng phi thực tế "cạn kiệt thể l�
 
 ---
 
-## 13. Vật Cản Địa Hình Tuyệt Đối (Rặng Đá, Lòng Hồ Sâu) & Tử Địa Hố Sụt Karst
+## 13. Vật Cản Địa Hình Tuyệt Đối (Rặng Đá, Lòng Hồ Sâu) & Kiểm Soát Vận Tốc Thực
 
-### 13.1 Vật Cản Địa Hình Tuyệt Đối (Impassable Obstacles)
-Để loại bỏ hiện tượng xuyên thấu phi vật lý (clipping through rocks / walking on deep water), Host áp dụng bộ phân giải va chạm cứng (Hard Collision Resolvers):
-1. **Rặng Đá Granit (Rotated Elliptical Collider Resolution):**
+### 13.1 Vật Cản Địa Hình Tuyệt Đối & Chống Dịch Chuyển Tức Thời (Anti-Teleport Collision Resolution)
+Để loại bỏ triệt để hiện tượng đi xuyên vật cản (clipping) hoặc bị bắn văng/dịch chuyển tức thời (teleportation) do lỗi chiếu bán kính elip:
+1. **Rặng Đá Granit (Step-Back Boundary Resolution):**
    - Mỗi khối đá được mô hình hóa dưới dạng elip quay góc $\theta$ với bán trục $r_x, r_y$:
      $$\mathbf{x}_{\text{local}} = \mathbf{R}(-\theta) \cdot (\mathbf{x}_{\text{ent}} - \mathbf{x}_{\text{rock}})$$
      $$q = \left(\frac{x_{\text{local}}}{r_x + r_{\text{ent}}}\right)^2 + \left(\frac{y_{\text{local}}}{r_y + r_{\text{ent}}}\right)^2$$
-   - Khi $q < 1.0$ (cá thể chạm/chìm vào đá):
-     - Vị trí cá thể lập tức bị đẩy lùi tức thì ra biên ngoài bề mặt đá ($q \ge 1.01$).
-     - Thành phần vận tốc hướng tâm bị triệt tiêu ($v \mathrel{*}= 0.4$), buộc cá thể trượt men theo rìa đá thay vì đi xuyên qua.
+   - Khi $q < 1.0$ (chạm đá):
+     - **Thuật toán Step-Back:** Vị trí cá thể lập tức được hoàn nguyên về bước trước đó ($\mathbf{x}_{\text{prev}}$). Nếu không có tọa độ trước, chiếu tọa độ theo phương trình chuẩn tắc:
+       $$\alpha = \text{atan2}(y_{\text{local}} \cdot a, x_{\text{local}} \cdot b), \quad x_{\text{target}} = a \cos\alpha, \quad y_{\text{target}} = b \sin\alpha$$
+       Giới hạn khoảng cách tuyệt đối trong kích thước đá ($\le 65\text{ px}$), triệt tiêu $100\%$ hiện tượng phóng đại tọa độ.
+     - Phản lực mềm ($v \mathrel{*}= -0.2$) giúp cá thể dội nhẹ và trượt men theo rìa ngoài của đá.
 2. **Lòng Hồ Nước Sâu (Impassable Deep Water Basin):**
    - Hồ nước trung tâm có bán kính tổng $R = 105\text{ px}$.
-   - **Vùng bờ nông ($r \in [68\text{ px}, 120\text{ px}]$):** Nơi các cá thể được phép đứng uống nước.
-   - **Lòng hồ nước sâu ($r \le R_{\text{deep}} = 105 \times 0.65 = 68.25\text{ px}$):** Vùng nước sâu cấm tuyệt đối, không cá thể nào được đi trên mặt nước sâu.
-   - Khi $d_{\text{pond}} < R_{\text{deep}} + r_{\text{ent}}$: Hệ thống cưỡng bức đẩy cá thể ra mép bờ nông, phản xạ vận tốc tiếp tuyến giúp di chuyển vòng quanh hồ.
+   - **Vùng bờ nông ($r \in [68\text{ px}, 120\text{ px}]$):** Nơi các cá thể đứng uống nước. Thỏ sinh sản và bầy đàn ban đầu được khởi tạo an toàn ở vùng đồng cỏ ngoài hồ ($d > 115\text{ px}$).
+   - **Lòng hồ nước sâu ($r \le R_{\text{deep}} = 105 \times 0.65 = 68.25\text{ px}$):** Cấm đi vào; nếu tiếp cận sẽ bị hoàn nguyên bước và phản hồi trượt tiếp tuyến men theo mép bờ hồ.
 
-### 13.2 Tử Địa Hố Sụt Karst (Sinkhole Lethal Drop Dynamics)
-Hố sụt địa chất tại tọa độ $[880, 270]$ là mối nguy hiểm tự nhiên chết người:
-1. **Bán kính cảnh báo nguy hiểm ($r \le 65\text{ px}$):**
-   - Vùng viền nứt lún địa chất (vạch đứt đoạn đỏ).
-   - Cá thể bình thường có lực đẩy dạt nhẹ để né tránh hố nếu di chuyển ở tốc độ thấp.
-2. **Miệng Vực Tử Địa ($d \le 40.0\text{ px}$):**
-   - Bất kỳ cá thể sinh học nào (cả thỏ lẫn sói) khi bước vào bán kính $40\text{ px}$ sẽ **lập tức rơi xuống vực sâu và biến mất/tử nạn**:
-     $$d_{\text{hazard}} \le 40.0\text{ px} \implies \text{Eliminate Entity from World}$$
-   - **Xử lý sự kiện Host:**
-     - Cá thể bị loại bỏ vĩnh viễn khỏi danh sách `entities`.
-     - Bộ đếm quần thể cập nhật ngay (`kpi-rabbits` hoặc `kpi-wolves`).
-     - Ghi nhận telemetry viễn thám: `[ĐỊA CHẤT TỬ NẠN] <Tên> sa chân rơi xuống Hố Sụt Karst!`.
-   - **Kịch bản săn bắt:** Khi thỏ bị dồn về góc Đông hoặc sói bứt tốc rượt đuổi quá đà, nguy cơ trượt chân rơi xuống hố tạo nên biến số sinh tồn kịch tính.
+### 13.2 Giới Hạn Vận Tốc Sinh Học Thực Tế (Strict Velocity Clamping)
+Triệt tiêu hiện tượng sói hay thỏ bị kéo về với tốc độ phi lý sau va chạm:
+- **Sói:** $v_{\max} = 3.0\text{ px/tick}$ khi tuần tra/bình thường; $v_{\max} = 5.2\text{ px/tick}$ khi rượt đuổi; $v_{\max} = 1.5\text{ px/tick}$ khi kiệt sức.
+- **Thỏ:** $v_{\max} = 2.4\text{ px/tick}$ khi gặm cỏ; $v_{\max} = 4.4\text{ px/tick}$ khi bỏ chạy; $v_{\max} = 1.4\text{ px/tick}$ khi kiệt sức.
+- Vận tốc di chuyển trở về lãnh thổ không bao giờ được vượt quá tốc độ săn bắt danh định.
+
+### 13.3 Trạng Thái Hố Sụt Karst (Deferred Hazard Status)
+- Theo chỉ thị của người vận hành, cơ chế Hố sụt (Sinkhole) và nhãn chữ liên quan tạm thời được gỡ bỏ hoàn toàn khỏi bản đồ mô phỏng để tinh gọn không gian quan sát hành vi bầy đàn thuần túy. Cơ chế này sẽ được hoàn thiện và tái tích hợp ở giai đoạn sau.
