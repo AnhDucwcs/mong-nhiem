@@ -264,21 +264,23 @@ Tuân thủ triết lý tối giản và công thái học nhận thức (UI/UX 
      - **Lưới chọn nhanh 6 mức (Preset Chips):** $0.25\times$ (Siêu chậm), $0.50\times$ (Chậm), $0.75\times$ (Mượt), $1.00\times$ (Chuẩn), $2.00\times$ (Tua nhanh), $5.00\times$ (Siêu tốc).
      - **Phản hồi thời gian thực:** Cập nhật ngay số tick tính toán trên giây ($\text{ticks/s}$) và ghi chú mục đích quan sát.
 2. **Menu Dropdown `Can Thiệp ▾` (Operator Interventions):**
-   - Đóng gói toàn bộ 6 tác vụ can thiệp vào một trình đơn thả xuống có kiểm soát:
+   - Đóng gói toàn bộ 7 tác vụ can thiệp vào một trình đơn thả xuống có kiểm soát:
      - `Đổi Hướng Gió (90°)`: Thay đổi vector khuếch tán mùi tức thời.
      - `Bật/Tắt Mưa Rào`: Giảm tầm nhìn và xóa sạch vệt mùi trên mặt đất.
-     - `Shock: Ép Cạn Lương (0u)`: Cưỡng bức tài nguyên về 0 để thử thách SLM.
-     - `Shock: Thả Thêm Sói`: Kiểm tra phản ứng đa mối đe dọa.
-     - `Shock: Xóa Sổ Đàn Sói`: Đưa hệ sinh thái về trạng thái an toàn.
-     - `Standby (Chờ Can Thiệp)`: Reset trạng thái can thiệp.
+     - `Khí Hậu: Hạn Hán Vi Phân`: Mô phỏng hạn hán tự nhiên làm bay hơi tài nguyên.
+     - `Thả Sói Phục Kích`: Kiểm tra phản ứng đa mối đe dọa.
+     - `Lệnh Bầy Đàn: Bật/Tắt Nghỉ Ngơi`: Phát chỉ thị toàn bầy đàn dừng di chuyển, ưu tiên hồi phục thể lực nếu không bị đói.
+     - `Standby (Chờ Can Thiệp)`: Can thiệp khẩn cấp đưa hệ sinh thái về trạng thái an toàn.
 3. **Menu Dropdown `Lớp Bản Đồ ▾` (Viewport Layer Filtering):**
    - Đóng gói 9 công tắc hiển thị lớp vào dropdown dạng checkbox: Bãi Cỏ, Tầm Nhìn, Vệt Mùi, Khí Quyển, Mối Nguy, Trục Toạ Độ, Lưới Kiến Trúc, Hang & Lùm Cây, Rặng Đá.
    - Giải phóng hoàn toàn thanh chip nổi phía trên canvas, tạo không gian quan sát chuẩn học thuật.
-4. **Đồng Hồ Đo Sinh Học Trực Quan (Intuitive Physiological Gauges):**
+4. **Đồng Hồ Đo Sinh Học Trực Quan (Intuitive Physiological Gauges) & Trạng Thái Cá Thể:**
    - Sửa đổi toàn diện các chỉ số: hiển thị **Độ No (Satiety)** và **Độ Ẩm Nước (Hydration)** từ $100\% \to 0\%$, đi kèm màu sắc tương thích (Xanh lục khi no $> 50\%$, Vàng hổ phách khi thiếu $25-50\%$, Đỏ báo động kiệt sức $< 25\%$).
    - Triệt tiêu hoàn toàn nghịch lý hiển thị "đói tăng nhưng nhãn ghi no".
+   - **Chỉ Báo Bứt Tốc & Huy Hiệu Trạng Thái:** Hiển thị số lượt bứt tốc khả dụng (`Bứt tốc: 3/3 lần` vs `Chỉ còn 1 lần bứt tốc!` vs `⚠️ Kiệt Sức!`), huy hiệu trạng thái (`HOẠT ĐỘNG`, `💤 ĐANG NGHỈ NGƠI`, `⚠️ KIỆT SỨC`, `⚡ RƯỢT ĐUỔI / BỎ CHẠY`), và nút can thiệp cá thể `💤 Nghỉ Ngơi / ⚡ Đánh Thức`.
 5. **Telemetry Strip Đa Quần Thể:**
    - Bổ sung bộ đếm `Đàn Sói` trực quan cạnh `Đàn Thỏ` và `Trữ Lượng Dâu` để theo dõi cân bằng Lotka-Volterra theo thời gian thực.
+   - Giữ nguyên hiển thị quang đãng danh định `☀️ BAN NGÀY` (tạm dừng chu kỳ ngày/đêm theo yêu cầu).
 
 ---
 
@@ -306,3 +308,51 @@ Tuân thủ triết lý tối giản và công thái học nhận thức (UI/UX 
    - Chặn đứng kế hoạch của SLM.
    - Ghi nhật ký Panel C: `REJECT: Path breaches predator safety margin (measured d_min = 23.6px < 35.0px)`.
    - Cưỡng chế phát tín hiệu khẩn cấp: 16 con thỏ gần nhất sơ tán về Hang $[320, 520]$, các con còn lại tản vào Lùm Cây $[730, 470]$.
+
+---
+
+## 12. Cơ Chế Năng Lượng Chuyển Hóa, Giới Hạn Bứt Tốc & Chế Độ Nghỉ Ngơi
+
+### 12.1 Tạm Dừng Chu Kỳ Ngày / Đêm (Day/Night Pause)
+Theo yêu cầu thiết kế giao diện và kiểm thử nhận thức, chu kỳ sáng / tối được vô hiệu hóa hoàn toàn:
+- Môi trường duy trì điều kiện chiếu sáng quang đãng danh định ($100\%$ daylight visibility).
+- Triệt tiêu các lớp overlay làm tối canvas vào ban đêm, giúp theo dõi sát sao biểu hiện vận động và thể lực của từng cá thể.
+
+### 12.2 Chuyển Hóa Năng Lượng & Ràng Buộc Dinh Dưỡng Thực Tế (Nutrition Gate)
+Năng lượng thể lực ($E_i \in [0, 100]\%$) không thể tự sinh ra từ hư vô mà bắt buộc phải chuyển hóa từ dinh dưỡng thức ăn trong cơ thể (ATP Synthesis):
+1. **Tiêu hao năng lượng:**
+   - **Trạng thái bình thường (`NORMAL` / `PATROL` / `STALK`):** Vận động nhẹ tiêu hao cực thấp ($\dot{E}_{\text{base}} = -0.004\% \sim -0.005\%/\text{tick}$).
+   - **Bứt tốc rượt đuổi / bỏ chạy (`CHASE` / `FLEE`):** Tiêu hao thể lực cực mạnh ($\dot{E}_{\text{sprint}} = -0.18\% \sim -0.25\%/\text{tick}$).
+2. **Ràng buộc dinh dưỡng khi hồi phục (Nutrition Gate Invariant):**
+   - Năng lượng **CHỈ CÓ THỂ HỒI PHỤC KHI CÁ THỂ KHÔNG BỊ ĐÓI**:
+     $$H_i < 60\% \quad (S_i = \text{Satiety} > 40\%)$$
+   - Nếu $H_i \ge 60\%$ (đói bụng kiệt quệ): Cơ thể không còn calo dự trữ để tái tạo ATP; quá trình hồi phục năng lượng bị chặn hoàn toàn ($\dot{E}_{\text{regen}} = 0$).
+3. **Tốc độ hồi phục theo trạng thái:**
+   - **Bình thường:** Hồi phục chậm ($\dot{E}_{\text{regen}} = +0.02\%/\text{tick}$) nếu $H_i < 50\%$.
+   - **Nghỉ ngơi (`REST`):** Đứng yên, tập trung toàn bộ trao đổi chất để hồi phục nhanh ($\dot{E}_{\text{rest}} = +0.14\%/\text{tick}$) nếu $H_i < 60\%$.
+   - **Gặm dâu / Uống nước:** Bổ sung calo trực tiếp giúp nạp ngay $+0.04\% \sim +0.08\%$ năng lượng.
+
+### 12.3 Giới Hạn Bứt Tốc Dưới 40% Năng Lượng & Phạt Kiệt Sức
+Triệt tiêu hoàn toàn hiện tượng phi thực tế "cạn kiệt thể lực nhưng vẫn chạy như bay":
+1. **Ngưỡng Năng Lượng $E_i < 40\%$:**
+   - Khi năng lượng tụt xuống dưới $40\%$, cá thể (cả thỏ lẫn sói) **chỉ còn duy nhất 1 lần bứt tốc cuối cùng**:
+     $$E_i < 40\% \implies \text{sprintsRemaining} = \min(\text{sprintsRemaining}, 1)$$
+2. **Hết lượt bứt tốc HOẶC Năng lượng $E_i < 15\%$ (Trạng Thái Kiệt Sức - `isExhausted`):**
+   - Khi dùng hết cú bứt tốc duy nhất hoặc năng lượng tụt dưới $15\%$, cá thể rơi vào trạng thái **Kiệt Sức**:
+     $$\text{isExhausted} = \text{true}$$
+   - **Phạt vận tốc thực tế ($\sim 60\%$ Speed Penalty):**
+     - Sói kiệt sức: Gia tốc truy đuổi bị giảm từ $1.15 \to 0.42$ ($63\%$ penalty). Sói thở dốc, bước chân nặng nề, không thể lao vào vồ mồi.
+     - Thỏ kiệt sức: Lực chạy trốn bị giảm từ $0.85 \to 0.32$ ($62\%$ penalty). Thỏ mất khả năng bẻ góc zig-zag tốc độ cao.
+     - Nếu năng lượng chạm đáy $0\%$, việc tiếp tục gắng gượng chạy trốn sẽ bào mòn trực tiếp sinh lực máu ($\Omega_i \mathrel{-}= 0.10\%/\text{tick}$).
+
+### 12.4 Chế Độ Nghỉ Ngơi (Resting System & Operator Control)
+1. **Nghỉ ngơi tự nhiên (Autonomous Rest):**
+   - Khi $E_i < 25\%$ nhưng không bị đói ($H_i < 60\%$) và ở trong vùng an toàn (trong lùm cây hoặc cạnh hang đối với thỏ, không thấy con mồi đối với sói), cá thể tự động chuyển sang `REST`.
+   - Khi năng lượng hồi phục đạt $E_i \ge 85\% \sim 90\%$, cá thể tự động thức dậy trở lại hoạt động bình thường.
+   - Thỏ đang ngủ nếu phát hiện sói áp sát trong cự ly $110\text{ px}$ sẽ lập tức hoảng sợ thức giấc để bỏ chạy.
+2. **Can thiệp điều khiển (Operator Action):**
+   - **Can thiệp cá thể:** Nút `💤 Nghỉ Ngơi` / `⚡ Đánh Thức` trên Inspector panel cho phép người vận hành cưỡng chế cá thể được chọn vào hoặc thoát khỏi chế độ dưỡng sức.
+   - **Chỉ thị quần thể:** Nút `Lệnh Bầy Đàn: Bật/Tắt Nghỉ Ngơi` trong dropdown `Can Thiệp ▾` phát lệnh trên toàn đàn thỏ, buộc cả bầy dừng kiếm ăn và tập trung nạp lại thể lực.
+3. **Hiển thị trực quan:**
+   - Cá thể đang nghỉ ngơi hiển thị ký hiệu `zZ` bồng bềnh màu xanh lam phía trên đầu.
+   - Cá thể kiệt sức hiển thị dấu báo hiệu `⚡0` màu đỏ hồng.

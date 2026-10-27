@@ -924,6 +924,7 @@
           <button class="menu-action-btn danger" id="btn-shock-drought">Khí Hậu: Hạn Hán Vi Phân</button>
           <button class="menu-action-btn danger" id="btn-shock-wolf">Thả Sói Phục Kích</button>
           <hr class="menu-divider">
+          <button class="menu-action-btn" id="btn-colony-rest">Lệnh Bầy Đàn: Bật/Tắt Nghỉ Ngơi</button>
           <button class="menu-action-btn" id="btn-standby">Can Thiệp Standby (Khẩn Cấp)</button>
         </div>
       </div>
@@ -967,6 +968,10 @@
             <div class="identity-info">
               <div class="identity-name" id="ent-name">Rabbit #01 (Alpha Scout)</div>
               <div class="identity-role" id="ent-role">Vai trò: Thỏ Trinh Sát & Dẫn Bầy</div>
+              <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+                <span class="status-badge" id="ent-state-badge" style="font-size:9px; font-weight:700; padding:1px 6px; border-radius:4px; font-family:'Fira Code',monospace; background:var(--bg-card); border:1px solid var(--border-subtle); color:var(--text-main);">HOẠT ĐỘNG</span>
+                <button class="btn" id="btn-toggle-rest" style="font-size:10px; padding:2px 8px; height:auto; line-height:1.2; border-radius:4px;">💤 Nghỉ Ngơi</button>
+              </div>
             </div>
           </div>
 
@@ -975,6 +980,7 @@
             <div class="vital-tile">
               <div class="vital-meta"><span>NĂNG LƯỢNG</span><span id="vital-val-energy">86%</span></div>
               <div class="vital-track"><div class="vital-fill energy" id="vital-bar-energy" style="width: 86%;"></div></div>
+              <div style="font-size:9px; color:var(--text-muted); font-family:'Fira Code',monospace; margin-top:3px;" id="vital-sprint-info">Bứt tốc: 3/3 lần</div>
             </div>
             <div class="vital-tile">
               <div class="vital-meta"><span>ĐỘ NO (SATIETY)</span><span id="vital-val-hunger">100%</span></div>
@@ -1249,6 +1255,10 @@
         perceptionRadius: isLeader ? 130 : 95,
         isLeader: isLeader,
         wanderAngle: Math.random() * Math.PI * 2,
+        state: 'NORMAL',
+        sprintsRemaining: 3,
+        sprintDuration: 0,
+        isExhausted: false,
         isSheltered: false,
         inCover: false,
         jinkCooldown: Math.floor(Math.random() * 20),
@@ -1275,7 +1285,9 @@
       scentDetectionRadius: 240,
       patrolAngle: 0,
       state: 'PATROL',
-      sprintStamina: 100,
+      sprintsRemaining: 3,
+      sprintDuration: 0,
+      isExhausted: false,
       killCount: 0,
       targetRabbit: null
     });
@@ -1591,6 +1603,52 @@
       });
     });
 
+    // Colony Rest Command (Operator Action)
+    let isColonyResting = false;
+    document.getElementById('btn-colony-rest').addEventListener('click', () => {
+      isColonyResting = !isColonyResting;
+      const rabbits = entities.filter(e => e.type === 'rabbit');
+      rabbits.forEach(r => {
+        if (isColonyResting) {
+          if (r.state !== 'FLEE') r.state = 'REST';
+        } else {
+          if (r.state === 'REST') r.state = 'NORMAL';
+        }
+      });
+      addTimelineEvent({
+        badge: 'CHỈ THỊ QUẦN THỂ',
+        badgeClass: 'slm',
+        title: isColonyResting ? 'Phát lệnh: Toàn bầy đàn chuyển sang nghỉ ngơi dưỡng sức!' : 'Phát lệnh: Kết thúc nghỉ ngơi, bầy đàn tiếp tục kiếm ăn.',
+        body: isColonyResting 
+          ? 'Thỏ dừng di chuyển, tập trung chuyển hóa thức ăn thành năng lượng (+0.14%/tick). Yêu cầu không bị đói để hồi phục.'
+          : 'Đàn thỏ thức dậy, tiếp tục gặm cỏ và tuần tra bầy đàn.'
+      });
+      updateInspectorUI();
+    });
+
+    // Individual Entity Rest Command (Inspector Action)
+    document.getElementById('btn-toggle-rest').addEventListener('click', () => {
+      if (!selectedObject || (selectedObject.type !== 'rabbit' && selectedObject.type !== 'wolf')) return;
+      if (selectedObject.state === 'REST') {
+        selectedObject.state = (selectedObject.type === 'wolf') ? 'PATROL' : 'NORMAL';
+        addTimelineEvent({
+          badge: 'CAN THIỆP CÁ THỂ',
+          badgeClass: 'slm',
+          title: `Đánh thức ${selectedObject.name}!`,
+          body: 'Cá thể kết thúc nghỉ ngơi, quay trở lại hoạt động bình thường.'
+        });
+      } else {
+        selectedObject.state = 'REST';
+        addTimelineEvent({
+          badge: 'CAN THIỆP CÁ THỂ',
+          badgeClass: 'slm',
+          title: `Chỉ định ${selectedObject.name} vào chế độ nghỉ ngơi!`,
+          body: 'Cá thể dừng di chuyển, ưu tiên hồi phục thể lực & nạp lại khả năng bứt tốc.'
+        });
+      }
+      updateInspectorUI();
+    });
+
     function addTimelineEvent(ev) {
       const feed = document.getElementById('timeline-feed');
       const card = document.createElement('div');
@@ -1629,7 +1687,60 @@
         avatar.className = `identity-avatar ${obj.type}`;
 
         document.getElementById('vital-val-energy').textContent = `${Math.round(obj.energy)}%`;
-        document.getElementById('vital-bar-energy').style.width = `${Math.max(0, Math.min(100, obj.energy))}%`;
+        const energyBar = document.getElementById('vital-bar-energy');
+        energyBar.style.width = `${Math.max(0, Math.min(100, obj.energy))}%`;
+        if (obj.energy < 20) {
+          energyBar.style.background = 'var(--rose)';
+        } else if (obj.energy < 40) {
+          energyBar.style.background = 'var(--amber)';
+        } else {
+          energyBar.style.background = 'var(--amber)';
+        }
+
+        const sprintInfo = document.getElementById('vital-sprint-info');
+        if (sprintInfo) {
+          sprintInfo.style.display = 'block';
+          if (obj.state === 'REST') {
+            sprintInfo.textContent = (obj.hunger < 60) ? '💤 Đang nghỉ ngơi: Hồi phục năng lượng (+0.14%/tick)' : '⚠️ Đói bụng: Không thể hồi phục năng lượng!';
+            sprintInfo.style.color = (obj.hunger < 60) ? 'var(--emerald)' : 'var(--rose)';
+          } else if (obj.isExhausted || obj.energy < 15) {
+            sprintInfo.textContent = '⚠️ Kiệt sức! Hết lần bứt tốc (Tốc độ giảm ~60%)';
+            sprintInfo.style.color = 'var(--rose)';
+          } else if (obj.energy < 40) {
+            sprintInfo.textContent = `⚠️ Năng lượng <40%: Chỉ còn ${obj.sprintsRemaining !== undefined ? obj.sprintsRemaining : 1} lần bứt tốc!`;
+            sprintInfo.style.color = 'var(--amber)';
+          } else {
+            sprintInfo.textContent = `Bứt tốc sẵn sàng (${obj.sprintsRemaining !== undefined ? obj.sprintsRemaining : 3}/3 lần)`;
+            sprintInfo.style.color = 'var(--text-muted)';
+          }
+        }
+
+        const stateBadge = document.getElementById('ent-state-badge');
+        const btnToggleRest = document.getElementById('btn-toggle-rest');
+        if (stateBadge) {
+          stateBadge.style.display = 'inline-block';
+          if (obj.state === 'REST') {
+            stateBadge.textContent = '💤 ĐANG NGHỈ NGƠI';
+            stateBadge.style.color = '#38bdf8';
+            stateBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+          } else if (obj.isExhausted) {
+            stateBadge.textContent = '⚠️ KIỆT SỨC';
+            stateBadge.style.color = 'var(--rose)';
+            stateBadge.style.borderColor = 'var(--rose)';
+          } else if (obj.state === 'CHASE' || obj.state === 'FLEE') {
+            stateBadge.textContent = obj.state === 'CHASE' ? '⚡ RƯỢT ĐUỔI' : '⚡ BỎ CHẠY';
+            stateBadge.style.color = 'var(--amber)';
+            stateBadge.style.borderColor = 'var(--amber)';
+          } else {
+            stateBadge.textContent = 'HOẠT ĐỘNG';
+            stateBadge.style.color = 'var(--text-main)';
+            stateBadge.style.borderColor = 'var(--border-subtle)';
+          }
+        }
+        if (btnToggleRest) {
+          btnToggleRest.style.display = 'inline-block';
+          btnToggleRest.textContent = (obj.state === 'REST') ? '⚡ Đánh Thức' : '💤 Nghỉ Ngơi';
+        }
 
         // Satiety (Độ no bụng: 100% = No nê, 0% = Đói kiệt quệ)
         const satiety = Math.max(0, Math.min(100, Math.round(100 - obj.hunger)));
@@ -1823,15 +1934,8 @@
       document.getElementById('kpi-tick').textContent = worldTick;
       document.getElementById('inspector-tick').textContent = `TICK ${worldTick}`;
 
-      // Day / Dusk / Night Cycle (500 ticks total cycle)
-      const dayCycle = worldTick % 500;
-      let daytimeStr = '☀️ BAN NGÀY';
-      if (dayCycle > 250 && dayCycle <= 360) {
-        daytimeStr = '🌇 HOÀNG HÔN';
-      } else if (dayCycle > 360) {
-        daytimeStr = '🌙 BAN ĐÊM';
-      }
-      document.getElementById('kpi-daytime').textContent = daytimeStr;
+      // Day/Night Cycle (Disabled as requested: constant clear daylight)
+      document.getElementById('kpi-daytime').textContent = '☀️ BAN NGÀY';
 
       const rect = container.getBoundingClientRect();
       const W = rect.width;
@@ -1994,10 +2098,41 @@
 
         wolf.targetRabbit = bestTarget;
 
-        if (!bestTarget) {
+        if (wolf.state === 'REST') {
+          // Resting Mode: Stay stationary, rapid energy recovery if not starving
+          wolf.vx *= 0.80;
+          wolf.vy *= 0.80;
+          if (wolf.hunger < 60) {
+            wolf.energy = Math.min(100, wolf.energy + 0.14);
+            if (wolf.energy >= 40) {
+              wolf.sprintsRemaining = 3;
+              wolf.isExhausted = false;
+            } else if (wolf.energy >= 20 && wolf.isExhausted) {
+              wolf.isExhausted = false;
+              wolf.sprintsRemaining = 1;
+            }
+          }
+          if (wolf.energy >= 90) {
+            wolf.state = 'PATROL';
+          }
+          // Wake up from rest if prey is detected and wolf has minimal energy
+          if (bestTarget && wolf.energy >= 25) {
+            wolf.state = 'STALK';
+          }
+        } else if (!bestTarget) {
           // No prey sensed -> Normal territorial patrol
           wolf.state = 'PATROL';
-          wolf.sprintStamina = Math.min(100, wolf.sprintStamina + 0.35);
+          wolf.energy = Math.max(0, wolf.energy - 0.005);
+          if (wolf.hunger < 50 && wolf.energy < 100) {
+            wolf.energy = Math.min(100, wolf.energy + 0.02);
+            if (wolf.energy >= 40 && !wolf.isExhausted) {
+              wolf.sprintsRemaining = 3;
+            }
+          }
+          // Autonomous rest if tired and not starving
+          if (wolf.energy < 25 && wolf.hunger < 60) {
+            wolf.state = 'REST';
+          }
           wolf.patrolAngle += 0.011;
           const targetX = 810 + Math.cos(wolf.patrolAngle) * 115;
           const targetY = 270 + Math.sin(wolf.patrolAngle) * 80;
@@ -2015,7 +2150,8 @@
           if (!rabbitSeesWolf && dist > 60) {
             // STALK / AMBUSH: Rabbit hasn't seen wolf yet -> Stalk slowly, use cover
             wolf.state = 'STALK';
-            wolf.sprintStamina = Math.min(100, wolf.sprintStamina + 0.15);
+            wolf.energy = Math.max(0, wolf.energy - 0.008);
+            if (wolf.hunger < 50) wolf.energy = Math.min(100, wolf.energy + 0.015);
             const speed = 0.50; // Slow, stealthy approach
             wolf.vx += (dx / dist) * speed;
             wolf.vy += (dy / dist) * speed;
@@ -2023,11 +2159,44 @@
           } else {
             // CHASE / LUNGE: Rabbit fleeing OR within pouncing range (<= 60px)
             wolf.state = 'CHASE';
-            // Pounce lunge: sudden acceleration boost when close
-            const sprintMult = (dist < 42 && wolf.sprintStamina > 20) ? 1.45 : 1.10;
-            wolf.vx += (dx / dist) * sprintMult;
-            wolf.vy += (dy / dist) * sprintMult;
-            wolf.sprintStamina = Math.max(0, wolf.sprintStamina - 0.30);
+
+            // Energy & Sprint burst constraints (<40% energy allows at most 1 burst)
+            if (wolf.energy < 40) {
+              wolf.sprintsRemaining = Math.min(wolf.sprintsRemaining !== undefined ? wolf.sprintsRemaining : 1, 1);
+            }
+
+            const canSprint = (wolf.sprintsRemaining > 0 && !wolf.isExhausted && wolf.energy >= 15);
+
+            if (canSprint) {
+              if (dist < 45) {
+                // Pounce lunge: sudden acceleration boost when close
+                const sprintMult = 1.40;
+                wolf.vx += (dx / dist) * sprintMult;
+                wolf.vy += (dy / dist) * sprintMult;
+                wolf.sprintDuration = (wolf.sprintDuration || 0) + 1;
+                wolf.energy = Math.max(0, wolf.energy - 0.22);
+                if (wolf.sprintDuration >= 30) {
+                  wolf.sprintsRemaining--;
+                  wolf.sprintDuration = 0;
+                  if (wolf.sprintsRemaining <= 0 || wolf.energy < 15) {
+                    wolf.isExhausted = true;
+                  }
+                }
+              } else {
+                // Normal pursuit sprint
+                const sprintMult = 1.12;
+                wolf.vx += (dx / dist) * sprintMult;
+                wolf.vy += (dy / dist) * sprintMult;
+                wolf.energy = Math.max(0, wolf.energy - 0.06);
+              }
+            } else {
+              // Kiệt sức (Exhausted): cannot sprint like crazy, speed heavily penalized (~60% penalty)
+              wolf.isExhausted = true;
+              const exhaustedSpeed = 0.42;
+              wolf.vx += (dx / dist) * exhaustedSpeed;
+              wolf.vy += (dy / dist) * exhaustedSpeed;
+              wolf.energy = Math.max(0, wolf.energy - 0.015);
+            }
 
             // Catch Predation Event (d <= 16px)
             if (dist <= 16) {
@@ -2037,6 +2206,9 @@
                 entities.splice(victimIdx, 1);
                 wolf.hunger = 0;
                 wolf.energy = 100;
+                wolf.sprintsRemaining = 3;
+                wolf.sprintDuration = 0;
+                wolf.isExhausted = false;
                 wolf.health = Math.min(100, wolf.health + 25);
                 wolf.killCount = (wolf.killCount || 0) + 1;
                 wolf.targetRabbit = null;
@@ -2074,7 +2246,9 @@
                     scentDetectionRadius: 240,
                     patrolAngle: Math.PI,
                     state: 'PATROL',
-                    sprintStamina: 100,
+                    sprintsRemaining: 3,
+                    sprintDuration: 0,
+                    isExhausted: false,
                     killCount: 0
                   });
                   document.getElementById('kpi-wolves').textContent = `2 con`;
@@ -2185,8 +2359,36 @@
 
         const seesWolf = (nearestWolf && minWolfDist <= 110);
 
-        if (seesWolf) {
+        if (ent.state === 'REST') {
+          // RESTING STATE: Damped movement, rapid energy recharge if fed
+          ent.vx *= 0.80;
+          ent.vy *= 0.80;
+          if (ent.hunger < 60) {
+            ent.energy = Math.min(100, ent.energy + 0.14);
+            if (ent.energy >= 40) {
+              ent.sprintsRemaining = 3;
+              ent.isExhausted = false;
+            } else if (ent.energy >= 20 && ent.isExhausted) {
+              ent.isExhausted = false;
+              ent.sprintsRemaining = 1;
+            }
+          }
+          if (ent.energy >= 90) {
+            ent.state = 'NORMAL';
+          }
+          // Wake up in alarm if wolf approaches within sight!
+          if (seesWolf) {
+            ent.state = 'FLEE';
+          }
+        } else if (seesWolf) {
           // FLEEING WITH RAPID ZIG-ZAG JINKING AGILITY
+          ent.state = 'FLEE';
+
+          // Energy & Sprint burst constraints (<40% energy allows at most 1 burst)
+          if (ent.energy < 40) {
+            ent.sprintsRemaining = Math.min(ent.sprintsRemaining !== undefined ? ent.sprintsRemaining : 1, 1);
+          }
+
           const dx = ent.x - nearestWolf.x;
           const dy = ent.y - nearestWolf.y;
 
@@ -2198,8 +2400,31 @@
           }
 
           const fleeAngle = Math.atan2(dy, dx) + (ent.jinkAngle || 0);
-          ent.vx += Math.cos(fleeAngle) * 0.82;
-          ent.vy += Math.sin(fleeAngle) * 0.82;
+
+          const canSprint = (ent.sprintsRemaining > 0 && !ent.isExhausted && ent.energy >= 15);
+
+          if (canSprint) {
+            ent.vx += Math.cos(fleeAngle) * 0.85;
+            ent.vy += Math.sin(fleeAngle) * 0.85;
+            ent.sprintDuration = (ent.sprintDuration || 0) + 1;
+            ent.energy = Math.max(0, ent.energy - 0.18);
+            if (ent.sprintDuration >= 28) {
+              ent.sprintsRemaining--;
+              ent.sprintDuration = 0;
+              if (ent.sprintsRemaining <= 0 || ent.energy < 15) {
+                ent.isExhausted = true;
+              }
+            }
+          } else {
+            // Kiệt sức (Exhausted): cannot sprint like crazy, speed heavily penalized (~60% penalty)
+            ent.isExhausted = true;
+            ent.vx += Math.cos(fleeAngle) * 0.32;
+            ent.vy += Math.sin(fleeAngle) * 0.32;
+            ent.energy = Math.max(0, ent.energy - 0.015);
+            if (ent.energy <= 0) {
+              ent.health = Math.max(0, ent.health - 0.10);
+            }
+          }
 
           // Inside thicket: freeze/stealth behavior
           if (ent.inCover) {
@@ -2207,16 +2432,37 @@
             ent.vy *= 0.55;
           }
 
-        } else if (ent.evacTarget === 'burrow') {
-          // Evacuation to burrow
-          const toBx = burrow.x - ent.x;
-          const toBy = burrow.y - ent.y;
-          const distB = Math.hypot(toBx, toBy);
-          if (distB > 12) {
-            ent.vx += (toBx / distB) * 0.16;
-            ent.vy += (toBy / distB) * 0.16;
+        } else {
+          // Normal state or Evacuation
+          if (ent.state === 'FLEE') {
+            ent.state = 'NORMAL';
+            ent.sprintDuration = 0;
           }
-        } else if (ent.evacTarget === 'thicket') {
+
+          // Gentle energy baseline consumption & recovery
+          ent.energy = Math.max(0, ent.energy - 0.004);
+          if (ent.hunger < 50 && ent.energy < 100) {
+            ent.energy = Math.min(100, ent.energy + 0.02);
+            if (ent.energy >= 40 && !ent.isExhausted) {
+              ent.sprintsRemaining = 3;
+            }
+          }
+
+          // Autonomous rest: tired, fed, in cover or near burrow
+          if (ent.energy < 25 && ent.hunger < 60 && (ent.inCover || Math.hypot(ent.x - burrow.x, ent.y - burrow.y) < 70)) {
+            ent.state = 'REST';
+          }
+
+          if (ent.evacTarget === 'burrow') {
+            // Evacuation to burrow
+            const toBx = burrow.x - ent.x;
+            const toBy = burrow.y - ent.y;
+            const distB = Math.hypot(toBx, toBy);
+            if (distB > 12) {
+              ent.vx += (toBx / distB) * 0.16;
+              ent.vy += (toBy / distB) * 0.16;
+            }
+          } else if (ent.evacTarget === 'thicket') {
           // Evacuation overflow to nearest thicket
           let nearestTh = thickets[0];
           let minD = 9999;
@@ -2285,8 +2531,9 @@
             }
           }
         }
+      }
 
-        // Steer around Granite Rocks
+      // Steer around Granite Rocks
         for (const rk of rocks) {
           const dx = ent.x - rk.x;
           const dy = ent.y - rk.y;
@@ -2350,6 +2597,10 @@
             wanderAngle: Math.random() * Math.PI * 2,
             isSheltered: false,
             inCover: false,
+            state: 'NORMAL',
+            sprintsRemaining: 3,
+            sprintDuration: 0,
+            isExhausted: false,
             jinkCooldown: 20,
             jinkAngle: 0
           });
@@ -2776,6 +3027,24 @@
             ctx.stroke();
           }
 
+          // Rest State Indicator ('zZ') or Exhaustion Marker ('⚡0')
+          if (ent.state === 'REST') {
+            ctx.save();
+            ctx.font = 'bold 9px "Fira Code", monospace';
+            ctx.fillStyle = isDark ? '#38bdf8' : '#0284c7';
+            ctx.textAlign = 'center';
+            const floatY = Math.sin((worldTick + ent.x) * 0.12) * 2;
+            ctx.fillText('zZ', ent.x + 2, ent.y - ent.radius - 4 + floatY);
+            ctx.restore();
+          } else if (ent.isExhausted) {
+            ctx.save();
+            ctx.font = 'bold 9px "Fira Code", monospace';
+            ctx.fillStyle = isDark ? '#f43f5e' : '#e11d48';
+            ctx.textAlign = 'center';
+            ctx.fillText('⚡0', ent.x, ent.y - ent.radius - 4);
+            ctx.restore();
+          }
+
           ctx.restore();
         }
       }
@@ -2795,17 +3064,7 @@
         ctx.restore();
       }
 
-      // 13. Ambient Day/Night Lighting Overlay
-      const dayProgress = worldTick % 500;
-      if (dayProgress > 250 && dayProgress <= 360) {
-        // Sunset / Twilight amber tint
-        ctx.fillStyle = 'rgba(245, 158, 11, 0.04)';
-        ctx.fillRect(0, 0, W, H);
-      } else if (dayProgress > 360) {
-        // Night deep blue tint
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.12)';
-        ctx.fillRect(0, 0, W, H);
-      }
+      // 13. Ambient Day/Night Lighting Overlay (Disabled as requested: constant daylight)
 
     }
 
