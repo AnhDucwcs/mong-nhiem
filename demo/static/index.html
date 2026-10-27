@@ -709,11 +709,11 @@
       </div>
       <div class="kpi-pill">
         <span class="kpi-label">Thời Khắc</span>
-        <span class="kpi-val amber" id="kpi-daytime">☀️ BAN NGÀY</span>
+        <span class="kpi-val amber" id="kpi-daytime">BAN NGÀY</span>
       </div>
       <div class="kpi-pill">
         <span class="kpi-label">Khí Quyển & Gió</span>
-        <span class="kpi-val cyan" id="kpi-wind"><span id="wind-arrow" style="display:inline-block; transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">🧭</span> <span id="wind-speed-text">14</span> km/h</span>
+        <span class="kpi-val cyan" id="kpi-wind"><span id="wind-arrow" style="display:inline-block; font-family:monospace; font-weight:700; transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">↑</span> <span id="wind-speed-text">14</span> km/h</span>
       </div>
       <div class="kpi-pill">
         <span class="kpi-label">Quần Thể Thỏ</span>
@@ -721,7 +721,7 @@
       </div>
       <div class="kpi-pill">
         <span class="kpi-label">Trữ Lượng Dâu</span>
-        <span class="kpi-val emerald" id="kpi-berries">175 u</span>
+        <span class="kpi-val emerald" id="kpi-berries">200 u</span>
       </div>
       <div class="kpi-pill">
         <span class="kpi-label">Mực Nước Hồ</span>
@@ -735,14 +735,14 @@
 
     <!-- Simulation Controls & Shocks -->
     <div class="sim-actions">
-      <button class="btn" id="btn-play-pause">⏸ Tạm dừng</button>
+      <button class="btn" id="btn-play-pause">Tạm dừng</button>
       <button class="btn" id="btn-speed">1x Tốc độ</button>
-      <button class="btn" id="btn-shift-wind" title="Xoay hướng luồng gió 90°, biến đổi tán xạ mùi">💨 Đổi Chiều Gió</button>
-      <button class="btn" id="btn-toggle-rain" title="Kích hoạt mưa phùn, hồi sinh nước & dâu">🌧️ Mưa Phùn</button>
-      <button class="btn danger" id="btn-shock-drought">🍂 Cắt Lương (Hạn Hán)</button>
-      <button class="btn danger" id="btn-shock-wolf">🐺 Thả Sói Săn</button>
-      <button class="btn primary" id="btn-standby">⚡ Can Thiệp Standby</button>
-      <button class="btn theme-toggle" id="btn-theme-toggle" title="Chuyển đổi giao diện Sáng / Tối">☀️</button>
+      <button class="btn" id="btn-shift-wind" title="Xoay hướng luồng gió 90°, biến đổi tán xạ mùi">Đổi Hướng Gió</button>
+      <button class="btn" id="btn-toggle-rain" title="Kích hoạt mưa phùn, hồi sinh nước & dâu">Mưa Phùn</button>
+      <button class="btn danger" id="btn-shock-drought">Cắt Lương (Hạn Hán)</button>
+      <button class="btn danger" id="btn-shock-wolf">Thả Sói Săn</button>
+      <button class="btn primary" id="btn-standby">Can Thiệp Standby</button>
+      <button class="btn theme-toggle" id="btn-theme-toggle" title="Chuyển đổi giao diện Sáng / Tối">Chế Độ Sáng</button>
     </div>
   </header>
 
@@ -752,16 +752,16 @@
     <section class="viewport" id="canvas-container">
       <!-- Floating Layer Toggle Chips -->
       <div class="canvas-chips-bar">
-        <div class="chip active" data-layer="entities">🔘 Cá Thể / Bầy Đàn</div>
-        <div class="chip active" data-layer="resources">🌿 Tài Nguyên Dâu</div>
-        <div class="chip active" data-layer="stream">🌊 Suối & Bãi Cạn</div>
-        <div class="chip active" data-layer="terrain">⛰️ Rặng Đá & Hang Thỏ</div>
-        <div class="chip active" data-layer="thickets">🌲 Lùm Cây Che Phủ</div>
-        <div class="chip active" data-layer="meadows">🌱 Bãi Cỏ & Thảo Dược</div>
-        <div class="chip active" data-layer="fog">👁️ Tầm Nhìn (Fog of War)</div>
-        <div class="chip active" data-layer="scent">🐾 Dấu Vết Pheromone</div>
-        <div class="chip active" data-layer="wind">💨 Khí Quyển & Bụi Khí</div>
-        <div class="chip active" data-layer="hazards">⚠️ Mối Nguy & Cột Mốc</div>
+        <div class="chip active" data-layer="entities">Cá Thể / Bầy Đàn</div>
+        <div class="chip active" data-layer="resources">Tài Nguyên Dâu</div>
+        <div class="chip active" data-layer="stream">Suối & Bãi Cạn</div>
+        <div class="chip active" data-layer="terrain">Rặng Đá & Hang Thỏ</div>
+        <div class="chip active" data-layer="thickets">Lùm Cây Che Phủ</div>
+        <div class="chip active" data-layer="meadows">Bãi Cỏ & Thảo Dược</div>
+        <div class="chip active" data-layer="fog">Tầm Nhìn (Perception)</div>
+        <div class="chip active" data-layer="scent">Dấu Vết Pheromone</div>
+        <div class="chip active" data-layer="wind">Khí Quyển & Gió</div>
+        <div class="chip active" data-layer="hazards">Mối Nguy & Cột Mốc</div>
       </div>
 
       <canvas id="world-canvas"></canvas>
@@ -769,8 +769,8 @@
       <!-- Bottom HUD Status Readout -->
       <div class="canvas-hud-bottom">
         <div>MỤC TIÊU: <strong id="hud-name" style="color:var(--amber);">Rabbit #01 (Alpha Scout)</strong></div>
-        <div>TỌA ĐỘ: <strong id="hud-pos" style="color:var(--primary);">X: 380.2 | Y: 260.4</strong></div>
-        <div>KHÍ HẬU: <strong id="hud-weather" style="color:var(--emerald);">☀️ Nắng ráo (Gió Đông Bắc 14 km/h)</strong></div>
+        <div>TỌA ĐỘ: <strong id="hud-pos" style="color:var(--primary);">X: 520.0 | Y: 360.0</strong></div>
+        <div>KHÍ HẬU: <strong id="hud-weather" style="color:var(--emerald);">Nắng ráo (Gió Đông Bắc 14 km/h)</strong></div>
         <div>ĐỊA HÌNH: <strong id="hud-stealth" style="color:var(--text-muted);">Địa hình quang đãng</strong></div>
       </div>
     </section>
@@ -914,7 +914,7 @@
       const current = root.getAttribute('data-theme');
       const next = current === 'light' ? 'dark' : 'light';
       root.setAttribute('data-theme', next);
-      btnTheme.textContent = next === 'light' ? '☀️' : '🌙';
+      btnTheme.textContent = next === 'light' ? 'Chế Độ Sáng' : 'Chế Độ Tối';
     });
 
     // --- Canvas & DPR Scaling ---
@@ -950,39 +950,39 @@
     let simSpeed = 1;
     let worldTick = 142;
 
-    // --- World Elements Data ---
+    // --- World Elements Data (Centered & Enlarged Biome) ---
 
     // 1. Terrain: Rock Formations (Chướng ngại vật tự nhiên)
     const rocks = [
-      { id: 'rock_ridge_nw', type: 'rock', x: 170, y: 220, rx: 38, ry: 26, angle: 0.35, label: 'Rặng Đá Tây Bắc' },
-      { id: 'rock_ridge_e', type: 'rock', x: 530, y: 160, rx: 42, ry: 30, angle: -0.25, label: 'Bãi Đá Đông Bắc' }
+      { id: 'rock_ridge_nw', type: 'rock', x: 290, y: 140, rx: 55, ry: 36, angle: 0.35, label: 'Rặng Đá Tây Bắc' },
+      { id: 'rock_ridge_e', type: 'rock', x: 740, y: 170, rx: 60, ry: 38, angle: -0.25, label: 'Rặng Đá Đông Bắc' }
     ];
 
     // 2. Terrain: Rabbit Burrow Sanctuary (Hang thỏ trú ẩn)
     const burrow = {
       id: 'burrow_sanctuary',
       type: 'burrow',
-      x: 180,
-      y: 470,
-      radius: 38,
-      entranceRadius: 14,
-      capacity: 12,
-      occupants: 4,
-      foodStored: 32,
+      x: 310,
+      y: 510,
+      radius: 58,
+      entranceRadius: 22,
+      capacity: 16,
+      occupants: 5,
+      foodStored: 45,
       label: 'Hang Thỏ Trú Ẩn'
     };
 
-    // 3. Terrain: Grazing Meadows (Đồng cỏ non)
+    // 3. Terrain: Grazing Meadows (Đồng cỏ non rộng mở)
     const meadows = [
-      { id: 'meadow_south', x: 340, y: 440, radius: 68, grassLevel: 85, label: 'Đồng Cỏ Phía Nam' },
-      { id: 'meadow_central', x: 480, y: 250, radius: 55, grassLevel: 70, label: 'Bãi Cỏ Ven Hồ' }
+      { id: 'meadow_central', x: 520, y: 360, radius: 180, grassLevel: 80, label: 'Bãi Cỏ Ven Hồ' },
+      { id: 'meadow_south', x: 540, y: 550, radius: 100, grassLevel: 90, label: 'Đồng Cỏ Phía Nam' }
     ];
 
-    // 4. Resources: Food & Water
+    // 4. Resources: Food & Water (Phóng to Hồ Nước và Bụi Cây)
     const resources = [
-      { id: 'berry_north', type: 'berry', x: 260, y: 140, radius: 38, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
-      { id: 'berry_south', type: 'berry', x: 600, y: 480, radius: 44, amount: 95, max: 100, label: 'Bụi Dâu Nam' },
-      { id: 'water_pond', type: 'water', x: 390, y: 320, radius: 54, amount: 100, max: 100, label: 'Hồ Nước Trung Tâm' }
+      { id: 'berry_north', type: 'berry', x: 520, y: 140, radius: 52, amount: 100, max: 100, label: 'Bụi Dâu Bắc' },
+      { id: 'berry_south', type: 'berry', x: 770, y: 380, radius: 54, amount: 100, max: 100, label: 'Bụi Dâu Đông' },
+      { id: 'water_pond', type: 'water', x: 520, y: 360, radius: 110, amount: 250, max: 250, label: 'Hồ Nước Trung Tâm' }
     ];
 
     // 5. Stream: Flowing Brook & Shallow Ford Crossing
@@ -991,34 +991,34 @@
       type: 'stream',
       label: 'Dòng Suối Tự Nhiên',
       path: [
-        { x: 50, y: 35 },
-        { x: 120, y: 105 },
-        { x: 195, y: 165 },
-        { x: 275, y: 225 }, // Ford location
-        { x: 345, y: 285 }  // Joins water pond
+        { x: 160, y: 60 },
+        { x: 250, y: 130 },
+        { x: 340, y: 210 }, // Ford location
+        { x: 420, y: 275 },
+        { x: 470, y: 315 }  // Joins central lake
       ],
-      ford: { id: 'stream_ford', type: 'ford', x: 275, y: 225, radius: 24, label: 'Bãi Đá Cạn Lội Nước (Ford)' }
+      ford: { id: 'stream_ford', type: 'ford', x: 340, y: 210, radius: 30, label: 'Bãi Đá Cạn (Ford)' }
     };
 
-    // 6. Thickets: Dense Forest Canopy & Bush Cover (Vùng ẩn nấp giảm phát hiện)
+    // 6. Thickets: Dense Forest Canopy & Bush Cover (Lùm cây ẩn nấp mở rộng)
     const thickets = [
-      { id: 'thicket_northwest', type: 'thicket', x: 130, y: 340, radius: 46, label: 'Lùm Cây Tây Bắc (Cover)', stealthBonus: 0.8 },
-      { id: 'thicket_southeast', type: 'thicket', x: 505, y: 490, radius: 42, label: 'Bụi Rậm Đông Nam', stealthBonus: 0.8 }
+      { id: 'thicket_northwest', type: 'thicket', x: 220, y: 340, radius: 68, label: 'Lùm Cây Tây (Cover)', stealthBonus: 0.8 },
+      { id: 'thicket_southeast', type: 'thicket', x: 740, y: 510, radius: 64, label: 'Lùm Cây Đông Nam (Cover)', stealthBonus: 0.8 }
     ];
 
     // 7. Herbs: Wild Dandelion & Medicinal Flora (Hồi phục năng lượng cao tốc)
     const herbs = [
-      { id: 'herb_grove', type: 'herb', x: 410, y: 440, radius: 34, amount: 65, max: 70, label: 'Vạt Bồ Công Anh Dược Liệu' }
+      { id: 'herb_grove', type: 'herb', x: 560, y: 540, radius: 46, amount: 80, max: 80, label: 'Vạt Bồ Công Anh' }
     ];
 
     // 8. Landmarks: Wolf Territorial Landmark (Cột mốc cảnh báo nguy hiểm)
     const landmarks = [
-      { id: 'landmark_wolf_den', type: 'landmark', x: 710, y: 130, radius: 24, label: 'Dấu Tích Lãnh Thổ Dã Thú' }
+      { id: 'landmark_wolf_den', type: 'landmark', x: 910, y: 130, radius: 32, label: 'Cột Mốc Lãnh Thổ Sói' }
     ];
 
-    // 9. Hazards (Vùng hiểm họa)
+    // 9. Hazards (Vùng hiểm họa sụt lở)
     const hazards = [
-      { id: 'hazard_sinkhole', type: 'hazard', x: 640, y: 210, radius: 65, label: 'Hố Sụt Sụt Lở' }
+      { id: 'hazard_sinkhole', type: 'hazard', x: 880, y: 270, radius: 82, label: 'Hố Sụt Sụt Lở' }
     ];
 
     // 10. Dynamic Environment & Microclimate
@@ -1056,7 +1056,7 @@
     // 13. Scent / Pheromone Particle Trail
     const scentParticles = [];
 
-    // 14. Entities (Rabbits & Predators)
+    // 14. Entities (Rabbits & Predators - Phóng to và căn giữa)
     const entities = [];
     const NUM_RABBITS = 24;
 
@@ -1067,16 +1067,16 @@
         name: isLeader ? 'Rabbit #01 (Alpha Scout)' : `Rabbit #${String(i + 1).padStart(2, '0')}`,
         type: 'rabbit',
         role: isLeader ? 'Alpha Scout' : (i % 3 === 0 ? 'Thỏ Trinh Sát' : 'Thỏ Hái Lượm'),
-        x: 340 + (Math.random() - 0.5) * 160,
-        y: 300 + (Math.random() - 0.5) * 140,
+        x: 520 + (Math.random() - 0.5) * 320,
+        y: 390 + (Math.random() - 0.5) * 250,
         vx: (Math.random() - 0.5) * 1.4,
         vy: (Math.random() - 0.5) * 1.4,
-        radius: isLeader ? 7.5 : 5,
+        radius: isLeader ? 9.5 : 7,
         energy: isLeader ? 86 : 68 + Math.random() * 28,
         hunger: 55 + Math.random() * 25,
         thirst: 65 + Math.random() * 25,
         health: 100,
-        perceptionRadius: isLeader ? 115 : 75,
+        perceptionRadius: isLeader ? 140 : 95,
         isLeader: isLeader,
         wanderAngle: Math.random() * Math.PI * 2,
         isSheltered: false,
@@ -1090,16 +1090,16 @@
       name: 'Wolf #01 (Dã Thú)',
       type: 'wolf',
       role: 'Apex Predator',
-      x: 690,
-      y: 180,
+      x: 820,
+      y: 260,
       vx: -0.6,
       vy: 0.4,
-      radius: 9.5,
+      radius: 13,
       energy: 95,
       hunger: 40,
       thirst: 80,
       health: 100,
-      perceptionRadius: 135,
+      perceptionRadius: 160,
       patrolAngle: 0
     });
 
@@ -1208,7 +1208,7 @@
     const btnPlayPause = document.getElementById('btn-play-pause');
     btnPlayPause.addEventListener('click', () => {
       isPlaying = !isPlaying;
-      btnPlayPause.textContent = isPlaying ? '⏸ Tạm dừng' : '▶ Tiếp tục';
+      btnPlayPause.textContent = isPlaying ? 'Tạm dừng' : 'Tiếp tục';
     });
 
     const btnSpeed = document.getElementById('btn-speed');
@@ -1225,7 +1225,7 @@
       environment.windDirLabel = dirs[idx];
       environment.windSpeed = 10 + Math.floor(Math.random() * 18);
       document.getElementById('wind-speed-text').textContent = environment.windSpeed;
-      document.getElementById('hud-weather').textContent = `☀️ Nắng ráo (Gió ${environment.windDirLabel} ${environment.windSpeed} km/h)`;
+      document.getElementById('hud-weather').textContent = `Nắng ráo (Gió ${environment.windDirLabel} ${environment.windSpeed} km/h)`;
       const windArrow = document.getElementById('wind-arrow');
       if (windArrow) windArrow.style.transform = `rotate(${environment.windAngle}rad)`;
       addTimelineEvent({
@@ -1241,10 +1241,10 @@
     btnRain.addEventListener('click', () => {
       environment.weather = environment.weather === 'clear' ? 'rain' : 'clear';
       btnRain.classList.toggle('primary', environment.weather === 'rain');
-      btnRain.textContent = environment.weather === 'rain' ? '🌧️ Tạnh Mưa' : '🌧️ Mưa Phùn';
+      btnRain.textContent = environment.weather === 'rain' ? 'Tạnh Mưa' : 'Mưa Phùn';
       document.getElementById('hud-weather').textContent = environment.weather === 'rain' 
-        ? `🌧️ Mưa phùn vi khí hậu (Gió ${environment.windDirLabel})` 
-        : `☀️ Nắng ráo (Gió ${environment.windDirLabel} ${environment.windSpeed} km/h)`;
+        ? `Mưa phùn vi khí hậu (Gió ${environment.windDirLabel})` 
+        : `Nắng ráo (Gió ${environment.windDirLabel} ${environment.windSpeed} km/h)`;
       addTimelineEvent({
         badge: 'BIẾN CỐ MÔI TRƯỜNG',
         badgeClass: 'shock',
@@ -1269,8 +1269,8 @@
     document.getElementById('btn-shock-wolf').addEventListener('click', () => {
       const wolf = entities.find(e => e.type === 'wolf');
       if (wolf) {
-        wolf.x = 420;
-        wolf.y = 210;
+        wolf.x = 620;
+        wolf.y = 280;
         addTimelineEvent({
           badge: 'MỘNG NHIỄM GATED',
           badgeClass: 'gated',
@@ -1283,7 +1283,7 @@
 
     document.getElementById('btn-standby').addEventListener('click', () => {
       isPlaying = false;
-      btnPlayPause.textContent = '▶ Tiếp tục';
+      btnPlayPause.textContent = 'Tiếp tục';
       addTimelineEvent({
         badge: 'CAN THIỆP GIÁM SÁT',
         badgeClass: 'gated',
@@ -1326,7 +1326,7 @@
         document.getElementById('inspector-badge').textContent = obj.id.toUpperCase();
         document.getElementById('ent-name').textContent = obj.name;
         document.getElementById('ent-role').textContent = `Vai trò: ${obj.role}`;
-        avatar.textContent = obj.type === 'wolf' ? 'W' : (obj.isLeader ? 'α' : 'R');
+        avatar.textContent = obj.type === 'wolf' ? 'WF' : (obj.isLeader ? 'AS' : 'RB');
         avatar.className = `identity-avatar ${obj.type}`;
 
         document.getElementById('vital-val-energy').textContent = `${Math.round(obj.energy)}%`;
@@ -1371,7 +1371,7 @@
         document.getElementById('inspector-badge').textContent = 'SHELTER';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = `Nơi Trú Ẩn An Toàn Của Bầy Đàn`;
-        avatar.textContent = '🏡';
+        avatar.textContent = 'BH';
         avatar.className = `identity-avatar burrow`;
 
         document.getElementById('gt-desc').textContent = `Sức chứa: ${obj.occupants}/${obj.capacity} thỏ | Lương thực cất giữ: ${obj.foodStored}u`;
@@ -1386,7 +1386,7 @@
         document.getElementById('inspector-badge').textContent = 'OBSTACLE';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = `Rặng Đá Hoa Cương Tự Nhiên`;
-        avatar.textContent = '⛰️';
+        avatar.textContent = 'RK';
         avatar.className = `identity-avatar rock`;
 
         document.getElementById('gt-desc').textContent = 'Cản trở 100% di chuyển và tầm nhìn trực diện.';
@@ -1401,7 +1401,7 @@
         document.getElementById('inspector-badge').textContent = 'RESOURCE';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = obj.type === 'berry' ? 'Bụi Cây Lương Thực' : 'Hồ Nước Ngọt Trung Tâm';
-        avatar.textContent = obj.type === 'berry' ? '🌿' : '💧';
+        avatar.textContent = obj.type === 'berry' ? 'BY' : 'LK';
         avatar.className = `identity-avatar ${obj.type}`;
 
         document.getElementById('gt-desc').textContent = `Trữ lượng hiện tại: ${obj.amount}/${obj.max}u (Tốc độ hồi: 0.5u/giây).`;
@@ -1416,7 +1416,7 @@
         document.getElementById('inspector-badge').textContent = 'COVER ZONE';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = 'Địa Hình Che Khuất & Ẩn Nấp Tự Nhiên';
-        avatar.textContent = '🌲';
+        avatar.textContent = 'TK';
         avatar.className = 'identity-avatar thicket';
 
         document.getElementById('gt-desc').textContent = 'Hệ số ẩn nấp: 80%. Sói mất dấu thỏ nếu cự ly > 45px. Che chắn tầm nhìn trực tiếp.';
@@ -1431,7 +1431,7 @@
         document.getElementById('inspector-badge').textContent = obj.type === 'ford' ? 'CROSSING' : 'WATERWAY';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = obj.type === 'ford' ? 'Bãi Đá Cạn Lội Nước An Toàn' : 'Dòng Chảy Thủy Văn Tự Nhiên';
-        avatar.textContent = obj.type === 'ford' ? '🪨' : '🌊';
+        avatar.textContent = obj.type === 'ford' ? 'FD' : 'ST';
         avatar.className = 'identity-avatar stream';
 
         document.getElementById('gt-desc').textContent = obj.type === 'ford' 
@@ -1448,7 +1448,7 @@
         document.getElementById('inspector-badge').textContent = 'HERBAL NUTRITION';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = 'Vạt Dược Liệu Hồi Phục Cao Cấp';
-        avatar.textContent = '🌼';
+        avatar.textContent = 'HB';
         avatar.className = 'identity-avatar herb';
 
         document.getElementById('gt-desc').textContent = `Trữ lượng: ${obj.amount}/${obj.max}u. Tốc độ hồi phục thể lực & no bụng x2.4 cỏ thường.`;
@@ -1463,7 +1463,7 @@
         document.getElementById('inspector-badge').textContent = 'TERRITORY MARK';
         document.getElementById('ent-name').textContent = obj.label;
         document.getElementById('ent-role').textContent = 'Cột Mốc Lãnh Thổ Dã Thú Cảnh Báo';
-        avatar.textContent = '💀';
+        avatar.textContent = 'LM';
         avatar.className = 'identity-avatar landmark';
 
         document.getElementById('gt-desc').textContent = 'Tần suất sói tuần tra: 85%. Bán kính báo động tử thần: 100px.';
@@ -1664,16 +1664,16 @@
           if (ent === selectedObject) {
             const stealthElem = document.getElementById('hud-stealth');
             if (stealthElem) {
-              stealthElem.textContent = ent.inCover ? '🛡️ Đang ẩn nấp (Lùm cây)' : 'Địa hình quang đãng';
+              stealthElem.textContent = ent.inCover ? '[COVER] Đang ẩn nấp (Lùm cây)' : 'Địa hình quang đãng';
               stealthElem.style.color = ent.inCover ? 'var(--emerald)' : 'var(--text-muted)';
             }
           }
 
         } else if (ent.type === 'wolf') {
-          // Wolf circular territorial prowl
+          // Wolf circular territorial prowl (Phía Đông)
           ent.patrolAngle += 0.014 * simSpeed;
-          ent.x = 570 + Math.cos(ent.patrolAngle) * 140;
-          ent.y = 280 + Math.sin(ent.patrolAngle) * 95;
+          ent.x = 810 + Math.cos(ent.patrolAngle) * 120;
+          ent.y = 270 + Math.sin(ent.patrolAngle) * 85;
         }
       }
 
@@ -1726,10 +1726,10 @@
           ctx.strokeStyle = isDark ? 'rgba(16, 185, 129, 0.3)' : 'rgba(5, 150, 105, 0.25)';
           ctx.stroke();
 
-          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.font = '600 10px Plus Jakarta Sans, sans-serif';
           ctx.fillStyle = isDark ? '#34d399' : '#059669';
           ctx.textAlign = 'center';
-          ctx.fillText(`🌱 ${md.label}`, md.x, md.y + 3);
+          ctx.fillText(md.label, md.x, md.y + 3);
           ctx.restore();
         }
 
@@ -1747,19 +1747,19 @@
 
           // Blooming dandelion petal dots
           const flowerDots = [
-            { dx: -10, dy: -8 }, { dx: 12, dy: -6 }, { dx: 0, dy: 8 }, { dx: -7, dy: 9 }, { dx: 8, dy: 4 }, { dx: 0, dy: -2 }
+            { dx: -12, dy: -8 }, { dx: 12, dy: -6 }, { dx: 0, dy: 10 }, { dx: -7, dy: 10 }, { dx: 9, dy: 4 }, { dx: 0, dy: -3 }
           ];
           for (const fd of flowerDots) {
             ctx.beginPath();
-            ctx.arc(hb.x + fd.dx, hb.y + fd.dy, 2.5, 0, Math.PI * 2);
+            ctx.arc(hb.x + fd.dx, hb.y + fd.dy, 2.8, 0, Math.PI * 2);
             ctx.fillStyle = isDark ? '#fef08a' : '#f59e0b';
             ctx.fill();
           }
 
-          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.font = '600 10px Plus Jakarta Sans, sans-serif';
           ctx.fillStyle = isDark ? '#fde047' : '#b45309';
           ctx.textAlign = 'center';
-          ctx.fillText(`🌼 ${hb.label}`, hb.x, hb.y - hb.radius - 5);
+          ctx.fillText(hb.label, hb.x, hb.y - hb.radius - 6);
           ctx.restore();
         }
       }
@@ -1780,7 +1780,7 @@
         ctx.lineTo(last.x, last.y);
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.lineWidth = 18;
+        ctx.lineWidth = 22;
         ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.22)' : 'rgba(14, 165, 233, 0.18)';
         ctx.stroke();
 
@@ -1805,9 +1805,9 @@
 
         // 3 Stepping Stones
         const stones = [
-          { dx: -7, dy: -5, r: 4 },
-          { dx: 1, dy: 1, r: 5 },
-          { dx: 8, dy: 6, r: 4 }
+          { dx: -9, dy: -6, r: 5 },
+          { dx: 1, dy: 1, r: 6 },
+          { dx: 10, dy: 7, r: 5 }
         ];
         for (const st of stones) {
           ctx.beginPath();
@@ -1818,11 +1818,11 @@
           ctx.stroke();
         }
 
-        ctx.font = '600 9px Plus Jakarta Sans, sans-serif';
+        ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
         ctx.fillStyle = isDark ? '#38bdf8' : '#0284c7';
         ctx.textAlign = 'center';
-        ctx.fillText('🌊 Suối Tự Nhiên', 110, 85);
-        ctx.fillText('🪨 Bãi Đá Cạn (Ford)', stream.ford.x, stream.ford.y - stream.ford.radius - 4);
+        ctx.fillText('Suối Tự Nhiên', 250, 110);
+        ctx.fillText(stream.ford.label, stream.ford.x, stream.ford.y - stream.ford.radius - 6);
         ctx.restore();
       }
 
@@ -1832,9 +1832,9 @@
           ctx.save();
           const lobes = [
             { dx: 0, dy: 0, r: th.radius },
-            { dx: -14, dy: -10, r: th.radius * 0.65 },
-            { dx: 14, dy: -8, r: th.radius * 0.7 },
-            { dx: 4, dy: 14, r: th.radius * 0.68 }
+            { dx: -18, dy: -12, r: th.radius * 0.65 },
+            { dx: 18, dy: -10, r: th.radius * 0.7 },
+            { dx: 5, dy: 16, r: th.radius * 0.68 }
           ];
           ctx.beginPath();
           for (const lb of lobes) {
@@ -1848,14 +1848,14 @@
 
           // Inner foliage rings
           ctx.beginPath();
-          ctx.arc(th.x - 5, th.y - 4, 12, 0, Math.PI);
+          ctx.arc(th.x - 6, th.y - 5, 14, 0, Math.PI);
           ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
           ctx.stroke();
 
-          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.font = '600 10px Plus Jakarta Sans, sans-serif';
           ctx.fillStyle = isDark ? '#4ade80' : '#15803d';
           ctx.textAlign = 'center';
-          ctx.fillText(`🌲 ${th.label}`, th.x, th.y - th.radius - 8);
+          ctx.fillText(th.label, th.x, th.y - th.radius - 8);
           ctx.restore();
         }
       }
@@ -1878,17 +1878,17 @@
 
           // Inner rock texture lines
           ctx.beginPath();
-          ctx.arc(-8, -4, 10, 0, Math.PI);
+          ctx.arc(-10, -5, 14, 0, Math.PI);
           ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
           ctx.stroke();
 
           ctx.restore();
 
           // Label
-          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.font = '600 10px Plus Jakarta Sans, sans-serif';
           ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
           ctx.textAlign = 'center';
-          ctx.fillText(`⛰️ ${rk.label}`, rk.x, rk.y - rk.ry - 5);
+          ctx.fillText(rk.label, rk.x, rk.y - rk.ry - 6);
         }
 
         // Rabbit Burrow Sanctuary (Hang thỏ)
@@ -1910,10 +1910,10 @@
         ctx.strokeStyle = isDark ? '#d97706' : '#b45309';
         ctx.stroke();
 
-        ctx.font = '700 10.5px Plus Jakarta Sans, sans-serif';
+        ctx.font = '700 11px Plus Jakarta Sans, sans-serif';
         ctx.fillStyle = isDark ? '#fbbf24' : '#b45309';
         ctx.textAlign = 'center';
-        ctx.fillText(`🏡 ${burrow.label}`, burrow.x, burrow.y - burrow.radius - 6);
+        ctx.fillText(burrow.label, burrow.x, burrow.y - burrow.radius - 8);
         ctx.restore();
       }
 
@@ -1931,10 +1931,10 @@
           ctx.stroke();
 
           // Label
-          ctx.font = '600 10px Plus Jakarta Sans, sans-serif';
+          ctx.font = '600 10.5px Plus Jakarta Sans, sans-serif';
           ctx.fillStyle = isDark ? '#f43f5e' : '#be123c';
           ctx.textAlign = 'center';
-          ctx.fillText(`⚠️ ${hz.label}`, hz.x, hz.y - hz.radius - 6);
+          ctx.fillText(hz.label, hz.x, hz.y - hz.radius - 8);
           ctx.restore();
         }
 
@@ -1951,45 +1951,65 @@
 
           // Crossed scratch mark
           ctx.beginPath();
-          ctx.moveTo(lm.x - 7, lm.y - 7); ctx.lineTo(lm.x + 7, lm.y + 7);
-          ctx.moveTo(lm.x + 7, lm.y - 7); ctx.lineTo(lm.x - 7, lm.y + 7);
+          ctx.moveTo(lm.x - 8, lm.y - 8); ctx.lineTo(lm.x + 8, lm.y + 8);
+          ctx.moveTo(lm.x + 8, lm.y - 8); ctx.lineTo(lm.x - 8, lm.y + 8);
           ctx.strokeStyle = isDark ? '#f43f5e' : '#be123c';
           ctx.lineWidth = 2;
           ctx.stroke();
 
-          ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+          ctx.font = '600 10px Plus Jakarta Sans, sans-serif';
           ctx.fillStyle = isDark ? '#f87171' : '#9f1239';
           ctx.textAlign = 'center';
-          ctx.fillText(`💀 ${lm.label}`, lm.x, lm.y - lm.radius - 5);
+          ctx.fillText(lm.label, lm.x, lm.y - lm.radius - 6);
           ctx.restore();
         }
       }
 
-      // 7. Resources (Water Pond & Berry Bushes)
+      // 7. Resources (Water Pond Enlarged & Berry Bushes)
       if (layers.resources) {
         for (const res of resources) {
           if (res.type === 'water') {
-            // Water Pond
+            // Majestically Enlarged Water Pond
             ctx.save();
+
+            // Outer Turquoise Bank
             ctx.beginPath();
             ctx.arc(res.x, res.y, res.radius, 0, Math.PI * 2);
-            ctx.fillStyle = isDark ? 'rgba(56, 189, 248, 0.18)' : 'rgba(14, 165, 233, 0.14)';
+            ctx.fillStyle = isDark ? 'rgba(56, 189, 248, 0.16)' : 'rgba(14, 165, 233, 0.14)';
             ctx.fill();
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 2.5;
             ctx.strokeStyle = isDark ? '#38bdf8' : '#0284c7';
             ctx.stroke();
 
-            // Ripple
-            const rippleR = (res.radius * 0.35) + ((worldTick % 60) / 60) * (res.radius * 0.58);
+            // Inner Deep Water Basin
             ctx.beginPath();
-            ctx.arc(res.x, res.y, rippleR, 0, Math.PI * 2);
-            ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.4)' : 'rgba(2, 132, 199, 0.3)';
+            ctx.arc(res.x, res.y, res.radius * 0.65, 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? 'rgba(14, 165, 233, 0.25)' : 'rgba(2, 132, 199, 0.2)';
+            ctx.fill();
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(2, 132, 199, 0.35)';
             ctx.stroke();
 
-            ctx.font = '600 11px Plus Jakarta Sans, sans-serif';
+            // Dual Concentric Ripples
+            const rippleR1 = (res.radius * 0.25) + ((worldTick % 70) / 70) * (res.radius * 0.65);
+            ctx.beginPath();
+            ctx.arc(res.x, res.y, rippleR1, 0, Math.PI * 2);
+            ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.4)' : 'rgba(2, 132, 199, 0.3)';
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([]);
+            ctx.stroke();
+
+            const rippleR2 = (res.radius * 0.25) + (((worldTick + 35) % 70) / 70) * (res.radius * 0.65);
+            ctx.beginPath();
+            ctx.arc(res.x, res.y, rippleR2, 0, Math.PI * 2);
+            ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(2, 132, 199, 0.2)';
+            ctx.stroke();
+
+            ctx.font = '700 12px Plus Jakarta Sans, sans-serif';
             ctx.fillStyle = isDark ? '#38bdf8' : '#0369a1';
             ctx.textAlign = 'center';
-            ctx.fillText(`💧 ${res.label}`, res.x, res.y + 4);
+            ctx.fillText(`${res.label} (${Math.round(res.amount)}u)`, res.x, res.y + 4);
             ctx.restore();
 
           } else if (res.type === 'berry') {
@@ -2008,20 +2028,20 @@
 
             // Red Berry Pips
             if (isFull) {
-              const numPips = Math.min(10, Math.ceil(res.amount / 10));
+              const numPips = Math.min(12, Math.ceil(res.amount / 9));
               for (let i = 0; i < numPips; i++) {
                 const angle = (i / numPips) * Math.PI * 2 + 0.3;
                 const dist = res.radius * 0.55;
                 const px = res.x + Math.cos(angle) * dist;
                 const py = res.y + Math.sin(angle) * dist;
                 ctx.beginPath();
-                ctx.arc(px, py, 2.8, 0, Math.PI * 2);
+                ctx.arc(px, py, 3, 0, Math.PI * 2);
                 ctx.fillStyle = '#e11d48';
                 ctx.fill();
               }
             }
 
-            ctx.font = '600 10.5px Plus Jakarta Sans, sans-serif';
+            ctx.font = '600 11px Plus Jakarta Sans, sans-serif';
             ctx.fillStyle = isFull ? (isDark ? '#34d399' : '#047857') : '#64748b';
             ctx.textAlign = 'center';
             ctx.fillText(`${res.label} (${Math.round(res.amount)}u)`, res.x, res.y - res.radius - 6);
