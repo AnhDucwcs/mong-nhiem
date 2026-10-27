@@ -275,13 +275,16 @@ Mô phỏng tích hợp mô hình động lực học quần thể phân hóa r�
 
 ## 9. Phân Định Sức Chứa Hang Trú Ẩn & Vai Trò Alpha Scout
 
-### 9.1 Sức Chứa Hang ($C_{\text{burrow}} = 16$) & Giao Thức Tràn Sang Lùm Cây
-- Hang chỉ chứa tối đa $16$ cá thể thỏ.
-- Với quy mô đàn khởi điểm $24$ cá thể (hoặc khi tăng đàn), $8$ cá thể ngoài định mức không thể vào hang khi có chuông báo động.
+### 9.1 Sức Chứa Hang ($C_{\text{burrow}} = 16$), Cơ Chế Chui Vào Hang & Giao Thức Tràn
+- **Sức chứa giới hạn:** Hang chỉ chứa tối đa $C_{\text{burrow}} = 16$ cá thể thỏ.
+- **Cơ chế chủ động chạy vào hang khi bị sói săn bắt (Burrow Sanctuary Escape):**
+  1. *Cảnh báo bầy đàn (Acoustic Foot-Thumping Alarm):* Khi sói phát hiện hoặc lao vào rượt đuổi một cá thể thỏ, thỏ dậm chân cảnh báo nguy hiểm. Các cá thể lân cận trong bán kính $135\text{ px}$ lập tức chuyển sang trạng thái cảnh giác cao độ (`seesWolf = true`).
+  2. *Định hướng trú ẩn tối cao:* Nếu hang còn chỗ ($N_{\text{sheltered}} < 16$) và hướng chạy không bị sói chặn ngang mặt ($\text{alignment} > -0.55$), thỏ ưu tiên tuyệt đối ($+450\text{ điểm}$, trọng số hướng tâm $85\%$) bứt tốc chạy thẳng về phía Hang Trú Ẩn $[320, 520]$.
+  3. *Hành động chui vào hang (Burrow Dive):* Khi tiếp cận miệng hang ($d \le R_{\text{burrow}} + 10\text{ px} \approx 42\text{ px}$), thỏ lập tức lặn sâu vào lòng đất (`isSheltered = true`, `state = 'SHELTERED'`).
+  4. *Miễn nhiễm hoàn toàn trước thú săn:* Cá thể trong hang được bảo vệ $100\%$ dưới lòng đất; sói không thể nhìn, ngửi hay chạm tới thỏ. Sói đến miệng hang sẽ mất dấu con mồi, hủy lệnh `CHASE` và quay về `PATROL`.
+  5. *Quan sát an toàn & Rời hang:* Khi sói đã rời xa bán kính an toàn ($d_{\text{wolf}} > 160\text{ px}$) và hết thời gian cảnh giới ngầm ($\approx 8 - 14\text{ s}$), thỏ an toàn bước ra khỏi miệng hang để tiếp tục gặm dâu và ăn cỏ.
 - **Giao thức điều phối tràn (Overflow Protocol):**
-  1. $16$ cá thể gần hang nhất được cấp quyền trú ẩn an toàn tuyệt đối bên trong hang.
-  2. Các cá thể còn lại tự động tính toán khoảng cách tới $6$ lùm cây che phủ gần nhất và chạy tản mác vào lùm cây, kích hoạt ẩn nấp $85\%$.
-  3. Phân tán rải rác triệt tiêu rủi ro bị sói gom bắt cả bầy tại cửa hang.
+  - Khi hang đã đầy $16/16$ cá thể: Những cá thể thỏ đến sau hoặc ở quá xa hang tự động kích hoạt điều phối tràn, chuyển hướng chạy tản mác vào $6$ lùm cây rậm rạp gần nhất để ẩn nấp tĩnh (Freeze Stealth), tránh tập trung đông đúc trước cửa hang.
 
 ### 9.2 Phân Quyền Hữu Hạn Của Alpha Scout
 - **Không phải điều khiển tập trung:** Scout là một cá thể thỏ có trí khôn và giác quan định hướng, không sở hữu quyền năng điều khiển toạ độ vật lý của các cá thể khác.

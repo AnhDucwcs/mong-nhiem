@@ -1151,7 +1151,7 @@
       radius: 32,
       entranceRadius: 11,
       capacity: 16,
-      occupants: 5,
+      occupants: 0,
       foodStored: 45,
       label: 'Hang Thỏ Trú Ẩn'
     };
@@ -1706,7 +1706,10 @@
         const sprintInfo = document.getElementById('vital-sprint-info');
         if (sprintInfo) {
           sprintInfo.style.display = 'block';
-          if (obj.state === 'REST') {
+          if (obj.isSheltered) {
+            sprintInfo.textContent = '🛡️ Đang trú ẩn an toàn dưới lòng đất (Sói không thể vào)';
+            sprintInfo.style.color = 'var(--emerald)';
+          } else if (obj.state === 'REST') {
             sprintInfo.textContent = (obj.hunger < 60) ? '💤 Đang nghỉ ngơi: Hồi phục năng lượng (+0.14%/tick)' : '⚠️ Đói bụng: Không thể hồi phục năng lượng!';
             sprintInfo.style.color = (obj.hunger < 60) ? 'var(--emerald)' : 'var(--rose)';
           } else if (obj.isExhausted || obj.energy < 15) {
@@ -1725,7 +1728,11 @@
         const btnToggleRest = document.getElementById('btn-toggle-rest');
         if (stateBadge) {
           stateBadge.style.display = 'inline-block';
-          if (obj.state === 'REST') {
+          if (obj.isSheltered) {
+            stateBadge.textContent = '🛡️ TRONG HANG TRÚ ẨN';
+            stateBadge.style.color = 'var(--emerald)';
+            stateBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+          } else if (obj.state === 'REST') {
             stateBadge.textContent = '💤 ĐANG NGHỈ NGƠI';
             stateBadge.style.color = '#38bdf8';
             stateBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
@@ -1837,7 +1844,9 @@
         document.getElementById('vital-bar-health').style.width = `${Math.max(0, Math.min(100, obj.health))}%`;
 
         document.getElementById('hud-name').textContent = obj.name;
-        document.getElementById('hud-pos').textContent = `X: ${obj.x.toFixed(1)} | Y: ${obj.y.toFixed(1)}`;
+        document.getElementById('hud-pos').textContent = obj.isSheltered 
+          ? `Hang Trú Ẩn [320, 520] (Dưới lòng đất)`
+          : `X: ${obj.x.toFixed(1)} | Y: ${obj.y.toFixed(1)}`;
 
         // Epistemic Comparison
         if (obj.isLeader) {
@@ -1870,7 +1879,9 @@
         avatar.textContent = 'BH';
         avatar.className = `identity-avatar burrow`;
 
-        document.getElementById('gt-desc').textContent = `Sức chứa: ${obj.occupants}/${obj.capacity} thỏ | Lương thực cất giữ: ${obj.foodStored}u`;
+        const currentOcc = entities.filter(e => e.type === 'rabbit' && e.isSheltered).length;
+        obj.occupants = currentOcc;
+        document.getElementById('gt-desc').textContent = `Sức chứa: ${currentOcc}/${obj.capacity} thỏ đang trú ẩn | Lương thực cất giữ: ${obj.foodStored}u`;
         document.getElementById('belief-desc').textContent = 'Khu vực an toàn tuyệt đối. Sói không thể xâm nhập.';
         document.getElementById('skew-badge').style.display = 'none';
 
@@ -2183,7 +2194,15 @@
         const effVisionDist = wolf.perceptionRadius * (1.0 + wolfHungerFactor * 0.80); // 150px -> up to 210px
         const effScentDist = wolf.scentDetectionRadius * (1.0 + wolfHungerFactor);     // 240px -> up to 360px
 
-        for (const r of currentRabbits) {
+        // Wolves can strictly only sense and target surface rabbits (rabbits inside burrow are 100% sheltered underground)
+        const targetableRabbits = currentRabbits.filter(r => !r.isSheltered);
+
+        if (wolf.targetRabbit && wolf.targetRabbit.isSheltered) {
+          wolf.targetRabbit = null;
+          wolf.state = 'PATROL';
+        }
+
+        for (const r of targetableRabbits) {
           const dx = r.x - wolf.x;
           const dy = r.y - wolf.y;
           const dist = Math.hypot(dx, dy);
@@ -2270,6 +2289,20 @@
 
           // Rabbit detects wolf: strictly vision-based (dist <= 110px) and not blocked by thicket
           const rabbitSeesWolf = (dist <= 110 && !wolf.inCover);
+
+          // If prey managed to dive into burrow sanctuary:
+          if (bestTarget.isSheltered) {
+            wolf.targetRabbit = null;
+            wolf.state = 'PATROL';
+            addTimelineEvent({
+              badge: 'SĂN BẮT THẤT BẠI',
+              badgeClass: 'slm',
+              title: 'Sói mất dấu: Thỏ đã kịp lặn vào Hang Trú Ẩn!',
+              body: `Sói lao đến cửa hang nhưng thỏ đã biến mất dưới lòng đất. Sói hủy lệnh truy đuổi và quay về tuần tra lãnh thổ.`,
+              reason: 'PredationEvaded: Prey entered burrow sanctuary'
+            });
+            continue;
+          }
 
           if (!rabbitSeesWolf && dist > 60) {
             // STALK / AMBUSH: Rabbit hasn't seen wolf yet -> Stalk slowly, use cover
@@ -2449,6 +2482,39 @@
       // --- 4B. Rabbit Colony Processing (Agility, Jinking & Starvation) ---
       for (let i = currentRabbits.length - 1; i >= 0; i--) {
         const ent = currentRabbits[i];
+
+        // 4B.0 Sheltered in Burrow State: Safe underground, untouchable by predators
+        if (ent.isSheltered) {
+          ent.vx = 0;
+          ent.vy = 0;
+          ent.x = burrow.x;
+          ent.y = burrow.y;
+          ent.energy = Math.min(100, ent.energy + 0.10);
+          ent.hunger = Math.max(0, ent.hunger - 0.025);
+          ent.shelterTimer = (ent.shelterTimer || 140) - 1;
+
+          const minWolfBurrowDist = currentWolves.length 
+            ? Math.min(...currentWolves.map(w => Math.hypot(w.x - burrow.x, w.y - burrow.y)))
+            : 9999;
+
+          // Safe to emerge when shelter duration expires and no wolf is lurking near burrow entrance (> 160px)
+          if (ent.shelterTimer <= 0 && minWolfBurrowDist > 160) {
+            ent.isSheltered = false;
+            ent.state = 'NORMAL';
+            ent.x = burrow.x + (Math.random() - 0.5) * (burrow.radius + 18);
+            ent.y = burrow.y + (Math.random() - 0.5) * (burrow.radius + 18);
+            burrow.occupants = entities.filter(e => e.type === 'rabbit' && e.isSheltered).length;
+            addTimelineEvent({
+              badge: 'RỜI HANG AN TOÀN',
+              badgeClass: 'slm',
+              title: `${ent.name} đã an toàn rời khỏi Hang Trú Ẩn!`,
+              body: `Sói đã đi xa (${minWolfBurrowDist.toFixed(0)}px > 160px). Thỏ bước ra khỏi hang tiếp tục chu trình kiếm ăn. Trong hang còn ${burrow.occupants} cá thể.`,
+              reason: 'BurrowExit: safe perimeter confirmed (d_wolf > 160px), shelterTimer expired'
+            });
+          }
+          continue;
+        }
+
         ent.hunger = Math.min(100, ent.hunger + 0.018);
         ent.thirst = Math.min(100, ent.thirst + 0.016);
         ent.energy = Math.max(0, ent.energy - 0.012);
@@ -2503,7 +2569,7 @@
           }
         }
 
-        // Check if rabbit sees any wolf (strictly visual: alert distance is 110px in open field, but in thicket cover flight threshold is 42px)
+        // Check if rabbit sees any wolf or receives foot-thumping alarm from fleeing flock member
         const alertDist = ent.inCover ? 42 : 110;
         let nearestWolf = null;
         let minWolfDist = 9999;
@@ -2515,7 +2581,52 @@
           }
         }
 
-        const seesWolf = (nearestWolf && minWolfDist <= alertDist);
+        const directThreat = (nearestWolf && minWolfDist <= alertDist);
+
+        // Acoustic Foot-Thumping Alarm: if another rabbit within 135px is fleeing, alert this rabbit
+        let flockAlarm = false;
+        if (!directThreat && nearestWolf && minWolfDist <= 190) {
+          for (const other of currentRabbits) {
+            if (other !== ent && !other.isSheltered && other.state === 'FLEE' && Math.hypot(other.x - ent.x, other.y - ent.y) < 135) {
+              flockAlarm = true;
+              break;
+            }
+          }
+        }
+
+        const seesWolf = (directThreat || flockAlarm);
+
+        // --- Active Burrow Entry Check ---
+        // If rabbit is under threat or evacuating, and reaches burrow entrance perimeter: dive inside!
+        const distToBurrow = Math.hypot(ent.x - burrow.x, ent.y - burrow.y);
+        const currentShelteredCount = entities.filter(e => e.type === 'rabbit' && e.isSheltered).length;
+
+        if (distToBurrow <= burrow.radius + 10 && (seesWolf || ent.evacTarget === 'burrow')) {
+          if (currentShelteredCount < burrow.capacity) {
+            ent.isSheltered = true;
+            ent.state = 'SHELTERED';
+            ent.vx = 0;
+            ent.vy = 0;
+            ent.x = burrow.x;
+            ent.y = burrow.y;
+            ent.shelterTimer = 160 + Math.floor(Math.random() * 80);
+            ent.inCover = true;
+            ent.evacTarget = null;
+            burrow.occupants = entities.filter(e => e.type === 'rabbit' && e.isSheltered).length;
+
+            addTimelineEvent({
+              badge: 'TRÚ ẨN AN TOÀN',
+              badgeClass: 'slm',
+              title: `${ent.name} đã chủ động chui vào Hang Trú Ẩn!`,
+              body: `Thỏ kịp thời lao vào hang sâu an toàn trước khi sói tiếp cận. Hiện có ${burrow.occupants}/${burrow.capacity} thỏ trong hang. Sói mất dấu hoàn toàn!`,
+              reason: `BurrowEntry: dist ${distToBurrow.toFixed(1)}px <= ${burrow.radius + 10}px, capacity available (${burrow.occupants}/${burrow.capacity})`
+            });
+            continue;
+          } else {
+            // Burrow is at max capacity (16/16) -> Overflow Protocol to nearest thicket
+            ent.evacTarget = 'thicket';
+          }
+        }
 
         if (ent.state === 'REST') {
           // RESTING STATE: Damped movement, rapid energy recharge if fed
@@ -2534,12 +2645,12 @@
           if (ent.energy >= 90) {
             ent.state = 'NORMAL';
           }
-          // Wake up in alarm if wolf approaches within flight threshold!
+          // Wake up in alarm if threat detected!
           if (seesWolf) {
             ent.state = 'FLEE';
           }
         } else if (seesWolf) {
-          // FLEEING: Prioritize finding shelter (Burrow or Nearest Safe Thicket Cover)
+          // FLEEING: Prioritize finding shelter (Burrow has top sanctuary priority if room available)
           ent.state = 'FLEE';
 
           // Energy & Sprint burst constraints (<40% energy allows at most 1 burst)
@@ -2547,7 +2658,8 @@
             ent.sprintsRemaining = Math.min(ent.sprintsRemaining !== undefined ? ent.sprintsRemaining : 1, 1);
           }
 
-          // Evaluate Nearest Safe Cover (Hang thỏ hoặc lùm cây gần nhất không bị sói chặn đường)
+          // Evaluate Nearest Safe Cover (Hang thỏ hoặc lùm cây an toàn không bị sói chặn đường)
+          const burrowHasRoom = currentShelteredCount < burrow.capacity;
           let bestCover = null;
           let bestCoverScore = -9999;
           const shelters = [burrow, ...thickets];
@@ -2562,21 +2674,33 @@
             const uShY = toShY / (distToSh || 1);
 
             // Vector from wolf to rabbit
-            const awayWolfX = (ent.x - nearestWolf.x) / (minWolfDist || 1);
-            const awayWolfY = (ent.y - nearestWolf.y) / (minWolfDist || 1);
+            const awayWolfX = (ent.x - (nearestWolf ? nearestWolf.x : 0)) / (minWolfDist || 1);
+            const awayWolfY = (ent.y - (nearestWolf ? nearestWolf.y : 0)) / (minWolfDist || 1);
 
             // Directional alignment: Is heading to this shelter moving away from or toward wolf?
             const alignment = uShX * awayWolfX + uShY * awayWolfY;
 
             // Distance from wolf to shelter
-            const distWolfToSh = Math.hypot(sh.x - nearestWolf.x, sh.y - nearestWolf.y);
+            const distWolfToSh = nearestWolf ? Math.hypot(sh.x - nearestWolf.x, sh.y - nearestWolf.y) : 999;
 
-            // Valid safe shelter: not behind wolf and wolf isn't already camped inside it
-            if (alignment > -0.35 && distWolfToSh > 45) {
-              const score = 1000 - distToSh + (alignment * 160) + (sh === burrow ? 120 : 0);
-              if (score > bestCoverScore) {
-                bestCoverScore = score;
-                bestCover = sh;
+            if (sh === burrow) {
+              // Burrow Sanctuary: 100% impenetrable refuge if room available and wolf isn't camping in front
+              if (burrowHasRoom && alignment > -0.55 && distWolfToSh > 35) {
+                // High sanctuary bonus (+450) ensures fleeing rabbits sprint for the burrow
+                const burrowScore = 1200 - distToSh + (alignment * 180) + 450;
+                if (burrowScore > bestCoverScore) {
+                  bestCoverScore = burrowScore;
+                  bestCover = burrow;
+                }
+              }
+            } else {
+              // Thicket cover (camouflage concealment)
+              if (alignment > -0.35 && distWolfToSh > 45) {
+                const thicketScore = 1000 - distToSh + (alignment * 160);
+                if (thicketScore > bestCoverScore) {
+                  bestCoverScore = thicketScore;
+                  bestCover = sh;
+                }
               }
             }
           }
@@ -2590,8 +2714,8 @@
 
           // Blend repulsion from predator + attraction to safe cover
           let fleeDirX, fleeDirY;
-          const awayX = (ent.x - nearestWolf.x) / (minWolfDist || 1);
-          const awayY = (ent.y - nearestWolf.y) / (minWolfDist || 1);
+          const awayX = (ent.x - (nearestWolf ? nearestWolf.x : 0)) / (minWolfDist || 1);
+          const awayY = (ent.y - (nearestWolf ? nearestWolf.y : 0)) / (minWolfDist || 1);
 
           if (bestCover && !ent.inCover) {
             const toCoverX = (bestCover.x - ent.x);
@@ -2600,8 +2724,8 @@
             const uCoverX = toCoverX / (distCover || 1);
             const uCoverY = toCoverY / (distCover || 1);
 
-            // When wolf is very close (panic lunge <= 42px), evasion takes 65%; otherwise cover seeking takes 70%
-            const coverWeight = (minWolfDist < 42) ? 0.35 : 0.70;
+            // Heading to burrow: sprint hard toward entrance (85% weight); heading to thicket: 70% weight
+            const coverWeight = (bestCover === burrow) ? 0.85 : ((minWolfDist < 42) ? 0.35 : 0.70);
             const awayWeight = 1.0 - coverWeight;
 
             fleeDirX = awayX * awayWeight + uCoverX * coverWeight;
@@ -2680,9 +2804,26 @@
             const toBx = burrow.x - ent.x;
             const toBy = burrow.y - ent.y;
             const distB = Math.hypot(toBx, toBy);
-            if (distB > 12) {
-              ent.vx += (toBx / distB) * 0.16;
-              ent.vy += (toBy / distB) * 0.16;
+            if (distB > 14) {
+              ent.vx += (toBx / distB) * 0.22;
+              ent.vy += (toBy / distB) * 0.22;
+            } else {
+              // Arrived at burrow entrance: dive inside!
+              const occ = entities.filter(e => e.type === 'rabbit' && e.isSheltered).length;
+              if (occ < burrow.capacity) {
+                ent.isSheltered = true;
+                ent.state = 'SHELTERED';
+                ent.vx = 0;
+                ent.vy = 0;
+                ent.x = burrow.x;
+                ent.y = burrow.y;
+                ent.shelterTimer = 180;
+                ent.inCover = true;
+                ent.evacTarget = null;
+                burrow.occupants = entities.filter(e => e.type === 'rabbit' && e.isSheltered).length;
+              } else {
+                ent.evacTarget = 'thicket';
+              }
             }
           } else if (ent.evacTarget === 'thicket') {
           // Evacuation overflow to nearest thicket
@@ -3073,6 +3214,27 @@
         ctx.lineWidth = 1.5;
         ctx.strokeStyle = isDark ? '#d97706' : '#b45309';
         ctx.stroke();
+
+        // Occupants Badge
+        ctx.font = 'bold 9px "Fira Code", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = burrow.occupants > 0 ? (isDark ? '#fbbf24' : '#b45309') : (isDark ? '#94a3b8' : '#64748b');
+        ctx.fillText(`HANG TRÚ [${burrow.occupants}/${burrow.capacity}]`, burrow.x, burrow.y - burrow.radius - 4);
+
+        // Clustered sheltered eyes/ears inside burrow entrance
+        if (burrow.occupants > 0) {
+          const occCount = Math.min(8, burrow.occupants);
+          for (let k = 0; k < occCount; k++) {
+            const ang = (k / occCount) * Math.PI * 2;
+            const distO = burrow.entranceRadius * 0.45;
+            const dotX = burrow.x + Math.cos(ang) * distO;
+            const dotY = burrow.y + Math.sin(ang) * distO;
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 2.0, 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? '#fbbf24' : '#f59e0b';
+            ctx.fill();
+          }
+        }
         ctx.restore();
       }
 
@@ -3266,6 +3428,24 @@
       // 11. Entities (Rabbits & Wolves)
       if (layers.entities) {
         for (const ent of entities) {
+          if (ent.isSheltered) {
+            // Rabbit is safely hidden inside the burrow: do not draw on open surface
+            if (ent === selectedObject) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.arc(burrow.x, burrow.y, burrow.radius + 6, 0, Math.PI * 2);
+              ctx.strokeStyle = isDark ? '#38bdf8' : '#0284c7';
+              ctx.lineWidth = 2;
+              ctx.setLineDash([4, 4]);
+              ctx.stroke();
+              ctx.font = 'bold 9px "Fira Code", monospace';
+              ctx.fillStyle = isDark ? '#38bdf8' : '#0284c7';
+              ctx.textAlign = 'center';
+              ctx.fillText(`[TRONG HANG: ${ent.name}]`, burrow.x, burrow.y + burrow.radius + 14);
+              ctx.restore();
+            }
+            continue;
+          }
           ctx.save();
 
           // In-Cover Stealth Halo
