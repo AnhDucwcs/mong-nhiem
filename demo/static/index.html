@@ -950,12 +950,15 @@
 
     // --- World Elements Data (Centered, Balanced & Populated Biome) ---
 
-    // 1. Terrain: Rock Formations across 4 quadrants (Vật cản tự nhiên)
+    // 1. Terrain: Rock Formations with Distinct Sizes & Shapes (Vật cản tự nhiên đa dạng)
     const rocks = [
-      { id: 'rock_ridge_nw', type: 'rock', x: 280, y: 130, rx: 42, ry: 26, angle: 0.35, label: 'Rặng Đá Tây Bắc' },
-      { id: 'rock_ridge_ne', type: 'rock', x: 740, y: 140, rx: 45, ry: 28, angle: -0.25, label: 'Rặng Đá Đông Bắc' },
-      { id: 'rock_ridge_se', type: 'rock', x: 760, y: 580, rx: 46, ry: 26, angle: 0.15, label: 'Rặng Đá Đông Nam' },
-      { id: 'rock_ridge_w', type: 'rock', x: 130, y: 360, rx: 38, ry: 24, angle: 0.5, label: 'Rặng Đá Phía Tây' }
+      { id: 'rock_ridge_nw', type: 'rock', x: 275, y: 130, rx: 65, ry: 36, angle: 0.38, label: 'Rặng Đá Tây Bắc (Khổng Lồ)' },
+      { id: 'rock_ridge_ne', type: 'rock', x: 740, y: 140, rx: 50, ry: 19, angle: -0.32, label: 'Rặng Đá Đông Bắc (Dài Hẹp)' },
+      { id: 'rock_ridge_w', type: 'rock', x: 130, y: 360, rx: 36, ry: 34, angle: 0.1, label: 'Khối Đá Tròn Phía Tây' },
+      { id: 'rock_ridge_se_main', type: 'rock', x: 750, y: 590, rx: 54, ry: 26, angle: 0.18, label: 'Rặng Đá Đông Nam Chính' },
+      { id: 'rock_outcrop_se', type: 'rock', x: 815, y: 450, rx: 32, ry: 19, angle: 0.42, label: 'Mỏm Đá Nhọn Đông Nam' },
+      { id: 'rock_boulder_se', type: 'rock', x: 845, y: 620, rx: 27, ry: 22, angle: -0.35, label: 'Tảng Đá Mép Đông Nam' },
+      { id: 'rock_pebble_se', type: 'rock', x: 670, y: 515, rx: 20, ry: 17, angle: 0.5, label: 'Mỏm Đá Cuội Phía Đông' }
     ];
 
     // 2. Terrain: Rabbit Burrow Sanctuary (Hang thỏ trú ẩn thu nhỏ)
@@ -989,12 +992,14 @@
       { id: 'water_pond', type: 'water', x: 520, y: 360, radius: 105, amount: 300, max: 300, label: 'Hồ Nước Trung Tâm' }
     ];
 
-    // 5. Thickets: Dense Forest Canopy & Bush Cover across Quadrants
+    // 5. Thickets: Dense Forest Canopy & Bush Cover across Quadrants (Bổ sung lùm cây Đông Nam)
     const thickets = [
       { id: 'thicket_north', type: 'thicket', x: 390, y: 110, radius: 46, label: 'Lùm Cây Phía Bắc', stealthBonus: 0.8 },
       { id: 'thicket_west', type: 'thicket', x: 210, y: 360, radius: 52, label: 'Lùm Cây Phía Tây (Cover)', stealthBonus: 0.8 },
-      { id: 'thicket_southeast', type: 'thicket', x: 720, y: 490, radius: 48, label: 'Lùm Cây Đông Nam (Cover)', stealthBonus: 0.8 },
-      { id: 'thicket_northeast', type: 'thicket', x: 860, y: 140, radius: 45, label: 'Lùm Cây Đông Bắc', stealthBonus: 0.8 }
+      { id: 'thicket_southeast', type: 'thicket', x: 730, y: 470, radius: 42, label: 'Lùm Cây Đông Nam (Cover)', stealthBonus: 0.8 },
+      { id: 'thicket_se_cluster', type: 'thicket', x: 850, y: 535, radius: 38, label: 'Bụi Cây Mép Đông Nam', stealthBonus: 0.85 },
+      { id: 'thicket_south_edge', type: 'thicket', x: 650, y: 615, radius: 34, label: 'Bụi Cây Ven Nam', stealthBonus: 0.75 },
+      { id: 'thicket_northeast', type: 'thicket', x: 860, y: 140, radius: 44, label: 'Lùm Cây Đông Bắc', stealthBonus: 0.8 }
     ];
 
     // 6. Herbs: Wild Dandelion & Medicinal Flora (Hồi phục năng lượng cao tốc)

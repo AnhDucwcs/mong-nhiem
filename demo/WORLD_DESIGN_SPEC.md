@@ -39,10 +39,21 @@ Where:
   - $\text{Bush}_{\text{East}} = [770, 370]$, capacity $100\text{ u}$.
   - $\text{Bush}_{\text{West}} = [260, 230]$, capacity $100\text{ u}$.
   - $\text{Bush}_{\text{South}} = [390, 560]$, capacity $100\text{ u}$.
-- **Granite Rock Formations (4 Impenetrable Barriers):**
-  - NW $[280, 130]$, NE $[740, 140]$, SE $[760, 580]$, West $[130, 360]$.
-- **Thickets (4 Stealth Cover Zones):**
-  - North $[390, 110]$, West $[210, 360]$, SE $[720, 490]$, NE $[860, 140]$.
+- **Granite Rock Formations (7 Heterogeneous Obstacles with Varied Profiles):**
+  - NW $[275, 130]$ ($65 \times 36\text{ px}$, Massive Mountain Ridge, $\theta=0.38\text{ rad}$)
+  - NE $[740, 140]$ ($50 \times 19\text{ px}$, Elongated Jagged Spine, $\theta=-0.32\text{ rad}$)
+  - West $[130, 360]$ ($36 \times 34\text{ px}$, Rounded Monolith, $\theta=0.10\text{ rad}$)
+  - SE Main $[750, 590]$ ($54 \times 26\text{ px}$, Continental Rock Barrier, $\theta=0.18\text{ rad}$)
+  - SE Outcrop $[815, 450]$ ($32 \times 19\text{ px}$, Sharp Angular Outcrop, $\theta=0.42\text{ rad}$)
+  - SE Border $[845, 620]$ ($27 \times 22\text{ px}$, Compact Flank Boulder, $\theta=-0.35\text{ rad}$)
+  - East Pebble $[670, 515]$ ($20 \times 17\text{ px}$, Minor Granite Pebble, $\theta=0.50\text{ rad}$)
+- **Thickets (6 Multi-Tier Stealth Cover Zones):**
+  - North $[390, 110]$ ($R=46\text{ px}$, stealth bonus $0.80$)
+  - West $[210, 360]$ ($R=52\text{ px}$, stealth bonus $0.80$)
+  - SE Corridor $[730, 470]$ ($R=42\text{ px}$, stealth bonus $0.80$)
+  - SE Cluster $[850, 535]$ ($R=38\text{ px}$, stealth bonus $0.85$)
+  - South Edge $[650, 615]$ ($R=34\text{ px}$, stealth bonus $0.75$)
+  - NE Canopy $[860, 140]$ ($R=44\text{ px}$, stealth bonus $0.80$)
 - **Dandelion Medicinal Grove:** $[560, 540]$, capacity $80\text{ u}$.
 - **Geological Hazard (Sinkhole):** $[880, 270]$, radius $65\text{ px}$.
 - **Predator Den Landmark:** $[910, 130]$, radius $26\text{ px}$.
