@@ -12,13 +12,20 @@ Mọi phương trình vi phân biến đổi trạng thái được tích phân 
 $$\mathbf{x}(t + \Delta t_{\text{sim}}) = \mathbf{x}(t) + \mathbf{v}(t) \cdot \Delta t_{\text{sim}}$$
 $$E_i(t + \Delta t_{\text{sim}}) = E_i(t) + \dot{E}_i \cdot \Delta t_{\text{sim}}$$
 
-### 1.2 Tách Rời Hoàn Toàn Khỏi Tốc Độ Vẽ Giao Diện (Decoupled UI Render)
-- **UI Render Loop:** Chạy theo chu kỳ vẽ của trình duyệt thông qua `requestAnimationFrame()` ($\sim 60\text{ fps}$ hoặc tần số quét màn hình). Render UI chỉ đọc trạng thái hiện tại của Host và vẽ lên Canvas; không tham gia biến đổi trạng thái vật lý.
-- **Nút Điều Khiển Tốc Độ ($1\times, 2\times, 5\times$):**
-  - Tốc độ $1\times$: Tính toán $1$ physics tick mỗi frame.
-  - Tốc độ $2\times$: Tính toán $2$ physics ticks mỗi frame.
-  - Tốc độ $5\times$: Tính toán $5$ physics ticks mỗi frame.
-- **Tính Bất Biến (Invariant):** Việc tăng tốc độ giao diện **không làm thay đổi $\Delta t_{\text{sim}}$**. Tỉ số vi phân toán học hoàn toàn bất biến; kết quả mô phỏng giữa $1\times$ và $5\times$ là tất định ($100\%$ deterministic replay).
+### 1.2 Tách Rời Hoàn Toàn Khỏi Tốc Độ Vẽ Giao Diện (Fixed-Timestep Accumulator Engine)
+- **UI Render Loop:** Chạy theo chu kỳ vẽ của trình duyệt thông qua `requestAnimationFrame()` ($\sim 60\text{ fps} - 144\text{ fps}$). Render UI chỉ đọc trạng thái hiện tại của Host và vẽ lên Canvas; hoàn toàn độc lập với nhịp tính vật lý.
+- **Bộ tích lũy thời gian thực (Time Accumulator):**
+  $$\text{Accumulator} \mathrel{+}= \Delta t_{\text{frame}} \cdot \text{simSpeed}$$
+  $$\text{Chạy } \text{updateSimulation}() \text{ khi } \text{Accumulator} \ge 50\text{ ms} \quad (\Delta t_{\text{sim}} = 0.05\text{ s})$$
+- **Hệ Thống Tốc Độ Linh Hoạt (Speed Selector & Presets):**
+  - **$0.25\times$:** $5\text{ ticks/s}$ ($200\text{ ms/tick}$) - Siêu chậm: Quan sát tỉ mỉ rình rập và né tránh zig-zag.
+  - **$0.50\times$:** $10\text{ ticks/s}$ ($100\text{ ms/tick}$) - Chậm: Theo dõi quỹ đạo rượt đuổi và vồ mồi mượt mà.
+  - **$0.75\times$:** $15\text{ ticks/s}$ ($66\text{ ms/tick}$) - Vừa phải: Kiểm tra vận động bầy đàn tự nhiên.
+  - **$1.00\times$:** $20\text{ ticks/s}$ ($50\text{ ms/tick}$) - Chuẩn thời gian thực danh định ($1753\text{ ticks} \approx 87.6\text{ s}$).
+  - **$2.00\times$:** $40\text{ ticks/s}$ ($25\text{ ms/tick}$) - Tua nhanh.
+  - **$5.00\times$:** $100\text{ ticks/s}$ ($10\text{ ms/tick}$) - Siêu tốc: Đẩy nhanh tiến hóa quần thể.
+  - **Thanh trượt liên tục (Continuous Slider):** Hỗ trợ dải tốc độ $0.10\times \to 5.00\times$.
+- **Tính Bất Biến (Invariant):** Thay đổi tốc độ hiển thị **không làm thay đổi độ dịch chuyển hay lực tương tác trên mỗi tick** ($100\%$ deterministic replay).
 
 ---
 
@@ -32,7 +39,9 @@ $$E_i(t + \Delta t_{\text{sim}}) = E_i(t) + \dot{E}_i \cdot \Delta t_{\text{sim}
 | **Bán kính vật thể** | $r_i, R$ | $\text{px}$ | $r_{\text{rabbit}} = 4.8$, $r_{\text{scout}} = 6.5$, $r_{\text{wolf}} = 8.5$ | Bán kính va chạm vật lý |
 | **Năng lượng thể lực** | $E_i$ | $\%$ | $[0.0, 100.0]\%$ | Năng lượng dự trữ của cá thể |
 | **Mức độ đói** | $H_i$ | $\%$ | $[0.0, 100.0]\%$ | $0\%$: no căng; $100\%$: đói kiệt sức |
+| **Độ no bụng (Satiety)** | $S_i$ | $\%$ | $S_i = 100\% - H_i$ | $100\%$: no nê; $0\%$: đói kiệt quệ (hiển thị UI) |
 | **Mức độ khát** | $T_i$ | $\%$ | $[0.0, 100.0]\%$ | $0\%$: đủ nước; $100\%$: khát khô |
+| **Độ ẩm nước (Hydration)** | $W_i$ | $\%$ | $W_i = 100\% - T_i$ | $100\%$: đủ nước; $0\%$: khát khô (hiển thị UI) |
 | **Sinh lực / Máu** | $\Omega_i$ | $\%$ | $[0.0, 100.0]\%$ | Khi $\Omega_i = 0$, cá thể tử vong |
 | **Tốc độ hao năng lượng** | $\alpha_E$ | $\%/\text{s}$ | $0.40\%/\text{s}$ ($0.02\%/\text{tick}$) | Năng lượng tiêu hao tĩnh cơ bản |
 | **Hệ số hao theo vận tốc** | $\beta_E$ | $\%/\text{px}$ | $0.005\%/\text{px}$ | Năng lượng tiêu hao thêm khi di chuyển |
@@ -215,7 +224,10 @@ Mô phỏng tích hợp mô hình động lực học quần thể phân hóa r�
   - Ghi nhận viễn thám: `LotkaVolterra: r-strategist population growth`.
 
 ### 8.2 Quần Thể Sói ($K$-strategist: Bền Bỉ, Tái Cấu Trúc Chậm)
-- **Sức chịu đựng cao:** Tốc độ tiêu hóa của sói chậm gấp $4$ lần thỏ, có thể nhịn đói qua hàng ngàn tick mà không tử vong.
+- **Sức chịu đựng cao:** Tốc độ tiêu hóa của sói chậm hơn thỏ ($0.012\%/\text{tick}$ vs $0.018\%/\text{tick}$), có thể nhịn đói qua hàng ngàn tick mà không tử vong.
+- **Tử vong do tuyệt diệt con mồi (Predator Starvation Extinction):**
+  - Khi đàn thỏ bị tuyệt diệt hoàn toàn, sói không còn con mồi để săn bắt. Mức đói $H_{\text{wolf}}$ tăng chạm $100\%$ ($\text{Satiety} = 0\%$).
+  - Sinh lực tụt dốc ($-0.08\%/\text{tick}$). Khi $\Omega_{\text{wolf}} = 0$, sói chết vì kiệt sức và bị loại khỏi bản đồ. Sói **tuyệt đối không thể tự tăng độ no khi không có thức ăn**.
 - **Sinh sản dựa trên năng lượng tích lũy:**
   - Sói chỉ sinh sản khi tích lũy đủ calo từ $3$ lần săn mồi thành công (`killCount >= 3`).
   - Khi thỏa mãn điều kiện và đàn sói $< 2$ con: Một cá thể sói con trưởng thành (`Wolf #02`) sẽ gia nhập bản đồ tại vùng rừng phía Đông.
@@ -243,9 +255,15 @@ Mô phỏng tích hợp mô hình động lực học quần thể phân hóa r�
 
 ## 10. Kiến Trúc Giao Diện Công Thái Học & HMI Bảng Điều Khiển
 
-Tuân thủ triết lý tối giản và công thái học nhận thức (Cognitive Ergonomics):
+Tuân thủ triết lý tối giản và công thái học nhận thức (UI/UX Pro Max):
 
-1. **Menu Dropdown `Can Thiệp ▾` (Operator Interventions):**
+1. **Bộ Điều Khiển Tốc Độ Thông Minh (Adaptive Speed Popover):**
+   - Nút trigger hiển thị tốc độ thực tế tức thời (`1.00x ▾`) với font Fira Code monospace.
+   - Trình đơn thả xuống tích hợp 2 cơ chế tương tác:
+     - **Thanh trượt liên tục (Continuous Range Slider):** Kéo thả mượt mà từ $0.10\times$ đến $5.00\times$.
+     - **Lưới chọn nhanh 6 mức (Preset Chips):** $0.25\times$ (Siêu chậm), $0.50\times$ (Chậm), $0.75\times$ (Mượt), $1.00\times$ (Chuẩn), $2.00\times$ (Tua nhanh), $5.00\times$ (Siêu tốc).
+     - **Phản hồi thời gian thực:** Cập nhật ngay số tick tính toán trên giây ($\text{ticks/s}$) và ghi chú mục đích quan sát.
+2. **Menu Dropdown `Can Thiệp ▾` (Operator Interventions):**
    - Đóng gói toàn bộ 6 tác vụ can thiệp vào một trình đơn thả xuống có kiểm soát:
      - `Đổi Hướng Gió (90°)`: Thay đổi vector khuếch tán mùi tức thời.
      - `Bật/Tắt Mưa Rào`: Giảm tầm nhìn và xóa sạch vệt mùi trên mặt đất.
@@ -253,10 +271,13 @@ Tuân thủ triết lý tối giản và công thái học nhận thức (Cognit
      - `Shock: Thả Thêm Sói`: Kiểm tra phản ứng đa mối đe dọa.
      - `Shock: Xóa Sổ Đàn Sói`: Đưa hệ sinh thái về trạng thái an toàn.
      - `Standby (Chờ Can Thiệp)`: Reset trạng thái can thiệp.
-2. **Menu Dropdown `Lớp Bản Đồ ▾` (Viewport Layer Filtering):**
+3. **Menu Dropdown `Lớp Bản Đồ ▾` (Viewport Layer Filtering):**
    - Đóng gói 9 công tắc hiển thị lớp vào dropdown dạng checkbox: Bãi Cỏ, Tầm Nhìn, Vệt Mùi, Khí Quyển, Mối Nguy, Trục Toạ Độ, Lưới Kiến Trúc, Hang & Lùm Cây, Rặng Đá.
    - Giải phóng hoàn toàn thanh chip nổi phía trên canvas, tạo không gian quan sát chuẩn học thuật.
-3. **Telemetry Strip Đa Quần Thể:**
+4. **Đồng Hồ Đo Sinh Học Trực Quan (Intuitive Physiological Gauges):**
+   - Sửa đổi toàn diện các chỉ số: hiển thị **Độ No (Satiety)** và **Độ Ẩm Nước (Hydration)** từ $100\% \to 0\%$, đi kèm màu sắc tương thích (Xanh lục khi no $> 50\%$, Vàng hổ phách khi thiếu $25-50\%$, Đỏ báo động kiệt sức $< 25\%$).
+   - Triệt tiêu hoàn toàn nghịch lý hiển thị "đói tăng nhưng nhãn ghi no".
+5. **Telemetry Strip Đa Quần Thể:**
    - Bổ sung bộ đếm `Đàn Sói` trực quan cạnh `Đàn Thỏ` và `Trữ Lượng Dâu` để theo dõi cân bằng Lotka-Volterra theo thời gian thực.
 
 ---
