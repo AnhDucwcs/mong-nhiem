@@ -171,6 +171,9 @@ $$\text{Bán kính đánh hơi } R_{\text{olfactory}} = 240\text{ px} \quad > \q
    - Nếu thỏ đang ẩn nấp trong lùm cây, phạm vi đánh hơi hiệu dụng $R_{\text{scent\_eff}}$ bị bóp nghẹt xuống còn **$1/3$ tầm nhìn của sói**:
      $$R_{\text{scent\_eff}}^{\text{cover}} \approx \frac{1}{3} R_{\text{vision}} \approx 50.0\text{ px}$$
    - Điều này buộc sói phải tiếp cận cực gần mép bụi rậm mới phát hiện được con mồi ẩn nấp.
+3. **Loại bỏ phễu mùi nhân tạo (Zero Artificial Scent Funnel):**
+   - Sói là động vật thu nhận mùi (olfactory receiver), hoàn toàn **không phát tán luồng khí hay phễu mùi ra môi trường**.
+   - Toàn bộ hình vẽ phễu mùi rẻ quạt màu đỏ gắn ở đầu sói đã bị bãi bỏ; giao diện chỉ hiển thị các hạt mùi sinh học của thỏ (`scentParticles`) trôi tự nhiên theo gió.
 
 ### 6.3 Giác Quan Của Thỏ (Prey Visual Detection)
 - Thỏ là loài ăn thực vật, **hoàn toàn không có năng lực ngửi mùi dã thú từ xa**.
@@ -356,3 +359,36 @@ Triệt tiêu hoàn toàn hiện tượng phi thực tế "cạn kiệt thể l�
 3. **Hiển thị trực quan:**
    - Cá thể đang nghỉ ngơi hiển thị ký hiệu `zZ` bồng bềnh màu xanh lam phía trên đầu.
    - Cá thể kiệt sức hiển thị dấu báo hiệu `⚡0` màu đỏ hồng.
+
+---
+
+## 13. Vật Cản Địa Hình Tuyệt Đối (Rặng Đá, Lòng Hồ Sâu) & Tử Địa Hố Sụt Karst
+
+### 13.1 Vật Cản Địa Hình Tuyệt Đối (Impassable Obstacles)
+Để loại bỏ hiện tượng xuyên thấu phi vật lý (clipping through rocks / walking on deep water), Host áp dụng bộ phân giải va chạm cứng (Hard Collision Resolvers):
+1. **Rặng Đá Granit (Rotated Elliptical Collider Resolution):**
+   - Mỗi khối đá được mô hình hóa dưới dạng elip quay góc $\theta$ với bán trục $r_x, r_y$:
+     $$\mathbf{x}_{\text{local}} = \mathbf{R}(-\theta) \cdot (\mathbf{x}_{\text{ent}} - \mathbf{x}_{\text{rock}})$$
+     $$q = \left(\frac{x_{\text{local}}}{r_x + r_{\text{ent}}}\right)^2 + \left(\frac{y_{\text{local}}}{r_y + r_{\text{ent}}}\right)^2$$
+   - Khi $q < 1.0$ (cá thể chạm/chìm vào đá):
+     - Vị trí cá thể lập tức bị đẩy lùi tức thì ra biên ngoài bề mặt đá ($q \ge 1.01$).
+     - Thành phần vận tốc hướng tâm bị triệt tiêu ($v \mathrel{*}= 0.4$), buộc cá thể trượt men theo rìa đá thay vì đi xuyên qua.
+2. **Lòng Hồ Nước Sâu (Impassable Deep Water Basin):**
+   - Hồ nước trung tâm có bán kính tổng $R = 105\text{ px}$.
+   - **Vùng bờ nông ($r \in [68\text{ px}, 120\text{ px}]$):** Nơi các cá thể được phép đứng uống nước.
+   - **Lòng hồ nước sâu ($r \le R_{\text{deep}} = 105 \times 0.65 = 68.25\text{ px}$):** Vùng nước sâu cấm tuyệt đối, không cá thể nào được đi trên mặt nước sâu.
+   - Khi $d_{\text{pond}} < R_{\text{deep}} + r_{\text{ent}}$: Hệ thống cưỡng bức đẩy cá thể ra mép bờ nông, phản xạ vận tốc tiếp tuyến giúp di chuyển vòng quanh hồ.
+
+### 13.2 Tử Địa Hố Sụt Karst (Sinkhole Lethal Drop Dynamics)
+Hố sụt địa chất tại tọa độ $[880, 270]$ là mối nguy hiểm tự nhiên chết người:
+1. **Bán kính cảnh báo nguy hiểm ($r \le 65\text{ px}$):**
+   - Vùng viền nứt lún địa chất (vạch đứt đoạn đỏ).
+   - Cá thể bình thường có lực đẩy dạt nhẹ để né tránh hố nếu di chuyển ở tốc độ thấp.
+2. **Miệng Vực Tử Địa ($d \le 40.0\text{ px}$):**
+   - Bất kỳ cá thể sinh học nào (cả thỏ lẫn sói) khi bước vào bán kính $40\text{ px}$ sẽ **lập tức rơi xuống vực sâu và biến mất/tử nạn**:
+     $$d_{\text{hazard}} \le 40.0\text{ px} \implies \text{Eliminate Entity from World}$$
+   - **Xử lý sự kiện Host:**
+     - Cá thể bị loại bỏ vĩnh viễn khỏi danh sách `entities`.
+     - Bộ đếm quần thể cập nhật ngay (`kpi-rabbits` hoặc `kpi-wolves`).
+     - Ghi nhận telemetry viễn thám: `[ĐỊA CHẤT TỬ NẠN] <Tên> sa chân rơi xuống Hố Sụt Karst!`.
+   - **Kịch bản săn bắt:** Khi thỏ bị dồn về góc Đông hoặc sói bứt tốc rượt đuổi quá đà, nguy cơ trượt chân rơi xuống hố tạo nên biến số sinh tồn kịch tính.

@@ -1905,8 +1905,8 @@
         avatar.textContent = 'HZ';
         avatar.className = 'identity-avatar landmark';
 
-        document.getElementById('gt-desc').textContent = 'Rủi ro tử vong: Vượt quá giới hạn thềm đất nếu thỏ tiến vào. Bán kính tử địa: ' + obj.radius + 'px.';
-        document.getElementById('belief-desc').textContent = 'AutoDream FactCard-01: Bầy đàn ghi nhớ vị trí và tự động né tránh cự ly an toàn.';
+        document.getElementById('gt-desc').textContent = 'Địa hình tử địa: Bất kỳ thực thể nào (thỏ hoặc sói) rơi vào miệng hố sụt (r <= 40px) sẽ biến mất / tử nạn ngay lập tức.';
+        document.getElementById('belief-desc').textContent = 'Bản năng dã tính né tránh nguy hiểm, nhưng khi rượt đuổi tốc độ cao hoặc hoảng loạn có thể sảy chân rơi xuống vực.';
         document.getElementById('skew-badge').style.display = 'none';
 
       } else if (obj.type === 'meadow') {
@@ -1923,6 +1923,50 @@
         document.getElementById('gt-desc').textContent = 'Độ tươi cỏ non: ' + obj.grassLevel + '%. Địa hình quang đãng 100%, không che khuất.';
         document.getElementById('belief-desc').textContent = 'Khu vực gặm cỏ kiếm ăn lý tưởng nhưng có nguy cơ bị sói quan sát từ xa.';
         document.getElementById('skew-badge').style.display = 'none';
+      }
+    }
+
+    // --- Hard Obstacle Collision Resolvers (Impassable Rocks & Deep Water Basin) ---
+    function resolveObstacleCollisions(ent) {
+      // 1. Rock Formations (Hard Elliptical Colliders)
+      for (const rk of rocks) {
+        const dx = ent.x - rk.x;
+        const dy = ent.y - rk.y;
+        const cosA = Math.cos(-rk.angle);
+        const sinA = Math.sin(-rk.angle);
+        const lx = dx * cosA - dy * sinA;
+        const ly = dx * sinA + dy * cosA;
+        const ax = rk.rx + ent.radius + 1.5;
+        const ay = rk.ry + ent.radius + 1.5;
+        const q = (lx * lx) / (ax * ax) + (ly * ly) / (ay * ay);
+        if (q < 1.0) {
+          const s = Math.sqrt(q);
+          const targetLx = (s > 0.001) ? (lx / s) * ax * 1.01 : ax;
+          const targetLy = (s > 0.001) ? (ly / s) * ay * 1.01 : 0;
+          const cosBack = Math.cos(rk.angle);
+          const sinBack = Math.sin(rk.angle);
+          ent.x = rk.x + targetLx * cosBack - targetLy * sinBack;
+          ent.y = rk.y + targetLx * sinBack + targetLy * cosBack;
+          ent.vx *= 0.4;
+          ent.vy *= 0.4;
+        }
+      }
+
+      // 2. Deep Lake Center (Impassable Deep Water Basin: Inner 65% of pond radius)
+      const pond = resources.find(r => r.type === 'water');
+      if (pond) {
+        const dx = ent.x - pond.x;
+        const dy = ent.y - pond.y;
+        const dist = Math.hypot(dx, dy);
+        const deepLimit = pond.radius * 0.65 + ent.radius + 1.0;
+        if (dist < deepLimit) {
+          const angle = (dist > 0.001) ? Math.atan2(dy, dx) : 0;
+          const targetDist = deepLimit + 0.5;
+          ent.x = pond.x + Math.cos(angle) * targetDist;
+          ent.y = pond.y + Math.sin(angle) * targetDist;
+          ent.vx *= 0.4;
+          ent.vy *= 0.4;
+        }
       }
     }
 
@@ -2134,8 +2178,8 @@
             wolf.state = 'REST';
           }
           wolf.patrolAngle += 0.011;
-          const targetX = 810 + Math.cos(wolf.patrolAngle) * 115;
-          const targetY = 270 + Math.sin(wolf.patrolAngle) * 80;
+          const targetX = 760 + Math.cos(wolf.patrolAngle) * 75;
+          const targetY = 230 + Math.sin(wolf.patrolAngle) * 55;
           wolf.vx += ((targetX - wolf.x) * 0.015);
           wolf.vy += ((targetY - wolf.y) * 0.015);
 
@@ -2265,13 +2309,26 @@
           }
         }
 
-        // Rock obstacle avoidance for wolf
+        // Natural steering avoidance for wolf around Rocks & Deep Pond Center
         for (const rk of rocks) {
           const dx = wolf.x - rk.x;
           const dy = wolf.y - rk.y;
           const dist = Math.hypot(dx, dy);
-          const avoidDist = rk.rx + wolf.radius + 8;
-          if (dist < avoidDist) {
+          const avoidDist = Math.max(rk.rx, rk.ry) + wolf.radius + 16;
+          if (dist < avoidDist && dist > 0.001) {
+            wolf.vx += (dx / dist) * 0.45;
+            wolf.vy += (dy / dist) * 0.45;
+          }
+        }
+
+        // Steer around Deep Pond Center (Water Basin)
+        const pond = resources.find(r => r.type === 'water');
+        if (pond) {
+          const dx = wolf.x - pond.x;
+          const dy = wolf.y - pond.y;
+          const dist = Math.hypot(dx, dy);
+          const deepAvoidDist = pond.radius * 0.78;
+          if (dist < deepAvoidDist && dist > 0.001) {
             wolf.vx += (dx / dist) * 0.40;
             wolf.vy += (dy / dist) * 0.40;
           }
@@ -2282,6 +2339,42 @@
         wolf.vy *= 0.94;
         wolf.x += wolf.vx;
         wolf.y += wolf.vy;
+
+        // Hard Obstacle Collision Resolution (Impassable Rocks & Deep Water)
+        resolveObstacleCollisions(wolf);
+
+        // Sinkhole Geological Hazard Check (Lethal drop threshold <= 40px)
+        let wolfFellInSinkhole = false;
+        for (const hz of hazards) {
+          if (hz.id === 'hazard_sinkhole') {
+            const distHz = Math.hypot(wolf.x - hz.x, wolf.y - hz.y);
+            if (distHz <= 40) {
+              const deadIdx = entities.indexOf(wolf);
+              if (deadIdx !== -1) {
+                entities.splice(deadIdx, 1);
+                const remainingWolves = entities.filter(e => e.type === 'wolf').length;
+                document.getElementById('kpi-wolves').textContent = `${remainingWolves} con`;
+                addTimelineEvent({
+                  badge: 'ĐỊA CHẤT TỬ NẠN',
+                  badgeClass: 'shock',
+                  title: `${wolf.name} rơi xuống Hố Sụt Karst!`,
+                  body: `Thú săn truy đuổi mất kiểm soát tốc độ, sảy chân vào miệng hố sụt địa chất tại [${hz.x}, ${hz.y}] và biến mất/tử nạn. Đàn sói còn ${remainingWolves} con.`,
+                  reason: 'HazardSinkhole: lethal drop threshold breached (dist <= 40px)'
+                });
+                if (selectedObject === wolf) {
+                  selectedObject = null;
+                  updateInspectorUI();
+                }
+                wolfFellInSinkhole = true;
+                break;
+              }
+            } else if (distHz < hz.radius) {
+              wolf.vx += ((wolf.x - hz.x) / distHz) * 0.25;
+              wolf.vy += ((wolf.y - hz.y) / distHz) * 0.25;
+            }
+          }
+        }
+        if (wolfFellInSinkhole) continue;
 
         if (wolf.x < 35) { wolf.x = 35; wolf.vx *= -1; }
         if (wolf.x > W - 35) { wolf.x = W - 35; wolf.vx *= -1; }
@@ -2533,15 +2626,28 @@
         }
       }
 
-      // Steer around Granite Rocks
+        // Natural steering avoidance for rabbit around Rocks & Deep Pond Center
         for (const rk of rocks) {
           const dx = ent.x - rk.x;
           const dy = ent.y - rk.y;
           const dist = Math.hypot(dx, dy);
-          const avoidDist = rk.rx + ent.radius + 10;
-          if (dist < avoidDist) {
-            ent.vx += (dx / dist) * 0.35;
-            ent.vy += (dy / dist) * 0.35;
+          const avoidDist = Math.max(rk.rx, rk.ry) + ent.radius + 12;
+          if (dist < avoidDist && dist > 0.001) {
+            ent.vx += (dx / dist) * 0.40;
+            ent.vy += (dy / dist) * 0.40;
+          }
+        }
+
+        // Steer around Deep Pond Center (Water Basin)
+        const pond = resources.find(r => r.type === 'water');
+        if (pond) {
+          const dx = ent.x - pond.x;
+          const dy = ent.y - pond.y;
+          const dist = Math.hypot(dx, dy);
+          const deepAvoidDist = pond.radius * 0.78;
+          if (dist < deepAvoidDist && dist > 0.001) {
+            ent.vx += (dx / dist) * 0.38;
+            ent.vy += (dy / dist) * 0.38;
           }
         }
 
@@ -2556,6 +2662,42 @@
         ent.vy *= 0.91;
         ent.x += ent.vx;
         ent.y += ent.vy;
+
+        // Hard Obstacle Collision Resolution (Impassable Rocks & Deep Water)
+        resolveObstacleCollisions(ent);
+
+        // Sinkhole Geological Hazard Check (Lethal drop threshold <= 40px)
+        let rabbitFellInSinkhole = false;
+        for (const hz of hazards) {
+          if (hz.id === 'hazard_sinkhole') {
+            const distHz = Math.hypot(ent.x - hz.x, ent.y - hz.y);
+            if (distHz <= 40) {
+              const deadIdx = entities.indexOf(ent);
+              if (deadIdx !== -1) {
+                entities.splice(deadIdx, 1);
+                const rem = entities.filter(e => e.type === 'rabbit').length;
+                document.getElementById('kpi-rabbits').textContent = `${rem} con`;
+                addTimelineEvent({
+                  badge: 'ĐỊA CHẤT TỬ NẠN',
+                  badgeClass: 'shock',
+                  title: `${ent.name} sa chân vào Hố Sụt Karst!`,
+                  body: `Con mồi hoảng loạn bỏ chạy rơi thẳng vào miệng hố sụt địa chất tại [${hz.x}, ${hz.y}] và biến mất hoàn toàn. Quần thể thỏ còn ${rem} con.`,
+                  reason: 'HazardSinkhole: lethal drop threshold breached (dist <= 40px)'
+                });
+                if (selectedObject === ent) {
+                  selectedObject = null;
+                  updateInspectorUI();
+                }
+                rabbitFellInSinkhole = true;
+                break;
+              }
+            } else if (distHz < hz.radius) {
+              ent.vx += ((ent.x - hz.x) / distHz) * 0.22;
+              ent.vy += ((ent.y - hz.y) / distHz) * 0.22;
+            }
+          }
+        }
+        if (rabbitFellInSinkhole) continue;
 
         if (ent.x < 35) { ent.x = 35; ent.vx *= -1; }
         if (ent.x > W - 35) { ent.x = W - 35; ent.vx *= -1; }
@@ -2772,14 +2914,47 @@
       if (layers.hazards) {
         for (const hz of hazards) {
           ctx.save();
+
+          // Outer Warning Margin (Radius 65, Dashed perimeter)
           ctx.beginPath();
           ctx.arc(hz.x, hz.y, hz.radius, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? 'rgba(244, 63, 94, 0.12)' : 'rgba(225, 29, 72, 0.08)';
+          ctx.fillStyle = isDark ? 'rgba(244, 63, 94, 0.08)' : 'rgba(225, 29, 72, 0.05)';
           ctx.fill();
           ctx.lineWidth = 1.5;
           ctx.setLineDash([5, 5]);
           ctx.strokeStyle = isDark ? '#f43f5e' : '#e11d48';
           ctx.stroke();
+
+          // Inner Lethal Abyss Pit (Radius 38: Pit where entities disappear/die)
+          ctx.beginPath();
+          ctx.arc(hz.x, hz.y, 38, 0, Math.PI * 2);
+          const grad = ctx.createRadialGradient(hz.x, hz.y, 6, hz.x, hz.y, 38);
+          grad.addColorStop(0, isDark ? '#020617' : '#0f172a');
+          grad.addColorStop(1, isDark ? '#1e1b4b' : '#1e293b');
+          ctx.fillStyle = grad;
+          ctx.fill();
+          ctx.setLineDash([]);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = isDark ? '#f43f5e' : '#be123c';
+          ctx.stroke();
+
+          // Craggy Pit Internal Hatching / Fractures
+          for (let s = 0; s < 8; s++) {
+            const a = (s / 8) * Math.PI * 2 + 0.2;
+            ctx.beginPath();
+            ctx.moveTo(hz.x + Math.cos(a) * 38, hz.y + Math.sin(a) * 38);
+            ctx.lineTo(hz.x + Math.cos(a) * 48, hz.y + Math.sin(a) * 48);
+            ctx.strokeStyle = isDark ? 'rgba(244, 63, 94, 0.45)' : 'rgba(225, 29, 72, 0.35)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+          }
+
+          // Sinkhole Warning Label
+          ctx.font = 'bold 8.5px "Fira Code", monospace';
+          ctx.fillStyle = isDark ? '#fca5a5' : '#b91c1c';
+          ctx.textAlign = 'center';
+          ctx.fillText('HỐ SỤT VỰC CHẾT', hz.x, hz.y + 3);
+
           ctx.restore();
         }
 
@@ -2903,36 +3078,13 @@
         ctx.restore();
       }
 
-      // 8. Simplified Directional Scent Cone (Downwind Sector from Wolf)
+      // 8. Natural Airborne Prey Scent Stream (Prey scent drifting downwind, wolf scent cone removed)
       if (layers.scent) {
-        const wolf = entities.find(e => e.type === 'wolf');
-        if (wolf) {
-          ctx.save();
-          const scentL = 60 + environment.windSpeed * 4.0; // Cone length downwind (px)
-          const scentAngle = environment.windAngle;
-          const halfSpread = 0.61; // 35 degrees
-
-          ctx.beginPath();
-          ctx.moveTo(wolf.x, wolf.y);
-          ctx.arc(wolf.x, wolf.y, scentL, scentAngle - halfSpread, scentAngle + halfSpread);
-          ctx.closePath();
-
-          ctx.fillStyle = isDark ? 'rgba(244, 63, 94, 0.10)' : 'rgba(225, 29, 72, 0.08)';
-          ctx.fill();
-          ctx.lineWidth = 1;
-          ctx.setLineDash([4, 4]);
-          ctx.strokeStyle = isDark ? 'rgba(244, 63, 94, 0.45)' : 'rgba(225, 29, 72, 0.35)';
-          ctx.stroke();
-          ctx.restore();
-        }
-
-        // Particle stream inside cone
+        // Render subtle bio-scent particle stream drifting downwind from prey
         for (const p of scentParticles) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.type === 'wolf' ? 2.2 : 1.6, 0, Math.PI * 2);
-          ctx.fillStyle = p.type === 'wolf' 
-            ? `rgba(239, 68, 68, ${p.alpha * 0.55})`
-            : `rgba(245, 158, 11, ${p.alpha * 0.45})`;
+          ctx.arc(p.x, p.y, p.inCover ? 1.4 : 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(245, 158, 11, ${p.alpha * 0.45})`;
           ctx.fill();
         }
       }
