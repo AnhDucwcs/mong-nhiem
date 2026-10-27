@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mộng Nhiễm // Abstract Living World Observability</title>
+  <style>
+    :root {
+      --bg-root: #070b14;
+      --bg-panel: #0d1424;
+      --bg-card: #131c31;
+      --bg-card-hover: #1a2642;
+      --border-subtle: #1e2c4a;
+      --border-highlight: #334b77;
+      --text-main: #e2e8f0;
+      --text-muted: #8493b0;
+      --text-dim: #4d5e80;
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.25);
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --crimson: #ef4444;
+      --indigo: #6366f1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background: var(--bg-root);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Control & Telemetry Bar */
+    header {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--cyan);
+      border-radius: 4px;
+      position: relative;
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .brand-logo::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      background: var(--cyan);
+      border-radius: 1px;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--cyan);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.5px;
+    }
+
+    .telemetry-pills {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 5px 12px;
+      display: flex;
+      flex-direction: column;
+      min-width: 90px;
+    }
+    .pill-label {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .pill-val {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: ui-monospace, monospace;
+      color: var(--text-main);
+    }
+    .pill-val.amber { color: var(--amber); }
+    .pill-val.emerald { color: var(--emerald); }
+    .pill-val.cyan { color: var(--cyan); }
+    .pill-val.rose { color: var(--rose); }
+
+    .sim-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-highlight);
+      color: #fff;
+    }
+    .btn.primary {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .btn.primary:hover {
+      background: rgba(6, 182, 212, 0.3);
+    }
+    .btn.danger {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+    .btn.danger:hover {
+      background: rgba(244, 63, 94, 0.3);
+    }
+
+    /* Main Workspace Grid */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* World Canvas Container */
+    .viewport {
+      position: relative;
+      background: radial-gradient(circle at 50% 50%, #0c1424 0%, #060911 100%);
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Floating Viewport Toolbar */
+    .canvas-overlay-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+    }
+
+    .layer-chip {
+      background: rgba(13, 20, 36, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 4px 11px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .layer-chip.active {
+      background: rgba(6, 182, 212, 0.18);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .layer-chip:hover {
+      border-color: var(--border-highlight);
+    }
+
+    .canvas-overlay-bottom {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(13, 20, 36, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+      z-index: 5;
+    }
+
+    /* Side Panels (Inspector & Timeline) */
+    .side-panels {
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Inspector Panel (Top Right) */
+    .inspector-panel {
+      flex: 1.1;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .panel-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+    }
+    .panel-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-badge {
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--cyan);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: ui-monospace, monospace;
+    }
+
+    .panel-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Entity Identity Box */
+    .entity-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .entity-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 2px solid var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--amber);
+      box-shadow: 0 0 12px var(--amber-glow);
+    }
+    .entity-avatar.wolf {
+      border-color: var(--crimson);
+      color: var(--crimson);
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+    }
+    .entity-meta {
+      flex: 1;
+    }
+    .entity-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .entity-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: ui-monospace, monospace;
+    }
+
+    /* Biological Gauges */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .metric-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .gauge-track {
+      height: 5px;
+      background: #0a0f1d;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .gauge-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    .gauge-fill.energy { background: var(--amber); }
+    .gauge-fill.hunger { background: var(--emerald); }
+    .gauge-fill.thirst { background: var(--cyan); }
+    .gauge-fill.health { background: var(--rose); }
+
+    /* Epistemic Comparison Card (Ground Truth vs Belief) */
+    .epistemic-box {
+      background: rgba(19, 28, 49, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .epistemic-head {
+      background: rgba(30, 44, 74, 0.4);
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .skew-badge {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .epistemic-content {
+      padding: 10px 12px;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-family: ui-monospace, monospace;
+    }
+    .epistemic-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ep-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .ep-val {
+      color: var(--text-main);
+    }
+    .ep-val.truth { color: var(--emerald); }
+    .ep-val.belief { color: var(--amber); }
+
+    /* FactCards Box */
+    .factcard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .factcard {
+      background: var(--bg-card);
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 4px 4px 0;
+      padding: 6px 10px;
+      font-size: 11px;
+      color: var(--text-main);
+    }
+    .factcard-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: var(--cyan);
+      font-family: ui-monospace, monospace;
+      margin-bottom: 2px;
+    }
+
+    /* Decision & Event Timeline Panel (Bottom Right) */
+    .timeline-panel {
+      flex: 0.9;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .timeline-list {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .event-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-left: 3px solid var(--cyan);
+    }
+    .event-card.intercepted {
+      border-left-color: var(--crimson);
+      background: rgba(239, 68, 68, 0.06);
+    }
+    .event-card.slm {
+      border-left-color: var(--indigo);
+    }
+    .event-card.shock {
+      border-left-color: var(--amber);
+    }
+
+    .event-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      font-family: ui-monospace, monospace;
+      color: var(--text-muted);
+    }
+    .event-tag {
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .event-tag.intercepted { color: var(--crimson); }
+    .event-tag.slm { color: var(--indigo); }
+    .event-tag.shock { color: var(--amber); }
+
+    .event-text {
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+    .event-subtext {
+      font-family: ui-monospace, monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Control & Telemetry Bar -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <div>
+        <div class="brand-title">Mộng Nhiễm // Abstract Living World</div>
+        <div class="brand-sub">Hierarchical Cognitive Governance & Epistemic Substrate</div>
+      </div>
+    </div>
+
+    <!-- Live Macro Telemetry -->
+    <div class="telemetry-pills">
+      <div class="pill">
+        <span class="pill-label">World Tick</span>
+        <span class="pill-val cyan" id="tick-counter">00:00</span>
+      </div>
+      <div class="pill">
+        <span class="pill-label">Rabbits</span>
+        <span class="pill-val amber" id="rabbit-count">24</span>
+      </div>
+      <div class="pill">
+        <span class="pill-label">Food Reserves</span>
+        <span class="pill-val emerald" id="food-reserve">180 u</span>
+      </div>
+      <div class="pill">
+        <span class="pill-label">Water Level</span>
+        <span class="pill-val cyan" id="water-reserve">100 %</span>
+      </div>
+      <div class="pill">
+        <span class="pill-label">Threat Level</span>
+        <span class="pill-val rose" id="threat-indicator">NOMINAL</span>
+      </div>
+    </div>
+
+    <!-- Interactive Simulation Controls -->
+    <div class="sim-controls">
+      <button class="btn" id="btn-play-pause">⏸ Tạm dừng</button>
+      <button class="btn" id="btn-speed">1x</button>
+      <button class="btn danger" id="btn-deplete-food">🍂 Hạn Hán (Cắt Lương)</button>
+      <button class="btn danger" id="btn-spawn-hazard">🐺 Thả Sói Săn</button>
+      <button class="btn primary" id="btn-supervisory-standby">⚡ Can Thiệp Standby</button>
+    </div>
+  </header>
+
+  <!-- Main Viewport & Dual Inspector -->
+  <main>
+    <!-- Viewport Area (Canvas) -->
+    <section class="viewport" id="viewport-container">
+      <!-- Layer Toggle Chips -->
+      <div class="canvas-overlay-top">
+        <div class="layer-chip active" data-layer="entities">🔘 Cá Thể / Quần Thể</div>
+        <div class="layer-chip active" data-layer="resources">🌿 Tài Nguyên</div>
+        <div class="layer-chip active" data-layer="fog">👁️ Tầm Nhìn (Fog of War)</div>
+        <div class="layer-chip active" data-layer="vectors">🧭 Vectơ Di Chuyển</div>
+        <div class="layer-chip active" data-layer="hazards">⚠️ Vùng Nguy Hiểm</div>
+      </div>
+
+      <canvas id="world-canvas"></canvas>
+
+      <!-- Bottom HUD readout -->
+      <div class="canvas-overlay-bottom">
+        <div>MỤC TIÊU: <span id="hud-selected-name" style="color:var(--amber);">Rabbit #01 (Alpha Scout)</span></div>
+        <div>TỌA ĐỘ: <span id="hud-coords" style="color:var(--cyan);">X: 420.5 | Y: 285.2</span></div>
+        <div>SLM REASONING: <span id="hud-slm-trace" style="color:var(--emerald);">GBNF Enforced (&le; 120 chars)</span></div>
+      </div>
+    </section>
+
+    <!-- Side Panels (Inspector & Timeline) -->
+    <aside class="side-panels">
+      <!-- Panel B: Inspector -->
+      <div class="inspector-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>Inspector</span>
+            <span class="panel-badge" id="inspector-badge">THỰC THỂ #01</span>
+          </div>
+          <span style="font-size:11px; color:var(--text-muted);" id="inspector-clock">Tick 142</span>
+        </div>
+
+        <div class="panel-body">
+          <!-- Identity -->
+          <div class="entity-header">
+            <div class="entity-avatar" id="entity-avatar">α</div>
+            <div class="entity-meta">
+              <div class="entity-name" id="entity-name">Rabbit #01 (Thỏ Đầu Đàn)</div>
+              <div class="entity-sub" id="entity-role">Vai trò: Alpha Scout / Dẫn dắt bầy</div>
+            </div>
+          </div>
+
+          <!-- Physiological Gauges -->
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-head"><span>NĂNG LƯỢNG</span><span id="val-energy">84%</span></div>
+              <div class="gauge-track"><div class="gauge-fill energy" id="bar-energy" style="width: 84%;"></div></div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-head"><span>NO BỤNG</span><span id="val-hunger">62%</span></div>
+              <div class="gauge-track"><div class="gauge-fill hunger" id="bar-hunger" style="width: 62%;"></div></div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-head"><span>ĐỘ ẨM NƯỚC</span><span id="val-thirst">79%</span></div>
+              <div class="gauge-track"><div class="gauge-fill thirst" id="bar-thirst" style="width: 79%;"></div></div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-head"><span>SINH LỰC</span><span id="val-health">100%</span></div>
+              <div class="gauge-track"><div class="gauge-fill health" id="bar-health" style="width: 100%;"></div></div>
+            </div>
+          </div>
+
+          <!-- CORE: Ground Truth vs Agent Belief (Epistemic Skew) -->
+          <div class="epistemic-box">
+            <div class="epistemic-head">
+              <span>BẤT ĐỐI XỨNG NHẬN THỨC</span>
+              <span class="skew-badge" id="skew-badge">EPISTEMIC SKEW</span>
+            </div>
+            <div class="epistemic-content">
+              <div class="epistemic-row">
+                <span class="ep-label">SỰ THẬT KHÁCH QUAN (Ground Truth - Host)</span>
+                <span class="ep-val truth" id="ep-truth">Bụi berry phía Bắc đã CẠN KIỆT (0 u), Sói rình ở [580, 320].</span>
+              </div>
+              <div class="epistemic-row">
+                <span class="ep-label">NIỀM TIN CHỦ QUAN (Agent Belief - SLM)</span>
+                <span class="ep-val belief" id="ep-belief">Tin rằng Bụi berry còn dồi dào (~80 u) dựa trên quan sát ở Tick 40.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AutoDream Consolidated FactCards -->
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <div style="font-size:10px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">
+              KÝ ỨC BỀN VỮNG (AutoDream FactCards)
+            </div>
+            <div class="factcard-list" id="factcard-container">
+              <div class="factcard">
+                <div class="factcard-header"><span>[FACT-01 // HAZARD]</span><span>PRIORITY: HIGH</span></div>
+                <div>Khu vực khe đá phía Đông có mùi dã thú. Tránh di chuyển sau hoàng hôn.</div>
+              </div>
+              <div class="factcard">
+                <div class="factcard-header"><span>[FACT-02 // RESOURCE]</span><span>PRIORITY: NORMAL</span></div>
+                <div>Hồ nước phía Nam có lưu lượng ổn định, tốc độ hồi phục 0.5u/giây.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel C: Decision & Event Timeline -->
+      <div class="timeline-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>Dòng Sự Kiện & Quyết Định</span>
+          </div>
+          <span style="font-size:10px; color:var(--cyan); font-family:ui-monospace, monospace;">HOST AUTHORITATIVE</span>
+        </div>
+
+        <div class="timeline-list" id="timeline-list">
+          <div class="event-card intercepted">
+            <div class="event-meta">
+              <span class="event-tag intercepted">MỘNG NHIỄM GATED</span>
+              <span>Tick 140</span>
+            </div>
+            <div class="event-text">
+              <strong>Chặn quyết định tự sát (Lookahead Deadlock):</strong> SLM đề xuất <code>ACTION: MOVE_TO [560, 300]</code>. Mộng Nhiễm chiếu quỹ đạo 4 bước phát hiện Sói mai phục, cưỡng chế chuyển hướng an toàn.
+            </div>
+            <div class="event-subtext">Reason: TrajectoryLookahead breached safety margin.</div>
+          </div>
+
+          <div class="event-card slm">
+            <div class="event-meta">
+              <span class="event-tag slm">SLM REASONING</span>
+              <span>Tick 128</span>
+            </div>
+            <div class="event-text">
+              Thỏ đầu đàn nhận thấy năng lượng quần thể giảm, phát lệnh <code>ACTION: FORAGE area=east</code>.
+            </div>
+            <div class="event-subtext">Prompt tokens: 142 &le; 512 | Latency: 125ms</div>
+          </div>
+
+          <div class="event-card shock">
+            <div class="event-meta">
+              <span class="event-tag shock">BIẾN CỐ MÔI TRƯỜNG</span>
+              <span>Tick 100</span>
+            </div>
+            <div class="event-text">
+              Nhiệt độ môi trường tăng 3.5&deg;C, nguồn nước phía Tây cạn kiệt. Kích hoạt suy hao vi phân liên tục.
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Interactive JavaScript Engine (60 FPS Top-Down Simulation) -->
+  <script>
+    // --- Canvas & HiDPI Setup ---
+    const canvas = document.getElementById('world-canvas');
+    const ctx = canvas.getContext('2d');
+    const viewport = document.getElementById('viewport-container');
+
+    let dpr = window.devicePixelRatio || 1;
+    function resizeCanvas() {
+      const rect = viewport.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // --- State & World Definitions ---
+    const layers = {
+      entities: true,
+      resources: true,
+      fog: true,
+      vectors: true,
+      hazards: true
+    };
+
+    let isPlaying = true;
+    let simSpeed = 1;
+    let worldTick = 142;
+
+    // Resources
+    const resources = [
+      { id: 'berry_north', type: 'berry', x: 260, y: 150, radius: 36, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
+      { id: 'berry_south', type: 'berry', x: 580, y: 460, radius: 42, amount: 95, max: 100, label: 'Bụi Dâu Nam' },
+      { id: 'water_pond', type: 'water', x: 380, y: 340, radius: 52, amount: 100, max: 100, label: 'Hồ Nước Trung Tâm' }
+    ];
+
+    // Hazards
+    const hazards = [
+      { id: 'hazard_sinkhole', x: 620, y: 220, radius: 65, label: 'Hố Sụt Sụt Lở' }
+    ];
+
+    // Entities (Rabbits & Wolves)
+    const entities = [];
+    const NUM_RABBITS = 24;
+
+    // Initialize Rabbits
+    for (let i = 0; i < NUM_RABBITS; i++) {
+      const isLeader = (i === 0);
+      entities.push({
+        id: `r_${i + 1}`,
+        name: isLeader ? 'Rabbit #01 (Alpha Scout)' : `Rabbit #${String(i + 1).padStart(2, '0')}`,
+        type: 'rabbit',
+        role: isLeader ? 'Alpha Scout' : (i % 3 === 0 ? 'Gatherer' : 'Forager'),
+        x: 320 + (Math.random() - 0.5) * 160,
+        y: 280 + (Math.random() - 0.5) * 140,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5,
+        radius: isLeader ? 7 : 4.5,
+        color: isLeader ? '#f59e0b' : '#d97706',
+        energy: isLeader ? 84 : 70 + Math.random() * 25,
+        hunger: 50 + Math.random() * 30,
+        thirst: 60 + Math.random() * 30,
+        health: 100,
+        perceptionRadius: isLeader ? 110 : 75,
+        isLeader: isLeader,
+        targetResource: null,
+        belief: {
+          berryNorth: isLeader ? 'BELIEVED_FULL (80u)' : 'UNKNOWN',
+          hazardDetected: false
+        }
+      });
+    }
+
+    // Initialize 1 Wolf (Predator)
+    entities.push({
+      id: 'wolf_1',
+      name: 'Wolf #01 (Dã Thú)',
+      type: 'wolf',
+      role: 'Apex Predator',
+      x: 700,
+      y: 180,
+      vx: -0.6,
+      vy: 0.4,
+      radius: 9,
+      color: '#ef4444',
+      energy: 95,
+      hunger: 40,
+      thirst: 80,
+      health: 100,
+      perceptionRadius: 130,
+      patrolAngle: 0
+    });
+
+    let selectedEntity = entities[0];
+
+    // --- Interaction & Layer Controls ---
+    document.querySelectorAll('.layer-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const layer = chip.dataset.layer;
+        layers[layer] = !layers[layer];
+        chip.classList.toggle('active', layers[layer]);
+      });
+    });
+
+    // Canvas Click Selection
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      let found = null;
+      for (const ent of entities) {
+        const dx = ent.x - clickX;
+        const dy = ent.y - clickY;
+        if (Math.sqrt(dx * dx + dy * dy) <= ent.radius + 8) {
+          found = ent;
+          break;
+        }
+      }
+
+      if (found) {
+        selectedEntity = found;
+        updateInspectorUI();
+      }
+    });
+
+    // Top Sim Buttons
+    const btnPlayPause = document.getElementById('btn-play-pause');
+    btnPlayPause.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      btnPlayPause.textContent = isPlaying ? '⏸ Tạm dừng' : '▶ Tiếp tục';
+    });
+
+    const btnSpeed = document.getElementById('btn-speed');
+    btnSpeed.addEventListener('click', () => {
+      simSpeed = simSpeed === 1 ? 2 : (simSpeed === 2 ? 5 : 1);
+      btnSpeed.textContent = `${simSpeed}x`;
+    });
+
+    document.getElementById('btn-deplete-food').addEventListener('click', () => {
+      resources[0].amount = 0; // Deplete North Berry
+      addTimelineEvent({
+        tag: 'BIẾN CỐ MÔI TRƯỜNG',
+        tagClass: 'shock',
+        title: 'Hạn hán cục bộ: Bụi berry phía Bắc cạn kiệt!',
+        desc: 'Sự thật khách quan: Lượng dâu = 0. Thỏ đầu đàn chưa biết, vẫn giữ niềm tin cũ.'
+      });
+      updateInspectorUI();
+    });
+
+    document.getElementById('btn-spawn-hazard').addEventListener('click', () => {
+      const wolf = entities.find(e => e.type === 'wolf');
+      if (wolf) {
+        wolf.x = 420;
+        wolf.y = 200;
+        addTimelineEvent({
+          tag: 'MỘNG NHIỄM GATED',
+          tagClass: 'intercepted',
+          title: 'Cảnh báo nguy hiểm: Sói áp sát bầy đàn!',
+          desc: 'Reflex Breaker kích hoạt: Ngắt lệnh ăn cỏ, phát lệnh khẩn cấp di tản về hang.'
+        });
+      }
+    });
+
+    document.getElementById('btn-supervisory-standby').addEventListener('click', () => {
+      isPlaying = false;
+      btnPlayPause.textContent = '▶ Tiếp tục';
+      addTimelineEvent({
+        tag: 'CAN THIỆP GIÁM SÁT',
+        tagClass: 'intercepted',
+        title: 'Người vận hành kích hoạt STANDBY khẩn cấp!',
+        desc: 'Hạt nhân Mộng Nhiễm đóng băng thế giới mô phỏng để người giám sát thẩm định.'
+      });
+    });
+
+    function addTimelineEvent(ev) {
+      const list = document.getElementById('timeline-list');
+      const card = document.createElement('div');
+      card.className = `event-card ${ev.tagClass}`;
+      card.innerHTML = `
+        <div class="event-meta">
+          <span class="event-tag ${ev.tagClass}">${ev.tag}</span>
+          <span>Tick ${worldTick}</span>
+        </div>
+        <div class="event-text">
+          <strong>${ev.title}</strong> ${ev.desc}
+        </div>
+      `;
+      list.prepend(card);
+    }
+
+    function updateInspectorUI() {
+      if (!selectedEntity) return;
+
+      document.getElementById('inspector-badge').textContent = selectedEntity.id.toUpperCase();
+      document.getElementById('entity-name').textContent = selectedEntity.name;
+      document.getElementById('entity-role').textContent = `Vai trò: ${selectedEntity.role}`;
+      document.getElementById('entity-avatar').textContent = selectedEntity.type === 'wolf' ? 'W' : (selectedEntity.isLeader ? 'α' : 'R');
+      document.getElementById('entity-avatar').className = `entity-avatar ${selectedEntity.type}`;
+
+      document.getElementById('val-energy').textContent = `${Math.round(selectedEntity.energy)}%`;
+      document.getElementById('bar-energy').style.width = `${Math.max(0, Math.min(100, selectedEntity.energy))}%`;
+
+      document.getElementById('val-hunger').textContent = `${Math.round(selectedEntity.hunger)}%`;
+      document.getElementById('bar-hunger').style.width = `${Math.max(0, Math.min(100, selectedEntity.hunger))}%`;
+
+      document.getElementById('val-thirst').textContent = `${Math.round(selectedEntity.thirst)}%`;
+      document.getElementById('bar-thirst').style.width = `${Math.max(0, Math.min(100, selectedEntity.thirst))}%`;
+
+      document.getElementById('val-health').textContent = `${Math.round(selectedEntity.health)}%`;
+      document.getElementById('bar-health').style.width = `${Math.max(0, Math.min(100, selectedEntity.health))}%`;
+
+      document.getElementById('hud-selected-name').textContent = selectedEntity.name;
+      document.getElementById('hud-coords').textContent = `X: ${selectedEntity.x.toFixed(1)} | Y: ${selectedEntity.y.toFixed(1)}`;
+
+      // Update Epistemic Box
+      if (selectedEntity.isLeader) {
+        const northFood = resources[0].amount;
+        document.getElementById('ep-truth').textContent = northFood === 0
+          ? 'Bụi berry phía Bắc đã CẠN KIỆT (0 u). Sói tuần tra ở phía Đông.'
+          : `Bụi berry phía Bắc còn ${northFood} u. Hồ nước dồi dào.`;
+
+        document.getElementById('ep-belief').textContent = northFood === 0
+          ? 'Tin rằng Bụi berry còn dồi dào (~80 u) dựa trên quan sát cũ. Chưa quét lại!'
+          : 'Biết rõ nguồn lương thực gần nhất và hướng hồ nước an toàn.';
+
+        document.getElementById('skew-badge').style.display = northFood === 0 ? 'inline-block' : 'none';
+      } else {
+        document.getElementById('ep-truth').textContent = `Cá thể tuân thủ theo cự ly bầy đàn (Khoảng cách tới Alpha: ${Math.round(Math.hypot(selectedEntity.x - entities[0].x, selectedEntity.y - entities[0].y))} px).`;
+        document.getElementById('ep-belief').textContent = 'Chưa có quyền gọi SLM độc lập. Hành vi tuân theo luật bầy Host.';
+        document.getElementById('skew-badge').style.display = 'none';
+      }
+    }
+
+    // --- Simulation & Physics Loop ---
+    function updateSimulation() {
+      if (!isPlaying) return;
+
+      worldTick++;
+      document.getElementById('tick-counter').textContent = `TICK ${worldTick}`;
+      document.getElementById('inspector-clock').textContent = `Tick ${worldTick}`;
+
+      const rect = viewport.getBoundingClientRect();
+      const W = rect.width;
+      const H = rect.height;
+
+      // Update Entities
+      for (const ent of entities) {
+        // Natural physiological decay (Host Continuous State)
+        ent.hunger = Math.min(100, ent.hunger + 0.05);
+        ent.thirst = Math.min(100, ent.thirst + 0.04);
+        ent.energy = Math.max(0, ent.energy - 0.03);
+
+        if (ent.type === 'rabbit') {
+          // Flock towards leader or wander smoothly
+          if (!ent.isLeader) {
+            const leader = entities[0];
+            const toLeaderX = leader.x - ent.x;
+            const toLeaderY = leader.y - ent.y;
+            const dist = Math.hypot(toLeaderX, toLeaderY);
+            if (dist > 180) {
+              ent.vx += (toLeaderX / dist) * 0.08;
+              ent.vy += (toLeaderY / dist) * 0.08;
+            }
+          } else {
+            // Leader targets food or explores
+            const targetBerry = resources[0].amount > 0 ? resources[0] : resources[1];
+            const toTargetX = targetBerry.x - ent.x;
+            const toTargetY = targetBerry.y - ent.y;
+            const dist = Math.hypot(toTargetX, toTargetY);
+            if (dist > 30) {
+              ent.vx += (toTargetX / dist) * 0.04;
+              ent.vy += (toTargetY / dist) * 0.04;
+            }
+          }
+
+          // Flee from wolf
+          const wolf = entities.find(e => e.type === 'wolf');
+          if (wolf) {
+            const dx = ent.x - wolf.x;
+            const dy = ent.y - wolf.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 120) {
+              ent.vx += (dx / dist) * 0.5;
+              ent.vy += (dy / dist) * 0.5;
+            }
+          }
+
+          // Damping
+          ent.vx *= 0.94;
+          ent.vy *= 0.94;
+
+          // Apply velocity
+          ent.x += ent.vx * simSpeed;
+          ent.y += ent.vy * simSpeed;
+
+          // Boundary bounce
+          if (ent.x < 30) { ent.x = 30; ent.vx *= -1; }
+          if (ent.x > W - 30) { ent.x = W - 30; ent.vx *= -1; }
+          if (ent.y < 30) { ent.y = 30; ent.vy *= -1; }
+          if (ent.y > H - 30) { ent.y = H - 30; ent.vy *= -1; }
+
+        } else if (ent.type === 'wolf') {
+          // Wolf circular patrol
+          ent.patrolAngle += 0.015 * simSpeed;
+          ent.x = 560 + Math.cos(ent.patrolAngle) * 140;
+          ent.y = 280 + Math.sin(ent.patrolAngle) * 90;
+        }
+      }
+
+      // Update food reserve total
+      const totalFood = resources.reduce((acc, r) => acc + (r.type === 'berry' ? r.amount : 0), 0);
+      document.getElementById('food-reserve').textContent = `${totalFood} u`;
+
+      if (worldTick % 10 === 0) {
+        updateInspectorUI();
+      }
+    }
+
+    // --- Rendering Loop (60 FPS Top-Down Canvas) ---
+    function render() {
+      const rect = viewport.getBoundingClientRect();
+      const W = rect.width;
+      const H = rect.height;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // 1. Coordinate Grid
+      ctx.strokeStyle = '#111b2e';
+      ctx.lineWidth = 1;
+      const gridSize = 40;
+      for (let x = 0; x < W; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, H);
+        ctx.stroke();
+      }
+      for (let y = 0; y < H; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+      }
+
+      // 2. Hazards (Diagonal hatched polygons)
+      if (layers.hazards) {
+        for (const hz of hazards) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(hz.x, hz.y, hz.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
+          ctx.fill();
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = '#ef4444';
+          ctx.stroke();
+
+          // Label
+          ctx.font = '9px monospace';
+          ctx.fillStyle = '#ef4444';
+          ctx.textAlign = 'center';
+          ctx.fillText(`[ ${hz.label} ]`, hz.x, hz.y - hz.radius - 6);
+          ctx.restore();
+        }
+      }
+
+      // 3. Resources (Water & Berries)
+      if (layers.resources) {
+        for (const res of resources) {
+          if (res.type === 'water') {
+            // Water Pond
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(res.x, res.y, res.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(14, 165, 233, 0.18)';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#0ea5e9';
+            ctx.stroke();
+
+            // Ripple ring
+            const rippleR = (res.radius * 0.4) + ((worldTick % 60) / 60) * (res.radius * 0.55);
+            ctx.beginPath();
+            ctx.arc(res.x, res.y, rippleR, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(14, 165, 233, 0.35)';
+            ctx.stroke();
+
+            ctx.font = '10px monospace';
+            ctx.fillStyle = '#0ea5e9';
+            ctx.textAlign = 'center';
+            ctx.fillText(res.label, res.x, res.y + 4);
+            ctx.restore();
+
+          } else if (res.type === 'berry') {
+            // Berry Bush
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(res.x, res.y, res.radius, 0, Math.PI * 2);
+            ctx.fillStyle = res.amount > 0 ? 'rgba(16, 185, 129, 0.16)' : 'rgba(75, 85, 99, 0.12)';
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = res.amount > 0 ? '#10b981' : '#4b5563';
+            ctx.stroke();
+
+            // Red fruit pips
+            if (res.amount > 0) {
+              const numPips = Math.min(10, Math.ceil(res.amount / 10));
+              for (let i = 0; i < numPips; i++) {
+                const angle = (i / numPips) * Math.PI * 2 + 0.3;
+                const pipDist = res.radius * 0.55;
+                const px = res.x + Math.cos(angle) * pipDist;
+                const py = res.y + Math.sin(angle) * pipDist;
+                ctx.beginPath();
+                ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = '#f43f5e';
+                ctx.fill();
+              }
+            }
+
+            ctx.font = '10px monospace';
+            ctx.fillStyle = res.amount > 0 ? '#10b981' : '#9ca3af';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${res.label} (${res.amount}u)`, res.x, res.y - res.radius - 6);
+            ctx.restore();
+          }
+        }
+      }
+
+      // 4. Fog of War / Perception Radii for Selected Entity
+      if (layers.fog && selectedEntity) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(selectedEntity.x, selectedEntity.y, selectedEntity.perceptionRadius, 0, Math.PI * 2);
+        const grad = ctx.createRadialGradient(
+          selectedEntity.x, selectedEntity.y, selectedEntity.perceptionRadius * 0.2,
+          selectedEntity.x, selectedEntity.y, selectedEntity.perceptionRadius
+        );
+        grad.addColorStop(0, 'rgba(6, 182, 212, 0.12)');
+        grad.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(6, 182, 212, 0.4)';
+        ctx.setLineDash([3, 3]);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 5. Entities (Rabbits & Predators)
+      if (layers.entities) {
+        for (const ent of entities) {
+          ctx.save();
+
+          // Selection Reticle
+          if (ent === selectedEntity) {
+            ctx.beginPath();
+            ctx.arc(ent.x, ent.y, ent.radius + 6, 0, Math.PI * 2);
+            ctx.strokeStyle = '#06b6d4';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Pulsing corner ticks
+            const tickLen = 4;
+            const r = ent.radius + 8;
+            ctx.strokeStyle = '#06b6d4';
+            ctx.beginPath();
+            ctx.moveTo(ent.x - r, ent.y - tickLen); ctx.lineTo(ent.x - r, ent.y + tickLen);
+            ctx.moveTo(ent.x + r, ent.y - tickLen); ctx.lineTo(ent.x + r, ent.y + tickLen);
+            ctx.stroke();
+          }
+
+          // Entity Body
+          ctx.beginPath();
+          ctx.arc(ent.x, ent.y, ent.radius, 0, Math.PI * 2);
+          ctx.fillStyle = ent.color;
+          ctx.fill();
+
+          // Alpha Leader special ring
+          if (ent.isLeader) {
+            ctx.beginPath();
+            ctx.arc(ent.x, ent.y, ent.radius + 3, 0, Math.PI * 2);
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+
+          // Velocity Vector
+          if (layers.vectors && (Math.abs(ent.vx) > 0.1 || Math.abs(ent.vy) > 0.1)) {
+            ctx.beginPath();
+            ctx.moveTo(ent.x, ent.y);
+            ctx.lineTo(ent.x + ent.vx * 12, ent.y + ent.vy * 12);
+            ctx.strokeStyle = ent.type === 'wolf' ? 'rgba(239, 68, 68, 0.6)' : 'rgba(245, 158, 11, 0.6)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+          }
+
+          ctx.restore();
+        }
+      }
+
+      // Next frame
+      for (let s = 0; s < simSpeed; s++) {
+        updateSimulation();
+      }
+      requestAnimationFrame(render);
+    }
+
+    // Launch Loop
+    requestAnimationFrame(render);
+    updateInspectorUI();
+  </script>
+</body>
+</html>
