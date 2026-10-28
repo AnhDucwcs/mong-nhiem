@@ -2256,11 +2256,8 @@
           // No prey sensed -> Territorial patrol with hunger-based exploration sweep
           wolf.state = 'PATROL';
           wolf.energy = Math.max(0, wolf.energy - 0.005);
-          if (wolf.hunger < 50 && wolf.energy < 100) {
-            wolf.energy = Math.min(100, wolf.energy + 0.02);
-            if (wolf.energy >= 40 && !wolf.isExhausted) {
-              wolf.sprintsRemaining = 3;
-            }
+          if (wolf.energy >= 40 && !wolf.isExhausted && wolf.sprintsRemaining < 3) {
+            wolf.sprintsRemaining = 3;
           }
           // Autonomous rest if tired and not starving
           if (wolf.energy < 25 && wolf.hunger < 60) {
@@ -2287,8 +2284,9 @@
           const dy = bestTarget.y - wolf.y;
           const dist = Math.hypot(dx, dy);
 
-          // Rabbit detects wolf: strictly vision-based (dist <= 110px) and not blocked by thicket
-          const rabbitSeesWolf = (dist <= 110 && !wolf.inCover);
+          // Rabbit detects wolf: strictly vision-based and not blocked by thicket
+          const rabbitVision = bestTarget.inCover ? 42 : bestTarget.perceptionRadius;
+          const rabbitSeesWolf = (dist <= rabbitVision && !wolf.inCover);
 
           // If prey managed to dive into burrow sanctuary:
           if (bestTarget.isSheltered) {
@@ -2308,7 +2306,6 @@
             // STALK / AMBUSH: Rabbit hasn't seen wolf yet -> Stalk slowly, use cover
             wolf.state = 'STALK';
             wolf.energy = Math.max(0, wolf.energy - 0.008);
-            if (wolf.hunger < 50) wolf.energy = Math.min(100, wolf.energy + 0.015);
             const speed = 0.50; // Slow, stealthy approach
             wolf.vx += (dx / dist) * speed;
             wolf.vy += (dy / dist) * speed;
@@ -2570,7 +2567,8 @@
         }
 
         // Check if rabbit sees any wolf or receives foot-thumping alarm from fleeing flock member
-        const alertDist = ent.inCover ? 42 : 110;
+        // World Epistemic Constraint: Rabbits detect predators solely via direct vision and conspecific acoustic alarms
+        const alertDist = ent.inCover ? 42 : ent.perceptionRadius;
         let nearestWolf = null;
         let minWolfDist = 9999;
         for (const w of currentWolves) {
@@ -2584,17 +2582,18 @@
         const directThreat = (nearestWolf && minWolfDist <= alertDist);
 
         // Acoustic Foot-Thumping Alarm: if another rabbit within 135px is fleeing, alert this rabbit
-        let flockAlarm = false;
+        let heardFlockAlarm = false;
         if (!directThreat && nearestWolf && minWolfDist <= 190) {
           for (const other of currentRabbits) {
             if (other !== ent && !other.isSheltered && other.state === 'FLEE' && Math.hypot(other.x - ent.x, other.y - ent.y) < 135) {
-              flockAlarm = true;
+              heardFlockAlarm = true;
               break;
             }
           }
         }
 
-        const seesWolf = (directThreat || flockAlarm);
+        const inDanger = (directThreat || heardFlockAlarm);
+        const seesWolf = inDanger;
 
         // --- Active Burrow Entry Check ---
         // If rabbit is under threat or evacuating, and reaches burrow entrance perimeter: dive inside!
@@ -2785,13 +2784,10 @@
             }
           }
 
-          // Gentle energy baseline consumption & recovery
+          // Gentle energy baseline consumption (zero passive recovery while moving)
           ent.energy = Math.max(0, ent.energy - 0.004);
-          if (ent.hunger < 50 && ent.energy < 100) {
-            ent.energy = Math.min(100, ent.energy + 0.02);
-            if (ent.energy >= 40 && !ent.isExhausted) {
-              ent.sprintsRemaining = 3;
-            }
+          if (ent.energy >= 40 && !ent.isExhausted && ent.sprintsRemaining < 3) {
+            ent.sprintsRemaining = 3;
           }
 
           // Autonomous rest: tired, fed, in cover or near burrow
