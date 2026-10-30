@@ -920,7 +920,8 @@
           <button class="menu-action-btn" id="btn-shift-wind">Đổi Hướng Gió (90°)</button>
           <button class="menu-action-btn" id="btn-toggle-rain">Bật/Tắt Mưa Phùn</button>
           <hr class="menu-divider">
-          <button class="menu-action-btn danger" id="btn-shock-kill">Shock: Ép Cạn Lương (0u)</button>
+          <button class="menu-action-btn danger" id="btn-shock-kill">Shock: Ép Cạn Bụi Bắc (Lệch Nhận Thức)</button>
+          <button class="menu-action-btn danger" id="btn-shock-famine">Shock: Nạn Đói Toàn Diện (Ép Cạn Tất Cả 0u)</button>
           <button class="menu-action-btn danger" id="btn-shock-drought">Khí Hậu: Hạn Hán Vi Phân</button>
           <button class="menu-action-btn danger" id="btn-shock-wolf">Thả Sói Phục Kích</button>
           <hr class="menu-divider">
@@ -1537,7 +1538,7 @@
       });
     });
 
-    // Shock Injection: Hard Resource Depletion Override
+    // Shock Injection: Hard Resource Depletion Override (Scenario A: Epistemic Surprise Test)
     document.getElementById('btn-shock-kill').addEventListener('click', () => {
       const northBerry = resources.find(r => r.id === 'berry_north');
       if (northBerry) northBerry.amount = 0;
@@ -1548,6 +1549,23 @@
         title: 'Thử nghiệm sốc: Ép Bụi dâu Bắc về 0u!',
         body: 'Can thiệp cưỡng chế: Ground Truth = 0u tức thì. Kiểm tra độ lệch với ký ức cũ (80u) của Scout.',
         reason: 'Operator state override: SET bush_north.amount = 0u'
+      });
+      updateInspectorUI();
+    });
+
+    // Shock Injection: Total Colony Famine (Deplete all bushes & herbs to trigger starvation extinction)
+    document.getElementById('btn-shock-famine').addEventListener('click', () => {
+      resources.forEach(r => {
+        if (r.type === 'berry') r.amount = 0;
+      });
+      if (typeof herbs !== 'undefined' && herbs[0]) herbs[0].amount = 0;
+      callKernelStep('Shock Injection: Total Famine - All food depleted to 0u', { bush_north_amount: 0.0 });
+      addTimelineEvent({
+        badge: 'NẠN ĐÓI TOÀN DIỆN',
+        badgeClass: 'shock',
+        title: 'Thử nghiệm sốc: Ép cạn TOÀN BỘ lương thực (0u)!',
+        body: 'Toàn bộ 4 bụi dâu và vạt bồ công anh bị xóa sạch. Đàn thỏ không còn thức ăn, độ đói tăng tốc dẫn đến đào thải sinh tồn.',
+        reason: 'Operator state override: SET ALL berry_bushes.amount = 0u, herbs.amount = 0u'
       });
       updateInspectorUI();
     });
@@ -2679,8 +2697,8 @@
           continue;
         }
 
-        ent.hunger = Math.min(100, ent.hunger + 0.018);
-        ent.thirst = Math.min(100, ent.thirst + 0.016);
+        ent.hunger = Math.min(100, ent.hunger + 0.042);
+        ent.thirst = Math.min(100, ent.thirst + 0.035);
         ent.energy = Math.max(0, ent.energy - 0.012);
 
         // Starvation mortality check (r-strategist rapid mortality)
