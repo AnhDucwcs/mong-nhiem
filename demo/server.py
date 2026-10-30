@@ -26,14 +26,26 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from mong_nhiem.kernel import MongNhiemKernel, StepResult
-from mong_nhiem.runtime.backends import MockBackend
+from mong_nhiem.runtime.backends import LlamaServerBackend, MockBackend
 
 
 PORT = int(os.environ.get("DEMO_PORT", "8765"))
 STATIC_DIR = DEMO_DIR / "static"
 SCHEMA_PATH = DEMO_DIR / "schema" / "living_world.json"
+SLM_ENDPOINT = os.environ.get("SLM_ENDPOINT", "http://127.0.0.1:18505")
 
 _KERNEL_INSTANCE: MongNhiemKernel | None = None
+
+
+def check_llama_server_online(endpoint: str = SLM_ENDPOINT) -> bool:
+    """Checks whether local llama-server neural inference engine is active."""
+    import urllib.request
+    try:
+        req = urllib.request.Request(f"{endpoint}/health")
+        with urllib.request.urlopen(req, timeout=0.8) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
 
 
 def living_world_slm_reasoning_fn(prompt: str) -> str:
@@ -103,21 +115,34 @@ def _setup_kernel_instance(kernel: MongNhiemKernel) -> MongNhiemKernel:
 
 
 def get_kernel() -> MongNhiemKernel:
-    """Returns or lazily initializes the singleton MongNhiemKernel instance."""
+    """Returns or lazily initializes the singleton MongNhiemKernel instance.
+
+    Auto-detects real local neural SLM on SLM_ENDPOINT (18505) and attaches LlamaServerBackend.
+    Falls back to MockBackend with contextual reasoning if neural server is offline.
+    """
     global _KERNEL_INSTANCE
     if _KERNEL_INSTANCE is None:
         if not SCHEMA_PATH.exists():
             raise FileNotFoundError(f"Living World Schema not found at {SCHEMA_PATH}")
-        _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH))
-        _setup_kernel_instance(_KERNEL_INSTANCE)
+
+        if check_llama_server_online(SLM_ENDPOINT):
+            backend = LlamaServerBackend(endpoint=SLM_ENDPOINT, slot_id=0, cache_prompt=True)
+            _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH), backend=backend)
+        else:
+            _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH))
+            _setup_kernel_instance(_KERNEL_INSTANCE)
     return _KERNEL_INSTANCE
 
 
 def reset_kernel() -> MongNhiemKernel:
     """Re-initializes kernel from schema, resetting all runtime state."""
     global _KERNEL_INSTANCE
-    _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH))
-    _setup_kernel_instance(_KERNEL_INSTANCE)
+    if check_llama_server_online(SLM_ENDPOINT):
+        backend = LlamaServerBackend(endpoint=SLM_ENDPOINT, slot_id=0, cache_prompt=True)
+        _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH), backend=backend)
+    else:
+        _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH))
+        _setup_kernel_instance(_KERNEL_INSTANCE)
     return _KERNEL_INSTANCE
 
 
@@ -239,9 +264,14 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
         if self.path == "/api/status" or self.path.startswith("/api/status?"):
             kernel = get_kernel()
             snapshot = {name: kernel.state_engine.get_variable(name) for name in kernel.state_engine.variables}
+            backend_cls = kernel.backend.__class__.__name__
+            is_neural = "LlamaServer" in backend_cls
             self._send_json_response({
                 "status": "ONLINE",
                 "schema_name": kernel.schema.schema_name,
+                "backend_type": "NEURAL_SLM_REAL" if is_neural else "MOCK_DETERMINISTIC",
+                "backend_model": "Qwen3.5-2B GGUF (Real Local Neural SLM on :18505)" if is_neural else "Standard Library Deterministic Engine",
+                "is_neural": is_neural,
                 "simulated_tick": kernel.temporal_bridge.simulated_tick,
                 "in_standby": kernel.human_bridge.in_standby,
                 "standby_reason": kernel.human_bridge.standby_reason,
@@ -292,6 +322,8 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
                 delta_time=delta_time,
             )
 
+            backend_cls = kernel.backend.__class__.__name__
+            is_neural = "LlamaServer" in backend_cls
             self._send_json_response({
                 "success": True,
                 "tick": result.tick,
@@ -300,6 +332,8 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
                 "comm_class": result.comm_class.value,
                 "comm_message": result.comm_message,
                 "raw_output": result.raw_output,
+                "is_neural": is_neural,
+                "backend_model": "Qwen3.5-2B GGUF (Neural Local)" if is_neural else "Deterministic Engine",
                 "in_standby": result.in_standby,
                 "preempted": result.preempted,
                 "state_snapshot": result.state_snapshot,

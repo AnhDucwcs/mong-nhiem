@@ -861,7 +861,7 @@
         <span class="kpi-val emerald" id="kpi-threat">NOMINAL</span>
       </div>
       <div class="kpi-pill" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.08);">
-        <span class="kpi-label" style="color: var(--indigo);">Chỉ Thị SLM Bầy Đàn</span>
+        <span class="kpi-label" style="color: var(--indigo);" id="kpi-slm-label">Chỉ Thị SLM Bầy Đàn</span>
         <span class="kpi-val" style="color: var(--indigo); font-size: 11px; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="kpi-slm-directive">Tuần tra bầy đàn</span>
       </div>
     </div>
@@ -2104,7 +2104,12 @@
         if (res.ok) {
           const data = await res.json();
           isKernelOnline = true;
-          console.log('[Mộng Nhiễm Kernel Connected]', data.schema_name, 'Status:', data.status);
+          const slmLabel = document.getElementById('kpi-slm-label');
+          if (slmLabel) {
+            slmLabel.textContent = data.is_neural ? 'SLM (🧠 Qwen-3.5-2B)' : 'Chỉ Thị SLM Bầy Đàn';
+            slmLabel.title = data.backend_model || 'Hạt nhân Mộng Nhiễm';
+          }
+          console.log('[Mộng Nhiễm Kernel Connected]', data.schema_name, 'Model:', data.backend_model);
         }
       } catch (err) {
         isKernelOnline = false;
@@ -2340,10 +2345,12 @@
             const dirElem = document.getElementById('kpi-slm-directive');
             if (dirElem) dirElem.textContent = actionSummary.split(':')[1] ? actionSummary.split(':')[1].trim() : actionSummary;
 
+            const isNeural = stepData.is_neural;
+            const modelBadge = isNeural ? '🧠 QWEN-3.5-2B SLM' : reasonBadge;
             addTimelineEvent({
-              badge: reasonBadge,
+              badge: modelBadge,
               badgeClass: 'slm',
-              title: `${leader.name}: ${actionSummary} (SLM 142 tokens)`,
+              title: `${leader.name}: ${actionSummary} (${isNeural ? 'Qwen-2B Neural Inference' : 'SLM 142 tokens'})`,
               body: `${stepData.comm_message || actionSummary}. Phê duyệt quỹ đạo Lookahead: ${lookaheadReason}`,
               reason: `SLM Action: ${stepData.action_verb || 'MOVE_TO'} -> target [${dest.x}, ${dest.y}] (Lookahead d_min=${lookahead ? lookahead.min_distance : 999}px)`
             });
