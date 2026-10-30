@@ -269,15 +269,15 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
             cmd = payload.get("command", "")
             standby = payload.get("standby")
 
-            if standby is not None:
-                kernel.human_bridge.in_standby = bool(standby)
-                if standby:
-                    kernel.human_bridge.standby_reason = payload.get("reason", "Operator Standby Engaged")
-                else:
-                    kernel.human_bridge.standby_reason = None
-
             if cmd:
                 kernel.human_bridge.inject_human_command(cmd)
+
+            if standby is not None:
+                if standby:
+                    kernel.human_bridge.enter_standby(payload.get("reason", "Operator Standby Engaged"))
+                else:
+                    kernel.human_bridge.in_standby = False
+                    kernel.human_bridge.standby_reason = None
 
             self._send_json_response({
                 "success": True,

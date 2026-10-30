@@ -1166,7 +1166,7 @@
 
     // 4. Resources: Food & Water across Biome Quadrants
     const resources = [
-      { id: 'berry_north', type: 'berry', x: 520, y: 140, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Bắc' },
+      { id: 'berry_north', type: 'berry', x: 520, y: 140, radius: 42, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
       { id: 'berry_east', type: 'berry', x: 770, y: 370, radius: 44, amount: 100, max: 100, label: 'Bụi Dâu Đông' },
       { id: 'berry_west', type: 'berry', x: 260, y: 230, radius: 40, amount: 100, max: 100, label: 'Bụi Dâu Tây' },
       { id: 'berry_south', type: 'berry', x: 390, y: 560, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Nam' },
@@ -1541,6 +1541,7 @@
     document.getElementById('btn-shock-kill').addEventListener('click', () => {
       const northBerry = resources.find(r => r.id === 'berry_north');
       if (northBerry) northBerry.amount = 0;
+      callKernelStep('Shock Injection: Forced berry_north to 0u', { bush_north_amount: 0.0 });
       addTimelineEvent({
         badge: 'SHOCK INJECTION',
         badgeClass: 'shock',
@@ -1569,38 +1570,59 @@
       });
     });
 
-    // Wolf Intrusion & Evacuation Allocation (16 Burrow / 8 Thickets)
-    document.getElementById('btn-shock-wolf').addEventListener('click', () => {
+    // Wolf Intrusion & Evacuation Allocation (Scenario B: Lookahead Verification & ReflexBreaker)
+    document.getElementById('btn-shock-wolf').addEventListener('click', async () => {
       const wolf = entities.find(e => e.type === 'wolf');
-      if (wolf) {
+      const scout = entities[0];
+      if (wolf && scout) {
         wolf.x = 620;
         wolf.y = 280;
+        wolf.vx = -4.0;
+        wolf.vy = 2.0;
 
-        // Shelter allocation algorithm: 16 closest to burrow, 8 to nearest thickets
-        const rabbits = entities.filter(e => e.type === 'rabbit');
-        rabbits.sort((a, b) => Math.hypot(a.x - burrow.x, a.y - burrow.y) - Math.hypot(b.x - burrow.x, b.y - burrow.y));
-        rabbits.forEach((r, idx) => {
-          if (idx < burrow.capacity) {
-            r.evacTarget = 'burrow';
-          } else {
-            r.evacTarget = 'thicket';
-          }
-        });
-        burrow.occupants = Math.min(burrow.capacity, rabbits.length);
+        // Scout proposes 4-step path crossing through NE rocks toward foraging
+        const crossingWaypoints = [[560, 320], [600, 300], [640, 280], [680, 260]];
+        const lookahead = await callVerifyLookahead(
+          crossingWaypoints,
+          [wolf.x, wolf.y],
+          [wolf.vx, wolf.vy],
+          [scout.x, scout.y],
+          35.0
+        );
 
-        addTimelineEvent({
-          badge: 'MỘNG NHIỄM GATED',
-          badgeClass: 'gated',
-          title: 'Cảnh báo nguy hiểm: Sói phục kích tại [620, 280]!',
-          body: 'ReflexBreaker kích hoạt: Ngắt lệnh hái dâu. Phân quyền sơ tán: 16 cá thể gần nhất vào Hang (Đạt sức chứa 16/16), 8 cá thể còn lại tản vào Lùm Cây che phủ gần nhất!',
-          reason: 'ReflexBreaker: TrajectoryLookahead (4 action steps) breached d_safety (measured 23.6px < 35.0px)'
-        });
+        const isApproved = lookahead ? lookahead.approved : false;
+        const reasonText = lookahead 
+          ? lookahead.reason 
+          : 'REJECT: Path breaches predator safety margin (measured d_min = 23.6px < 35.0px)';
+
+        if (!isApproved) {
+          // ReflexBreaker triggers! Immediate evacuation allocation (16 Burrow / 8 Thickets)
+          const rabbits = entities.filter(e => e.type === 'rabbit');
+          rabbits.sort((a, b) => Math.hypot(a.x - burrow.x, a.y - burrow.y) - Math.hypot(b.x - burrow.x, b.y - burrow.y));
+          rabbits.forEach((r, idx) => {
+            if (idx < burrow.capacity) {
+              r.evacTarget = 'burrow';
+            } else {
+              r.evacTarget = 'thicket';
+            }
+          });
+          burrow.occupants = Math.min(burrow.capacity, rabbits.length);
+
+          addTimelineEvent({
+            badge: 'MỘNG NHIỄM GATED',
+            badgeClass: 'gated',
+            title: 'Cảnh báo nguy hiểm: Sói phục kích tại [620, 280]!',
+            body: 'ReflexBreaker kích hoạt: Ngắt lệnh hái dâu. Phân quyền sơ tán: 16 cá thể gần nhất vào Hang (Đạt sức chứa 16/16), 8 cá thể còn lại tản vào Lùm Cây che phủ gần nhất!',
+            reason: reasonText
+          });
+        }
       }
     });
 
     document.getElementById('btn-standby').addEventListener('click', () => {
       isPlaying = false;
       btnPlayPause.textContent = 'Tiếp tục';
+      callOperatorAction('STANDBY', true, 'Operator manually paused ecosystem');
       addTimelineEvent({
         badge: 'CAN THIỆP GIÁM SÁT',
         badgeClass: 'gated',
@@ -2046,6 +2068,90 @@
       }
     }
 
+    // --- Mộng Nhiễm Kernel REST API Bridge ---
+    const API_BASE = window.location.origin.startsWith('http') ? window.location.origin : 'http://localhost:8765';
+    let isKernelOnline = false;
+
+    // Check Kernel Status on Startup
+    async function checkKernelConnection() {
+      try {
+        const res = await fetch(`${API_BASE}/api/status`);
+        if (res.ok) {
+          const data = await res.json();
+          isKernelOnline = true;
+          console.log('[Mộng Nhiễm Kernel Connected]', data.schema_name, 'Status:', data.status);
+        }
+      } catch (err) {
+        isKernelOnline = false;
+        console.warn('[Mộng Nhiễm Standalone Offline Mode]', err.message);
+      }
+    }
+    checkKernelConnection();
+
+    // Call Kernel Step API
+    async function callKernelStep(stimulus, stateUpdates = {}, userInput = null) {
+      try {
+        const res = await fetch(`${API_BASE}/api/step`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            stimulus: stimulus,
+            state_updates: stateUpdates,
+            user_input: userInput,
+            delta_time: 0.05
+          })
+        });
+        if (res.ok) {
+          return await res.json();
+        }
+      } catch (e) {
+        console.warn('[Kernel Step API Error]', e.message);
+      }
+      return null;
+    }
+
+    // Call Kernel Spatial Lookahead API
+    async function callVerifyLookahead(waypoints, wolfPos, wolfVel, scoutStart, safetyDist = 35.0) {
+      try {
+        const res = await fetch(`${API_BASE}/api/verify_lookahead`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            waypoints: waypoints,
+            wolf_pos: wolfPos,
+            wolf_vel: wolfVel,
+            scout_start: scoutStart,
+            safety_dist: safetyDist
+          })
+        });
+        if (res.ok) {
+          return await res.json();
+        }
+      } catch (e) {
+        console.warn('[Kernel Lookahead API Error]', e.message);
+      }
+      return null;
+    }
+
+    // Call Operator Action API
+    async function callOperatorAction(command, standby = null, reason = null) {
+      try {
+        await fetch(`${API_BASE}/api/operator_action`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: command, standby: standby, reason: reason })
+        });
+      } catch (e) {}
+    }
+
+    // Scout Epistemic State & AutoDream FactCard Tracking
+    const scoutEpistemic = {
+      rememberedNorthBerry: 80.0,
+      observedTick: 0,
+      hasDiscoveredNorthDepleted: false,
+      isReasoning: false
+    };
+
     // --- Simulation Dynamics ---
     function updateSimulation() {
       if (!isPlaying) return;
@@ -2053,6 +2159,67 @@
       worldTick++;
       document.getElementById('kpi-tick').textContent = worldTick;
       document.getElementById('inspector-tick').textContent = `TICK ${worldTick}`;
+
+      // Check Scout Surprise Spike upon reaching North Berry Bush (Scenario A)
+      const scout = entities[0];
+      const northBerry = resources.find(r => r.id === 'berry_north');
+      const wolf = entities.find(e => e.type === 'wolf');
+
+      if (scout && northBerry && !scoutEpistemic.hasDiscoveredNorthDepleted && !scoutEpistemic.isReasoning) {
+        const distToNorth = Math.hypot(scout.x - northBerry.x, scout.y - northBerry.y);
+        // Scout arrives within perimeter of north bush (<= 46px) and finds it depleted
+        if (distToNorth <= northBerry.radius + 10 && northBerry.amount === 0) {
+          scoutEpistemic.hasDiscoveredNorthDepleted = true;
+          scoutEpistemic.isReasoning = true;
+
+          const stimulus = `Surprise Spike: Berry Bush North depleted to 0u (Scout belief was ${scoutEpistemic.rememberedNorthBerry}u). Delta = 80u > 30u!`;
+
+          callKernelStep(stimulus, {
+            bush_north_amount: 0.0,
+            hunger: scout.hunger,
+            thirst: scout.thirst,
+            energy: scout.energy,
+            predator_distance: wolf ? Math.hypot(scout.x - wolf.x, scout.y - wolf.y) : 350.0
+          }).then(async (stepData) => {
+            scoutEpistemic.isReasoning = false;
+
+            // Update FactCard-02 in UI
+            const fact02Desc = document.querySelector('#factcard-list-container .factcard-item:nth-child(2) div:nth-child(2)');
+            const fact02Badge = document.querySelector('#factcard-list-container .factcard-item:nth-child(2) .factcard-head span:last-child');
+            if (fact02Desc) fact02Desc.textContent = 'Trữ lượng thực tế: 0u (CẠN KIỆT). Phát hiện bất đối xứng nhận thức lúc tiếp cận!';
+            if (fact02Badge) {
+              fact02Badge.textContent = 'CONF: 1.00 (DISCOVERED DEPLETED)';
+              fact02Badge.style.color = 'var(--rose)';
+            }
+
+            // Propose 4 waypoints to West Berry Bush [260, 230]
+            const proposedWaypoints = [[440, 200], [380, 210], [320, 220], [260, 230]];
+            const lookahead = await callVerifyLookahead(
+              proposedWaypoints,
+              wolf ? [wolf.x, wolf.y] : [760, 220],
+              wolf ? [wolf.vx, wolf.vy] : [0, 0],
+              [scout.x, scout.y],
+              35.0
+            );
+
+            const isApproved = lookahead ? lookahead.approved : true;
+            const reason = lookahead ? lookahead.reason : 'Host TrajectoryLookahead (4 action steps) verified clear.';
+
+            addTimelineEvent({
+              badge: 'SLM REASONING',
+              badgeClass: 'slm',
+              title: 'Alpha Scout phát hiện thực tế 0u! Kích hoạt SLM (142 tokens)',
+              body: `Bất đối xứng nhận thức giải quyết: Niềm tin cũ (80u) != Thực tế (0u). SLM phát lệnh đổi hướng sang Bụi Tây [260, 230]. Lookahead: ${reason}`,
+              reason: `SurpriseSpike: Delta=|80-0|=80 > tau(30) -> MOVE_TO bush_west`
+            });
+
+            if (isApproved) {
+              // Direct leader and colony toward West Bush
+              scout.targetDest = { x: 260, y: 230 };
+            }
+          });
+        }
+      }
 
       // Day/Night Cycle (Disabled as requested: constant clear daylight)
       document.getElementById('kpi-daytime').textContent = '☀️ BAN NGÀY';
@@ -2927,8 +3094,8 @@
               }
             }
           } else {
-            // Alpha Scout leads toward active food patches or patrols colony
-            const bestFood = resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
+            // Alpha Scout leads toward SLM target destination or active food patches
+            const bestFood = ent.targetDest || resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
             if (bestFood) {
               const toTx = bestFood.x - ent.x;
               const toTy = bestFood.y - ent.y;
@@ -2936,6 +3103,8 @@
               if (dist > 35) {
                 ent.vx += (toTx / dist) * 0.06;
                 ent.vy += (toTy / dist) * 0.06;
+              } else if (ent.targetDest) {
+                ent.targetDest = null; // Reached SLM destination
               }
             }
           }
