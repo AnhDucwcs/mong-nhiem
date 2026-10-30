@@ -1,0 +1,202 @@
+{
+  "schema_name": "mong_nhiem_living_world",
+  "version": "2.1.0",
+  "description": "Authoritative Declarative World Schema for Mộng Nhiễm Living World simulation.",
+  "model": {
+    "type": "mock",
+    "model_name": "qwen3.5-2b",
+    "endpoint": "http://127.0.0.1:8080",
+    "slot_id": 0,
+    "cache_prompt": true
+  },
+  "entities": [
+    {
+      "name": "alpha_scout",
+      "properties": {
+        "role": "scout",
+        "species": "rabbit",
+        "state": "ACTIVE",
+        "speed_max": 4.4,
+        "perception_radius": 140.0
+      }
+    },
+    {
+      "name": "rabbit_colony",
+      "properties": {
+        "species": "rabbit",
+        "count": 24,
+        "burrow_capacity": 16
+      }
+    },
+    {
+      "name": "predator_pack",
+      "properties": {
+        "species": "wolf",
+        "count": 1,
+        "speed_max": 5.2,
+        "olfactory_radius": 240.0,
+        "vision_radius": 150.0
+      }
+    },
+    {
+      "name": "bush_north",
+      "properties": {
+        "type": "berry_bush",
+        "initial_amount": 80.0,
+        "x": 580.0,
+        "y": 140.0
+      }
+    },
+    {
+      "name": "bush_west",
+      "properties": {
+        "type": "berry_bush",
+        "initial_amount": 100.0,
+        "x": 260.0,
+        "y": 230.0
+      }
+    },
+    {
+      "name": "burrow",
+      "properties": {
+        "type": "sanctuary",
+        "capacity": 16,
+        "x": 320.0,
+        "y": 520.0
+      }
+    },
+    {
+      "name": "lake",
+      "properties": {
+        "type": "water_basin",
+        "radius_total": 105.0,
+        "radius_deep": 68.25,
+        "x": 480.0,
+        "y": 380.0
+      }
+    }
+  ],
+  "continuous_traits": [
+    {
+      "name": "hunger",
+      "initial_value": 20.0,
+      "min_val": 0.0,
+      "max_val": 100.0,
+      "rate_per_sec": 0.36,
+      "is_decay": false
+    },
+    {
+      "name": "thirst",
+      "initial_value": 20.0,
+      "min_val": 0.0,
+      "max_val": 100.0,
+      "rate_per_sec": 0.32,
+      "is_decay": false
+    },
+    {
+      "name": "energy",
+      "initial_value": 92.0,
+      "min_val": 0.0,
+      "max_val": 100.0,
+      "rate_per_sec": 0.08,
+      "is_decay": true
+    },
+    {
+      "name": "predator_distance",
+      "initial_value": 350.0,
+      "min_val": 0.0,
+      "max_val": 1200.0,
+      "rate_per_sec": 0.0,
+      "is_decay": false
+    },
+    {
+      "name": "bush_north_amount",
+      "initial_value": 80.0,
+      "min_val": 0.0,
+      "max_val": 150.0,
+      "rate_per_sec": 0.0,
+      "is_decay": true
+    }
+  ],
+  "invariants": [
+    {
+      "id": "predator_safety_margin",
+      "condition": "predator_distance <= 35.0",
+      "target_metric": "predator_distance",
+      "threshold": 35.0,
+      "comparator": "<=",
+      "trigger_action": "EMERGENCY_BURROW_EVAC"
+    },
+    {
+      "id": "starvation_redline",
+      "condition": "hunger >= 95.0",
+      "target_metric": "hunger",
+      "threshold": 95.0,
+      "comparator": ">=",
+      "trigger_action": "FORAGE_BERRY"
+    },
+    {
+      "id": "dehydration_redline",
+      "condition": "thirst >= 90.0",
+      "target_metric": "thirst",
+      "threshold": 90.0,
+      "comparator": ">=",
+      "trigger_action": "DRINK_WATER"
+    },
+    {
+      "id": "exhaustion_redline",
+      "condition": "energy <= 15.0",
+      "target_metric": "energy",
+      "threshold": 15.0,
+      "comparator": "<=",
+      "trigger_action": "REST_COLONY"
+    }
+  ],
+  "preconditions": [
+    {
+      "action_verb": "MOVE_TO",
+      "required_states": {
+        "alpha_scout": "ACTIVE"
+      },
+      "prohibited_states": {
+        "EXHAUSTED": "true"
+      }
+    },
+    {
+      "action_verb": "FORAGE_BERRY",
+      "required_states": {
+        "alpha_scout": "ACTIVE"
+      },
+      "prohibited_states": {
+        "FLEEING": "true"
+      }
+    },
+    {
+      "action_verb": "DRINK_WATER",
+      "required_states": {
+        "alpha_scout": "ACTIVE"
+      },
+      "prohibited_states": {
+        "FLEEING": "true"
+      }
+    },
+    {
+      "action_verb": "SHELTER_BURROW",
+      "required_states": {
+        "alpha_scout": "ACTIVE"
+      },
+      "prohibited_states": {
+        "SHELTERED": "true"
+      }
+    },
+    {
+      "action_verb": "REST_COLONY",
+      "required_states": {
+        "alpha_scout": "ACTIVE"
+      },
+      "prohibited_states": {
+        "STARVING": "true"
+      }
+    }
+  ]
+}
