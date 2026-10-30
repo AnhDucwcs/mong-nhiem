@@ -860,6 +860,10 @@
         <span class="kpi-label">Cấp Mối Nguy</span>
         <span class="kpi-val emerald" id="kpi-threat">NOMINAL</span>
       </div>
+      <div class="kpi-pill" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.08);">
+        <span class="kpi-label" style="color: var(--indigo);">Chỉ Thị SLM Bầy Đàn</span>
+        <span class="kpi-val" style="color: var(--indigo); font-size: 11px; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="kpi-slm-directive">Tuần tra bầy đàn</span>
+      </div>
     </div>
 
     <!-- Simulation Controls & Menus -->
@@ -1897,14 +1901,17 @@
             : `Bụi dâu Bắc còn ${Math.round(northAmount)}u. Hồ nước trung tâm an toàn.`;
 
           document.getElementById('belief-desc').textContent = northAmount === 0
-            ? 'Tin rằng Bụi dâu Bắc còn dồi dào (~80u) theo quan sát cũ. Chưa quét lại!'
-            : 'Nắm rõ vị trí nguồn thức ăn dồi dào và lộ trình an toàn cho bầy đàn.';
+            ? 'Tin rằng Bụi dâu Bắc còn dồi dào (~80u) theo quan sát cũ. Đã phát lệnh đổi hướng sang Bụi Tây.'
+            : `Chỉ thị SLM bầy đàn: ${scoutEpistemic.currentColonyDirective || 'Tuần tra bầy đàn'}.`;
 
           document.getElementById('skew-badge').style.display = northAmount === 0 ? 'inline-block' : 'none';
         } else {
-          const distToLeader = Math.round(Math.hypot(obj.x - entities[0].x, obj.y - entities[0].y));
-          document.getElementById('gt-desc').textContent = `Cá thể duy trì cự ly bầy đàn (Cách thỏ đầu đàn: ${distToLeader} px).`;
-          document.getElementById('belief-desc').textContent = 'Chưa có quyền gọi SLM độc lập. Hành vi tuân theo bầy Host.';
+          const currentLeader = entities.find(e => e.type === 'rabbit' && e.isLeader);
+          const distToLeader = currentLeader ? Math.round(Math.hypot(obj.x - currentLeader.x, obj.y - currentLeader.y)) : 0;
+          document.getElementById('gt-desc').textContent = currentLeader
+            ? `Cá thể duy trì cự ly bầy đàn (Cách ${currentLeader.name}: ${distToLeader} px).`
+            : `Quần thể hiện đang khuyết thỏ đầu đàn (Chờ kế thừa).`;
+          document.getElementById('belief-desc').textContent = `Tuân theo chỉ thị bầy đàn (SLM): ${scoutEpistemic.currentColonyDirective || 'Tuần tra bầy đàn'}.`;
           document.getElementById('skew-badge').style.display = 'none';
         }
 
@@ -2167,8 +2174,201 @@
       rememberedNorthBerry: 80.0,
       observedTick: 0,
       hasDiscoveredNorthDepleted: false,
-      isReasoning: false
+      isReasoning: false,
+      lastHungerTriggerTick: 0,
+      lastStrategicTick: 0,
+      currentColonyDirective: 'Tuần tra bầy đàn (Danh định)'
     };
+
+    // --- Alpha Scout Succession Protocol (Kế Thừa Thỏ Đầu Đàn) ---
+    function promoteNewLeader(deadLeaderName, causeStr) {
+      const survivingRabbits = entities.filter(e => e.type === 'rabbit');
+      if (survivingRabbits.length === 0) {
+        addTimelineEvent({
+          badge: 'TUYỆT CHỦNG',
+          badgeClass: 'shock',
+          title: 'Quần thể thỏ đã tuyệt chủng hoàn toàn!',
+          body: `Thỏ đầu đàn cuối cùng (${deadLeaderName}) tử vong (${causeStr}). Không còn cá thể nào sống sót.`
+        });
+        const directiveElem = document.getElementById('kpi-slm-directive');
+        if (directiveElem) directiveElem.textContent = 'Bầy đã tuyệt chủng';
+        return null;
+      }
+
+      // Sort surviving rabbits by vitality score: highest health + energy - hunger
+      survivingRabbits.sort((a, b) => {
+        const scoreA = (a.health * 0.4) + (a.energy * 0.4) - (a.hunger * 0.2);
+        const scoreB = (b.health * 0.4) + (b.energy * 0.4) - (b.hunger * 0.2);
+        return scoreB - scoreA;
+      });
+
+      const newLeader = survivingRabbits[0];
+      newLeader.isLeader = true;
+      newLeader.role = 'Alpha Scout (Tân Thủ Lĩnh)';
+      const baseName = newLeader.name.split(' (')[0];
+      newLeader.name = `${baseName} (Tân Alpha Scout)`;
+      newLeader.perceptionRadius = 145;
+      newLeader.radius = 6.8;
+
+      // Reset epistemic state for new leader
+      scoutEpistemic.hasDiscoveredNorthDepleted = false;
+      scoutEpistemic.isReasoning = false;
+      scoutEpistemic.lastHungerTriggerTick = worldTick;
+      scoutEpistemic.currentColonyDirective = 'Tập hợp bầy đàn sau biến cố';
+
+      const directiveElem = document.getElementById('kpi-slm-directive');
+      if (directiveElem) directiveElem.textContent = 'Kế thừa: Tái tập hợp bầy';
+
+      addTimelineEvent({
+        badge: 'KẾ THỪA THỎ ĐẦU ĐÀN',
+        badgeClass: 'slm',
+        title: `${newLeader.name} kế thừa quyền chỉ huy Alpha Scout!`,
+        body: `Thỏ đầu đàn cũ (${deadLeaderName}) tử vong (${causeStr}). Bầy đàn lập tức bầu chọn cá thể khỏe nhất (${newLeader.name}, Máu: ${Math.round(newLeader.health)}%, Thể lực: ${Math.round(newLeader.energy)}%) kế thừa vai trò dẫn đường và kết nối SLM!`,
+        reason: `SuccessionProtocol: vitality_score=${((newLeader.health * 0.4) + (newLeader.energy * 0.4) - (newLeader.hunger * 0.2)).toFixed(1)} -> promote to Alpha Scout`
+      });
+
+      // Trigger immediate SLM reasoning for new leader
+      setTimeout(() => {
+        triggerSLMReasoning('SUCCESSION', { oldLeader: deadLeaderName });
+      }, 120);
+
+      updateInspectorUI();
+      return newLeader;
+    }
+
+    // --- Unified SLM Reasoning & Directive Dispatcher ---
+    async function triggerSLMReasoning(triggerType, contextDetails = {}) {
+      if (scoutEpistemic.isReasoning) return;
+      const leader = entities.find(e => e.type === 'rabbit' && e.isLeader);
+      if (!leader) return;
+
+      scoutEpistemic.isReasoning = true;
+      const wolf = entities.find(e => e.type === 'wolf');
+      const northBerry = resources.find(r => r.id === 'berry_north');
+      const westBerry = resources.find(r => r.id === 'berry_west');
+
+      let stimulus = '';
+      let targetCoords = null;
+      let reasonBadge = 'SLM REASONING';
+      let actionSummary = '';
+
+      if (triggerType === 'SURPRISE_SPIKE') {
+        stimulus = `Surprise Spike: Berry Bush North depleted to 0u (Scout belief was ${scoutEpistemic.rememberedNorthBerry}u). Delta = 80u > 30u!`;
+        targetCoords = { x: 260, y: 230 };
+        actionSummary = 'Bụi Bắc cạn kiệt (0u). Chuyển hướng bầy sang Bụi Tây [260, 230]';
+      } else if (triggerType === 'STARVATION_ALERT') {
+        const avgH = contextDetails.avgHunger || leader.hunger;
+        const northAmount = northBerry ? northBerry.amount : 0;
+        if (northAmount > 15) {
+          stimulus = `Colony Starvation Alert: Average colony hunger is ${avgH.toFixed(1)}% (Leader hunger: ${leader.hunger.toFixed(1)}%). Berry bush north available (${northAmount.toFixed(0)}u).`;
+          targetCoords = { x: 580, y: 140 };
+          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy gặm Bụi Bắc [580, 140]';
+        } else if (westBerry && westBerry.amount > 10) {
+          stimulus = `Colony Starvation Alert: Average colony hunger is ${avgH.toFixed(1)}% (Leader hunger: ${leader.hunger.toFixed(1)}%). Bush north depleted: 0u. Direct to west bush.`;
+          targetCoords = { x: 260, y: 230 };
+          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy sang Bụi Tây [260, 230]';
+        } else if (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount > 5) {
+          stimulus = `Colony Starvation Alert: Berry bushes low. Directing colony to Dandelion Grove [480, 520].`;
+          targetCoords = { x: 480, y: 520 };
+          actionSummary = 'Đói khẩn cấp (>60%): Chuyển hướng Vườn Dược Liệu [480, 520]';
+        } else {
+          stimulus = `Colony Starvation Alert: Total Famine. All food depleted to 0u. Shelter in burrow to hibernate and preserve energy.`;
+          targetCoords = { x: 320, y: 520 };
+          actionSummary = 'Nạn đói: Rút về Hang Trú Ẩn ngủ đông bảo toàn calo';
+        }
+        reasonBadge = 'SLM ĐIỀU HƯỚNG BẦY ĐÀN';
+      } else if (triggerType === 'SUCCESSION') {
+        stimulus = `Alpha Scout Succession: ${leader.name} assumed leadership after ${contextDetails.oldLeader || 'predecessor'}. Rallying colony.`;
+        targetCoords = { x: 320, y: 500 };
+        actionSummary = 'Tân Alpha Scout tập hợp bầy quanh Hang Trú Ẩn';
+        reasonBadge = 'SLM KẾ THỪA BẦY ĐÀN';
+      } else if (triggerType === 'STRATEGIC_REVIEW') {
+        stimulus = `Periodic Strategic Review: World Tick ${worldTick}. Colony size: ${entities.filter(e => e.type === 'rabbit').length}. Safety & resource assessment.`;
+        targetCoords = { x: 460, y: 300 };
+        actionSummary = 'Đánh giá chiến lược định kỳ: Tuần tra bầy đàn an toàn';
+        reasonBadge = 'SLM CHIẾN LƯỢC ĐỊNH KỲ';
+      }
+
+      try {
+        const stepData = await callKernelStep(stimulus, {
+          bush_north_amount: northBerry ? northBerry.amount : 0.0,
+          hunger: leader.hunger,
+          thirst: leader.thirst,
+          energy: leader.energy,
+          predator_distance: wolf ? Math.hypot(leader.x - wolf.x, leader.y - wolf.y) : 350.0
+        });
+
+        scoutEpistemic.isReasoning = false;
+
+        if (stepData && stepData.success) {
+          // Update FactCard-02 if surprise spike
+          if (triggerType === 'SURPRISE_SPIKE') {
+            const fact02Desc = document.querySelector('#factcard-list-container .factcard-item:nth-child(2) div:nth-child(2)');
+            const fact02Badge = document.querySelector('#factcard-list-container .factcard-item:nth-child(2) .factcard-head span:last-child');
+            if (fact02Desc) fact02Desc.textContent = 'Trữ lượng thực tế: 0u (CẠN KIỆT). Phát hiện bất đối xứng nhận thức lúc tiếp cận!';
+            if (fact02Badge) {
+              fact02Badge.textContent = 'CONF: 1.00 (DISCOVERED DEPLETED)';
+              fact02Badge.style.color = 'var(--rose)';
+            }
+          }
+
+          // Verify Trajectory Lookahead
+          const dest = targetCoords || { x: 260, y: 230 };
+          const dx = (dest.x - leader.x) / 4;
+          const dy = (dest.y - leader.y) / 4;
+          const proposedWaypoints = [
+            [leader.x + dx, leader.y + dy],
+            [leader.x + dx * 2, leader.y + dy * 2],
+            [leader.x + dx * 3, leader.y + dy * 3],
+            [dest.x, dest.y]
+          ];
+
+          const lookahead = await callVerifyLookahead(
+            proposedWaypoints,
+            wolf ? [wolf.x, wolf.y] : [760, 220],
+            wolf ? [wolf.vx, wolf.vy] : [0, 0],
+            [leader.x, leader.y],
+            35.0
+          );
+
+          const isApproved = lookahead ? lookahead.approved : true;
+          const lookaheadReason = lookahead ? lookahead.reason : 'Host TrajectoryLookahead (4 steps) verified clear.';
+
+          if (isApproved) {
+            leader.targetDest = dest;
+            scoutEpistemic.currentColonyDirective = actionSummary;
+            const dirElem = document.getElementById('kpi-slm-directive');
+            if (dirElem) dirElem.textContent = actionSummary.split(':')[1] ? actionSummary.split(':')[1].trim() : actionSummary;
+
+            addTimelineEvent({
+              badge: reasonBadge,
+              badgeClass: 'slm',
+              title: `${leader.name}: ${actionSummary} (SLM 142 tokens)`,
+              body: `${stepData.comm_message || actionSummary}. Phê duyệt quỹ đạo Lookahead: ${lookaheadReason}`,
+              reason: `SLM Action: ${stepData.action_verb || 'MOVE_TO'} -> target [${dest.x}, ${dest.y}] (Lookahead d_min=${lookahead ? lookahead.min_distance : 999}px)`
+            });
+          } else {
+            // Path blocked by wolf: fallback to safe detour or burrow
+            leader.targetDest = { x: 320, y: 520 };
+            actionSummary = 'Phục kích: Đường đi bị sói chặn! SLM đổi hướng về Hang Trú Ẩn';
+            scoutEpistemic.currentColonyDirective = actionSummary;
+            const dirElem = document.getElementById('kpi-slm-directive');
+            if (dirElem) dirElem.textContent = 'Tránh sói: Về Hang Trú Ẩn';
+
+            addTimelineEvent({
+              badge: 'SLM PHẢN XẠ TRÁNH SÓI',
+              badgeClass: 'shock',
+              title: `${leader.name}: Ngắt kế hoạch ban đầu, rút lui về Hang!`,
+              body: `Cảnh báo Lookahead: ${lookaheadReason}. SLM lập tức cưỡng chế chuyển hướng toàn bầy về Hang Trú Ẩn [320, 520]!`,
+              reason: `TrajectoryReject: d_min=${lookahead.min_distance}px < 35.0px -> FALLBACK_BURROW`
+            });
+          }
+        }
+      } catch (err) {
+        scoutEpistemic.isReasoning = false;
+        console.warn('[SLM Trigger Warning]', err);
+      }
+    }
 
     // --- Simulation Dynamics ---
     function updateSimulation() {
@@ -2178,64 +2378,34 @@
       document.getElementById('kpi-tick').textContent = worldTick;
       document.getElementById('inspector-tick').textContent = `TICK ${worldTick}`;
 
-      // Check Scout Surprise Spike upon reaching North Berry Bush (Scenario A)
-      const scout = entities[0];
+      // 1. Epistemic Surprise Check: Alpha Scout arriving at North Berry Bush
+      const scout = entities.find(e => e.type === 'rabbit' && e.isLeader);
       const northBerry = resources.find(r => r.id === 'berry_north');
-      const wolf = entities.find(e => e.type === 'wolf');
-
       if (scout && northBerry && !scoutEpistemic.hasDiscoveredNorthDepleted && !scoutEpistemic.isReasoning) {
         const distToNorth = Math.hypot(scout.x - northBerry.x, scout.y - northBerry.y);
-        // Scout arrives within perimeter of north bush (<= 46px) and finds it depleted
-        if (distToNorth <= northBerry.radius + 10 && northBerry.amount === 0) {
+        if (distToNorth <= northBerry.radius + 14 && northBerry.amount === 0) {
           scoutEpistemic.hasDiscoveredNorthDepleted = true;
-          scoutEpistemic.isReasoning = true;
+          triggerSLMReasoning('SURPRISE_SPIKE');
+        }
+      }
 
-          const stimulus = `Surprise Spike: Berry Bush North depleted to 0u (Scout belief was ${scoutEpistemic.rememberedNorthBerry}u). Delta = 80u > 30u!`;
+      // 2. Colony Hunger & Starvation Alert Trigger (SLM Dynamic Intervention)
+      const aliveRabbits = entities.filter(e => e.type === 'rabbit');
+      if (aliveRabbits.length > 0) {
+        const avgHunger = aliveRabbits.reduce((sum, r) => sum + r.hunger, 0) / aliveRabbits.length;
+        const currentLeader = aliveRabbits.find(r => r.isLeader);
 
-          callKernelStep(stimulus, {
-            bush_north_amount: 0.0,
-            hunger: scout.hunger,
-            thirst: scout.thirst,
-            energy: scout.energy,
-            predator_distance: wolf ? Math.hypot(scout.x - wolf.x, scout.y - wolf.y) : 350.0
-          }).then(async (stepData) => {
-            scoutEpistemic.isReasoning = false;
+        if (currentLeader && (currentLeader.hunger > 60 || avgHunger > 60)) {
+          if (!scoutEpistemic.isReasoning && (worldTick - (scoutEpistemic.lastHungerTriggerTick || 0) > 160)) {
+            scoutEpistemic.lastHungerTriggerTick = worldTick;
+            triggerSLMReasoning('STARVATION_ALERT', { avgHunger: avgHunger });
+          }
+        }
 
-            // Update FactCard-02 in UI
-            const fact02Desc = document.querySelector('#factcard-list-container .factcard-item:nth-child(2) div:nth-child(2)');
-            const fact02Badge = document.querySelector('#factcard-list-container .factcard-item:nth-child(2) .factcard-head span:last-child');
-            if (fact02Desc) fact02Desc.textContent = 'Trữ lượng thực tế: 0u (CẠN KIỆT). Phát hiện bất đối xứng nhận thức lúc tiếp cận!';
-            if (fact02Badge) {
-              fact02Badge.textContent = 'CONF: 1.00 (DISCOVERED DEPLETED)';
-              fact02Badge.style.color = 'var(--rose)';
-            }
-
-            // Propose 4 waypoints to West Berry Bush [260, 230]
-            const proposedWaypoints = [[440, 200], [380, 210], [320, 220], [260, 230]];
-            const lookahead = await callVerifyLookahead(
-              proposedWaypoints,
-              wolf ? [wolf.x, wolf.y] : [760, 220],
-              wolf ? [wolf.vx, wolf.vy] : [0, 0],
-              [scout.x, scout.y],
-              35.0
-            );
-
-            const isApproved = lookahead ? lookahead.approved : true;
-            const reason = lookahead ? lookahead.reason : 'Host TrajectoryLookahead (4 action steps) verified clear.';
-
-            addTimelineEvent({
-              badge: 'SLM REASONING',
-              badgeClass: 'slm',
-              title: 'Alpha Scout phát hiện thực tế 0u! Kích hoạt SLM (142 tokens)',
-              body: `Bất đối xứng nhận thức giải quyết: Niềm tin cũ (80u) != Thực tế (0u). SLM phát lệnh đổi hướng sang Bụi Tây [260, 230]. Lookahead: ${reason}`,
-              reason: `SurpriseSpike: Delta=|80-0|=80 > tau(30) -> MOVE_TO bush_west`
-            });
-
-            if (isApproved) {
-              // Direct leader and colony toward West Bush
-              scout.targetDest = { x: 260, y: 230 };
-            }
-          });
+        // 3. Periodic Strategic Routine (every ~280 ticks if no critical trigger)
+        if (currentLeader && !scoutEpistemic.isReasoning && (worldTick - (scoutEpistemic.lastStrategicTick || 0) > 280)) {
+          scoutEpistemic.lastStrategicTick = worldTick;
+          triggerSLMReasoning('STRATEGIC_REVIEW');
         }
       }
 
@@ -2542,6 +2712,7 @@
               const victimIdx = entities.indexOf(bestTarget);
               if (victimIdx !== -1) {
                 const victimName = bestTarget.name;
+                const wasLeader = bestTarget.isLeader;
                 entities.splice(victimIdx, 1);
                 wolf.hunger = 0;
                 wolf.energy = 100;
@@ -2563,6 +2734,14 @@
                   body: `Khu vực: [${bestTarget.x.toFixed(0)}, ${bestTarget.y.toFixed(0)}]. Thỏ đổi hướng né tránh không kịp do cự ly vồ mồi quá gần. Quần thể thỏ còn ${remainingRabbits} con.`,
                   reason: `PredationEvent: distance ${dist.toFixed(1)}px <= 16.0px (Lunge Catch)`
                 });
+
+                if (wasLeader) {
+                  promoteNewLeader(victimName, 'bị sói vồ bắt trong cuộc săn');
+                }
+                if (selectedObject === bestTarget) {
+                  selectedObject = null;
+                  updateInspectorUI();
+                }
 
                 // Wolf Reproduction Check (K-strategist: after 2 successful hunts, pack cap up to 4)
                 const totalWolves = entities.filter(e => e.type === 'wolf').length;
@@ -2707,15 +2886,20 @@
           if (ent.health <= 0) {
             const deadIdx = entities.indexOf(ent);
             if (deadIdx !== -1) {
+              const deadName = ent.name;
+              const wasLeader = ent.isLeader;
               entities.splice(deadIdx, 1);
               const rem = entities.filter(e => e.type === 'rabbit').length;
               document.getElementById('kpi-rabbits').textContent = `${rem} con`;
               addTimelineEvent({
                 badge: 'SINH HỌC QUẦN THỂ',
                 badgeClass: 'shock',
-                title: `${ent.name} tử vong vì đói kiệt sức!`,
+                title: `${deadName} tử vong vì đói kiệt sức!`,
                 body: `Trao đổi chất cao: Thỏ nhịn đói vượt ngưỡng sinh tồn 100%. Quần thể giảm còn ${rem} con.`
               });
+              if (wasLeader) {
+                promoteNewLeader(deadName, 'đói kiệt sức vượt ngưỡng sinh tồn 100%');
+              }
               if (selectedObject === ent) {
                 selectedObject = null;
                 updateInspectorUI();
@@ -3100,15 +3284,28 @@
               ent.vy += Math.sin(ent.wanderAngle) * 0.05;
             }
           } else if (!ent.isLeader) {
-            // Follow flock leader if far
-            const leader = entities.find(e => e.isLeader);
+            // Flock members follow leader's SLM collective directive
+            const leader = entities.find(e => e.type === 'rabbit' && e.isLeader);
             if (leader) {
-              const toLx = leader.x - ent.x;
-              const toLy = leader.y - ent.y;
-              const dist = Math.hypot(toLx, toLy);
-              if (dist > 140) {
-                ent.vx += (toLx / dist) * 0.08;
-                ent.vy += (toLy / dist) * 0.08;
+              if (leader.targetDest) {
+                // Cohesion migration toward leader's SLM destination
+                const targetX = leader.targetDest.x + (ent.x - leader.x) * 0.12;
+                const targetY = leader.targetDest.y + (ent.y - leader.y) * 0.12;
+                const toTx = targetX - ent.x;
+                const toTy = targetY - ent.y;
+                const distT = Math.hypot(toTx, toTy);
+                if (distT > 38) {
+                  ent.vx += (toTx / distT) * 0.11;
+                  ent.vy += (toTy / distT) * 0.11;
+                }
+              } else {
+                const toLx = leader.x - ent.x;
+                const toLy = leader.y - ent.y;
+                const dist = Math.hypot(toLx, toLy);
+                if (dist > 95) {
+                  ent.vx += (toLx / dist) * 0.08;
+                  ent.vy += (toLy / dist) * 0.08;
+                }
               }
             }
           } else {
@@ -3119,10 +3316,13 @@
               const toTy = bestFood.y - ent.y;
               const dist = Math.hypot(toTx, toTy);
               if (dist > 35) {
-                ent.vx += (toTx / dist) * 0.06;
-                ent.vy += (toTy / dist) * 0.06;
+                ent.vx += (toTx / dist) * 0.07;
+                ent.vy += (toTy / dist) * 0.07;
               } else if (ent.targetDest) {
                 ent.targetDest = null; // Reached SLM destination
+                scoutEpistemic.currentColonyDirective = 'Đã đến điểm tập kết (Danh định)';
+                const dirElem = document.getElementById('kpi-slm-directive');
+                if (dirElem) dirElem.textContent = 'Đã đến điểm tập kết';
               }
             }
           }

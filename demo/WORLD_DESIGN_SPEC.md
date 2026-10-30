@@ -306,6 +306,29 @@ Mô phỏng tích hợp mô hình cá thể (Agent-Based Model / ABM) với các
   - Các cá thể xung quanh phản hồi theo quy tắc boids đàn (Flock alignment & cohesion).
   - Bản năng sinh tồn cá thể (`flee_predator`) luôn được ưu tiên cao nhất: nếu sói áp sát một con thỏ, con thỏ đó sẽ lập tức bỏ chạy zig-zag, bất chấp chỉ thị của Scout.
 
+### 9.3 Giao Thức Kế Thừa Alpha Scout (Alpha Succession Protocol) & Đồng Thuận Bầy Đàn (Colony Cohesion)
+1. **Điều kiện kích hoạt kế thừa thủ lĩnh:**
+   - Khi Alpha Scout tử vong do bị sói vồ bắt (`PredationEvent`) hoặc đói kiệt sức vượt ngưỡng sinh tồn 100% (`StarvationMortality`).
+   - Ngăn chặn triệt để tình trạng bầy đàn mất đầu vĩnh viễn, đứt gãy luồng suy luận SLM.
+2. **Thuật toán bầu chọn cá thể kế thừa ưu tú nhất (Vitality Election):**
+   - Lọc toàn bộ các cá thể thỏ còn sống trong quần thể ($N_{\text{alive}} \ge 1$). Nếu $N_{\text{alive}} = 0$, phát báo động tuyệt chủng `TUYỆT CHỦNG`.
+   - Tính toán chỉ số sinh lực toàn diện (Vitality Score):
+     $$S_{\text{vitality}}(i) = 0.4 \times \Omega_i + 0.4 \times E_i - 0.2 \times H_i$$
+     với $\Omega_i$ là Máu (Health), $E_i$ là Thể lực (Energy), $H_i$ là Mức đói (Hunger).
+   - Chọn cá thể có $S_{\text{vitality}}$ cực đại: $i^* = \arg\max_i S_{\text{vitality}}(i)$.
+3. **Thụ phong & Kế thừa nhận thức:**
+   - Gán `newLeader.isLeader = true`, vai trò `role = 'Alpha Scout (Tân Thủ Lĩnh)'`, mở rộng tầm quét $R_{\text{perception}} = 145\text{ px}$, kích thước hiển thị vòng vàng $r = 6.8\text{ px}$.
+   - Tái lập trình trạng thái nhận thức (`scoutEpistemic`), phát sự kiện timeline `[KẾ THỪA THỎ ĐẦU ĐÀN]`.
+   - Lập tức kích hoạt phiên suy luận khẩn cấp từ SLM (`triggerSLMReasoning('SUCCESSION')`) để tân thủ lĩnh tái định hướng và tập hợp bầy đàn quanh Hang Trú Ẩn.
+4. **Cơ chế đồng thuận bầy đàn theo chỉ thị SLM (Colony Cohesion to SLM Directive):**
+   - Khi Alpha Scout tiếp nhận chỉ thị từ SLM (ví dụ di chuyển sang Bụi Tây `[260, 230]` hoặc rút lui về Hang `[320, 520]`), `leader.targetDest` được kích hoạt.
+   - Các cá thể thỏ bình thường trong trạng thái danh định áp dụng lực hấp dẫn hướng đích đồng thuận:
+     $$\mathbf{v}_{\text{rabbit}} \mathrel{+}= 0.11 \times \frac{\mathbf{p}_{\text{target}} - \mathbf{p}_{\text{rabbit}}}{\|\mathbf{p}_{\text{target}} - \mathbf{p}_{\text{rabbit}}\|}$$
+   - Tạo nên hiện tượng di cư bầy đàn trực quan, nhịp nhàng theo đúng kết luận của mô hình ngôn ngữ nhỏ.
+5. **Giám sát trực quan trên HUD (Macro Telemetry Strip):**
+   - Bổ sung chip theo dõi thời gian thực `Chỉ Thị SLM Bầy Đàn` màu chàm (Indigo) ngay trên thanh điều hướng đầu trang.
+   - Hiển thị trực tiếp hành động và mục tiêu mà SLM đã arbitrate (`Kiếm ăn Bụi Tây`, `Sơ tán Hang`, `Tuần tra bầy đàn`, v.v.).
+
 ---
 
 ## 10. Kiến Trúc Giao Diện Công Thái Học & HMI Bảng Điều Khiển

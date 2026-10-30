@@ -26,6 +26,7 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from mong_nhiem.kernel import MongNhiemKernel, StepResult
+from mong_nhiem.runtime.backends import MockBackend
 
 
 PORT = int(os.environ.get("DEMO_PORT", "8765"))
@@ -35,6 +36,72 @@ SCHEMA_PATH = DEMO_DIR / "schema" / "living_world.json"
 _KERNEL_INSTANCE: MongNhiemKernel | None = None
 
 
+def living_world_slm_reasoning_fn(prompt: str) -> str:
+    """Domain-grounded SLM reasoning engine for Mộng Nhiễm Living World.
+
+    Emits formal bimodal outputs conformant with living_world.json action verbs.
+    """
+    stimulus = ""
+    for line in prompt.splitlines():
+        if line.startswith("Stimulus:"):
+            stimulus = line.replace("Stimulus:", "").strip()
+            break
+    s_lower = stimulus.lower()
+
+    # 1. Epistemic Surprise Spike (Belief 80u != GT 0u)
+    if "surprise spike" in s_lower or "bất đối xứng" in s_lower or "delta" in s_lower:
+        return (
+            'ACTION: MOVE_TO target=bush_west x=260 y=230\n'
+            'COMMUNICATE [INFORM]: "Bất đối xứng nhận thức: Bụi Bắc đã cạn (0u). Chuyển hướng toàn bầy sang Bụi Tây [260, 230]."'
+        )
+
+    # 2. Succession (New Alpha Scout assumption)
+    if "succession" in s_lower or "kế thừa" in s_lower:
+        return (
+            'ACTION: MOVE_TO target=burrow x=320 y=520\n'
+            'COMMUNICATE [INFORM]: "Tân Alpha Scout tiếp quản quyền điều hướng. Tái tập hợp bầy đàn quanh Hang Trú Ẩn."'
+        )
+
+    # 3. Total Famine (All food depleted)
+    if "total famine" in s_lower or "all food depleted" in s_lower or "nạn đói" in s_lower:
+        return (
+            'ACTION: SHELTER_BURROW target=burrow x=320 y=520\n'
+            'COMMUNICATE [INFORM]: "Nạn đói diện rộng: Tất cả nguồn lương thực đã cạn. Toàn bầy vào hang ngủ đông tiết kiệm năng lượng."'
+        )
+
+    # 4. Predator proximity / ambush
+    if "predator ambush" in s_lower or "sói phục kích" in s_lower or "sói vồ" in s_lower:
+        return (
+            'ACTION: EMERGENCY_BURROW_EVAC target=burrow x=320 y=520\n'
+            'COMMUNICATE [INFORM:ALERT]: "Phát hiện thú săn trong cự ly nguy hiểm. Toàn bầy rút lui khẩn cấp vào Hang Trú Ẩn."'
+        )
+
+    # 5. Starvation Alert / Critical Hunger
+    if "starvation" in s_lower or "hunger" in s_lower or "đói" in s_lower:
+        if "bush_north_amount: 0" in prompt.lower() or "cạn" in s_lower or "depleted" in s_lower:
+            return (
+                'ACTION: FORAGE_BERRY target=bush_west x=260 y=230\n'
+                'COMMUNICATE [INFORM]: "Báo động đói: Bụi Bắc đã cạn. Chỉ thị bầy đàn di chuyển sang Bụi Tây [260, 230] kiếm ăn khẩn cấp."'
+            )
+        return (
+            'ACTION: FORAGE_BERRY target=bush_north x=580 y=140\n'
+            'COMMUNICATE [INFORM]: "Báo động đói: Bầy đàn di chuyển đến Bụi Dâu Bắc [580, 140] bổ sung calo."'
+        )
+
+    # 6. Default Periodic Strategic Routine / Nominal
+    return (
+        'ACTION: REST_COLONY target=burrow x=320 y=520\n'
+        'COMMUNICATE [INFORM]: "Chỉ thị danh định: Bầy đàn duy trì trật tự và tuần tra an toàn."'
+    )
+
+
+def _setup_kernel_instance(kernel: MongNhiemKernel) -> MongNhiemKernel:
+    """Configures contextual domain reasoning for MockBackend in Living World demo."""
+    if isinstance(kernel.backend, MockBackend):
+        kernel.backend.response_fn = living_world_slm_reasoning_fn
+    return kernel
+
+
 def get_kernel() -> MongNhiemKernel:
     """Returns or lazily initializes the singleton MongNhiemKernel instance."""
     global _KERNEL_INSTANCE
@@ -42,6 +109,7 @@ def get_kernel() -> MongNhiemKernel:
         if not SCHEMA_PATH.exists():
             raise FileNotFoundError(f"Living World Schema not found at {SCHEMA_PATH}")
         _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH))
+        _setup_kernel_instance(_KERNEL_INSTANCE)
     return _KERNEL_INSTANCE
 
 
@@ -49,6 +117,7 @@ def reset_kernel() -> MongNhiemKernel:
     """Re-initializes kernel from schema, resetting all runtime state."""
     global _KERNEL_INSTANCE
     _KERNEL_INSTANCE = MongNhiemKernel.from_schema(str(SCHEMA_PATH))
+    _setup_kernel_instance(_KERNEL_INSTANCE)
     return _KERNEL_INSTANCE
 
 
