@@ -35,6 +35,17 @@ SCHEMA_PATH = DEMO_DIR / "schema" / "living_world.json"
 SLM_ENDPOINT = os.environ.get("SLM_ENDPOINT", "http://127.0.0.1:18505")
 
 _KERNEL_INSTANCE: MongNhiemKernel | None = None
+TIMELINE_LOG: list[dict[str, Any]] = []
+MAX_TIMELINE_ENTRIES = 200
+
+
+def record_timeline_event(event: dict[str, Any]) -> dict[str, Any]:
+    """Records an authoritative timeline event in rolling memory buffer."""
+    global TIMELINE_LOG
+    TIMELINE_LOG.append(event)
+    if len(TIMELINE_LOG) > MAX_TIMELINE_ENTRIES:
+        TIMELINE_LOG.pop(0)
+    return event
 
 
 def check_llama_server_online(endpoint: str = SLM_ENDPOINT) -> bool:
@@ -260,7 +271,15 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self) -> None:
-        """Routes API status or serves static Canvas dashboard assets."""
+        """Routes API status, timeline, or serves static Canvas dashboard assets."""
+        if self.path == "/api/timeline" or self.path.startswith("/api/timeline?"):
+            self._send_json_response({
+                "success": True,
+                "total": len(TIMELINE_LOG),
+                "events": list(reversed(TIMELINE_LOG)),
+            })
+            return
+
         if self.path == "/api/status" or self.path.startswith("/api/status?"):
             kernel = get_kernel()
             snapshot = {name: kernel.state_engine.get_variable(name) for name in kernel.state_engine.variables}
@@ -324,6 +343,15 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
 
             backend_cls = kernel.backend.__class__.__name__
             is_neural = "LlamaServer" in backend_cls
+            record_timeline_event({
+                "tick": result.tick,
+                "time": "SLM Step",
+                "badge": "🧠 QWEN-3.5-2B SLM" if is_neural else "SLM INFERENCE",
+                "badge_class": "slm",
+                "title": f"Action: {result.action_verb}",
+                "body": result.comm_message or result.raw_output,
+                "reason": f"Grammar Valid: comm_class={result.comm_class.value}",
+            })
             self._send_json_response({
                 "success": True,
                 "tick": result.tick,
@@ -389,6 +417,19 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
                 "standby_reason": kernel.human_bridge.standby_reason,
             })
 
+        elif endpoint == "/api/timeline":
+            ev = {
+                "tick": payload.get("tick", 0),
+                "time": payload.get("time", ""),
+                "badge": payload.get("badge", "EVENT"),
+                "badge_class": payload.get("badgeClass") or payload.get("badge_class", "slm"),
+                "title": payload.get("title", ""),
+                "body": payload.get("body", ""),
+                "reason": payload.get("reason"),
+            }
+            record_timeline_event(ev)
+            self._send_json_response({"success": True, "recorded": ev})
+
         elif endpoint == "/api/reset":
             # 4. Clean State Reset
             reset_kernel()
@@ -408,6 +449,7 @@ def run_server() -> None:
         print(f" Dashboard URL:  {url}")
         print(f" Status API:     http://localhost:{PORT}/api/status")
         print(f" Step API:       http://localhost:{PORT}/api/step")
+        print(f" Timeline API:   http://localhost:{PORT}/api/timeline")
         print(f" Lookahead API:  http://localhost:{PORT}/api/verify_lookahead")
         print(f" Zero external dependencies. 100% Python Standard Library.")
         print(f" Press Ctrl+C to terminate.")

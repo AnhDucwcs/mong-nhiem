@@ -1714,6 +1714,22 @@
         ${ev.reason ? `<div class="card-reason">&Delta;Check: ${ev.reason}</div>` : ''}
       `;
       feed.prepend(card);
+
+      if (isKernelOnline) {
+        fetch(`${API_BASE}/api/timeline`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tick: worldTick,
+            time: new Date().toLocaleTimeString(),
+            badge: ev.badge,
+            badgeClass: ev.badgeClass,
+            title: ev.title,
+            body: ev.body,
+            reason: ev.reason || null
+          })
+        }).catch(() => {});
+      }
     }
 
     // --- Dynamic Inspector Panel UI ---
