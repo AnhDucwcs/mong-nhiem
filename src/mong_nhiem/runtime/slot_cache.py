@@ -147,8 +147,10 @@ class SlotCacheManager:
             "id_slot": slot_id,
             "cache_prompt": use_cache,
             "temperature": temperature,
+            "repeat_penalty": 1.25,
+            "repeat_last_n": 32,
             "n_predict": max_tokens,
-            "stop": stop or [],
+            "stop": list(set((stop or []) + ["\n\n", "<|im_end|>", "\n[SYSTEM:"])),
         }
         if grammar:
             payload["grammar"] = grammar

@@ -2241,6 +2241,24 @@
       return newLeader;
     }
 
+    function sanitizeCommMessage(msg) {
+      if (!msg) return '';
+      // Strip consecutive duplicates or degenerative loops like "I am tired. I am tired."
+      const sentences = msg.split(/(?<=[.!?])\s+/);
+      const seen = new Set();
+      const clean = [];
+      for (const s of sentences) {
+        const trimmed = s.trim();
+        if (!trimmed) continue;
+        const key = trimmed.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          clean.push(trimmed);
+        }
+      }
+      return clean.length > 0 ? clean.join(' ') : msg;
+    }
+
     // --- Unified SLM Reasoning & Directive Dispatcher ---
     async function triggerSLMReasoning(triggerType, contextDetails = {}) {
       if (scoutEpistemic.isReasoning) return;
@@ -2318,7 +2336,14 @@
           }
 
           // Verify Trajectory Lookahead
-          const dest = targetCoords || { x: 260, y: 230 };
+          let dest = targetCoords || { x: 260, y: 230 };
+          if (stepData.action_params && stepData.action_params.x && stepData.action_params.y) {
+            const px = parseFloat(stepData.action_params.x);
+            const py = parseFloat(stepData.action_params.y);
+            if (!isNaN(px) && !isNaN(py) && px > 40 && px < 960 && py > 40 && py < 580) {
+              dest = { x: px, y: py };
+            }
+          }
           const dx = (dest.x - leader.x) / 4;
           const dy = (dest.y - leader.y) / 4;
           const proposedWaypoints = [
@@ -2347,11 +2372,12 @@
 
             const isNeural = stepData.is_neural;
             const modelBadge = isNeural ? '🧠 QWEN-3.5-2B SLM' : reasonBadge;
+            const cleanCommMsg = sanitizeCommMessage(stepData.comm_message);
             addTimelineEvent({
               badge: modelBadge,
               badgeClass: 'slm',
               title: `${leader.name}: ${actionSummary} (${isNeural ? 'Qwen-2B Neural Inference' : 'SLM 142 tokens'})`,
-              body: `${stepData.comm_message || actionSummary}. Phê duyệt quỹ đạo Lookahead: ${lookaheadReason}`,
+              body: `${cleanCommMsg || actionSummary}. Phê duyệt quỹ đạo Lookahead: ${lookaheadReason}`,
               reason: `SLM Action: ${stepData.action_verb || 'MOVE_TO'} -> target [${dest.x}, ${dest.y}] (Lookahead d_min=${lookahead ? lookahead.min_distance : 999}px)`
             });
           } else {

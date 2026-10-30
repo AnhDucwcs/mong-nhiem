@@ -457,7 +457,10 @@ class MongNhiemKernel:
             f"[SYSTEM: {self.schema.schema_name}]\n"
             f"State: {state_repr}\n"
             f"Stimulus: {stimulus or 'Nominal tick'}\n"
-            f"Instruction: Emit single-pass ACTION and COMMUNICATE act.\n"
+            f"Instruction: Emit a single-pass ACTION and a short 1-sentence COMMUNICATE statement.\n"
+            f"Example:\n"
+            f"ACTION: MOVE_TO target=meadow x=450 y=300\n"
+            f"COMMUNICATE [INFORM]: \"Area secure. Patrol continues.\"\n"
         )
 
     def record_agent_standby(self, agent_id: str, waiting_for: str) -> bool:
