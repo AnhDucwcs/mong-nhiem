@@ -1134,68 +1134,68 @@
     let simSpeed = 1;
     let worldTick = 142;
 
-    // --- World Elements Data (Centered, Balanced & Populated Biome) ---
+    // --- World Elements Data (Expanded Viewport Layout for Observability) ---
 
     // 1. Terrain: Rock Formations with Distinct Sizes & Shapes (Vật cản tự nhiên đa dạng)
     const rocks = [
-      { id: 'rock_ridge_nw', type: 'rock', x: 275, y: 130, rx: 65, ry: 36, angle: 0.38, label: 'Rặng Đá Tây Bắc (Khổng Lồ)' },
-      { id: 'rock_ridge_ne', type: 'rock', x: 740, y: 140, rx: 50, ry: 19, angle: -0.32, label: 'Rặng Đá Đông Bắc (Dài Hẹp)' },
-      { id: 'rock_ridge_w', type: 'rock', x: 130, y: 360, rx: 36, ry: 34, angle: 0.1, label: 'Khối Đá Tròn Phía Tây' },
-      { id: 'rock_ridge_se_main', type: 'rock', x: 750, y: 590, rx: 54, ry: 26, angle: 0.18, label: 'Rặng Đá Đông Nam Chính' },
-      { id: 'rock_outcrop_se', type: 'rock', x: 815, y: 450, rx: 32, ry: 19, angle: 0.42, label: 'Mỏm Đá Nhọn Đông Nam' },
-      { id: 'rock_boulder_se', type: 'rock', x: 845, y: 620, rx: 27, ry: 22, angle: -0.35, label: 'Tảng Đá Mép Đông Nam' },
-      { id: 'rock_pebble_se', type: 'rock', x: 670, y: 515, rx: 20, ry: 17, angle: 0.5, label: 'Mỏm Đá Cuội Phía Đông' }
+      { id: 'rock_ridge_nw', type: 'rock', x: 340, y: 110, rx: 65, ry: 36, angle: 0.38, label: 'Rặng Đá Tây Bắc' },
+      { id: 'rock_ridge_ne', type: 'rock', x: 860, y: 130, rx: 55, ry: 20, angle: -0.32, label: 'Rặng Đá Đông Bắc (Lãnh Địa Sói)' },
+      { id: 'rock_ridge_w', type: 'rock', x: 90, y: 380, rx: 36, ry: 34, angle: 0.1, label: 'Khối Đá Tròn Phía Tây' },
+      { id: 'rock_ridge_se_main', type: 'rock', x: 900, y: 610, rx: 54, ry: 26, angle: 0.18, label: 'Rặng Đá Đông Nam Chính' },
+      { id: 'rock_outcrop_se', type: 'rock', x: 970, y: 490, rx: 32, ry: 19, angle: 0.42, label: 'Mỏm Đá Nhọn Đông Nam' },
+      { id: 'rock_boulder_se', type: 'rock', x: 1010, y: 620, rx: 27, ry: 22, angle: -0.35, label: 'Tảng Đá Mép Đông Nam' },
+      { id: 'rock_pebble_se', type: 'rock', x: 780, y: 480, rx: 20, ry: 17, angle: 0.5, label: 'Mỏm Đá Cuội Phía Đông' }
     ];
 
     // 2. Terrain: Rabbit Burrow Sanctuary (Hang thỏ trú ẩn thu nhỏ)
     const burrow = {
       id: 'burrow_sanctuary',
       type: 'burrow',
-      x: 320,
-      y: 520,
-      radius: 32,
-      entranceRadius: 11,
+      x: 200,
+      y: 560,
+      radius: 34,
+      entranceRadius: 12,
       capacity: 16,
       occupants: 0,
       foodStored: 45,
-      label: 'Hang Thỏ Trú Ẩn'
+      label: 'Hang Thỏ Trú Ẩn (Tây Nam)'
     };
 
     // 3. Terrain: Grazing Meadows across Biome (Đồng cỏ gặm nhấm mở rộng)
     const meadows = [
-      { id: 'meadow_central', type: 'meadow', x: 520, y: 360, radius: 175, grassLevel: 80, label: 'Bãi Cỏ Ven Hồ' },
-      { id: 'meadow_south', type: 'meadow', x: 540, y: 550, radius: 90, grassLevel: 90, label: 'Đồng Cỏ Phía Nam' },
-      { id: 'meadow_ne', type: 'meadow', x: 760, y: 260, radius: 85, grassLevel: 85, label: 'Đồng Cỏ Đông Bắc' },
-      { id: 'meadow_west', type: 'meadow', x: 190, y: 300, radius: 80, grassLevel: 75, label: 'Đồng Cỏ Phía Tây' }
+      { id: 'meadow_central', type: 'meadow', x: 580, y: 380, radius: 190, grassLevel: 80, label: 'Bãi Cỏ Ven Hồ' },
+      { id: 'meadow_south', type: 'meadow', x: 500, y: 610, radius: 95, grassLevel: 90, label: 'Đồng Cỏ Phía Nam' },
+      { id: 'meadow_ne', type: 'meadow', x: 880, y: 250, radius: 90, grassLevel: 85, label: 'Đồng Cỏ Đông Bắc' },
+      { id: 'meadow_west', type: 'meadow', x: 170, y: 310, radius: 95, grassLevel: 75, label: 'Đồng Cỏ Phía Tây' }
     ];
 
     // 4. Resources: Food & Water across Biome Quadrants
     const resources = [
-      { id: 'berry_north', type: 'berry', x: 520, y: 140, radius: 42, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
-      { id: 'berry_east', type: 'berry', x: 770, y: 370, radius: 44, amount: 100, max: 100, label: 'Bụi Dâu Đông' },
-      { id: 'berry_west', type: 'berry', x: 260, y: 230, radius: 40, amount: 100, max: 100, label: 'Bụi Dâu Tây' },
-      { id: 'berry_south', type: 'berry', x: 390, y: 560, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Nam' },
-      { id: 'water_pond', type: 'water', x: 520, y: 360, radius: 105, amount: 300, max: 300, label: 'Hồ Nước Trung Tâm' }
+      { id: 'berry_north', type: 'berry', x: 580, y: 100, radius: 44, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
+      { id: 'berry_east', type: 'berry', x: 960, y: 390, radius: 44, amount: 100, max: 100, label: 'Bụi Dâu Đông' },
+      { id: 'berry_west', type: 'berry', x: 160, y: 240, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Tây' },
+      { id: 'berry_south', type: 'berry', x: 480, y: 640, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Nam' },
+      { id: 'water_pond', type: 'water', x: 580, y: 380, radius: 105, amount: 300, max: 300, label: 'Hồ Nước Trung Tâm' }
     ];
 
     // 5. Thickets: Dense Forest Canopy & Bush Cover across Quadrants (Bổ sung lùm cây Đông Nam)
     const thickets = [
-      { id: 'thicket_north', type: 'thicket', x: 390, y: 110, radius: 46, label: 'Lùm Cây Phía Bắc', stealthBonus: 0.8 },
-      { id: 'thicket_west', type: 'thicket', x: 210, y: 360, radius: 52, label: 'Lùm Cây Phía Tây (Cover)', stealthBonus: 0.8 },
-      { id: 'thicket_southeast', type: 'thicket', x: 730, y: 470, radius: 42, label: 'Lùm Cây Đông Nam (Cover)', stealthBonus: 0.8 },
-      { id: 'thicket_se_cluster', type: 'thicket', x: 850, y: 535, radius: 38, label: 'Bụi Cây Mép Đông Nam', stealthBonus: 0.85 },
-      { id: 'thicket_south_edge', type: 'thicket', x: 650, y: 615, radius: 34, label: 'Bụi Cây Ven Nam', stealthBonus: 0.75 },
-      { id: 'thicket_northeast', type: 'thicket', x: 860, y: 140, radius: 44, label: 'Lùm Cây Đông Bắc', stealthBonus: 0.8 }
+      { id: 'thicket_north', type: 'thicket', x: 430, y: 90, radius: 46, label: 'Lùm Cây Phía Bắc', stealthBonus: 0.8 },
+      { id: 'thicket_west', type: 'thicket', x: 140, y: 400, radius: 52, label: 'Lùm Cây Phía Tây (Cover)', stealthBonus: 0.8 },
+      { id: 'thicket_southwest', type: 'thicket', x: 150, y: 600, radius: 44, label: 'Lùm Cây Cửa Hang (Cover)', stealthBonus: 0.85 },
+      { id: 'thicket_southeast', type: 'thicket', x: 880, y: 510, radius: 44, label: 'Lùm Cây Đông Nam (Cover)', stealthBonus: 0.8 },
+      { id: 'thicket_se_cluster', type: 'thicket', x: 1000, y: 540, radius: 38, label: 'Bụi Cây Mép Đông Nam', stealthBonus: 0.85 },
+      { id: 'thicket_northeast', type: 'thicket', x: 980, y: 190, radius: 44, label: 'Lùm Cây Đông Bắc', stealthBonus: 0.8 }
     ];
 
     // 6. Herbs: Wild Dandelion & Medicinal Flora (Hồi phục năng lượng cao tốc)
     const herbs = [
-      { id: 'herb_grove', type: 'herb', x: 560, y: 540, radius: 36, amount: 80, max: 80, label: 'Vạt Bồ Công Anh Dược Liệu' }
+      { id: 'herb_grove', type: 'herb', x: 760, y: 580, radius: 36, amount: 80, max: 80, label: 'Vạt Bồ Công Anh Dược Liệu' }
     ];
 
     // 7. Landmarks: Wolf Territorial Landmark (Cột mốc cảnh báo nguy hiểm)
     const landmarks = [
-      { id: 'landmark_wolf_den', type: 'landmark', x: 910, y: 130, radius: 26, label: 'Cột Mốc Lãnh Thổ Sói' }
+      { id: 'landmark_wolf_den', type: 'landmark', x: 1020, y: 120, radius: 26, label: 'Cột Mốc Lãnh Thổ Sói (Đông Bắc)' }
     ];
 
     // 8. Hazards: (Removed as requested)
@@ -1244,10 +1244,10 @@
       const isLeader = (i === 0);
       let rx, ry;
       while (true) {
-        rx = 520 + (Math.random() - 0.5) * 320;
-        ry = 390 + (Math.random() - 0.5) * 260;
-        // Ensure rabbits spawn on dry pasture, strictly outside the pond basin
-        if (Math.hypot(rx - 520, ry - 360) > 115) break;
+        rx = 240 + (Math.random() - 0.5) * 180;
+        ry = 530 + (Math.random() - 0.5) * 140;
+        // Ensure rabbits spawn on dry pasture near burrow
+        if (Math.hypot(rx - 580, ry - 380) > 120 && rx > 50 && ry > 50) break;
       }
       entities.push({
         id: `r_${i + 1}`,
@@ -1283,8 +1283,8 @@
       name: 'Wolf #01 (Dã Thú)',
       type: 'wolf',
       role: 'Apex Predator',
-      x: 820,
-      y: 260,
+      x: 980,
+      y: 160,
       vx: -0.6,
       vy: 0.4,
       radius: 8.5,
@@ -1296,6 +1296,7 @@
       scentDetectionRadius: 240,
       patrolAngle: 0,
       state: 'PATROL',
+      eatTimer: 0,
       sprintsRemaining: 3,
       sprintDuration: 0,
       isExhausted: false,
@@ -1597,13 +1598,13 @@
       const wolf = entities.find(e => e.type === 'wolf');
       const scout = entities[0];
       if (wolf && scout) {
-        wolf.x = 620;
-        wolf.y = 280;
-        wolf.vx = -4.0;
-        wolf.vy = 2.0;
+        wolf.x = 780;
+        wolf.y = 260;
+        wolf.vx = -3.5;
+        wolf.vy = 1.5;
 
         // Scout proposes 4-step path crossing through NE rocks toward foraging
-        const crossingWaypoints = [[560, 320], [600, 300], [640, 280], [680, 260]];
+        const crossingWaypoints = [[700, 290], [740, 270], [780, 250], [820, 230]];
         const lookahead = await callVerifyLookahead(
           crossingWaypoints,
           [wolf.x, wolf.y],
@@ -1769,6 +1770,9 @@
           if (obj.isSheltered) {
             sprintInfo.textContent = '🛡️ Đang trú ẩn an toàn dưới lòng đất (Sói không thể vào)';
             sprintInfo.style.color = 'var(--emerald)';
+          } else if (obj.state === 'EATING') {
+            sprintInfo.textContent = '🥩 Đang ăn mồi: Dừng săn đuổi, tiêu hóa năng lượng (No nê)';
+            sprintInfo.style.color = 'var(--amber)';
           } else if (obj.state === 'REST') {
             sprintInfo.textContent = (obj.hunger < 60) ? '💤 Đang nghỉ ngơi: Hồi phục năng lượng (+0.14%/tick)' : '⚠️ Đói bụng: Không thể hồi phục năng lượng!';
             sprintInfo.style.color = (obj.hunger < 60) ? 'var(--emerald)' : 'var(--rose)';
@@ -1792,6 +1796,10 @@
             stateBadge.textContent = '🛡️ TRONG HANG TRÚ ẨN';
             stateBadge.style.color = 'var(--emerald)';
             stateBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+          } else if (obj.state === 'EATING') {
+            stateBadge.textContent = '🥩 ĐANG ĂN MỒI (NO NÊ)';
+            stateBadge.style.color = '#f59e0b';
+            stateBadge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
           } else if (obj.state === 'REST') {
             stateBadge.textContent = '💤 ĐANG NGHỈ NGƠI';
             stateBadge.style.color = '#38bdf8';
@@ -2293,37 +2301,37 @@
 
       if (triggerType === 'SURPRISE_SPIKE') {
         stimulus = `Surprise Spike: Berry Bush North depleted to 0u (Scout belief was ${scoutEpistemic.rememberedNorthBerry}u). Delta = 80u > 30u!`;
-        targetCoords = { x: 260, y: 230 };
-        actionSummary = 'Bụi Bắc cạn kiệt (0u). Chuyển hướng bầy sang Bụi Tây [260, 230]';
+        targetCoords = { x: 160, y: 240 };
+        actionSummary = 'Bụi Bắc cạn kiệt (0u). Chuyển hướng bầy sang Bụi Tây [160, 240]';
       } else if (triggerType === 'STARVATION_ALERT') {
         const avgH = contextDetails.avgHunger || leader.hunger;
         const northAmount = northBerry ? northBerry.amount : 0;
         if (northAmount > 15) {
           stimulus = `Colony Starvation Alert: Average colony hunger is ${avgH.toFixed(1)}% (Leader hunger: ${leader.hunger.toFixed(1)}%). Berry bush north available (${northAmount.toFixed(0)}u).`;
-          targetCoords = { x: 580, y: 140 };
-          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy gặm Bụi Bắc [580, 140]';
+          targetCoords = { x: 580, y: 100 };
+          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy gặm Bụi Bắc [580, 100]';
         } else if (westBerry && westBerry.amount > 10) {
           stimulus = `Colony Starvation Alert: Average colony hunger is ${avgH.toFixed(1)}% (Leader hunger: ${leader.hunger.toFixed(1)}%). Bush north depleted: 0u. Direct to west bush.`;
-          targetCoords = { x: 260, y: 230 };
-          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy sang Bụi Tây [260, 230]';
+          targetCoords = { x: 160, y: 240 };
+          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy sang Bụi Tây [160, 240]';
         } else if (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount > 5) {
-          stimulus = `Colony Starvation Alert: Berry bushes low. Directing colony to Dandelion Grove [480, 520].`;
-          targetCoords = { x: 480, y: 520 };
-          actionSummary = 'Đói khẩn cấp (>60%): Chuyển hướng Vườn Dược Liệu [480, 520]';
+          stimulus = `Colony Starvation Alert: Berry bushes low. Directing colony to Dandelion Grove [760, 580].`;
+          targetCoords = { x: 760, y: 580 };
+          actionSummary = 'Đói khẩn cấp (>60%): Chuyển hướng Vườn Dược Liệu [760, 580]';
         } else {
           stimulus = `Colony Starvation Alert: Total Famine. All food depleted to 0u. Shelter in burrow to hibernate and preserve energy.`;
-          targetCoords = { x: 320, y: 520 };
+          targetCoords = { x: 200, y: 560 };
           actionSummary = 'Nạn đói: Rút về Hang Trú Ẩn ngủ đông bảo toàn calo';
         }
         reasonBadge = 'SLM ĐIỀU HƯỚNG BẦY ĐÀN';
       } else if (triggerType === 'SUCCESSION') {
         stimulus = `Alpha Scout Succession: ${leader.name} assumed leadership after ${contextDetails.oldLeader || 'predecessor'}. Rallying colony.`;
-        targetCoords = { x: 320, y: 500 };
+        targetCoords = { x: 200, y: 540 };
         actionSummary = 'Tân Alpha Scout tập hợp bầy quanh Hang Trú Ẩn';
         reasonBadge = 'SLM KẾ THỪA BẦY ĐÀN';
       } else if (triggerType === 'STRATEGIC_REVIEW') {
         stimulus = `Periodic Strategic Review: World Tick ${worldTick}. Colony size: ${entities.filter(e => e.type === 'rabbit').length}. Safety & resource assessment.`;
-        targetCoords = { x: 460, y: 300 };
+        targetCoords = { x: 500, y: 320 };
         actionSummary = 'Đánh giá chiến lược định kỳ: Tuần tra bầy đàn an toàn';
         reasonBadge = 'SLM CHIẾN LƯỢC ĐỊNH KỲ';
       }
@@ -2589,6 +2597,30 @@
           }
         }
 
+        // Active Feeding / Satiation Cooldown State (Đang ăn mồi sau khi vồ thành công thỏ)
+        if (wolf.state === 'EATING') {
+          wolf.vx *= 0.40;
+          wolf.vy *= 0.40;
+          wolf.energy = 100;
+          wolf.hunger = 0;
+          wolf.eatTimer = (wolf.eatTimer !== undefined ? wolf.eatTimer : 140) - 1;
+          if (wolf.eatTimer <= 0) {
+            wolf.state = 'PATROL';
+            wolf.eatTimer = 0;
+            addTimelineEvent({
+              badge: 'SINH THÁI TỰ NHIÊN',
+              badgeClass: 'slm',
+              title: `${wolf.name} đã ăn no nê xong!`,
+              body: 'Dã thú kết thúc bữa ăn, phục hồi thể lực và quay trở lại tuần tra lãnh thổ.',
+              reason: 'WolfFeeding: Satiation cooldown expired (140 ticks), resume territorial patrol'
+            });
+          }
+          // Slow inertia movement and skip hunting target evaluation
+          wolf.x += wolf.vx;
+          wolf.y += wolf.vy;
+          continue;
+        }
+
         // Olfactory & Visual Target Evaluation with Dynamic Sensory Expansion when Hungry
         let bestTarget = null;
         let bestScore = -9999;
@@ -2671,14 +2703,14 @@
           let targetX, targetY;
           if (wolf.hunger > 50) {
             // Hungry predator dynamically sweeps across grasslands & lake perimeter
-            targetX = 560 + Math.cos(wolf.patrolAngle) * 260;
-            targetY = 340 + Math.sin(wolf.patrolAngle * 0.8) * 170;
+            targetX = 620 + Math.cos(wolf.patrolAngle) * 280;
+            targetY = 360 + Math.sin(wolf.patrolAngle * 0.8) * 180;
           } else {
-            // Satiated wolf stays near its territorial rock ridge/den
-            const homeX = 760 + ((i % 2) * 50);
-            const homeY = 220 + ((i % 2) * 60);
-            targetX = homeX + Math.cos(wolf.patrolAngle) * 75;
-            targetY = homeY + Math.sin(wolf.patrolAngle) * 55;
+            // Satiated wolf stays near its territorial rock ridge/den in Northeast
+            const homeX = 920 + ((i % 2) * 50);
+            const homeY = 180 + ((i % 2) * 60);
+            targetX = homeX + Math.cos(wolf.patrolAngle) * 85;
+            targetY = homeY + Math.sin(wolf.patrolAngle) * 65;
           }
           wolf.vx += ((targetX - wolf.x) * 0.014);
           wolf.vy += ((targetY - wolf.y) * 0.014);
@@ -2771,7 +2803,10 @@
                 wolf.health = Math.min(100, wolf.health + 25);
                 wolf.killCount = (wolf.killCount || 0) + 1;
                 wolf.targetRabbit = null;
-                wolf.state = 'PATROL';
+                wolf.state = 'EATING';
+                wolf.eatTimer = 140; // 7 seconds eating cooldown @ 20 ticks/s
+                wolf.vx = 0;
+                wolf.vy = 0;
 
                 const remainingRabbits = entities.filter(e => e.type === 'rabbit').length;
                 document.getElementById('kpi-rabbits').textContent = `${remainingRabbits} con`;
@@ -2780,8 +2815,8 @@
                   badge: 'MỘNG NHIỄM TELEMETRY',
                   badgeClass: 'gated',
                   title: `Sói vồ bắt thành công ${victimName}!`,
-                  body: `Khu vực: [${bestTarget.x.toFixed(0)}, ${bestTarget.y.toFixed(0)}]. Thỏ đổi hướng né tránh không kịp do cự ly vồ mồi quá gần. Quần thể thỏ còn ${remainingRabbits} con.`,
-                  reason: `PredationEvent: distance ${dist.toFixed(1)}px <= 16.0px (Lunge Catch)`
+                  body: `Khu vực: [${bestTarget.x.toFixed(0)}, ${bestTarget.y.toFixed(0)}]. Thỏ đổi hướng không kịp. Sói dừng lại ăn mồi trong 7s (Đàn thỏ còn ${remainingRabbits} con có cơ hội rút lui).`,
+                  reason: `PredationEvent: distance ${dist.toFixed(1)}px <= 16.0px (Lunge Catch -> State: EATING)`
                 });
 
                 if (wasLeader) {
@@ -2797,8 +2832,8 @@
                 if (wolf.killCount >= 2 && totalWolves < 4) {
                   wolf.killCount = 0;
                   const newWolfIdx = totalWolves + 1;
-                  const spawnX = (typeof landmarks !== 'undefined' && landmarks[0]) ? landmarks[0].x : 910;
-                  const spawnY = (typeof landmarks !== 'undefined' && landmarks[0]) ? landmarks[0].y : 130;
+                  const spawnX = (typeof landmarks !== 'undefined' && landmarks[0]) ? landmarks[0].x : 1020;
+                  const spawnY = (typeof landmarks !== 'undefined' && landmarks[0]) ? landmarks[0].y : 120;
                   entities.push({
                     id: `wolf_${newWolfIdx}`,
                     name: `Wolf #${String(newWolfIdx).padStart(2, '0')} (Sói Đàn Mới)`,
@@ -2997,13 +3032,13 @@
           }
         }
 
-        const directThreat = (nearestWolf && minWolfDist <= alertDist);
+        const directThreat = (nearestWolf && minWolfDist <= alertDist && nearestWolf.state !== 'EATING');
 
-        // Acoustic Foot-Thumping Alarm: if another rabbit within 135px is fleeing, alert this rabbit
+        // Acoustic Foot-Thumping Alarm: if any other surface rabbit within 140px is fleeing, alert this rabbit
         let heardFlockAlarm = false;
-        if (!directThreat && nearestWolf && minWolfDist <= 190) {
+        if (!directThreat) {
           for (const other of currentRabbits) {
-            if (other !== ent && !other.isSheltered && other.state === 'FLEE' && Math.hypot(other.x - ent.x, other.y - ent.y) < 135) {
+            if (other !== ent && !other.isSheltered && other.state === 'FLEE' && Math.hypot(other.x - ent.x, other.y - ent.y) < 140) {
               heardFlockAlarm = true;
               break;
             }
@@ -3271,8 +3306,8 @@
             if (pond) forageTarget = pond;
           } else if (ent.hunger > 18) {
             // Priority 2: Active Foraging -> Find un-depleted berry bushes or dandelion grove
-            // When hungry (hunger > 35 / satiety < 65%), search range dynamically expands across the entire biome!
-            const maxForageScanDist = (ent.hunger > 35) ? 9999 : 250;
+            // Alpha Scout has broad strategic scanning range; followers only scan local area (190px) and rely on flock cohesion
+            const maxForageScanDist = ent.isLeader ? 9999 : (ent.perceptionRadius + 95);
             let bestForageScore = -9999;
 
             for (const r of resources) {
@@ -3343,17 +3378,17 @@
                 const toTx = targetX - ent.x;
                 const toTy = targetY - ent.y;
                 const distT = Math.hypot(toTx, toTy);
-                if (distT > 38) {
-                  ent.vx += (toTx / distT) * 0.11;
-                  ent.vy += (toTy / distT) * 0.11;
+                if (distT > 35) {
+                  ent.vx += (toTx / distT) * 0.14;
+                  ent.vy += (toTy / distT) * 0.14;
                 }
               } else {
                 const toLx = leader.x - ent.x;
                 const toLy = leader.y - ent.y;
                 const dist = Math.hypot(toLx, toLy);
-                if (dist > 95) {
-                  ent.vx += (toLx / dist) * 0.08;
-                  ent.vy += (toLy / dist) * 0.08;
+                if (dist > 75) {
+                  ent.vx += (toLx / dist) * 0.12;
+                  ent.vy += (toLy / dist) * 0.12;
                 }
               }
             }
@@ -3372,6 +3407,21 @@
                 scoutEpistemic.currentColonyDirective = 'Đã đến điểm tập kết (Danh định)';
                 const dirElem = document.getElementById('kpi-slm-directive');
                 if (dirElem) dirElem.textContent = 'Đã đến điểm tập kết';
+              }
+            }
+          }
+        }
+
+        // Boids Separation: Conspecific repulsion to prevent overcrowding
+        if (!ent.isSheltered) {
+          for (const other of currentRabbits) {
+            if (other !== ent && !other.isSheltered) {
+              const dxO = ent.x - other.x;
+              const dyO = ent.y - other.y;
+              const distO = Math.hypot(dxO, dyO);
+              if (distO < 14 && distO > 0.001) {
+                ent.vx += (dxO / distO) * 0.15;
+                ent.vy += (dyO / distO) * 0.15;
               }
             }
           }
@@ -3948,6 +3998,13 @@
             ctx.fillStyle = isDark ? '#f43f5e' : '#e11d48';
             ctx.textAlign = 'center';
             ctx.fillText('⚡0', ent.x, ent.y - ent.radius - 4);
+            ctx.restore();
+          } else if (ent.type === 'wolf' && ent.state === 'EATING') {
+            ctx.save();
+            ctx.font = 'bold 9px "Fira Code", monospace';
+            ctx.fillStyle = '#f59e0b';
+            ctx.textAlign = 'center';
+            ctx.fillText('🥩 ĂN MỒI', ent.x, ent.y - ent.radius - 4);
             ctx.restore();
           }
 

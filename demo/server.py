@@ -74,28 +74,28 @@ def living_world_slm_reasoning_fn(prompt: str) -> str:
     # 1. Epistemic Surprise Spike (Belief 80u != GT 0u)
     if "surprise spike" in s_lower or "bất đối xứng" in s_lower or "delta" in s_lower:
         return (
-            'ACTION: MOVE_TO target=bush_west x=260 y=230\n'
-            'COMMUNICATE [INFORM]: "Bất đối xứng nhận thức: Bụi Bắc đã cạn (0u). Chuyển hướng toàn bầy sang Bụi Tây [260, 230]."'
+            'ACTION: MOVE_TO target=bush_west x=160 y=240\n'
+            'COMMUNICATE [INFORM]: "Bất đối xứng nhận thức: Bụi Bắc đã cạn (0u). Chuyển hướng toàn bầy sang Bụi Tây [160, 240]."'
         )
 
     # 2. Succession (New Alpha Scout assumption)
     if "succession" in s_lower or "kế thừa" in s_lower:
         return (
-            'ACTION: MOVE_TO target=burrow x=320 y=520\n'
+            'ACTION: MOVE_TO target=burrow x=200 y=560\n'
             'COMMUNICATE [INFORM]: "Tân Alpha Scout tiếp quản quyền điều hướng. Tái tập hợp bầy đàn quanh Hang Trú Ẩn."'
         )
 
     # 3. Total Famine (All food depleted)
     if "total famine" in s_lower or "all food depleted" in s_lower or "nạn đói" in s_lower:
         return (
-            'ACTION: SHELTER_BURROW target=burrow x=320 y=520\n'
+            'ACTION: SHELTER_BURROW target=burrow x=200 y=560\n'
             'COMMUNICATE [INFORM]: "Nạn đói diện rộng: Tất cả nguồn lương thực đã cạn. Toàn bầy vào hang ngủ đông tiết kiệm năng lượng."'
         )
 
     # 4. Predator proximity / ambush
     if "predator ambush" in s_lower or "sói phục kích" in s_lower or "sói vồ" in s_lower:
         return (
-            'ACTION: EMERGENCY_BURROW_EVAC target=burrow x=320 y=520\n'
+            'ACTION: EMERGENCY_BURROW_EVAC target=burrow x=200 y=560\n'
             'COMMUNICATE [INFORM:ALERT]: "Phát hiện thú săn trong cự ly nguy hiểm. Toàn bầy rút lui khẩn cấp vào Hang Trú Ẩn."'
         )
 
@@ -103,17 +103,17 @@ def living_world_slm_reasoning_fn(prompt: str) -> str:
     if "starvation" in s_lower or "hunger" in s_lower or "đói" in s_lower:
         if "bush_north_amount: 0" in prompt.lower() or "cạn" in s_lower or "depleted" in s_lower:
             return (
-                'ACTION: FORAGE_BERRY target=bush_west x=260 y=230\n'
-                'COMMUNICATE [INFORM]: "Báo động đói: Bụi Bắc đã cạn. Chỉ thị bầy đàn di chuyển sang Bụi Tây [260, 230] kiếm ăn khẩn cấp."'
+                'ACTION: FORAGE_BERRY target=bush_west x=160 y=240\n'
+                'COMMUNICATE [INFORM]: "Báo động đói: Bụi Bắc đã cạn. Chỉ thị bầy đàn di chuyển sang Bụi Tây [160, 240] kiếm ăn khẩn cấp."'
             )
         return (
-            'ACTION: FORAGE_BERRY target=bush_north x=580 y=140\n'
-            'COMMUNICATE [INFORM]: "Báo động đói: Bầy đàn di chuyển đến Bụi Dâu Bắc [580, 140] bổ sung calo."'
+            'ACTION: FORAGE_BERRY target=bush_north x=580 y=100\n'
+            'COMMUNICATE [INFORM]: "Báo động đói: Bầy đàn di chuyển đến Bụi Dâu Bắc [580, 100] bổ sung calo."'
         )
 
     # 6. Default Periodic Strategic Routine / Nominal
     return (
-        'ACTION: REST_COLONY target=burrow x=320 y=520\n'
+        'ACTION: REST_COLONY target=burrow x=200 y=560\n'
         'COMMUNICATE [INFORM]: "Chỉ thị danh định: Bầy đàn duy trì trật tự và tuần tra an toàn."'
     )
 
