@@ -1113,6 +1113,7 @@
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (typeof initWorldLayout === 'function') initWorldLayout();
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
@@ -1236,6 +1237,74 @@
     // 12. Scent / Pheromone Particle Trail
     const scentParticles = [];
 
+    // --- Dynamic Full-Viewport Responsive World Layout Engine ---
+    function initWorldLayout() {
+      const rect = container.getBoundingClientRect();
+      const W = Math.max(960, rect.width || 1350);
+      const H = Math.max(620, rect.height || 820);
+
+      // 1. Terrain: Rabbit Burrow Sanctuary (Far Southwest corner)
+      burrow.x = Math.round(W * 0.11);
+      burrow.y = Math.round(H * 0.87);
+
+      // 2. Landmarks: Wolf Den (Far Northeast corner)
+      if (landmarks[0]) {
+        landmarks[0].x = Math.round(W * 0.91);
+        landmarks[0].y = Math.round(H * 0.11);
+      }
+
+      // 3. Central Lake Basin
+      const pond = resources.find(r => r.type === 'water');
+      if (pond) {
+        pond.x = Math.round(W * 0.50);
+        pond.y = Math.round(H * 0.48);
+        pond.radius = Math.round(Math.min(135, Math.min(W, H) * 0.15));
+      }
+
+      // 4. Berry Bushes (Extremes of 4 cardinal directions)
+      const northB = resources.find(r => r.id === 'berry_north');
+      if (northB) { northB.x = Math.round(W * 0.50); northB.y = Math.round(H * 0.08); }
+
+      const eastB = resources.find(r => r.id === 'berry_east');
+      if (eastB) { eastB.x = Math.round(W * 0.92); eastB.y = Math.round(H * 0.52); }
+
+      const westB = resources.find(r => r.id === 'berry_west');
+      if (westB) { westB.x = Math.round(W * 0.09); westB.y = Math.round(H * 0.28); }
+
+      const southB = resources.find(r => r.id === 'berry_south');
+      if (southB) { southB.x = Math.round(W * 0.48); southB.y = Math.round(H * 0.92); }
+
+      // 5. Medicinal Herbs (Southeast Meadow)
+      if (typeof herbs !== 'undefined' && herbs[0]) {
+        herbs[0].x = Math.round(W * 0.74);
+        herbs[0].y = Math.round(H * 0.84);
+      }
+
+      // 6. Meadows
+      if (meadows[0]) { meadows[0].x = Math.round(W * 0.50); meadows[0].y = Math.round(H * 0.48); meadows[0].radius = Math.round(Math.min(W, H) * 0.24); }
+      if (meadows[1]) { meadows[1].x = Math.round(W * 0.48); meadows[1].y = Math.round(H * 0.88); }
+      if (meadows[2]) { meadows[2].x = Math.round(W * 0.86); meadows[2].y = Math.round(H * 0.24); }
+      if (meadows[3]) { meadows[3].x = Math.round(W * 0.12); meadows[3].y = Math.round(H * 0.32); }
+
+      // 7. Rocks
+      if (rocks[0]) { rocks[0].x = Math.round(W * 0.28); rocks[0].y = Math.round(H * 0.11); }
+      if (rocks[1]) { rocks[1].x = Math.round(W * 0.82); rocks[1].y = Math.round(H * 0.13); }
+      if (rocks[2]) { rocks[2].x = Math.round(W * 0.06); rocks[2].y = Math.round(H * 0.44); }
+      if (rocks[3]) { rocks[3].x = Math.round(W * 0.88); rocks[3].y = Math.round(H * 0.88); }
+      if (rocks[4]) { rocks[4].x = Math.round(W * 0.94); rocks[4].y = Math.round(H * 0.70); }
+      if (rocks[5]) { rocks[5].x = Math.round(W * 0.95); rocks[5].y = Math.round(H * 0.92); }
+      if (rocks[6]) { rocks[6].x = Math.round(W * 0.78); rocks[6].y = Math.round(H * 0.62); }
+
+      // 8. Thickets
+      if (thickets[0]) { thickets[0].x = Math.round(W * 0.38); thickets[0].y = Math.round(H * 0.08); }
+      if (thickets[1]) { thickets[1].x = Math.round(W * 0.08); thickets[1].y = Math.round(H * 0.56); }
+      if (thickets[2]) { thickets[2].x = Math.round(W * 0.16); thickets[2].y = Math.round(H * 0.88); }
+      if (thickets[3]) { thickets[3].x = Math.round(W * 0.82); thickets[3].y = Math.round(H * 0.76); }
+      if (thickets[4]) { thickets[4].x = Math.round(W * 0.94); thickets[4].y = Math.round(H * 0.80); }
+      if (thickets[5]) { thickets[5].x = Math.round(W * 0.92); thickets[5].y = Math.round(H * 0.22); }
+    }
+    initWorldLayout();
+
     // 13. Entities (Rabbits & Predators - Compact Natural Sizing)
     const entities = [];
     const NUM_RABBITS = 24;
@@ -1244,10 +1313,10 @@
       const isLeader = (i === 0);
       let rx, ry;
       while (true) {
-        rx = 240 + (Math.random() - 0.5) * 180;
-        ry = 530 + (Math.random() - 0.5) * 140;
-        // Ensure rabbits spawn on dry pasture near burrow
-        if (Math.hypot(rx - 580, ry - 380) > 120 && rx > 50 && ry > 50) break;
+        rx = burrow.x + (Math.random() - 0.5) * 160;
+        ry = burrow.y - 30 + (Math.random() - 0.5) * 110;
+        const pond = resources.find(r => r.type === 'water') || { x: 600, y: 400, radius: 110 };
+        if (Math.hypot(rx - pond.x, ry - pond.y) > pond.radius + 20 && rx > 40 && ry > 40) break;
       }
       entities.push({
         id: `r_${i + 1}`,
@@ -1283,8 +1352,8 @@
       name: 'Wolf #01 (Dã Thú)',
       type: 'wolf',
       role: 'Apex Predator',
-      x: 980,
-      y: 160,
+      x: (landmarks[0] ? landmarks[0].x - 40 : 1100),
+      y: (landmarks[0] ? landmarks[0].y + 40 : 150),
       vx: -0.6,
       vy: 0.4,
       radius: 8.5,
@@ -1598,13 +1667,18 @@
       const wolf = entities.find(e => e.type === 'wolf');
       const scout = entities[0];
       if (wolf && scout) {
-        wolf.x = 780;
-        wolf.y = 260;
-        wolf.vx = -3.5;
-        wolf.vy = 1.5;
+        wolf.x = (landmarks[0] ? landmarks[0].x - 120 : 1000);
+        wolf.y = (landmarks[0] ? landmarks[0].y + 80 : 200);
+        wolf.vx = -4.0;
+        wolf.vy = 2.0;
 
-        // Scout proposes 4-step path crossing through NE rocks toward foraging
-        const crossingWaypoints = [[700, 290], [740, 270], [780, 250], [820, 230]];
+        // Scout proposes 4-step path crossing through NE corridor toward foraging
+        const crossingWaypoints = [
+          [wolf.x - 70, wolf.y + 40],
+          [wolf.x - 140, wolf.y + 80],
+          [wolf.x - 210, wolf.y + 120],
+          [wolf.x - 280, wolf.y + 160]
+        ];
         const lookahead = await callVerifyLookahead(
           crossingWaypoints,
           [wolf.x, wolf.y],
@@ -2300,38 +2374,40 @@
       let actionSummary = '';
 
       if (triggerType === 'SURPRISE_SPIKE') {
+        const westB = westBerry || resources.find(r => r.id === 'berry_west') || { x: 140, y: 240 };
         stimulus = `Surprise Spike: Berry Bush North depleted to 0u (Scout belief was ${scoutEpistemic.rememberedNorthBerry}u). Delta = 80u > 30u!`;
-        targetCoords = { x: 160, y: 240 };
-        actionSummary = 'Bụi Bắc cạn kiệt (0u). Chuyển hướng bầy sang Bụi Tây [160, 240]';
+        targetCoords = { x: westB.x, y: westB.y };
+        actionSummary = `Bụi Bắc cạn kiệt (0u). Chuyển hướng bầy sang Bụi Tây [${westB.x}, ${westB.y}]`;
       } else if (triggerType === 'STARVATION_ALERT') {
         const avgH = contextDetails.avgHunger || leader.hunger;
         const northAmount = northBerry ? northBerry.amount : 0;
-        if (northAmount > 15) {
+        if (northAmount > 15 && northBerry) {
           stimulus = `Colony Starvation Alert: Average colony hunger is ${avgH.toFixed(1)}% (Leader hunger: ${leader.hunger.toFixed(1)}%). Berry bush north available (${northAmount.toFixed(0)}u).`;
-          targetCoords = { x: 580, y: 100 };
-          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy gặm Bụi Bắc [580, 100]';
+          targetCoords = { x: northBerry.x, y: northBerry.y };
+          actionSummary = `Đói khẩn cấp (>60%): Chỉ thị bầy gặm Bụi Bắc [${northBerry.x}, ${northBerry.y}]`;
         } else if (westBerry && westBerry.amount > 10) {
           stimulus = `Colony Starvation Alert: Average colony hunger is ${avgH.toFixed(1)}% (Leader hunger: ${leader.hunger.toFixed(1)}%). Bush north depleted: 0u. Direct to west bush.`;
-          targetCoords = { x: 160, y: 240 };
-          actionSummary = 'Đói khẩn cấp (>60%): Chỉ thị bầy sang Bụi Tây [160, 240]';
+          targetCoords = { x: westBerry.x, y: westBerry.y };
+          actionSummary = `Đói khẩn cấp (>60%): Chỉ thị bầy sang Bụi Tây [${westBerry.x}, ${westBerry.y}]`;
         } else if (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount > 5) {
-          stimulus = `Colony Starvation Alert: Berry bushes low. Directing colony to Dandelion Grove [760, 580].`;
-          targetCoords = { x: 760, y: 580 };
-          actionSummary = 'Đói khẩn cấp (>60%): Chuyển hướng Vườn Dược Liệu [760, 580]';
+          stimulus = `Colony Starvation Alert: Berry bushes low. Directing colony to Dandelion Grove [${herbs[0].x}, ${herbs[0].y}].`;
+          targetCoords = { x: herbs[0].x, y: herbs[0].y };
+          actionSummary = `Đói khẩn cấp (>60%): Chuyển hướng Vườn Dược Liệu [${herbs[0].x}, ${herbs[0].y}]`;
         } else {
           stimulus = `Colony Starvation Alert: Total Famine. All food depleted to 0u. Shelter in burrow to hibernate and preserve energy.`;
-          targetCoords = { x: 200, y: 560 };
+          targetCoords = { x: burrow.x, y: burrow.y };
           actionSummary = 'Nạn đói: Rút về Hang Trú Ẩn ngủ đông bảo toàn calo';
         }
         reasonBadge = 'SLM ĐIỀU HƯỚNG BẦY ĐÀN';
       } else if (triggerType === 'SUCCESSION') {
         stimulus = `Alpha Scout Succession: ${leader.name} assumed leadership after ${contextDetails.oldLeader || 'predecessor'}. Rallying colony.`;
-        targetCoords = { x: 200, y: 540 };
+        targetCoords = { x: burrow.x, y: burrow.y - 20 };
         actionSummary = 'Tân Alpha Scout tập hợp bầy quanh Hang Trú Ẩn';
         reasonBadge = 'SLM KẾ THỪA BẦY ĐÀN';
       } else if (triggerType === 'STRATEGIC_REVIEW') {
         stimulus = `Periodic Strategic Review: World Tick ${worldTick}. Colony size: ${entities.filter(e => e.type === 'rabbit').length}. Safety & resource assessment.`;
-        targetCoords = { x: 500, y: 320 };
+        const pond = resources.find(r => r.type === 'water');
+        targetCoords = pond ? { x: pond.x - 70, y: pond.y - 50 } : { x: 500, y: 320 };
         actionSummary = 'Đánh giá chiến lược định kỳ: Tuần tra bầy đàn an toàn';
         reasonBadge = 'SLM CHIẾN LƯỢC ĐỊNH KỲ';
       }
@@ -2703,12 +2779,13 @@
           let targetX, targetY;
           if (wolf.hunger > 50) {
             // Hungry predator dynamically sweeps across grasslands & lake perimeter
-            targetX = 620 + Math.cos(wolf.patrolAngle) * 280;
-            targetY = 360 + Math.sin(wolf.patrolAngle * 0.8) * 180;
+            const pond = resources.find(r => r.type === 'water') || { x: W * 0.5, y: H * 0.5 };
+            targetX = pond.x + Math.cos(wolf.patrolAngle) * (W * 0.28);
+            targetY = pond.y + Math.sin(wolf.patrolAngle * 0.8) * (H * 0.25);
           } else {
             // Satiated wolf stays near its territorial rock ridge/den in Northeast
-            const homeX = 920 + ((i % 2) * 50);
-            const homeY = 180 + ((i % 2) * 60);
+            const homeX = (landmarks[0] ? landmarks[0].x - 60 : (W * 0.88)) + ((i % 2) * 40);
+            const homeY = (landmarks[0] ? landmarks[0].y + 60 : (H * 0.15)) + ((i % 2) * 40);
             targetX = homeX + Math.cos(wolf.patrolAngle) * 85;
             targetY = homeY + Math.sin(wolf.patrolAngle) * 65;
           }
