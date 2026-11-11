@@ -1106,17 +1106,7 @@
     const canvas = document.getElementById('world-canvas');
     const ctx = canvas.getContext('2d');
     const container = document.getElementById('canvas-container');
-
     let dpr = window.devicePixelRatio || 1;
-    function resizeCanvas() {
-      const rect = container.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (typeof initWorldLayout === 'function') initWorldLayout();
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
 
     // --- Layer Toggles ---
     const layers = {
@@ -1303,7 +1293,16 @@
       if (thickets[4]) { thickets[4].x = Math.round(W * 0.94); thickets[4].y = Math.round(H * 0.80); }
       if (thickets[5]) { thickets[5].x = Math.round(W * 0.92); thickets[5].y = Math.round(H * 0.22); }
     }
-    initWorldLayout();
+
+    function resizeCanvas() {
+      const rect = container.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      initWorldLayout();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
     // 13. Entities (Rabbits & Predators - Compact Natural Sizing)
     const entities = [];
@@ -2341,12 +2340,13 @@
 
     function sanitizeCommMessage(msg) {
       if (!msg) return '';
-      // Strip consecutive duplicates or degenerative loops like "I am tired. I am tired."
-      const sentences = msg.split(/(?<=[.!?])\s+/);
+      // Strip consecutive duplicates or degenerative neural loops like "I am tired. I am tired."
+      const normalized = msg.replace(/\.{2,}/g, '.');
+      const sentences = normalized.split(/(?<=[.!?])\s*/);
       const seen = new Set();
       const clean = [];
       for (const s of sentences) {
-        const trimmed = s.trim();
+        const trimmed = s.trim().replace(/^[,\s]+|[,\s]+$/g, '');
         if (!trimmed) continue;
         const key = trimmed.toLowerCase();
         if (!seen.has(key)) {
@@ -2354,7 +2354,7 @@
           clean.push(trimmed);
         }
       }
-      return clean.length > 0 ? clean.join(' ') : msg;
+      return clean.length > 0 ? clean.join(' ') : normalized;
     }
 
     // --- Unified SLM Reasoning & Directive Dispatcher ---
@@ -3087,6 +3087,18 @@
           }
         }
 
+        // Grazing on meadows (pasture grass provides baseline subsistence)
+        for (const md of meadows) {
+          const distToMeadow = Math.hypot(ent.x - md.x, ent.y - md.y);
+          if (distToMeadow <= md.radius) {
+            if (ent.hunger > 20) {
+              ent.hunger = Math.max(0, ent.hunger - 0.08);
+              ent.energy = Math.min(100, ent.energy + 0.02);
+            }
+            break;
+          }
+        }
+
         // Check Thicket Stealth Cover
         ent.inCover = false;
         for (const th of thickets) {
@@ -3412,8 +3424,9 @@
               }
             }
           } else {
-            // Priority 3: Satiated -> Congregate near burrow sanctuary or meadow for breeding & grooming
-            socialTarget = burrow;
+            // Priority 3: Satiated -> Keep close to the herd leader or burrow
+            const leader = entities.find(e => e.type === 'rabbit' && e.isLeader && !e.isSheltered);
+            socialTarget = leader || burrow;
           }
 
           // 3. Steering & Flocking Execution
@@ -3431,54 +3444,67 @@
               ent.vx += Math.cos(ent.wanderAngle) * 0.05;
               ent.vy += Math.sin(ent.wanderAngle) * 0.05;
             }
-          } else if (socialTarget) {
-            // Gather near burrow / meadow
-            const toSx = socialTarget.x - ent.x;
-            const toSy = socialTarget.y - ent.y;
-            const distS = Math.hypot(toSx, toSy);
-            if (distS > 45) {
-              ent.vx += (toSx / distS) * 0.08;
-              ent.vy += (toSy / distS) * 0.08;
-            } else {
-              ent.wanderAngle += (Math.random() - 0.5) * 0.3;
-              ent.vx += Math.cos(ent.wanderAngle) * 0.05;
-              ent.vy += Math.sin(ent.wanderAngle) * 0.05;
-            }
           } else if (!ent.isLeader) {
-            // Flock members follow leader's SLM collective directive
-            const leader = entities.find(e => e.type === 'rabbit' && e.isLeader);
+            // Flock members follow leader's position, migration heading, and SLM collective directives
+            const leader = entities.find(e => e.type === 'rabbit' && e.isLeader && !e.isSheltered);
             if (leader) {
+              const toLx = leader.x - ent.x;
+              const toLy = leader.y - ent.y;
+              const distToLeader = Math.hypot(toLx, toLy);
+
               if (leader.targetDest) {
-                // Cohesion migration toward leader's SLM destination
-                const targetX = leader.targetDest.x + (ent.x - leader.x) * 0.12;
-                const targetY = leader.targetDest.y + (ent.y - leader.y) * 0.12;
-                const toTx = targetX - ent.x;
-                const toTy = targetY - ent.y;
-                const distT = Math.hypot(toTx, toTy);
-                if (distT > 35) {
-                  ent.vx += (toTx / distT) * 0.14;
-                  ent.vy += (toTy / distT) * 0.14;
+                // Cohesion migration towards leader's target waypoint
+                const toDestX = leader.targetDest.x - ent.x;
+                const toDestY = leader.targetDest.y - ent.y;
+                const distDest = Math.hypot(toDestX, toDestY);
+                if (distDest > 35) {
+                  ent.vx += (toDestX / distDest) * 0.13 + (toLx / (distToLeader || 1)) * 0.06;
+                  ent.vy += (toDestY / distDest) * 0.13 + (toLy / (distToLeader || 1)) * 0.06;
                 }
               } else {
-                const toLx = leader.x - ent.x;
-                const toLy = leader.y - ent.y;
-                const dist = Math.hypot(toLx, toLy);
-                if (dist > 75) {
-                  ent.vx += (toLx / dist) * 0.12;
-                  ent.vy += (toLy / dist) * 0.12;
+                // Follow leader position with natural herd spacing (30-65px)
+                if (distToLeader > 45) {
+                  ent.vx += (toLx / distToLeader) * 0.15;
+                  ent.vy += (toLy / distToLeader) * 0.15;
+                } else if (distToLeader < 25) {
+                  ent.vx -= (toLx / distToLeader) * 0.06;
+                  ent.vy -= (toLy / distToLeader) * 0.06;
+                } else {
+                  // In flock formation: gentle drift in leader's movement direction
+                  ent.vx += leader.vx * 0.35 + (Math.random() - 0.5) * 0.04;
+                  ent.vy += leader.vy * 0.35 + (Math.random() - 0.5) * 0.04;
                 }
+              }
+            } else if (socialTarget) {
+              const toSx = socialTarget.x - ent.x;
+              const toSy = socialTarget.y - ent.y;
+              const distS = Math.hypot(toSx, toSy);
+              if (distS > 35) {
+                ent.vx += (toSx / distS) * 0.10;
+                ent.vy += (toSy / distS) * 0.10;
               }
             }
           } else {
             // Alpha Scout leads toward SLM target destination or active food patches
+            const followers = currentRabbits.filter(r => !r.isLeader && !r.isSheltered);
+            let flockDist = 0;
+            if (followers.length > 0) {
+              const avgX = followers.reduce((s, r) => s + r.x, 0) / followers.length;
+              const avgY = followers.reduce((s, r) => s + r.y, 0) / followers.length;
+              flockDist = Math.hypot(ent.x - avgX, ent.y - avgY);
+            }
+
+            // Herd Pacing: If Alpha pulls too far ahead (> 75px), slow down to let the flock keep pace
+            const herdPacingFactor = (flockDist > 120) ? 0.15 : (flockDist > 75 ? 0.50 : 1.0);
+
             const bestFood = ent.targetDest || resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
             if (bestFood) {
               const toTx = bestFood.x - ent.x;
               const toTy = bestFood.y - ent.y;
               const dist = Math.hypot(toTx, toTy);
               if (dist > 35) {
-                ent.vx += (toTx / dist) * 0.07;
-                ent.vy += (toTy / dist) * 0.07;
+                ent.vx += (toTx / dist) * 0.10 * herdPacingFactor;
+                ent.vy += (toTy / dist) * 0.10 * herdPacingFactor;
               } else if (ent.targetDest) {
                 ent.targetDest = null; // Reached SLM destination
                 scoutEpistemic.currentColonyDirective = 'Đã đến điểm tập kết (Danh định)';
@@ -3489,16 +3515,18 @@
           }
         }
 
-        // Boids Separation: Conspecific repulsion to prevent overcrowding
+        // Boids Separation: Soft conspecific repulsion to prevent overcrowding without locking
         if (!ent.isSheltered) {
           for (const other of currentRabbits) {
             if (other !== ent && !other.isSheltered) {
               const dxO = ent.x - other.x;
               const dyO = ent.y - other.y;
               const distO = Math.hypot(dxO, dyO);
-              if (distO < 14 && distO > 0.001) {
-                ent.vx += (dxO / distO) * 0.15;
-                ent.vy += (dyO / distO) * 0.15;
+              const minSep = ent.radius + other.radius + 2; // ~12px
+              if (distO < minSep && distO > 0.001) {
+                const repForce = ((minSep - distO) / minSep) * 0.04;
+                ent.vx += (dxO / distO) * repForce;
+                ent.vy += (dyO / distO) * repForce;
               }
             }
           }
