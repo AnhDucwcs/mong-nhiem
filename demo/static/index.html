@@ -864,6 +864,10 @@
         <span class="kpi-label" style="color: var(--indigo);" id="kpi-slm-label">Chỉ Thị SLM Bầy Đàn</span>
         <span class="kpi-val" style="color: var(--indigo); font-size: 11px; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="kpi-slm-directive">Tuần tra bầy đàn</span>
       </div>
+      <div class="kpi-pill" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08);">
+        <span class="kpi-label" style="color: var(--emerald);">Bám Đàn & Tâm Bầy</span>
+        <span class="kpi-val" style="color: var(--emerald); font-size: 11px;" id="kpi-flock-status">100% (d: --px)</span>
+      </div>
     </div>
 
     <!-- Simulation Controls & Menus -->
@@ -3656,7 +3660,64 @@
       const totalBerries = Math.round(resources.reduce((acc, r) => acc + (r.type === 'berry' ? r.amount : 0), 0));
       document.getElementById('kpi-berries').textContent = `${totalBerries} u`;
 
+      // 5. Periodic Spatial Telemetry Dispatcher for AI Observation (Every 10 ticks = 0.5s)
       if (worldTick % 10 === 0) {
+        const curRabbits = entities.filter(e => e.type === 'rabbit');
+        const activeFollowers = curRabbits.filter(r => !r.isLeader && !r.isSheltered);
+        const curAlpha = curRabbits.find(r => r.isLeader && !r.isSheltered);
+        const curWolf = entities.find(e => e.type === 'wolf');
+
+        let cX = 0, cY = 0, fDist = 0, fSpread = 0, cScore = 100, pStatus = 'LEADING';
+        if (activeFollowers.length > 0) {
+          cX = activeFollowers.reduce((s, r) => s + r.x, 0) / activeFollowers.length;
+          cY = activeFollowers.reduce((s, r) => s + r.y, 0) / activeFollowers.length;
+          fSpread = activeFollowers.reduce((s, r) => s + Math.hypot(r.x - cX, r.y - cY), 0) / activeFollowers.length;
+          if (curAlpha) {
+            fDist = Math.hypot(curAlpha.x - cX, curAlpha.y - cY);
+            cScore = Math.max(0, Math.min(100, Math.round(100 - (fDist / 1.5))));
+            pStatus = fDist > 120 ? 'WAITING' : (fDist > 75 ? 'PACING' : 'LEADING');
+          }
+        }
+
+        const telemetryPayload = {
+          tick: worldTick,
+          alpha: curAlpha ? {
+            x: Math.round(curAlpha.x),
+            y: Math.round(curAlpha.y),
+            hunger: Math.round(curAlpha.hunger),
+            energy: Math.round(curAlpha.energy),
+            state: curAlpha.state,
+            name: curAlpha.name,
+            target_dest: curAlpha.targetDest ? [Math.round(curAlpha.targetDest.x), Math.round(curAlpha.targetDest.y)] : null
+          } : null,
+          flock: {
+            centroid_x: Math.round(cX),
+            centroid_y: Math.round(cY),
+            dist_to_alpha: Math.round(fDist),
+            spread_radius: Math.round(fSpread),
+            total_rabbits: curRabbits.length,
+            surface_count: activeFollowers.length + (curAlpha ? 1 : 0),
+            sheltered_count: curRabbits.filter(r => r.isSheltered).length,
+            cohesion_score: cScore,
+            pacing_status: pStatus,
+            avg_hunger: Math.round(curRabbits.reduce((s, r) => s + r.hunger, 0) / (curRabbits.length || 1))
+          },
+          wolf: curWolf ? {
+            x: Math.round(curWolf.x),
+            y: Math.round(curWolf.y),
+            state: curWolf.state,
+            hunger: Math.round(curWolf.hunger),
+            dist_to_alpha: curAlpha ? Math.round(Math.hypot(curWolf.x - curAlpha.x, curWolf.y - curAlpha.y)) : null,
+            dist_to_flock: Math.round(Math.hypot(curWolf.x - cX, curWolf.y - cY))
+          } : null
+        };
+
+        fetch(`${API_BASE}/api/telemetry`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(telemetryPayload)
+        }).catch(() => {});
+
         updateInspectorUI();
       }
     }
@@ -4014,6 +4075,89 @@
 
       // 11. Entities (Rabbits & Wolves)
       if (layers.entities) {
+        // 11A. Flock Spatial Tracking & Cohesion Tether (Tâm Bầy & Dây Neo Alpha)
+        const currentRabbits = entities.filter(e => e.type === 'rabbit');
+        const followers = currentRabbits.filter(r => !r.isLeader && !r.isSheltered);
+        const alpha = currentRabbits.find(r => r.isLeader && !r.isSheltered);
+
+        let flockCentroid = null;
+        let flockDist = 0;
+        let flockSpread = 0;
+        let flockCohesionScore = 100;
+        let pacingStatus = 'LEADING';
+
+        if (followers.length > 0) {
+          const sumX = followers.reduce((s, r) => s + r.x, 0);
+          const sumY = followers.reduce((s, r) => s + r.y, 0);
+          flockCentroid = { x: sumX / followers.length, y: sumY / followers.length };
+          flockSpread = followers.reduce((s, r) => s + Math.hypot(r.x - flockCentroid.x, r.y - flockCentroid.y), 0) / followers.length;
+
+          if (alpha) {
+            flockDist = Math.hypot(alpha.x - flockCentroid.x, alpha.y - flockCentroid.y);
+            flockCohesionScore = Math.max(0, Math.min(100, Math.round(100 - (flockDist / 1.5))));
+            pacingStatus = flockDist > 120 ? 'WAITING' : (flockDist > 75 ? 'PACING' : 'LEADING');
+
+            ctx.save();
+
+            // 1. Soft Flock Convex Perimeter Glow
+            ctx.beginPath();
+            ctx.arc(flockCentroid.x, flockCentroid.y, Math.max(22, flockSpread + 12), 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? 'rgba(16, 185, 129, 0.05)' : 'rgba(5, 150, 105, 0.04)';
+            ctx.fill();
+            ctx.strokeStyle = isDark ? 'rgba(16, 185, 129, 0.25)' : 'rgba(5, 150, 105, 0.25)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.stroke();
+
+            // 2. Centroid Crosshair Marker
+            ctx.beginPath();
+            ctx.arc(flockCentroid.x, flockCentroid.y, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? '#10b981' : '#059669';
+            ctx.fill();
+
+            // 3. Dynamic Tether Line connecting Alpha Scout to Flock Centroid
+            const tetherColor = (flockDist > 120) ? (isDark ? '#f43f5e' : '#e11d48') :
+                                ((flockDist > 75) ? (isDark ? '#fbbf24' : '#d97706') :
+                                                    (isDark ? '#34d399' : '#059669'));
+
+            ctx.beginPath();
+            ctx.moveTo(alpha.x, alpha.y);
+            ctx.lineTo(flockCentroid.x, flockCentroid.y);
+            ctx.strokeStyle = tetherColor;
+            ctx.lineWidth = (flockDist > 75) ? 1.8 : 1.2;
+            ctx.setLineDash([4, 4]);
+            ctx.stroke();
+
+            // 4. Floating Distance Badge on Tether Midpoint
+            const midX = (alpha.x + flockCentroid.x) / 2;
+            const midY = (alpha.y + flockCentroid.y) / 2;
+            ctx.font = 'bold 8.5px "Fira Code", monospace';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = tetherColor;
+            const pacingTag = (pacingStatus === 'WAITING') ? ' [DỪNG ĐỢI]' : ((pacingStatus === 'PACING') ? ' [HÃM TỐC]' : '');
+            ctx.fillText(`d: ${Math.round(flockDist)}px${pacingTag}`, midX, midY - 6);
+
+            ctx.restore();
+          }
+        }
+
+        // Update KPI HUD element
+        const flockKpiElem = document.getElementById('kpi-flock-status');
+        if (flockKpiElem) {
+          if (alpha && flockCentroid) {
+            const statusText = (pacingStatus === 'WAITING') ? '⚠️ Chờ Bầy' : ((pacingStatus === 'PACING') ? '🟡 Giữ Nhịp' : '🟢 Dẫn Đầu');
+            flockKpiElem.textContent = `${flockCohesionScore}% (d: ${Math.round(flockDist)}px) • ${statusText}`;
+            flockKpiElem.style.color = (flockDist > 120) ? 'var(--rose)' : ((flockDist > 75) ? 'var(--amber)' : 'var(--emerald)');
+          } else if (alpha && followers.length === 0) {
+            flockKpiElem.textContent = 'Đàn trú ẩn trong hang';
+            flockKpiElem.style.color = 'var(--cyan)';
+          } else {
+            flockKpiElem.textContent = 'Đang kế thừa Alpha';
+            flockKpiElem.style.color = 'var(--text-muted)';
+          }
+        }
+
+        // 11B. Individual Entities Draw Loop
         for (const ent of entities) {
           if (ent.isSheltered) {
             // Rabbit is safely hidden inside the burrow: do not draw on open surface

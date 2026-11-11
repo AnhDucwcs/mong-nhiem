@@ -37,6 +37,19 @@ SLM_ENDPOINT = os.environ.get("SLM_ENDPOINT", "http://127.0.0.1:18505")
 _KERNEL_INSTANCE: MongNhiemKernel | None = None
 TIMELINE_LOG: list[dict[str, Any]] = []
 MAX_TIMELINE_ENTRIES = 200
+LATEST_TELEMETRY: dict[str, Any] = {}
+TELEMETRY_HISTORY: list[dict[str, Any]] = []
+MAX_TELEMETRY_ENTRIES = 500
+
+
+def record_telemetry_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
+    """Records high-frequency spatial tracking telemetry for Alpha and Flock."""
+    global LATEST_TELEMETRY, TELEMETRY_HISTORY
+    LATEST_TELEMETRY = snapshot
+    TELEMETRY_HISTORY.append(snapshot)
+    if len(TELEMETRY_HISTORY) > MAX_TELEMETRY_ENTRIES:
+        TELEMETRY_HISTORY.pop(0)
+    return snapshot
 
 
 def record_timeline_event(event: dict[str, Any]) -> dict[str, Any]:
@@ -280,6 +293,15 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
             })
             return
 
+        if self.path == "/api/telemetry" or self.path.startswith("/api/telemetry?"):
+            self._send_json_response({
+                "success": True,
+                "latest": LATEST_TELEMETRY,
+                "history_count": len(TELEMETRY_HISTORY),
+                "history": TELEMETRY_HISTORY[-50:],
+            })
+            return
+
         if self.path == "/api/status" or self.path.startswith("/api/status?"):
             kernel = get_kernel()
             snapshot = {name: kernel.state_engine.get_variable(name) for name in kernel.state_engine.variables}
@@ -429,6 +451,10 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
             }
             record_timeline_event(ev)
             self._send_json_response({"success": True, "recorded": ev})
+
+        elif endpoint == "/api/telemetry":
+            record_telemetry_snapshot(payload)
+            self._send_json_response({"success": True, "recorded_tick": payload.get("tick", 0)})
 
         elif endpoint == "/api/reset":
             # 4. Clean State Reset
