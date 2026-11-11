@@ -1166,11 +1166,11 @@
 
     // 4. Resources: Food & Water across Biome Quadrants
     const resources = [
-      { id: 'berry_north', type: 'berry', x: 580, y: 100, radius: 44, amount: 80, max: 100, label: 'Bụi Dâu Bắc' },
-      { id: 'berry_east', type: 'berry', x: 960, y: 390, radius: 44, amount: 100, max: 100, label: 'Bụi Dâu Đông' },
-      { id: 'berry_west', type: 'berry', x: 160, y: 240, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Tây' },
-      { id: 'berry_south', type: 'berry', x: 480, y: 640, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Nam' },
-      { id: 'water_pond', type: 'water', x: 580, y: 380, radius: 105, amount: 300, max: 300, label: 'Hồ Nước Trung Tâm' }
+      { id: 'berry_north', type: 'berry', x: 580, y: 100, radius: 44, amount: 80, max: 100, label: 'Bụi Dâu Bắc', regenDelay: 0 },
+      { id: 'berry_east', type: 'berry', x: 960, y: 390, radius: 44, amount: 100, max: 100, label: 'Bụi Dâu Đông', regenDelay: 0 },
+      { id: 'berry_west', type: 'berry', x: 160, y: 240, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Tây', regenDelay: 0 },
+      { id: 'berry_south', type: 'berry', x: 480, y: 640, radius: 42, amount: 100, max: 100, label: 'Bụi Dâu Nam', regenDelay: 0 },
+      { id: 'water_pond', type: 'water', x: 580, y: 380, radius: 105, amount: 300, max: 300, label: 'Hồ Nước Trung Tâm', regenDelay: 0 }
     ];
 
     // 5. Thickets: Dense Forest Canopy & Bush Cover across Quadrants (Bổ sung lùm cây Đông Nam)
@@ -1618,7 +1618,10 @@
     // Shock Injection: Hard Resource Depletion Override (Scenario A: Epistemic Surprise Test)
     document.getElementById('btn-shock-kill').addEventListener('click', () => {
       const northBerry = resources.find(r => r.id === 'berry_north');
-      if (northBerry) northBerry.amount = 0;
+      if (northBerry) {
+        northBerry.amount = 0;
+        northBerry.regenDelay = 100; // 5.0 seconds recovery delay
+      }
       callKernelStep('Shock Injection: Forced berry_north to 0u', { bush_north_amount: 0.0 });
       addTimelineEvent({
         badge: 'SHOCK INJECTION',
@@ -1633,7 +1636,10 @@
     // Shock Injection: Total Colony Famine (Deplete all bushes & herbs to trigger starvation extinction)
     document.getElementById('btn-shock-famine').addEventListener('click', () => {
       resources.forEach(r => {
-        if (r.type === 'berry') r.amount = 0;
+        if (r.type === 'berry') {
+          r.amount = 0;
+          r.regenDelay = 100;
+        }
       });
       if (typeof herbs !== 'undefined' && herbs[0]) herbs[0].amount = 0;
       callKernelStep('Shock Injection: Total Famine - All food depleted to 0u', { bush_north_amount: 0.0 });
@@ -2611,6 +2617,10 @@
         const regenMult = (environment.weather === 'rain') ? 0.08 : 0.020;
         if (worldTick % 2 === 0) {
           for (const res of resources) {
+            if (res.regenDelay > 0) {
+              res.regenDelay -= 2;
+              continue;
+            }
             if (res.type === 'berry' && res.amount < res.max) {
               res.amount = Math.min(res.max, res.amount + regenMult * 2);
             }
@@ -2642,6 +2652,9 @@
         for (const res of resources) {
           if (res.type === 'berry' && res.amount > 0) {
             res.amount = Math.max(0, res.amount - 0.035);
+            if (res.amount <= 0 && (!res.regenDelay || res.regenDelay <= 0)) {
+              res.regenDelay = 100;
+            }
           }
         }
       }
@@ -3091,6 +3104,9 @@
           if (res.type === 'berry' && res.amount > 0 && distToRes <= res.radius + 12) {
             const eatRate = Math.min(res.amount, 0.09);
             res.amount = Math.max(0, res.amount - eatRate);
+            if (res.amount <= 0 && (!res.regenDelay || res.regenDelay <= 0)) {
+              res.regenDelay = 100; // 5.0 seconds delay before berry bush begins regenerating
+            }
             ent.hunger = Math.max(0, ent.hunger - 0.28);
             ent.energy = Math.min(100, ent.energy + 0.08);
             if (ent.health < 100) ent.health = Math.min(100, ent.health + 0.15);
@@ -3513,6 +3529,8 @@
               flockDist = Math.hypot(ent.x - avgX, ent.y - avgY);
             }
 
+            const bestFood = ent.targetDest || resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
+
             // Herd Pacing: Nếu Alpha đang đi xa khỏi bầy thì giảm tốc chờ đàn.
             // Nhưng nếu Alpha đang quay đầu đi VỀ PHÍA bầy đàn thì không hãm tốc!
             const avgFlockX = followers.length > 0 ? (followers.reduce((s, r) => s + r.x, 0) / followers.length) : ent.x;
@@ -3525,7 +3543,6 @@
 
             const herdPacingFactor = movingTowardFlock ? 1.0 : ((flockDist > 120) ? 0.20 : (flockDist > 75 ? 0.55 : 1.0));
 
-            const bestFood = ent.targetDest || resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
             if (bestFood) {
               const toTx = bestFood.x - ent.x;
               const toTy = bestFood.y - ent.y;
@@ -4002,6 +4019,13 @@
                 ctx.fillStyle = '#e11d48';
                 ctx.fill();
               }
+            } else if (res.regenDelay > 0) {
+              // Recovery Countdown Badge
+              const secLeft = (res.regenDelay * 0.05).toFixed(1);
+              ctx.font = 'bold 9px "Fira Code", monospace';
+              ctx.textAlign = 'center';
+              ctx.fillStyle = isDark ? '#f87171' : '#dc2626';
+              ctx.fillText(`HỒI SAU ${secLeft}s`, res.x, res.y - res.radius - 4);
             }
             ctx.restore();
           }
@@ -4313,16 +4337,20 @@
       const deltaMs = Math.min(250, now - lastFrameTime);
       lastFrameTime = now;
 
-      if (isPlaying) {
-        tickAccumulator += deltaMs * simSpeed;
-        while (tickAccumulator >= NOMINAL_TICK_MS) {
-          updateSimulation();
-          tickAccumulator -= NOMINAL_TICK_MS;
+      try {
+        if (isPlaying) {
+          tickAccumulator += deltaMs * simSpeed;
+          while (tickAccumulator >= NOMINAL_TICK_MS) {
+            updateSimulation();
+            tickAccumulator -= NOMINAL_TICK_MS;
+          }
         }
+        render();
+      } catch (err) {
+        console.error("Simulation loop error:", err);
+      } finally {
+        requestAnimationFrame(gameLoop);
       }
-
-      render();
-      requestAnimationFrame(gameLoop);
     }
 
     // Launch Engine Loop
