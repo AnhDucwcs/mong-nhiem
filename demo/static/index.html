@@ -2410,10 +2410,21 @@
         reasonBadge = 'SLM KẾ THỪA BẦY ĐÀN';
       } else if (triggerType === 'STRATEGIC_REVIEW') {
         stimulus = `Periodic Strategic Review: World Tick ${worldTick}. Colony size: ${entities.filter(e => e.type === 'rabbit').length}. Safety & resource assessment.`;
-        const pond = resources.find(r => r.type === 'water');
-        targetCoords = pond ? { x: pond.x - 70, y: pond.y - 50 } : { x: 500, y: 320 };
-        actionSummary = 'Đánh giá chiến lược định kỳ: Tuần tra bầy đàn an toàn';
-        reasonBadge = 'SLM CHIẾN LƯỢC ĐỊNH KỲ';
+        // Dynamic Biome Waypoints Rotation: Luân chuyển tuần tra giữa 4 góc đồng cỏ, không cắm cọc tại hồ
+        const rect = container.getBoundingClientRect();
+        const W = rect.width || 1200;
+        const H = rect.height || 750;
+        const patrolWaypoints = [
+          { x: Math.round(W * 0.48), y: Math.round(H * 0.88), label: 'Đồng Cỏ Phía Nam' },
+          { x: Math.round(W * 0.12), y: Math.round(H * 0.32), label: 'Đồng Cỏ Phía Tây' },
+          { x: Math.round(W * 0.50), y: Math.round(H * 0.14), label: 'Vạt Cỏ Phía Bắc' },
+          { x: Math.round(W * 0.50), y: Math.round(H * 0.48), label: 'Bãi Cỏ Ven Hồ' }
+        ];
+        scoutEpistemic.patrolIndex = ((scoutEpistemic.patrolIndex || 0) + 1) % patrolWaypoints.length;
+        const pt = patrolWaypoints[scoutEpistemic.patrolIndex];
+        targetCoords = { x: pt.x, y: pt.y };
+        actionSummary = `Tuần tra sinh thái: Di cư đến ${pt.label}`;
+        reasonBadge = 'SLM DI CƯ ĐỒNG CỎ';
       }
 
       try {
@@ -3464,6 +3475,10 @@
                 if (distDest > 35) {
                   ent.vx += (toDestX / distDest) * 0.13 + (toLx / (distToLeader || 1)) * 0.06;
                   ent.vy += (toDestY / distDest) * 0.13 + (toLy / (distToLeader || 1)) * 0.06;
+                } else if (distToLeader > 45) {
+                  // Đã đến điểm tập kết nhưng Alpha còn rớt lại phía sau: quay đầu hội ngộ Alpha!
+                  ent.vx += (toLx / distToLeader) * 0.14;
+                  ent.vy += (toLy / distToLeader) * 0.14;
                 }
               } else {
                 // Follow leader position with natural herd spacing (30-65px)
@@ -3498,8 +3513,17 @@
               flockDist = Math.hypot(ent.x - avgX, ent.y - avgY);
             }
 
-            // Herd Pacing: If Alpha pulls too far ahead (> 75px), slow down to let the flock keep pace
-            const herdPacingFactor = (flockDist > 120) ? 0.15 : (flockDist > 75 ? 0.50 : 1.0);
+            // Herd Pacing: Nếu Alpha đang đi xa khỏi bầy thì giảm tốc chờ đàn.
+            // Nhưng nếu Alpha đang quay đầu đi VỀ PHÍA bầy đàn thì không hãm tốc!
+            const avgFlockX = followers.length > 0 ? (followers.reduce((s, r) => s + r.x, 0) / followers.length) : ent.x;
+            const avgFlockY = followers.length > 0 ? (followers.reduce((s, r) => s + r.y, 0) / followers.length) : ent.y;
+            const toFlockX = avgFlockX - ent.x;
+            const toFlockY = avgFlockY - ent.y;
+            const headingX = bestFood ? (bestFood.x - ent.x) : 0;
+            const headingY = bestFood ? (bestFood.y - ent.y) : 0;
+            const movingTowardFlock = (toFlockX * headingX + toFlockY * headingY) > 0;
+
+            const herdPacingFactor = movingTowardFlock ? 1.0 : ((flockDist > 120) ? 0.20 : (flockDist > 75 ? 0.55 : 1.0));
 
             const bestFood = ent.targetDest || resources.find(r => r.type === 'berry' && r.amount > 10) || resources.find(r => r.type === 'water');
             if (bestFood) {
