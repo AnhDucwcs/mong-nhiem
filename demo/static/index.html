@@ -2248,7 +2248,7 @@
     }
 
     // Call Kernel Spatial Lookahead API
-    async function callVerifyLookahead(waypoints, wolfPos, wolfVel, scoutStart, safetyDist = 35.0) {
+    async function callVerifyLookahead(waypoints, wolfPos, wolfVel, scoutStart, safetyDist = 95.0) {
       try {
         const res = await fetch(`${API_BASE}/api/verify_lookahead`, {
           method: 'POST',
@@ -2514,7 +2514,7 @@
               badgeClass: 'shock',
               title: `${leader.name}: Ngắt kế hoạch ban đầu, rút lui về Hang!`,
               body: `Cảnh báo Lookahead: ${lookaheadReason}. SLM lập tức cưỡng chế chuyển hướng toàn bầy về Hang Trú Ẩn [320, 520]!`,
-              reason: `TrajectoryReject: d_min=${lookahead.min_distance}px < 35.0px -> FALLBACK_BURROW`
+              reason: `TrajectoryReject: d_min=${lookahead.min_distance}px < 95.0px -> FALLBACK_BURROW`
             });
           }
         }
@@ -3152,7 +3152,12 @@
           }
         }
 
-        const directThreat = (nearestWolf && minWolfDist <= alertDist && nearestWolf.state !== 'EATING');
+        const huntingThreatDist = ent.inCover ? 42 : alertDist;
+        const eatingThreatDist = ent.inCover ? 38 : 85;
+        const directThreat = (nearestWolf && (
+          (nearestWolf.state !== 'EATING' && minWolfDist <= huntingThreatDist) ||
+          (nearestWolf.state === 'EATING' && minWolfDist <= eatingThreatDist)
+        ));
 
         // Acoustic Foot-Thumping Alarm: if any other surface rabbit within 140px is fleeing, alert this rabbit
         let heardFlockAlarm = false;
@@ -3434,7 +3439,11 @@
               if (r.type === 'berry' && r.amount > 0) {
                 const d = Math.hypot(r.x - ent.x, r.y - ent.y);
                 if (d <= maxForageScanDist) {
-                  const score = 1000 - d + (r.amount * 1.5);
+                  let score = 1000 - d + (r.amount * 1.5);
+                  if (nearestWolf) {
+                    const wolfToRes = Math.hypot(r.x - nearestWolf.x, r.y - nearestWolf.y);
+                    if (wolfToRes < 135) score -= 2500; // Heavily penalize food near wolf perimeter
+                  }
                   if (score > bestForageScore) {
                     bestForageScore = score;
                     forageTarget = r;
@@ -3447,7 +3456,11 @@
             if (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount > 5) {
               const dHerb = Math.hypot(herbs[0].x - ent.x, herbs[0].y - ent.y);
               if (dHerb <= maxForageScanDist) {
-                const scoreHerb = 950 - dHerb + (herbs[0].amount * 1.5);
+                let scoreHerb = 950 - dHerb + (herbs[0].amount * 1.5);
+                if (nearestWolf) {
+                  const wolfToHerb = Math.hypot(herbs[0].x - nearestWolf.x, herbs[0].y - nearestWolf.y);
+                  if (wolfToHerb < 135) scoreHerb -= 2500;
+                }
                 if (scoreHerb > bestForageScore) {
                   bestForageScore = scoreHerb;
                   forageTarget = herbs[0];
@@ -3600,6 +3613,19 @@
           if (dist < deepAvoidDist && dist > 0.001) {
             ent.vx += (dx / dist) * 0.38;
             ent.vy += (dy / dist) * 0.38;
+          }
+        }
+
+        // Dynamic Predator Proximity Repulsion (Né tránh dã thú & Sói đang ăn mồi)
+        for (const w of currentWolves) {
+          const dwx = ent.x - w.x;
+          const dwy = ent.y - w.y;
+          const distW = Math.hypot(dwx, dwy);
+          const safeWolfBuffer = (w.state === 'EATING') ? 125 : (w.perceptionRadius + 20);
+          if (distW < safeWolfBuffer && distW > 0.001) {
+            const avoidIntensity = Math.min(0.48, ((safeWolfBuffer - distW) / safeWolfBuffer) * 0.42);
+            ent.vx += (dwx / distW) * avoidIntensity;
+            ent.vy += (dwy / distW) * avoidIntensity;
           }
         }
 
@@ -4298,10 +4324,20 @@
             ctx.restore();
           } else if (ent.type === 'wolf' && ent.state === 'EATING') {
             ctx.save();
+            // Danger perimeter aura (110px warning zone)
+            ctx.beginPath();
+            ctx.arc(ent.x, ent.y, 110, 0, Math.PI * 2);
+            ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.30)' : 'rgba(217, 119, 6, 0.25)';
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([4, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            // Label with countdown seconds
             ctx.font = 'bold 9px "Fira Code", monospace';
             ctx.fillStyle = '#f59e0b';
             ctx.textAlign = 'center';
-            ctx.fillText('🥩 ĂN MỒI', ent.x, ent.y - ent.radius - 4);
+            const secLeft = ((ent.eatTimer || 0) * 0.05).toFixed(1);
+            ctx.fillText(`🥩 ĂN MỒI (${secLeft}s)`, ent.x, ent.y - ent.radius - 6);
             ctx.restore();
           }
 

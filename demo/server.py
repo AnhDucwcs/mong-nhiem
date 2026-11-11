@@ -175,7 +175,7 @@ def evaluate_spatial_lookahead(
     wolf_pos: list[float],
     wolf_vel: list[float] | None = None,
     scout_start: list[float] | None = None,
-    safety_dist: float = 35.0,
+    safety_dist: float = 95.0,
     samples_per_step: int = 10,
 ) -> dict[str, Any]:
     """Evaluates 4-step spatial trajectory lookahead horizon (4.0s).
@@ -405,7 +405,7 @@ class LivingWorldBridgeHandler(http.server.SimpleHTTPRequestHandler):
             wolf_pos = payload.get("wolf_pos", [0.0, 0.0])
             wolf_vel = payload.get("wolf_vel", [0.0, 0.0])
             scout_start = payload.get("scout_start")
-            safety_dist = float(payload.get("safety_dist", 35.0))
+            safety_dist = float(payload.get("safety_dist", 95.0))
 
             verification = evaluate_spatial_lookahead(
                 waypoints=waypoints,
