@@ -1935,30 +1935,18 @@
         hungerValElem.textContent = `${satiety}%`;
         hungerBarElem.style.width = `${satiety}%`;
 
-        // Dynamic Sensory Expansion Indicator
+        // Biological Sensory Indicators (Cố định sinh học - Không phình to khi đói)
         const sensoryElem = document.getElementById('vital-sensory-info');
         if (sensoryElem) {
           if (obj.type === 'wolf') {
-            const hFactor = (obj.hunger > 35) ? Math.min(0.50, (obj.hunger - 35) / 65 * 0.50) : 0;
-            const effVis = Math.round(obj.perceptionRadius * (1.0 + hFactor * 0.80));
-            const effScent = Math.round(obj.scentDetectionRadius * (1.0 + hFactor));
-            if (obj.hunger > 35) {
-              sensoryElem.textContent = `Dò: 👁️ ${effVis}px | 👃 ${effScent}px (Mở rộng do đói)`;
-              sensoryElem.style.color = 'var(--amber)';
-            } else {
-              sensoryElem.textContent = `Dò: 👁️ ${effVis}px | 👃 ${effScent}px (Chuẩn)`;
-              sensoryElem.style.color = 'var(--text-muted)';
-            }
+            const vis = obj.perceptionRadius || 150;
+            const scent = obj.scentDetectionRadius || 240;
+            sensoryElem.textContent = `Thị giác: 👁️ ${vis}px | Khứu giác: 👃 ${scent}px`;
+            sensoryElem.style.color = 'var(--text-muted)';
           } else if (obj.type === 'rabbit') {
-            const hFactor = (obj.hunger > 25) ? Math.min(0.45, (obj.hunger - 25) / 75 * 0.45) : 0;
-            const effVis = Math.round(obj.perceptionRadius * (1.0 + hFactor));
-            if (obj.hunger > 25) {
-              sensoryElem.textContent = `Dò: 👁️ ${effVis}px (Mở rộng tìm thức ăn)`;
-              sensoryElem.style.color = 'var(--amber)';
-            } else {
-              sensoryElem.textContent = `Dò: 👁️ ${effVis}px (Chuẩn - Tụ đàn)`;
-              sensoryElem.style.color = 'var(--text-muted)';
-            }
+            const vis = obj.perceptionRadius || 95;
+            sensoryElem.textContent = `Thị giác: 👁️ ${vis}px (Sinh học cố định)`;
+            sensoryElem.style.color = 'var(--text-muted)';
           }
         }
 
@@ -2735,10 +2723,9 @@
         let bestTarget = null;
         let bestScore = -9999;
 
-        // Dynamic Sensory Expansion: when hunger > 35 (satiety < 65%), sensory awareness sharpens
-        const wolfHungerFactor = (wolf.hunger > 35) ? Math.min(0.50, (wolf.hunger - 35) / 65 * 0.50) : 0;
-        const effVisionDist = wolf.perceptionRadius * (1.0 + wolfHungerFactor * 0.80); // 150px -> up to 210px
-        const effScentDist = wolf.scentDetectionRadius * (1.0 + wolfHungerFactor);     // 240px -> up to 360px
+        // Fixed Biological Sensory Bounds: Bán kính thị giác & khứu giác cố định, không phình to khi đói
+        const effVisionDist = wolf.perceptionRadius || 150;
+        const effScentDist = wolf.scentDetectionRadius || 240;
 
         // Wolves can strictly only sense and target surface rabbits (rabbits inside burrow are 100% sheltered underground)
         const targetableRabbits = currentRabbits.filter(r => !r.isSheltered);
@@ -3438,9 +3425,8 @@
         } else {
           // --- Normal State: Active Foraging, Dynamic Sensory Awareness & Breeding Cohesion ---
           
-          // 1. Dynamic Sensory Perception (Increases as satiety drops)
-          const rabbitHungerFactor = (ent.hunger > 25) ? Math.min(0.45, (ent.hunger - 25) / 75 * 0.45) : 0;
-          const effRabbitPerception = ent.perceptionRadius * (1.0 + rabbitHungerFactor);
+          // 1. Biological Sensory Perception (Cố định sinh học - Không phình to khi đói)
+          const effRabbitPerception = ent.perceptionRadius || 95;
 
           // 2. Goal Selection (Survival: Eating, Drinking, Socializing/Breeding)
           let forageTarget = null;
@@ -4122,16 +4108,9 @@
         }
       }
 
-      // 10. Fog of War / Perception Field (Dynamic Sensory Expansion)
+      // 10. Fog of War / Perception Field (Fixed Biological Sensory Radius - Không phình to khi đói)
       if (layers.fog && selectedObject && (selectedObject.type === 'rabbit' || selectedObject.type === 'wolf')) {
-        let effPerception = selectedObject.perceptionRadius || 95;
-        if (selectedObject.type === 'wolf') {
-          const hFactor = (selectedObject.hunger > 35) ? Math.min(0.50, (selectedObject.hunger - 35) / 65 * 0.50) : 0;
-          effPerception *= (1.0 + hFactor * 0.80);
-        } else if (selectedObject.type === 'rabbit') {
-          const hFactor = (selectedObject.hunger > 25) ? Math.min(0.45, (selectedObject.hunger - 25) / 75 * 0.45) : 0;
-          effPerception *= (1.0 + hFactor);
-        }
+        const effPerception = selectedObject.perceptionRadius || 95;
 
         ctx.save();
         ctx.beginPath();
@@ -4150,10 +4129,9 @@
         ctx.stroke();
         ctx.restore();
 
-        // Dynamic Scent Sensing Boundary for Wolf
+        // Fixed Scent Sensing Boundary for Wolf
         if (selectedObject.type === 'wolf' && layers.scent) {
-          const hFactor = (selectedObject.hunger > 35) ? Math.min(0.50, (selectedObject.hunger - 35) / 65 * 0.50) : 0;
-          const effScentRadius = (selectedObject.scentDetectionRadius || 240) * (1.0 + hFactor);
+          const effScentRadius = selectedObject.scentDetectionRadius || 240;
           ctx.save();
           ctx.beginPath();
           ctx.arc(selectedObject.x, selectedObject.y, effScentRadius, 0, Math.PI * 2);
