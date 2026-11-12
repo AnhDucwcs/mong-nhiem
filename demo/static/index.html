@@ -3460,14 +3460,7 @@
               if (r.type === 'berry' && r.amount > 0) {
                 const d = Math.hypot(r.x - ent.x, r.y - ent.y);
                 if (d <= maxForageScanDist) {
-                  let score = 1000 - d + (r.amount * 1.5);
-                  // Epistemic Sensory Grounding: Thỏ chỉ biết bụi dâu gần Sói NẾU chính mắt/mũi thỏ phát hiện Sói trong tầm giác quan!
-                  // Giới hạn nhận thức sinh học: Loại bỏ ảo giác toàn tri (No omniscient cheat)
-                  const seesOrSmellsWolf = nearestWolf && (minWolfDist <= (ent.inCover ? 50 : ent.perceptionRadius + 25));
-                  if (seesOrSmellsWolf) {
-                    const wolfToRes = Math.hypot(r.x - nearestWolf.x, r.y - nearestWolf.y);
-                    if (wolfToRes < 135) score -= 2500; // Thấy sói ở gần bụi dâu thì mới trừ điểm né tránh
-                  }
+                  const score = 1000 - d + (r.amount * 1.5);
                   if (score > bestForageScore) {
                     bestForageScore = score;
                     forageTarget = r;
@@ -3480,13 +3473,13 @@
             if (typeof herbs !== 'undefined' && herbs[0] && herbs[0].amount > 5) {
               const dHerb = Math.hypot(herbs[0].x - ent.x, herbs[0].y - ent.y);
               if (dHerb <= maxForageScanDist) {
-                let scoreHerb = 950 - dHerb + (herbs[0].amount * 1.5);
-                const seesOrSmellsWolf = nearestWolf && (minWolfDist <= (ent.inCover ? 50 : ent.perceptionRadius + 25));
-                if (seesOrSmellsWolf) {
-                  const wolfToHerb = Math.hypot(herbs[0].x - nearestWolf.x, herbs[0].y - nearestWolf.y);
-                  if (wolfToHerb < 135) scoreHerb -= 2500;
-                }
+                const scoreHerb = 950 - dHerb + (herbs[0].amount * 1.5);
                 if (scoreHerb > bestForageScore) {
+                  bestForageScore = scoreHerb;
+                  forageTarget = herbs[0];
+                }
+              }
+            }
                   bestForageScore = scoreHerb;
                   forageTarget = herbs[0];
                 }
