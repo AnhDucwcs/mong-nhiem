@@ -2148,7 +2148,7 @@
 
     // --- Hard Obstacle Collision Resolvers (Impassable Rocks & Deep Water Basin) ---
     function resolveObstacleCollisions(ent, prevX, prevY) {
-      // 1. Rock Formations (Impassable Rotated Elliptical Boulders)
+      // 1. Rock Formations (Impassable Rotated Elliptical Boulders with Gliding Surface Physics)
       for (const rk of rocks) {
         const dx = ent.x - rk.x;
         const dy = ent.y - rk.y;
@@ -2160,20 +2160,23 @@
         const ay = rk.ry + ent.radius;
         const q = (lx * lx) / (ax * ax) + (ly * ly) / (ay * ay);
         if (q < 1.0) {
-          if (prevX !== undefined && prevY !== undefined) {
-            ent.x = prevX;
-            ent.y = prevY;
-          } else {
-            const alpha = Math.atan2(ly * ax, lx * ay);
-            const targetLx = ax * Math.cos(alpha) * 1.01;
-            const targetLy = ay * Math.sin(alpha) * 1.01;
-            const cosBack = Math.cos(rk.angle);
-            const sinBack = Math.sin(rk.angle);
-            ent.x = rk.x + targetLx * cosBack - targetLy * sinBack;
-            ent.y = rk.y + targetLx * sinBack + targetLy * cosBack;
+          const alpha = Math.atan2(ly * ax, lx * ay);
+          const targetLx = ax * Math.cos(alpha) * 1.02;
+          const targetLy = ay * Math.sin(alpha) * 1.02;
+          const cosBack = Math.cos(rk.angle);
+          const sinBack = Math.sin(rk.angle);
+          ent.x = rk.x + targetLx * cosBack - targetLy * sinBack;
+          ent.y = rk.y + targetLx * sinBack + targetLy * cosBack;
+
+          // Slide along rock surface: cancel normal inward velocity, preserve tangential glide
+          const nx = (targetLx / ax) * cosBack - (targetLy / ay) * sinBack;
+          const ny = (targetLx / ax) * sinBack + (targetLy / ay) * cosBack;
+          const nLen = Math.hypot(nx, ny) || 1;
+          const vDotN = ent.vx * (nx / nLen) + ent.vy * (ny / nLen);
+          if (vDotN < 0) {
+            ent.vx -= vDotN * (nx / nLen);
+            ent.vy -= vDotN * (ny / nLen);
           }
-          ent.vx *= -0.2;
-          ent.vy *= -0.2;
         }
       }
 
@@ -2185,17 +2188,20 @@
         const dist = Math.hypot(dx, dy);
         const deepLimit = pond.radius * 0.65 + ent.radius;
         if (dist < deepLimit) {
-          if (prevX !== undefined && prevY !== undefined) {
-            ent.x = prevX;
-            ent.y = prevY;
-          } else {
-            const angle = (dist > 0.001) ? Math.atan2(dy, dx) : 0;
-            const targetDist = deepLimit + 1.0;
-            ent.x = pond.x + Math.cos(angle) * targetDist;
-            ent.y = pond.y + Math.sin(angle) * targetDist;
+          // Project entity smoothly outside deep basin perimeter
+          const angle = (dist > 0.001) ? Math.atan2(dy, dx) : 0;
+          const targetDist = deepLimit + 1.5;
+          ent.x = pond.x + Math.cos(angle) * targetDist;
+          ent.y = pond.y + Math.sin(angle) * targetDist;
+
+          // Surface gliding: cancel inward radial penetration velocity, preserve tangential run
+          const nx = Math.cos(angle);
+          const ny = Math.sin(angle);
+          const vDotN = ent.vx * nx + ent.vy * ny;
+          if (vDotN < 0) {
+            ent.vx -= vDotN * nx;
+            ent.vy -= vDotN * ny;
           }
-          ent.vx *= -0.2;
-          ent.vy *= -0.2;
         }
       }
     }
@@ -2990,16 +2996,31 @@
           }
         }
 
-        // Steer around Deep Pond Center (Water Basin)
+        // Steer around Deep Pond Center with Shoreline Contour Tangential Physics
         const pond = resources.find(r => r.type === 'water');
         if (pond) {
           const dx = wolf.x - pond.x;
           const dy = wolf.y - pond.y;
           const dist = Math.hypot(dx, dy);
-          const deepAvoidDist = pond.radius * 0.78;
-          if (dist < deepAvoidDist && dist > 0.001) {
-            wolf.vx += (dx / dist) * 0.40;
-            wolf.vy += (dy / dist) * 0.40;
+          const pondPerimeter = pond.radius + wolf.radius + 20; // Shoreline boundary (~138px)
+          if (dist < pondPerimeter && dist > 0.001) {
+            // 1. Strong radial outward push to keep wolf out of the water
+            const radialPush = Math.min(1.4, ((pondPerimeter - dist) / pondPerimeter) * 1.5);
+            wolf.vx += (dx / dist) * radialPush;
+            wolf.vy += (dy / dist) * radialPush;
+
+            // 2. Tangential contour glide: If wolf wants to run through pond, deflect velocity along shoreline
+            const toDestX = (bestTarget ? bestTarget.x : wolf.targetX || wolf.x + wolf.vx) - wolf.x;
+            const toDestY = (bestTarget ? bestTarget.y : wolf.targetY || wolf.y + wolf.vy) - wolf.y;
+            // Dot product < 0 means desired direction penetrates inward into pond
+            if (toDestX * dx + toDestY * dy < 0) {
+              const cross = dx * toDestY - dy * toDestX;
+              const tx = (cross >= 0 ? -dy : dy) / dist;
+              const ty = (cross >= 0 ? dx : -dx) / dist;
+              const tangentBoost = (wolf.state === 'CHASE') ? 1.10 : 0.65;
+              wolf.vx += tx * tangentBoost;
+              wolf.vy += ty * tangentBoost;
+            }
           }
         }
 
@@ -3440,9 +3461,12 @@
                 const d = Math.hypot(r.x - ent.x, r.y - ent.y);
                 if (d <= maxForageScanDist) {
                   let score = 1000 - d + (r.amount * 1.5);
-                  if (nearestWolf) {
+                  // Epistemic Sensory Grounding: Thỏ chỉ biết bụi dâu gần Sói NẾU chính mắt/mũi thỏ phát hiện Sói trong tầm giác quan!
+                  // Giới hạn nhận thức sinh học: Loại bỏ ảo giác toàn tri (No omniscient cheat)
+                  const seesOrSmellsWolf = nearestWolf && (minWolfDist <= (ent.inCover ? 50 : ent.perceptionRadius + 25));
+                  if (seesOrSmellsWolf) {
                     const wolfToRes = Math.hypot(r.x - nearestWolf.x, r.y - nearestWolf.y);
-                    if (wolfToRes < 135) score -= 2500; // Heavily penalize food near wolf perimeter
+                    if (wolfToRes < 135) score -= 2500; // Thấy sói ở gần bụi dâu thì mới trừ điểm né tránh
                   }
                   if (score > bestForageScore) {
                     bestForageScore = score;
@@ -3457,7 +3481,8 @@
               const dHerb = Math.hypot(herbs[0].x - ent.x, herbs[0].y - ent.y);
               if (dHerb <= maxForageScanDist) {
                 let scoreHerb = 950 - dHerb + (herbs[0].amount * 1.5);
-                if (nearestWolf) {
+                const seesOrSmellsWolf = nearestWolf && (minWolfDist <= (ent.inCover ? 50 : ent.perceptionRadius + 25));
+                if (seesOrSmellsWolf) {
                   const wolfToHerb = Math.hypot(herbs[0].x - nearestWolf.x, herbs[0].y - nearestWolf.y);
                   if (wolfToHerb < 135) scoreHerb -= 2500;
                 }
